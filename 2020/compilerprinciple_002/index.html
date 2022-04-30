@@ -10,7 +10,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.ginshio.org/2020/compilerprinciple_002/" /><meta property="og:image" content="https://blog.ginshio.org/logo.jpg"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-07-16T16:47:00+08:00" />
-<meta property="article:modified_time" content="2022-04-08T15:12:47+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+<meta property="article:modified_time" content="2022-04-12T19:20:04+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://blog.ginshio.org/logo.jpg"/>
@@ -37,8 +37,8 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_002\/"
-        },"image": ["https:\/\/blog.ginshio.org\/images\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, LexicalAnalysis","wordcount":  5524 ,
-        "url": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_002\/","datePublished": "2020-07-16T16:47:00+08:00","dateModified": "2022-04-08T15:12:47+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["https:\/\/blog.ginshio.org\/images\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, LexicalAnalysis","wordcount":  5518 ,
+        "url": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_002\/","datePublished": "2020-07-16T16:47:00+08:00","dateModified": "2022-04-12T19:20:04+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.jpg"},"authors": [{
                     "@type": "Person",
@@ -142,7 +142,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-16">07-16</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5524 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-16">07-16</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-12">04-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5518 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 12 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -258,25 +258,17 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">令 L = {A, B, $\ldots$, Z, a, b, $\ldots$, z}，令 D = {0, 1, $\ldots$, 9}，这是两个字母表，也可以认为是两个串长都为 1 的语言，对他们进行上述 4 种运算
-  1. $L \cup D$ 是字母和数字的集合，结果是 62 个长度为 1 的串
-  2. $LD$ 是包含 520 个长度为 2 的集合，每个串都是一个字母跟一个数字
-  3. $L^4$ 是由四个字母构成的串的集合
-  4. $L^{*}$ 是由字母构成的串的集合，包含空串 $\varepsilon$
-  5. $D^{+}$ 是由一个或多个数字构成的串的集合，不包含空串
-</code></pre></td></tr></table>
+<div class="info">
+<p>令 L = {A, B, \(\ldots\), Z, a, b, \(\ldots\), z}，令 D = {0, 1, \(\ldots\), 9}，这是两个字母表，也可以认为是两个串长都为 1 的语言，对他们进行上述 4 种运算</p>
+<ol>
+<li>\(L \cup D\) 是字母和数字的集合，结果是 62 个长度为 1 的串</li>
+<li>\(LD\) 是包含 520 个长度为 2 的集合，每个串都是一个字母跟一个数字</li>
+<li>\(L^4\) 是由四个字母构成的串的集合</li>
+<li>\(L^{*}\) 是由字母构成的串的集合，包含空串 \(\varepsilon\)</li>
+<li>\(D^{+}\) 是由一个或多个数字构成的串的集合，不包含空串</li>
+</ol>
 </div>
-</div><h3 id="正则表达式" class="headerLink">
+<h3 id="正则表达式" class="headerLink">
     <a href="#%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f" class="header-mark"></a>正则表达式</h3><p>正则表达式由常量和运算构成，它们分别是字符串的集合和在这些集合上的运算，正则表达式可以由较小的正则表达式按照一定规则递归地构建。</p>
 <ol>
 <li><strong>归纳基础</strong>
@@ -349,18 +341,18 @@
 </ul>
 <p>C 语言的标识符是由字母或下划线开头，字母、数字和下划线组成的串，正则定义如下
 \[ \begin{aligned}
-\textit{letter}\_ &amp; \rightarrow A | B | \ldots | Z | a | b | \ldots | z | \_ \\\ \textit{digit} &amp; \rightarrow 0 | 1 | \ldots | 9 \\\ \textit{id} &amp; \rightarrow \textit{letter\_}(\textit{letter\_}|dight)^{*}
+\textit{letter}\_ &amp; \rightarrow A | B | \ldots | Z | a | b | \ldots | z | \_ \\ \textit{digit} &amp; \rightarrow 0 | 1 | \ldots | 9 \\ \textit{id} &amp; \rightarrow \textit{letter\_}(\textit{letter\_}|dight)^{*}
 \end{aligned} \]</p>
 <p>在进行词法分析器的规约时，现有的正则定义太过于麻烦，于是对其做了一些扩展，当然除了以下介绍的 <em>GNU</em>、<em>Perl</em> 等都有互不兼容的正则表达式扩展</p>
 <ul>
 <li>一个或多个实例 (+)，表示一个正则表达式及其语言的正闭包，<em>+</em> 与 <em>*</em> 具有相同的优先级与结合性</li>
 <li>零个或一个实例 (?)，表示一个正则表达式及其语言出现零或一次，\(r? = r|\varepsilon\)，<em>?</em>
 与 <em>*</em> 具有相同的优先级与结合性</li>
-<li>字符类，一个正则表达式 \(a_1 | a_2 | \ldots | a_n\) 可以缩写为 \([a_1a_2\ldots a_n]\) ，如果 \(a_1\) 到 \(a_n\) 是连接的序列时可以缩写为 \([a_1-a_n]\)</li>
+<li>字符类，一个正则表达式 \(a_1 | a_2 | \ldots | a_n\) 可以缩写为 \([a_1a_2\ldots a_n]\)，如果 \(a_1\) 到 \(a_n\) 是连接的序列时可以缩写为 \([a_1-a_n]\)</li>
 </ul>
 <p>C 语言的数字字面量可以分为 <a href="https://zh.cppreference.com/w/cpp/language/integer_literal" target="_blank" rel="noopener noreffer">整型字面量</a> 与 <a href="https://zh.cppreference.com/w/cpp/language/floating_literal" target="_blank" rel="noopener noreffer">浮点型字面量</a>，以下给出它们的正则定义
 \[ \begin{aligned}
-\textit{digit}&amp;\rightarrow [0-9] \\\ \textit{digits}&amp;\rightarrow digit^{+} \\\ \textit{number}&amp;\rightarrow [+-](\textit{digits}.?\textit{digit}^{*}|.\textit{digits})([eE][+-]?\textit{digits})?
+\textit{digit}&amp;\rightarrow [0-9] \\ \textit{digits}&amp;\rightarrow digit^{+} \\ \textit{number}&amp;\rightarrow [+-](\textit{digits}.?\textit{digit}^{*}|.\textit{digits})([eE][+-]?\textit{digits})?
 \end{aligned} \]</p>
 <h2 id="状态转换图" class="headerLink">
     <a href="#%e7%8a%b6%e6%80%81%e8%bd%ac%e6%8d%a2%e5%9b%be" class="header-mark"></a>状态转换图</h2><p>将模式首先需要转换为具有特定风格的流图，我们称为 <strong>状态转化图</strong> (transition
@@ -625,7 +617,7 @@ div.info{background:rgba(58,129,195,0.15);border-left:4px solid rgba(58,129,195,
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>更新于 04-08</span>
+                <span>更新于 04-12</span>
             </div>
             <div class="post-info-license"></div>
         </div>

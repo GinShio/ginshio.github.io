@@ -5,18 +5,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
-    <title class="pjax-title">龙书学习笔记 04 - iris</title><meta name="Description" content="GinShio | 编译原理第四章读书笔记"><meta property="og:title" content="龙书学习笔记 04" />
-<meta property="og:description" content="GinShio | 编译原理第四章读书笔记" />
+    <title class="pjax-title">龙书学习笔记 04 - iris</title><meta name="Description" content="GinShio | 编译原理第四章 4.2 4.3 读书笔记"><meta property="og:title" content="龙书学习笔记 04" />
+<meta property="og:description" content="GinShio | 编译原理第四章 4.2 4.3 读书笔记" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.ginshio.org/2020/compilerprinciple_004/" /><meta property="og:image" content="https://blog.ginshio.org/logo.jpg"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-11-03T16:09:00+08:00" />
-<meta property="article:modified_time" content="2022-04-07T19:27:58+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+<meta property="article:modified_time" content="2022-04-13T12:46:43+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://blog.ginshio.org/logo.jpg"/>
 
 <meta name="twitter:title" content="龙书学习笔记 04"/>
-<meta name="twitter:description" content="GinShio | 编译原理第四章读书笔记"/>
+<meta name="twitter:description" content="GinShio | 编译原理第四章 4.2 4.3 读书笔记"/>
 <meta name="application-name" content="iris">
 <meta name="apple-mobile-web-app-title" content="iris">
 
@@ -37,13 +37,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_004\/"
-        },"image": ["https:\/\/blog.ginshio.org\/images\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, SyntacticAnalysis","wordcount":  4103 ,
-        "url": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_004\/","datePublished": "2020-11-03T16:09:00+08:00","dateModified": "2022-04-07T19:27:58+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["https:\/\/blog.ginshio.org\/images\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, SyntacticAnalysis","wordcount":  4150 ,
+        "url": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_004\/","datePublished": "2020-11-03T16:09:00+08:00","dateModified": "2022-04-13T12:46:43+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.jpg"},"authors": [{
                     "@type": "Person",
                     "name": "GinShio"
-                }],"description": "GinShio | 编译原理第四章读书笔记"
+                }],"description": "GinShio | 编译原理第四章 4.2 4.3 读书笔记"
     }
     </script></head>
 
@@ -140,7 +140,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="11-03">11-03</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4103 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="11-03">11-03</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-13">04-13</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4150 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -271,35 +271,34 @@ E | -E | (E) | <strong>id</strong> ，则 -(<strong>id</strong> + <strong>id</st
 <li>与文法相比，正则表达式通常提供了 <strong>简洁</strong> 且 <strong>易于理解</strong> 的表示词法单元的方法</li>
 <li>根据正则表达式自动构造得到的词法分析器效率要高于任意文法自动构造的到的分析器</li>
 </ol>
-<p>相较来说，正则表达式更适合描述如标识符、常量、关键字等这样的语言构造的结构，文法最是和描述 <strong>嵌套结构</strong>，这样的嵌套结构不适合正则表达式描述。</p>
+<p>相较来说，正则表达式更适合描述如标识符、常量、关键字等这样的语言构造的结构，文法最适合描述 <strong>嵌套结构</strong>，这样的嵌套结构不适合正则表达式描述。</p>
 <h3 id="消除二义性" class="headerLink">
     <a href="#%e6%b6%88%e9%99%a4%e4%ba%8c%e4%b9%89%e6%80%a7" class="header-mark"></a>消除二义性</h3><p>一个二义性文法有时也可以被改写为一个无二义性的文法，给出一个 <code>if-then-else</code> 文法，
 <strong>other</strong> 表示任何其他语句，这个文法在 <code>悬空-else</code> 结构中会出现二义性</p>
-<p class="verse">
-<p><em>stmt</em> \(\rightarrow\) <strong>if</strong> <em>expr</em> <strong>then</strong> <em>stmt</em><br>
-\(\qquad\,\) | <strong>if</strong> <em>expr</em> <strong>then</strong> <em>stmt</em> <strong>else</strong> <em>stmt</em><br>
-\(\qquad\,\) | <strong>other</strong><br></p>
-</p>
+<p>\[\begin{aligned}
+\textit{stmt}\ &amp;\rightarrow\ \textbf{if}\ \textit{expr}\ \textbf{then}\ \textit{stmt}\\<br>
+\ &amp;\rightarrow\ \textbf{if}\ \textit{expr}\ \textbf{then}\ \textit{stmt}\ \textbf{else}\ \textit{stmt}\\<br>
+\ &amp;\rightarrow\ \textbf{other}\\<br>
+\end{aligned}\]</p>
 <p>可以构造出条件语句 <strong>if</strong> \(E_{1}\) <strong>then if</strong> \(E_{2}\) <strong>then</strong> \(S_{1}\) <strong>else</strong> \(S_{2}\)
 的两棵不同的语法分析树，通常规则是每个 <strong>else</strong> 和最近且尚未匹配的 <strong>then</strong> 匹配，这个消除二义性规则可以用一个文法直接表示，但实践中很少用产生式表示这个规则。</p>
 <figure><img src="/ox-hugo/complex-conditional-ambiguity-ast.svg"/>
 </figure>
 
 <p>这里我们给出 <code>if-then-else</code> 结构无二义性的文法</p>
-<p class="verse">
-<p><em>stmt</em> \(\rightarrow\) <em>matched_stmt</em> \(\,|\,\) <em>open_stmt</em><br>
-<em>matched_stmt</em> \(\rightarrow\) <strong>if</strong> <em>expr</em> <strong>then</strong> <em>matched_stmt</em> <strong>else</strong> <em>matched_stmt</em> \(\,|\,\) <strong>other</strong><br>
-<em>open_stmt</em> \(\rightarrow\) <strong>if</strong> <em>expr</em> <strong>then</strong> <em>stmt</em> \(\,|\,\) <strong>if</strong> <em>expr</em> <strong>then</strong> <em>matched_stmt</em> <strong>else</strong> <em>open_stmt</em><br></p>
-</p>
+<p>\[\begin{aligned}
+\textit{stmt}\ &amp;\rightarrow\ \textit{matched\_stmt}\ |\ \textit{open\_stmt}\\<br>
+\textit{matched\_stmt}\ &amp;\rightarrow\ \textbf{if}\ \textit{expr}\ \textbf{then}\ \textit{matched\_stmt}\ \textbf{else}\ \textit{matched\_stmt}\ |\ \textbf{other}\\<br>
+\textit{open\_stmt}\ &amp;\rightarrow\ \textbf{if}\ \textit{expr}\ \textbf{then}\ \textit{stmt}\ |\ \textbf{if}\ \textit{expr}\ \textbf{then}\ \textit{matched\_stmt}\ \textbf{else}\ \textit{open\_stmt}\\ \end{aligned}\]</p>
 <h3 id="消除左递归" class="headerLink">
     <a href="#%e6%b6%88%e9%99%a4%e5%b7%a6%e9%80%92%e5%bd%92" class="header-mark"></a>消除左递归</h3><p>如果一个文法中存在一个非终结符A使得对某个串 \(\alpha\) 存在一个推导 \(A \xRightarrow{+}
 A\alpha\) ，那么这个文法就是 <code>左递归的</code>，即产生式的右部的最左符号是非终结符A本身，自顶向下语法分析方法不能处理左递归的文法，因此需要一个方法来消除左递归。</p>
-<p>左递归产生式 \(A \rightarrow A\alpha | \beta\)，不断应用这个产生式将在 A 的右边生成一个 \(\alpha\) 的序列，当 A 最终被替换为 \(\beta\) 时，就得到一个在 \(\beta\) 后跟0或多个 \(\alpha\) 的序列。使用一个新的非终结符 R，并按照以下方法改写 A 的产生式可以达到同样的效果，对于新产生式 \(R \rightarrow \alpha
-R\) 来说这是一个 <strong>右递归的</strong>。</p>
-<p class="verse">
-<p>A \(\rightarrow\) \(\beta\) R<br>
-R \(\rightarrow\) \(\alpha\) R \(\,|\,\) \(\varepsilon\)<br></p>
-</p>
+<p>左递归产生式 \(A \rightarrow A\alpha\,|\,\beta\)，不断应用这个产生式将在 A 的右边生成一个 \(\alpha\) 的序列，当 A 最终被替换为 \(\beta\) 时，就得到一个在 \(\beta\) 后跟0或多个 \(\alpha\) 的序列。使用一个新的非终结符 R，并按照以下方法改写 A 的产生式可以达到同样的效果，对于新产生式
+\(R \rightarrow \alpha R\) 来说这是一个 <strong>右递归的</strong>。</p>
+<p>\[\begin{aligned}
+A\ &amp;\rightarrow\ \beta R\\<br>
+R\ &amp;\rightarrow\ \alpha R \ |\ \varepsilon\\<br>
+\end{aligned}\]</p>
 <p>现在我们给出消除左递归的算法，如果文法中不存在 <strong>环</strong> (如 \(A \xRightarrow{+} A\) 的推导) 或 \(\varepsilon\) 产生式 (如 \(A \rightarrow \varepsilon\) 的产生式)，就能保证能够消除左递归，伪代码如下</p>
 <p class="verse">
 <p>按某个顺序将非终结符排序为 \(A_{1}, A_{2}, \cdots, A_{n}\)<br>
@@ -311,7 +310,7 @@ for i in (1, n):<br>
 </p>
 <h3 id="提取左公因子" class="headerLink">
     <a href="#%e6%8f%90%e5%8f%96%e5%b7%a6%e5%85%ac%e5%9b%a0%e5%ad%90" class="header-mark"></a>提取左公因子</h3><p>提取左公因子是一种文法转换方法，它可以产生适用于预测分析技术或自顶向下分析技术的文法。当不清楚应用在两个A产生式中如何选择时，我们可以通过改写产生式来推后这个决定，等我们读入了足够多的输入，获得足够信息后再做出正确选择。</p>
-<p>如有文法 \(A \rightarrow \alpha\beta_{1} | \alpha\beta_{2}\)，输入的开头是从 \(\alpha\) 推导得到的一个非空串，那么我们就不知道应该将A展开为 \(\alpha\beta_{1}\) 还是 \(\alpha\beta_{2}\) ，我们可以先将 A 展开为 \(\alpha{}B\)，从而将作出决定的时间推迟，在读入了从 \(\alpha\) 推导得到的输入前缀之后，我们再决定将 B 展开为 \(\beta_{1}\) 或 \(\beta_{2}\) 。</p>
+<p>如有文法 \(A \rightarrow \alpha\beta_{1} | \alpha\beta_{2}\)，输入的开头是从 \(\alpha\) 推导得到的一个非空串，那么我们就不知道应该将A展开为 \(\alpha\beta_{1}\) 还是 \(\alpha\beta_{2}\)，我们可以先将 A 展开为 \(\alpha{}B\)，从而将作出决定的时间推迟，在读入了从 \(\alpha\) 推导得到的输入前缀之后，我们再决定将 B 展开为 \(\beta_{1}\) 或 \(\beta_{2}\)。</p>
 <p class="verse">
 <p>输入：文法G<br>
 输出：一个等价的提取了左公因子的文法<br>
@@ -325,7 +324,7 @@ for i in (1, n):<br>
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>更新于 04-07</span>
+                <span>更新于 04-13</span>
             </div>
             <div class="post-info-license"></div>
         </div>
@@ -333,7 +332,7 @@ for i in (1, n):<br>
             <div class="post-info-md"><span><a class="link-to-mardown" href=/2020/compilerprinciple_004/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
                     </span></div>
             <div class="post-info-share">
-                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-title="龙书学习笔记 04" data-hashtags="Note,DragonBook,SyntacticAnalysis"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-hashtag="Note"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-title="龙书学习笔记 04" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Pinterest" data-sharer="pinterest" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-description="GinShio | 编译原理第四章读书笔记"><i class="fab fa-pinterest fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-title="龙书学习笔记 04"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Reddit" data-sharer="reddit" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/"><i class="fab fa-reddit fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-title="龙书学习笔记 04"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 微博" data-sharer="weibo" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-title="龙书学习笔记 04"><i class="fab fa-weibo fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Blogger" data-sharer="blogger" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-title="龙书学习笔记 04" data-description="GinShio | 编译原理第四章读书笔记"><i class="fab fa-blogger fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Skype" data-sharer="skype" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-title="龙书学习笔记 04"><i class="fab fa-skype fa-fw"></i></a></span>
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-title="龙书学习笔记 04" data-hashtags="Note,DragonBook,SyntacticAnalysis"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-hashtag="Note"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-title="龙书学习笔记 04" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Pinterest" data-sharer="pinterest" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-description="GinShio | 编译原理第四章 4.2 4.3 读书笔记"><i class="fab fa-pinterest fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-title="龙书学习笔记 04"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Reddit" data-sharer="reddit" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/"><i class="fab fa-reddit fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-title="龙书学习笔记 04"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 微博" data-sharer="weibo" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-title="龙书学习笔记 04"><i class="fab fa-weibo fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Blogger" data-sharer="blogger" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-title="龙书学习笔记 04" data-description="GinShio | 编译原理第四章 4.2 4.3 读书笔记"><i class="fab fa-blogger fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Skype" data-sharer="skype" data-url="https://blog.ginshio.org/2020/compilerprinciple_004/" data-title="龙书学习笔记 04"><i class="fab fa-skype fa-fw"></i></a></span>
             </div>
         </div>
     </div>

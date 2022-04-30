@@ -873,6 +873,21 @@ systemctl disable dst@Dracula  # 开机启动万圣节位面
 systemctl reboot               # 关机重启服务器
 ```
 
+
+#### openSUSE 遇到的问题 {#opensuse-遇到的问题}
+
+-   steamcmd `ILocalize::AddFile() failed to load file
+        "public/steambootstrapper_english.txt".`
+
+    ```shell
+    steamcmd --reset
+    ```
+-   找不到 **libcurl-gnutls**
+
+    ```shell
+    ln -s /usr/lib64/libcurl.so.4 /usr/lib64/libcurl-gnutls.so.4
+    ```
+
 <style>
 div.info{background:rgba(58,129,195,0.15);border-left:4px solid rgba(58,129,195,0.45);margin:1.8rem 0 1.25rem 15px;padding:0.8em;line-height:1.4;text-align:left;position:relative;clear:both}div.info p{margin:0}div.info::before{content:"i";background:rgba(58,129,195,0.8);align-items:flex-end;top:-1rem;font-weight:700;font-size:1.4rem;-webkit-clip-path:circle(50% at 50% 50%);clip-path:circle(50% at 50% 50%);width:30px;height:30px;display:inline-flex;justify-content:center;position:absolute;left:-1.2rem;line-height:1.3;text-align:left}div.success{background:rgba(45,149,116,0.15);border-left:4px solid rgba(45,149,116,0.45);margin:1.8rem 0 1.25rem 15px;padding:0.8em;line-height:1.4;text-align:left;position:relative;clear:both}div.success p{margin:0}div.success::before{content:"✔";background:rgba(45,149,116,0.8);align-items:flex-end;top:-1rem;font-weight:700;font-size:1.4rem;-webkit-clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);width:35px;height:35px;display:inline-flex;justify-content:center;position:absolute;left:-1.2rem;line-height:1.5;text-align:left}div.warning{background:rgba(220,117,47,0.15);border-left:4px solid rgba(220,117,47,0.45);margin:1.8rem 0 1.25rem 15px;padding:0.8em;line-height:1.4;text-align:left;position:relative;clear:both}div.warning p{margin:0}div.warning::before{content:"!";background:rgba(220,117,47,0.8);align-items:flex-end;top:-1rem;font-weight:700;font-size:1.4rem;-webkit-clip-path:polygon(50% 0, 0 100%, 100% 100%);clip-path:polygon(50% 0, 0 100%, 100% 100%);width:35px;height:35px;display:inline-flex;justify-content:center;position:absolute;left:-1.2rem;line-height:1.1;text-align:left}div.error{background:rgba(186,47,89,0.15);border-left:4px solid rgba(186,47,89,0.45);margin:1.8rem 0 1.25rem 15px;padding:0.8em;line-height:1.4;text-align:left;position:relative;clear:both}div.error p{margin:0}div.error::before{content:"!";background:rgba(186,47,89,0.8);align-items:flex-end;top:-1rem;font-weight:700;font-size:1.4rem;-webkit-clip-path:polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);clip-path:polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);width:35px;height:30px;display:inline-flex;justify-content:center;position:absolute;left:-1.2rem;line-height:1.1;text-align:left}
 </style>

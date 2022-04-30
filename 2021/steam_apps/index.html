@@ -10,7 +10,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.ginshio.org/2021/steam_apps/" /><meta property="og:image" content="https://blog.ginshio.org/logo.jpg"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-02-22T22:23:00+08:00" />
-<meta property="article:modified_time" content="2022-04-08T15:14:34+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+<meta property="article:modified_time" content="2022-04-13T12:48:39+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://blog.ginshio.org/logo.jpg"/>
@@ -37,8 +37,8 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2021\/steam_apps\/"
-        },"image": ["https:\/\/blog.ginshio.org\/images\/screenshot.png"],"genre": "posts","keywords": "Steam, L4D2, DST","wordcount":  6700 ,
-        "url": "https:\/\/blog.ginshio.org\/2021\/steam_apps\/","datePublished": "2021-02-22T22:23:00+08:00","dateModified": "2022-04-08T15:14:34+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["https:\/\/blog.ginshio.org\/images\/screenshot.png"],"genre": "posts","keywords": "Steam, L4D2, DST","wordcount":  6725 ,
+        "url": "https:\/\/blog.ginshio.org\/2021\/steam_apps\/","datePublished": "2021-02-22T22:23:00+08:00","dateModified": "2022-04-13T12:48:39+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.jpg"},"authors": [{
                     "@type": "Person",
@@ -136,6 +136,7 @@
             <li><a href="#服务器配置">服务器配置</a></li>
             <li><a href="#世界设置">世界设置</a></li>
             <li><a href="#启动程序">启动程序</a></li>
+            <li><a href="#opensuse-遇到的问题">openSUSE 遇到的问题</a></li>
           </ul>
         </li>
       </ul>
@@ -146,7 +147,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="02-22">02-22</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 6700 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="02-22">02-22</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-13">04-13</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 6725 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 14 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -171,6 +172,7 @@
             <li><a href="#服务器配置">服务器配置</a></li>
             <li><a href="#世界设置">世界设置</a></li>
             <li><a href="#启动程序">启动程序</a></li>
+            <li><a href="#opensuse-遇到的问题">openSUSE 遇到的问题</a></li>
           </ul>
         </li>
       </ul>
@@ -1799,7 +1801,32 @@ systemctl disable dst@Dracula  <span class="c1"># 开机启动万圣节位面</s
 systemctl reboot               <span class="c1"># 关机重启服务器</span>
 </code></pre></td></tr></table>
 </div>
-</div><style>
+</div><h4 id="opensuse-遇到的问题" class="headerLink">
+    <a href="#opensuse-%e9%81%87%e5%88%b0%e7%9a%84%e9%97%ae%e9%a2%98" class="header-mark"></a>openSUSE 遇到的问题</h4><ul>
+<li>
+<p>steamcmd <code>ILocalize::AddFile() failed to load file &quot;public/steambootstrapper_english.txt&quot;.</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">steamcmd --reset
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>找不到 <strong>libcurl-gnutls</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">ln -s /usr/lib64/libcurl.so.4 /usr/lib64/libcurl-gnutls.so.4
+</code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<style>
 div.info{background:rgba(58,129,195,0.15);border-left:4px solid rgba(58,129,195,0.45);margin:1.8rem 0 1.25rem 15px;padding:0.8em;line-height:1.4;text-align:left;position:relative;clear:both}div.info p{margin:0}div.info::before{content:"i";background:rgba(58,129,195,0.8);align-items:flex-end;top:-1rem;font-weight:700;font-size:1.4rem;-webkit-clip-path:circle(50% at 50% 50%);clip-path:circle(50% at 50% 50%);width:30px;height:30px;display:inline-flex;justify-content:center;position:absolute;left:-1.2rem;line-height:1.3;text-align:left}div.success{background:rgba(45,149,116,0.15);border-left:4px solid rgba(45,149,116,0.45);margin:1.8rem 0 1.25rem 15px;padding:0.8em;line-height:1.4;text-align:left;position:relative;clear:both}div.success p{margin:0}div.success::before{content:"✔";background:rgba(45,149,116,0.8);align-items:flex-end;top:-1rem;font-weight:700;font-size:1.4rem;-webkit-clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);width:35px;height:35px;display:inline-flex;justify-content:center;position:absolute;left:-1.2rem;line-height:1.5;text-align:left}div.warning{background:rgba(220,117,47,0.15);border-left:4px solid rgba(220,117,47,0.45);margin:1.8rem 0 1.25rem 15px;padding:0.8em;line-height:1.4;text-align:left;position:relative;clear:both}div.warning p{margin:0}div.warning::before{content:"!";background:rgba(220,117,47,0.8);align-items:flex-end;top:-1rem;font-weight:700;font-size:1.4rem;-webkit-clip-path:polygon(50% 0, 0 100%, 100% 100%);clip-path:polygon(50% 0, 0 100%, 100% 100%);width:35px;height:35px;display:inline-flex;justify-content:center;position:absolute;left:-1.2rem;line-height:1.1;text-align:left}div.error{background:rgba(186,47,89,0.15);border-left:4px solid rgba(186,47,89,0.45);margin:1.8rem 0 1.25rem 15px;padding:0.8em;line-height:1.4;text-align:left;position:relative;clear:both}div.error p{margin:0}div.error::before{content:"!";background:rgba(186,47,89,0.8);align-items:flex-end;top:-1rem;font-weight:700;font-size:1.4rem;-webkit-clip-path:polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);clip-path:polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);width:35px;height:30px;display:inline-flex;justify-content:center;position:absolute;left:-1.2rem;line-height:1.1;text-align:left}
 </style>
 </div>
@@ -1808,7 +1835,7 @@ div.info{background:rgba(58,129,195,0.15);border-left:4px solid rgba(58,129,195,
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>更新于 04-08</span>
+                <span>更新于 04-13</span>
             </div>
             <div class="post-info-license"></div>
         </div>

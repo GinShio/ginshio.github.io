@@ -119,7 +119,7 @@ E | -E | (E) | **id** ，则 -(**id** + **id**) 的语法分析树如下
 3.  与文法相比，正则表达式通常提供了 **简洁** 且 **易于理解** 的表示词法单元的方法
 4.  根据正则表达式自动构造得到的词法分析器效率要高于任意文法自动构造的到的分析器
 
-相较来说，正则表达式更适合描述如标识符、常量、关键字等这样的语言构造的结构，文法最是和描述 **嵌套结构**，这样的嵌套结构不适合正则表达式描述。
+相较来说，正则表达式更适合描述如标识符、常量、关键字等这样的语言构造的结构，文法最适合描述 **嵌套结构**，这样的嵌套结构不适合正则表达式描述。
 
 
 ### 消除二义性 {#消除二义性}
@@ -127,13 +127,11 @@ E | -E | (E) | **id** ，则 -(**id** + **id**) 的语法分析树如下
 一个二义性文法有时也可以被改写为一个无二义性的文法，给出一个 `if-then-else` 文法，
 **other** 表示任何其他语句，这个文法在 `悬空-else` 结构中会出现二义性
 
-<p class="verse">
-
-_stmt_ \\(\rightarrow\\) **if** _expr_ **then** _stmt_<br>
-\\(\qquad\\,\\) | **if** _expr_ **then** _stmt_ **else** _stmt_<br>
-\\(\qquad\\,\\) | **other**<br>
-
-</p>
+\\[\begin{aligned}
+\textit{stmt}\ &\rightarrow\ \textbf{if}\ \textit{expr}\ \textbf{then}\ \textit{stmt}\\\\
+             \ &\rightarrow\ \textbf{if}\ \textit{expr}\ \textbf{then}\ \textit{stmt}\ \textbf{else}\ \textit{stmt}\\\\
+             \ &\rightarrow\ \textbf{other}\\\\
+\end{aligned}\\]
 
 可以构造出条件语句 **if** \\(E\_{1}\\) **then if** \\(E\_{2}\\) **then** \\(S\_{1}\\) **else** \\(S\_{2}\\)
 的两棵不同的语法分析树，通常规则是每个 **else** 和最近且尚未匹配的 **then** 匹配，这个消除二义性规则可以用一个文法直接表示，但实践中很少用产生式表示这个规则。
@@ -142,13 +140,10 @@ _stmt_ \\(\rightarrow\\) **if** _expr_ **then** _stmt_<br>
 
 这里我们给出 `if-then-else` 结构无二义性的文法
 
-<p class="verse">
-
-_stmt_ \\(\rightarrow\\) _matched_stmt_ \\(\\,|\\,\\) _open_stmt_<br>
-_matched_stmt_ \\(\rightarrow\\) **if** _expr_ **then** _matched_stmt_ **else** _matched_stmt_ \\(\\,|\\,\\) **other**<br>
-_open_stmt_ \\(\rightarrow\\) **if** _expr_ **then** _stmt_ \\(\\,|\\,\\) **if** _expr_ **then** _matched_stmt_ **else** _open_stmt_<br>
-
-</p>
+\\[\begin{aligned}
+\textit{stmt}\ &\rightarrow\ \textit{matched\\\_stmt}\ |\ \textit{open\\\_stmt}\\\\
+\textit{matched\\\_stmt}\ &\rightarrow\ \textbf{if}\ \textit{expr}\ \textbf{then}\ \textit{matched\\\_stmt}\ \textbf{else}\ \textit{matched\\\_stmt}\ |\ \textbf{other}\\\\
+\textit{open\\\_stmt}\ &\rightarrow\ \textbf{if}\ \textit{expr}\ \textbf{then}\ \textit{stmt}\ |\ \textbf{if}\ \textit{expr}\ \textbf{then}\ \textit{matched\\\_stmt}\ \textbf{else}\ \textit{open\\\_stmt}\\\ \end{aligned}\\]
 
 
 ### 消除左递归 {#消除左递归}
@@ -156,15 +151,13 @@ _open_stmt_ \\(\rightarrow\\) **if** _expr_ **then** _stmt_ \\(\\,|\\,\\) **if**
 如果一个文法中存在一个非终结符A使得对某个串 \\(\alpha\\) 存在一个推导 \\(A \xRightarrow{+}
 A\alpha\\) ，那么这个文法就是 `左递归的`，即产生式的右部的最左符号是非终结符A本身，自顶向下语法分析方法不能处理左递归的文法，因此需要一个方法来消除左递归。
 
-左递归产生式 \\(A \rightarrow A\alpha | \beta\\)，不断应用这个产生式将在 A 的右边生成一个 \\(\alpha\\) 的序列，当 A 最终被替换为 \\(\beta\\) 时，就得到一个在 \\(\beta\\) 后跟0或多个 \\(\alpha\\) 的序列。使用一个新的非终结符 R，并按照以下方法改写 A 的产生式可以达到同样的效果，对于新产生式 \\(R \rightarrow \alpha
-R\\) 来说这是一个 **右递归的**。
+左递归产生式 \\(A \rightarrow A\alpha\\,|\\,\beta\\)，不断应用这个产生式将在 A 的右边生成一个 \\(\alpha\\) 的序列，当 A 最终被替换为 \\(\beta\\) 时，就得到一个在 \\(\beta\\) 后跟0或多个 \\(\alpha\\) 的序列。使用一个新的非终结符 R，并按照以下方法改写 A 的产生式可以达到同样的效果，对于新产生式
+\\(R \rightarrow \alpha R\\) 来说这是一个 **右递归的**。
 
-<p class="verse">
-
-A \\(\rightarrow\\) \\(\beta\\) R<br>
-R \\(\rightarrow\\) \\(\alpha\\) R \\(\\,|\\,\\) \\(\varepsilon\\)<br>
-
-</p>
+\\[\begin{aligned}
+A\ &\rightarrow\ \beta R\\\\
+R\ &\rightarrow\ \alpha R \ |\ \varepsilon\\\\
+\end{aligned}\\]
 
 现在我们给出消除左递归的算法，如果文法中不存在 **环** (如 \\(A \xRightarrow{+} A\\) 的推导) 或 \\(\varepsilon\\) 产生式 (如 \\(A \rightarrow \varepsilon\\) 的产生式)，就能保证能够消除左递归，伪代码如下
 
@@ -184,7 +177,7 @@ for i in (1, n):<br>
 
 提取左公因子是一种文法转换方法，它可以产生适用于预测分析技术或自顶向下分析技术的文法。当不清楚应用在两个A产生式中如何选择时，我们可以通过改写产生式来推后这个决定，等我们读入了足够多的输入，获得足够信息后再做出正确选择。
 
-如有文法 \\(A \rightarrow \alpha\beta\_{1} | \alpha\beta\_{2}\\)，输入的开头是从 \\(\alpha\\) 推导得到的一个非空串，那么我们就不知道应该将A展开为 \\(\alpha\beta\_{1}\\) 还是 \\(\alpha\beta\_{2}\\) ，我们可以先将 A 展开为 \\(\alpha{}B\\)，从而将作出决定的时间推迟，在读入了从 \\(\alpha\\) 推导得到的输入前缀之后，我们再决定将 B 展开为 \\(\beta\_{1}\\) 或 \\(\beta\_{2}\\) 。
+如有文法 \\(A \rightarrow \alpha\beta\_{1} | \alpha\beta\_{2}\\)，输入的开头是从 \\(\alpha\\) 推导得到的一个非空串，那么我们就不知道应该将A展开为 \\(\alpha\beta\_{1}\\) 还是 \\(\alpha\beta\_{2}\\)，我们可以先将 A 展开为 \\(\alpha{}B\\)，从而将作出决定的时间推迟，在读入了从 \\(\alpha\\) 推导得到的输入前缀之后，我们再决定将 B 展开为 \\(\beta\_{1}\\) 或 \\(\beta\_{2}\\)。
 
 <p class="verse">
 

@@ -50,14 +50,17 @@
 | L 的 Kleene 闭包 | \\(L^{\*} = \cup\_{i=0}^{\infty} L^i\\)               |
 | L 的正闭包    | \\(L^{+} = \cup\_{i=1}^{\infty} L^i\\)                |
 
-```text
-令 L = {A, B, $\ldots$, Z, a, b, $\ldots$, z}，令 D = {0, 1, $\ldots$, 9}，这是两个字母表，也可以认为是两个串长都为 1 的语言，对他们进行上述 4 种运算
-  1. $L \cup D$ 是字母和数字的集合，结果是 62 个长度为 1 的串
-  2. $LD$ 是包含 520 个长度为 2 的集合，每个串都是一个字母跟一个数字
-  3. $L^4$ 是由四个字母构成的串的集合
-  4. $L^{*}$ 是由字母构成的串的集合，包含空串 $\varepsilon$
-  5. $D^{+}$ 是由一个或多个数字构成的串的集合，不包含空串
-```
+<div class="info">
+
+令 L = {A, B, \\(\ldots\\), Z, a, b, \\(\ldots\\), z}，令 D = {0, 1, \\(\ldots\\), 9}，这是两个字母表，也可以认为是两个串长都为 1 的语言，对他们进行上述 4 种运算
+
+1.  \\(L \cup D\\) 是字母和数字的集合，结果是 62 个长度为 1 的串
+2.  \\(LD\\) 是包含 520 个长度为 2 的集合，每个串都是一个字母跟一个数字
+3.  \\(L^4\\) 是由四个字母构成的串的集合
+4.  \\(L^{\*}\\) 是由字母构成的串的集合，包含空串 \\(\varepsilon\\)
+5.  \\(D^{+}\\) 是由一个或多个数字构成的串的集合，不包含空串
+
+</div>
 
 
 ### 正则表达式 {#正则表达式}
@@ -104,7 +107,7 @@
 
 C 语言的标识符是由字母或下划线开头，字母、数字和下划线组成的串，正则定义如下
 \\[ \begin{aligned}
-\textit{letter}\\\_ & \rightarrow A | B | \ldots | Z | a | b | \ldots | z | \\\_ \\\\\\ \textit{digit} & \rightarrow 0 | 1 | \ldots | 9 \\\\\\ \textit{id} & \rightarrow \textit{letter\\\_}(\textit{letter\\\_}|dight)^{\*}
+\textit{letter}\\\_ & \rightarrow A | B | \ldots | Z | a | b | \ldots | z | \\\_ \\\ \textit{digit} & \rightarrow 0 | 1 | \ldots | 9 \\\ \textit{id} & \rightarrow \textit{letter\\\_}(\textit{letter\\\_}|dight)^{\*}
 \end{aligned} \\]
 
 在进行词法分析器的规约时，现有的正则定义太过于麻烦，于是对其做了一些扩展，当然除了以下介绍的 _GNU_、_Perl_ 等都有互不兼容的正则表达式扩展
@@ -112,11 +115,11 @@ C 语言的标识符是由字母或下划线开头，字母、数字和下划线
 -   一个或多个实例 (+)，表示一个正则表达式及其语言的正闭包，_+_ 与 _\*_ 具有相同的优先级与结合性
 -   零个或一个实例 (?)，表示一个正则表达式及其语言出现零或一次，\\(r? = r|\varepsilon\\)，_?_
     与 _\*_ 具有相同的优先级与结合性
--   字符类，一个正则表达式 \\(a\_1 | a\_2 | \ldots | a\_n\\) 可以缩写为 \\([a\_1a\_2\ldots a\_n]\\) ，如果 \\(a\_1\\) 到 \\(a\_n\\) 是连接的序列时可以缩写为 \\([a\_1-a\_n]\\)
+-   字符类，一个正则表达式 \\(a\_1 | a\_2 | \ldots | a\_n\\) 可以缩写为 \\([a\_1a\_2\ldots a\_n]\\)，如果 \\(a\_1\\) 到 \\(a\_n\\) 是连接的序列时可以缩写为 \\([a\_1-a\_n]\\)
 
 C 语言的数字字面量可以分为 [整型字面量](https://zh.cppreference.com/w/cpp/language/integer_literal) 与 [浮点型字面量](https://zh.cppreference.com/w/cpp/language/floating_literal)，以下给出它们的正则定义
 \\[ \begin{aligned}
-\textit{digit}&\rightarrow [0-9] \\\\\\ \textit{digits}&\rightarrow digit^{+} \\\\\\ \textit{number}&\rightarrow [+-\]\(\textit{digits}.?\textit{digit}^{\*}|.\textit{digits})([eE][+-]?\textit{digits})?
+\textit{digit}&\rightarrow [0-9] \\\ \textit{digits}&\rightarrow digit^{+} \\\ \textit{number}&\rightarrow [+-\]\(\textit{digits}.?\textit{digit}^{\*}|.\textit{digits})([eE][+-]?\textit{digits})?
 \end{aligned} \\]
 
 
