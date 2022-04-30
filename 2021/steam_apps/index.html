@@ -199,21 +199,21 @@
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">steam</span><span class="o">=</span>/home/steam
-<span class="nv">group_id</span><span class="o">=</span><span class="m">123456789</span>
-<span class="nv">l4d2</span><span class="o">=</span><span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/l4d2
-<span class="nv">l4d2_id</span><span class="o">=</span><span class="m">222860</span>
-<span class="nv">l4d2_server_name</span><span class="o">=</span><span class="s2">&#34;L4D2 Server&#34;</span>
-<span class="nv">l4d2_port</span><span class="o">=</span><span class="m">1024</span>
-<span class="nv">valheim</span><span class="o">=</span><span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/valheim
-<span class="nv">valheim_id</span><span class="o">=</span><span class="m">896660</span>
-<span class="nv">valheim_server_name</span><span class="o">=</span><span class="s2">&#34;Valheim Server&#34;</span>
-<span class="nv">valheim_world</span><span class="o">=</span><span class="s2">&#34;World&#34;</span>
-<span class="nv">valheim_port</span><span class="o">=</span><span class="m">1024</span>
-<span class="nv">valheim_passwd</span><span class="o">=</span>valheim_password
-<span class="nv">dst</span><span class="o">=</span><span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/dst
-<span class="nv">dst_id</span><span class="o">=</span><span class="m">343050</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">steam</span><span class="o">=</span>/home/steam
+</span></span><span class="line"><span class="cl"><span class="nv">group_id</span><span class="o">=</span><span class="m">123456789</span>
+</span></span><span class="line"><span class="cl"><span class="nv">l4d2</span><span class="o">=</span><span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/l4d2
+</span></span><span class="line"><span class="cl"><span class="nv">l4d2_id</span><span class="o">=</span><span class="m">222860</span>
+</span></span><span class="line"><span class="cl"><span class="nv">l4d2_server_name</span><span class="o">=</span><span class="s2">&#34;L4D2 Server&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">l4d2_port</span><span class="o">=</span><span class="m">1024</span>
+</span></span><span class="line"><span class="cl"><span class="nv">valheim</span><span class="o">=</span><span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/valheim
+</span></span><span class="line"><span class="cl"><span class="nv">valheim_id</span><span class="o">=</span><span class="m">896660</span>
+</span></span><span class="line"><span class="cl"><span class="nv">valheim_server_name</span><span class="o">=</span><span class="s2">&#34;Valheim Server&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">valheim_world</span><span class="o">=</span><span class="s2">&#34;World&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">valheim_port</span><span class="o">=</span><span class="m">1024</span>
+</span></span><span class="line"><span class="cl"><span class="nv">valheim_passwd</span><span class="o">=</span>valheim_password
+</span></span><span class="line"><span class="cl"><span class="nv">dst</span><span class="o">=</span><span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/dst
+</span></span><span class="line"><span class="cl"><span class="nv">dst_id</span><span class="o">=</span><span class="m">343050</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="steamcmd" class="headerLink">
     <a href="#steamcmd" class="header-mark"></a>SteamCMD</h2><p>顾名思义，steamcmd 是一个命令行工具，同时支持 linux，是我们搭建服务器的好帮手，然而我不会用，不过这不重要，安装跑起来就好</p>
@@ -225,11 +225,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">add-apt-repository multiverse
-dpkg --add-architecture i386
-apt update <span class="o">&amp;&amp;</span> apt upgrade
-apt install -y lib32gcc1 steamcmd
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">add-apt-repository multiverse
+</span></span><span class="line"><span class="cl">dpkg --add-architecture i386
+</span></span><span class="line"><span class="cl">apt update <span class="o">&amp;&amp;</span> apt upgrade
+</span></span><span class="line"><span class="cl">apt install -y lib32gcc1 steamcmd
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>我们不仅要安装一个 steamcmd，还要将所有游戏服务器，存放在 <code>~steam</code> 下，使用
 steam 这个用户来运行游戏</p>
@@ -239,9 +239,9 @@ steam 这个用户来运行游戏</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">adduser --disabled-login --gecos <span class="s1">&#39;Steam&#39;</span> steam
-sudo -u steam -H ln -s /usr/games/steamcmd <span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/steamcmd
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">adduser --disabled-login --gecos <span class="s1">&#39;Steam&#39;</span> steam
+</span></span><span class="line"><span class="cl">sudo -u steam -H ln -s /usr/games/steamcmd <span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/steamcmd
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="语法" class="headerLink">
     <a href="#%e8%af%ad%e6%b3%95" class="header-mark"></a>语法</h3><p>这里说的语法并不是 SteamCMD 的语法，而是 Steam 中所使用的文本标记语法，这些标记标签允许您为您的留言及发帖文字添加格式，类似于 HTML，官方展示在<a href="https://steamcommunity.com/comment/ForumTopic/formattinghelp" target="_blank" rel="noopener noreffer">这里</a></p>
@@ -351,32 +351,32 @@ sudo -u steam -H ln -s /usr/games/steamcmd <span class="si">${</span><span class
 </span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">[table]
-[tr]
-[th][/th]
-[th]DST Memorandum[/th]
-[th]Status Announcements[/th]
-[th]Global Positions[/th]
-[/tr]
-[tr]
-[th]DST Memorandum[/th]
-[th][/th]
-[th]Crash[/th]
-[th]Crash[/th]
-[/tr]
-[tr]
-[th]Status Announcements[/th]
-[th]Crash[/th]
-[th][/th]
-[th]OK[/th]
-[/tr]
-[tr]
-[th]Global Positions[/th]
-[th]Crash[/th]
-[th]OK[/th]
-[th][/th]
-[/tr]
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">[table]
+</span></span><span class="line"><span class="cl">[tr]
+</span></span><span class="line"><span class="cl">[th][/th]
+</span></span><span class="line"><span class="cl">[th]DST Memorandum[/th]
+</span></span><span class="line"><span class="cl">[th]Status Announcements[/th]
+</span></span><span class="line"><span class="cl">[th]Global Positions[/th]
+</span></span><span class="line"><span class="cl">[/tr]
+</span></span><span class="line"><span class="cl">[tr]
+</span></span><span class="line"><span class="cl">[th]DST Memorandum[/th]
+</span></span><span class="line"><span class="cl">[th][/th]
+</span></span><span class="line"><span class="cl">[th]Crash[/th]
+</span></span><span class="line"><span class="cl">[th]Crash[/th]
+</span></span><span class="line"><span class="cl">[/tr]
+</span></span><span class="line"><span class="cl">[tr]
+</span></span><span class="line"><span class="cl">[th]Status Announcements[/th]
+</span></span><span class="line"><span class="cl">[th]Crash[/th]
+</span></span><span class="line"><span class="cl">[th][/th]
+</span></span><span class="line"><span class="cl">[th]OK[/th]
+</span></span><span class="line"><span class="cl">[/tr]
+</span></span><span class="line"><span class="cl">[tr]
+</span></span><span class="line"><span class="cl">[th]Global Positions[/th]
+</span></span><span class="line"><span class="cl">[th]Crash[/th]
+</span></span><span class="line"><span class="cl">[th]OK[/th]
+</span></span><span class="line"><span class="cl">[th][/th]
+</span></span><span class="line"><span class="cl">[/tr]
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>可以做出一个这样的表格</p>
 <table>
@@ -418,9 +418,9 @@ sudo -u steam -H ln -s /usr/games/steamcmd <span class="si">${</span><span class
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">sudo -u steam -H mkdir -p /home/steam/.steam/sdk32
-sudo -u steam -H ln -s /home/steam/.steam/steamcmd/linux32/steamclient.so /home/steam/.steam/sdk32/steamclient.so
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo -u steam -H mkdir -p /home/steam/.steam/sdk32
+</span></span><span class="line"><span class="cl">sudo -u steam -H ln -s /home/steam/.steam/steamcmd/linux32/steamclient.so /home/steam/.steam/sdk32/steamclient.so
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="l4d2" class="headerLink">
     <a href="#l4d2" class="header-mark"></a>L4D2</h2><div class="warning">
@@ -454,29 +454,29 @@ sudo -u steam -H ln -s /home/steam/.steam/steamcmd/linux32/steamclient.so /home/
 </span><span class="lnt">22
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">sudo -u steam -H <span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/steamcmd +force_install_dir <span class="si">${</span><span class="nv">l4d2</span><span class="si">}</span> +login anonymous +app_update <span class="si">${</span><span class="nv">l4d2_id</span><span class="si">}</span> validate +quit
-sudo -u steam -H cat <span class="s">&lt;&lt;- EOF &gt; ${l4d2}/left4dead2/cfg/server.cfg
-</span><span class="s">hostname &#34;${l4d2_server_name}&#34;       // 服务器名
-</span><span class="s">hostport ${l4d2_port}                // 服务器端口
-</span><span class="s">sv_tags &#34;hidde,GinShio&#34;              // 隐藏服务器
-</span><span class="s">sv_gametypes &#34;versus,survival,coop,realism,teamversus,teamscavenge&#34; // 游戏类型
-</span><span class="s">mp_gamemode &#34;coop&#34;
-</span><span class="s">sv_cheats 0                          // 允许作弊
-</span><span class="s">sv_voiceenable 1                     // 语音服务
-</span><span class="s">sv_pausable 0                        // 暂停
-</span><span class="s">sv_consistency 0                     // 一致性
-</span><span class="s">sv_lan 0                             // 局域网游戏
-</span><span class="s">sv_allow_lobby_connect_only 0        // 大厅连接
-</span><span class="s">sv_region 4                          // 区域：亚洲
-</span><span class="s">sv_visiblemaxplayers 4               // 最多人数上线：4 (4~32)
-</span><span class="s">mp_disable_autokick 0                // 闲置踢出
-</span><span class="s">sv_steamgroup &#34;${group_id}&#34;          // 根据自己的steam组ID绑定服务器
-</span><span class="s">sv_steamgroup_exclusive 1            // 设置组私有化
-</span><span class="s">exec banned_user.cfg
-</span><span class="s">exec banned_ip.cfg
-</span><span class="s">heartbeat
-</span><span class="s">EOF</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo -u steam -H <span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/steamcmd +force_install_dir <span class="si">${</span><span class="nv">l4d2</span><span class="si">}</span> +login anonymous +app_update <span class="si">${</span><span class="nv">l4d2_id</span><span class="si">}</span> validate +quit
+</span></span><span class="line"><span class="cl">sudo -u steam -H cat <span class="s">&lt;&lt;- EOF &gt; ${l4d2}/left4dead2/cfg/server.cfg
+</span></span></span><span class="line"><span class="cl"><span class="s">hostname &#34;${l4d2_server_name}&#34;       // 服务器名
+</span></span></span><span class="line"><span class="cl"><span class="s">hostport ${l4d2_port}                // 服务器端口
+</span></span></span><span class="line"><span class="cl"><span class="s">sv_tags &#34;hidde,GinShio&#34;              // 隐藏服务器
+</span></span></span><span class="line"><span class="cl"><span class="s">sv_gametypes &#34;versus,survival,coop,realism,teamversus,teamscavenge&#34; // 游戏类型
+</span></span></span><span class="line"><span class="cl"><span class="s">mp_gamemode &#34;coop&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">sv_cheats 0                          // 允许作弊
+</span></span></span><span class="line"><span class="cl"><span class="s">sv_voiceenable 1                     // 语音服务
+</span></span></span><span class="line"><span class="cl"><span class="s">sv_pausable 0                        // 暂停
+</span></span></span><span class="line"><span class="cl"><span class="s">sv_consistency 0                     // 一致性
+</span></span></span><span class="line"><span class="cl"><span class="s">sv_lan 0                             // 局域网游戏
+</span></span></span><span class="line"><span class="cl"><span class="s">sv_allow_lobby_connect_only 0        // 大厅连接
+</span></span></span><span class="line"><span class="cl"><span class="s">sv_region 4                          // 区域：亚洲
+</span></span></span><span class="line"><span class="cl"><span class="s">sv_visiblemaxplayers 4               // 最多人数上线：4 (4~32)
+</span></span></span><span class="line"><span class="cl"><span class="s">mp_disable_autokick 0                // 闲置踢出
+</span></span></span><span class="line"><span class="cl"><span class="s">sv_steamgroup &#34;${group_id}&#34;          // 根据自己的steam组ID绑定服务器
+</span></span></span><span class="line"><span class="cl"><span class="s">sv_steamgroup_exclusive 1            // 设置组私有化
+</span></span></span><span class="line"><span class="cl"><span class="s">exec banned_user.cfg
+</span></span></span><span class="line"><span class="cl"><span class="s">exec banned_ip.cfg
+</span></span></span><span class="line"><span class="cl"><span class="s">heartbeat
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>对于服务器公告，<code>${l4d2}/left4dead2/host.txt</code> 可以修改服务器公告的标题，而
 <code>${l4d2}/left4dead2/motd.txt</code> 修改的是公告的内容，我们可以在公告中使用之前列出的文本标记语法。对于第三方地图，我们只需要将地图存放在
@@ -502,23 +502,23 @@ sudo -u steam -H cat <span class="s">&lt;&lt;- EOF &gt; ${l4d2}/left4dead2/cfg/s
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">[Unit]
-Description=Left 4 Dead 2 Server
-Documentation=https://left4dead.fandom.com/wiki/Left_4_Dead_Wiki
-After=network.target
-
-[Service]
-Type=simple
-User=steam
-WorkingDirectory=/home/steam/l4d2
-ExecStart=/home/steam/l4d2/srcds_run -game left4dead2 -autorestart +ip 0.0.0.0 +exec server.cfg
-ExecReload=/bin/kill -HUP
-Restart=on-failure
-RestartPreventExitStatus=23
-
-[Install]
-WantedBy=multi-user.target
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">[Unit]
+</span></span><span class="line"><span class="cl">Description=Left 4 Dead 2 Server
+</span></span><span class="line"><span class="cl">Documentation=https://left4dead.fandom.com/wiki/Left_4_Dead_Wiki
+</span></span><span class="line"><span class="cl">After=network.target
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[Service]
+</span></span><span class="line"><span class="cl">Type=simple
+</span></span><span class="line"><span class="cl">User=steam
+</span></span><span class="line"><span class="cl">WorkingDirectory=/home/steam/l4d2
+</span></span><span class="line"><span class="cl">ExecStart=/home/steam/l4d2/srcds_run -game left4dead2 -autorestart +ip 0.0.0.0 +exec server.cfg
+</span></span><span class="line"><span class="cl">ExecReload=/bin/kill -HUP
+</span></span><span class="line"><span class="cl">Restart=on-failure
+</span></span><span class="line"><span class="cl">RestartPreventExitStatus=23
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[Install]
+</span></span><span class="line"><span class="cl">WantedBy=multi-user.target
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>到这里，纯净的 l4d2 服务器就搭建好了，我并没有弄插件，也没有弄管理员，所以就到这里！</p>
 <h2 id="valheim-英灵神殿" class="headerLink">
@@ -542,17 +542,17 @@ Shell 指令。需要注意的是，Valheim 将占用三个端口，即 <code>va
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">sudo -u steam -H <span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/steamcmd +force_install_dir <span class="si">${</span><span class="nv">valheim</span><span class="si">}</span> +login anonymous +app_update <span class="si">${</span><span class="nv">valheim_id</span><span class="si">}</span> validate +quit
-sudo -u steam -H cp <span class="si">${</span><span class="nv">valheim</span><span class="si">}</span>/start_server.sh <span class="si">${</span><span class="nv">valheim</span><span class="si">}</span>/start_server.sh.bkp
-sudo -u steam -H cat <span class="s">&lt;&lt;- EOF &gt; ${valheim}/start_server.sh
-</span><span class="s">export templdpath=${LD_LIBRARY_PATH}
-</span><span class="s">export LD_LIBRARY_PATH=${valheim}/linux64:${LD_LIBRARY_PATH}
-</span><span class="s">export SteamAppId=892970
-</span><span class="s">echo &#34;Starting server PRESS CTRL-C to exit&#34;
-</span><span class="s">${valheim}/valheim_server.x86_64 -name &#34;${valheim_server_name}&#34; -port ${valheim_port} -world &#34;${valheim_world}&#34; -password &#34;${valheim_passwd}&#34;
-</span><span class="s">export LD_LIBRARY_PATH=$templdpath
-</span><span class="s">EOF</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo -u steam -H <span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/steamcmd +force_install_dir <span class="si">${</span><span class="nv">valheim</span><span class="si">}</span> +login anonymous +app_update <span class="si">${</span><span class="nv">valheim_id</span><span class="si">}</span> validate +quit
+</span></span><span class="line"><span class="cl">sudo -u steam -H cp <span class="si">${</span><span class="nv">valheim</span><span class="si">}</span>/start_server.sh <span class="si">${</span><span class="nv">valheim</span><span class="si">}</span>/start_server.sh.bkp
+</span></span><span class="line"><span class="cl">sudo -u steam -H cat <span class="s">&lt;&lt;- EOF &gt; ${valheim}/start_server.sh
+</span></span></span><span class="line"><span class="cl"><span class="s">export templdpath=${LD_LIBRARY_PATH}
+</span></span></span><span class="line"><span class="cl"><span class="s">export LD_LIBRARY_PATH=${valheim}/linux64:${LD_LIBRARY_PATH}
+</span></span></span><span class="line"><span class="cl"><span class="s">export SteamAppId=892970
+</span></span></span><span class="line"><span class="cl"><span class="s">echo &#34;Starting server PRESS CTRL-C to exit&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">${valheim}/valheim_server.x86_64 -name &#34;${valheim_server_name}&#34; -port ${valheim_port} -world &#34;${valheim_world}&#34; -password &#34;${valheim_passwd}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">export LD_LIBRARY_PATH=$templdpath
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>搞定，整一个 service 让 systemd 帮我们管理服务器</p>
 <div class="highlight"><div class="chroma">
@@ -574,22 +574,22 @@ sudo -u steam -H cat <span class="s">&lt;&lt;- EOF &gt; ${valheim}/start_server.
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">[Unit]
-Description=Valheim Server
-After=network.target
-
-[Service]
-Type=simple
-User=steam
-WorkingDirectory=/home/steam/valheim
-ExecStart=bash /home/steam/valheim/start_server.sh
-ExecReload=/bin/kill -HUP
-Restart=on-failure
-RestartPreventExitStatus=23
-
-[Install]
-WantedBy=multi-user.target
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">[Unit]
+</span></span><span class="line"><span class="cl">Description=Valheim Server
+</span></span><span class="line"><span class="cl">After=network.target
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[Service]
+</span></span><span class="line"><span class="cl">Type=simple
+</span></span><span class="line"><span class="cl">User=steam
+</span></span><span class="line"><span class="cl">WorkingDirectory=/home/steam/valheim
+</span></span><span class="line"><span class="cl">ExecStart=bash /home/steam/valheim/start_server.sh
+</span></span><span class="line"><span class="cl">ExecReload=/bin/kill -HUP
+</span></span><span class="line"><span class="cl">Restart=on-failure
+</span></span><span class="line"><span class="cl">RestartPreventExitStatus=23
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[Install]
+</span></span><span class="line"><span class="cl">WantedBy=multi-user.target
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>好了，现在问题就是，你的服务器配置，请务必 <strong>2C4G5Mbps</strong> 及以上配置，要求真tm高，听说开发者只有5个人，，，</p>
 <h2 id="饥荒联机版" class="headerLink">
@@ -599,8 +599,8 @@ WantedBy=multi-user.target
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">sudo -u steam -H <span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/steamcmd +force_install_dir <span class="si">${</span><span class="nv">dst</span><span class="si">}</span> +login anonymous +app_update <span class="si">${</span><span class="nv">dst_id</span><span class="si">}</span> validate +quit
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo -u steam -H <span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/steamcmd +force_install_dir <span class="si">${</span><span class="nv">dst</span><span class="si">}</span> +login anonymous +app_update <span class="si">${</span><span class="nv">dst_id</span><span class="si">}</span> validate +quit
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>下载好了当然没有用，我们需要去 <a href="https://accounts.klei.com/" target="_blank" rel="noopener noreffer">Klei 官网</a> 生成一份服务器 token。在 Games 一栏选择
 DST Game Server 即可，输入 Cluster Name 添加生成服务器配置，还有 token，请务必保存好。</p>
@@ -621,18 +621,18 @@ DST Game Server 即可，输入 Cluster Name 添加生成服务器配置，还�
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">  ├── Cluster1/
-  │    ├── cluster.ini
-  │    ├── cluster_token.txt
-  │    ├── Caves/
-  │    │    ├── server.ini
-  │    │    ├── leveldataoverride.lua
-  │    │    ├── modoverrides.lua
-  │    ├── Master/
-  │    │    ├── server.ini
-  │    │    ├── leveldataoverride.lua
-  │    │    ├── modoverrides.lua
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">  ├── Cluster1/
+</span></span><span class="line"><span class="cl">  │    ├── cluster.ini
+</span></span><span class="line"><span class="cl">  │    ├── cluster_token.txt
+</span></span><span class="line"><span class="cl">  │    ├── Caves/
+</span></span><span class="line"><span class="cl">  │    │    ├── server.ini
+</span></span><span class="line"><span class="cl">  │    │    ├── leveldataoverride.lua
+</span></span><span class="line"><span class="cl">  │    │    ├── modoverrides.lua
+</span></span><span class="line"><span class="cl">  │    ├── Master/
+</span></span><span class="line"><span class="cl">  │    │    ├── server.ini
+</span></span><span class="line"><span class="cl">  │    │    ├── leveldataoverride.lua
+</span></span><span class="line"><span class="cl">  │    │    ├── modoverrides.lua
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这是一个完整的位面所需要配置的文件</p>
 <ul>
@@ -657,11 +657,11 @@ steam 组等等</li>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">[STEAM]
-steam_group_admins=false  # 设置组成员是否为管理员，接受 true / false
-steam_group_id=123456789  # 设置组 id
-steam_group_only=true     # 设置是否仅组成员可用，接受 true / false
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">[STEAM]
+</span></span><span class="line"><span class="cl">steam_group_admins=false  # 设置组成员是否为管理员，接受 true / false
+</span></span><span class="line"><span class="cl">steam_group_id=123456789  # 设置组 id
+</span></span><span class="line"><span class="cl">steam_group_only=true     # 设置是否仅组成员可用，接受 true / false
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>至于 <strong>server.ini</strong> 则分别在世界的目录下，基本无需多修改 (除非多个世界分主次或改端口)</p>
 <h4 id="世界设置" class="headerLink">
@@ -981,314 +981,314 @@ steam_group_only=true     # 设置是否仅组成员可用，接受 true / false
 </span><span class="lnt">307
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="kr">return</span> <span class="p">{</span>
-  <span class="n">desc</span><span class="o">=</span><span class="s2">&#34;The standard Don&#39;t Starve experience.&#34;</span><span class="p">,</span>
-  <span class="n">hideminimap</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>
-  <span class="n">id</span><span class="o">=</span><span class="s2">&#34;SURVIVAL_TOGETHER&#34;</span><span class="p">,</span>
-  <span class="n">location</span><span class="o">=</span><span class="s2">&#34;forest&#34;</span><span class="p">,</span>
-  <span class="n">max_playlist_position</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span>
-  <span class="n">min_playlist_position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-  <span class="n">name</span><span class="o">=</span><span class="s2">&#34;Standard Forest&#34;</span><span class="p">,</span>
-  <span class="c1">-- 雕像的数量</span>
-  <span class="n">numrandom_set_pieces</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-  <span class="n">override_level_string</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>
-  <span class="n">overrides</span><span class="o">=</span><span class="p">{</span>
-    <span class="c1">-- 资源设置的可选项分别为:</span>
-    <span class="c1">----- &#34;never&#34;    无</span>
-    <span class="c1">----- &#34;rare&#34;     较少</span>
-    <span class="c1">----- &#34;default&#34;  默认</span>
-    <span class="c1">----- &#34;often&#34;    较多</span>
-    <span class="c1">----- &#34;always&#34;   大量</span>
-
-    <span class="c1">-- 全局设置</span>
-    <span class="c1">--- 特殊事件</span>
-    <span class="c1">----- &#34;none&#34;                 无</span>
-    <span class="c1">----- &#34;default&#34;              自动</span>
-    <span class="c1">----- &#34;crow_carnival&#34;        盛夏鸦年华</span>
-    <span class="c1">----- &#34;hallowed_nights&#34;      万圣之夜</span>
-    <span class="c1">----- &#34;winters_feast&#34;        冬季盛宴</span>
-    <span class="c1">----- &#34;year_of_the_gobbler&#34;  火鸡之年</span>
-    <span class="c1">----- &#34;year_of_the_varg&#34;     座狼之年</span>
-    <span class="c1">----- &#34;year_of_the_pig&#34;      猪王之年</span>
-    <span class="c1">----- &#34;year_of_the_carrat&#34;   胡萝卜鼠之年</span>
-    <span class="c1">----- &#34;year_of_the_beefalo&#34;  皮弗娄牛之年</span>
-    <span class="n">specialevent</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
-    <span class="c1">--- 季节</span>
-    <span class="c1">----- &#34;noseason&#34;         无季节</span>
-    <span class="c1">----- &#34;veryshortseason&#34;  非常短</span>
-    <span class="c1">----- &#34;shortseason&#34;      较短</span>
-    <span class="c1">----- &#34;default&#34;          默认长度</span>
-    <span class="c1">----- &#34;longseason&#34;       较长</span>
-    <span class="c1">----- &#34;verylongseason&#34;   非常长</span>
-    <span class="c1">----- &#34;random&#34;           随机长度</span>
-    <span class="n">autumn</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 秋季, 根据设置天数依次为 5 / 12 / 20 / 30 / 50</span>
-    <span class="n">winter</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 冬季, 根据设置天数依次为 5 / 10 / 15 / 22 / 40</span>
-    <span class="n">spring</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 春季, 根据设置天数依次为 5 / 12 / 20 / 30 / 50</span>
-    <span class="n">summer</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 夏季, 根据设置天数依次为 5 / 10 / 15 / 22 / 40</span>
-    <span class="c1">--- 天类型</span>
-    <span class="c1">----- &#34;default&#34;    默认</span>
-    <span class="c1">----- &#34;longday&#34;    加长白天</span>
-    <span class="c1">----- &#34;longdusk&#34;   加长黄昏</span>
-    <span class="c1">----- &#34;longnight&#34;  加长黑夜</span>
-    <span class="c1">----- &#34;noday&#34;      无白天</span>
-    <span class="c1">----- &#34;nodusk&#34;     无黄昏</span>
-    <span class="c1">----- &#34;nonight&#34;    无黑夜</span>
-    <span class="c1">----- &#34;onlyday&#34;    只有白天</span>
-    <span class="c1">----- &#34;onlydusk&#34;   只有黄昏</span>
-    <span class="c1">----- &#34;onlynight&#34;  只有黑夜</span>
-    <span class="n">day</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
-    <span class="n">beefaloheat</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 野牛发情</span>
-    <span class="n">krampus</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 坎普斯</span>
-
-    <span class="c1">-- 求生者设置</span>
-    <span class="c1">--- 额外起始资源</span>
-    <span class="c1">----- &#34;0&#34;        总是</span>
-    <span class="c1">----- &#34;5&#34;        5 天后</span>
-    <span class="c1">----- &#34;default&#34;  10 天后</span>
-    <span class="c1">----- &#34;15&#34;       15 天后</span>
-    <span class="c1">----- &#34;20&#34;       20 天后</span>
-    <span class="c1">----- &#34;none&#34;     从不</span>
-    <span class="n">extrastartingitems</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
-    <span class="n">seasonalstartingitems</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 季节起始物品, &#34;never&#34; / &#34;default&#34;</span>
-    <span class="n">spawnprotection</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 出生点保护, &#34;never&#34; / &#34;default&#34; / &#34;always&#34;</span>
-    <span class="n">dropeverythingondespawn</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 退出掉落物品, &#34;default&#34; / &#34;always&#34;</span>
-    <span class="n">brightmarecreatures</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 启蒙怪兽数量</span>
-    <span class="n">shadowcreatures</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 理智怪兽数量</span>
-
-    <span class="c1">-- 世界设置</span>
-    <span class="c1">--- 石化</span>
-    <span class="c1">----- &#34;none&#34;     无</span>
-    <span class="c1">----- &#34;few&#34;      慢</span>
-    <span class="c1">----- &#34;default&#34;  默认</span>
-    <span class="c1">----- &#34;many&#34;     快</span>
-    <span class="c1">----- &#34;max&#34;      极快</span>
-    <span class="n">petrification</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
-    <span class="n">frograin</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 蛙雨</span>
-    <span class="n">hounds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 猎犬来袭频率</span>
-    <span class="n">alternatehunt</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 追猎惊喜</span>
-    <span class="n">hunt</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>           <span class="c1">--- 狩猎</span>
-    <span class="n">lightning</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 闪电</span>
-    <span class="n">meteorshowers</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 流星</span>
-    <span class="n">weather</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 雨</span>
-    <span class="n">wildfires</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 野火</span>
-
-    <span class="c1">-- 资源再生的可选项分别为:</span>
-    <span class="c1">----- &#34;never&#34;     从不</span>
-    <span class="c1">----- &#34;veryslow&#34;  非常慢</span>
-    <span class="c1">----- &#34;slow&#34;      缓慢</span>
-    <span class="c1">----- &#34;default&#34;   默认</span>
-    <span class="c1">----- &#34;fast&#34;      快速</span>
-    <span class="c1">----- &#34;veryfast&#34;  非常快</span>
-
-    <span class="c1">-- 资源再生设置</span>
-    <span class="n">regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                <span class="c1">--- 再生速度</span>
-    <span class="n">deciduoustree_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 桦栗树再生</span>
-    <span class="n">carrots_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 胡萝卜再生</span>
-    <span class="n">evergreen_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 常青树再生</span>
-    <span class="n">flowers_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 花再生</span>
-    <span class="n">moon_tree_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 月树再生</span>
-    <span class="n">saltstack_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 盐矿再生</span>
-    <span class="n">twiggytrees_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 多枝树再生</span>
-
-    <span class="c1">-- 生物设置</span>
-    <span class="n">bees_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 蜜蜂</span>
-    <span class="n">birds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>             <span class="c1">--- 鸟</span>
-    <span class="n">bunnymen_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 兔人</span>
-    <span class="n">butterfly</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 蝴蝶</span>
-    <span class="n">catcoons</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 浣猫</span>
-    <span class="n">gnarwail</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 一角鲸</span>
-    <span class="n">perd</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>              <span class="c1">--- 火鸡</span>
-    <span class="n">grassgekkos</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 草蜥蜴</span>
-    <span class="n">moles_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 鼹鼠</span>
-    <span class="n">penguins</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 企鹅</span>
-    <span class="n">pigs_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 猪人</span>
-    <span class="n">rabbits_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 兔子</span>
-    <span class="n">fishschools</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 鱼群</span>
-    <span class="n">wobsters</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 龙虾</span>
-
-    <span class="c1">-- 敌对生物设置</span>
-    <span class="n">bats_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 蝙蝠</span>
-    <span class="n">cookiecutters</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 饼干切割机</span>
-    <span class="n">frogs</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 青蛙</span>
-    <span class="n">mutated_hounds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 恐怖猎犬, &#34;never&#34; / &#34;default&#34;</span>
-    <span class="n">hound_mounds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 猎犬</span>
-    <span class="n">wasps</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 杀人蜂</span>
-    <span class="n">lureplants</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 食人花</span>
-    <span class="n">walrus_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 海象</span>
-    <span class="n">merms</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 鱼人</span>
-    <span class="n">penguins_moon</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 月石企鹅, &#34;never&#34; / &#34;default&#34;</span>
-    <span class="n">mosquitos</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 蚊子</span>
-    <span class="n">sharks</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>           <span class="c1">--- 鲨鱼</span>
-    <span class="n">moon_spider</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 破碎蜘蛛</span>
-    <span class="n">squid</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 乌贼</span>
-    <span class="n">spider_warriors</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 蜘蛛战士, &#34;never&#34; / &#34;default&#34;</span>
-    <span class="n">spiders_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 蜘蛛</span>
-
-    <span class="c1">-- 巨型生物设置</span>
-    <span class="n">antliontribute</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 蚁狮</span>
-    <span class="n">bearger</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>           <span class="c1">--- 熊獾</span>
-    <span class="n">beequeen</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 蜂后</span>
-    <span class="n">crabking</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 帝王蟹</span>
-    <span class="n">deerclops</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 独眼巨鹿</span>
-    <span class="n">dragonfly</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 龙蝇</span>
-    <span class="n">eyeofterror</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 泰拉瑞亚之眼</span>
-    <span class="n">klaus</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>             <span class="c1">--- 克劳斯</span>
-    <span class="n">fruitfly</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 果蝇王</span>
-    <span class="n">malbatross</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 邪天翁</span>
-    <span class="n">goosemoose</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 麋鹿鹅</span>
-    <span class="n">deciduousmonster</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 毒桦栗树</span>
-    <span class="n">spiderqueen</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 蜘蛛女王</span>
-    <span class="n">liefs</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>             <span class="c1">--- 树精守卫</span>
-
-
-
-
-
-    <span class="c1">-- 世界生成中等级分别为:</span>
-    <span class="c1">----- &#34;never&#34;      无</span>
-    <span class="c1">----- &#34;uncommon&#34;   很少</span>
-    <span class="c1">----- &#34;rare&#34;       较少</span>
-    <span class="c1">----- &#34;default&#34;    默认</span>
-    <span class="c1">----- &#34;often&#34;      较多</span>
-    <span class="c1">----- &#34;mostly&#34;     很多</span>
-    <span class="c1">----- &#34;always&#34;     大量</span>
-    <span class="c1">----- &#34;insane&#34;     疯狂</span>
-
-    <span class="c1">-- 全局生成</span>
-    <span class="c1">--- 起始季节</span>
-    <span class="c1">----- &#34;default&#34;                      秋</span>
-    <span class="c1">----- &#34;winter&#34;                       冬</span>
-    <span class="c1">----- &#34;spring&#34;                       春</span>
-    <span class="c1">----- &#34;summer&#34;                       夏</span>
-    <span class="c1">----- &#34;autumn|spring&#34;                秋或春</span>
-    <span class="c1">----- &#34;winter|summer&#34;                冬或夏</span>
-    <span class="c1">----- &#34;autumn|winter|spring|summer&#34;  随机</span>
-    <span class="n">season_start</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
-
-    <span class="c1">-- 世界生成</span>
-    <span class="c1">--- 生物群落</span>
-    <span class="c1">----- &#34;default&#34;  联机版</span>
-    <span class="c1">----- &#34;classic&#34;  经典</span>
-    <span class="n">task_set</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
-    <span class="c1">--- 出生点</span>
-    <span class="c1">----- &#34;plus&#34;      额外资源</span>
-    <span class="c1">----- &#34;darkness&#34;  黑暗</span>
-    <span class="c1">----- &#34;default&#34;   默认</span>
-    <span class="n">start_location</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
-    <span class="n">world_size</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 世界大小, &#34;small&#34; / &#34;medium&#34; / &#34;default&#34; / &#34;huge&#34;</span>
-    <span class="c1">--- 世界分支</span>
-    <span class="c1">----- &#34;never&#34;    从不</span>
-    <span class="c1">----- &#34;least&#34;    少</span>
-    <span class="c1">----- &#34;default&#34;  默认</span>
-    <span class="c1">----- &#34;most&#34;     多</span>
-    <span class="c1">----- &#34;random&#34;   随机</span>
-    <span class="n">branching</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
-    <span class="n">loop</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>               <span class="c1">--- 环形世界, &#34;never&#34; / &#34;default&#34; / &#34;always&#34;</span>
-    <span class="n">touchstone</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 试金石</span>
-    <span class="n">boons</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>              <span class="c1">--- 前辈</span>
-    <span class="n">prefabswaps_start</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 初始资源多样化, &#34;classic&#34; / &#34;default&#34; / &#34;random&#34;</span>
-    <span class="n">moon_fissure</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 天体裂隙</span>
-    <span class="n">terrariumchest</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 泰拉瑞亚, &#34;never&#34; / &#34;default&#34;</span>
-    <span class="n">roads</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>              <span class="c1">--- 道路, &#34;never&#34; / &#34;default&#34;</span>
-    <span class="n">wormhole_prefab</span><span class="o">=</span><span class="s2">&#34;wormhole&#34;</span><span class="p">,</span>   <span class="c1">--- 虫洞多样性, &#34;wormhole&#34; (虫洞) / &#34;tentacle_pillar&#34; (巨大触手)</span>
-
-    <span class="c1">-- 资源</span>
-    <span class="n">moon_starfish</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 海星</span>
-    <span class="n">moon_bullkelp</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 公牛海带茎</span>
-    <span class="n">berrybush</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>             <span class="c1">--- 浆果从</span>
-    <span class="n">rock</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                  <span class="c1">--- 岩石</span>
-    <span class="n">ocean_bullkelp</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 公牛海带</span>
-    <span class="n">cactus</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                <span class="c1">--- 仙人掌</span>
-    <span class="n">carrot</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                <span class="c1">--- 胡萝卜</span>
-    <span class="n">flint</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                 <span class="c1">--- 燧石</span>
-    <span class="n">flowers</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>               <span class="c1">--- 花</span>
-    <span class="n">grass</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                 <span class="c1">--- 草</span>
-    <span class="n">moon_hotspring</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 温泉</span>
-    <span class="n">moon_rock</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>             <span class="c1">--- 月亮石</span>
-    <span class="n">moon_sapling</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 月亮树苗</span>
-    <span class="n">moon_tree</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>             <span class="c1">--- 月树</span>
-    <span class="n">meteorspawner</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 流星区</span>
-    <span class="n">rock_ice</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>              <span class="c1">--- 迷你冰川</span>
-    <span class="n">mushroom</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>              <span class="c1">--- 蘑菇</span>
-    <span class="n">ponds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                 <span class="c1">--- 池塘</span>
-    <span class="n">reeds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                 <span class="c1">--- 芦苇</span>
-    <span class="n">sapling</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>               <span class="c1">--- 小树苗</span>
-    <span class="n">ocean_seastack</span><span class="o">=</span><span class="s2">&#34;ocean_default&#34;</span><span class="p">,</span>  <span class="c1">--- 海矿, 参数需要加 &#34;ocean_&#34; 前缀</span>
-    <span class="n">marshbush</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>             <span class="c1">--- 荆棘树枝</span>
-    <span class="n">moon_berrybush</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 石果树</span>
-    <span class="n">trees</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                 <span class="c1">--- 树 (所有)</span>
-    <span class="n">tumbleweed</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 风滚草</span>
-
-    <span class="c1">-- 生物及刷新点</span>
-    <span class="n">bees</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>               <span class="c1">--- 蜂巢</span>
-    <span class="n">beefalo</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 皮弗娄牛</span>
-    <span class="n">buzzard</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 秃鸠</span>
-    <span class="n">moon_carrot</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 胡萝卜鼠</span>
-    <span class="n">catcoon</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 猫桩</span>
-    <span class="n">moles</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>              <span class="c1">--- 鼹鼠洞</span>
-    <span class="n">pigs</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>               <span class="c1">--- 猪人房</span>
-    <span class="n">rabbits</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 兔子洞</span>
-    <span class="n">moon_fruitdragon</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 沙拉蝾螈</span>
-    <span class="n">ocean_shoal</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 鱼群</span>
-    <span class="n">lightninggoat</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 伏特羊</span>
-    <span class="n">ocean_wobsterden</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 龙虾窝</span>
-
-    <span class="c1">-- 敌对生物及刷新点</span>
-    <span class="n">chess</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                   <span class="c1">--- 发条装置</span>
-    <span class="n">houndmound</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>              <span class="c1">--- 猎犬冢</span>
-    <span class="n">angrybees</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>               <span class="c1">--- 杀人蜂巢</span>
-    <span class="n">merm</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                    <span class="c1">--- 漏雨的小屋</span>
-    <span class="n">walrus</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                  <span class="c1">--- 海象营地</span>
-    <span class="n">ocean_waterplant</span><span class="o">=</span><span class="s2">&#34;ocean_default&#34;</span><span class="p">,</span>  <span class="c1">--- 海草</span>
-    <span class="n">moon_spiders</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 破碎蜘蛛洞</span>
-    <span class="n">spiders</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                 <span class="c1">--- 蜘蛛巢</span>
-    <span class="n">tallbirds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>               <span class="c1">--- 高脚鸟巢</span>
-    <span class="n">tentacles</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>               <span class="c1">--- 触手</span>
-
-
-
-    <span class="c1">--- Other</span>
-    <span class="n">has_ocean</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>
-    <span class="n">keep_disconnected_tiles</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>
-    <span class="n">layout_mode</span><span class="o">=</span><span class="s2">&#34;LinkNodesByKeys&#34;</span><span class="p">,</span>
-    <span class="n">no_joining_islands</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>
-    <span class="n">no_wormholes_to_disconnected_tiles</span><span class="o">=</span><span class="kc">true</span>
-  <span class="p">},</span>
-  <span class="n">random_set_pieces</span><span class="o">=</span><span class="p">{</span><span class="n">r</span>
-    <span class="s2">&#34;Sculptures_2&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;Sculptures_3&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;Sculptures_4&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;Sculptures_5&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;Chessy_1&#34;</span><span class="p">,</span>      <span class="c1">-- 2发条骑士，2齿轮，长矛，棋盘地皮</span>
-    <span class="s2">&#34;Chessy_2&#34;</span><span class="p">,</span>      <span class="c1">-- 2发条主教，棋盘、牛毛地皮，Maxwell 雕像，(2齿轮)</span>
-    <span class="s2">&#34;Chessy_3&#34;</span><span class="p">,</span>      <span class="c1">-- 发条战车，蜂蜜药膏，背包，棋盘、牛毛地皮</span>
-    <span class="s2">&#34;Chessy_4&#34;</span><span class="p">,</span>      <span class="c1">-- 发条战车，2大理石，鹤嘴锄，2大理石柱，1大理石树，棋盘、牛毛地皮，Maxwell 雕像</span>
-    <span class="s2">&#34;Chessy_5&#34;</span><span class="p">,</span>      <span class="c1">-- 1发条骑士，1发条主教，竖琴雕像，棋盘、牛毛地皮</span>
-    <span class="s2">&#34;Chessy_6&#34;</span><span class="p">,</span>      <span class="c1">-- 1发条骑士，1发条主教，棋盘、牛毛地皮</span>
-    <span class="s2">&#34;Maxwell1&#34;</span><span class="p">,</span>      <span class="c1">-- 1发条战车，3发条骑士，棋盘、牛毛地皮，4大理石柱，9大理石树，大量恶魔花</span>
-    <span class="s2">&#34;Maxwell2&#34;</span><span class="p">,</span>      <span class="c1">-- 1发条战车，4发条骑士，棋盘、牛毛地皮，8大理石树，Maxwell 雕像</span>
-    <span class="s2">&#34;Maxwell3&#34;</span><span class="p">,</span>      <span class="c1">-- 5发条骑士，棋盘、牛毛地皮，Maxwell 雕像</span>
-    <span class="s2">&#34;Maxwell4&#34;</span><span class="p">,</span>      <span class="c1">-- 棋盘、牛毛地皮，8大理石树，Maxwell 雕像</span>
-    <span class="s2">&#34;Maxwell5&#34;</span><span class="p">,</span>      <span class="c1">-- 1发条骑士，牛毛地皮，8竖琴雕像，Maxwell 雕像，少量恶魔花</span>
-    <span class="s2">&#34;Maxwell6&#34;</span><span class="p">,</span>      <span class="c1">-- 5大理石树，牛毛地皮</span>
-    <span class="s2">&#34;Maxwell7&#34;</span><span class="p">,</span>      <span class="c1">-- 2发条骑士，棋盘、牛毛地皮，4大理石树，Maxwell 雕像，少量恶魔花</span>
-    <span class="s2">&#34;Warzone_1&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;Warzone_2&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;Warzone_3&#34;</span>
-  <span class="p">},</span>
-  <span class="n">required_prefabs</span><span class="o">=</span><span class="p">{</span> <span class="s2">&#34;multiplayer_portal&#34;</span> <span class="p">},</span>
-  <span class="c1">-- 必须包含的雕像种类，而非随机生成。这里指定必须生成完整的三棋子雕像</span>
-  <span class="n">required_setpieces</span><span class="o">=</span><span class="p">{</span> <span class="s2">&#34;Sculptures_1&#34;</span> <span class="p">},</span>
-  <span class="n">settings_desc</span><span class="o">=</span><span class="s2">&#34;The standard Don&#39;t Starve experience.&#34;</span><span class="p">,</span>
-  <span class="n">settings_id</span><span class="o">=</span><span class="s2">&#34;SURVIVAL_TOGETHER&#34;</span><span class="p">,</span>
-  <span class="n">settings_name</span><span class="o">=</span><span class="s2">&#34;Standard Forest&#34;</span><span class="p">,</span>
-  <span class="n">substitutes</span><span class="o">=</span><span class="p">{</span>  <span class="p">},</span>
-  <span class="n">version</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-  <span class="n">worldgen_desc</span><span class="o">=</span><span class="s2">&#34;The standard Don&#39;t Starve experience.&#34;</span><span class="p">,</span>
-  <span class="n">worldgen_id</span><span class="o">=</span><span class="s2">&#34;SURVIVAL_TOGETHER&#34;</span><span class="p">,</span>
-  <span class="n">worldgen_name</span><span class="o">=</span><span class="s2">&#34;Standard Forest&#34;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kr">return</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">desc</span><span class="o">=</span><span class="s2">&#34;The standard Don&#39;t Starve experience.&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">hideminimap</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">id</span><span class="o">=</span><span class="s2">&#34;SURVIVAL_TOGETHER&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">location</span><span class="o">=</span><span class="s2">&#34;forest&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">max_playlist_position</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">min_playlist_position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">name</span><span class="o">=</span><span class="s2">&#34;Standard Forest&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">-- 雕像的数量</span>
+</span></span><span class="line"><span class="cl">  <span class="n">numrandom_set_pieces</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">override_level_string</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">overrides</span><span class="o">=</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 资源设置的可选项分别为:</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;never&#34;    无</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;rare&#34;     较少</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;  默认</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;often&#34;    较多</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;always&#34;   大量</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 全局设置</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">--- 特殊事件</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;none&#34;                 无</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;              自动</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;crow_carnival&#34;        盛夏鸦年华</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;hallowed_nights&#34;      万圣之夜</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;winters_feast&#34;        冬季盛宴</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;year_of_the_gobbler&#34;  火鸡之年</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;year_of_the_varg&#34;     座狼之年</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;year_of_the_pig&#34;      猪王之年</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;year_of_the_carrat&#34;   胡萝卜鼠之年</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;year_of_the_beefalo&#34;  皮弗娄牛之年</span>
+</span></span><span class="line"><span class="cl">    <span class="n">specialevent</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">--- 季节</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;noseason&#34;         无季节</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;veryshortseason&#34;  非常短</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;shortseason&#34;      较短</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;          默认长度</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;longseason&#34;       较长</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;verylongseason&#34;   非常长</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;random&#34;           随机长度</span>
+</span></span><span class="line"><span class="cl">    <span class="n">autumn</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 秋季, 根据设置天数依次为 5 / 12 / 20 / 30 / 50</span>
+</span></span><span class="line"><span class="cl">    <span class="n">winter</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 冬季, 根据设置天数依次为 5 / 10 / 15 / 22 / 40</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spring</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 春季, 根据设置天数依次为 5 / 12 / 20 / 30 / 50</span>
+</span></span><span class="line"><span class="cl">    <span class="n">summer</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 夏季, 根据设置天数依次为 5 / 10 / 15 / 22 / 40</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">--- 天类型</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;    默认</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;longday&#34;    加长白天</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;longdusk&#34;   加长黄昏</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;longnight&#34;  加长黑夜</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;noday&#34;      无白天</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;nodusk&#34;     无黄昏</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;nonight&#34;    无黑夜</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;onlyday&#34;    只有白天</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;onlydusk&#34;   只有黄昏</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;onlynight&#34;  只有黑夜</span>
+</span></span><span class="line"><span class="cl">    <span class="n">day</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">beefaloheat</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 野牛发情</span>
+</span></span><span class="line"><span class="cl">    <span class="n">krampus</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 坎普斯</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 求生者设置</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">--- 额外起始资源</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;0&#34;        总是</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;5&#34;        5 天后</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;  10 天后</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;15&#34;       15 天后</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;20&#34;       20 天后</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;none&#34;     从不</span>
+</span></span><span class="line"><span class="cl">    <span class="n">extrastartingitems</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">seasonalstartingitems</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 季节起始物品, &#34;never&#34; / &#34;default&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spawnprotection</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 出生点保护, &#34;never&#34; / &#34;default&#34; / &#34;always&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dropeverythingondespawn</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 退出掉落物品, &#34;default&#34; / &#34;always&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">brightmarecreatures</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 启蒙怪兽数量</span>
+</span></span><span class="line"><span class="cl">    <span class="n">shadowcreatures</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 理智怪兽数量</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 世界设置</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">--- 石化</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;none&#34;     无</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;few&#34;      慢</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;  默认</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;many&#34;     快</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;max&#34;      极快</span>
+</span></span><span class="line"><span class="cl">    <span class="n">petrification</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">frograin</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 蛙雨</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hounds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 猎犬来袭频率</span>
+</span></span><span class="line"><span class="cl">    <span class="n">alternatehunt</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 追猎惊喜</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hunt</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>           <span class="c1">--- 狩猎</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lightning</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 闪电</span>
+</span></span><span class="line"><span class="cl">    <span class="n">meteorshowers</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 流星</span>
+</span></span><span class="line"><span class="cl">    <span class="n">weather</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 雨</span>
+</span></span><span class="line"><span class="cl">    <span class="n">wildfires</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 野火</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 资源再生的可选项分别为:</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;never&#34;     从不</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;veryslow&#34;  非常慢</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;slow&#34;      缓慢</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;   默认</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;fast&#34;      快速</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;veryfast&#34;  非常快</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 资源再生设置</span>
+</span></span><span class="line"><span class="cl">    <span class="n">regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                <span class="c1">--- 再生速度</span>
+</span></span><span class="line"><span class="cl">    <span class="n">deciduoustree_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 桦栗树再生</span>
+</span></span><span class="line"><span class="cl">    <span class="n">carrots_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 胡萝卜再生</span>
+</span></span><span class="line"><span class="cl">    <span class="n">evergreen_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 常青树再生</span>
+</span></span><span class="line"><span class="cl">    <span class="n">flowers_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 花再生</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moon_tree_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 月树再生</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saltstack_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 盐矿再生</span>
+</span></span><span class="line"><span class="cl">    <span class="n">twiggytrees_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 多枝树再生</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 生物设置</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bees_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 蜜蜂</span>
+</span></span><span class="line"><span class="cl">    <span class="n">birds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>             <span class="c1">--- 鸟</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bunnymen_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 兔人</span>
+</span></span><span class="line"><span class="cl">    <span class="n">butterfly</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 蝴蝶</span>
+</span></span><span class="line"><span class="cl">    <span class="n">catcoons</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 浣猫</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gnarwail</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 一角鲸</span>
+</span></span><span class="line"><span class="cl">    <span class="n">perd</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>              <span class="c1">--- 火鸡</span>
+</span></span><span class="line"><span class="cl">    <span class="n">grassgekkos</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 草蜥蜴</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moles_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 鼹鼠</span>
+</span></span><span class="line"><span class="cl">    <span class="n">penguins</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 企鹅</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pigs_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 猪人</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rabbits_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 兔子</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fishschools</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 鱼群</span>
+</span></span><span class="line"><span class="cl">    <span class="n">wobsters</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 龙虾</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 敌对生物设置</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bats_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 蝙蝠</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cookiecutters</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 饼干切割机</span>
+</span></span><span class="line"><span class="cl">    <span class="n">frogs</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 青蛙</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mutated_hounds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 恐怖猎犬, &#34;never&#34; / &#34;default&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hound_mounds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 猎犬</span>
+</span></span><span class="line"><span class="cl">    <span class="n">wasps</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 杀人蜂</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lureplants</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 食人花</span>
+</span></span><span class="line"><span class="cl">    <span class="n">walrus_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 海象</span>
+</span></span><span class="line"><span class="cl">    <span class="n">merms</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 鱼人</span>
+</span></span><span class="line"><span class="cl">    <span class="n">penguins_moon</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 月石企鹅, &#34;never&#34; / &#34;default&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mosquitos</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 蚊子</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sharks</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>           <span class="c1">--- 鲨鱼</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moon_spider</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 破碎蜘蛛</span>
+</span></span><span class="line"><span class="cl">    <span class="n">squid</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 乌贼</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spider_warriors</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 蜘蛛战士, &#34;never&#34; / &#34;default&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spiders_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 蜘蛛</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 巨型生物设置</span>
+</span></span><span class="line"><span class="cl">    <span class="n">antliontribute</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 蚁狮</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bearger</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>           <span class="c1">--- 熊獾</span>
+</span></span><span class="line"><span class="cl">    <span class="n">beequeen</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 蜂后</span>
+</span></span><span class="line"><span class="cl">    <span class="n">crabking</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 帝王蟹</span>
+</span></span><span class="line"><span class="cl">    <span class="n">deerclops</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 独眼巨鹿</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dragonfly</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 龙蝇</span>
+</span></span><span class="line"><span class="cl">    <span class="n">eyeofterror</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 泰拉瑞亚之眼</span>
+</span></span><span class="line"><span class="cl">    <span class="n">klaus</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>             <span class="c1">--- 克劳斯</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fruitfly</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 果蝇王</span>
+</span></span><span class="line"><span class="cl">    <span class="n">malbatross</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 邪天翁</span>
+</span></span><span class="line"><span class="cl">    <span class="n">goosemoose</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 麋鹿鹅</span>
+</span></span><span class="line"><span class="cl">    <span class="n">deciduousmonster</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 毒桦栗树</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spiderqueen</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 蜘蛛女王</span>
+</span></span><span class="line"><span class="cl">    <span class="n">liefs</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>             <span class="c1">--- 树精守卫</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 世界生成中等级分别为:</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;never&#34;      无</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;uncommon&#34;   很少</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;rare&#34;       较少</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;    默认</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;often&#34;      较多</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;mostly&#34;     很多</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;always&#34;     大量</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;insane&#34;     疯狂</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 全局生成</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">--- 起始季节</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;                      秋</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;winter&#34;                       冬</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;spring&#34;                       春</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;summer&#34;                       夏</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;autumn|spring&#34;                秋或春</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;winter|summer&#34;                冬或夏</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;autumn|winter|spring|summer&#34;  随机</span>
+</span></span><span class="line"><span class="cl">    <span class="n">season_start</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 世界生成</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">--- 生物群落</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;  联机版</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;classic&#34;  经典</span>
+</span></span><span class="line"><span class="cl">    <span class="n">task_set</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">--- 出生点</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;plus&#34;      额外资源</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;darkness&#34;  黑暗</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;   默认</span>
+</span></span><span class="line"><span class="cl">    <span class="n">start_location</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">world_size</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 世界大小, &#34;small&#34; / &#34;medium&#34; / &#34;default&#34; / &#34;huge&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">--- 世界分支</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;never&#34;    从不</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;least&#34;    少</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;  默认</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;most&#34;     多</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;random&#34;   随机</span>
+</span></span><span class="line"><span class="cl">    <span class="n">branching</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>               <span class="c1">--- 环形世界, &#34;never&#34; / &#34;default&#34; / &#34;always&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">touchstone</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 试金石</span>
+</span></span><span class="line"><span class="cl">    <span class="n">boons</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>              <span class="c1">--- 前辈</span>
+</span></span><span class="line"><span class="cl">    <span class="n">prefabswaps_start</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 初始资源多样化, &#34;classic&#34; / &#34;default&#34; / &#34;random&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moon_fissure</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 天体裂隙</span>
+</span></span><span class="line"><span class="cl">    <span class="n">terrariumchest</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 泰拉瑞亚, &#34;never&#34; / &#34;default&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">roads</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>              <span class="c1">--- 道路, &#34;never&#34; / &#34;default&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">wormhole_prefab</span><span class="o">=</span><span class="s2">&#34;wormhole&#34;</span><span class="p">,</span>   <span class="c1">--- 虫洞多样性, &#34;wormhole&#34; (虫洞) / &#34;tentacle_pillar&#34; (巨大触手)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 资源</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moon_starfish</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 海星</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moon_bullkelp</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 公牛海带茎</span>
+</span></span><span class="line"><span class="cl">    <span class="n">berrybush</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>             <span class="c1">--- 浆果从</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rock</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                  <span class="c1">--- 岩石</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ocean_bullkelp</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 公牛海带</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cactus</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                <span class="c1">--- 仙人掌</span>
+</span></span><span class="line"><span class="cl">    <span class="n">carrot</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                <span class="c1">--- 胡萝卜</span>
+</span></span><span class="line"><span class="cl">    <span class="n">flint</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                 <span class="c1">--- 燧石</span>
+</span></span><span class="line"><span class="cl">    <span class="n">flowers</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>               <span class="c1">--- 花</span>
+</span></span><span class="line"><span class="cl">    <span class="n">grass</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                 <span class="c1">--- 草</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moon_hotspring</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 温泉</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moon_rock</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>             <span class="c1">--- 月亮石</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moon_sapling</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 月亮树苗</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moon_tree</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>             <span class="c1">--- 月树</span>
+</span></span><span class="line"><span class="cl">    <span class="n">meteorspawner</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 流星区</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rock_ice</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>              <span class="c1">--- 迷你冰川</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mushroom</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>              <span class="c1">--- 蘑菇</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ponds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                 <span class="c1">--- 池塘</span>
+</span></span><span class="line"><span class="cl">    <span class="n">reeds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                 <span class="c1">--- 芦苇</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sapling</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>               <span class="c1">--- 小树苗</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ocean_seastack</span><span class="o">=</span><span class="s2">&#34;ocean_default&#34;</span><span class="p">,</span>  <span class="c1">--- 海矿, 参数需要加 &#34;ocean_&#34; 前缀</span>
+</span></span><span class="line"><span class="cl">    <span class="n">marshbush</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>             <span class="c1">--- 荆棘树枝</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moon_berrybush</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 石果树</span>
+</span></span><span class="line"><span class="cl">    <span class="n">trees</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                 <span class="c1">--- 树 (所有)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tumbleweed</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 风滚草</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 生物及刷新点</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bees</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>               <span class="c1">--- 蜂巢</span>
+</span></span><span class="line"><span class="cl">    <span class="n">beefalo</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 皮弗娄牛</span>
+</span></span><span class="line"><span class="cl">    <span class="n">buzzard</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 秃鸠</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moon_carrot</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 胡萝卜鼠</span>
+</span></span><span class="line"><span class="cl">    <span class="n">catcoon</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 猫桩</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moles</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>              <span class="c1">--- 鼹鼠洞</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pigs</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>               <span class="c1">--- 猪人房</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rabbits</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 兔子洞</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moon_fruitdragon</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 沙拉蝾螈</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ocean_shoal</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 鱼群</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lightninggoat</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 伏特羊</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ocean_wobsterden</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 龙虾窝</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 敌对生物及刷新点</span>
+</span></span><span class="line"><span class="cl">    <span class="n">chess</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                   <span class="c1">--- 发条装置</span>
+</span></span><span class="line"><span class="cl">    <span class="n">houndmound</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>              <span class="c1">--- 猎犬冢</span>
+</span></span><span class="line"><span class="cl">    <span class="n">angrybees</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>               <span class="c1">--- 杀人蜂巢</span>
+</span></span><span class="line"><span class="cl">    <span class="n">merm</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                    <span class="c1">--- 漏雨的小屋</span>
+</span></span><span class="line"><span class="cl">    <span class="n">walrus</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                  <span class="c1">--- 海象营地</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ocean_waterplant</span><span class="o">=</span><span class="s2">&#34;ocean_default&#34;</span><span class="p">,</span>  <span class="c1">--- 海草</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moon_spiders</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 破碎蜘蛛洞</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spiders</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                 <span class="c1">--- 蜘蛛巢</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tallbirds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>               <span class="c1">--- 高脚鸟巢</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tentacles</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>               <span class="c1">--- 触手</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">--- Other</span>
+</span></span><span class="line"><span class="cl">    <span class="n">has_ocean</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">keep_disconnected_tiles</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">layout_mode</span><span class="o">=</span><span class="s2">&#34;LinkNodesByKeys&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">no_joining_islands</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">no_wormholes_to_disconnected_tiles</span><span class="o">=</span><span class="kc">true</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="n">random_set_pieces</span><span class="o">=</span><span class="p">{</span><span class="n">r</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Sculptures_2&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Sculptures_3&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Sculptures_4&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Sculptures_5&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Chessy_1&#34;</span><span class="p">,</span>      <span class="c1">-- 2发条骑士，2齿轮，长矛，棋盘地皮</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Chessy_2&#34;</span><span class="p">,</span>      <span class="c1">-- 2发条主教，棋盘、牛毛地皮，Maxwell 雕像，(2齿轮)</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Chessy_3&#34;</span><span class="p">,</span>      <span class="c1">-- 发条战车，蜂蜜药膏，背包，棋盘、牛毛地皮</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Chessy_4&#34;</span><span class="p">,</span>      <span class="c1">-- 发条战车，2大理石，鹤嘴锄，2大理石柱，1大理石树，棋盘、牛毛地皮，Maxwell 雕像</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Chessy_5&#34;</span><span class="p">,</span>      <span class="c1">-- 1发条骑士，1发条主教，竖琴雕像，棋盘、牛毛地皮</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Chessy_6&#34;</span><span class="p">,</span>      <span class="c1">-- 1发条骑士，1发条主教，棋盘、牛毛地皮</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Maxwell1&#34;</span><span class="p">,</span>      <span class="c1">-- 1发条战车，3发条骑士，棋盘、牛毛地皮，4大理石柱，9大理石树，大量恶魔花</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Maxwell2&#34;</span><span class="p">,</span>      <span class="c1">-- 1发条战车，4发条骑士，棋盘、牛毛地皮，8大理石树，Maxwell 雕像</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Maxwell3&#34;</span><span class="p">,</span>      <span class="c1">-- 5发条骑士，棋盘、牛毛地皮，Maxwell 雕像</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Maxwell4&#34;</span><span class="p">,</span>      <span class="c1">-- 棋盘、牛毛地皮，8大理石树，Maxwell 雕像</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Maxwell5&#34;</span><span class="p">,</span>      <span class="c1">-- 1发条骑士，牛毛地皮，8竖琴雕像，Maxwell 雕像，少量恶魔花</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Maxwell6&#34;</span><span class="p">,</span>      <span class="c1">-- 5大理石树，牛毛地皮</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Maxwell7&#34;</span><span class="p">,</span>      <span class="c1">-- 2发条骑士，棋盘、牛毛地皮，4大理石树，Maxwell 雕像，少量恶魔花</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Warzone_1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Warzone_2&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Warzone_3&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="n">required_prefabs</span><span class="o">=</span><span class="p">{</span> <span class="s2">&#34;multiplayer_portal&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">-- 必须包含的雕像种类，而非随机生成。这里指定必须生成完整的三棋子雕像</span>
+</span></span><span class="line"><span class="cl">  <span class="n">required_setpieces</span><span class="o">=</span><span class="p">{</span> <span class="s2">&#34;Sculptures_1&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="n">settings_desc</span><span class="o">=</span><span class="s2">&#34;The standard Don&#39;t Starve experience.&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">settings_id</span><span class="o">=</span><span class="s2">&#34;SURVIVAL_TOGETHER&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">settings_name</span><span class="o">=</span><span class="s2">&#34;Standard Forest&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">substitutes</span><span class="o">=</span><span class="p">{</span>  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="n">version</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">worldgen_desc</span><span class="o">=</span><span class="s2">&#34;The standard Don&#39;t Starve experience.&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">worldgen_id</span><span class="o">=</span><span class="s2">&#34;SURVIVAL_TOGETHER&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">worldgen_name</span><span class="o">=</span><span class="s2">&#34;Standard Forest&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 <li>
@@ -1513,223 +1513,223 @@ steam_group_only=true     # 设置是否仅组成员可用，接受 true / false
 </span><span class="lnt">216
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="kr">return</span> <span class="p">{</span>
-  <span class="n">background_node_range</span><span class="o">=</span><span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="p">},</span>
-  <span class="n">desc</span><span class="o">=</span><span class="s2">&#34;Delve into the caves... together!&#34;</span><span class="p">,</span>
-  <span class="n">hideminimap</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>
-  <span class="n">id</span><span class="o">=</span><span class="s2">&#34;DST_CAVE&#34;</span><span class="p">,</span>
-  <span class="n">location</span><span class="o">=</span><span class="s2">&#34;cave&#34;</span><span class="p">,</span>
-  <span class="n">max_playlist_position</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span>
-  <span class="n">min_playlist_position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-  <span class="n">name</span><span class="o">=</span><span class="s2">&#34;The Caves&#34;</span><span class="p">,</span>
-  <span class="n">numrandom_set_pieces</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-  <span class="n">override_level_string</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>
-  <span class="n">overrides</span><span class="o">=</span><span class="p">{</span>
-    <span class="c1">-- 资源设置的可选项分别为:</span>
-    <span class="c1">----- &#34;never&#34;    无</span>
-    <span class="c1">----- &#34;rare&#34;     较少</span>
-    <span class="c1">----- &#34;default&#34;  默认</span>
-    <span class="c1">----- &#34;often&#34;    较多</span>
-    <span class="c1">----- &#34;always&#34;   大量</span>
-
-    <span class="c1">-- 资源再生的可选项分别为:</span>
-    <span class="c1">----- &#34;never&#34;     从不</span>
-    <span class="c1">----- &#34;veryslow&#34;  非常慢</span>
-    <span class="c1">----- &#34;slow&#34;      缓慢</span>
-    <span class="c1">----- &#34;default&#34;   默认</span>
-    <span class="c1">----- &#34;fast&#34;      快速</span>
-    <span class="c1">----- &#34;veryfast&#34;  非常快</span>
-
-    <span class="c1">-- 世界设置</span>
-    <span class="c1">--- 特殊事件</span>
-    <span class="c1">----- &#34;none&#34;                 无</span>
-    <span class="c1">----- &#34;default&#34;              自动</span>
-    <span class="c1">----- &#34;crow_carnival&#34;        盛夏鸦年华</span>
-    <span class="c1">----- &#34;hallowed_nights&#34;      万圣之夜</span>
-    <span class="c1">----- &#34;winters_feast&#34;        冬季盛宴</span>
-    <span class="c1">----- &#34;year_of_the_gobbler&#34;  火鸡之年</span>
-    <span class="c1">----- &#34;year_of_the_varg&#34;     座狼之年</span>
-    <span class="c1">----- &#34;year_of_the_pig&#34;      猪王之年</span>
-    <span class="c1">----- &#34;year_of_the_carrat&#34;   胡萝卜鼠之年</span>
-    <span class="c1">----- &#34;year_of_the_beefalo&#34;  皮弗娄牛之年</span>
-    <span class="n">specialevent</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
-    <span class="c1">--- 季节</span>
-    <span class="c1">----- &#34;noseason&#34;         无季节</span>
-    <span class="c1">----- &#34;veryshortseason&#34;  非常短</span>
-    <span class="c1">----- &#34;shortseason&#34;      较短</span>
-    <span class="c1">----- &#34;default&#34;          默认长度</span>
-    <span class="c1">----- &#34;longseason&#34;       较长</span>
-    <span class="c1">----- &#34;verylongseason&#34;   非常长</span>
-    <span class="c1">----- &#34;random&#34;           随机长度</span>
-    <span class="n">autumn</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 秋季, 根据设置天数依次为 5 / 12 / 20 / 30 / 50</span>
-    <span class="n">winter</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 冬季, 根据设置天数依次为 5 / 10 / 15 / 22 / 40</span>
-    <span class="n">spring</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 春季, 根据设置天数依次为 5 / 12 / 20 / 30 / 50</span>
-    <span class="n">summer</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 夏季, 根据设置天数依次为 5 / 10 / 15 / 22 / 40</span>
-    <span class="n">atriumgate</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 中庭大门重置 (不可置为 never)</span>
-    <span class="n">wormattacks</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 深渊蠕虫攻击</span>
-    <span class="n">earthquakes</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 地震</span>
-    <span class="n">weather</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 漏雨</span>
-    <span class="c1">--- 天类型</span>
-    <span class="c1">----- &#34;default&#34;    默认</span>
-    <span class="c1">----- &#34;longday&#34;    加长白天</span>
-    <span class="c1">----- &#34;longdusk&#34;   加长黄昏</span>
-    <span class="c1">----- &#34;longnight&#34;  加长黑夜</span>
-    <span class="c1">----- &#34;noday&#34;      无白天</span>
-    <span class="c1">----- &#34;nodusk&#34;     无黄昏</span>
-    <span class="c1">----- &#34;nonight&#34;    无黑夜</span>
-    <span class="c1">----- &#34;onlyday&#34;    只有白天</span>
-    <span class="c1">----- &#34;onlydusk&#34;   只有黄昏</span>
-    <span class="c1">----- &#34;onlynight&#34;  只有黑夜</span>
-    <span class="n">day</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
-    <span class="n">beefaloheat</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 野牛发情</span>
-    <span class="n">krampus</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 坎普斯</span>
-
-    <span class="c1">-- 求生者设置</span>
-    <span class="c1">--- 额外起始资源</span>
-    <span class="c1">----- &#34;0&#34;        总是</span>
-    <span class="c1">----- &#34;5&#34;        5 天后</span>
-    <span class="c1">----- &#34;default&#34;  10 天后</span>
-    <span class="c1">----- &#34;15&#34;       15 天后</span>
-    <span class="c1">----- &#34;20&#34;       20 天后</span>
-    <span class="c1">----- &#34;none&#34;     从不</span>
-    <span class="n">extrastartingitems</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
-    <span class="n">seasonalstartingitems</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 季节起始物品, &#34;never&#34; / &#34;default&#34;</span>
-    <span class="n">spawnprotection</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 出生点保护, &#34;never&#34; / &#34;default&#34; / &#34;always&#34;</span>
-    <span class="n">dropeverythingondespawn</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 退出掉落物品, &#34;default&#34; / &#34;always&#34;</span>
-    <span class="n">brightmarecreatures</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 启蒙怪兽数量</span>
-    <span class="n">shadowcreatures</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 理智怪兽数量</span>
-
-    <span class="c1">-- 资源再生设置</span>
-    <span class="n">regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                     <span class="c1">--- 重生速度</span>
-    <span class="n">flower_cave_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 荧光果再生</span>
-    <span class="n">lightflier_flower_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 变异荧光果再生</span>
-    <span class="n">mushtree_moon_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 变异蘑菇树再生</span>
-    <span class="n">mushtree_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 蘑菇树再生</span>
-
-    <span class="c1">-- 生物设置</span>
-    <span class="n">lightfliers</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 球状光虫</span>
-    <span class="n">bunnymen_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 兔人</span>
-    <span class="n">dustmoths</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 尘蛾</span>
-    <span class="n">grassgekkos</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 草蜥蜴</span>
-    <span class="n">moles_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 鼹鼠</span>
-    <span class="n">mushgnome</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 蘑菇地精</span>
-    <span class="n">pigs_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 猪人</span>
-    <span class="n">rocky_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 石虾</span>
-    <span class="n">slurtles_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 蛞蝓龟</span>
-    <span class="n">snurtles</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>           <span class="c1">--- 蜗牛龟</span>
-    <span class="n">monkey_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 穴居猴</span>
-
-    <span class="c1">-- 敌对生物设置</span>
-    <span class="n">bats_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 蝙蝠</span>
-    <span class="n">spider_hider</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 洞穴蜘蛛</span>
-    <span class="n">spider_dropper</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 穴居蜘蛛</span>
-    <span class="n">merms</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                <span class="c1">--- 鱼人</span>
-    <span class="n">molebats</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>             <span class="c1">--- 裸鼹鼠蝙蝠</span>
-    <span class="n">nightmarecreatures</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 暴动暗影生物</span>
-    <span class="n">spider_warriors</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 蜘蛛战士, &#34;never&#34; / &#34;default&#34;</span>
-    <span class="n">spiders_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 蜘蛛</span>
-    <span class="n">spider_spitter</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 喷吐蜘蛛</span>
-
-    <span class="c1">-- 巨型生物设置</span>
-    <span class="n">fruitfly</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 果蝇王</span>
-    <span class="n">spiderqueen</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 蜘蛛女王</span>
-    <span class="n">liefs</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 树精守卫</span>
-    <span class="n">toadstool</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 毒菌蟾蜍</span>
-
-
-
-
-
-    <span class="c1">-- 世界生成中等级分别为:</span>
-    <span class="c1">----- &#34;never&#34;      无</span>
-    <span class="c1">----- &#34;uncommon&#34;   很少</span>
-    <span class="c1">----- &#34;rare&#34;       较少</span>
-    <span class="c1">----- &#34;default&#34;    默认</span>
-    <span class="c1">----- &#34;often&#34;      较多</span>
-    <span class="c1">----- &#34;mostly&#34;     很多</span>
-    <span class="c1">----- &#34;always&#34;     大量</span>
-    <span class="c1">----- &#34;insane&#34;     疯狂</span>
-
-    <span class="c1">-- 全局生成</span>
-    <span class="c1">--- 起始季节</span>
-    <span class="c1">----- &#34;default&#34;                      秋</span>
-    <span class="c1">----- &#34;winter&#34;                       冬</span>
-    <span class="c1">----- &#34;spring&#34;                       春</span>
-    <span class="c1">----- &#34;summer&#34;                       夏</span>
-    <span class="c1">----- &#34;autumn|spring&#34;                秋或春</span>
-    <span class="c1">----- &#34;winter|summer&#34;                冬或夏</span>
-    <span class="c1">----- &#34;autumn|winter|spring|summer&#34;  随机</span>
-    <span class="n">season_start</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
-
-    <span class="c1">-- 世界生成</span>
-    <span class="n">task_set</span><span class="o">=</span><span class="s2">&#34;cave_default&#34;</span><span class="p">,</span>   <span class="c1">--- 生物群落, 仅 &#34;cave_default&#34;</span>
-    <span class="n">start_location</span><span class="o">=</span><span class="s2">&#34;caves&#34;</span><span class="p">,</span>    <span class="c1">--- 出生点, 仅 &#34;caves&#34;</span>
-    <span class="n">world_size</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 世界大小, &#34;small&#34; / &#34;medium&#34; / &#34;default&#34; / &#34;huge&#34;</span>
-    <span class="c1">--- 世界分支</span>
-    <span class="c1">----- &#34;never&#34;    从不</span>
-    <span class="c1">----- &#34;least&#34;    少</span>
-    <span class="c1">----- &#34;default&#34;  默认</span>
-    <span class="c1">----- &#34;most&#34;     多</span>
-    <span class="c1">----- &#34;random&#34;   随机</span>
-    <span class="n">branching</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
-    <span class="n">loop</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                      <span class="c1">--- 环形世界, &#34;never&#34; / &#34;default&#34; / &#34;always&#34;</span>
-    <span class="n">touchstone</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                <span class="c1">--- 试金石</span>
-    <span class="n">boons</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                     <span class="c1">--- 前辈</span>
-    <span class="n">cavelight</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                 <span class="c1">--- 洞穴光, 值同资源再生选项</span>
-    <span class="n">prefabswaps_start</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 初始资源多样化, &#34;classic&#34; / &#34;default&#34; / &#34;highly random&#34;</span>
-    <span class="n">roads</span><span class="o">=</span><span class="s2">&#34;never&#34;</span><span class="p">,</span>                       <span class="c1">--- 道路, &#34;never&#34; / &#34;default&#34;</span>
-    <span class="n">wormhole_prefab</span><span class="o">=</span><span class="s2">&#34;tentacle_pillar&#34;</span><span class="p">,</span>   <span class="c1">--- 虫洞多样性, &#34;wormhole&#34; (虫洞) / &#34;tentacle_pillar&#34; (巨大触手)</span>
-
-    <span class="c1">-- 资源</span>
-    <span class="n">berrybush</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 浆果从</span>
-    <span class="n">rock</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 岩石</span>
-    <span class="n">banana</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 洞穴香蕉</span>
-    <span class="n">fern</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 洞穴苔藓</span>
-    <span class="n">flint</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 燧石</span>
-    <span class="n">wormlights</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 发光浆果</span>
-    <span class="n">grass</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 草</span>
-    <span class="n">lichen</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 蓝色菌藻</span>
-    <span class="n">flower_cave</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 荧光果</span>
-    <span class="n">mushtree</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 蘑菇树</span>
-    <span class="n">mushroom</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 蘑菇</span>
-    <span class="n">cave_ponds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 池塘</span>
-    <span class="n">reeds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 芦苇</span>
-    <span class="n">sapling</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 小树苗</span>
-    <span class="n">marshbush</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 荆棘树枝</span>
-    <span class="n">trees</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 树 (所有)</span>
-
-    <span class="c1">-- 生物及刷新点</span>
-    <span class="n">bunnymen</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 兔人房</span>
-    <span class="n">rocky</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 石虾窝</span>
-    <span class="n">slurper</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 啜食兽</span>
-    <span class="n">slurtles</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 蛞蝓丘</span>
-    <span class="n">monkey</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 穴居猴窟</span>
-
-    <span class="c1">-- 敌对生物及刷新点</span>
-    <span class="n">bats</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>           <span class="c1">--- 蝙蝠洞</span>
-    <span class="n">worms</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 深渊蠕虫</span>
-    <span class="n">chess</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 发条装置</span>
-    <span class="n">fissure</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 远古裂隙</span>
-    <span class="n">spiders</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 蜘蛛巢</span>
-    <span class="n">cave_spiders</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 石笋蛛巢</span>
-    <span class="n">tentacles</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 触手</span>
-
-
-
-    <span class="c1">-- Other</span>
-    <span class="n">layout_mode</span><span class="o">=</span><span class="s2">&#34;RestrictNodesByKey&#34;</span>
-  <span class="p">},</span>
-  <span class="n">required_prefabs</span><span class="o">=</span><span class="p">{</span> <span class="s2">&#34;multiplayer_portal&#34;</span> <span class="p">},</span>
-  <span class="n">settings_desc</span><span class="o">=</span><span class="s2">&#34;Delve into the caves... together!&#34;</span><span class="p">,</span>
-  <span class="n">settings_id</span><span class="o">=</span><span class="s2">&#34;DST_CAVE&#34;</span><span class="p">,</span>
-  <span class="n">settings_name</span><span class="o">=</span><span class="s2">&#34;The Caves&#34;</span><span class="p">,</span>
-  <span class="n">substitutes</span><span class="o">=</span><span class="p">{</span>  <span class="p">},</span>
-  <span class="n">version</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-  <span class="n">worldgen_desc</span><span class="o">=</span><span class="s2">&#34;Delve into the caves... together!&#34;</span><span class="p">,</span>
-  <span class="n">worldgen_id</span><span class="o">=</span><span class="s2">&#34;DST_CAVE&#34;</span><span class="p">,</span>
-  <span class="n">worldgen_name</span><span class="o">=</span><span class="s2">&#34;The Caves&#34;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kr">return</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">background_node_range</span><span class="o">=</span><span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="n">desc</span><span class="o">=</span><span class="s2">&#34;Delve into the caves... together!&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">hideminimap</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">id</span><span class="o">=</span><span class="s2">&#34;DST_CAVE&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">location</span><span class="o">=</span><span class="s2">&#34;cave&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">max_playlist_position</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">min_playlist_position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">name</span><span class="o">=</span><span class="s2">&#34;The Caves&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">numrandom_set_pieces</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">override_level_string</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">overrides</span><span class="o">=</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 资源设置的可选项分别为:</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;never&#34;    无</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;rare&#34;     较少</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;  默认</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;often&#34;    较多</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;always&#34;   大量</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 资源再生的可选项分别为:</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;never&#34;     从不</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;veryslow&#34;  非常慢</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;slow&#34;      缓慢</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;   默认</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;fast&#34;      快速</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;veryfast&#34;  非常快</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 世界设置</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">--- 特殊事件</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;none&#34;                 无</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;              自动</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;crow_carnival&#34;        盛夏鸦年华</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;hallowed_nights&#34;      万圣之夜</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;winters_feast&#34;        冬季盛宴</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;year_of_the_gobbler&#34;  火鸡之年</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;year_of_the_varg&#34;     座狼之年</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;year_of_the_pig&#34;      猪王之年</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;year_of_the_carrat&#34;   胡萝卜鼠之年</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;year_of_the_beefalo&#34;  皮弗娄牛之年</span>
+</span></span><span class="line"><span class="cl">    <span class="n">specialevent</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">--- 季节</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;noseason&#34;         无季节</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;veryshortseason&#34;  非常短</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;shortseason&#34;      较短</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;          默认长度</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;longseason&#34;       较长</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;verylongseason&#34;   非常长</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;random&#34;           随机长度</span>
+</span></span><span class="line"><span class="cl">    <span class="n">autumn</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 秋季, 根据设置天数依次为 5 / 12 / 20 / 30 / 50</span>
+</span></span><span class="line"><span class="cl">    <span class="n">winter</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 冬季, 根据设置天数依次为 5 / 10 / 15 / 22 / 40</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spring</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 春季, 根据设置天数依次为 5 / 12 / 20 / 30 / 50</span>
+</span></span><span class="line"><span class="cl">    <span class="n">summer</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 夏季, 根据设置天数依次为 5 / 10 / 15 / 22 / 40</span>
+</span></span><span class="line"><span class="cl">    <span class="n">atriumgate</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 中庭大门重置 (不可置为 never)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">wormattacks</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 深渊蠕虫攻击</span>
+</span></span><span class="line"><span class="cl">    <span class="n">earthquakes</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 地震</span>
+</span></span><span class="line"><span class="cl">    <span class="n">weather</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 漏雨</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">--- 天类型</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;    默认</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;longday&#34;    加长白天</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;longdusk&#34;   加长黄昏</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;longnight&#34;  加长黑夜</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;noday&#34;      无白天</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;nodusk&#34;     无黄昏</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;nonight&#34;    无黑夜</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;onlyday&#34;    只有白天</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;onlydusk&#34;   只有黄昏</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;onlynight&#34;  只有黑夜</span>
+</span></span><span class="line"><span class="cl">    <span class="n">day</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">beefaloheat</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 野牛发情</span>
+</span></span><span class="line"><span class="cl">    <span class="n">krampus</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 坎普斯</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 求生者设置</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">--- 额外起始资源</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;0&#34;        总是</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;5&#34;        5 天后</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;  10 天后</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;15&#34;       15 天后</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;20&#34;       20 天后</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;none&#34;     从不</span>
+</span></span><span class="line"><span class="cl">    <span class="n">extrastartingitems</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">seasonalstartingitems</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 季节起始物品, &#34;never&#34; / &#34;default&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spawnprotection</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 出生点保护, &#34;never&#34; / &#34;default&#34; / &#34;always&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dropeverythingondespawn</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>  <span class="c1">--- 退出掉落物品, &#34;default&#34; / &#34;always&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">brightmarecreatures</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 启蒙怪兽数量</span>
+</span></span><span class="line"><span class="cl">    <span class="n">shadowcreatures</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 理智怪兽数量</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 资源再生设置</span>
+</span></span><span class="line"><span class="cl">    <span class="n">regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                     <span class="c1">--- 重生速度</span>
+</span></span><span class="line"><span class="cl">    <span class="n">flower_cave_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 荧光果再生</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lightflier_flower_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 变异荧光果再生</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mushtree_moon_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 变异蘑菇树再生</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mushtree_regrowth</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>            <span class="c1">--- 蘑菇树再生</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 生物设置</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lightfliers</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 球状光虫</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bunnymen_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 兔人</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dustmoths</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 尘蛾</span>
+</span></span><span class="line"><span class="cl">    <span class="n">grassgekkos</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 草蜥蜴</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moles_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 鼹鼠</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mushgnome</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 蘑菇地精</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pigs_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 猪人</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rocky_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 石虾</span>
+</span></span><span class="line"><span class="cl">    <span class="n">slurtles_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 蛞蝓龟</span>
+</span></span><span class="line"><span class="cl">    <span class="n">snurtles</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>           <span class="c1">--- 蜗牛龟</span>
+</span></span><span class="line"><span class="cl">    <span class="n">monkey_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 穴居猴</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 敌对生物设置</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bats_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 蝙蝠</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spider_hider</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 洞穴蜘蛛</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spider_dropper</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 穴居蜘蛛</span>
+</span></span><span class="line"><span class="cl">    <span class="n">merms</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                <span class="c1">--- 鱼人</span>
+</span></span><span class="line"><span class="cl">    <span class="n">molebats</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>             <span class="c1">--- 裸鼹鼠蝙蝠</span>
+</span></span><span class="line"><span class="cl">    <span class="n">nightmarecreatures</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 暴动暗影生物</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spider_warriors</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 蜘蛛战士, &#34;never&#34; / &#34;default&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spiders_setting</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 蜘蛛</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spider_spitter</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 喷吐蜘蛛</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 巨型生物设置</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fruitfly</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 果蝇王</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spiderqueen</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 蜘蛛女王</span>
+</span></span><span class="line"><span class="cl">    <span class="n">liefs</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 树精守卫</span>
+</span></span><span class="line"><span class="cl">    <span class="n">toadstool</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 毒菌蟾蜍</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 世界生成中等级分别为:</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;never&#34;      无</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;uncommon&#34;   很少</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;rare&#34;       较少</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;    默认</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;often&#34;      较多</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;mostly&#34;     很多</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;always&#34;     大量</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;insane&#34;     疯狂</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 全局生成</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">--- 起始季节</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;                      秋</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;winter&#34;                       冬</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;spring&#34;                       春</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;summer&#34;                       夏</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;autumn|spring&#34;                秋或春</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;winter|summer&#34;                冬或夏</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;autumn|winter|spring|summer&#34;  随机</span>
+</span></span><span class="line"><span class="cl">    <span class="n">season_start</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 世界生成</span>
+</span></span><span class="line"><span class="cl">    <span class="n">task_set</span><span class="o">=</span><span class="s2">&#34;cave_default&#34;</span><span class="p">,</span>   <span class="c1">--- 生物群落, 仅 &#34;cave_default&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">start_location</span><span class="o">=</span><span class="s2">&#34;caves&#34;</span><span class="p">,</span>    <span class="c1">--- 出生点, 仅 &#34;caves&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">world_size</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 世界大小, &#34;small&#34; / &#34;medium&#34; / &#34;default&#34; / &#34;huge&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">--- 世界分支</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;never&#34;    从不</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;least&#34;    少</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;default&#34;  默认</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;most&#34;     多</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">----- &#34;random&#34;   随机</span>
+</span></span><span class="line"><span class="cl">    <span class="n">branching</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                      <span class="c1">--- 环形世界, &#34;never&#34; / &#34;default&#34; / &#34;always&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">touchstone</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                <span class="c1">--- 试金石</span>
+</span></span><span class="line"><span class="cl">    <span class="n">boons</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                     <span class="c1">--- 前辈</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cavelight</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>                 <span class="c1">--- 洞穴光, 值同资源再生选项</span>
+</span></span><span class="line"><span class="cl">    <span class="n">prefabswaps_start</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 初始资源多样化, &#34;classic&#34; / &#34;default&#34; / &#34;highly random&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">roads</span><span class="o">=</span><span class="s2">&#34;never&#34;</span><span class="p">,</span>                       <span class="c1">--- 道路, &#34;never&#34; / &#34;default&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">wormhole_prefab</span><span class="o">=</span><span class="s2">&#34;tentacle_pillar&#34;</span><span class="p">,</span>   <span class="c1">--- 虫洞多样性, &#34;wormhole&#34; (虫洞) / &#34;tentacle_pillar&#34; (巨大触手)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 资源</span>
+</span></span><span class="line"><span class="cl">    <span class="n">berrybush</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 浆果从</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rock</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 岩石</span>
+</span></span><span class="line"><span class="cl">    <span class="n">banana</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 洞穴香蕉</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fern</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 洞穴苔藓</span>
+</span></span><span class="line"><span class="cl">    <span class="n">flint</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 燧石</span>
+</span></span><span class="line"><span class="cl">    <span class="n">wormlights</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 发光浆果</span>
+</span></span><span class="line"><span class="cl">    <span class="n">grass</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 草</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lichen</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 蓝色菌藻</span>
+</span></span><span class="line"><span class="cl">    <span class="n">flower_cave</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 荧光果</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mushtree</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 蘑菇树</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mushroom</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 蘑菇</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cave_ponds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 池塘</span>
+</span></span><span class="line"><span class="cl">    <span class="n">reeds</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 芦苇</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sapling</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>       <span class="c1">--- 小树苗</span>
+</span></span><span class="line"><span class="cl">    <span class="n">marshbush</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 荆棘树枝</span>
+</span></span><span class="line"><span class="cl">    <span class="n">trees</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>         <span class="c1">--- 树 (所有)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 生物及刷新点</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bunnymen</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 兔人房</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rocky</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 石虾窝</span>
+</span></span><span class="line"><span class="cl">    <span class="n">slurper</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>    <span class="c1">--- 啜食兽</span>
+</span></span><span class="line"><span class="cl">    <span class="n">slurtles</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 蛞蝓丘</span>
+</span></span><span class="line"><span class="cl">    <span class="n">monkey</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>     <span class="c1">--- 穴居猴窟</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- 敌对生物及刷新点</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bats</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>           <span class="c1">--- 蝙蝠洞</span>
+</span></span><span class="line"><span class="cl">    <span class="n">worms</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 深渊蠕虫</span>
+</span></span><span class="line"><span class="cl">    <span class="n">chess</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>          <span class="c1">--- 发条装置</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fissure</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 远古裂隙</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spiders</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>        <span class="c1">--- 蜘蛛巢</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cave_spiders</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>   <span class="c1">--- 石笋蛛巢</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tentacles</span><span class="o">=</span><span class="s2">&#34;default&#34;</span><span class="p">,</span>      <span class="c1">--- 触手</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">-- Other</span>
+</span></span><span class="line"><span class="cl">    <span class="n">layout_mode</span><span class="o">=</span><span class="s2">&#34;RestrictNodesByKey&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="n">required_prefabs</span><span class="o">=</span><span class="p">{</span> <span class="s2">&#34;multiplayer_portal&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="n">settings_desc</span><span class="o">=</span><span class="s2">&#34;Delve into the caves... together!&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">settings_id</span><span class="o">=</span><span class="s2">&#34;DST_CAVE&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">settings_name</span><span class="o">=</span><span class="s2">&#34;The Caves&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">substitutes</span><span class="o">=</span><span class="p">{</span>  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="n">version</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">worldgen_desc</span><span class="o">=</span><span class="s2">&#34;Delve into the caves... together!&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">worldgen_id</span><span class="o">=</span><span class="s2">&#34;DST_CAVE&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">worldgen_name</span><span class="o">=</span><span class="s2">&#34;The Caves&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 </ul>
@@ -1767,25 +1767,25 @@ steam_group_only=true     # 设置是否仅组成员可用，接受 true / false
 </span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">[Unit]
-Description=GinShio&#39;s Don&#39;t Starve Together Server
-Documentation=https://dontstarve.fandom.com/wiki/Don&#39;t_Starve_Wiki
-After=network.target
-
-[Service]
-Type=simple
-User=steam
-WorkingDirectory=/home/steam/dst/bin64
-TimeoutStartSec=infinity
-ExecStart=/home/steam/dst/bin64/dontstarve_dedicated_server_nullrenderer_x64 -console -conf_dir %i -shard Master
-ExecStartPost=/home/steam/dst/bin64/dontstarve_dedicated_server_nullrenderer_x64 -console -conf_dir %i -shard Caves
-ExecReload=/bin/kill -HUP
-Restart=on-failure
-RestartPreventExitStatus=23
-
-[Install]
-WantedBy=multi-user.target
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">[Unit]
+</span></span><span class="line"><span class="cl">Description=GinShio&#39;s Don&#39;t Starve Together Server
+</span></span><span class="line"><span class="cl">Documentation=https://dontstarve.fandom.com/wiki/Don&#39;t_Starve_Wiki
+</span></span><span class="line"><span class="cl">After=network.target
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[Service]
+</span></span><span class="line"><span class="cl">Type=simple
+</span></span><span class="line"><span class="cl">User=steam
+</span></span><span class="line"><span class="cl">WorkingDirectory=/home/steam/dst/bin64
+</span></span><span class="line"><span class="cl">TimeoutStartSec=infinity
+</span></span><span class="line"><span class="cl">ExecStart=/home/steam/dst/bin64/dontstarve_dedicated_server_nullrenderer_x64 -console -conf_dir %i -shard Master
+</span></span><span class="line"><span class="cl">ExecStartPost=/home/steam/dst/bin64/dontstarve_dedicated_server_nullrenderer_x64 -console -conf_dir %i -shard Caves
+</span></span><span class="line"><span class="cl">ExecReload=/bin/kill -HUP
+</span></span><span class="line"><span class="cl">Restart=on-failure
+</span></span><span class="line"><span class="cl">RestartPreventExitStatus=23
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[Install]
+</span></span><span class="line"><span class="cl">WantedBy=multi-user.target
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>我所使用的是 <code>dst@.service</code>，这样只需要在启动不同位面时，在 <code>@</code> 之后加上目录名即可。由于 ExecStartPost 是启动地下世界，这是一个 simple 类型的命令，所以需要设置超时时间为无限 (即 <strong>TimeoutStartSec=infinity</strong> 来保证 systemd 不会杀掉服务器)。同时也是这个原因，在 start 时并不会结束命令，所以我一般重启服务器利用关机重启来重启这个命令。</p>
 <p>举个例子，我有一个冬季盛宴位面在 Winter 目录下，一个万圣节位面在 Dracula 目录下。我想关停万圣节位面关停冬季盛宴位面，即可使用以下命令</p>
@@ -1796,10 +1796,10 @@ WantedBy=multi-user.target
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">systemctl disable dst@Winter   <span class="c1"># 开机不启动冬季盛宴位面</span>
-systemctl disable dst@Dracula  <span class="c1"># 开机启动万圣节位面</span>
-systemctl reboot               <span class="c1"># 关机重启服务器</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">systemctl disable dst@Winter   <span class="c1"># 开机不启动冬季盛宴位面</span>
+</span></span><span class="line"><span class="cl">systemctl disable dst@Dracula  <span class="c1"># 开机启动万圣节位面</span>
+</span></span><span class="line"><span class="cl">systemctl reboot               <span class="c1"># 关机重启服务器</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="opensuse-遇到的问题" class="headerLink">
     <a href="#opensuse-%e9%81%87%e5%88%b0%e7%9a%84%e9%97%ae%e9%a2%98" class="header-mark"></a>openSUSE 遇到的问题</h4><ul>
@@ -1810,8 +1810,8 @@ systemctl reboot               <span class="c1"># 关机重启服务器</span>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">steamcmd --reset
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">steamcmd --reset
+</span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 <li>
@@ -1821,8 +1821,8 @@ systemctl reboot               <span class="c1"># 关机重启服务器</span>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">ln -s /usr/lib64/libcurl.so.4 /usr/lib64/libcurl-gnutls.so.4
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ln -s /usr/lib64/libcurl.so.4 /usr/lib64/libcurl-gnutls.so.4
+</span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 </ul>
@@ -1863,7 +1863,7 @@ div.info{background:rgba(58,129,195,0.15);border-left:4px solid rgba(58,129,195,
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

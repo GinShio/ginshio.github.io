@@ -289,11 +289,11 @@ SLR 的中心思想是根据文法构造出 LR(0) 自动机。这个自动机的
 {{< math >}}\[
 
 \begin{align}
-\textit{E} &\rightarrow \textit{E} + \textit{T}\tag{1}\\\\
-\textit{E} &\rightarrow \textit{T}\tag{2}\\\\
-\textit{T} &\rightarrow \textit{T} \* \textit{F}\tag{3}\\\\
-\textit{T} &\rightarrow \textit{F}\tag{4}\\\\
-\textit{F} &\rightarrow (\textit{E})\tag{5}\\\\
+\textit{E} &\rightarrow \textit{E} + \textit{T}\tag{1}\\
+\textit{E} &\rightarrow \textit{T}\tag{2}\\
+\textit{T} &\rightarrow \textit{T} * \textit{F}\tag{3}\\
+\textit{T} &\rightarrow \textit{F}\tag{4}\\
+\textit{F} &\rightarrow (\textit{E})\tag{5}\\
 \textit{F} &\rightarrow \textbf{id}\tag{6}
 \end{align}
 

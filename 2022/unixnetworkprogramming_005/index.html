@@ -339,12 +339,12 @@ I/O 需要处理这两个阶段，进程不被阻塞也无需关心，只需要�
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// sys/select.h
-</span><span class="c1">// sys/time.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">select</span><span class="p">(</span><span class="kt">int</span> <span class="n">nfds</span><span class="p">,</span> <span class="n">fd_set</span> <span class="o">*</span><span class="n">readfds</span><span class="p">,</span> <span class="n">fd_set</span> <span class="o">*</span><span class="n">writefds</span><span class="p">,</span>
-           <span class="n">fd_set</span> <span class="o">*</span><span class="n">exceptfds</span><span class="p">,</span> <span class="k">struct</span> <span class="n">timeval</span> <span class="o">*</span><span class="n">timeout</span><span class="p">);</span>
-<span class="c1">// positive count of ready descriptors, 0 on timeout, -1 on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// sys/select.h
+</span></span></span><span class="line"><span class="cl"><span class="c1">// sys/time.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">select</span><span class="p">(</span><span class="kt">int</span> <span class="n">nfds</span><span class="p">,</span> <span class="n">fd_set</span> <span class="o">*</span><span class="n">readfds</span><span class="p">,</span> <span class="n">fd_set</span> <span class="o">*</span><span class="n">writefds</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">fd_set</span> <span class="o">*</span><span class="n">exceptfds</span><span class="p">,</span> <span class="k">struct</span> <span class="n">timeval</span> <span class="o">*</span><span class="n">timeout</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// positive count of ready descriptors, 0 on timeout, -1 on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="select-参数与返回值" class="headerLink">
     <a href="#select-%e5%8f%82%e6%95%b0%e4%b8%8e%e8%bf%94%e5%9b%9e%e5%80%bc" class="header-mark"></a>select 参数与返回值</h3><ul>
@@ -359,11 +359,11 @@ I/O 需要处理这两个阶段，进程不被阻塞也无需关心，只需要�
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">timeval</span> <span class="p">{</span>
-  <span class="kt">long</span> <span class="n">tv_sec</span><span class="p">;</span>    <span class="c1">// seconds
-</span><span class="c1"></span>  <span class="kt">long</span> <span class="n">tv_usecs</span><span class="p">;</span>  <span class="c1">// microseconds
-</span><span class="c1"></span><span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">timeval</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">long</span> <span class="n">tv_sec</span><span class="p">;</span>    <span class="c1">// seconds
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">long</span> <span class="n">tv_usecs</span><span class="p">;</span>  <span class="c1">// microseconds
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>该参数有三种可能</p>
 <ul>
@@ -391,11 +391,11 @@ EINVAL 错误，即不支持的 timeout。</p>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">FD_ZERO</span><span class="p">(</span><span class="n">fd_set</span> <span class="o">*</span><span class="n">fdset</span><span class="p">);</span>          <span class="c1">// 清除所有 bit
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">FD_SET</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="n">fd_set</span> <span class="o">*</span><span class="n">fdset</span><span class="p">);</span>   <span class="c1">// 设置关心的描述符
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">FD_CLR</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="n">fd_set</span> <span class="o">*</span><span class="n">fdset</span><span class="p">);</span>   <span class="c1">// 移除不关心的描述符
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">FD_ISSET</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="n">fd_set</span> <span class="o">*</span><span class="n">fdset</span><span class="p">);</span>  <span class="c1">// 检查 fd 是否设置
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">FD_ZERO</span><span class="p">(</span><span class="n">fd_set</span> <span class="o">*</span><span class="n">fdset</span><span class="p">);</span>          <span class="c1">// 清除所有 bit
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">FD_SET</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="n">fd_set</span> <span class="o">*</span><span class="n">fdset</span><span class="p">);</span>   <span class="c1">// 设置关心的描述符
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">FD_CLR</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="n">fd_set</span> <span class="o">*</span><span class="n">fdset</span><span class="p">);</span>   <span class="c1">// 移除不关心的描述符
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">FD_ISSET</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="n">fd_set</span> <span class="o">*</span><span class="n">fdset</span><span class="p">);</span>  <span class="c1">// 检查 fd 是否设置
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>如果对某一个种类的描述符集不感兴趣，可以置为空指针。如果将所有描述符集都置为空指针，将会得到一个比 <code>sleep/1</code> 更精确的休眠定时器。</p>
 </li>
@@ -535,35 +535,35 @@ TCP 套接字可读。</p>
 </span><span class="lnt">28
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">str_cli</span><span class="p">(</span><span class="n">FILE</span> <span class="o">*</span><span class="n">fp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sockfd</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">char</span> <span class="n">sendline</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="n">recvline</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-  <span class="n">FILE</span> <span class="o">*</span><span class="n">sockfd_fp</span> <span class="o">=</span> <span class="n">fdopen</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="s">&#34;r+&#34;</span><span class="p">);</span>
-  <span class="n">fd_set</span> <span class="n">rset</span><span class="p">;</span>
-  <span class="n">FD_ZERO</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rset</span><span class="p">);</span>
-  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">FD_SET</span><span class="p">(</span><span class="n">fileno</span><span class="p">(</span><span class="n">fp</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">);</span>
-    <span class="n">FD_SET</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">);</span>
-    <span class="kt">int</span> <span class="n">nfds</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">fileno</span><span class="p">(</span><span class="n">fp</span><span class="p">),</span> <span class="n">sockfd</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="n">select</span><span class="p">(</span><span class="n">nfds</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">FD_ISSET</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">))</span> <span class="p">{</span>
-      <span class="c1">// socket is readable
-</span><span class="c1"></span>      <span class="k">if</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">sockfd_fp</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;str_cli: server terminated prematurely&#34;</span><span class="p">);</span>
-      <span class="p">}</span>
-      <span class="n">fputs</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">stdout</span><span class="p">);</span>
-      <span class="n">bzero</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">FD_ISSET</span><span class="p">(</span><span class="n">fileno</span><span class="p">(</span><span class="n">fp</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">))</span> <span class="p">{</span>
-      <span class="c1">// standard input
-</span><span class="c1"></span>      <span class="k">if</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">sendline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="n">fputs</span><span class="p">(</span><span class="n">sendline</span><span class="p">,</span> <span class="n">sockfd_fp</span><span class="p">);</span>
-      <span class="n">bzero</span><span class="p">(</span><span class="n">sendline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">str_cli</span><span class="p">(</span><span class="n">FILE</span> <span class="o">*</span><span class="n">fp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sockfd</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">sendline</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="n">recvline</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="n">FILE</span> <span class="o">*</span><span class="n">sockfd_fp</span> <span class="o">=</span> <span class="n">fdopen</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="s">&#34;r+&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fd_set</span> <span class="n">rset</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">FD_ZERO</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rset</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">FD_SET</span><span class="p">(</span><span class="n">fileno</span><span class="p">(</span><span class="n">fp</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">FD_SET</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">nfds</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">fileno</span><span class="p">(</span><span class="n">fp</span><span class="p">),</span> <span class="n">sockfd</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">select</span><span class="p">(</span><span class="n">nfds</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">FD_ISSET</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// socket is readable
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">if</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">sockfd_fp</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;str_cli: server terminated prematurely&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">fputs</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">stdout</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">bzero</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">FD_ISSET</span><span class="p">(</span><span class="n">fileno</span><span class="p">(</span><span class="n">fp</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// standard input
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">if</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">sendline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">fputs</span><span class="p">(</span><span class="n">sendline</span><span class="p">,</span> <span class="n">sockfd_fp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">bzero</span><span class="p">(</span><span class="n">sendline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>服务端也可以使用 select 进行修改，从而减轻 fork 大量创建新进程所带来的开销。</p>
 <p>通常从终端启动的进程都会打开 stdin、stdout 和 stderr，因此监听套接字 listenfd 通常是 <code>fd = 3</code> 的描述符，因此 select 第一个参数将为 4。当客户端建立连接时监听套接字可读，accept 返回连接套接字描述符 4，依次类推。当关闭其中一个连接时，需要一个描述最大描述符值的量，来快速确定 nfds。</p>
@@ -639,74 +639,74 @@ TCP 套接字可读。</p>
 </span><span class="lnt">67
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&#34;unp.h&#34;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">listenfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
-    <span class="p">.</span><span class="n">sin_port</span>   <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span>
-    <span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
-  <span class="p">};</span>
-  <span class="n">bind</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">));</span>
-  <span class="n">listen</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">LISTENQ</span><span class="p">);</span>
-  <span class="kt">int</span> <span class="n">maxfd</span> <span class="o">=</span> <span class="n">listenfd</span><span class="p">,</span> <span class="n">maxi</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-  <span class="k">const</span> <span class="kt">int</span> <span class="n">addrlen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">);</span>
-  <span class="kt">int</span> <span class="n">client</span><span class="p">[</span><span class="n">FD_SETSIZE</span><span class="p">];</span>
-  <span class="n">memset</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">client</span><span class="p">));</span>
-  <span class="n">fd_set</span> <span class="n">allset</span><span class="p">;</span>
-  <span class="n">FD_ZERO</span><span class="p">(</span><span class="o">&amp;</span><span class="n">allset</span><span class="p">);</span>
-  <span class="n">FD_SET</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">allset</span><span class="p">);</span>
-  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">fd_set</span> <span class="n">rset</span> <span class="o">=</span> <span class="n">allset</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">nready</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">maxfd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">FD_ISSET</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">))</span> <span class="p">{</span>
-      <span class="c1">// new client connection
-</span><span class="c1"></span>      <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
-      <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">cliaddr</span><span class="p">;</span>
-      <span class="kt">int</span> <span class="n">connfd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">cliaddr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">addrlen</span><span class="p">);</span>
-      <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">FD_SETSIZE</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">client</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-          <span class="n">client</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">connfd</span><span class="p">;</span>
-          <span class="k">break</span><span class="p">;</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">FD_SETSIZE</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;too many clients&#34;</span><span class="p">);</span>
-      <span class="p">}</span>
-      <span class="n">FD_SET</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">allset</span><span class="p">);</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">connfd</span> <span class="o">&gt;</span> <span class="n">maxfd</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">maxfd</span> <span class="o">=</span> <span class="n">connfd</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">maxi</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">maxi</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="o">--</span><span class="n">nready</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">continue</span><span class="p">;</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">maxi</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">sockfd</span><span class="p">;</span>
-      <span class="k">if</span> <span class="p">((</span><span class="n">sockfd</span> <span class="o">=</span> <span class="n">client</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">continue</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">FD_ISSET</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">))</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-          <span class="n">close</span><span class="p">(</span><span class="n">sockfd</span><span class="p">);</span>
-          <span class="n">FD_CLR</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">allset</span><span class="p">);</span>
-          <span class="n">client</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-          <span class="n">write</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">--</span><span class="n">nready</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">break</span><span class="p">;</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;unp.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">listenfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_port</span>   <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="n">bind</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">listen</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">LISTENQ</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">maxfd</span> <span class="o">=</span> <span class="n">listenfd</span><span class="p">,</span> <span class="n">maxi</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">const</span> <span class="kt">int</span> <span class="n">addrlen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">client</span><span class="p">[</span><span class="n">FD_SETSIZE</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="n">memset</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">client</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fd_set</span> <span class="n">allset</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">FD_ZERO</span><span class="p">(</span><span class="o">&amp;</span><span class="n">allset</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">FD_SET</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">allset</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fd_set</span> <span class="n">rset</span> <span class="o">=</span> <span class="n">allset</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">nready</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">maxfd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">FD_ISSET</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// new client connection
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">cliaddr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="kt">int</span> <span class="n">connfd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">cliaddr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">addrlen</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">FD_SETSIZE</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">client</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">client</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">connfd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">FD_SETSIZE</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;too many clients&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">FD_SET</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">allset</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">connfd</span> <span class="o">&gt;</span> <span class="n">maxfd</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">maxfd</span> <span class="o">=</span> <span class="n">connfd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">maxi</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">maxi</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="o">--</span><span class="n">nready</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">maxi</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">sockfd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">((</span><span class="n">sockfd</span> <span class="o">=</span> <span class="n">client</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">FD_ISSET</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">close</span><span class="p">(</span><span class="n">sockfd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">          <span class="n">FD_CLR</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">allset</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">          <span class="n">client</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">write</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">--</span><span class="n">nready</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>但是需要注意但是，目前服务器程序最大的问题是 <strong>拒绝服务攻击</strong> (Denial-of-Service
 Attacks)：如果客户端仅发送一个字节的数据，且这个字节不是换行符，然后客户端进入休眠状态。服务器将在调用 read 方法后阻塞于此。简单的说，服务器将被阻塞在这个用户的读操作上，不会处理其他用户数据或接收新连接，直到那个恶意客户终止或发送换行符为止。</p>
@@ -730,10 +730,10 @@ Attacks)：如果客户端仅发送一个字节的数据，且这个字节不是
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// sys/socket.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">shutdown</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">howto</span><span class="p">);</span>
-<span class="c1">// return 0 if OK, -1 on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// sys/socket.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">shutdown</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">howto</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// return 0 if OK, -1 on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>howto 参数可以控制 shutdown 的行为，取值如下</p>
 <table>
@@ -774,8 +774,8 @@ Attacks)：如果客户端仅发送一个字节的数据，且这个字节不是
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">./examplecli 127.0.0.1 &lt; in.txt &gt; out.txt
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">./examplecli 127.0.0.1 &lt; in.txt &gt; out.txt
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>对于这样的实现来说，可以批量输入，也能极大提升网络吞吐量。假设在发出一个请求后立即发送另一个请求，且直接忽略服务器进行处理的时间。可以得到如下理想的数据传输情况，其实这里我们忽略了 TCP 的拥塞控制。</p>
 <figure><img src="/ox-hugo/filling-the-pipe-between-the-client-and-server-batch-mode.svg"/>
@@ -787,8 +787,8 @@ Attacks)：如果客户端仅发送一个字节的数据，且这个字节不是
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">ls -la in.txt out.txt
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ls -la in.txt out.txt
+</span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -796,9 +796,9 @@ Attacks)：如果客户端仅发送一个字节的数据，且这个字节不是
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">-rw-r--r-- 1 GinShio users 7106 Feb 27 18:58 in.txt
--rw-r--r-- 1 GinShio users 4139 Feb 27 18:58 out.txt
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">-rw-r--r-- 1 GinShio users 7106 Feb 27 18:58 in.txt
+</span></span><span class="line"><span class="cl">-rw-r--r-- 1 GinShio users 4139 Feb 27 18:58 out.txt
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这里我们需要一种关闭 TCP 写半部，即向服务器发送 FIN 告知数据已完毕，但仍保持套接字描述符打开已便读取响应。</p>
 <p>另外，缓冲区的引入将导致程序复杂性的提升，比如说批量输入时，stdin 将之后的数据写入了输入缓冲区，等待读取这些缓冲区的数据，但 select 不这么想，它并不从 stdin 的缓冲区的角度出发。如果我们在自己写的函数中使用缓冲区，则需要考虑调用 select 之前，缓冲区中是否有等待消费的数据。</p>
@@ -844,44 +844,44 @@ Attacks)：如果客户端仅发送一个字节的数据，且这个字节不是
 </span><span class="lnt">37
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">str_cli</span><span class="p">(</span><span class="n">FILE</span> <span class="o">*</span><span class="n">fp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sockfd</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">fd_set</span> <span class="n">rset</span><span class="p">;</span>
-  <span class="n">FD_ZERO</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rset</span><span class="p">);</span>
-  <span class="kt">bool</span> <span class="n">iseof</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">nfds</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">fileno</span><span class="p">(</span><span class="n">fp</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">fpfd</span> <span class="o">=</span> <span class="n">fileno</span><span class="p">(</span><span class="n">fp</span><span class="p">);</span>
-  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">iseof</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">FD_SET</span><span class="p">(</span><span class="n">fpfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">FD_SET</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">);</span>
-    <span class="n">select</span><span class="p">(</span><span class="n">nfds</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">FD_ISSET</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">))</span> <span class="p">{</span>
-      <span class="c1">// socket is readable
-</span><span class="c1"></span>      <span class="k">if</span> <span class="p">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">iseof</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">return</span><span class="p">;</span> <span class="c1">// normal termination
-</span><span class="c1"></span>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-          <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;str_cli: server terminated prematurely&#34;</span><span class="p">);</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-      <span class="n">write</span><span class="p">(</span><span class="n">fileno</span><span class="p">(</span><span class="n">stdout</span><span class="p">),</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">FD_ISSET</span><span class="p">(</span><span class="n">fpfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">))</span> <span class="p">{</span>
-      <span class="c1">// input is readable
-</span><span class="c1"></span>      <span class="k">if</span> <span class="p">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">fpfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">iseof</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-        <span class="n">shutdown</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">SHUT_WR</span><span class="p">);</span>
-        <span class="n">FD_CLR</span><span class="p">(</span><span class="n">fpfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">);</span>
-        <span class="k">continue</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="n">write</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">str_cli</span><span class="p">(</span><span class="n">FILE</span> <span class="o">*</span><span class="n">fp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sockfd</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fd_set</span> <span class="n">rset</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">FD_ZERO</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rset</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">bool</span> <span class="n">iseof</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">nfds</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">fileno</span><span class="p">(</span><span class="n">fp</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">fpfd</span> <span class="o">=</span> <span class="n">fileno</span><span class="p">(</span><span class="n">fp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">iseof</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">FD_SET</span><span class="p">(</span><span class="n">fpfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">FD_SET</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">select</span><span class="p">(</span><span class="n">nfds</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">FD_ISSET</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// socket is readable
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">if</span> <span class="p">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">iseof</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">return</span><span class="p">;</span> <span class="c1">// normal termination
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;str_cli: server terminated prematurely&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">write</span><span class="p">(</span><span class="n">fileno</span><span class="p">(</span><span class="n">stdout</span><span class="p">),</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">FD_ISSET</span><span class="p">(</span><span class="n">fpfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// input is readable
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">if</span> <span class="p">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">fpfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">iseof</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">shutdown</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">SHUT_WR</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">FD_CLR</span><span class="p">(</span><span class="n">fpfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rset</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">write</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="poll-函数" class="headerLink">
     <a href="#poll-%e5%87%bd%e6%95%b0" class="header-mark"></a>poll 函数</h2><p>poll 函数起源于 SVR3，最初限制在流描述符，SVR4 取消了限制，允许工作在任何描述符上。poll 与 select 类似，不过处理流描述符时能够提供额外信息。</p>
@@ -892,10 +892,10 @@ Attacks)：如果客户端仅发送一个字节的数据，且这个字节不是
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// poll.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">poll</span><span class="p">(</span><span class="k">struct</span> <span class="n">pollfd</span> <span class="o">*</span><span class="n">fds</span><span class="p">,</span> <span class="n">nfds_t</span> <span class="n">nfds</span><span class="p">,</span> <span class="kt">int</span> <span class="n">timeout</span><span class="p">);</span>
-<span class="c1">// return count of ready descriptors, 0 on timeout, -1 on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// poll.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">poll</span><span class="p">(</span><span class="k">struct</span> <span class="n">pollfd</span> <span class="o">*</span><span class="n">fds</span><span class="p">,</span> <span class="n">nfds_t</span> <span class="n">nfds</span><span class="p">,</span> <span class="kt">int</span> <span class="n">timeout</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// return count of ready descriptors, 0 on timeout, -1 on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="poll-参数与返回值" class="headerLink">
     <a href="#poll-%e5%8f%82%e6%95%b0%e4%b8%8e%e8%bf%94%e5%9b%9e%e5%80%bc" class="header-mark"></a>poll 参数与返回值</h3><ul>
@@ -911,12 +911,12 @@ Attacks)：如果客户端仅发送一个字节的数据，且这个字节不是
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">pollfd</span> <span class="p">{</span>
-  <span class="kt">int</span>   <span class="n">fd</span><span class="p">;</span>
-  <span class="kt">short</span> <span class="n">events</span><span class="p">;</span>   <span class="c1">// events of interest on fd
-</span><span class="c1"></span>  <span class="kt">short</span> <span class="n">revents</span><span class="p">;</span>  <span class="c1">// events that occurred on fd
-</span><span class="c1"></span><span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">pollfd</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span>   <span class="n">fd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">short</span> <span class="n">events</span><span class="p">;</span>   <span class="c1">// events of interest on fd
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">short</span> <span class="n">revents</span><span class="p">;</span>  <span class="c1">// events that occurred on fd
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>测试条件由 events 成员指定，函数在相应的 revents 成员中返回相应的状态，另外这些值可以以逻辑组合的形式传递给 poll 或读取</p>
 <table>
@@ -1114,76 +1114,76 @@ poll 将忽略这个元素。</p>
 </span><span class="lnt">69
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&lt;stdbool.h&gt;  // true</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&#34;unp.h&#34;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">listenfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
-    <span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
-    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span>
-  <span class="p">};</span>
-  <span class="k">const</span> <span class="n">socklen_t</span> <span class="n">addrlen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">);</span>
-  <span class="n">bind</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="n">addrlen</span><span class="p">);</span>
-  <span class="n">listen</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">LISTENQ</span><span class="p">);</span>
-  <span class="k">struct</span> <span class="n">pollfd</span> <span class="n">clients</span><span class="p">[</span><span class="n">LISTENQ</span><span class="p">];</span>
-  <span class="n">memset</span><span class="p">(</span><span class="n">clients</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">clients</span><span class="p">));</span>
-  <span class="n">clients</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">fd</span> <span class="o">=</span> <span class="n">listenfd</span><span class="p">;</span>
-  <span class="n">clients</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">events</span> <span class="o">=</span> <span class="n">POLLRDNORM</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">maxi</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">cliaddr</span><span class="p">;</span>
-  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">nready</span> <span class="o">=</span> <span class="n">poll</span><span class="p">(</span><span class="n">clients</span><span class="p">,</span> <span class="n">maxi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">INFTIM</span><span class="p">);</span>
-    <span class="kt">int</span> <span class="n">connfd</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">clients</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">revents</span> <span class="o">&amp;</span> <span class="n">POLLRDNORM</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">connfd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">cliaddr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">addrlen</span><span class="p">);</span>
-      <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
-      <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">LISTENQ</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">clients</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">fd</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-          <span class="n">clients</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">fd</span> <span class="o">=</span> <span class="n">connfd</span><span class="p">;</span>
-          <span class="n">clients</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">events</span> <span class="o">=</span> <span class="n">POLLRDNORM</span><span class="p">;</span>
-          <span class="k">break</span><span class="p">;</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">LISTENQ</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;too many clients&#34;</span><span class="p">);</span>
-      <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">maxi</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">maxi</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="o">--</span><span class="n">nready</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">continue</span><span class="p">;</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">maxi</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">((</span><span class="n">connfd</span> <span class="o">=</span> <span class="n">clients</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">fd</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">continue</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">clients</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">revents</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">POLLRDNORM</span> <span class="o">|</span> <span class="n">POLLERR</span><span class="p">))</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">if</span> <span class="p">(</span><span class="n">errno</span> <span class="o">==</span> <span class="n">ECONNRESET</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">close</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
-            <span class="n">clients</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">fd</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;read error&#34;</span><span class="p">);</span>
-          <span class="p">}</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-          <span class="n">close</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
-          <span class="n">clients</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">fd</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-          <span class="n">write</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">--</span><span class="n">nready</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">break</span><span class="p">;</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdbool.h&gt;  // true</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;unp.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">listenfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">const</span> <span class="n">socklen_t</span> <span class="n">addrlen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">bind</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="n">addrlen</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">listen</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">LISTENQ</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">pollfd</span> <span class="n">clients</span><span class="p">[</span><span class="n">LISTENQ</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="n">memset</span><span class="p">(</span><span class="n">clients</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">clients</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">clients</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">fd</span> <span class="o">=</span> <span class="n">listenfd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">clients</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">events</span> <span class="o">=</span> <span class="n">POLLRDNORM</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">maxi</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">cliaddr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">nready</span> <span class="o">=</span> <span class="n">poll</span><span class="p">(</span><span class="n">clients</span><span class="p">,</span> <span class="n">maxi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">INFTIM</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">connfd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">clients</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">revents</span> <span class="o">&amp;</span> <span class="n">POLLRDNORM</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">connfd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">cliaddr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">addrlen</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">LISTENQ</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">clients</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">fd</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">clients</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">fd</span> <span class="o">=</span> <span class="n">connfd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="n">clients</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">events</span> <span class="o">=</span> <span class="n">POLLRDNORM</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">LISTENQ</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;too many clients&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">maxi</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">maxi</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="o">--</span><span class="n">nready</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">maxi</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">((</span><span class="n">connfd</span> <span class="o">=</span> <span class="n">clients</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">fd</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">clients</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">revents</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">POLLRDNORM</span> <span class="o">|</span> <span class="n">POLLERR</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">if</span> <span class="p">(</span><span class="n">errno</span> <span class="o">==</span> <span class="n">ECONNRESET</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">close</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">clients</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">fd</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;read error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">          <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">close</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">          <span class="n">clients</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">fd</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">write</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">--</span><span class="n">nready</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="epoll-函数" class="headerLink">
     <a href="#epoll-%e5%87%bd%e6%95%b0" class="header-mark"></a>epoll 函数</h2><p>epoll 是 Linux 内核在 2.5.44 扩展的 I/O 事件通知机制，主要为了取代 select 与
@@ -1200,10 +1200,10 @@ poll，在大量操作文件描述符时为发挥更优异的性能。select 与
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// sys/epoll.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">epoll_create</span><span class="p">(</span><span class="kt">int</span> <span class="n">size</span><span class="p">);</span>
-<span class="c1">// return a epoll file descriptor, -1 on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// sys/epoll.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">epoll_create</span><span class="p">(</span><span class="kt">int</span> <span class="n">size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// return a epoll file descriptor, -1 on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>该函数用于在内核中创建一个 epoll 实例并返回一个 epoll 描述符，这个描述符可以理解为实例的唯一地址，在之后需要使用到该集合时就要用到该描述符。</p>
 <p>最初时参数 size 指示需要监听的描述符的数量，超过 size 时内核会自动扩容。如今
@@ -1216,10 +1216,10 @@ size 不再有此语义，但调用时必须传递大于 0 的 size 来保证向
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// sys/epoll.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">epoll_create1</span><span class="p">(</span><span class="kt">int</span> <span class="n">flag</span><span class="p">);</span>
-<span class="c1">// return a epoll file descriptor, -1 on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// sys/epoll.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">epoll_create1</span><span class="p">(</span><span class="kt">int</span> <span class="n">flag</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// return a epoll file descriptor, -1 on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>如果 flag 为 0 则与 <code>epoll_create</code> 行为相同，只是删除了过时的参数 size。或者传入参数 <strong>EPOLL_CLOEXEC</strong> 来取得不同的行为：为新的文件描述符添加 <code>close-on-exec</code>
 (<strong>FD_CLOEXEC</strong>) 标记，该标记与 <code>open</code> 函数的标记 <strong>O_CLOEXEC</strong> 相同。</p>
@@ -1231,10 +1231,10 @@ size 不再有此语义，但调用时必须传递大于 0 的 size 来保证向
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// sys/epoll.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">epoll_ctl</span><span class="p">(</span><span class="kt">int</span> <span class="n">epfd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">op</span><span class="p">,</span> <span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">epoll_event</span> <span class="o">*</span><span class="n">event</span><span class="p">);</span>
-<span class="c1">// return 0 if OK, -1 on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// sys/epoll.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">epoll_ctl</span><span class="p">(</span><span class="kt">int</span> <span class="n">epfd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">op</span><span class="p">,</span> <span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">epoll_event</span> <span class="o">*</span><span class="n">event</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// return 0 if OK, -1 on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>该函数对内核 epoll 实例进行监听描述符的添加、修改、删除操作。</p>
 <ul>
@@ -1259,17 +1259,17 @@ size 不再有此语义，但调用时必须传递大于 0 的 size 来保证向
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">typedef</span> <span class="k">union</span> <span class="n">epoll_data</span> <span class="p">{</span>
-  <span class="kt">void</span>        <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
-  <span class="kt">int</span>          <span class="n">fd</span><span class="p">;</span>
-  <span class="kt">uint32_t</span>     <span class="n">u32</span><span class="p">;</span>
-  <span class="kt">uint64_t</span>     <span class="n">u64</span><span class="p">;</span>
-<span class="p">}</span> <span class="n">epoll_data_t</span><span class="p">;</span>
-<span class="k">struct</span> <span class="n">epoll_event</span> <span class="p">{</span>
-  <span class="kt">uint32_t</span>     <span class="n">events</span><span class="p">;</span>  <span class="c1">// Epoll events
-</span><span class="c1"></span>  <span class="n">epoll_data_t</span> <span class="n">data</span><span class="p">;</span>    <span class="c1">// User data variable
-</span><span class="c1"></span><span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">union</span> <span class="n">epoll_data</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span>        <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span>          <span class="n">fd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">uint32_t</span>     <span class="n">u32</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">uint64_t</span>     <span class="n">u64</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">epoll_data_t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">epoll_event</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">uint32_t</span>     <span class="n">events</span><span class="p">;</span>  <span class="c1">// Epoll events
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">epoll_data_t</span> <span class="n">data</span><span class="p">;</span>    <span class="c1">// User data variable
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>在每次对描述符进行操作时，都需要设置 epoll_data_t 中的 fd 字段。epoll 中的事件可以取得如下值</p>
 <table>
@@ -1366,10 +1366,10 @@ size 不再有此语义，但调用时必须传递大于 0 的 size 来保证向
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// sys/epoll.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">epoll_wait</span><span class="p">(</span><span class="kt">int</span> <span class="n">epfd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">epoll_event</span> <span class="o">*</span><span class="n">events</span><span class="p">,</span> <span class="kt">int</span> <span class="n">maxevents</span><span class="p">,</span> <span class="kt">int</span> <span class="n">timeout</span><span class="p">);</span>
-<span class="c1">// positive count of ready descriptors, 0 on timeout, -1 on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// sys/epoll.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">epoll_wait</span><span class="p">(</span><span class="kt">int</span> <span class="n">epfd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">epoll_event</span> <span class="o">*</span><span class="n">events</span><span class="p">,</span> <span class="kt">int</span> <span class="n">maxevents</span><span class="p">,</span> <span class="kt">int</span> <span class="n">timeout</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// positive count of ready descriptors, 0 on timeout, -1 on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>epoll_wait</code> 是真正等待事件发生的 API，与之前的 poll 和 select 一样，timeout 是超时函数，但单位为毫秒 (millisecond)，0 ms 意味着立即返回，-1 则可以让 epoll 永远阻塞，直到以下三种情况之一发生 (当然第三种不会发生)</p>
 <ul>
@@ -1457,55 +1457,55 @@ read / write 返回 EAGAIN 为止。事件驱动的状态机程序在 EAGAIN 发
 </span><span class="lnt">48
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#define MAX_EVENTS 10
-</span><span class="cp"></span><span class="k">struct</span> <span class="n">epoll_event</span> <span class="n">ev</span><span class="p">,</span> <span class="n">events</span><span class="p">[</span><span class="n">MAX_EVENTS</span><span class="p">];</span>
-<span class="kt">int</span> <span class="n">listen_sock</span><span class="p">,</span> <span class="n">conn_sock</span><span class="p">,</span> <span class="n">nfds</span><span class="p">,</span> <span class="n">epollfd</span><span class="p">;</span>
-
-<span class="cm">/* Code to set up listening socket, &#39;listen_sock&#39;,
-</span><span class="cm">   (socket(), bind(), listen()) omitted. */</span>
-
-<span class="n">epollfd</span> <span class="o">=</span> <span class="n">epoll_create1</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">epollfd</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">perror</span><span class="p">(</span><span class="s">&#34;epoll_create1&#34;</span><span class="p">);</span>
-  <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="n">ev</span><span class="p">.</span><span class="n">events</span> <span class="o">=</span> <span class="n">EPOLLIN</span><span class="p">;</span>
-<span class="n">ev</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span> <span class="o">=</span> <span class="n">listen_sock</span><span class="p">;</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span> <span class="n">EPOLL_CTL_ADD</span><span class="p">,</span> <span class="n">listen_sock</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ev</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">perror</span><span class="p">(</span><span class="s">&#34;epoll_ctl: listen_sock&#34;</span><span class="p">);</span>
-  <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="k">for</span> <span class="p">(;;)</span> <span class="p">{</span>
-  <span class="n">nfds</span> <span class="o">=</span> <span class="n">epoll_wait</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">MAX_EVENTS</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">nfds</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">perror</span><span class="p">(</span><span class="s">&#34;epoll_wait&#34;</span><span class="p">);</span>
-    <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="k">for</span> <span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">nfds</span><span class="p">;</span> <span class="o">++</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="n">n</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span> <span class="o">==</span> <span class="n">listen_sock</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">conn_sock</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listen_sock</span><span class="p">,</span>
-                         <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">addrlen</span><span class="p">);</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">conn_sock</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">perror</span><span class="p">(</span><span class="s">&#34;accept&#34;</span><span class="p">);</span>
-        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
-      <span class="p">}</span>
-      <span class="n">setnonblocking</span><span class="p">(</span><span class="n">conn_sock</span><span class="p">);</span>
-      <span class="n">ev</span><span class="p">.</span><span class="n">events</span> <span class="o">=</span> <span class="n">EPOLLIN</span> <span class="o">|</span> <span class="n">EPOLLET</span><span class="p">;</span>
-      <span class="n">ev</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span> <span class="o">=</span> <span class="n">conn_sock</span><span class="p">;</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span> <span class="n">EPOLL_CTL_ADD</span><span class="p">,</span> <span class="n">conn_sock</span><span class="p">,</span>
-                    <span class="o">&amp;</span><span class="n">ev</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">perror</span><span class="p">(</span><span class="s">&#34;epoll_ctl: conn_sock&#34;</span><span class="p">);</span>
-        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
-      <span class="p">}</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="n">do_use_fd</span><span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="n">n</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#define MAX_EVENTS 10
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">struct</span> <span class="n">epoll_event</span> <span class="n">ev</span><span class="p">,</span> <span class="n">events</span><span class="p">[</span><span class="n">MAX_EVENTS</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">listen_sock</span><span class="p">,</span> <span class="n">conn_sock</span><span class="p">,</span> <span class="n">nfds</span><span class="p">,</span> <span class="n">epollfd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/* Code to set up listening socket, &#39;listen_sock&#39;,
+</span></span></span><span class="line"><span class="cl"><span class="cm">   (socket(), bind(), listen()) omitted. */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">epollfd</span> <span class="o">=</span> <span class="n">epoll_create1</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">epollfd</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">perror</span><span class="p">(</span><span class="s">&#34;epoll_create1&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ev</span><span class="p">.</span><span class="n">events</span> <span class="o">=</span> <span class="n">EPOLLIN</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">ev</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span> <span class="o">=</span> <span class="n">listen_sock</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span> <span class="n">EPOLL_CTL_ADD</span><span class="p">,</span> <span class="n">listen_sock</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ev</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">perror</span><span class="p">(</span><span class="s">&#34;epoll_ctl: listen_sock&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(;;)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">nfds</span> <span class="o">=</span> <span class="n">epoll_wait</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">MAX_EVENTS</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">nfds</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">perror</span><span class="p">(</span><span class="s">&#34;epoll_wait&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">nfds</span><span class="p">;</span> <span class="o">++</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="n">n</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span> <span class="o">==</span> <span class="n">listen_sock</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">conn_sock</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listen_sock</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                         <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">addrlen</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">conn_sock</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">perror</span><span class="p">(</span><span class="s">&#34;accept&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">setnonblocking</span><span class="p">(</span><span class="n">conn_sock</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">ev</span><span class="p">.</span><span class="n">events</span> <span class="o">=</span> <span class="n">EPOLLIN</span> <span class="o">|</span> <span class="n">EPOLLET</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">ev</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span> <span class="o">=</span> <span class="n">conn_sock</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span> <span class="n">EPOLL_CTL_ADD</span><span class="p">,</span> <span class="n">conn_sock</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">&amp;</span><span class="n">ev</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">perror</span><span class="p">(</span><span class="s">&#34;epoll_ctl: conn_sock&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">do_use_fd</span><span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="n">n</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="epoll-tcp-echo-server" class="headerLink">
     <a href="#epoll-tcp-echo-server" class="header-mark"></a>epoll: TCP echo server</h4><p>又双叒叕重写 TCP echo server，本次使用 epoll LT 模式实现</p>
@@ -1567,61 +1567,61 @@ read / write 返回 EAGAIN 为止。事件驱动的状态机程序在 EAGAIN 发
 </span><span class="lnt">54
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&lt;stdbool.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;sys/epoll.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&#34;unp.h&#34;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="cp">#define MAX_EVENTS 1024
-</span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">listenfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
-    <span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
-    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span>
-  <span class="p">};</span>
-  <span class="k">const</span> <span class="n">socklen_t</span> <span class="n">addrlen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">);</span>
-  <span class="n">bind</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="n">addrlen</span><span class="p">);</span>
-  <span class="n">listen</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">LISTENQ</span><span class="p">);</span>
-  <span class="kt">int</span> <span class="n">epollfd</span> <span class="o">=</span> <span class="n">epoll_create1</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="k">struct</span> <span class="n">epoll_event</span> <span class="n">ev</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="p">.</span><span class="n">events</span> <span class="o">=</span> <span class="n">EPOLLIN</span><span class="p">,</span>
-    <span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="p">.</span><span class="n">fd</span> <span class="o">=</span> <span class="n">listenfd</span><span class="p">,</span>
-    <span class="p">},</span>
-  <span class="p">};</span>
-  <span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span> <span class="n">EPOLL_CTL_ADD</span><span class="p">,</span> <span class="n">listenfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ev</span><span class="p">);</span>
-  <span class="k">struct</span> <span class="n">epoll_event</span> <span class="n">events</span><span class="p">[</span><span class="n">MAX_EVENTS</span><span class="p">];</span>
-  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">cliaddr</span><span class="p">;</span>
-  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">nready</span> <span class="o">=</span> <span class="n">epoll_wait</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">MAX_EVENTS</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nready</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span> <span class="o">==</span> <span class="n">listenfd</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kt">int</span> <span class="n">connfd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">cliaddr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">addrlen</span><span class="p">);</span>
-        <span class="n">ev</span><span class="p">.</span><span class="n">events</span> <span class="o">=</span> <span class="n">EPOLLIN</span><span class="p">;</span>
-        <span class="n">ev</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span> <span class="o">=</span> <span class="n">connfd</span><span class="p">;</span>
-        <span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span> <span class="n">EPOLL_CTL_ADD</span><span class="p">,</span> <span class="n">connfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ev</span><span class="p">);</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">if</span> <span class="p">(</span><span class="n">errno</span> <span class="o">==</span> <span class="n">ECONNRESET</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">close</span><span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span><span class="p">);</span>
-            <span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span> <span class="n">EPOLL_CTL_DEL</span><span class="p">,</span> <span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ev</span><span class="p">);</span>
-          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;read error&#34;</span><span class="p">);</span>
-          <span class="p">}</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-          <span class="n">close</span><span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span><span class="p">);</span>
-          <span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span> <span class="n">EPOLL_CTL_DEL</span><span class="p">,</span> <span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ev</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-          <span class="n">write</span><span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdbool.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/epoll.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;unp.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#define MAX_EVENTS 1024
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">listenfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">const</span> <span class="n">socklen_t</span> <span class="n">addrlen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">bind</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="n">addrlen</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">listen</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">LISTENQ</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">epollfd</span> <span class="o">=</span> <span class="n">epoll_create1</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">epoll_event</span> <span class="n">ev</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">events</span> <span class="o">=</span> <span class="n">EPOLLIN</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="p">.</span><span class="n">fd</span> <span class="o">=</span> <span class="n">listenfd</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span> <span class="n">EPOLL_CTL_ADD</span><span class="p">,</span> <span class="n">listenfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ev</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">epoll_event</span> <span class="n">events</span><span class="p">[</span><span class="n">MAX_EVENTS</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">cliaddr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">nready</span> <span class="o">=</span> <span class="n">epoll_wait</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">MAX_EVENTS</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nready</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span> <span class="o">==</span> <span class="n">listenfd</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">connfd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">cliaddr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">addrlen</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ev</span><span class="p">.</span><span class="n">events</span> <span class="o">=</span> <span class="n">EPOLLIN</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ev</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span> <span class="o">=</span> <span class="n">connfd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span> <span class="n">EPOLL_CTL_ADD</span><span class="p">,</span> <span class="n">connfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ev</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">if</span> <span class="p">(</span><span class="n">errno</span> <span class="o">==</span> <span class="n">ECONNRESET</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">close</span><span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span> <span class="n">EPOLL_CTL_DEL</span><span class="p">,</span> <span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ev</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;read error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">          <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">close</span><span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">          <span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epollfd</span><span class="p">,</span> <span class="n">EPOLL_CTL_DEL</span><span class="p">,</span> <span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ev</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">write</span><span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">fd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="poxis-变种" class="headerLink">
     <a href="#poxis-%e5%8f%98%e7%a7%8d" class="header-mark"></a>POXIS 变种</h2><h3 id="pselect-函数" class="headerLink">
@@ -1638,15 +1638,15 @@ read / write 返回 EAGAIN 为止。事件驱动的状态机程序在 EAGAIN 发
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// sys/select.h
-</span><span class="c1">// sys/time.h
-</span><span class="c1">// sys/types.h
-</span><span class="c1">// unistd.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">pselect</span><span class="p">(</span><span class="kt">int</span> <span class="n">nfds</span><span class="p">,</span> <span class="n">fd_set</span> <span class="o">*</span><span class="n">readfds</span><span class="p">,</span> <span class="n">fd_set</span> <span class="o">*</span><span class="n">writefds</span><span class="p">,</span>
-            <span class="n">fd_set</span> <span class="o">*</span><span class="n">exceptfds</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">timespec</span> <span class="o">*</span><span class="n">timeout</span><span class="p">,</span>
-            <span class="k">const</span> <span class="n">sigset_t</span> <span class="o">*</span><span class="n">sigmask</span><span class="p">);</span>
-<span class="c1">// return count of ready descriptors, 0 on timeout, -1 on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// sys/select.h
+</span></span></span><span class="line"><span class="cl"><span class="c1">// sys/time.h
+</span></span></span><span class="line"><span class="cl"><span class="c1">// sys/types.h
+</span></span></span><span class="line"><span class="cl"><span class="c1">// unistd.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">pselect</span><span class="p">(</span><span class="kt">int</span> <span class="n">nfds</span><span class="p">,</span> <span class="n">fd_set</span> <span class="o">*</span><span class="n">readfds</span><span class="p">,</span> <span class="n">fd_set</span> <span class="o">*</span><span class="n">writefds</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">fd_set</span> <span class="o">*</span><span class="n">exceptfds</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">timespec</span> <span class="o">*</span><span class="n">timeout</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="k">const</span> <span class="n">sigset_t</span> <span class="o">*</span><span class="n">sigmask</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// return count of ready descriptors, 0 on timeout, -1 on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>pselect 与 select 函数有两处不同</p>
 <ul>
@@ -1660,11 +1660,11 @@ read / write 返回 EAGAIN 为止。事件驱动的状态机程序在 EAGAIN 发
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">timespec</span> <span class="p">{</span>
-  <span class="n">time_t</span> <span class="n">tv_sec</span><span class="p">;</span>  <span class="c1">// seconds
-</span><span class="c1"></span>  <span class="kt">long</span> <span class="n">tv_nsec</span><span class="p">;</span>   <span class="c1">// nanoseconds
-</span><span class="c1"></span><span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">timespec</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">time_t</span> <span class="n">tv_sec</span><span class="p">;</span>  <span class="c1">// seconds
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">long</span> <span class="n">tv_nsec</span><span class="p">;</span>   <span class="c1">// nanoseconds
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 <li>
@@ -1691,13 +1691,13 @@ read / write 返回 EAGAIN 为止。事件驱动的状态机程序在 EAGAIN 发
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// sys/poll.h
-</span><span class="c1">// sys/time.h
-</span><span class="c1">// sys/types.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">ppoll</span><span class="p">(</span><span class="k">struct</span> <span class="n">pollfd</span> <span class="o">*</span><span class="n">fds</span><span class="p">,</span> <span class="n">nfds_t</span> <span class="n">nfds</span><span class="p">,</span>
-          <span class="k">const</span> <span class="k">struct</span> <span class="n">timespec</span> <span class="o">*</span><span class="n">timeout</span><span class="p">,</span> <span class="k">const</span> <span class="n">sigset_t</span> <span class="o">*</span><span class="n">sigmask</span><span class="p">);</span>
-<span class="c1">// return count of ready descriptors, 0 on timeout, -1 on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// sys/poll.h
+</span></span></span><span class="line"><span class="cl"><span class="c1">// sys/time.h
+</span></span></span><span class="line"><span class="cl"><span class="c1">// sys/types.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">ppoll</span><span class="p">(</span><span class="k">struct</span> <span class="n">pollfd</span> <span class="o">*</span><span class="n">fds</span><span class="p">,</span> <span class="n">nfds_t</span> <span class="n">nfds</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="k">const</span> <span class="k">struct</span> <span class="n">timespec</span> <span class="o">*</span><span class="n">timeout</span><span class="p">,</span> <span class="k">const</span> <span class="n">sigset_t</span> <span class="o">*</span><span class="n">sigmask</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// return count of ready descriptors, 0 on timeout, -1 on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>ppoll 参数 fds 与 nfds 与 poll 一致，参数 timeout 与 sigmask 与 pselect 一致</p>
 </div>
@@ -1734,7 +1734,7 @@ read / write 返回 EAGAIN 为止。事件驱动的状态机程序在 EAGAIN 发
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

@@ -192,11 +192,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">square</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span><span class="p">))</span>
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">square</span> <span class="nv">x</span><span class="p">)</span>
-  <span class="p">(</span><span class="nb">exp </span><span class="p">(</span><span class="nf">double</span> <span class="p">(</span><span class="nb">log </span><span class="nv">x</span><span class="p">))))</span>
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">double</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="nv">x</span><span class="p">))</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">square</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">square</span> <span class="nv">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nb">exp </span><span class="p">(</span><span class="nf">double</span> <span class="p">(</span><span class="nb">log </span><span class="nv">x</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">double</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="nv">x</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>以上这两个 <code>square</code> 过程，当我们只考虑返回值，那么它们是不可区分的。由此可见，一个过程应该能藏起一些细节，这将使过程的使用者不必自己去实现这些过程或弄清如何实现过程，作为一个黑箱而接受它。</p>
 <p>形式参数的名称是用户不必关心的细节之一，形式参数的具体名称是什么完全不重要，它们也被成为 <strong>约束变量</strong>，过程的定义不受约束变量名称的改变而改变，约束变量被定义的那些表达式的集合称作 <strong>作用域</strong>。</p>
@@ -215,17 +215,17 @@
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">sqrt </span><span class="nv">x</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">good-enough?</span> <span class="nv">guess</span><span class="p">)</span>
-    <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">square</span> <span class="nv">guess</span><span class="p">)</span> <span class="nv">x</span><span class="p">))</span> <span class="mf">0.000000000001</span><span class="p">))</span>
-  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">improve</span> <span class="nv">guess</span><span class="p">)</span>
-    <span class="p">(</span><span class="nf">average</span> <span class="nv">guess</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">x</span> <span class="nv">guess</span><span class="p">)))</span>
-  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sqrt-iter</span> <span class="nv">guess</span><span class="p">)</span>
-    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">good-enough?</span> <span class="nv">guess</span><span class="p">)</span>
-        <span class="nv">guess</span>
-        <span class="p">(</span><span class="nf">sqrt-iter</span> <span class="p">(</span><span class="nf">improve</span> <span class="nv">guess</span><span class="p">))))</span>
-  <span class="p">(</span><span class="nf">sqrt-iter</span> <span class="mf">1.0</span><span class="p">))</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">sqrt </span><span class="nv">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">good-enough?</span> <span class="nv">guess</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nb">abs </span><span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">square</span> <span class="nv">guess</span><span class="p">)</span> <span class="nv">x</span><span class="p">))</span> <span class="mf">0.000000000001</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">improve</span> <span class="nv">guess</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="nf">average</span> <span class="nv">guess</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">x</span> <span class="nv">guess</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sqrt-iter</span> <span class="nv">guess</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">good-enough?</span> <span class="nv">guess</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">guess</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nf">sqrt-iter</span> <span class="p">(</span><span class="nf">improve</span> <span class="nv">guess</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nf">sqrt-iter</span> <span class="mf">1.0</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>可以发现，将过程定义在内部，因为x在sqrt的定义中是受约束的，其他过程也定义在sqrt
 中，即x的作用域中，它们都可以直接使用x，这被称为 <strong>词法作用域</strong>。</p>
@@ -240,11 +240,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">factorial</span> <span class="nv">n</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">))</span>
-      <span class="mi">1</span>
-      <span class="p">(</span><span class="nb">* </span><span class="nv">n</span> <span class="p">(</span><span class="nf">factorial</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))))</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">factorial</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">      <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="nb">* </span><span class="nv">n</span> <span class="p">(</span><span class="nf">factorial</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))))</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这个计算过程中，通过代换模型可以看出计算是一种先逐步展开而后收缩的形状，计算过程构造起一个 <code>推迟进行的操作</code> 所形成的链条，收缩阶段表现为这些运算的实际执行，这种计算过程被称为 <strong>递归计算过程</strong>。如果要执行这个过程，解释器就必须维护好以后要执行的操作的轨迹，这个例子中推迟执行的乘法链条的长度也就是为保存其轨迹需要保存的信息量，这个长度随着n值的增加而线性增长，这个过程被称为 <strong>线性递归计算</strong>。</p>
 <div class="highlight"><div class="chroma">
@@ -257,13 +257,13 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">factorial</span> <span class="nv">n</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter</span> <span class="nv">product</span> <span class="nv">counter</span><span class="p">)</span>
-    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">counter</span> <span class="nv">n</span><span class="p">)</span>
-        <span class="nv">product</span>
-        <span class="p">(</span><span class="nf">fact-iter</span> <span class="p">(</span><span class="nb">* </span><span class="nv">counter</span> <span class="nv">product</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">counter</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">n</span><span class="p">)))</span>
-  <span class="p">(</span><span class="nf">iter</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">))</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">factorial</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">iter</span> <span class="nv">product</span> <span class="nv">counter</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">counter</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">product</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nf">fact-iter</span> <span class="p">(</span><span class="nb">* </span><span class="nv">counter</span> <span class="nv">product</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">counter</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">n</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nf">iter</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这个计算过程中没有任何增长或收缩，计算过程的每一步，需要保存的轨迹就是变量
 <code>product</code> 和 <code>counter</code> 的当前值，我们称这个过程为 <strong>迭代计算过程</strong>。迭代计算过程就是那种其状态可以用固定数目的状态变量描述的计算过程，同时又存在一套固定的规则描述了计算过程从一个状态到另一个状态转换时状态变量的更新方式，还有一个结束状态的检测用以描述计算过程如何终止。计算阶乘的这一计算过程中，所需计算步骤随着n增长而线性增长，这个过程被称为 <strong>线性迭代计算</strong>。</p>
@@ -278,12 +278,12 @@
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fib</span> <span class="nv">n</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">fib</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))</span>
-                 <span class="p">(</span><span class="nf">fib</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">2</span><span class="p">))))))</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fib</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">fib</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                 <span class="p">(</span><span class="nf">fib</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">2</span><span class="p">))))))</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><figure><img src="/ox-hugo/fibonacci-recursion.png"/>
 </figure>
@@ -299,13 +299,13 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fib</span> <span class="nv">n</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fib-iter</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">count</span><span class="p">)</span>
-    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">count</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="nv">b</span>
-        <span class="p">(</span><span class="nf">fib-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="nv">a</span> <span class="p">(</span><span class="nb">- </span><span class="nv">count</span> <span class="mi">1</span><span class="p">))))</span>
-  <span class="p">(</span><span class="nf">fib-iter</span> <span class="mi">1</span> <span class="mi">0</span> <span class="nv">n</span><span class="p">))</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fib</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fib-iter</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">count</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">count</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">b</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nf">fib-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="nv">a</span> <span class="p">(</span><span class="nb">- </span><span class="nv">count</span> <span class="mi">1</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nf">fib-iter</span> <span class="mi">1</span> <span class="mi">0</span> <span class="nv">n</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>树形递归计算过程并不是无用的，当考虑在层次结构性的数据上操作，而不是对数操作时，树形递归计算过程是一种自然、威力强大的工具，可以帮助我们理解与设计程序。</p>
 <h3 id="增长的阶" class="headerLink">
@@ -322,8 +322,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="p">((</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span> <span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="nv">y</span> <span class="p">(</span><span class="nb">* </span><span class="nv">z</span> <span class="nv">z</span><span class="p">)))</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">((</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span> <span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="nv">y</span> <span class="p">(</span><span class="nb">* </span><span class="nv">z</span> <span class="nv">z</span><span class="p">)))</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>高阶过程的重要性，就在于使我们能显示地用程序设计语言的要素去描述这些抽象，使我们能像操作其他计算元素一样去操作它们。一般而言，程序设计语言总会对计算元素的可能使用方式强加上某些限制，带上最少限制的元素被称为 <strong>第一级</strong> 的状态，第一级元素的某些特权包括:</p>
 <ul>
@@ -366,7 +366,7 @@
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

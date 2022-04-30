@@ -328,15 +328,15 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">TreeBaseNode</span> <span class="p">{</span>
-  <span class="n">TreeBaseNode</span><span class="o">*</span> <span class="n">first_child</span><span class="p">;</span>
-  <span class="n">TreeBaseNode</span><span class="o">*</span> <span class="n">next_sibling</span><span class="p">;</span>
-<span class="p">};</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="nc">TreeNode</span> <span class="p">{</span>
-  <span class="n">Element</span> <span class="n">data</span><span class="p">;</span>
-<span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">TreeBaseNode</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">TreeBaseNode</span><span class="o">*</span> <span class="n">first_child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">TreeBaseNode</span><span class="o">*</span> <span class="n">next_sibling</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">TreeNode</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Element</span> <span class="n">data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>如果我们用这个结构实现上述图示的树，可以画一下其表示。</p>
 <figure><img src="/ox-hugo/tree-example-in-implement.svg"/>
@@ -364,15 +364,15 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">filesystem</span><span class="o">::</span><span class="n">list_all</span><span class="p">(</span><span class="n">file</span><span class="o">&amp;</span> <span class="n">f</span><span class="p">,</span> <span class="kt">int</span> <span class="n">depth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
-  <span class="n">print_name</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">depth</span><span class="p">);</span>  <span class="c1">// 打印文件的名称
-</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">is_directory</span><span class="p">(</span><span class="n">f</span><span class="p">))</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">file</span> <span class="nl">p</span> <span class="p">:</span> <span class="n">get_file_list</span><span class="p">(</span><span class="n">f</span><span class="p">))</span> <span class="p">{</span> <span class="c1">// 遍历目录中的每个文件
-</span><span class="c1"></span>      <span class="n">list_all</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">filesystem</span><span class="o">::</span><span class="n">list_all</span><span class="p">(</span><span class="n">file</span><span class="o">&amp;</span> <span class="n">f</span><span class="p">,</span> <span class="kt">int</span> <span class="n">depth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">print_name</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">depth</span><span class="p">);</span>  <span class="c1">// 打印文件的名称
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">is_directory</span><span class="p">(</span><span class="n">f</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">file</span> <span class="nl">p</span> <span class="p">:</span> <span class="n">get_file_list</span><span class="p">(</span><span class="n">f</span><span class="p">))</span> <span class="p">{</span> <span class="c1">// 遍历目录中的每个文件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="n">list_all</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>最终的输出结果可能是：</p>
 <div class="highlight"><div class="chroma">
@@ -404,32 +404,32 @@
 </span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">/
- |--- mnt/
- |--- home/
-       |--- GinShio/
- |--- usr
-       |--- LICENSE
-       |--- lib/
-             |--- libQt5Core.so
-             |--- X11/
-                   |--- display-manager
-                   |--- etc/
-                   |--- displaymanagers/
-                         |--- console
-                         |--- lightdm
-                         |--- sddm
-                         |--- xdm
-             |--- libstdc++.so.6
-             |--- mozilla/
-                   |--- kmozillahelper
-       |--- bin/
-             |--- latexmk
-             |--- pdftk
-             |--- zsh
-.....
-.....
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/
+</span></span><span class="line"><span class="cl"> |--- mnt/
+</span></span><span class="line"><span class="cl"> |--- home/
+</span></span><span class="line"><span class="cl">       |--- GinShio/
+</span></span><span class="line"><span class="cl"> |--- usr
+</span></span><span class="line"><span class="cl">       |--- LICENSE
+</span></span><span class="line"><span class="cl">       |--- lib/
+</span></span><span class="line"><span class="cl">             |--- libQt5Core.so
+</span></span><span class="line"><span class="cl">             |--- X11/
+</span></span><span class="line"><span class="cl">                   |--- display-manager
+</span></span><span class="line"><span class="cl">                   |--- etc/
+</span></span><span class="line"><span class="cl">                   |--- displaymanagers/
+</span></span><span class="line"><span class="cl">                         |--- console
+</span></span><span class="line"><span class="cl">                         |--- lightdm
+</span></span><span class="line"><span class="cl">                         |--- sddm
+</span></span><span class="line"><span class="cl">                         |--- xdm
+</span></span><span class="line"><span class="cl">             |--- libstdc++.so.6
+</span></span><span class="line"><span class="cl">             |--- mozilla/
+</span></span><span class="line"><span class="cl">                   |--- kmozillahelper
+</span></span><span class="line"><span class="cl">       |--- bin/
+</span></span><span class="line"><span class="cl">             |--- latexmk
+</span></span><span class="line"><span class="cl">             |--- pdftk
+</span></span><span class="line"><span class="cl">             |--- zsh
+</span></span><span class="line"><span class="cl">.....
+</span></span><span class="line"><span class="cl">.....
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>在遍历中，每访问一个结点时，对结点的处理工作总是比其子结点的处理先进行，这种先处理根再处理子结点的策略被称为 <strong>前序遍历</strong> (preorder traversal)。而另一种常用的遍历方法是 <strong>后序遍历</strong> (postorder traversal)，即在结点的所有子结点处理完成后再对其进行处理。无论这两种遍历的哪一个，在遍历这个树时总是可以在 \(\mathcal{O}(N)\) 的时间复杂度里完成。对于目录的 postorder traversal 留给读者思考并实现。</p>
 <p>现在考虑这两种算法有什么共通的特点。有没有发现它们都是在一棵子树上处理完所有结点之后再转移到另一棵子树上，这种一直向着 child 递归，直到全部递归结束时再向
@@ -486,14 +486,14 @@ stack 的帮助才能改为 loop。</p>
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">BinaryTreeBaseNode</span> <span class="p">{</span>
-  <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">left</span><span class="p">,</span><span class="o">*</span> <span class="n">right</span><span class="p">;</span>
-<span class="p">};</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="nc">BinaryTreeNode</span> <span class="o">:</span> <span class="n">BinaryTreeBaseNode</span> <span class="p">{</span>
-  <span class="n">Element</span> <span class="n">data</span><span class="p">;</span>
-<span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">BinaryTreeBaseNode</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">left</span><span class="p">,</span><span class="o">*</span> <span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">BinaryTreeNode</span> <span class="o">:</span> <span class="n">BinaryTreeBaseNode</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Element</span> <span class="n">data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>在这里给出求解二叉树 root 中，node 的高度和深度</p>
 <div class="highlight"><div class="chroma">
@@ -520,27 +520,27 @@ stack 的帮助才能改为 loop。</p>
 </span><span class="lnt">20
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// 求解结点 node 的高度
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">node_height</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">node</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">max</span><span class="p">(</span><span class="n">binary_tree_height</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">),</span>
-             <span class="n">binary_tree_height</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="c1">// 求解结点 node 在树 root 中的深度
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">node_depth</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">,</span> <span class="k">const</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="kt">int</span> <span class="n">left_depth</span> <span class="o">=</span> <span class="n">node_depth</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">node</span><span class="p">);</span>
-  <span class="kt">int</span> <span class="n">right_depth</span> <span class="o">=</span> <span class="n">node_depth</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">node</span><span class="p">);</span>
-  <span class="k">return</span> <span class="n">left_depth</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="o">?</span> <span class="p">(</span><span class="n">right_depth</span> <span class="o">+=</span> <span class="n">right_depth</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">:</span> <span class="p">(</span><span class="n">left_depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// 求解结点 node 的高度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">node_height</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">node</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">max</span><span class="p">(</span><span class="n">binary_tree_height</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">             <span class="n">binary_tree_height</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 求解结点 node 在树 root 中的深度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">node_depth</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">,</span> <span class="k">const</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">left_depth</span> <span class="o">=</span> <span class="n">node_depth</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">right_depth</span> <span class="o">=</span> <span class="n">node_depth</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">left_depth</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="o">?</span> <span class="p">(</span><span class="n">right_depth</span> <span class="o">+=</span> <span class="n">right_depth</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">:</span> <span class="p">(</span><span class="n">left_depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>如果想要从结点向上求解某些数据时，并不容易做到，因为 child 没有指向 parent 的指针，需要遍历树找到 node 的 parent 才能操作。</p>
 <div class="highlight"><div class="chroma">
@@ -558,18 +558,18 @@ stack 的帮助才能改为 loop。</p>
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// 求解结点 node 的 parent，如果不存在返回 nullptr
-</span><span class="c1"></span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="nf">get_parent</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">,</span> <span class="k">const</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">||</span> <span class="n">root</span> <span class="o">==</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">==</span> <span class="n">node</span> <span class="o">||</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">==</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">auto</span> <span class="n">left</span> <span class="o">=</span> <span class="n">get_parent</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">node</span><span class="p">);</span>
-  <span class="k">return</span> <span class="n">left</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">?</span> <span class="n">get_parent</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span> <span class="o">:</span> <span class="n">left</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// 求解结点 node 的 parent，如果不存在返回 nullptr
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="nf">get_parent</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">,</span> <span class="k">const</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">||</span> <span class="n">root</span> <span class="o">==</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">==</span> <span class="n">node</span> <span class="o">||</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">==</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">auto</span> <span class="n">left</span> <span class="o">=</span> <span class="n">get_parent</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">left</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">?</span> <span class="n">get_parent</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span> <span class="o">:</span> <span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>为了方便实现我们自然而然的会在链域中添加指向 <code>parent</code> 的指针。这样在求解 sibling、
 uncle 时十分方便，并且求解结点的深度时不再需要将其等价为 root 到 node 的路径长。需要注意的是，root 是没有 parent 的。</p>
@@ -593,15 +593,15 @@ uncle 时十分方便，并且求解结点的深度时不再需要将其等价�
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">preorder</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">process</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
-  <span class="n">preorder</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
-  <span class="n">preorder</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">preorder</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">process</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">preorder</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">preorder</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="loop" class="headerLink">
     <a href="#loop" class="header-mark"></a>loop</h5><div class="highlight"><div class="chroma">
@@ -621,20 +621,20 @@ uncle 时十分方便，并且求解结点的深度时不再需要将其等价�
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">preorder</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">stack</span> <span class="n">s</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">||</span> <span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">process</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
-      <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
-      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
-    <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">rightl</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">preorder</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">stack</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">||</span> <span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">process</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">rightl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="二叉树的中序遍历" class="headerLink">
     <a href="#%e4%ba%8c%e5%8f%89%e6%a0%91%e7%9a%84%e4%b8%ad%e5%ba%8f%e9%81%8d%e5%8e%86" class="header-mark"></a>二叉树的中序遍历</h4><h5 id="recursion" class="headerLink">
@@ -650,15 +650,15 @@ uncle 时十分方便，并且求解结点的深度时不再需要将其等价�
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">inorder</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">preorder</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
-  <span class="n">process</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
-  <span class="n">preorder</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">inorder</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">preorder</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">process</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">preorder</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="loop" class="headerLink">
     <a href="#loop" class="header-mark"></a>loop</h5><div class="highlight"><div class="chroma">
@@ -678,20 +678,20 @@ uncle 时十分方便，并且求解结点的深度时不再需要将其等价�
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">preorder</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">stack</span> <span class="n">s</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">||</span> <span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
-      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
-    <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-    <span class="n">process</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">rightl</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">preorder</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">stack</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">||</span> <span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">process</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">rightl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="二叉树的后序遍历" class="headerLink">
     <a href="#%e4%ba%8c%e5%8f%89%e6%a0%91%e7%9a%84%e5%90%8e%e5%ba%8f%e9%81%8d%e5%8e%86" class="header-mark"></a>二叉树的后序遍历</h4><h5 id="recursion" class="headerLink">
@@ -707,15 +707,15 @@ uncle 时十分方便，并且求解结点的深度时不再需要将其等价�
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">postorder</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">preorder</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
-  <span class="n">preorder</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
-  <span class="n">process</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">postorder</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">preorder</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">preorder</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">process</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="loop" class="headerLink">
     <a href="#loop" class="header-mark"></a>loop</h5><p>在后序遍历中，在左子结点处理完成后，只有结点没有右子结点或右子结点处理完之后，才能对结点进行处理。因此需要判别当前结点的 <code>右子结点为空</code> 或 <code>刚刚处理过的结点</code> 是该结点的右子结点。判断右子结点为空十分简单，但是问题是如何记录刚刚访问过的结点？</p>
@@ -744,27 +744,27 @@ uncle 时十分方便，并且求解结点的深度时不再需要将其等价�
 </span><span class="lnt">20
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">postorder</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">stack</span> <span class="n">s</span><span class="p">;</span>
-  <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">prev</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">||</span> <span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
-      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
-    <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">||</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">==</span> <span class="n">prev</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">prev</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
-      <span class="n">process</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
-      <span class="n">root</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
-      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">postorder</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">stack</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">prev</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">||</span> <span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">||</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">==</span> <span class="n">prev</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">prev</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">process</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">root</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="一个异构的前序遍历" class="headerLink">
     <a href="#%e4%b8%80%e4%b8%aa%e5%bc%82%e6%9e%84%e7%9a%84%e5%89%8d%e5%ba%8f%e9%81%8d%e5%8e%86" class="header-mark"></a>一个异构的前序遍历</h5><p>如果你在对一个单词串进行翻转时，有一个简单可行的方法：先将单词串整体翻转，之后再逐词翻转。这样你就得到了一个对单词串的翻转！</p>
@@ -796,24 +796,24 @@ uncle 时十分方便，并且求解结点的深度时不再需要将其等价�
 </span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">levelorder</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">queue</span> <span class="n">q</span><span class="p">;</span>
-  <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
-  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cur_level_size</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">cur_level_size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">root</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
-      <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-      <span class="n">process</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
-      <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">levelorder</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">queue</span> <span class="n">q</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cur_level_size</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">cur_level_size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">root</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">      <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">      <span class="n">process</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="morris-遍历" class="headerLink">
     <a href="#morris-%e9%81%8d%e5%8e%86" class="header-mark"></a>Morris 遍历</h4><p>在以上介绍的三种 DFS 遍历中，无论是 recursion 还是 loop 实现，都需要
@@ -864,34 +864,34 @@ uncle 时十分方便，并且求解结点的深度时不再需要将其等价�
 </span><span class="lnt">27
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">__reverse_process</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">node</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">__reverse_process</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
-  <span class="n">process</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="kt">void</span> <span class="nf">postorderTraversal</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">root</span><span class="p">,</span><span class="o">*</span> <span class="n">prev</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">cur</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">prev</span> <span class="o">=</span> <span class="n">cur</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">prev</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">while</span> <span class="p">(</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="k">nullptr</span> <span class="o">&amp;&amp;</span> <span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="n">cur</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">prev</span> <span class="o">=</span> <span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">cur</span><span class="p">;</span>
-        <span class="n">cur</span> <span class="o">=</span> <span class="n">cur</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
-        <span class="k">continue</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-      <span class="n">__reverse_process</span><span class="p">(</span><span class="n">cur</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">cur</span> <span class="o">=</span> <span class="n">cur</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">__reverse_precess</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">__reverse_process</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">node</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">__reverse_process</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">process</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">postorderTraversal</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">root</span><span class="p">,</span><span class="o">*</span> <span class="n">prev</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">cur</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">prev</span> <span class="o">=</span> <span class="n">cur</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">prev</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">while</span> <span class="p">(</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="k">nullptr</span> <span class="o">&amp;&amp;</span> <span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="n">cur</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">prev</span> <span class="o">=</span> <span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">cur</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cur</span> <span class="o">=</span> <span class="n">cur</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">__reverse_process</span><span class="p">(</span><span class="n">cur</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cur</span> <span class="o">=</span> <span class="n">cur</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">__reverse_precess</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="迭代器" class="headerLink">
     <a href="#%e8%bf%ad%e4%bb%a3%e5%99%a8" class="header-mark"></a>迭代器</h4><p>既然可以遍历一棵树，那么依然希望可以在这棵树上暂停下来，对结点进行一些操作，再继续进行迭代。当我们选择的遍历方法不一样时，其迭代时的前驱与后继就不相同。</p>
@@ -949,41 +949,41 @@ uncle 时十分方便，并且求解结点的深度时不再需要将其等价�
 </span><span class="lnt">34
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// 寻找结点 node 的前驱
-</span><span class="c1"></span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="nf">get_previous</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="k">auto</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">get_parent</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">parent</span> <span class="o">!=</span> <span class="k">nullptr</span> <span class="o">&amp;&amp;</span> <span class="n">parent</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">==</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">node</span> <span class="o">=</span> <span class="n">parent</span><span class="p">;</span>
-      <span class="n">parent</span> <span class="o">=</span> <span class="n">get_parent</span><span class="p">(</span><span class="n">parent</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">node</span> <span class="o">=</span> <span class="n">parent</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="c1">// 寻找结点 node 的后继
-</span><span class="c1"></span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="nf">get_next</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="k">auto</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">get_parent</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">parent</span> <span class="o">!=</span> <span class="k">nullptr</span> <span class="o">&amp;&amp;</span> <span class="n">parent</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">==</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">node</span> <span class="o">=</span> <span class="n">parent</span><span class="p">;</span>
-      <span class="n">parent</span> <span class="o">=</span> <span class="n">get_parent</span><span class="p">(</span><span class="n">parent</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">node</span> <span class="o">=</span> <span class="n">parent</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// 寻找结点 node 的前驱
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="nf">get_previous</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">get_parent</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">parent</span> <span class="o">!=</span> <span class="k">nullptr</span> <span class="o">&amp;&amp;</span> <span class="n">parent</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">==</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">node</span> <span class="o">=</span> <span class="n">parent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">parent</span> <span class="o">=</span> <span class="n">get_parent</span><span class="p">(</span><span class="n">parent</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">node</span> <span class="o">=</span> <span class="n">parent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 寻找结点 node 的后继
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="nf">get_next</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">get_parent</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">parent</span> <span class="o">!=</span> <span class="k">nullptr</span> <span class="o">&amp;&amp;</span> <span class="n">parent</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">==</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">node</span> <span class="o">=</span> <span class="n">parent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">parent</span> <span class="o">=</span> <span class="n">get_parent</span><span class="p">(</span><span class="n">parent</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">node</span> <span class="o">=</span> <span class="n">parent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="示例-表达式树" class="headerLink">
     <a href="#%e7%a4%ba%e4%be%8b-%e8%a1%a8%e8%be%be%e5%bc%8f%e6%a0%91" class="header-mark"></a>示例：表达式树</h3><p>下图展示了一棵 <strong>表达式树</strong> (expression tree)，leaf node 是操作数 (operand)，而
@@ -1026,17 +1026,17 @@ traversal 将得到序列 \(a b c * + d e * f + g * +\) ，这是一个后缀表
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
-<span class="kt">bool</span> <span class="n">contains</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;*</span> <span class="n">root</span><span class="p">,</span> <span class="k">const</span> <span class="n">Element</span><span class="o">&amp;</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">==</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="nf">contains</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">&lt;</span> <span class="n">target</span> <span class="o">?</span> <span class="n">root</span><span class="o">-&gt;</span><span class="nl">right</span> <span class="p">:</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">target</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">contains</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;*</span> <span class="n">root</span><span class="p">,</span> <span class="k">const</span> <span class="n">Element</span><span class="o">&amp;</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">==</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nf">contains</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">&lt;</span> <span class="n">target</span> <span class="o">?</span> <span class="n">root</span><span class="o">-&gt;</span><span class="nl">right</span> <span class="p">:</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">target</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 <li>
@@ -1052,14 +1052,14 @@ traversal 将得到序列 \(a b c * + d e * f + g * +\) ，这是一个后缀表
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
-<span class="n">BinaryTreeNode</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;*</span> <span class="n">find_min</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">?</span> <span class="nl">root</span> <span class="p">:</span> <span class="n">find_min</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="n">BinaryTreeNode</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;*</span> <span class="n">find_min</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">?</span> <span class="nl">root</span> <span class="p">:</span> <span class="n">find_min</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 <li>
@@ -1077,16 +1077,16 @@ traversal 将得到序列 \(a b c * + d e * f + g * +\) ，这是一个后缀表
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
-<span class="n">BinaryTreeNode</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;*</span> <span class="n">find_max</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="n">BinaryTreeNode</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;*</span> <span class="n">find_max</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 </ul>
@@ -1125,35 +1125,35 @@ BST 上，给定元素的上下界，下界 (\(bound_{lower}\)) 是首个 <stron
 </span><span class="lnt">28
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// 获取下界
-</span><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
-<span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">get_lower_bound</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">,</span> <span class="k">const</span> <span class="n">Element</span><span class="o">&amp;</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">auto</span> <span class="n">result</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">&lt;</span> <span class="n">target</span><span class="p">))</span> <span class="p">{</span>
-      <span class="n">result</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
-      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="c1">// 获取上界
-</span><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
-<span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">get_upper_bound</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">,</span> <span class="k">const</span> <span class="n">Element</span><span class="o">&amp;</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">auto</span> <span class="n">result</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">target</span> <span class="o">&lt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">result</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
-      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// 获取下界
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">get_lower_bound</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">,</span> <span class="k">const</span> <span class="n">Element</span><span class="o">&amp;</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">auto</span> <span class="n">result</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">&lt;</span> <span class="n">target</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">result</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 获取上界
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">get_upper_bound</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">,</span> <span class="k">const</span> <span class="n">Element</span><span class="o">&amp;</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">auto</span> <span class="n">result</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">target</span> <span class="o">&lt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">result</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="bst-中进行插入与移除操作" class="headerLink">
     <a href="#bst-%e4%b8%ad%e8%bf%9b%e8%a1%8c%e6%8f%92%e5%85%a5%e4%b8%8e%e7%a7%bb%e9%99%a4%e6%93%8d%e4%bd%9c" class="header-mark"></a>BST 中进行插入与移除操作</h3><p>插入一个元素在 BST 上的操作十分简单，与 <code>contains</code> 函数一样，以 BST 的定义顺着
@@ -1217,19 +1217,19 @@ BST 平均路径长。令 \(D(N)\) 是具有 N 个结点的某棵树 T 的内部
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// 假设运行在 UNIX-like 64 bit OS 之上
-</span><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="nc">ThreadedBinaryTreeNode</span> <span class="p">{</span>
-  <span class="n">Element</span> <span class="n">data</span><span class="p">;</span> <span class="c1">// 占用 ?? byte
-</span><span class="c1"></span>  <span class="c1">// 产生 ?? bit 空洞
-</span><span class="c1"></span>  <span class="kt">int</span> <span class="nl">ltag</span> <span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="nl">rtag</span> <span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="c1">// 产生 62 bit 空洞
-</span><span class="c1"></span>  <span class="n">ThreadedBinaryTreeNode</span><span class="o">*</span> <span class="n">left</span><span class="p">;</span>   <span class="c1">// 占用 8 byte
-</span><span class="c1"></span>  <span class="c1">// 如果 rtag 在这里定义，数据结构大小将增加 8 byte，其中包含 63 bit 的空洞
-</span><span class="c1"></span>  <span class="n">ThreadedBinaryTreeNode</span><span class="o">*</span> <span class="n">right</span><span class="p">;</span>  <span class="c1">// 占用 8 byte
-</span><span class="c1"></span><span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// 假设运行在 UNIX-like 64 bit OS 之上
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">ThreadedBinaryTreeNode</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Element</span> <span class="n">data</span><span class="p">;</span> <span class="c1">// 占用 ?? byte
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 产生 ?? bit 空洞
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">int</span> <span class="nl">ltag</span> <span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="nl">rtag</span> <span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 产生 62 bit 空洞
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">ThreadedBinaryTreeNode</span><span class="o">*</span> <span class="n">left</span><span class="p">;</span>   <span class="c1">// 占用 8 byte
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 如果 rtag 在这里定义，数据结构大小将增加 8 byte，其中包含 63 bit 的空洞
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">ThreadedBinaryTreeNode</span><span class="o">*</span> <span class="n">right</span><span class="p">;</span>  <span class="c1">// 占用 8 byte
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>在之前的内容中，所有代码尽量都避免 C / C++ 的一些深度的语言特性，来避免读者因为编程语言的特性而带来的困扰。但是下面这个例子，将展示 C / C++ 因为其底层、灵活而展示出的强大。</p>
 <p>在 LP64 模型下指针大小为 64 bit，从堆上分配来的内存的地址，起始地址能够被其最宽的成员大小整除。那么含有指针的 <code>TreadedBinaryTreeNode</code> 在分配时其地址可以被 8
@@ -1272,39 +1272,39 @@ byte 整除，这是什么概念的，就是其地址的 <strong>低 3 bit 一�
 </span><span class="lnt">32
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">enum</span> <span class="nc">NodeStatus</span> <span class="p">{</span>
-  <span class="n">LINK</span><span class="p">,</span>
-  <span class="n">THREAD</span><span class="p">,</span>
-<span class="p">};</span>
-<span class="k">constexpr</span> <span class="n">uintptr_t</span> <span class="n">HIDE_BIT</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-<span class="kr">inline</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="nf">get_node</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">BinaryTreeBaseNode</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">uintptr_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">HIDE_BIT</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="kr">inline</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="nf">get_left</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="n">get_node</span><span class="p">(</span><span class="n">get_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="kr">inline</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="nf">get_right</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="n">get_node</span><span class="p">(</span><span class="n">get_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="kr">inline</span> <span class="kt">int</span> <span class="nf">get_status</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">uintptr_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">HIDE_BIT</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="kr">inline</span> <span class="kt">void</span> <span class="nf">set_left_link</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">,</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">left</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">left</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="kr">inline</span> <span class="kt">void</span> <span class="nf">set_left_thread</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">,</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">left</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">BinaryTreeBaseNode</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">uintptr_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">|</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">THREAD</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="kr">inline</span> <span class="kt">void</span> <span class="nf">set_right_link</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">,</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">right</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="kr">inline</span> <span class="kt">void</span> <span class="nf">set_right_thread</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">,</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">BinaryTreeBaseNode</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">uintptr_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">right</span><span class="p">)</span> <span class="o">|</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">THREAD</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="kr">inline</span> <span class="kt">bool</span> <span class="nf">is_thread</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="n">get_status</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">==</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">THREAD</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">enum</span> <span class="nc">NodeStatus</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">LINK</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">THREAD</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">constexpr</span> <span class="n">uintptr_t</span> <span class="n">HIDE_BIT</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">inline</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="nf">get_node</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">BinaryTreeBaseNode</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">uintptr_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">HIDE_BIT</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">inline</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="nf">get_left</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">get_node</span><span class="p">(</span><span class="n">get_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">inline</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="nf">get_right</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">get_node</span><span class="p">(</span><span class="n">get_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">inline</span> <span class="kt">int</span> <span class="nf">get_status</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">uintptr_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">HIDE_BIT</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">inline</span> <span class="kt">void</span> <span class="nf">set_left_link</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">,</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">left</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">inline</span> <span class="kt">void</span> <span class="nf">set_left_thread</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">,</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">left</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">BinaryTreeBaseNode</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">uintptr_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">|</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">THREAD</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">inline</span> <span class="kt">void</span> <span class="nf">set_right_link</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">,</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">inline</span> <span class="kt">void</span> <span class="nf">set_right_thread</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">,</span> <span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">BinaryTreeBaseNode</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">uintptr_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">right</span><span class="p">)</span> <span class="o">|</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">THREAD</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">inline</span> <span class="kt">bool</span> <span class="nf">is_thread</span><span class="p">(</span><span class="n">BinaryTreeBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">get_status</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">==</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">THREAD</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="线索化" class="headerLink">
     <a href="#%e7%ba%bf%e7%b4%a2%e5%8c%96" class="header-mark"></a>线索化</h3><p>线索化时需要记录结点的前驱，如果你仔细观察 Morris Traversal，你可能会发现，
@@ -1354,48 +1354,48 @@ Morris Traversal 是在构建一部分线索二叉树。</p>
 </span><span class="lnt">41
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
-<span class="kt">void</span> <span class="n">inorder_threading</span><span class="p">(</span><span class="n">ThreadedBinaryTreeNode</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">auto</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">root</span><span class="p">,</span> <span class="n">prev</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">curr</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">prev</span><span class="p">;</span>
-      <span class="n">curr</span><span class="o">-&gt;</span><span class="n">ltag</span> <span class="o">=</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">THREAD</span><span class="p">;</span>
-      <span class="n">prev</span> <span class="o">=</span> <span class="n">curr</span><span class="p">;</span>
-      <span class="k">goto</span> <span class="n">RIGHTING</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">prev</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="k">nullptr</span> <span class="o">&amp;&amp;</span> <span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="n">curr</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">prev</span> <span class="o">=</span> <span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">curr</span><span class="p">;</span>
-      <span class="n">prev</span><span class="o">-&gt;</span><span class="n">rtag</span> <span class="o">=</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">THREAD</span><span class="p">;</span>
-      <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
-      <span class="k">continue</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">prev</span> <span class="o">=</span> <span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
- <span class="nl">RIGHTING</span><span class="p">:</span>
-    <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="c1">// 由于 root 的后继的左线索指向不正确，需要对其进行修正
-</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">curr</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">ltag</span> <span class="o">==</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">LINK</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
-    <span class="n">curr</span><span class="o">-&gt;</span><span class="n">ltag</span> <span class="o">=</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">THREAD</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="c1">// 由于中序遍历第一个结点的左线索指向不正确，将其置空。其最后一个结点同样也是置空的
-</span><span class="c1"></span>  <span class="n">curr</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">ltag</span> <span class="o">==</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">LINK</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-  <span class="n">curr</span><span class="o">-&gt;</span><span class="n">ltag</span> <span class="o">=</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">LINK</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">inorder_threading</span><span class="p">(</span><span class="n">ThreadedBinaryTreeNode</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">auto</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">root</span><span class="p">,</span> <span class="n">prev</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">curr</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">prev</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">curr</span><span class="o">-&gt;</span><span class="n">ltag</span> <span class="o">=</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">THREAD</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">prev</span> <span class="o">=</span> <span class="n">curr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">goto</span> <span class="n">RIGHTING</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">prev</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="k">nullptr</span> <span class="o">&amp;&amp;</span> <span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="n">curr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">prev</span> <span class="o">=</span> <span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">curr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">prev</span><span class="o">-&gt;</span><span class="n">rtag</span> <span class="o">=</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">THREAD</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">prev</span> <span class="o">=</span> <span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="nl">RIGHTING</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 由于 root 的后继的左线索指向不正确，需要对其进行修正
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">curr</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">ltag</span> <span class="o">==</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">LINK</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">curr</span><span class="o">-&gt;</span><span class="n">ltag</span> <span class="o">=</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">THREAD</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 由于中序遍历第一个结点的左线索指向不正确，将其置空。其最后一个结点同样也是置空的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">curr</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">ltag</span> <span class="o">==</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">LINK</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">curr</span><span class="o">-&gt;</span><span class="n">ltag</span> <span class="o">=</span> <span class="n">NodeStatus</span><span class="o">::</span><span class="n">LINK</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="树和森林" class="headerLink">
     <a href="#%e6%a0%91%e5%92%8c%e6%a3%ae%e6%9e%97" class="header-mark"></a>树和森林</h2><p>其实最后一点内容并没有多少，主要探讨树、森林、二叉树的关系，以及在严蔚敏老师的数据结构中提到的其他有关树的一些实现方式。</p>
@@ -1451,7 +1451,7 @@ div.info{background:rgba(58,129,195,0.15);border-left:4px solid rgba(58,129,195,
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

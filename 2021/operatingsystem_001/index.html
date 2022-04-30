@@ -517,20 +517,20 @@ Windows 中没有层次结构概念，所有进程地位相同。创建进程时
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 可能的结果 13049876
-</span><span class="c1"></span><span class="kt">void</span><span class="o">*</span> <span class="nf">add</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">atgs</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10000000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="o">++</span><span class="n">sum</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">pthread_t</span> <span class="n">t1</span><span class="p">;</span>
-  <span class="n">pthread_t</span> <span class="n">t2</span><span class="p">;</span>
-  <span class="n">pthread_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t1</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="c1">// 创建线程 1
-</span><span class="c1"></span>  <span class="n">pthread_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t2</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="c1">// 创建线程 2
-</span><span class="c1"></span>  <span class="n">pthread_join</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="c1">// 等待线程 1 结束
-</span><span class="c1"></span>  <span class="n">pthread_join</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="c1">// 等待线程 2 结束
-</span><span class="c1"></span>  <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">sum</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 可能的结果 13049876
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span><span class="o">*</span> <span class="nf">add</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">atgs</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10000000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="o">++</span><span class="n">sum</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pthread_t</span> <span class="n">t1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pthread_t</span> <span class="n">t2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pthread_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t1</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="c1">// 创建线程 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">pthread_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t2</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="c1">// 创建线程 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">pthread_join</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="c1">// 等待线程 1 结束
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">pthread_join</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="c1">// 等待线程 2 结束
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">sum</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>实际上，凡是涉及共享内存、共享文件或共享任何资源时，都会由竞争条件引发错误，要避免这种错误，必须阻止多个进程同时读写共享数据。换言之即 <strong>互斥</strong> (mutual exclusion)，即以某种手段确保当一个进程使用共享资源时，其他进程无法进行同样的操作。实现互斥而选择的原语是操作系统的主要设计内容之一。</p>
 <p>避免竞争条件的问题也可以用一种抽象的方式进行描述。一个进程的一部分时间做内部计算或另外一些不会引发竞争条件的操作。在某些时候进程可能需要访问共享数据或执行另外一些导致竞争的操作。我们把对共享内存进行访问的程序片段称为 <strong>临界区域</strong> (critical
@@ -570,18 +570,18 @@ region) 或 <strong>临界区</strong> (critical section)。如果我们能够�
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="n">turn</span><span class="p">;</span>
-<span class="kt">int</span> <span class="n">intersted</span><span class="p">[</span><span class="n">N</span><span class="p">];</span> <span class="c1">// N = 2
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">enter_region</span><span class="p">(</span><span class="kt">int</span> <span class="n">process</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">other</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">process</span><span class="p">;</span>
-  <span class="n">intersted</span><span class="p">[</span><span class="n">process</span><span class="p">]</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
-  <span class="n">turn</span> <span class="o">=</span> <span class="n">process</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">turn</span> <span class="o">==</span> <span class="n">process</span> <span class="o">&amp;&amp;</span> <span class="n">interested</span><span class="p">[</span><span class="n">other</span><span class="p">]</span> <span class="o">==</span> <span class="n">TRUE</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="kt">void</span> <span class="nf">leave_region</span><span class="p">(</span><span class="kt">int</span> <span class="n">process</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">intersted</span><span class="p">[</span><span class="n">process</span><span class="p">]</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">turn</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">intersted</span><span class="p">[</span><span class="n">N</span><span class="p">];</span> <span class="c1">// N = 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">enter_region</span><span class="p">(</span><span class="kt">int</span> <span class="n">process</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">other</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">process</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">intersted</span><span class="p">[</span><span class="n">process</span><span class="p">]</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">turn</span> <span class="o">=</span> <span class="n">process</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">turn</span> <span class="o">==</span> <span class="n">process</span> <span class="o">&amp;&amp;</span> <span class="n">interested</span><span class="p">[</span><span class="n">other</span><span class="p">]</span> <span class="o">==</span> <span class="n">TRUE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">leave_region</span><span class="p">(</span><span class="kt">int</span> <span class="n">process</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">intersted</span><span class="p">[</span><span class="n">process</span><span class="p">]</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></dd>
 <dt>TSL 指令</dt>
@@ -624,27 +624,27 @@ CPU 在底层同步中使用 XCHG 指令。</p>
 </span><span class="lnt">20
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="n">size</span><span class="p">;</span>
-<span class="k">const</span> <span class="kt">int</span> <span class="n">capcity</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
-<span class="kt">void</span> <span class="nf">producer</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">item</span> <span class="o">=</span> <span class="n">product_item</span><span class="p">();</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">size</span> <span class="o">==</span> <span class="n">capcity</span><span class="p">)</span> <span class="n">sleep</span><span class="p">();</span>
-    <span class="n">insert_item</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
-    <span class="o">++</span><span class="n">size</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="mi">1</span> <span class="o">==</span> <span class="n">size</span><span class="p">)</span> <span class="n">wakeup</span><span class="p">(</span><span class="n">consumer</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-<span class="kt">void</span> <span class="nf">consumer</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">sleep</span><span class="p">();</span>
-    <span class="kt">int</span> <span class="n">item</span> <span class="o">=</span> <span class="n">remove_item</span><span class="p">();</span>
-    <span class="o">--</span><span class="n">size</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">size</span> <span class="o">==</span> <span class="n">capcity</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="n">wakeup</span><span class="p">(</span><span class="n">producer</span><span class="p">);</span>
-    <span class="n">consume_item</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">int</span> <span class="n">capcity</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">producer</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">item</span> <span class="o">=</span> <span class="n">product_item</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">size</span> <span class="o">==</span> <span class="n">capcity</span><span class="p">)</span> <span class="n">sleep</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">insert_item</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">++</span><span class="n">size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="mi">1</span> <span class="o">==</span> <span class="n">size</span><span class="p">)</span> <span class="n">wakeup</span><span class="p">(</span><span class="n">consumer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">consumer</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">sleep</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">item</span> <span class="o">=</span> <span class="n">remove_item</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">--</span><span class="n">size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">size</span> <span class="o">==</span> <span class="n">capcity</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="n">wakeup</span><span class="p">(</span><span class="n">producer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">consume_item</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>以上代码虽然展示了生产-消费模型，但其中存在数据竞争，即对缓冲区大小 size 的访问没有加以限制。有可能出现：缓冲区为空时消费者读取 size 等于 0 时的值，但此时调度程序启用生产者而暂停消费者。生产者产生数据并将 size + 1，此时生产者使用 wakeup
 唤醒一个消费者，由于消费者还未被阻塞，因此 wakeup 丢失。当消费者下次被调度时，由于上次读取到 0 值，因此被阻塞。当缓冲区被生产者填满时，生产者与消费者都会被阻塞。</p>
@@ -874,7 +874,7 @@ semaphore 进行 P 操作，并在结束用餐时进行 V 操作。此方法可�
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

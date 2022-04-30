@@ -222,10 +222,10 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// sys/socket.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">socket</span><span class="p">(</span><span class="kt">int</span> <span class="n">domain</span><span class="p">,</span> <span class="kt">int</span> <span class="n">type</span><span class="p">,</span> <span class="kt">int</span> <span class="n">protocol</span><span class="p">);</span>
-<span class="c1">// return socket fd, or -1 and set errno on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// sys/socket.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">socket</span><span class="p">(</span><span class="kt">int</span> <span class="n">domain</span><span class="p">,</span> <span class="kt">int</span> <span class="n">type</span><span class="p">,</span> <span class="kt">int</span> <span class="n">protocol</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// return socket fd, or -1 and set errno on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>domain 指协议族，type 是套接字类型，protocol 参数应该设置为某个协议类型常量，或者为 0 表示对 domain 与 type 的系统默认值。</p>
 <ul>
@@ -314,10 +314,10 @@ AF_xxx 相等。</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// sys/socket.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">connect</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="n">addrlen</span><span class="p">);</span>
-<span class="c1">// return 0 if OK, -1 on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// sys/socket.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">connect</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="n">addrlen</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// return 0 if OK, -1 on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>sockfd 是由 socket 函数成功调用时返回的套接字文件描述符，addr 是上一篇讲解过的通用套接字地址结构，最后的参数 addrlen 则是对 addr 取 sizeof 所得的大小。</p>
 <p>客户端无需在 connect 之前调用 bind 来绑定端口，在需要时 OS 会选择一个临时端口与服务端进行通信。对于 TCP socket 来说，connect 函数会初始化三次握手，在返回时连接是建立完成的，或建立失败。我们可以从 errno 中获取一些出错原因：</p>
@@ -337,10 +337,10 @@ AF_xxx 相等。</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// sys/socket.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">bind</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="n">addrlen</span><span class="p">);</span>
-<span class="c1">// return 0 if OK, -1 on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// sys/socket.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">bind</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="n">addrlen</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// return 0 if OK, -1 on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>对于 TCP 套接字，bind 可以指定端口号或 IP 地址，或两者都指定，也可以两者都不指定</p>
 <ul>
@@ -395,15 +395,15 @@ IPv6 中使用结构变量 <strong>in6addr_any</strong>。</p>
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// IPv4
-</span><span class="c1"></span><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">addr4</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="p">.</span><span class="n">sin_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
-<span class="p">};</span>
-<span class="c1">// IPv6
-</span><span class="c1"></span><span class="k">struct</span> <span class="n">sockaddr_in6</span> <span class="n">addr6</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="p">.</span><span class="n">sin6_addr</span> <span class="o">=</span> <span class="n">in6addr_any</span><span class="p">,</span>
-<span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// IPv4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">addr4</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">.</span><span class="n">sin_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// IPv6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="n">sockaddr_in6</span> <span class="n">addr6</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">.</span><span class="n">sin6_addr</span> <span class="o">=</span> <span class="n">in6addr_any</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>在不指定端口时，bind 并无法获取分配的临时端口，需要调用函数 <code>getsockname</code> 来获取。</p>
 <p>bind 常见的错误是 <strong>EADDRINUSE</strong> (Address already in use)，这在以后再详细说明。</p>
@@ -421,10 +421,10 @@ IPv6 中使用结构变量 <strong>in6addr_any</strong>。</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// sys/socket.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">listen</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">backlog</span><span class="p">);</span>
-<span class="c1">// return 0 if OK, -1 on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// sys/socket.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">listen</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">backlog</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// return 0 if OK, -1 on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>通常情况下 listen 在 socket 和 bind 之后调用，在 accept 之前调用。为了明白参数
 backlog，需要认识到内核会为 TCP 连接维护两个队列：</p>
@@ -597,10 +597,10 @@ backlog 的最大值在 <code>/proc/sys/net/core/somaxconn</code> 中，通常�
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// sys/socket.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">accept</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">cliaddr</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="o">*</span><span class="n">addrlen</span><span class="p">);</span>
-<span class="c1">// return non-negative descriptor if OK, -1 on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// sys/socket.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">accept</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">cliaddr</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="o">*</span><span class="n">addrlen</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// return non-negative descriptor if OK, -1 on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>参数 cliaddr 与 addrlen 是结果参数，调用时，将 addrlen 设置为 cliaddr 的套接字地址结构长度；返回时，该整数被内核设置为结构的确切字节值。如果对客户端的地址不感兴趣，可以将这两个参数在调用时设置为 <code>NULL</code>。成功时返回值是内核自动生成的一个套接字描述符，这是与其连接的客户端的描述符。</p>
 <p>想想第一篇的时间获取客户端，这里给出该客户端对应的时间获取服务端，以这个程序作为例子讲解。</p>
@@ -698,97 +698,97 @@ backlog 的最大值在 <code>/proc/sys/net/core/somaxconn</code> 中，通常�
 </span><span class="lnt">90
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// 以下代码与 UNP intro/daytimetcpsrv1.c 等价
-</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;stdarg.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;stdbool.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;time.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="c1">// inet_pton/3, htons/1
-</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="c1">// struct sockaddr_in
-</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;netinet/in.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="c1">// errno
-</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;errno.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="c1">// socket/3, connect/3
-</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="c1">// read/3
-</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="cp">#define MAXLINE 4096
-</span><span class="cp">#define LISTENQ 1024
-</span><span class="cp"></span>
-<span class="kt">void</span> <span class="nf">err_sys</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span>
-  <span class="n">va_list</span> <span class="n">ap</span><span class="p">;</span>
-  <span class="n">va_start</span><span class="p">(</span><span class="n">ap</span><span class="p">,</span> <span class="n">fmt</span><span class="p">);</span>
-  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-  <span class="n">vsnprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">ap</span><span class="p">);</span>
-  <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
-  <span class="n">snprintf</span><span class="p">(</span><span class="n">buffer</span> <span class="o">+</span> <span class="n">n</span><span class="p">,</span> <span class="n">MAXLINE</span> <span class="o">-</span> <span class="n">n</span><span class="p">,</span> <span class="s">&#34;:%s&#34;</span><span class="p">,</span> <span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
-  <span class="n">strcat</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
-  <span class="n">fflush</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
-  <span class="n">fputs</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">stderr</span><span class="p">);</span>
-  <span class="n">fflush</span><span class="p">(</span><span class="n">stderr</span><span class="p">);</span>
-  <span class="n">va_end</span><span class="p">(</span><span class="n">ap</span><span class="p">);</span>
-  <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">err_msg</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span>
-  <span class="n">va_list</span> <span class="n">ap</span><span class="p">;</span>
-  <span class="n">va_start</span><span class="p">(</span><span class="n">ap</span><span class="p">,</span> <span class="n">fmt</span><span class="p">);</span>
-  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-  <span class="n">vsnprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">ap</span><span class="p">);</span>
-  <span class="n">strcat</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
-  <span class="n">fflush</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
-  <span class="n">fputs</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">stderr</span><span class="p">);</span>
-  <span class="n">fflush</span><span class="p">(</span><span class="n">stderr</span><span class="p">);</span>
-  <span class="n">va_end</span><span class="p">(</span><span class="n">ap</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">listenfd</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">((</span><span class="n">listenfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
-    <span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
-    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">13</span><span class="p">),</span>
-  <span class="p">};</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">bind</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">listen</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">LISTENQ</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">cliaddr</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">cliaddr</span><span class="p">);</span>
-    <span class="kt">int</span> <span class="n">connfd</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">connfd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">cliaddr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">len</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">err_msg</span><span class="p">(</span><span class="s">&#34;accept error&#34;</span><span class="p">);</span>
-      <span class="k">continue</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;connection from %s, port %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
-           <span class="n">inet_ntop</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cliaddr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">INET_ADDRSTRLEN</span><span class="p">),</span>
-           <span class="n">ntohs</span><span class="p">(</span><span class="n">cliaddr</span><span class="p">.</span><span class="n">sin_port</span><span class="p">));</span>
-    <span class="n">time_t</span> <span class="n">ticks</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
-    <span class="n">snprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buffer</span><span class="p">),</span> <span class="s">&#34;%.24s</span><span class="se">\r\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">ctime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ticks</span><span class="p">));</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">write</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">err_msg</span><span class="p">(</span><span class="s">&#34;write error&#34;</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">close</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 以下代码与 UNP intro/daytimetcpsrv1.c 等价
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;stdarg.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdbool.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;time.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// inet_pton/3, htons/1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// struct sockaddr_in
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;netinet/in.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// errno
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;errno.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// socket/3, connect/3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// read/3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#define MAXLINE 4096
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define LISTENQ 1024
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">err_sys</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_list</span> <span class="n">ap</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_start</span><span class="p">(</span><span class="n">ap</span><span class="p">,</span> <span class="n">fmt</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="n">vsnprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">ap</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">snprintf</span><span class="p">(</span><span class="n">buffer</span> <span class="o">+</span> <span class="n">n</span><span class="p">,</span> <span class="n">MAXLINE</span> <span class="o">-</span> <span class="n">n</span><span class="p">,</span> <span class="s">&#34;:%s&#34;</span><span class="p">,</span> <span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">strcat</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fflush</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fputs</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">stderr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fflush</span><span class="p">(</span><span class="n">stderr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_end</span><span class="p">(</span><span class="n">ap</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">err_msg</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_list</span> <span class="n">ap</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_start</span><span class="p">(</span><span class="n">ap</span><span class="p">,</span> <span class="n">fmt</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="n">vsnprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">ap</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">strcat</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fflush</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fputs</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">stderr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fflush</span><span class="p">(</span><span class="n">stderr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_end</span><span class="p">(</span><span class="n">ap</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">listenfd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">((</span><span class="n">listenfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">13</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">bind</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">listen</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">LISTENQ</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">cliaddr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">cliaddr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">connfd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">((</span><span class="n">connfd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">cliaddr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">len</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">err_msg</span><span class="p">(</span><span class="s">&#34;accept error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;connection from %s, port %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">inet_ntop</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cliaddr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">INET_ADDRSTRLEN</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">           <span class="n">ntohs</span><span class="p">(</span><span class="n">cliaddr</span><span class="p">.</span><span class="n">sin_port</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">time_t</span> <span class="n">ticks</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">snprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buffer</span><span class="p">),</span> <span class="s">&#34;%.24s</span><span class="se">\r\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">ctime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ticks</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">write</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">err_msg</span><span class="p">(</span><span class="s">&#34;write error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">close</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>在我的本地，编译该文件，用 daytimetcpcli 请求时间，服务器输出如下</p>
 <p class="verse">
@@ -807,10 +807,10 @@ connection from 192.168.0.105, port 53886<br></p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// unistd.h
-</span><span class="c1"></span><span class="n">pid_t</span> <span class="nf">fork</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
-<span class="c1">// return 0 in child, process ID of child in parent, -1 on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// unistd.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">pid_t</span> <span class="nf">fork</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// return 0 in child, process ID of child in parent, -1 on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>fork 是一个启动新进程的方式，该 syscall 会复制一份一模一样的进程环境作为新进程，新进程被称作子进程 (child process)，而老进程称为父进程 (parent process)。fork 在
 parent 与 child 中都有返回值，child 中 fork 返回 0 表示调用成功，而 parent 中返回的是 child 的进程 ID (pid)，在不同的进程中不同的返回值可以让程序员知道当前身处哪个进程。fork 是比较特殊的函数，由于其创建新进程和两个不同的返回值的特性，需要特别注意。</p>
@@ -865,48 +865,48 @@ parent 与 child 中都有返回值，child 中 fork 返回 0 表示调用成功
 </span><span class="lnt">41
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// example
-</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;  // fork, getpid, getppid</span><span class="cp">
-</span><span class="cp"></span>
-<span class="cp">#define MAXLINE 1024
-</span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">pid_t</span> <span class="n">ppid</span> <span class="o">=</span> <span class="n">getppid</span><span class="p">();</span>  <span class="c1">// 获取该进程的父进程 ID
-</span><span class="c1"></span>  <span class="n">pid_t</span> <span class="n">pid</span> <span class="o">=</span> <span class="n">getpid</span><span class="p">();</span>    <span class="c1">// 获取该进程的 ID
-</span><span class="c1"></span>  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-  <span class="n">pid_t</span> <span class="n">id</span> <span class="o">=</span> <span class="n">fork</span><span class="p">();</span>
-  <span class="c1">// 拷贝进程副本，即所有全局变量，与以上的所有变量、数据都被拷贝到新的进程
-</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">id</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// 当前分支由子进程执行
-</span><span class="c1"></span>    <span class="c1">// ppid 与 pid 为副本存在于子进程中，值目前为止没有改变
-</span><span class="c1"></span>    <span class="n">strcat</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&#34;new process&#34;</span><span class="p">);</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;in %s, ppid: %d, pid: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">ppid</span><span class="p">,</span> <span class="n">pid</span><span class="p">);</span>
-    <span class="c1">// 修改 ppid 与 pid 的值，不影响父进程中的结果
-</span><span class="c1"></span>    <span class="n">pid</span> <span class="o">=</span> <span class="n">getpid</span><span class="p">();</span>    <span class="c1">// 获取当前进程的 ID，即子进程的 ID
-</span><span class="c1"></span>    <span class="n">ppid</span> <span class="o">=</span> <span class="n">getppid</span><span class="p">();</span>  <span class="c1">// 获取当前进程的父进程 ID，即父进程的 ID
-</span><span class="c1"></span>    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;in %s, ppid: %d, pid: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">ppid</span><span class="p">,</span> <span class="n">pid</span><span class="p">);</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">id</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// 当前分支由父进程执行，id 值为子进程的值
-</span><span class="c1"></span>    <span class="n">strcat</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&#34;old process&#34;</span><span class="p">);</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;in %s, ppid: %d, pid: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">ppid</span><span class="p">,</span> <span class="n">pid</span><span class="p">);</span>
-    <span class="c1">// 由于在父进程中，重新获取后值应该不变
-</span><span class="c1"></span>    <span class="n">pid</span> <span class="o">=</span> <span class="n">getpid</span><span class="p">();</span>    <span class="c1">// 获取当前进程的 ID，即子进程的 ID
-</span><span class="c1"></span>    <span class="n">ppid</span> <span class="o">=</span> <span class="n">getppid</span><span class="p">();</span>  <span class="c1">// 获取当前进程的父进程 ID，即父进程的 ID
-</span><span class="c1"></span>    <span class="c1">// 子进程 ID 是 fork 为父进程返回的值
-</span><span class="c1"></span>    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;in %s, ppid: %d, pid: %d, spid: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">ppid</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">id</span><span class="p">);</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="n">perror</span><span class="p">(</span><span class="s">&#34;fork error</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
-    <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="c1">// 因为分支结束，这里是所有分支都会执行的代码，即子进程、父进程都会执行
-</span><span class="c1"></span>  <span class="n">printf</span><span class="p">(</span><span class="s">&#34;in %s, end</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">);</span>
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// example
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;  // fork, getpid, getppid</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#define MAXLINE 1024
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pid_t</span> <span class="n">ppid</span> <span class="o">=</span> <span class="n">getppid</span><span class="p">();</span>  <span class="c1">// 获取该进程的父进程 ID
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">pid_t</span> <span class="n">pid</span> <span class="o">=</span> <span class="n">getpid</span><span class="p">();</span>    <span class="c1">// 获取该进程的 ID
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pid_t</span> <span class="n">id</span> <span class="o">=</span> <span class="n">fork</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 拷贝进程副本，即所有全局变量，与以上的所有变量、数据都被拷贝到新的进程
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">id</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 当前分支由子进程执行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// ppid 与 pid 为副本存在于子进程中，值目前为止没有改变
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">strcat</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&#34;new process&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;in %s, ppid: %d, pid: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">ppid</span><span class="p">,</span> <span class="n">pid</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 修改 ppid 与 pid 的值，不影响父进程中的结果
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">pid</span> <span class="o">=</span> <span class="n">getpid</span><span class="p">();</span>    <span class="c1">// 获取当前进程的 ID，即子进程的 ID
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">ppid</span> <span class="o">=</span> <span class="n">getppid</span><span class="p">();</span>  <span class="c1">// 获取当前进程的父进程 ID，即父进程的 ID
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;in %s, ppid: %d, pid: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">ppid</span><span class="p">,</span> <span class="n">pid</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">id</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 当前分支由父进程执行，id 值为子进程的值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">strcat</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&#34;old process&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;in %s, ppid: %d, pid: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">ppid</span><span class="p">,</span> <span class="n">pid</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 由于在父进程中，重新获取后值应该不变
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">pid</span> <span class="o">=</span> <span class="n">getpid</span><span class="p">();</span>    <span class="c1">// 获取当前进程的 ID，即子进程的 ID
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">ppid</span> <span class="o">=</span> <span class="n">getppid</span><span class="p">();</span>  <span class="c1">// 获取当前进程的父进程 ID，即父进程的 ID
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 子进程 ID 是 fork 为父进程返回的值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;in %s, ppid: %d, pid: %d, spid: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">ppid</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">id</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">perror</span><span class="p">(</span><span class="s">&#34;fork error</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 因为分支结束，这里是所有分支都会执行的代码，即子进程、父进程都会执行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">printf</span><span class="p">(</span><span class="s">&#34;in %s, end</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>上述程序可能的输出</p>
 <p class="verse">
@@ -951,15 +951,15 @@ program)。</p>
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// unistd.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">execlp</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="p">...</span> <span class="cm">/* (char  *)</span> <span class="nb">NULL</span> <span class="err">*/</span><span class="p">);</span>
-<span class="kt">int</span> <span class="nf">execl</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="p">...</span> <span class="cm">/* (char  *)</span> <span class="nb">NULL</span> <span class="err">*/</span><span class="p">);</span>
-<span class="kt">int</span> <span class="nf">execvp</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">argv</span><span class="p">[]);</span>
-<span class="kt">int</span> <span class="nf">execv</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">argv</span><span class="p">[]);</span>
-<span class="kt">int</span> <span class="nf">execle</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="p">...</span> <span class="cm">/*, (char *)</span> <span class="nb">NULL</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span> <span class="k">const</span> <span class="n">envp</span><span class="p">[]</span> <span class="err">*/</span><span class="p">);</span>
-<span class="kt">int</span> <span class="nf">execve</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">argv</span><span class="p">[],</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">envp</span><span class="p">[]);</span>
-<span class="c1">// return -1 on error, no return on success
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// unistd.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">execlp</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="p">...</span> <span class="cm">/* (char  *)</span> <span class="nb">NULL</span> <span class="err">*/</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">execl</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="p">...</span> <span class="cm">/* (char  *)</span> <span class="nb">NULL</span> <span class="err">*/</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">execvp</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">argv</span><span class="p">[]);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">execv</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">argv</span><span class="p">[]);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">execle</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="p">...</span> <span class="cm">/*, (char *)</span> <span class="nb">NULL</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span> <span class="k">const</span> <span class="n">envp</span><span class="p">[]</span> <span class="err">*/</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">execve</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">argv</span><span class="p">[],</span> <span class="kt">char</span> <span class="o">*</span><span class="k">const</span> <span class="n">envp</span><span class="p">[]);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// return -1 on error, no return on success
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>这些函数只有错误时才返回到调用者，否则将从新程序的起始点 (通常为 main) 开始。一般 execve 是 syscall，而其他 5 个是调用 execve 的库函数，glibc 扩展了一个与
 execve 的库函数 execvpe，检测宏为 <strong>_GNU_SOURCE</strong>。</p>
@@ -988,11 +988,11 @@ fcntl 设置 FD_CLOEXEC 来禁止该默认行为。</li>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// sys/socket.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">getsockname</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="o">*</span><span class="n">addrlen</span><span class="p">);</span>
-<span class="kt">int</span> <span class="nf">getpeername</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="o">*</span><span class="n">addrlen</span><span class="p">);</span>
-<span class="c1">// return 0 if OK, -1 on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// sys/socket.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">getsockname</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="o">*</span><span class="n">addrlen</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">getpeername</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="o">*</span><span class="n">addrlen</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// return 0 if OK, -1 on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>简单的说就是用来获取已知套接字描述符，但不知道地址结构的套接字，具体用法如下：</p>
 <ul>
@@ -1036,31 +1036,31 @@ ID，也可以修改环境变量传递。</p>
 </span><span class="lnt">24
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// function main in daytimetcpsrv1.c
-</span><span class="c1"></span><span class="kt">int</span> <span class="n">listenfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-<span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
-  <span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
-  <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">13</span><span class="p">),</span>
-<span class="p">};</span>
-<span class="n">bind</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">));</span>
-<span class="n">listen</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">LISTENQ</span><span class="p">);</span>
-<span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">cliaddr</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">cliaddr</span><span class="p">);</span>
-  <span class="kt">int</span> <span class="n">connfd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">cliaddr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">len</span><span class="p">);</span>
-  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-  <span class="n">pid_t</span> <span class="n">pid</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">((</span><span class="n">pid</span> <span class="o">=</span> <span class="n">fork</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// in child process
-</span><span class="c1"></span>    <span class="n">close</span><span class="p">(</span><span class="n">listenfd</span><span class="p">);</span>     <span class="c1">// child closes listening socket
-</span><span class="c1"></span>    <span class="n">dosomething</span><span class="p">();</span>       <span class="c1">// process the request
-</span><span class="c1"></span>    <span class="n">close</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>       <span class="c1">// done with this client
-</span><span class="c1"></span>    <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_SUCCESS</span><span class="p">);</span>  <span class="c1">// child terminates
-</span><span class="c1"></span>  <span class="p">}</span>
-  <span class="n">close</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>  <span class="c1">// parent closes connected socket
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// function main in daytimetcpsrv1.c
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="n">listenfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">13</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="n">bind</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">listen</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">LISTENQ</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">cliaddr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">cliaddr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">connfd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">cliaddr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">len</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pid_t</span> <span class="n">pid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">((</span><span class="n">pid</span> <span class="o">=</span> <span class="n">fork</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// in child process
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">close</span><span class="p">(</span><span class="n">listenfd</span><span class="p">);</span>     <span class="c1">// child closes listening socket
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">dosomething</span><span class="p">();</span>       <span class="c1">// process the request
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">close</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>       <span class="c1">// done with this client
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_SUCCESS</span><span class="p">);</span>  <span class="c1">// child terminates
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">close</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>  <span class="c1">// parent closes connected socket
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>当连接建立时，accept 返回，此时服务器调用 fork 来创建新进程，listenfd (服务器的监听套接字) 和 connfd (客户端的请求套接字) 都会以副本的形式保留在新进程中，子进程不应该继续打开 listenfd，而父进程应该关闭 connfd。父进程就可以监听 listenfd 从而等待下一个客户端请求的到来，子进程只需要专心为以获取到的 connfd 工作。这就是一个简易的并发服务器模型。</p>
 <p>这里有一个问题，close 套接字描述符时不是会导致该连接关闭，为什么子进程还可以正确处理客户端的请求？</p>
@@ -1112,42 +1112,42 @@ Echo 服务会将客户端发送的数据完全返回，即请求数据就是响
 </span><span class="lnt">35
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&#34;unp.h&#34;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">listenfd</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">((</span><span class="n">listenfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
-    <span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
-    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span>
-  <span class="p">};</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">bind</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">listen</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">LISTENQ</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">cliaddr</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">cliaddrlen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">cliaddr</span><span class="p">);</span>
-    <span class="kt">int</span> <span class="n">connfd</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">connfd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">cliaddr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cliaddrlen</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">err_msg</span><span class="p">(</span><span class="s">&#34;accept error&#34;</span><span class="p">);</span>
-      <span class="k">continue</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">pid_t</span> <span class="n">pid</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">pid</span> <span class="o">=</span> <span class="n">fork</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">close</span><span class="p">(</span><span class="n">listenfd</span><span class="p">);</span>
-      <span class="n">str_echo</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
-      <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_SUCCESS</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">close</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;unp.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">listenfd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">((</span><span class="n">listenfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">bind</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">listen</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">LISTENQ</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">cliaddr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">cliaddrlen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">cliaddr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">connfd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">((</span><span class="n">connfd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">cliaddr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cliaddrlen</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">err_msg</span><span class="p">(</span><span class="s">&#34;accept error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pid_t</span> <span class="n">pid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">((</span><span class="n">pid</span> <span class="o">=</span> <span class="n">fork</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">close</span><span class="p">(</span><span class="n">listenfd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">str_echo</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_SUCCESS</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">close</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>上面的模板没什么看得，下来好好说一下 echo 服务中的 str_echo，str_echo 只会做一个简单的事：读出客户端的数据并将其重新写回客户端。简单的方式就是，用 read 函数读出数据，再用 write 函数写回即可。但是需要注意的是，这里服务器不会主动断开，而是一直接受客户端的请求并回射，直到被动断开。</p>
 <div class="highlight"><div class="chroma">
@@ -1166,19 +1166,19 @@ Echo 服务会将客户端发送的数据完全返回，即请求数据就是响
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">str_echo</span><span class="p">(</span><span class="kt">int</span> <span class="n">connfd</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">size_t</span> <span class="n">cnt</span><span class="p">;</span>
-  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-  <span class="k">while</span> <span class="p">((</span><span class="n">cnt</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">write</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">cnt</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">cnt</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">errno</span> <span class="o">==</span> <span class="n">EINTR</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">str_echo</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">cnt</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;str_echo: read error&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">str_echo</span><span class="p">(</span><span class="kt">int</span> <span class="n">connfd</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">size_t</span> <span class="n">cnt</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">((</span><span class="n">cnt</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">write</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">cnt</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">cnt</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">errno</span> <span class="o">==</span> <span class="n">EINTR</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">str_echo</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">cnt</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;str_echo: read error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="tcp-echo-客户端" class="headerLink">
     <a href="#tcp-echo-%e5%ae%a2%e6%88%b7%e7%ab%af" class="header-mark"></a>TCP Echo 客户端</h3><p>对于客户端来说，main 函数一样是模板</p>
@@ -1208,29 +1208,29 @@ Echo 服务会将客户端发送的数据完全返回，即请求数据就是响
 </span><span class="lnt">22
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&#34;unp.h&#34;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;usage: tcpcli &lt;IPaddress&gt;&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="kt">int</span> <span class="n">sockfd</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">((</span><span class="n">sockfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
-    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span>
-  <span class="p">};</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">inet_pton</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;inet_pton error&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">connect</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;connect error&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="n">str_cli</span><span class="p">(</span><span class="n">stdin</span><span class="p">,</span> <span class="n">sockfd</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;unp.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;usage: tcpcli &lt;IPaddress&gt;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">sockfd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">((</span><span class="n">sockfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">inet_pton</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;inet_pton error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">connect</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;connect error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">str_cli</span><span class="p">(</span><span class="n">stdin</span><span class="p">,</span> <span class="n">sockfd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>str_cli</code> 可以理解为 <code>dosomething</code> 函数，这里是做所有请求的函数。该函数只做了一件事，循环从标准输入读入一行文本，写入到服务器，等待服务器回射响应，再将结果写入标准输出。</p>
 <div class="highlight"><div class="chroma">
@@ -1252,22 +1252,22 @@ Echo 服务会将客户端发送的数据完全返回，即请求数据就是响
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">str_cli</span><span class="p">(</span><span class="n">FILE</span> <span class="o">*</span><span class="n">fp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sockfd</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">char</span> <span class="n">sendline</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="n">recvline</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-  <span class="n">FILE</span> <span class="o">*</span><span class="n">sockfd_fp</span> <span class="o">=</span> <span class="n">fdopen</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="s">&#34;r+&#34;</span><span class="p">);</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">sendline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">fputs</span><span class="p">(</span><span class="n">sendline</span><span class="p">,</span> <span class="n">sockfd_fp</span><span class="p">)</span> <span class="o">==</span> <span class="n">EOF</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;str_cli: stop input&#34;</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">sockfd_fp</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;str_cli: server terminated prematurely&#34;</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">fputs</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">stdout</span><span class="p">);</span>
-    <span class="n">bzero</span><span class="p">(</span><span class="n">sendline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">);</span>
-    <span class="n">bzero</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">str_cli</span><span class="p">(</span><span class="n">FILE</span> <span class="o">*</span><span class="n">fp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sockfd</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">sendline</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="n">recvline</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="n">FILE</span> <span class="o">*</span><span class="n">sockfd_fp</span> <span class="o">=</span> <span class="n">fdopen</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="s">&#34;r+&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">sendline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">fputs</span><span class="p">(</span><span class="n">sendline</span><span class="p">,</span> <span class="n">sockfd_fp</span><span class="p">)</span> <span class="o">==</span> <span class="n">EOF</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;str_cli: stop input&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">sockfd_fp</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;str_cli: server terminated prematurely&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fputs</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">stdout</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bzero</span><span class="p">(</span><span class="n">sendline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bzero</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="echo-服务端的启动与终止" class="headerLink">
     <a href="#echo-%e6%9c%8d%e5%8a%a1%e7%ab%af%e7%9a%84%e5%90%af%e5%8a%a8%e4%b8%8e%e7%bb%88%e6%ad%a2" class="header-mark"></a>echo 服务端的启动与终止</h3><h4 id="启动" class="headerLink">
@@ -1277,8 +1277,8 @@ Echo 服务会将客户端发送的数据完全返回，即请求数据就是响
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">./examplesrv <span class="p">&amp;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">./examplesrv <span class="p">&amp;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>服务器启动后，调用 socket、bind、listen 和 accept，并阻塞于 accept。使用 lsof 命令可以看到 7 号端口的使用信息</p>
 <div class="highlight"><div class="chroma">
@@ -1286,8 +1286,8 @@ Echo 服务会将客户端发送的数据完全返回，即请求数据就是响
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">lsof -i :7
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">lsof -i :7
+</span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1295,9 +1295,9 @@ Echo 服务会将客户端发送的数据完全返回，即请求数据就是响
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">COMMAND     PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
-examplesr 20246    root    3u  IPv4 802379      0t0  TCP *:echo (LISTEN)
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">COMMAND     PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+</span></span><span class="line"><span class="cl">examplesr 20246    root    3u  IPv4 802379      0t0  TCP *:echo (LISTEN)
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>当然也可以使用 netstat 检查服务器监听套接字的状态</p>
 <div class="highlight"><div class="chroma">
@@ -1305,8 +1305,8 @@ examplesr 20246    root    3u  IPv4 802379      0t0  TCP *:echo (LISTEN)
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">netstat -a
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">netstat -a
+</span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1315,10 +1315,10 @@ examplesr 20246    root    3u  IPv4 802379      0t0  TCP *:echo (LISTEN)
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">Active Internet connections (servers and established)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State
-tcp        0      0 0.0.0.0:echo            0.0.0.0:*               LISTEN
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Active Internet connections (servers and established)
+</span></span><span class="line"><span class="cl">Proto Recv-Q Send-Q Local Address           Foreign Address         State
+</span></span><span class="line"><span class="cl">tcp        0      0 0.0.0.0:echo            0.0.0.0:*               LISTEN
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>*</code> 或 <code>0.0.0.0</code> 来表示通配地址，netstat 中 <code>:*</code> 表示了为 0 的端口号。这时候启动客户端并指定服务器地址为 127.0.0.1</p>
 <div class="highlight"><div class="chroma">
@@ -1326,8 +1326,8 @@ tcp        0      0 0.0.0.0:echo            0.0.0.0:*               LISTEN
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">./examplecli 127.0.0.1
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">./examplecli 127.0.0.1
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>客户端启动后通过 socket、connect 建立起连接，服务器上 accept 返回，客户端上
 connect 返回，连接建立完成，客户端进入 fgets，等待用户输入，服务器子进程被 read
@@ -1338,8 +1338,8 @@ connect 返回，连接建立完成，客户端进入 fgets，等待用户输入
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">netstat -a
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">netstat -a
+</span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1350,12 +1350,12 @@ connect 返回，连接建立完成，客户端进入 fgets，等待用户输入
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">Active Internet connections (servers and established)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State
-tcp        0      0 0.0.0.0:echo            0.0.0.0:*               LISTEN
-tcp        0      0 GinShio:echo            GinShio:32996           ESTABLISHED
-tcp        0      0 GinShio:32996           GinShio:echo            ESTABLISHED
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Active Internet connections (servers and established)
+</span></span><span class="line"><span class="cl">Proto Recv-Q Send-Q Local Address           Foreign Address         State
+</span></span><span class="line"><span class="cl">tcp        0      0 0.0.0.0:echo            0.0.0.0:*               LISTEN
+</span></span><span class="line"><span class="cl">tcp        0      0 GinShio:echo            GinShio:32996           ESTABLISHED
+</span></span><span class="line"><span class="cl">tcp        0      0 GinShio:32996           GinShio:echo            ESTABLISHED
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>可以清楚的看到，由父进程进行的 LISTEN 状态的 sockfd，子进程与客户端在 echo (7)
 和 32996 端口建立起了连接，其中 32996 是客户端由系统自动分配的端口。这是再开启一个通过 wlan0 (无线网卡) 连接的客户端，可以得到如下的输出。可以看到有一个地址
@@ -1371,14 +1371,14 @@ tcp        0      0 GinShio:32996           GinShio:echo            ESTABLISHED
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">Active Internet connections (servers and established)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State
-tcp        0      0 0.0.0.0:echo            0.0.0.0:*               LISTEN
-tcp        0      0 192.168.0.105:46956     192.168.0.105:echo      ESTABLISHED
-tcp        0      0 192.168.0.105:echo      192.168.0.105:46956     ESTABLISHED
-tcp        0      0 GinShio:echo            GinShio:32996           ESTABLISHED
-tcp        0      0 GinShio:32996           GinShio:echo            ESTABLISHED
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Active Internet connections (servers and established)
+</span></span><span class="line"><span class="cl">Proto Recv-Q Send-Q Local Address           Foreign Address         State
+</span></span><span class="line"><span class="cl">tcp        0      0 0.0.0.0:echo            0.0.0.0:*               LISTEN
+</span></span><span class="line"><span class="cl">tcp        0      0 192.168.0.105:46956     192.168.0.105:echo      ESTABLISHED
+</span></span><span class="line"><span class="cl">tcp        0      0 192.168.0.105:echo      192.168.0.105:46956     ESTABLISHED
+</span></span><span class="line"><span class="cl">tcp        0      0 GinShio:echo            GinShio:32996           ESTABLISHED
+</span></span><span class="line"><span class="cl">tcp        0      0 GinShio:32996           GinShio:echo            ESTABLISHED
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>还可以通过 ps 命令来查看进程的状态与关系。我这里查看到服务端在 <code>pts/4</code> 上启动，而本地客户端在 <code>pts/5</code> 上，wlan0 客户端在 <code>pts/6</code> 上，通过以下 ps 命令查看</p>
 <div class="highlight"><div class="chroma">
@@ -1387,9 +1387,9 @@ tcp        0      0 GinShio:32996           GinShio:echo            ESTABLISHED
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># pts/4</span>
-ps -t pts/4 -o pid,ppid,tty,stat,args,wchan
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># pts/4</span>
+</span></span><span class="line"><span class="cl">ps -t pts/4 -o pid,ppid,tty,stat,args,wchan
+</span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1401,13 +1401,13 @@ ps -t pts/4 -o pid,ppid,tty,stat,args,wchan
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">  PID  PPID TT       STAT COMMAND                     WCHAN
-19195 19144 pts/4    Ss+  /bin/zsh                    -
-20235 19195 pts/4    S    sudo ./examplesrv           -
-20246 20235 pts/4    S    ./examplesrv                -
-20254 20246 pts/4    S    ./examplesrv                -
-20256 20246 pts/4    S    ./examplesrv                -
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">  PID  PPID TT       STAT COMMAND                     WCHAN
+</span></span><span class="line"><span class="cl">19195 19144 pts/4    Ss+  /bin/zsh                    -
+</span></span><span class="line"><span class="cl">20235 19195 pts/4    S    sudo ./examplesrv           -
+</span></span><span class="line"><span class="cl">20246 20235 pts/4    S    ./examplesrv                -
+</span></span><span class="line"><span class="cl">20254 20246 pts/4    S    ./examplesrv                -
+</span></span><span class="line"><span class="cl">20256 20246 pts/4    S    ./examplesrv                -
+</span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1415,31 +1415,9 @@ ps -t pts/4 -o pid,ppid,tty,stat,args,wchan
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># pts/5</span>
-ps -t pts/5 -o pid,ppid,tty,stat,args,wchan
-</code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">  PID  PPID TT       STAT COMMAND                     WCHAN
-19236 19144 pts/5    Ss   /bin/zsh                    -
-20253 19236 pts/5    S+   ./examplecli 127.0.0.1      -
-</code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># pts/6</span>
-ps -t pts/6 -o pid,ppid,tty,stat,args,wchan
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># pts/5</span>
+</span></span><span class="line"><span class="cl">ps -t pts/5 -o pid,ppid,tty,stat,args,wchan
+</span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1448,10 +1426,32 @@ ps -t pts/6 -o pid,ppid,tty,stat,args,wchan
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">  PID  PPID TT       STAT COMMAND                     WCHAN
-19277 19144 pts/6    Ss   /bin/zsh                    -
-20255 19277 pts/6    S+   ./examplecli 192.168.0.105  -
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">  PID  PPID TT       STAT COMMAND                     WCHAN
+</span></span><span class="line"><span class="cl">19236 19144 pts/5    Ss   /bin/zsh                    -
+</span></span><span class="line"><span class="cl">20253 19236 pts/5    S+   ./examplecli 127.0.0.1      -
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># pts/6</span>
+</span></span><span class="line"><span class="cl">ps -t pts/6 -o pid,ppid,tty,stat,args,wchan
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">  PID  PPID TT       STAT COMMAND                     WCHAN
+</span></span><span class="line"><span class="cl">19277 19144 pts/6    Ss   /bin/zsh                    -
+</span></span><span class="line"><span class="cl">20255 19277 pts/6    S+   ./examplecli 192.168.0.105  -
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>可以看到所有的进程的 STAT 都是 S，表明进程因等待某些资源而阻塞。</p>
 <h4 id="终止" class="headerLink">
@@ -1468,13 +1468,13 @@ ps -t pts/6 -o pid,ppid,tty,stat,args,wchan
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">Active Internet connections (servers and established)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State
-tcp        0      0 0.0.0.0:echo            0.0.0.0:*               LISTEN
-tcp        0      0 192.168.0.105:46956     192.168.0.105:echo      TIME_WAIT
-tcp        0      0 GinShio:echo            GinShio:32996           ESTABLISHED
-tcp        0      0 GinShio:32996           GinShio:echo            ESTABLISHED
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Active Internet connections (servers and established)
+</span></span><span class="line"><span class="cl">Proto Recv-Q Send-Q Local Address           Foreign Address         State
+</span></span><span class="line"><span class="cl">tcp        0      0 0.0.0.0:echo            0.0.0.0:*               LISTEN
+</span></span><span class="line"><span class="cl">tcp        0      0 192.168.0.105:46956     192.168.0.105:echo      TIME_WAIT
+</span></span><span class="line"><span class="cl">tcp        0      0 GinShio:echo            GinShio:32996           ESTABLISHED
+</span></span><span class="line"><span class="cl">tcp        0      0 GinShio:32996           GinShio:echo            ESTABLISHED
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>客户端在结束输入之后关闭套接字描述符，这导致 TCP 客户端向服务端发送一个 FIN，处于 FIN_WAIT_2 状态，服务端响应 ACK，处于 CLOSE_WAIT 状态。服务端从 str_echo 返回子进程的主函数，通过 exit 终止，打开的套接字描述符关闭，从而发送 FIN 到客户端，并接收客户端发送的 ACK，连接终止，客户端套接字进入 TIME_WAIT 状态。</p>
 <p>另外进程终止时，会向父进程发送一个 <strong>SIGCHLD</strong> 信号，服务端代码并没有捕获该代码进行处理，也没有使用 wait 进行处理，从而父进程默认忽略该信号。由于父进程的忽略，子进程进入僵尸状态，在 ps 上显示状态为 Z。</p>
@@ -1483,8 +1483,8 @@ tcp        0      0 GinShio:32996           GinShio:echo            ESTABLISHED
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">ps -t pts/4 -o pid,ppid,tty,stat,args,wchan
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ps -t pts/4 -o pid,ppid,tty,stat,args,wchan
+</span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1496,13 +1496,13 @@ tcp        0      0 GinShio:32996           GinShio:echo            ESTABLISHED
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">  PID  PPID TT       STAT COMMAND                     WCHAN
-19195 19144 pts/4    Ss+  /bin/zsh                    -
-20235 19195 pts/4    S    sudo ./examplesrv           -
-20246 20235 pts/4    S    ./examplesrv                -
-20254 20246 pts/4    S    ./examplesrv                -
-20256 20246 pts/4    Z    [examplesrv] &lt;defunct&gt;      -
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">  PID  PPID TT       STAT COMMAND                     WCHAN
+</span></span><span class="line"><span class="cl">19195 19144 pts/4    Ss+  /bin/zsh                    -
+</span></span><span class="line"><span class="cl">20235 19195 pts/4    S    sudo ./examplesrv           -
+</span></span><span class="line"><span class="cl">20246 20235 pts/4    S    ./examplesrv                -
+</span></span><span class="line"><span class="cl">20254 20246 pts/4    S    ./examplesrv                -
+</span></span><span class="line"><span class="cl">20256 20246 pts/4    Z    [examplesrv] &lt;defunct&gt;      -
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>在 Unix 系统上，这种父进程没有处理回收的进程就是僵尸进程，系统不会释放其占用的资源。当僵尸进程过多时，系统就会出现问题，如进程号不足、内存不足等问题。因此需要及时清理，另外当父进程死亡时，僵尸子进程被过继到 init 进程，此时 init 进程会将负责僵尸进程的资源回收工作。</p>
 <p>如果想主动终止服务端进程，可以使用 kill 命令对进程发送相应的信号，以此来终止进程。此时服务器就会作为连接的主动关闭方。</p>
@@ -1520,8 +1520,8 @@ sigaction 来设定一个信号的处理，并有三种选择</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">handler</span><span class="p">(</span><span class="kt">int</span> <span class="n">signo</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">handler</span><span class="p">(</span><span class="kt">int</span> <span class="n">signo</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 <li>
@@ -1837,8 +1837,8 @@ sigaction 来设定一个信号的处理，并有三种选择</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">signal</span><span class="p">(</span><span class="kt">int</span> <span class="n">signum</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">handler</span><span class="p">)(</span><span class="kt">int</span><span class="p">)))</span> <span class="p">(</span><span class="kt">int</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">signal</span><span class="p">(</span><span class="kt">int</span> <span class="n">signum</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">handler</span><span class="p">)(</span><span class="kt">int</span><span class="p">)))</span> <span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>首先其参数为信号名 signo 与回调函数 handler，这个函数类型为无返回值的单参数为
 int 的函数指针，signal 函数最终也返回这样的一个函数指针。简化如下</p>
@@ -1849,10 +1849,10 @@ int 的函数指针，signal 函数最终也返回这样的一个函数指针。
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// signal.h
-</span><span class="c1"></span><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">sighandler_t</span><span class="p">)(</span><span class="kt">int</span><span class="p">);</span>
-<span class="n">sighandler_t</span> <span class="nf">signal</span><span class="p">(</span><span class="kt">int</span> <span class="n">signum</span><span class="p">,</span> <span class="n">sighandler_t</span> <span class="n">handler</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// signal.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">sighandler_t</span><span class="p">)(</span><span class="kt">int</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">sighandler_t</span> <span class="nf">signal</span><span class="p">(</span><span class="kt">int</span> <span class="n">signum</span><span class="p">,</span> <span class="n">sighandler_t</span> <span class="n">handler</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>捕获信号成功时将返回该处理函数，而失败时会返回常量 <code>SIG_ERR</code>。</p>
 <p>现在回过头来看一看 POSIX 函数 sigaction</p>
@@ -1863,10 +1863,10 @@ int 的函数指针，signal 函数最终也返回这样的一个函数指针。
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// signal.h
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">sigaction</span><span class="p">(</span><span class="kt">int</span> <span class="n">signum</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">sigaction</span> <span class="o">*</span><span class="n">act</span><span class="p">,</span> <span class="k">struct</span> <span class="n">sigaction</span> <span class="o">*</span><span class="n">oldact</span><span class="p">);</span>
-<span class="c1">// return 0 if OK, -1 on error
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// signal.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">sigaction</span><span class="p">(</span><span class="kt">int</span> <span class="n">signum</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">sigaction</span> <span class="o">*</span><span class="n">act</span><span class="p">,</span> <span class="k">struct</span> <span class="n">sigaction</span> <span class="o">*</span><span class="n">oldact</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// return 0 if OK, -1 on error
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>说实话 sigaction 虽然麻烦但是函数原型好看很多。act 即将要修改的信号的新行为，
 oldact 会将旧行为用参数 oldact 返回给用户。</p>
@@ -1882,14 +1882,14 @@ oldact 会将旧行为用参数 oldact 返回给用户。</p>
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">sigaction</span> <span class="p">{</span>
-  <span class="kt">void</span>     <span class="p">(</span><span class="o">*</span><span class="n">sa_handler</span><span class="p">)(</span><span class="kt">int</span><span class="p">);</span>
-  <span class="kt">void</span>     <span class="p">(</span><span class="o">*</span><span class="n">sa_sigaction</span><span class="p">)(</span><span class="kt">int</span><span class="p">,</span> <span class="n">siginfo_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="p">);</span>
-  <span class="n">sigset_t</span>   <span class="n">sa_mask</span><span class="p">;</span>
-  <span class="kt">int</span>        <span class="n">sa_flags</span><span class="p">;</span>
-  <span class="kt">void</span>     <span class="p">(</span><span class="o">*</span><span class="n">sa_restorer</span><span class="p">)(</span><span class="kt">void</span><span class="p">);</span>
-<span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">sigaction</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span>     <span class="p">(</span><span class="o">*</span><span class="n">sa_handler</span><span class="p">)(</span><span class="kt">int</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span>     <span class="p">(</span><span class="o">*</span><span class="n">sa_sigaction</span><span class="p">)(</span><span class="kt">int</span><span class="p">,</span> <span class="n">siginfo_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">sigset_t</span>   <span class="n">sa_mask</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span>        <span class="n">sa_flags</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span>     <span class="p">(</span><span class="o">*</span><span class="n">sa_restorer</span><span class="p">)(</span><span class="kt">void</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>sa_handler 即信号处理函数，用法同 signal 中的 handler</li>
@@ -1916,12 +1916,12 @@ struct siginfo_t 是一个复杂的结构，提供了大量字段来描述相关
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">sig_chld</span><span class="p">(</span><span class="kt">int</span> <span class="n">signo</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">stat</span><span class="p">;</span>
-  <span class="n">pid_t</span> <span class="n">pid</span> <span class="o">=</span> <span class="n">wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stat</span><span class="p">);</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">&#34;child %d terminated&#34;</span><span class="p">,</span> <span class="n">pid</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">sig_chld</span><span class="p">(</span><span class="kt">int</span> <span class="n">signo</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">stat</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pid_t</span> <span class="n">pid</span> <span class="o">=</span> <span class="n">wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stat</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">printf</span><span class="p">(</span><span class="s">&#34;child %d terminated&#34;</span><span class="p">,</span> <span class="n">pid</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>对于这个回调函数非常简单，也能达到我们的目的：清理终止的子进程所占用的资源。当然需要一个合适的位置来调用 signal 注册这个行为，只要在 main 函数的 while 循环之前注册都行，只需要简单的添加一句 <code>signal(SIGCHLD, sig_chld);</code> 即可。</p>
 <p>当然你会发现这是不行的，因为这里有一个 <strong>慢系统调用</strong> (slow system call)，即系统调用阻塞进程后不保证返回，服务端中典型的慢系统调用是 accept，当无客户连接时，主进程将永远阻塞在 accept。当进程阻塞在慢系统调用中，捕获信号并在相应行为返回后，这个系统调用可能返回一个 EINTR 错误，或者有些实现中会自动重启被中断的系统调用。因此为了方便在 POSIX 系统之间移植，对慢系统调用的 EINTR 错误处理很重要。</p>
@@ -1966,21 +1966,21 @@ SIGPIPE。</p>
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">str_cli</span><span class="p">(</span><span class="n">FILE</span> <span class="o">*</span><span class="n">fp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sockfd</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">char</span> <span class="n">sendline</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="n">recvline</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">sendline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">write</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">sendline</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-    <span class="n">write</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">sendline</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">sendline</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">sockfd_fp</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;str_cli: server terminated prematurely&#34;</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">fputs</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">stdout</span><span class="p">);</span>
-    <span class="n">bzero</span><span class="p">(</span><span class="n">sendline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">);</span>
-    <span class="n">bzero</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">str_cli</span><span class="p">(</span><span class="n">FILE</span> <span class="o">*</span><span class="n">fp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sockfd</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">sendline</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span> <span class="n">recvline</span><span class="p">[</span><span class="n">MAXLINE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">sendline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">write</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">sendline</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">write</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">sendline</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">sendline</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">sockfd_fp</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;str_cli: server terminated prematurely&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fputs</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">stdout</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bzero</span><span class="p">(</span><span class="n">sendline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bzero</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>处理 SIGPIPE 信号取决于发生时进程想做什么，如果没有特殊的事则直接忽略，并在后续的操作中检查 EPIPE 错误并终止。</p>
 </li>
@@ -2036,7 +2036,7 @@ ECONNRESET 错误。</p>
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

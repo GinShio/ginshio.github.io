@@ -247,90 +247,90 @@
 </span><span class="lnt">83
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// 以下代码与 UNP intro/daytimetcpcli.c 等价
-</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;stdarg.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="c1">// inet_pton/3, htons/1
-</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="c1">// struct sockaddr_in
-</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;netinet/in.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="c1">// errno
-</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;errno.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="c1">// socket/3, connect/3
-</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="c1">// read/3
-</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="cp">#define MAXLINE 4096
-</span><span class="cp"></span>
-<span class="kt">void</span> <span class="nf">err_sys</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span>
-  <span class="n">va_list</span> <span class="n">ap</span><span class="p">;</span>
-  <span class="n">va_start</span><span class="p">(</span><span class="n">ap</span><span class="p">,</span> <span class="n">fmt</span><span class="p">);</span>
-  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-  <span class="n">vsnprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">ap</span><span class="p">);</span>
-  <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
-  <span class="n">snprintf</span><span class="p">(</span><span class="n">buffer</span> <span class="o">+</span> <span class="n">n</span><span class="p">,</span> <span class="n">MAXLINE</span> <span class="o">-</span> <span class="n">n</span><span class="p">,</span> <span class="s">&#34;:%s&#34;</span><span class="p">,</span> <span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
-  <span class="n">strcat</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
-  <span class="n">fflush</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
-  <span class="n">fputs</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">stderr</span><span class="p">);</span>
-  <span class="n">fflush</span><span class="p">(</span><span class="n">stderr</span><span class="p">);</span>
-  <span class="n">va_end</span><span class="p">(</span><span class="n">ap</span><span class="p">);</span>
-  <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">err_quit</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span>
-  <span class="n">va_list</span> <span class="n">ap</span><span class="p">;</span>
-  <span class="n">va_start</span><span class="p">(</span><span class="n">ap</span><span class="p">,</span> <span class="n">fmt</span><span class="p">);</span>
-  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-  <span class="n">vsnprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">ap</span><span class="p">);</span>
-  <span class="n">strcat</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
-  <span class="n">fflush</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
-  <span class="n">fputs</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">stderr</span><span class="p">);</span>
-  <span class="n">fflush</span><span class="p">(</span><span class="n">stderr</span><span class="p">);</span>
-  <span class="n">va_end</span><span class="p">(</span><span class="n">ap</span><span class="p">);</span>
-  <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;usage: a.out &lt;IPaddress&gt;&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="kt">int</span> <span class="n">sockfd</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">((</span><span class="n">sockfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
-    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">13</span><span class="p">),</span>
-  <span class="p">};</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">inet_pton</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;inet_pton error for %s&#34;</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">connect</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;connect error&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
-  <span class="kt">char</span> <span class="n">recvline</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
-  <span class="k">while</span> <span class="p">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">recvline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">recvline</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">fputs</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">stdout</span><span class="p">)</span> <span class="o">==</span> <span class="n">EOF</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;read error&#34;</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;read error&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 以下代码与 UNP intro/daytimetcpcli.c 等价
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;stdarg.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// inet_pton/3, htons/1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// struct sockaddr_in
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;netinet/in.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// errno
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;errno.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// socket/3, connect/3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// read/3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#define MAXLINE 4096
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">err_sys</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_list</span> <span class="n">ap</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_start</span><span class="p">(</span><span class="n">ap</span><span class="p">,</span> <span class="n">fmt</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="n">vsnprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">ap</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">snprintf</span><span class="p">(</span><span class="n">buffer</span> <span class="o">+</span> <span class="n">n</span><span class="p">,</span> <span class="n">MAXLINE</span> <span class="o">-</span> <span class="n">n</span><span class="p">,</span> <span class="s">&#34;:%s&#34;</span><span class="p">,</span> <span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">strcat</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fflush</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fputs</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">stderr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fflush</span><span class="p">(</span><span class="n">stderr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_end</span><span class="p">(</span><span class="n">ap</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">err_quit</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_list</span> <span class="n">ap</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_start</span><span class="p">(</span><span class="n">ap</span><span class="p">,</span> <span class="n">fmt</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="n">vsnprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">ap</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">strcat</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fflush</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fputs</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">stderr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fflush</span><span class="p">(</span><span class="n">stderr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_end</span><span class="p">(</span><span class="n">ap</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;usage: a.out &lt;IPaddress&gt;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">sockfd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">((</span><span class="n">sockfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">13</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">inet_pton</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;inet_pton error for %s&#34;</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">connect</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;connect error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">recvline</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">recvline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">recvline</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">fputs</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">stdout</span><span class="p">)</span> <span class="o">==</span> <span class="n">EOF</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;read error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;read error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>当然需要自行编译一下 daytimetcpsrv 并启动它，然后就可以顺利启动 client 就可以看到获取的时间了。</p>
 <h3 id="socket" class="headerLink">
@@ -457,15 +457,15 @@ Linux Kernel 5.3.18。</p>
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// 构建 IPv4 socket
-</span><span class="c1"></span><span class="n">tcp_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-<span class="n">udp_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_DGRAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-<span class="n">raw_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_RAW</span><span class="p">,</span> <span class="n">protocol</span><span class="p">);</span>
-<span class="c1">// 构建 IPv6 socket
-</span><span class="c1"></span><span class="n">tcp6_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET6</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-<span class="n">raw6_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET6</span><span class="p">,</span> <span class="n">SOCK_RAW</span><span class="p">,</span> <span class="n">protocol</span><span class="p">);</span>
-<span class="n">udp6_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET6</span><span class="p">,</span> <span class="n">SOCK_DGRAM</span><span class="p">,</span> <span class="n">protocol</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 构建 IPv4 socket
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">tcp_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">udp_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_DGRAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">raw_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_RAW</span><span class="p">,</span> <span class="n">protocol</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 构建 IPv6 socket
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">tcp6_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET6</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">raw6_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET6</span><span class="p">,</span> <span class="n">SOCK_RAW</span><span class="p">,</span> <span class="n">protocol</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">udp6_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET6</span><span class="p">,</span> <span class="n">SOCK_DGRAM</span><span class="p">,</span> <span class="n">protocol</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="指定服务器-ip-地址与端口" class="headerLink">
     <a href="#%e6%8c%87%e5%ae%9a%e6%9c%8d%e5%8a%a1%e5%99%a8-ip-%e5%9c%b0%e5%9d%80%e4%b8%8e%e7%ab%af%e5%8f%a3" class="header-mark"></a>指定服务器 IP 地址与端口</h3><p>使用 <code>sockaddr_in</code> 数据结构 (头文件 <strong>netinet/in.h</strong> 中) 保存服务器的 IPv4 信息，结构体如下</p>
@@ -497,31 +497,31 @@ Linux Kernel 5.3.18。</p>
 </span><span class="lnt">24
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// IPv4
-</span><span class="c1"></span><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="p">{</span>
-    <span class="n">sa_family_t</span>    <span class="n">sin_family</span><span class="p">;</span> <span class="cm">/* address family: AF_INET */</span>
-    <span class="n">in_port_t</span>      <span class="n">sin_port</span><span class="p">;</span>   <span class="cm">/* port in network byte order */</span>
-    <span class="k">struct</span> <span class="n">in_addr</span> <span class="n">sin_addr</span><span class="p">;</span>   <span class="cm">/* internet address */</span>
-<span class="p">};</span>
-<span class="cm">/* Internet address. */</span>
-<span class="k">typedef</span> <span class="kt">uint32_t</span> <span class="n">in_addr_t</span><span class="p">;</span>
-<span class="k">struct</span> <span class="n">in_addr</span> <span class="p">{</span>
-    <span class="n">in_addr_t</span>      <span class="n">s_addr</span><span class="p">;</span>     <span class="cm">/* address in network byte order */</span>
-<span class="p">};</span>
-
-<span class="c1">// Ipv6
-</span><span class="c1"></span><span class="k">struct</span> <span class="n">sockaddr_in6</span> <span class="p">{</span>
-    <span class="n">sa_family_t</span>     <span class="n">sin6_family</span><span class="p">;</span>   <span class="cm">/* AF_INET6 */</span>
-    <span class="n">in_port_t</span>       <span class="n">sin6_port</span><span class="p">;</span>     <span class="cm">/* port number */</span>
-    <span class="kt">uint32_t</span>        <span class="n">sin6_flowinfo</span><span class="p">;</span> <span class="cm">/* IPv6 flow information */</span>
-    <span class="k">struct</span> <span class="n">in6_addr</span> <span class="n">sin6_addr</span><span class="p">;</span>     <span class="cm">/* IPv6 address */</span>
-    <span class="kt">uint32_t</span>        <span class="n">sin6_scope_id</span><span class="p">;</span> <span class="cm">/* Scope ID (new in 2.4) */</span>
-<span class="p">};</span>
-
-<span class="k">struct</span> <span class="n">in6_addr</span> <span class="p">{</span>
-    <span class="kt">unsigned</span> <span class="kt">char</span>   <span class="n">s6_addr</span><span class="p">[</span><span class="mi">16</span><span class="p">];</span>   <span class="cm">/* IPv6 address */</span>
-<span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// IPv4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sa_family_t</span>    <span class="n">sin_family</span><span class="p">;</span> <span class="cm">/* address family: AF_INET */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">in_port_t</span>      <span class="n">sin_port</span><span class="p">;</span>   <span class="cm">/* port in network byte order */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">in_addr</span> <span class="n">sin_addr</span><span class="p">;</span>   <span class="cm">/* internet address */</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* Internet address. */</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="kt">uint32_t</span> <span class="n">in_addr_t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">in_addr</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">in_addr_t</span>      <span class="n">s_addr</span><span class="p">;</span>     <span class="cm">/* address in network byte order */</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Ipv6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="n">sockaddr_in6</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sa_family_t</span>     <span class="n">sin6_family</span><span class="p">;</span>   <span class="cm">/* AF_INET6 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">in_port_t</span>       <span class="n">sin6_port</span><span class="p">;</span>     <span class="cm">/* port number */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span>        <span class="n">sin6_flowinfo</span><span class="p">;</span> <span class="cm">/* IPv6 flow information */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">in6_addr</span> <span class="n">sin6_addr</span><span class="p">;</span>     <span class="cm">/* IPv6 address */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span>        <span class="n">sin6_scope_id</span><span class="p">;</span> <span class="cm">/* Scope ID (new in 2.4) */</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">in6_addr</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span>   <span class="n">s6_addr</span><span class="p">[</span><span class="mi">16</span><span class="p">];</span>   <span class="cm">/* IPv6 address */</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>另外系统使用大端序或小端序，而网络编程中往往需要使用网络序，因此提供了一系列将系统序 (host byte order) 转换为网络序 (network byte order) 的函数 (头文件
 <strong>arpa/inet.h</strong>)，不过在有些系统中这些函数被包含在 <strong>netinet/in.h</strong> 中。使用这些函数就可以自由的定义端口值。</p>
@@ -533,11 +533,11 @@ Linux Kernel 5.3.18。</p>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">uint32_t</span> <span class="nf">htonl</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">hostlong</span><span class="p">);</span>   <span class="c1">// 将 unsigned int 类型 host to network
-</span><span class="c1"></span><span class="kt">uint16_t</span> <span class="nf">htons</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">hostshort</span><span class="p">);</span>  <span class="c1">// 将 unsigned short 类型 host to network
-</span><span class="c1"></span><span class="kt">uint32_t</span> <span class="nf">ntohl</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">netlong</span><span class="p">);</span>    <span class="c1">// 将 unsigned int 类型 network to host
-</span><span class="c1"></span><span class="kt">uint16_t</span> <span class="nf">ntohs</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">netshort</span><span class="p">);</span>   <span class="c1">// 将 unsigned short 类型 network to host
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">uint32_t</span> <span class="nf">htonl</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">hostlong</span><span class="p">);</span>   <span class="c1">// 将 unsigned int 类型 host to network
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">uint16_t</span> <span class="nf">htons</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">hostshort</span><span class="p">);</span>  <span class="c1">// 将 unsigned short 类型 host to network
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">uint32_t</span> <span class="nf">ntohl</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">netlong</span><span class="p">);</span>    <span class="c1">// 将 unsigned int 类型 network to host
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">uint16_t</span> <span class="nf">ntohs</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">netshort</span><span class="p">);</span>   <span class="c1">// 将 unsigned short 类型 network to host
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>最后一个与IP信息有关的函数就是 <code>inet_pton/3</code> (presentation to numeric，头文件
 <strong>arpa/inet.h</strong> 中)，这是一个伴随着 IPv6 诞生的 POSIX 函数，可以将 IPv4 的点分十进制字符串形式或 IPv6 的字符串行形式地址转换为 <code>in_addr</code> 或 <code>in6_addr</code> 的字节形式。这个函数会返回一个整数用来确定函数是否成功，\(1\) 代表了成功，而 \(0\) 代表没有包含有效的地址，\(-1\) 是最为严重的，表示不是有效的协议族，这还会将 errno 设置为
@@ -585,46 +585,46 @@ Linux Kernel 5.3.18。</p>
 </span><span class="lnt">39
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
-    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">in6_addr</span><span class="p">)];</span>
-    <span class="kt">int</span> <span class="n">domain</span><span class="p">,</span> <span class="n">s</span><span class="p">;</span>
-    <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="n">INET6_ADDRSTRLEN</span><span class="p">];</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&#34;Usage: %s {i4|i6|&lt;num&gt;} string</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
-        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">domain</span> <span class="o">=</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&#34;i4&#34;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="nl">AF_INET</span> <span class="p">:</span>
-             <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&#34;i6&#34;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="nl">AF_INET6</span> <span class="p">:</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">inet_pton</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">buf</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&#34;Not in presentation format&#34;</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="n">perror</span><span class="p">(</span><span class="s">&#34;inet_pton&#34;</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">inet_ntop</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">INET6_ADDRSTRLEN</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">perror</span><span class="p">(</span><span class="s">&#34;inet_ntop&#34;</span><span class="p">);</span>
-        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span>
-    <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_SUCCESS</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="c1">// ./a.out i4 127.0.0.1
-</span><span class="c1">// 127.0.0.1
-</span><span class="c1">// ./a.out i6 0:0:0:0:0:0:0:0
-</span><span class="c1">// ::
-</span><span class="c1">// ./a.out i6 1:0:0:0:0:0:0:8
-</span><span class="c1">// 1::8
-</span><span class="c1">// ./a.out i6 0:0:0:0:0:FFFF:204.152.189.116
-</span><span class="c1">// ::ffff:204.152.189.116
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">in6_addr</span><span class="p">)];</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">domain</span><span class="p">,</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="n">INET6_ADDRSTRLEN</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&#34;Usage: %s {i4|i6|&lt;num&gt;} string</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">domain</span> <span class="o">=</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&#34;i4&#34;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="nl">AF_INET</span> <span class="p">:</span>
+</span></span><span class="line"><span class="cl">             <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&#34;i6&#34;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="nl">AF_INET6</span> <span class="p">:</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span> <span class="o">=</span> <span class="n">inet_pton</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">buf</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&#34;Not in presentation format&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">perror</span><span class="p">(</span><span class="s">&#34;inet_pton&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">inet_ntop</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">INET6_ADDRSTRLEN</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">perror</span><span class="p">(</span><span class="s">&#34;inet_ntop&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_SUCCESS</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// ./a.out i4 127.0.0.1
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 127.0.0.1
+</span></span></span><span class="line"><span class="cl"><span class="c1">// ./a.out i6 0:0:0:0:0:0:0:0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// ::
+</span></span></span><span class="line"><span class="cl"><span class="c1">// ./a.out i6 1:0:0:0:0:0:0:8
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 1::8
+</span></span></span><span class="line"><span class="cl"><span class="c1">// ./a.out i6 0:0:0:0:0:FFFF:204.152.189.116
+</span></span></span><span class="line"><span class="cl"><span class="c1">// ::ffff:204.152.189.116
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>以前常用的函数则是支持 IPv4 的 <code>inet_addr/1</code> 系列函数</p>
 <table>
@@ -670,10 +670,10 @@ Linux Kernel 5.3.18。</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// #include &lt;sys/socket.h&gt;
-</span><span class="c1">// #include &lt;sys/types.h&gt;
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">connect</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="n">addrlen</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// #include &lt;sys/socket.h&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1">// #include &lt;sys/types.h&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">connect</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="n">addrlen</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>该函数接收 sockfd 用于监听主机端口，并使用 addr 接收服务器的地址、端口等信息，最后一个参数则是 addr 的数据类型大小。</p>
 <p>当然 socket 类型会影响该函数的行为：<code>SOCK_DGRAM</code> 类型的 socket，addr 是默认发送和接收数据报的地址；而 <code>SOCK_STREAM</code> 和 <code>SOCK_SEQPACKET</code> 类型的 socket，将会试图与指定地址建立连接。通常来说，基于连接的 socket 只允许调用成功一次该函数，而无连接的 socket 可以多次调用该函数来更改关联的地址，并且自 Linux Kernel 2.2 以后，可以通过连接到将 <strong>sa_family</strong> 设置为 <code>AF_UNSPEC</code> 来解除地址关联。</p>
@@ -738,55 +738,55 @@ SMTP 采用两个字节序的 ASCII 回车符后跟 ASCII 换行符表示数据�
 </span><span class="lnt">48
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// 以下代码与 UNP intro/daytimetcpsrv.c 等价
-</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;stdbool.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;time.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;netinet/in.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="cp">#define LISTENQ 1024
-</span><span class="cp">#define MAXLINE 4096
-</span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">listenfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">listenfd</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;listen error&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
-    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">13</span><span class="p">),</span>
-    <span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
-  <span class="p">};</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">bind</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;bind error&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">listen</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">LISTENQ</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;listen error&#34;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">connfd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">connfd</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">err_ret</span><span class="p">(</span><span class="s">&#34;connect error&#34;</span><span class="p">);</span>
-      <span class="k">continue</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">time_t</span> <span class="n">ticks</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
-    <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-    <span class="n">snprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buffer</span><span class="p">),</span> <span class="s">&#34;%.24s</span><span class="se">\r\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">ctime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ticks</span><span class="p">));</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">write</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">err_ret</span><span class="p">(</span><span class="s">&#34;write error&#34;</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">close</span><span class="p">(</span><span class="n">connfd</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">err_ret</span><span class="p">(</span><span class="s">&#34;close error&#34;</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 以下代码与 UNP intro/daytimetcpsrv.c 等价
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;stdbool.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;time.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;netinet/in.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#define LISTENQ 1024
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define MAXLINE 4096
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">listenfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">listenfd</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;listen error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">13</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">bind</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;bind error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">listen</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">LISTENQ</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;listen error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">connfd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">connfd</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">err_ret</span><span class="p">(</span><span class="s">&#34;connect error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">time_t</span> <span class="n">ticks</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="n">snprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buffer</span><span class="p">),</span> <span class="s">&#34;%.24s</span><span class="se">\r\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">ctime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ticks</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">write</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">err_ret</span><span class="p">(</span><span class="s">&#34;write error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">close</span><span class="p">(</span><span class="n">connfd</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">err_ret</span><span class="p">(</span><span class="s">&#34;close error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>可以看到与客户端不同的是，服务器在申请 socket 时没什么变化，但接下来服务器填写了自己的 IP 与 Port 信息，Port 用于指示接下来监听的端口，而 IP 则是指定为了
 <code>INADDR_ANY</code>，这是系统中预定的 IP 地址的值。</p>
@@ -899,7 +899,7 @@ div.info{background:rgba(58,129,195,0.15);border-left:4px solid rgba(58,129,195,
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

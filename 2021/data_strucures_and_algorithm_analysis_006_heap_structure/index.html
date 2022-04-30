@@ -242,16 +242,16 @@ percolate up n，则需要 \(3n\) 条赋值语句，采用直接赋值覆盖的�
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Comparable</span><span class="o">&gt;</span>
-<span class="kt">void</span> <span class="n">insert</span><span class="p">(</span><span class="n">heap</span><span class="o">&amp;</span> <span class="n">h</span><span class="p">,</span> <span class="n">Comparable</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">hole</span> <span class="o">=</span> <span class="o">++</span><span class="n">h</span><span class="p">.</span><span class="n">cur_size</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">hole</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">h</span><span class="p">[</span><span class="n">hole</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span> <span class="p">{</span>
-    <span class="n">h</span><span class="p">[</span><span class="n">hole</span><span class="p">]</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="n">hole</span> <span class="o">/</span> <span class="mi">2</span><span class="p">];</span>
-    <span class="n">hole</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">h</span><span class="p">[</span><span class="n">hole</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Comparable</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">insert</span><span class="p">(</span><span class="n">heap</span><span class="o">&amp;</span> <span class="n">h</span><span class="p">,</span> <span class="n">Comparable</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">hole</span> <span class="o">=</span> <span class="o">++</span><span class="n">h</span><span class="p">.</span><span class="n">cur_size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">hole</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">h</span><span class="p">[</span><span class="n">hole</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">h</span><span class="p">[</span><span class="n">hole</span><span class="p">]</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="n">hole</span> <span class="o">/</span> <span class="mi">2</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hole</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">h</span><span class="p">[</span><span class="n">hole</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="binary-heap-的移除操作" class="headerLink">
     <a href="#binary-heap-%e7%9a%84%e7%a7%bb%e9%99%a4%e6%93%8d%e4%bd%9c" class="header-mark"></a>binary heap 的移除操作</h4><p>找出目标元素显然简单的多，因为 root 就是目标，但是如何将其从 heap 中移除。我们依然采取建立空穴的方法，只不过这次空穴建立在了 root。</p>
@@ -282,23 +282,23 @@ percolate up n，则需要 \(3n\) 条赋值语句，采用直接赋值覆盖的�
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">void</span> <span class="nf">erase</span><span class="p">(</span><span class="n">heap</span><span class="o">&amp;</span> <span class="n">h</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">auto</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="n">h</span><span class="p">.</span><span class="n">cur_size</span><span class="o">--</span><span class="p">];</span>
-  <span class="kt">int</span> <span class="n">hole</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">hole</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">h</span><span class="p">.</span><span class="n">cur_size</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">child</span> <span class="o">=</span> <span class="n">hole</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">child</span> <span class="o">!=</span> <span class="n">h</span><span class="p">.</span><span class="n">cur_size</span> <span class="o">&amp;&amp;</span> <span class="n">h</span><span class="p">[</span><span class="n">child</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">h</span><span class="p">[</span><span class="n">child</span><span class="p">])</span> <span class="p">{</span>
-      <span class="o">++</span><span class="n">child</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="n">child</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">tmp</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">h</span><span class="p">[</span><span class="n">hole</span><span class="p">]</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="n">child</span><span class="p">];</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="k">break</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="n">h</span><span class="p">[</span><span class="n">hole</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">erase</span><span class="p">(</span><span class="n">heap</span><span class="o">&amp;</span> <span class="n">h</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">auto</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="n">h</span><span class="p">.</span><span class="n">cur_size</span><span class="o">--</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">hole</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">hole</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">h</span><span class="p">.</span><span class="n">cur_size</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">child</span> <span class="o">=</span> <span class="n">hole</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">child</span> <span class="o">!=</span> <span class="n">h</span><span class="p">.</span><span class="n">cur_size</span> <span class="o">&amp;&amp;</span> <span class="n">h</span><span class="p">[</span><span class="n">child</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">h</span><span class="p">[</span><span class="n">child</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="o">++</span><span class="n">child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="n">child</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">tmp</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">h</span><span class="p">[</span><span class="n">hole</span><span class="p">]</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="n">child</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">h</span><span class="p">[</span><span class="n">hole</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="binary-heap-的其他操作" class="headerLink">
     <a href="#binary-heap-%e7%9a%84%e5%85%b6%e4%bb%96%e6%93%8d%e4%bd%9c" class="header-mark"></a>binary heap 的其他操作</h4><p>可以明确，min heap 中对查找最大元素并没有帮助，最大的元素在 leaf 上，但有半数的元素都是 leaf。在 heap 中我们不得不进行线性查找才能获取到特定元素。</p>
@@ -367,29 +367,29 @@ leftist heap 也是二叉树，但区别是：leftist heap 并不是理想平衡
 </span><span class="lnt">22
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="nf">merge_impl</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">merge</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">);</span> <span class="c1">// 声明 merge 函数
-</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">h1</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">h2</span><span class="p">;</span>
-    <span class="k">return</span> <span class="n">h1</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">h2</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">get_npl</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">get_npl</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">))</span> <span class="p">{</span>
-    <span class="n">swap</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="n">set_npl</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">get_npl</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">));</span>
-  <span class="k">return</span> <span class="n">h1</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="nf">merge</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">h1</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">h2</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">h2</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">h1</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">h1</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">&lt;</span> <span class="n">h2</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">?</span> <span class="n">merge_impl</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">)</span> <span class="o">:</span> <span class="n">merge_impl</span><span class="p">(</span><span class="n">h2</span><span class="p">,</span> <span class="n">h1</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="nf">merge_impl</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">merge</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">);</span> <span class="c1">// 声明 merge 函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">h1</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">h2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">h1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">h2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">get_npl</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">get_npl</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">swap</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">set_npl</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">get_npl</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">h1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="nf">merge</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">h1</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">h2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">h2</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">h1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">h1</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">&lt;</span> <span class="n">h2</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">?</span> <span class="n">merge_impl</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">)</span> <span class="o">:</span> <span class="n">merge_impl</span><span class="p">(</span><span class="n">h2</span><span class="p">,</span> <span class="n">h1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="斜堆" class="headerLink">
     <a href="#%e6%96%9c%e5%a0%86" class="header-mark"></a>斜堆</h3><p>斜堆 (skew heap) 是 leftist heap 的自调节形式，skew heap 与 leftist heap 的关系类似于 AVL tree 与 splay tree 之间的关系。skew heap 不对树的结构进行限制，右路径可以任意长，因此所有操作的最坏运行时间为 \(\mathcal{O}(N)\) 。但是正如 splay tree，它的 amortized 运行时间为 \(\mathcal{O}(\log_{}{N})\) 。skew heap 的基本操作也是合并，且操作与 leftist heap 是类似的，唯一的不同是 skew heap 不再存储 NPL，交换孩子是无条件的。</p>
@@ -415,22 +415,22 @@ leftist heap 也是二叉树，但区别是：leftist heap 并不是理想平衡
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="nf">merge_impl</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">merge</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">);</span> <span class="c1">// 声明 merge 函数
-</span><span class="c1"></span>  <span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">h2</span><span class="p">);</span>
-  <span class="n">swap</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
-  <span class="k">return</span> <span class="n">h1</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="nf">merge</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">h1</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">h2</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">h2</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">h1</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">h1</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">&lt;</span> <span class="n">h2</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">?</span> <span class="n">merge_impl</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">)</span> <span class="o">:</span> <span class="n">merge_impl</span><span class="p">(</span><span class="n">h2</span><span class="p">,</span> <span class="n">h1</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="nf">merge_impl</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">merge</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">);</span> <span class="c1">// 声明 merge 函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">h2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">swap</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">h1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="nf">merge</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">h1</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">h2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">h2</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">h1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">h1</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">&lt;</span> <span class="n">h2</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">?</span> <span class="n">merge_impl</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">)</span> <span class="o">:</span> <span class="n">merge_impl</span><span class="p">(</span><span class="n">h2</span><span class="p">,</span> <span class="n">h1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="二项队列" class="headerLink">
     <a href="#%e4%ba%8c%e9%a1%b9%e9%98%9f%e5%88%97" class="header-mark"></a>二项队列</h2><p>二项队列不同于前面介绍的所有优先队列的实现，其是堆序的树的集合，称为森林。森林中的每一棵 <strong>二项树</strong> (binomial tree) 都是有约束的堆序树，每一个高度上至多存在一棵二项树，高度为 0 的二项树是一颗单结点树；高度为 k 的二项树 \(B_k\) 通过将一棵二项树
@@ -474,22 +474,22 @@ leftist heap 也是二叉树，但区别是：leftist heap 并不是理想平衡
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="k">struct</span> <span class="nc">BinomialNode</span> <span class="p">{</span>
-  <span class="n">Comparable</span> <span class="n">element</span><span class="p">;</span>
-  <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">child</span><span class="p">;</span>
-  <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">sibling</span><span class="p">;</span>
-  <span class="n">BinomialNode</span><span class="p">(</span><span class="k">const</span> <span class="n">Comparable</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">,</span> <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">c</span><span class="p">,</span> <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">s</span><span class="p">)</span>
-      <span class="o">:</span> <span class="n">element</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">child</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">sibling</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{}</span>
-<span class="p">};</span>
-
-<span class="k">class</span> <span class="nc">BinomialQueue</span> <span class="p">{</span>
- <span class="k">private</span><span class="o">:</span>
-  <span class="kt">int</span> <span class="n">size</span><span class="p">;</span>
-  <span class="n">vector</span><span class="o">&lt;</span><span class="n">BinomialNode</span><span class="o">*&gt;</span> <span class="n">forest</span><span class="p">;</span>
- <span class="k">public</span><span class="o">:</span>
-  <span class="n">BinomialQueue</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
-<span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">BinomialNode</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Comparable</span> <span class="n">element</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">sibling</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinomialNode</span><span class="p">(</span><span class="k">const</span> <span class="n">Comparable</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">,</span> <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">c</span><span class="p">,</span> <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">:</span> <span class="n">element</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">child</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">sibling</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">BinomialQueue</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="k">private</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">vector</span><span class="o">&lt;</span><span class="n">BinomialNode</span><span class="o">*&gt;</span> <span class="n">forest</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinomialQueue</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>合并两个二项队列的实现，首先需要确定如何合并两棵同高度的树。</p>
 <div class="highlight"><div class="chroma">
@@ -504,15 +504,15 @@ leftist heap 也是二叉树，但区别是：leftist heap 并不是理想平衡
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="n">BinomialNode</span><span class="o">*</span> <span class="nf">merge_tree</span><span class="p">(</span><span class="n">BinomialNode</span><span class="o">*</span> <span class="n">t1</span><span class="p">,</span> <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">t2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">t2</span><span class="o">-&gt;</span><span class="n">element</span> <span class="o">&lt;</span> <span class="n">t1</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">merge</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">t1</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="n">t2</span><span class="o">-&gt;</span><span class="n">sibling</span> <span class="o">=</span> <span class="n">t1</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">;</span>
-  <span class="n">t1</span><span class="o">-&gt;</span><span class="n">child</span> <span class="o">=</span> <span class="n">t2</span><span class="p">;</span>
-  <span class="k">return</span> <span class="n">t1</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">BinomialNode</span><span class="o">*</span> <span class="nf">merge_tree</span><span class="p">(</span><span class="n">BinomialNode</span><span class="o">*</span> <span class="n">t1</span><span class="p">,</span> <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">t2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">t2</span><span class="o">-&gt;</span><span class="n">element</span> <span class="o">&lt;</span> <span class="n">t1</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">merge</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">t1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">t2</span><span class="o">-&gt;</span><span class="n">sibling</span> <span class="o">=</span> <span class="n">t1</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">t1</span><span class="o">-&gt;</span><span class="n">child</span> <span class="o">=</span> <span class="n">t2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">t1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>对于实现合并操作，在任意时刻，仅处理高度为 i 的那些树，并且始终从高度最低的树开始像最高的树合并。</p>
 <div class="highlight"><div class="chroma">
@@ -580,68 +580,68 @@ leftist heap 也是二叉树，但区别是：leftist heap 并不是理想平衡
 </span><span class="lnt">61
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// 将二项队列 B 合并到 A，并清空 B
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">merge</span><span class="p">(</span><span class="n">BinomialQueue</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="n">BinomialQueue</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">a</span><span class="p">.</span><span class="n">size</span> <span class="o">+=</span> <span class="n">b</span><span class="p">.</span><span class="n">size</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">.</span><span class="n">capacity</span><span class="p">())</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">old_forest_size</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
-    <span class="kt">int</span> <span class="n">new_forest_size</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">old_forest_size</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">new_forest_size</span><span class="p">);</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">old_forest_size</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">new_forest_size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">carry</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-    <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">?</span> <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">:</span> <span class="k">nullptr</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">which_case</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="n">which_case</span> <span class="o">+=</span> <span class="n">t2</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mi">2</span><span class="p">;</span>
-    <span class="n">which_case</span> <span class="o">+=</span> <span class="n">carry</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mi">4</span><span class="p">;</span>
-    <span class="k">switch</span> <span class="p">(</span><span class="n">which_case</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">case</span> <span class="mi">0</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// no tree
-</span><span class="c1"></span>        <span class="na">[[fallthrough]]</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">case</span> <span class="mi">1</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// only t1
-</span><span class="c1"></span>        <span class="k">break</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">case</span> <span class="mi">2</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// only t2
-</span><span class="c1"></span>        <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">t2</span><span class="p">;</span>
-        <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-        <span class="k">break</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">case</span> <span class="mi">3</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// t1 and t2 exist
-</span><span class="c1"></span>        <span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">);</span>
-        <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-        <span class="k">break</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">case</span> <span class="mi">4</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// Only carry
-</span><span class="c1"></span>        <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">carry</span><span class="p">;</span>
-        <span class="n">carry</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-        <span class="k">break</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">case</span> <span class="mi">5</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// t1 and carry exist
-</span><span class="c1"></span>        <span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">carry</span><span class="p">);</span>
-        <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-        <span class="k">break</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">case</span> <span class="mi">6</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// t2 and carry exist
-</span><span class="c1"></span>        <span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">carry</span><span class="p">);</span>
-        <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-        <span class="k">break</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">case</span> <span class="mi">7</span><span class="o">:</span> <span class="p">{</span> <span class="c1">// all exist
-</span><span class="c1"></span>        <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">carry</span><span class="p">;</span>
-        <span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">);</span>
-        <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-        <span class="k">break</span><span class="p">;</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">.</span><span class="n">clean</span><span class="p">();</span>
-  <span class="n">b</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="c1">// 将二项队列 B 合并到 A，并清空 B
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">merge</span><span class="p">(</span><span class="n">BinomialQueue</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="n">BinomialQueue</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">a</span><span class="p">.</span><span class="n">size</span> <span class="o">+=</span> <span class="n">b</span><span class="p">.</span><span class="n">size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">.</span><span class="n">capacity</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">old_forest_size</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">new_forest_size</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">old_forest_size</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">new_forest_size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">old_forest_size</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">new_forest_size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">carry</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">?</span> <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">:</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">which_case</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">which_case</span> <span class="o">+=</span> <span class="n">t2</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">which_case</span> <span class="o">+=</span> <span class="n">carry</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">switch</span> <span class="p">(</span><span class="n">which_case</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">0</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// no tree
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="na">[[fallthrough]]</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">1</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// only t1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">2</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// only t2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">t2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">3</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// t1 and t2 exist
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">4</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// Only carry
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">carry</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">carry</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">5</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// t1 and carry exist
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">carry</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">6</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// t2 and carry exist
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">carry</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">7</span><span class="o">:</span> <span class="p">{</span> <span class="c1">// all exist
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">carry</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">.</span><span class="n">clean</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="n">b</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
 
@@ -677,7 +677,7 @@ leftist heap 也是二叉树，但区别是：leftist heap 并不是理想平衡
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

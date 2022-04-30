@@ -242,17 +242,17 @@
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">my_thread0</span><span class="p">{</span><span class="n">do_something</span><span class="p">};</span>
-<span class="k">struct</span> <span class="nc">Task</span> <span class="p">{</span>
-    <span class="kt">void</span> <span class="nf">operator</span><span class="p">()()</span> <span class="k">const</span> <span class="p">{</span>
-        <span class="n">do_something</span><span class="p">();</span>
-    <span class="p">}</span>
-<span class="p">};</span>
-<span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">my_thread1</span><span class="p">{</span><span class="n">Task</span><span class="p">()};</span>
-<span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">my_thread2</span><span class="p">{[]()</span> <span class="p">{</span>
-    <span class="n">do_something</span><span class="p">();</span>
-<span class="p">}};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">my_thread0</span><span class="p">{</span><span class="n">do_something</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Task</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">operator</span><span class="p">()()</span> <span class="k">const</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">do_something</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">my_thread1</span><span class="p">{</span><span class="n">Task</span><span class="p">()};</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">my_thread2</span><span class="p">{[]()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">do_something</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>线程启动后，需要指定是<code>等待线程结束</code>还是<code>让其自主运行</code>，如果 <code>::std::thread</code> 对象销毁之前没有做出决定，程序就会终止，因此必须确保线程能够正确 <strong>汇入</strong> (joined)
 或 <strong>分离</strong> (detached)。调用 join() 可以等待线程完成，并在线程结束时清理相关的内存，使 ::std::thread 对象不再与已完成线程有任何关联，所以一个线程一旦被汇入将不能再次汇入。调用 detach() 会使线程在后台运行，不再与主线程进行直接交互， ::std::thread
@@ -268,13 +268,13 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t1</span><span class="p">{</span><span class="n">do_something</span><span class="p">};</span>
-<span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">t1</span><span class="p">);</span>
-<span class="n">t1</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">{</span><span class="n">some_other_function</span><span class="p">};</span>
-<span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t3</span><span class="p">;</span>
-<span class="n">t3</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">t2</span><span class="p">);</span>
-<span class="c1">// t1 = std::move(t3); // 错误
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t1</span><span class="p">{</span><span class="n">do_something</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">t1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">t1</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">{</span><span class="n">some_other_function</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">t3</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">t2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// t1 = std::move(t3); // 错误
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="传递参数" class="headerLink">
     <a href="#%e4%bc%a0%e9%80%92%e5%8f%82%e6%95%b0" class="header-mark"></a>传递参数</h3><p>向线程中传递参数十分简单，为 ::std::thread 构造函数附加参数即可，所有参数 将会拷贝到新线程的内存空间中，即使函数中的参数是引用</p>
@@ -288,13 +288,13 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="kt">void</span> <span class="nf">f1</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="k">const</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">s</span><span class="p">);</span>
-<span class="kt">void</span> <span class="nf">f2</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">s</span><span class="p">);</span>
-<span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t1</span><span class="p">{</span><span class="n">f1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">{</span><span class="s">&#34;Hello&#34;</span><span class="p">}};</span>
-<span class="n">t1</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
-<span class="c1">// ::std::thread t2{f2, 2, ::std::string{&#34;Hello&#34;}}; // Error
-</span><span class="c1">// t2.join();
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">f1</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="k">const</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">f2</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t1</span><span class="p">{</span><span class="n">f1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">{</span><span class="s">&#34;Hello&#34;</span><span class="p">}};</span>
+</span></span><span class="line"><span class="cl"><span class="n">t1</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// ::std::thread t2{f2, 2, ::std::string{&#34;Hello&#34;}}; // Error
+</span></span></span><span class="line"><span class="cl"><span class="c1">// t2.join();
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>这里 f2 期望传入一个::std::string的引用，传递参数时会将拷贝的参数以右值的方式进行传递 (为了支持移动的类型)，与函数期望的非常量引用不符，故会在编译期报错。不过我们可以使用 <code>::std::ref</code> 将参数转换为引用的形式进行传递</p>
 <div class="highlight"><div class="chroma">
@@ -304,10 +304,10 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="k">auto</span> <span class="n">s</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">{</span><span class="s">&#34;Hello&#34;</span><span class="p">};</span>
-<span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t2</span><span class="p">{</span><span class="n">f2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">ref</span><span class="p">(</span><span class="n">s</span><span class="p">)};</span>
-<span class="n">t2</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">auto</span> <span class="n">s</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">{</span><span class="s">&#34;Hello&#34;</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t2</span><span class="p">{</span><span class="n">f2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">ref</span><span class="p">(</span><span class="n">s</span><span class="p">)};</span>
+</span></span><span class="line"><span class="cl"><span class="n">t2</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>当然也可以在一个线程上运行一个成员函数，做法也是很简单的，第一个参数传递成员函数的指针，第二个参数传递这个类的对象的指针，剩下的则是这个待运行的函数的参数</p>
 <div class="highlight"><div class="chroma">
@@ -318,11 +318,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="k">struct</span> <span class="nc">X</span> <span class="p">{</span>
-    <span class="kt">void</span> <span class="nf">do_something</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
-<span class="p">}</span> <span class="n">x</span><span class="p">;</span>
-<span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t3</span><span class="p">{</span><span class="o">&amp;</span><span class="n">X</span><span class="o">::</span><span class="n">do_something</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">X</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">do_something</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t3</span><span class="p">{</span><span class="o">&amp;</span><span class="n">X</span><span class="o">::</span><span class="n">do_something</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="线程标识" class="headerLink">
     <a href="#%e7%ba%bf%e7%a8%8b%e6%a0%87%e8%af%86" class="header-mark"></a>线程标识</h3><p>线程的标识类型是 <code>::std:🧵:id</code> ，可以使用 ::std::thread 对象的成员函数
@@ -336,12 +336,12 @@
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="k">if</span> <span class="p">(</span><span class="n">master_thread_id</span> <span class="o">==</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">get_id</span><span class="p">())</span> <span class="p">{</span>
-    <span class="n">master_do_something</span><span class="p">();</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="n">worker_do_something</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">master_thread_id</span> <span class="o">==</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">get_id</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">master_do_something</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">worker_do_something</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="共享数据" class="headerLink">
     <a href="#%e5%85%b1%e4%ba%ab%e6%95%b0%e6%8d%ae" class="header-mark"></a>共享数据</h2><p>涉及到共享数据时，问题就是因为共享数据的修改所导致，如果共享数据只读，那么不会影响到数据，更不会对数据进行修改，所有线程都会获得同样的数据。但当一个或多个线程要修改共享数据时，就会产生很多麻烦，需要小心谨慎，才能确保所有线程都正常工作。</p>
@@ -363,14 +363,14 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span> <span class="n">mu</span><span class="p">;</span>
-<span class="kt">void</span> <span class="nf">add_n</span><span class="p">(</span><span class="k">const</span> <span class="kt">long</span> <span class="kt">long</span><span class="o">&amp;</span> <span class="n">n</span><span class="p">,</span> <span class="kt">long</span> <span class="kt">long</span><span class="o">&amp;</span> <span class="n">result</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">long</span> <span class="kt">long</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1ll</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-        <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">guard</span><span class="p">(</span><span class="n">mu</span><span class="p">);</span>
-        <span class="n">result</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span> <span class="n">mu</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">add_n</span><span class="p">(</span><span class="k">const</span> <span class="kt">long</span> <span class="kt">long</span><span class="o">&amp;</span> <span class="n">n</span><span class="p">,</span> <span class="kt">long</span> <span class="kt">long</span><span class="o">&amp;</span> <span class="n">result</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">long</span> <span class="kt">long</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1ll</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">guard</span><span class="p">(</span><span class="n">mu</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">result</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>不过通常互斥量会与需要保护的数据封装在同一个类中，让它们联系在一起，保证数据不变量的稳定状态。不过当类中某个方法返回保护数据的指针或者引用时，可能会破坏数据，此时需要谨慎的对接口进行设计，切勿将受保护数据的指针或引用传递到互斥锁作用域之外。</p>
 <p>使用互斥量保护数据时，还需要考虑接口间的条件竞争，比如常使用的 ::std::stack，以下代码在单线程中是正确的，但是当 ::std::stack 是共享数据时，虽然每次调用接口时内部可能返回正确的结果，但是当用户使用时可能并非安全的。很明显代码中，top() 调用时很可能其他线程已经 pop() 了最后一个元素，虽然该线程访问到栈不为空，但是 top() 获取到错误的结果，<code>top()</code> 与 <code>pop()</code> 存在数据竞争关系</p>
@@ -384,13 +384,13 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">s</span><span class="p">;</span>
-<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-    <span class="k">const</span> <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
-    <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-    <span class="n">do_something</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">do_something</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>锁的粒度太小，恶性条件竞争已经出现，需要保护的操作并未全覆盖到; 如果锁的粒度太大，会抵消并发带来的性能提升。</p>
 <h4 id="死锁" class="headerLink">
@@ -421,16 +421,16 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="n">X</span><span class="o">&amp;</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">X</span><span class="o">&amp;</span> <span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">lhs</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">lock</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">mu</span><span class="p">,</span> <span class="n">rhs</span><span class="p">.</span><span class="n">mu</span><span class="p">);</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lockl</span><span class="p">{</span><span class="n">lhs</span><span class="p">.</span><span class="n">mu</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">adopt_lock</span><span class="p">};</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lockr</span><span class="p">{</span><span class="n">rhs</span><span class="p">.</span><span class="n">mu</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">adopt_lock</span><span class="p">};</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">rhs</span><span class="p">.</span><span class="n">data</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="n">X</span><span class="o">&amp;</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">X</span><span class="o">&amp;</span> <span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">lhs</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">lock</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">mu</span><span class="p">,</span> <span class="n">rhs</span><span class="p">.</span><span class="n">mu</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lockl</span><span class="p">{</span><span class="n">lhs</span><span class="p">.</span><span class="n">mu</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">adopt_lock</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lockr</span><span class="p">{</span><span class="n">rhs</span><span class="p">.</span><span class="n">mu</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">adopt_lock</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">rhs</span><span class="p">.</span><span class="n">data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>C++17 中提供了RAII模板类 <code>::std::scoped_lock</code> (头文件 <em>mutex</em> 中) 用来支持这种情况，并且增加了 <strong>自动推导模板参数</strong>，是所以这种情况在 C++17 中将会更简单的实现</p>
 <div class="highlight"><div class="chroma">
@@ -446,16 +446,16 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="n">X</span><span class="o">&amp;</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">X</span><span class="o">&amp;</span> <span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">lhs</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">scoped_lock</span> <span class="n">guard</span><span class="p">{</span><span class="n">lhs</span><span class="p">.</span><span class="n">mu</span><span class="p">,</span> <span class="n">rhs</span><span class="p">.</span><span class="n">mu</span><span class="p">};</span>
-    <span class="c1">// 等价于:
-</span><span class="c1"></span>    <span class="c1">// ::std::scoped_lock&lt;::std::mutex, ::std::mutex&gt; guard{lhs.mu, rhs.mu};
-</span><span class="c1"></span>    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">rhs</span><span class="p">.</span><span class="n">data</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="n">X</span><span class="o">&amp;</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">X</span><span class="o">&amp;</span> <span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">lhs</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">scoped_lock</span> <span class="n">guard</span><span class="p">{</span><span class="n">lhs</span><span class="p">.</span><span class="n">mu</span><span class="p">,</span> <span class="n">rhs</span><span class="p">.</span><span class="n">mu</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 等价于:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// ::std::scoped_lock&lt;::std::mutex, ::std::mutex&gt; guard{lhs.mu, rhs.mu};
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">rhs</span><span class="p">.</span><span class="n">data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>死锁通常是对锁的使用不当造成，当然也可以是其他情况，不过我们应该尽可能的避免死锁</p>
 <dl>
@@ -484,16 +484,16 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="n">X</span><span class="o">&amp;</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">X</span><span class="o">&amp;</span> <span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">lhs</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lockl</span><span class="p">{</span><span class="n">lhs</span><span class="p">.</span><span class="n">mu</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">defer_lock</span><span class="p">};</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lockr</span><span class="p">{</span><span class="n">rhs</span><span class="p">.</span><span class="n">mu</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">defer_lock</span><span class="p">};</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">lock</span><span class="p">(</span><span class="n">lockl</span><span class="p">,</span> <span class="n">lockr</span><span class="p">);</span> <span class="c1">// 持有的互斥量并锁定
-</span><span class="c1"></span>    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">rhs</span><span class="p">.</span><span class="n">data</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="n">X</span><span class="o">&amp;</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">X</span><span class="o">&amp;</span> <span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">lhs</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lockl</span><span class="p">{</span><span class="n">lhs</span><span class="p">.</span><span class="n">mu</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">defer_lock</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lockr</span><span class="p">{</span><span class="n">rhs</span><span class="p">.</span><span class="n">mu</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">defer_lock</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">lock</span><span class="p">(</span><span class="n">lockl</span><span class="p">,</span> <span class="n">lockr</span><span class="p">);</span> <span class="c1">// 持有的互斥量并锁定
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">rhs</span><span class="p">.</span><span class="n">data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>::std::unique_lock 是一种可移动不可复制的类型，它可以交出已持有互斥量的所有权，使互斥量在不同作用域中传递</p>
 <div class="highlight"><div class="chroma">
@@ -510,17 +510,17 @@
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">get_lock</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">extern</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span> <span class="n">mu</span><span class="p">;</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">{</span><span class="n">mu</span><span class="p">};</span>
-    <span class="n">do_something</span><span class="p">();</span>
-    <span class="k">return</span> <span class="n">lk</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="kt">void</span> <span class="nf">other</span><span class="p">()</span> <span class="p">{</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">{</span><span class="n">get_lock</span><span class="p">()};</span>
-    <span class="n">do_something</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">get_lock</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">extern</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span> <span class="n">mu</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">{</span><span class="n">mu</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="n">do_something</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">lk</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">other</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">{</span><span class="n">get_lock</span><span class="p">()};</span>
+</span></span><span class="line"><span class="cl">    <span class="n">do_something</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>::std::unique_lock 还支持在对象销毁之前放弃持有互斥，这样可以提前为其他等待线程释放锁，增加性能。</p>
 <p>锁的粒度是用来描述锁保护的数据量的大小，<strong>细粒度锁</strong> (fine-grained lock) 能够保护较小的数据量，<strong>粗粒度锁</strong> (coarse-grained lock) 能够保护较多的数据量。比如数据库中，对一行进行锁定的锁比对整张表锁定的锁粒度小，行锁相对于表锁性能更高，因为可以同时处理多行，但是也更不安全。</p>
@@ -539,15 +539,15 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="kt">void</span> <span class="nf">foo</span><span class="p">()</span> <span class="p">{</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">{</span><span class="n">mu</span><span class="p">};</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="k">new</span> <span class="n">element</span><span class="p">();</span>
-    <span class="p">}</span>
-    <span class="n">lk</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span>
-    <span class="n">do_something</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">foo</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">{</span><span class="n">mu</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">data</span> <span class="o">=</span> <span class="k">new</span> <span class="n">element</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lk</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">do_something</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>双重检测锁定模式 (DCLP) 也是一种保护初始化的状态，不过遗憾的是，它存在潜在的条件竞争，即线程可能得知其他线程完成了初始化，但可能没有看到新创建的实例，在调用
 do_something()时得到不正确的结果。Java引入了volatile关键字并安全地实现了DCLP，
@@ -566,17 +566,17 @@ C++11开始我们也可以实现安全的DCLP。详细可以阅读 <a href="http
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="c1">// DCLP
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">bar</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-        <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">{</span><span class="n">mu</span><span class="p">};</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="k">new</span> <span class="n">element</span><span class="p">();</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="n">do_something</span><span class="p">();</span> <span class="c1">// 数据竞争
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="c1">// DCLP
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">bar</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">{</span><span class="n">mu</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">data</span> <span class="o">=</span> <span class="k">new</span> <span class="n">element</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">do_something</span><span class="p">();</span> <span class="c1">// 数据竞争
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>不过我们可以不这么麻烦，C++标准库为我们提供了 <code>::std::once_flag</code> 与
 <code>::std::call_once</code> (头文件 <em>mutex</em> 中) 来处理这种情况，并且相比使用互斥量所消耗的资源更少</p>
@@ -591,14 +591,14 @@ C++11开始我们也可以实现安全的DCLP。详细可以阅读 <a href="http
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">once_flag</span> <span class="n">once</span><span class="p">;</span>
-<span class="kt">void</span> <span class="nf">func</span><span class="p">()</span> <span class="p">{</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">call_once</span><span class="p">(</span><span class="n">once</span><span class="err">，</span><span class="p">[]()</span> <span class="p">{</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="k">new</span> <span class="n">element</span><span class="p">();</span>
-    <span class="p">});</span>
-    <span class="n">do_something</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">once_flag</span> <span class="n">once</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">call_once</span><span class="p">(</span><span class="n">once</span><span class="err">，</span><span class="p">[]()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">data</span> <span class="o">=</span> <span class="k">new</span> <span class="n">element</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="n">do_something</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>局部作用域中的static变量在声明后就已经完成初始化，对于C++11之前初始化的过程中存在条件竞争，但是从 <strong>C++11</strong> 开始初始化与定义完全在一个线程中发生</p>
 <div class="highlight"><div class="chroma">
@@ -609,11 +609,11 @@ C++11开始我们也可以实现安全的DCLP。详细可以阅读 <a href="http
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="n">element</span> <span class="nf">get_element_instance</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">static</span> <span class="n">element</span> <span class="n">instance</span><span class="p">;</span> <span class="c1">// C++11 开始为线程安全的初始化
-</span><span class="c1"></span>    <span class="k">return</span> <span class="n">instance</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="n">element</span> <span class="nf">get_element_instance</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="n">element</span> <span class="n">instance</span><span class="p">;</span> <span class="c1">// C++11 开始为线程安全的初始化
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="n">instance</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="保护不常更新的数据结构" class="headerLink">
     <a href="#%e4%bf%9d%e6%8a%a4%e4%b8%8d%e5%b8%b8%e6%9b%b4%e6%96%b0%e7%9a%84%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" class="header-mark"></a>保护不常更新的数据结构</h4><p>当有不常更新的数据结构时，我们希望在修改时线程可以独占并安全的修改内容，完成修改后可以并发的安全访问数据。使用 ::std::mutex 来保护这样的数据结构对于性能来说并不是一个很好的方法，这会削弱读取数据的性能。我们可以想象这样一种互斥量，它可以在
@@ -642,21 +642,21 @@ RAII模板类 <code>::std::shared_lock</code> 与有时限的读写锁 <code>::s
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="k">class</span> <span class="nc">DnsCache</span> <span class="p">{</span>
-  <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="err">，</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">entries_</span><span class="p">;</span>
-  <span class="k">mutable</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_mutex</span> <span class="n">mu_</span><span class="p">;</span>
- <span class="k">public</span><span class="o">:</span>
-  <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">find</span><span class="p">(</span><span class="k">const</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">domain</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">shared_lock</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">shared_mutex</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">{</span><span class="n">mu_</span><span class="p">};</span>
-    <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">entries_</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">domain</span><span class="p">);</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">it</span> <span class="o">==</span> <span class="n">entries_</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="o">?</span> <span class="s">&#34;&#34;</span> <span class="o">:</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="kt">void</span> <span class="nf">update</span><span class="p">(</span><span class="k">const</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">domain</span><span class="p">,</span> <span class="k">const</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">ip</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">shared_mutex</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">{</span><span class="n">mu_</span><span class="p">};</span>
-    <span class="n">entries_</span><span class="p">[</span><span class="n">domain</span><span class="p">]</span> <span class="o">=</span> <span class="n">ip</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">DnsCache</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="err">，</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">entries_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">mutable</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_mutex</span> <span class="n">mu_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">find</span><span class="p">(</span><span class="k">const</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">domain</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">shared_lock</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">shared_mutex</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">{</span><span class="n">mu_</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">entries_</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">domain</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">it</span> <span class="o">==</span> <span class="n">entries_</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="o">?</span> <span class="s">&#34;&#34;</span> <span class="o">:</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">update</span><span class="p">(</span><span class="k">const</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">domain</span><span class="p">,</span> <span class="k">const</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">ip</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">shared_mutex</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">{</span><span class="n">mu_</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="n">entries_</span><span class="p">[</span><span class="n">domain</span><span class="p">]</span> <span class="o">=</span> <span class="n">ip</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="重入锁" class="headerLink">
     <a href="#%e9%87%8d%e5%85%a5%e9%94%81" class="header-mark"></a>重入锁</h4><p>在一个线程上，对已上锁的 ::std::mutex 再次上锁是错误的，会引起未定义行为，如果希望在线程上对一个互斥量在释放前进行多次上锁，则需要使用 <code>::std::recursive_mutex</code> (头文件 <em>mutex</em> 中)。当然要牢记，你对其上锁了多少次，那一定需要解锁多少次，否则就会出现锁死其他线程的情况 (请善用 ::std::lock_guard 与 ::std::unique_lock)</p>
@@ -693,31 +693,31 @@ RAII模板类 <code>::std::shared_lock</code> 与有时限的读写锁 <code>::s
 </span><span class="lnt">24
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span> <span class="n">mu</span><span class="p">;</span>
-<span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">queue</span><span class="o">&lt;</span><span class="n">data_chunk</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
-<span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">condition_variable</span> <span class="n">cond</span><span class="p">;</span>
-<span class="kt">void</span> <span class="nf">preparation</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">more</span><span class="p">())</span> <span class="p">{</span>
-        <span class="k">const</span> <span class="n">data_chunk</span> <span class="n">data</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">();</span>
-        <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">{</span><span class="n">mu</span><span class="p">};</span>
-        <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
-        <span class="n">cond</span><span class="p">.</span><span class="n">notify_one</span><span class="p">();</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-<span class="kt">void</span> <span class="nf">processing</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
-        <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">{</span><span class="n">mu</span><span class="p">};</span>
-        <span class="n">cond</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">lk</span><span class="p">,</span> <span class="p">[]</span> <span class="p">{</span> <span class="k">return</span> <span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">();</span> <span class="p">});</span>
-        <span class="n">data_chunk</span> <span class="n">data</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
-        <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-        <span class="n">lk</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
-        <span class="n">process</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">is_last_chunk</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="p">{</span>
-            <span class="k">break</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span> <span class="n">mu</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">queue</span><span class="o">&lt;</span><span class="n">data_chunk</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">condition_variable</span> <span class="n">cond</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">preparation</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">more</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">const</span> <span class="n">data_chunk</span> <span class="n">data</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">{</span><span class="n">mu</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cond</span><span class="p">.</span><span class="n">notify_one</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">processing</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">{</span><span class="n">mu</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cond</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">lk</span><span class="p">,</span> <span class="p">[]</span> <span class="p">{</span> <span class="k">return</span> <span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">();</span> <span class="p">});</span>
+</span></span><span class="line"><span class="cl">        <span class="n">data_chunk</span> <span class="n">data</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">lk</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">process</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">is_last_chunk</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>以上代码就是一个条件变量的应用，执行情况如下</p>
 <ol>
@@ -747,15 +747,15 @@ RAII模板类 <code>::std::shared_lock</code> 与有时限的读写锁 <code>::s
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="kt">int</span> <span class="nf">async_func</span><span class="p">();</span>
-<span class="kt">void</span> <span class="nf">do_something</span><span class="p">();</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">future</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">ret</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="n">async_func</span><span class="p">);</span> <span class="c1">// 异步执行 async_func
-</span><span class="c1"></span>    <span class="n">do_something</span><span class="p">();</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Return: &#34;</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">flush</span> <span class="c1">// 立即打印
-</span><span class="c1"></span>                <span class="o">&lt;&lt;</span> <span class="n">ret</span><span class="p">.</span><span class="n">get</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// 阻塞，直到 future 就绪
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">async_func</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">do_something</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">future</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">ret</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="n">async_func</span><span class="p">);</span> <span class="c1">// 异步执行 async_func
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">do_something</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Return: &#34;</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">flush</span> <span class="c1">// 立即打印
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">&lt;&lt;</span> <span class="n">ret</span><span class="p">.</span><span class="n">get</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// 阻塞，直到 future 就绪
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>::std::future 是否需要等待取决于绑定的 ::std::async 是否启动一个线程，或是否有任务正在进行，大多数情况下在函数调用之前可以传递一个 <code>::std::launch</code> 类型的对象</p>
 <dl>
@@ -775,11 +775,11 @@ RAII模板类 <code>::std::shared_lock</code> 与有时限的读写锁 <code>::s
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="k">auto</span> <span class="n">f0</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">async</span><span class="p">,</span> <span class="n">func0</span><span class="p">);</span> <span class="c1">// 异步求值
-</span><span class="c1"></span><span class="k">auto</span> <span class="n">f1</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">defered</span><span class="p">,</span> <span class="n">func1</span><span class="p">);</span> <span class="c1">// 惰性求值
-</span><span class="c1"></span><span class="k">auto</span> <span class="n">f2</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">async</span> <span class="o">|</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">defered</span><span class="p">,</span> <span class="n">func2</span><span class="p">);</span> <span class="c1">// 求值方式由实现定义
-</span><span class="c1"></span><span class="k">auto</span> <span class="n">f3</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="n">func3</span><span class="p">);</span> <span class="c1">// 求值方式由实现定义
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">auto</span> <span class="n">f0</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">async</span><span class="p">,</span> <span class="n">func0</span><span class="p">);</span> <span class="c1">// 异步求值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">auto</span> <span class="n">f1</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">defered</span><span class="p">,</span> <span class="n">func1</span><span class="p">);</span> <span class="c1">// 惰性求值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">auto</span> <span class="n">f2</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">async</span> <span class="o">|</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">defered</span><span class="p">,</span> <span class="n">func2</span><span class="p">);</span> <span class="c1">// 求值方式由实现定义
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">auto</span> <span class="n">f3</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="n">func3</span><span class="p">);</span> <span class="c1">// 求值方式由实现定义
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="绑定任务" class="headerLink">
     <a href="#%e7%bb%91%e5%ae%9a%e4%bb%bb%e5%8a%a1" class="header-mark"></a>绑定任务</h4><p><code>::std::packaged_task</code> (头文件 <em>future</em> 中) 允许将 future 与可调用对象进行绑定，::std::packaged_task 的模板参数是一个可调用类型，在调用 ::std::packaged_task 时就会调用相关函数，而 future 状态就绪时则会存储返回值，通过 get_future() 获取绑定的 future 对象。</p>
@@ -808,22 +808,22 @@ std::promise 只应当使用一次。</p>
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="kt">void</span> <span class="nf">accumulate</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">first</span><span class="p">,</span>
-                <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">last</span><span class="p">,</span>
-                <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">promise</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">accumulate_promise</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">accumulate</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-    <span class="n">accumulate_promise</span><span class="p">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">sum</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">};</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">promise</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">accumulate_promise</span><span class="p">;</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">future</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">accumulate_future</span> <span class="o">=</span> <span class="n">accumulate_promise</span><span class="p">.</span><span class="n">get_future</span><span class="p">();</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">work_thread</span><span class="p">(</span><span class="n">accumulate</span><span class="p">,</span> <span class="n">numbers</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">numbers</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span>
-                              <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">accumulate_promise</span><span class="p">));</span>
-    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">accumulate_future</span><span class="p">.</span><span class="n">get</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// 等待结果
-</span><span class="c1"></span>    <span class="n">work_thread</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">accumulate</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">first</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">last</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">promise</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">accumulate_promise</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">accumulate</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">accumulate_promise</span><span class="p">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">sum</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">promise</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">accumulate_promise</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">future</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">accumulate_future</span> <span class="o">=</span> <span class="n">accumulate_promise</span><span class="p">.</span><span class="n">get_future</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">work_thread</span><span class="p">(</span><span class="n">accumulate</span><span class="p">,</span> <span class="n">numbers</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">numbers</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">                              <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">accumulate_promise</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">accumulate_future</span><span class="p">.</span><span class="n">get</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// 等待结果
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">work_thread</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>::std::shared_future 可用于同时向多个线程发信息, 类似于
 <code>::std::condition_variable::notify_all()</code></p>
@@ -856,32 +856,32 @@ std::promise 只应当使用一次。</p>
 </span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">promise</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">ready_promise</span><span class="p">,</span> <span class="n">t1_promise</span><span class="p">,</span> <span class="n">t2_promise</span><span class="p">;</span>
-<span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">shared_future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">ready_future</span><span class="p">{</span><span class="n">ready_promise</span><span class="p">.</span><span class="n">get_future</span><span class="p">()};</span>
-<span class="k">using</span> <span class="n">high_resolution_clock</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="p">;</span>
-<span class="k">using</span> <span class="n">milli</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">milli</span><span class="o">&gt;</span><span class="p">;</span>
-<span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">time_point</span><span class="o">&lt;</span><span class="n">high_resolution_clock</span><span class="o">&gt;</span> <span class="n">start</span><span class="p">;</span>
-<span class="k">auto</span> <span class="n">result1</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">async</span><span class="p">,</span>
-                            <span class="p">[</span><span class="o">&amp;</span><span class="p">,</span> <span class="n">ready_future</span><span class="p">]()</span> <span class="o">-&gt;</span> <span class="n">milli</span> <span class="p">{</span>
-                                <span class="n">t1_promise</span><span class="p">.</span><span class="n">set_value</span><span class="p">();</span>
-                                <span class="n">ready_future</span><span class="p">.</span><span class="n">wait</span><span class="p">();</span> <span class="c1">// 等待来自 main() 的信号
-</span><span class="c1"></span>                                <span class="k">return</span> <span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">;</span>
-                            <span class="p">});</span>
-<span class="k">auto</span> <span class="n">result2</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">async</span><span class="p">,</span>
-                            <span class="p">[</span><span class="o">&amp;</span><span class="p">,</span> <span class="n">ready_future</span><span class="p">]()</span> <span class="o">-&gt;</span> <span class="n">milli</span> <span class="p">{</span>
-                                <span class="n">t2_promise</span><span class="p">.</span><span class="n">set_value</span><span class="p">();</span>
-                                <span class="n">ready_future</span><span class="p">.</span><span class="n">wait</span><span class="p">();</span> <span class="c1">// 等待来自 main() 的信号
-</span><span class="c1"></span>                                <span class="k">return</span> <span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">;</span>
-                            <span class="p">});</span>
-<span class="n">t1_promise</span><span class="p">.</span><span class="n">get_future</span><span class="p">().</span><span class="n">wait</span><span class="p">();</span>
-<span class="n">t2_promise</span><span class="p">.</span><span class="n">get_future</span><span class="p">().</span><span class="n">wait</span><span class="p">();</span>
-<span class="n">start</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
-<span class="n">ready_promise</span><span class="p">.</span><span class="n">set_value</span><span class="p">();</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Thread 1 received the signal &#34;</span>
-          <span class="o">&lt;&lt;</span> <span class="n">result1</span><span class="p">.</span><span class="n">get</span><span class="p">().</span><span class="n">count</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; ms after start</span><span class="se">\n</span><span class="s">&#34;</span>
-          <span class="o">&lt;&lt;</span> <span class="s">&#34;Thread 2 received the signal &#34;</span>
-          <span class="o">&lt;&lt;</span> <span class="n">result2</span><span class="p">.</span><span class="n">get</span><span class="p">().</span><span class="n">count</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; ms after start</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">promise</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">ready_promise</span><span class="p">,</span> <span class="n">t1_promise</span><span class="p">,</span> <span class="n">t2_promise</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">shared_future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">ready_future</span><span class="p">{</span><span class="n">ready_promise</span><span class="p">.</span><span class="n">get_future</span><span class="p">()};</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">high_resolution_clock</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">milli</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">milli</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">time_point</span><span class="o">&lt;</span><span class="n">high_resolution_clock</span><span class="o">&gt;</span> <span class="n">start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">auto</span> <span class="n">result1</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">async</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="p">[</span><span class="o">&amp;</span><span class="p">,</span> <span class="n">ready_future</span><span class="p">]()</span> <span class="o">-&gt;</span> <span class="n">milli</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">t1_promise</span><span class="p">.</span><span class="n">set_value</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">ready_future</span><span class="p">.</span><span class="n">wait</span><span class="p">();</span> <span class="c1">// 等待来自 main() 的信号
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                <span class="k">return</span> <span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                            <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="k">auto</span> <span class="n">result2</span> <span class="o">=</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">async</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="p">[</span><span class="o">&amp;</span><span class="p">,</span> <span class="n">ready_future</span><span class="p">]()</span> <span class="o">-&gt;</span> <span class="n">milli</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">t2_promise</span><span class="p">.</span><span class="n">set_value</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">ready_future</span><span class="p">.</span><span class="n">wait</span><span class="p">();</span> <span class="c1">// 等待来自 main() 的信号
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                <span class="k">return</span> <span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                            <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="n">t1_promise</span><span class="p">.</span><span class="n">get_future</span><span class="p">().</span><span class="n">wait</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">t2_promise</span><span class="p">.</span><span class="n">get_future</span><span class="p">().</span><span class="n">wait</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">start</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">ready_promise</span><span class="p">.</span><span class="n">set_value</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Thread 1 received the signal &#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="o">&lt;&lt;</span> <span class="n">result1</span><span class="p">.</span><span class="n">get</span><span class="p">().</span><span class="n">count</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; ms after start</span><span class="se">\n</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="o">&lt;&lt;</span> <span class="s">&#34;Thread 2 received the signal &#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="o">&lt;&lt;</span> <span class="n">result2</span><span class="p">.</span><span class="n">get</span><span class="p">().</span><span class="n">count</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; ms after start</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="限时等待" class="headerLink">
     <a href="#%e9%99%90%e6%97%b6%e7%ad%89%e5%be%85" class="header-mark"></a>限时等待</h3><p>阻塞调用会将线程挂起一段不确定的时间，直到相应的事件发生，通常情况下这样的方式很不错，但是在一些情况下，需要限定线程等待的时间。</p>
@@ -913,14 +913,14 @@ Period 类型的 <strong>计次周期</strong> 组成，计次周期是一个编
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="k">using</span> <span class="k">namespace</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">literals</span><span class="p">;</span>
-<span class="k">auto</span> <span class="n">one_day</span> <span class="o">=</span> <span class="mi">24</span><span class="n">h</span><span class="p">;</span> <span class="c1">// 24小时
-</span><span class="c1"></span><span class="k">auto</span> <span class="n">half_an_hour</span> <span class="o">=</span> <span class="mi">30</span><span class="n">min</span><span class="p">;</span> <span class="c1">// 30分钟
-</span><span class="c1"></span><span class="k">auto</span> <span class="n">five_seconds</span> <span class="o">=</span> <span class="mi">5</span><span class="n">s</span><span class="p">;</span> <span class="c1">// 5秒
-</span><span class="c1"></span><span class="k">auto</span> <span class="n">one_second</span> <span class="o">=</span> <span class="mi">1000</span><span class="n">ms</span><span class="p">;</span> <span class="c1">// 1000毫秒
-</span><span class="c1"></span><span class="k">auto</span> <span class="n">ten_micros</span> <span class="o">=</span> <span class="mi">10u</span><span class="n">s</span><span class="p">;</span> <span class="c1">// 10微秒
-</span><span class="c1"></span><span class="k">auto</span> <span class="n">two_nanos</span> <span class="o">=</span> <span class="mi">2</span><span class="n">ns</span><span class="p">;</span> <span class="c1">// 2纳秒
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">using</span> <span class="k">namespace</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">literals</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">auto</span> <span class="n">one_day</span> <span class="o">=</span> <span class="mi">24</span><span class="n">h</span><span class="p">;</span> <span class="c1">// 24小时
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">auto</span> <span class="n">half_an_hour</span> <span class="o">=</span> <span class="mi">30</span><span class="n">min</span><span class="p">;</span> <span class="c1">// 30分钟
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">auto</span> <span class="n">five_seconds</span> <span class="o">=</span> <span class="mi">5</span><span class="n">s</span><span class="p">;</span> <span class="c1">// 5秒
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">auto</span> <span class="n">one_second</span> <span class="o">=</span> <span class="mi">1000</span><span class="n">ms</span><span class="p">;</span> <span class="c1">// 1000毫秒
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">auto</span> <span class="n">ten_micros</span> <span class="o">=</span> <span class="mi">10u</span><span class="n">s</span><span class="p">;</span> <span class="c1">// 10微秒
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">auto</span> <span class="n">two_nanos</span> <span class="o">=</span> <span class="mi">2</span><span class="n">ns</span><span class="p">;</span> <span class="c1">// 2纳秒
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="时间戳" class="headerLink">
     <a href="#%e6%97%b6%e9%97%b4%e6%88%b3" class="header-mark"></a>时间戳</h4><p>时间戳 <code>::std::chrono::time_point</code> (头文件 <em>chrono</em> 中) 由 Clock 类型的 <strong>时钟</strong> 和
@@ -942,20 +942,20 @@ Duration 类型的 <strong>时钟间隔</strong> 组成，并且可以通过算�
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">time_point</span> <span class="n">now</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
-<span class="n">std</span><span class="o">::</span><span class="n">time_t</span> <span class="n">now_c</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">to_time_t</span><span class="p">(</span><span class="n">now</span> <span class="o">-</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">hours</span><span class="p">(</span><span class="mi">24</span><span class="p">));</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;24 hours ago, the time was &#34;</span>
-          <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">put_time</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">localtime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">now_c</span><span class="p">),</span> <span class="s">&#34;%F %T&#34;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">steady_clock</span><span class="o">::</span><span class="n">time_point</span> <span class="n">start</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">steady_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Hello World</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-<span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">steady_clock</span><span class="o">::</span><span class="n">time_point</span> <span class="n">end</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">steady_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Printing took &#34;</span>
-          <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">microseconds</span><span class="o">&gt;</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">).</span><span class="n">count</span><span class="p">()</span>
-          <span class="o">&lt;&lt;</span> <span class="s">&#34;us.</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-<span class="c1">// 24 hours ago, the time was 2020-12-03 23:47:43
-</span><span class="c1">// Hello World
-</span><span class="c1">// Printing took 4us.
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">time_point</span> <span class="n">now</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="n">time_t</span> <span class="n">now_c</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">to_time_t</span><span class="p">(</span><span class="n">now</span> <span class="o">-</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">hours</span><span class="p">(</span><span class="mi">24</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;24 hours ago, the time was &#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">put_time</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">localtime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">now_c</span><span class="p">),</span> <span class="s">&#34;%F %T&#34;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">steady_clock</span><span class="o">::</span><span class="n">time_point</span> <span class="n">start</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">steady_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Hello World</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">steady_clock</span><span class="o">::</span><span class="n">time_point</span> <span class="n">end</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">steady_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Printing took &#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">microseconds</span><span class="o">&gt;</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">).</span><span class="n">count</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">          <span class="o">&lt;&lt;</span> <span class="s">&#34;us.</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 24 hours ago, the time was 2020-12-03 23:47:43
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Hello World
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Printing took 4us.
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div></div>
 
@@ -991,7 +991,7 @@ Duration 类型的 <strong>时钟间隔</strong> 组成，并且可以通过算�
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

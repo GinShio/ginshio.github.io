@@ -194,17 +194,17 @@ structure)，结构体 <strong>sockaddr_in</strong>，定义于 <code>&lt;netine
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">in_addr</span> <span class="p">{</span>
-  <span class="n">in_addr_t</span> <span class="n">s_addr</span><span class="p">;</span>    <span class="c1">// 32 bit IPv4 地址 (网络序)
-</span><span class="c1"></span><span class="p">};</span>
-<span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="p">{</span>
-  <span class="kt">uint8_t</span>         <span class="n">sin_len</span><span class="p">;</span>      <span class="c1">// 结构体大小
-</span><span class="c1"></span>  <span class="n">sa_family_t</span>     <span class="n">sin_family</span><span class="p">;</span>   <span class="c1">// AF_INET
-</span><span class="c1"></span>  <span class="n">in_port_t</span>       <span class="n">sin_port</span><span class="p">;</span>     <span class="c1">// 16 bit 传输层端口号 (网络序)
-</span><span class="c1"></span>  <span class="k">struct</span> <span class="n">in_addr</span>  <span class="n">sin_addr</span><span class="p">;</span>
-  <span class="kt">char</span>            <span class="n">sin_zero</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>  <span class="c1">// unused
-</span><span class="c1"></span><span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">in_addr</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">in_addr_t</span> <span class="n">s_addr</span><span class="p">;</span>    <span class="c1">// 32 bit IPv4 地址 (网络序)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">uint8_t</span>         <span class="n">sin_len</span><span class="p">;</span>      <span class="c1">// 结构体大小
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">sa_family_t</span>     <span class="n">sin_family</span><span class="p">;</span>   <span class="c1">// AF_INET
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">in_port_t</span>       <span class="n">sin_port</span><span class="p">;</span>     <span class="c1">// 16 bit 传输层端口号 (网络序)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">struct</span> <span class="n">in_addr</span>  <span class="n">sin_addr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span>            <span class="n">sin_zero</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>  <span class="c1">// unused
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>需要注意几点：</p>
 <ul>
@@ -284,13 +284,13 @@ structure)，结构体 <strong>sockaddr_in</strong>，定义于 <code>&lt;netine
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// in &lt;sys/socket.h&gt;
-</span><span class="c1"></span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="p">{</span>
-  <span class="kt">uint8_t</span>      <span class="n">sa_len</span><span class="p">;</span>
-  <span class="n">sa_family_t</span>  <span class="n">sa_family</span><span class="p">;</span>    <span class="c1">// 协议族: AF_xxx
-</span><span class="c1"></span>  <span class="kt">char</span>         <span class="n">sa_data</span><span class="p">[</span><span class="mi">14</span><span class="p">];</span>  <span class="c1">// Address
-</span><span class="c1"></span><span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// in &lt;sys/socket.h&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="n">sockaddr</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">uint8_t</span>      <span class="n">sa_len</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">sa_family_t</span>  <span class="n">sa_family</span><span class="p">;</span>    <span class="c1">// 协议族: AF_xxx
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">char</span>         <span class="n">sa_data</span><span class="p">[</span><span class="mi">14</span><span class="p">];</span>  <span class="c1">// Address
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="比较套接字地址结构" class="headerLink">
     <a href="#%e6%af%94%e8%be%83%e5%a5%97%e6%8e%a5%e5%ad%97%e5%9c%b0%e5%9d%80%e7%bb%93%e6%9e%84" class="header-mark"></a>比较套接字地址结构</h3><p>下图展示了几种常见的套接字地址结构的对比，假设长度与协议族字段都是一字节大小。</p>
@@ -348,25 +348,25 @@ byte)，无论方向如何。对于可变长度的结构 (e.g. sockaddr_un) 改�
 </span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// intro/byteorder.c
-</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&#34;unp.h&#34;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">union</span> <span class="p">{</span>
-    <span class="kt">short</span> <span class="n">s</span><span class="p">;</span>
-    <span class="kt">char</span>  <span class="n">c</span><span class="p">[</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">short</span><span class="p">)];</span>
-  <span class="p">}</span> <span class="n">un</span><span class="p">;</span>
-  <span class="n">un</span><span class="p">.</span><span class="n">s</span> <span class="o">=</span> <span class="mh">0x0102</span><span class="p">;</span>
-  <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%s: &#34;</span><span class="p">,</span> <span class="n">CPU_VENDOR_OS</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">short</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">puts</span><span class="p">(</span><span class="n">un</span><span class="p">.</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">un</span><span class="p">.</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">?</span> <span class="s">&#34;big-endian&#34;</span>
-         <span class="o">:</span> <span class="p">(</span><span class="n">un</span><span class="p">.</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="n">un</span><span class="p">.</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">?</span> <span class="s">&#34;little-endian&#34;</span> <span class="o">:</span> <span class="s">&#34;unknown&#34;</span><span class="p">));</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;sizeof(short) = %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">short</span><span class="p">));</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// intro/byteorder.c
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&#34;unp.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">union</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">short</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span>  <span class="n">c</span><span class="p">[</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">short</span><span class="p">)];</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="n">un</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">un</span><span class="p">.</span><span class="n">s</span> <span class="o">=</span> <span class="mh">0x0102</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%s: &#34;</span><span class="p">,</span> <span class="n">CPU_VENDOR_OS</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">short</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">puts</span><span class="p">(</span><span class="n">un</span><span class="p">.</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">un</span><span class="p">.</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">?</span> <span class="s">&#34;big-endian&#34;</span>
+</span></span><span class="line"><span class="cl">         <span class="o">:</span> <span class="p">(</span><span class="n">un</span><span class="p">.</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="n">un</span><span class="p">.</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">?</span> <span class="s">&#34;little-endian&#34;</span> <span class="o">:</span> <span class="s">&#34;unknown&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;sizeof(short) = %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">short</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>UNP 上给出了不同系统与处理器的不同输出</p>
 <p class="verse">
@@ -387,11 +387,11 @@ sparc-sun-solaris2.9: big-endian<br></p>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">uint32_t</span> <span class="nf">htonl</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">hostlong</span><span class="p">);</span>   <span class="c1">// 将 unsigned int 类型 host to network
-</span><span class="c1"></span><span class="kt">uint16_t</span> <span class="nf">htons</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">hostshort</span><span class="p">);</span>  <span class="c1">// 将 unsigned short 类型 host to network
-</span><span class="c1"></span><span class="kt">uint32_t</span> <span class="nf">ntohl</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">netlong</span><span class="p">);</span>    <span class="c1">// 将 unsigned int 类型 network to host
-</span><span class="c1"></span><span class="kt">uint16_t</span> <span class="nf">ntohs</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">netshort</span><span class="p">);</span>   <span class="c1">// 将 unsigned short 类型 network to host
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">uint32_t</span> <span class="nf">htonl</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">hostlong</span><span class="p">);</span>   <span class="c1">// 将 unsigned int 类型 host to network
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">uint16_t</span> <span class="nf">htons</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">hostshort</span><span class="p">);</span>  <span class="c1">// 将 unsigned short 类型 host to network
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">uint32_t</span> <span class="nf">ntohl</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">netlong</span><span class="p">);</span>    <span class="c1">// 将 unsigned int 类型 network to host
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">uint16_t</span> <span class="nf">ntohs</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">netshort</span><span class="p">);</span>   <span class="c1">// 将 unsigned short 类型 network to host
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>其中 h 表示 host (主机)，n 表示 network (网络)，s 表示 short，l 表示 long，这种命名来自 4.2BSD 的 Digital VAX 实现，实际上可以将 s 看作 16-bit integer，而 l 看作 32-bit integer。</p>
 <p>在使用这些函数时，我们无需关心主机序或网络序到底是大端还是小端，这是跨平台的 API
@@ -406,12 +406,12 @@ sparc-sun-solaris2.9: big-endian<br></p>
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"> 0                   1                   2                   3
- 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|Version|  IHL  |Type of Service|          Total Length         |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl"> 0                   1                   2                   3
+</span></span><span class="line"><span class="cl"> 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+</span></span><span class="line"><span class="cl">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</span></span><span class="line"><span class="cl">|Version|  IHL  |Type of Service|          Total Length         |
+</span></span><span class="line"><span class="cl">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这表示按照顺序来为协议栈写入 4 个字节，最左端的是最高有效位，编号为 0 的位是最高位。</p>
 <h3 id="字节操作函数" class="headerLink">
@@ -427,11 +427,11 @@ memory 而言的。</p>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span><span class="o">*</span> <span class="nf">memchr</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ch</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">);</span>         <span class="c1">// 内存查找
-</span><span class="c1"></span><span class="kt">void</span><span class="o">*</span> <span class="nf">memset</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">dest</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ch</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">);</span>              <span class="c1">// 内存设置
-</span><span class="c1"></span><span class="kt">void</span><span class="o">*</span> <span class="nf">memcpy</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">dest</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">src</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">);</span>     <span class="c1">// 内存复制
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">memcmp</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">rhs</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">);</span>  <span class="c1">// 内存比较
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span><span class="o">*</span> <span class="nf">memchr</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ch</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">);</span>         <span class="c1">// 内存查找
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span><span class="o">*</span> <span class="nf">memset</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">dest</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ch</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">);</span>              <span class="c1">// 内存设置
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span><span class="o">*</span> <span class="nf">memcpy</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">dest</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">src</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">);</span>     <span class="c1">// 内存复制
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">memcmp</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">rhs</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">);</span>  <span class="c1">// 内存比较
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>memchr</code> 将在内存 ptr 中查找 count 个字节，查找是否有字节值为 ch。<code>memset</code> 是将这块内存中的每个字节都设置为 C，设置长度 count byte。<code>memcpy</code> 是将 src 的内容复制到 dest 中，这里要求 src 与 dest 没有交集，如果可能有交集请使用类似的
 <code>memmove</code>。<code>memcmp</code> 将两块内存 lhs 与 rhs 逐字节进行比较，负数表示 lhs 字典序小于 rhs，零表示两块内存相等。</p>
@@ -444,10 +444,10 @@ memory 而言的。</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">bzero</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">dest</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">);</span>                    <span class="c1">// 字节设置为 0
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">bcopy</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">src</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dest</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">);</span>   <span class="c1">// 字节复制
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">bcmp</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">rhs</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">);</span>  <span class="c1">// 字节比较
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">bzero</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">dest</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">);</span>                    <span class="c1">// 字节设置为 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">bcopy</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">src</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dest</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">);</span>   <span class="c1">// 字节复制
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">bcmp</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">rhs</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">);</span>  <span class="c1">// 字节比较
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>这些函数与标准 C 函数类似，不同的是它们不会返回指针结果，但这些函数在 POSIX 系统上还是可以随意使用的。</p>
 <h2 id="地址转换函数" class="headerLink">
@@ -471,13 +471,13 @@ POSIX 函数，用来将一个 IPv4 点分十进制字符串 (e.g. <code>192.168
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
-</span><span class="cp"></span><span class="kt">int</span> <span class="nf">inet_aton</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">cp</span><span class="p">,</span> <span class="k">struct</span> <span class="n">in_addr</span> <span class="o">*</span><span class="n">inp</span><span class="p">);</span>
-<span class="kt">char</span> <span class="o">*</span><span class="nf">inet_ntoa</span><span class="p">(</span><span class="k">struct</span> <span class="n">in_addr</span> <span class="n">in</span><span class="p">);</span>
-<span class="n">in_addr_t</span> <span class="nf">inet_addr</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">cp</span><span class="p">);</span>
-<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="nf">inet_ntop</span><span class="p">(</span><span class="kt">int</span> <span class="n">af</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">src</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">dst</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="n">size</span><span class="p">);</span>
-<span class="kt">int</span> <span class="nf">inet_pton</span><span class="p">(</span><span class="kt">int</span> <span class="n">af</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">src</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">dst</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="nf">inet_aton</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">cp</span><span class="p">,</span> <span class="k">struct</span> <span class="n">in_addr</span> <span class="o">*</span><span class="n">inp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">char</span> <span class="o">*</span><span class="nf">inet_ntoa</span><span class="p">(</span><span class="k">struct</span> <span class="n">in_addr</span> <span class="n">in</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">in_addr_t</span> <span class="nf">inet_addr</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">cp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="nf">inet_ntop</span><span class="p">(</span><span class="kt">int</span> <span class="n">af</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">src</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">dst</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="n">size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">inet_pton</span><span class="p">(</span><span class="kt">int</span> <span class="n">af</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">src</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">dst</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>首先来看旧式函数，<code>inet_aton</code> 将 ASCII 点分十进制字符串形式地址转换为 32-bit 网络序二进制地址，也就是结果存储在参数 inp 中，而返回值为 1 表示成功。但是在处理
 cp 是空指针时，不会返回错误而是什么都不存储。</p>
@@ -495,9 +495,9 @@ ASCII 字符串形式地址转换为网络序二进制形式，而 ntop 正好�
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="cp">#define INET_ADDRSTRLEN 16   </span><span class="c1">// IPv4 点分十进制字符串长度
-</span><span class="c1"></span><span class="cp">#define INET6_ADDRSTRLEN 46  </span><span class="c1">// IPv6 十六进制字符串长度
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#define INET_ADDRSTRLEN 16   </span><span class="c1">// IPv4 点分十进制字符串长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define INET6_ADDRSTRLEN 46  </span><span class="c1">// IPv6 十六进制字符串长度
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="编写协议无关的地址转换函数" class="headerLink">
     <a href="#%e7%bc%96%e5%86%99%e5%8d%8f%e8%ae%ae%e6%97%a0%e5%85%b3%e7%9a%84%e5%9c%b0%e5%9d%80%e8%bd%ac%e6%8d%a2%e5%87%bd%e6%95%b0" class="header-mark"></a>编写协议无关的地址转换函数</h3><p>在使用 POSIX 标准函数时最大的问题是需要传递一个二进制地址的指针，而这个地址通常是包含在套接字地址结构中的，这样我们不得不事先创建相关协议的变量，这将我们拉到协议相关性的代码中。</p>
@@ -511,13 +511,13 @@ ASCII 字符串形式地址转换为网络序二进制形式，而 ntop 正好�
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// IPv4
-</span><span class="c1"></span><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">addr4</span><span class="p">;</span>
-<span class="n">inet_ntop</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">addr4</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">INET_ADDRSTRLEN</span><span class="p">);</span>
-<span class="c1">// IPv6
-</span><span class="c1"></span><span class="k">struct</span> <span class="n">sockaddr_in6</span> <span class="n">addr6</span><span class="p">;</span>
-<span class="n">inet_ntop</span><span class="p">(</span><span class="n">AF_INET6</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">addr6</span><span class="p">.</span><span class="n">sin6_addr</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">INET6_ADDRSTRLEN</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// IPv4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">addr4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">inet_ntop</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">addr4</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">INET_ADDRSTRLEN</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// IPv6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="n">sockaddr_in6</span> <span class="n">addr6</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">inet_ntop</span><span class="p">(</span><span class="n">AF_INET6</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">addr6</span><span class="p">.</span><span class="n">sin6_addr</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">INET6_ADDRSTRLEN</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>为了解决协议相关性问题，我们可以实现自己的地址转换函数，来分离协议与结构的关系。可以使用静态缓冲区来保存函数结果，但这样将造成我们的函数不可重入且线程不安全。另外我们可以支持地址字符串后增加端口，同时将端口与地址写入结构。</p>
 <div class="highlight"><div class="chroma">
@@ -599,82 +599,82 @@ ASCII 字符串形式地址转换为网络序二进制形式，而 ntop 正好�
 </span><span class="lnt">75
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="c1">// lib/sock_ntop.c
-</span><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;sys/un.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;net/if_dl.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;netinet/in.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;strings.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="kt">char</span><span class="o">*</span> <span class="nf">sock_ntop</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span> <span class="n">sa</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="n">salen</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">char</span> <span class="n">portstr</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>
-  <span class="k">static</span> <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">128</span><span class="p">];</span>  <span class="c1">// Unix Domain 的最大值
-</span><span class="c1"></span>  <span class="n">bzero</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">));</span>
-  <span class="n">bzero</span><span class="p">(</span><span class="n">portstr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">portstr</span><span class="p">));</span>
-  <span class="k">switch</span> <span class="p">(</span><span class="n">sa</span><span class="o">-&gt;</span><span class="n">sa_family</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="nl">AF_INET</span><span class="p">:</span> <span class="p">{</span>
-      <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="o">*</span><span class="n">sin</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="o">*</span><span class="p">)</span> <span class="n">sa</span><span class="p">;</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">inet_ntop</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sin</span><span class="o">-&gt;</span><span class="n">sin_addr</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">ntohs</span><span class="p">(</span><span class="n">sin</span><span class="o">-&gt;</span><span class="n">sin_port</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">snprintf</span><span class="p">(</span><span class="n">portstr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">portstr</span><span class="p">),</span> <span class="s">&#34;:%d&#34;</span><span class="p">,</span> <span class="n">ntohs</span><span class="p">(</span><span class="n">sin</span><span class="o">-&gt;</span><span class="n">sin_port</span><span class="p">));</span>
-        <span class="n">strcat</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="n">portstr</span><span class="p">);</span>
-      <span class="p">}</span>
-      <span class="k">return</span> <span class="n">str</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="cp">#ifdef AF_INET6
-</span><span class="cp"></span>    <span class="k">case</span> <span class="nl">AF_INET6</span><span class="p">:</span> <span class="p">{</span>
-      <span class="k">struct</span> <span class="n">sockaddr_in6</span> <span class="o">*</span><span class="n">sin6</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr_in6</span> <span class="o">*</span><span class="p">)</span> <span class="n">sa</span><span class="p">;</span>
-      <span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;[&#39;</span><span class="p">;</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">inet_ntop</span><span class="p">(</span><span class="n">AF_INET6</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sin6</span><span class="o">-&gt;</span><span class="n">sin6_addr</span><span class="p">,</span> <span class="n">str</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">ntohs</span><span class="p">(</span><span class="n">sin6</span><span class="o">-&gt;</span><span class="n">sin6_port</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">snprintf</span><span class="p">(</span><span class="n">portstr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">portstr</span><span class="p">),</span> <span class="s">&#34;]:%d&#34;</span><span class="p">,</span> <span class="n">ntohs</span><span class="p">(</span><span class="n">sin6</span><span class="o">-&gt;</span><span class="n">sin6_port</span><span class="p">));</span>
-        <span class="n">strcat</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="n">portstr</span><span class="p">);</span>
-        <span class="k">return</span> <span class="n">str</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">return</span> <span class="n">str</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="cp">#endif  </span><span class="c1">// AF_INET6
-</span><span class="c1"></span><span class="cp">#ifdef AF_UNIX
-</span><span class="cp"></span>    <span class="k">case</span> <span class="nl">AF_UNIX</span><span class="p">:</span> <span class="p">{</span>
-      <span class="k">struct</span> <span class="n">sockaddr_un</span> <span class="o">*</span><span class="n">unp</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr_un</span> <span class="o">*</span><span class="p">)</span> <span class="n">sa</span><span class="p">;</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">unp</span><span class="o">-&gt;</span><span class="n">sun_path</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">strcpy</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="s">&#34;(no pathname bound)&#34;</span><span class="p">);</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">snprintf</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">),</span> <span class="s">&#34;%s&#34;</span><span class="p">,</span> <span class="n">unp</span><span class="o">-&gt;</span><span class="n">sun_path</span><span class="p">);</span>
-      <span class="p">}</span>
-      <span class="k">return</span> <span class="n">str</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="cp">#endif  </span><span class="c1">// AF_UNIX
-</span><span class="c1"></span><span class="cp">#ifdef AF_LINK
-</span><span class="cp"></span>    <span class="k">case</span> <span class="nl">AF_LINK</span><span class="p">:</span> <span class="p">{</span>
-      <span class="k">struct</span> <span class="n">sockaddr_dl</span> <span class="o">*</span><span class="n">sdl</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr_dl</span> <span class="o">*</span><span class="p">)</span> <span class="n">sa</span><span class="p">;</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">sdl</span><span class="o">-&gt;</span><span class="n">sdl_nlen</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">snprintf</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">),</span> <span class="s">&#34;%*s (index %d)&#34;</span><span class="p">,</span>
-                 <span class="n">sdl</span><span class="o">-&gt;</span><span class="n">sdl_nlen</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sdl</span><span class="o">-&gt;</span><span class="n">sdl_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sdl</span><span class="o">-&gt;</span><span class="n">sdl_index</span><span class="p">);</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">snprintf</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">),</span> <span class="s">&#34;AF_LINK, index=%d&#34;</span><span class="p">,</span> <span class="n">sdl</span><span class="o">-&gt;</span><span class="n">sdl_index</span><span class="p">);</span>
-      <span class="p">}</span>
-      <span class="k">return</span> <span class="n">str</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="cp">#endif  </span><span class="c1">// AF_LINK
-</span><span class="c1"></span>    <span class="k">default</span><span class="o">:</span> <span class="p">{</span>
-      <span class="n">snprintf</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">),</span> <span class="s">&#34;sock_ntop: unknown AF_xxxx: %d, len %d&#34;</span><span class="p">,</span>
-               <span class="n">sa</span><span class="o">-&gt;</span><span class="n">sa_family</span><span class="p">,</span> <span class="n">salen</span><span class="p">);</span>
-      <span class="k">return</span> <span class="n">str</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// lib/sock_ntop.c
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/un.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;net/if_dl.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;netinet/in.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;strings.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">char</span><span class="o">*</span> <span class="nf">sock_ntop</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span> <span class="n">sa</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="n">salen</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">portstr</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="k">static</span> <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">128</span><span class="p">];</span>  <span class="c1">// Unix Domain 的最大值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">bzero</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">bzero</span><span class="p">(</span><span class="n">portstr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">portstr</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="k">switch</span> <span class="p">(</span><span class="n">sa</span><span class="o">-&gt;</span><span class="n">sa_family</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nl">AF_INET</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="o">*</span><span class="n">sin</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="o">*</span><span class="p">)</span> <span class="n">sa</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">inet_ntop</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sin</span><span class="o">-&gt;</span><span class="n">sin_addr</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">ntohs</span><span class="p">(</span><span class="n">sin</span><span class="o">-&gt;</span><span class="n">sin_port</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">snprintf</span><span class="p">(</span><span class="n">portstr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">portstr</span><span class="p">),</span> <span class="s">&#34;:%d&#34;</span><span class="p">,</span> <span class="n">ntohs</span><span class="p">(</span><span class="n">sin</span><span class="o">-&gt;</span><span class="n">sin_port</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">strcat</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="n">portstr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">str</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#ifdef AF_INET6
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>    <span class="k">case</span> <span class="nl">AF_INET6</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">struct</span> <span class="n">sockaddr_in6</span> <span class="o">*</span><span class="n">sin6</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr_in6</span> <span class="o">*</span><span class="p">)</span> <span class="n">sa</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;[&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">inet_ntop</span><span class="p">(</span><span class="n">AF_INET6</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sin6</span><span class="o">-&gt;</span><span class="n">sin6_addr</span><span class="p">,</span> <span class="n">str</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">ntohs</span><span class="p">(</span><span class="n">sin6</span><span class="o">-&gt;</span><span class="n">sin6_port</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">snprintf</span><span class="p">(</span><span class="n">portstr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">portstr</span><span class="p">),</span> <span class="s">&#34;]:%d&#34;</span><span class="p">,</span> <span class="n">ntohs</span><span class="p">(</span><span class="n">sin6</span><span class="o">-&gt;</span><span class="n">sin6_port</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">strcat</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="n">portstr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">str</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">str</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#endif  </span><span class="c1">// AF_INET6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#ifdef AF_UNIX
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>    <span class="k">case</span> <span class="nl">AF_UNIX</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">struct</span> <span class="n">sockaddr_un</span> <span class="o">*</span><span class="n">unp</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr_un</span> <span class="o">*</span><span class="p">)</span> <span class="n">sa</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">unp</span><span class="o">-&gt;</span><span class="n">sun_path</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">strcpy</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="s">&#34;(no pathname bound)&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">snprintf</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">),</span> <span class="s">&#34;%s&#34;</span><span class="p">,</span> <span class="n">unp</span><span class="o">-&gt;</span><span class="n">sun_path</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">str</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#endif  </span><span class="c1">// AF_UNIX
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#ifdef AF_LINK
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>    <span class="k">case</span> <span class="nl">AF_LINK</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">struct</span> <span class="n">sockaddr_dl</span> <span class="o">*</span><span class="n">sdl</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr_dl</span> <span class="o">*</span><span class="p">)</span> <span class="n">sa</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">sdl</span><span class="o">-&gt;</span><span class="n">sdl_nlen</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">snprintf</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">),</span> <span class="s">&#34;%*s (index %d)&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">sdl</span><span class="o">-&gt;</span><span class="n">sdl_nlen</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sdl</span><span class="o">-&gt;</span><span class="n">sdl_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sdl</span><span class="o">-&gt;</span><span class="n">sdl_index</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">snprintf</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">),</span> <span class="s">&#34;AF_LINK, index=%d&#34;</span><span class="p">,</span> <span class="n">sdl</span><span class="o">-&gt;</span><span class="n">sdl_index</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">str</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#endif  </span><span class="c1">// AF_LINK
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">default</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">snprintf</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">),</span> <span class="s">&#34;sock_ntop: unknown AF_xxxx: %d, len %d&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">               <span class="n">sa</span><span class="o">-&gt;</span><span class="n">sa_family</span><span class="p">,</span> <span class="n">salen</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">str</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>另外 unp 还实现了不同的协议无关性函数</p>
 <ul>
@@ -718,7 +718,7 @@ ASCII 字符串形式地址转换为网络序二进制形式，而 ntop 正好�
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

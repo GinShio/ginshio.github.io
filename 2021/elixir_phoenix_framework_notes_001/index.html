@@ -196,8 +196,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mix phx.new awesome
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mix phx.new awesome
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>如果你没有 <code>phx.new</code> 这个命令，你需要先使用 mix 安装一下</p>
 <div class="highlight"><div class="chroma">
@@ -205,8 +205,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mix archive.install hex phx_new
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mix archive.install hex phx_new
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>项目创建完成之后，我们可以看到终端中有提示，在 config/dev.exs 中配置程序并执行
 <code>mix ecto.create</code>，配置文件中的 <code>Repo</code> 是数据库设置，<code>Endpoint</code> 配置的是网站相关的内容</p>
@@ -255,25 +255,25 @@
 </span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="c1"># router.ex</span>
-<span class="n">get</span><span class="p">(</span><span class="s2">&#34;/hello&#34;</span><span class="p">,</span> <span class="nc">HelloController</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span>
-
-<span class="c1"># controllers/hello_controller.ex</span>
-<span class="kd">defmodule</span> <span class="nc">AwesomeWeb.HelloController</span> <span class="k">do</span>
-  <span class="kn">use</span> <span class="nc">AwesomeWeb</span><span class="p">,</span> <span class="ss">:controller</span>
-  <span class="kd">def</span> <span class="n">index</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">render</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s2">&#34;index.html&#34;</span><span class="p">)</span>
-<span class="k">end</span>
-
-<span class="c1"># views/hello_view.ex</span>
-<span class="kd">defmodule</span> <span class="nc">AwesomeWeb.HelloView</span> <span class="k">do</span>
-  <span class="kn">use</span> <span class="nc">AwesomeWeb</span><span class="p">,</span> <span class="ss">:view</span>
-<span class="k">end</span>
-
-<span class="c1"># templates/hello/index.html.eex</span>
-<span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&#34;phx-hero&#34;</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="n">h2</span><span class="o">&gt;</span><span class="nc">Hello</span><span class="p">,</span> <span class="nc">Phoenix</span><span class="o">!&lt;/</span><span class="n">h2</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="c1"># router.ex</span>
+</span></span><span class="line"><span class="cl"><span class="n">get</span><span class="p">(</span><span class="s2">&#34;/hello&#34;</span><span class="p">,</span> <span class="nc">HelloController</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># controllers/hello_controller.ex</span>
+</span></span><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">AwesomeWeb.HelloController</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">use</span> <span class="nc">AwesomeWeb</span><span class="p">,</span> <span class="ss">:controller</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">index</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">render</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s2">&#34;index.html&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># views/hello_view.ex</span>
+</span></span><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">AwesomeWeb.HelloView</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">use</span> <span class="nc">AwesomeWeb</span><span class="p">,</span> <span class="ss">:view</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># templates/hello/index.html.eex</span>
+</span></span><span class="line"><span class="cl"><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&#34;phx-hero&#34;</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="n">h2</span><span class="o">&gt;</span><span class="nc">Hello</span><span class="p">,</span> <span class="nc">Phoenix</span><span class="o">!&lt;/</span><span class="n">h2</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><figure><img src="/ox-hugo/hello-phoenix.png"/>
 </figure>
@@ -286,8 +286,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mix phx.gen.html User User users username:string:unique email:string:unique password:string
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mix phx.gen.html User User users username:string:unique email:string:unique password:string
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>之后访问 <code>/users</code> 就好，就完成了，简直暴力！！！最暴力的就是，后台开启的服务可以不需要关闭！！！你就能直接访问新加的页面了！！！</p>
 <p>稍微说一说 <code>resources(&quot;/users&quot;, UserController)</code> 的作用，这其实是实现了一堆 CRUD
@@ -304,15 +304,15 @@ API，然后用一条命令路由所有 CRUD 方法，也可以将它等价替�
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">get</span><span class="p">(</span><span class="s2">&#34;/users&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span>
-<span class="n">get</span><span class="p">(</span><span class="s2">&#34;/users/:id/edit&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:edit</span><span class="p">)</span>
-<span class="n">get</span><span class="p">(</span><span class="s2">&#34;/users/new&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:new</span><span class="p">)</span>
-<span class="n">get</span><span class="p">(</span><span class="s2">&#34;/users/:id&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:show</span><span class="p">)</span>
-<span class="n">post</span><span class="p">(</span><span class="s2">&#34;/users&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:create</span><span class="p">)</span>
-<span class="n">patch</span><span class="p">(</span><span class="s2">&#34;/users/:id&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:update</span><span class="p">)</span>
-<span class="n">put</span><span class="p">(</span><span class="s2">&#34;/users/:id&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:update</span><span class="p">)</span>
-<span class="n">delete</span><span class="p">(</span><span class="s2">&#34;/users/:id&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:delete</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="n">get</span><span class="p">(</span><span class="s2">&#34;/users&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">get</span><span class="p">(</span><span class="s2">&#34;/users/:id/edit&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:edit</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">get</span><span class="p">(</span><span class="s2">&#34;/users/new&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:new</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">get</span><span class="p">(</span><span class="s2">&#34;/users/:id&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:show</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">post</span><span class="p">(</span><span class="s2">&#34;/users&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:create</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">patch</span><span class="p">(</span><span class="s2">&#34;/users/:id&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:update</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">put</span><span class="p">(</span><span class="s2">&#34;/users/:id&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:update</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">delete</span><span class="p">(</span><span class="s2">&#34;/users/:id&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:delete</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="限制字段" class="headerLink">
     <a href="#%e9%99%90%e5%88%b6%e5%ad%97%e6%ae%b5" class="header-mark"></a>限制字段</h3><p>刚刚那个用户界面，我们只限制了所有字段必填，显然这种限制是不够的，我们应该清楚都需要哪些限制，如果添加这些限制，接下来我们以 username 为例</p>
@@ -336,15 +336,15 @@ Etco 所定义的模型，可以直接与数据库交互，而查文档的话也
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="na">@doc</span> <span class="no">false</span>
-<span class="kd">def</span> <span class="n">changeset</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span> <span class="k">do</span>
-  <span class="n">user</span>
-  <span class="o">|&gt;</span> <span class="n">cast</span><span class="p">(</span><span class="n">attrs</span><span class="p">,</span> <span class="p">[</span><span class="ss">:username</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:password</span><span class="p">])</span>
-  <span class="o">|&gt;</span> <span class="n">validate_required</span><span class="p">([</span><span class="ss">:username</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:password</span><span class="p">])</span>
-  <span class="o">|&gt;</span> <span class="n">unique_constraint</span><span class="p">(</span><span class="ss">:username</span><span class="p">)</span>
-  <span class="o">|&gt;</span> <span class="n">unique_constraint</span><span class="p">(</span><span class="ss">:email</span><span class="p">)</span>
-<span class="k">end</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="na">@doc</span> <span class="no">false</span>
+</span></span><span class="line"><span class="cl"><span class="kd">def</span> <span class="n">changeset</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="n">user</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|&gt;</span> <span class="n">cast</span><span class="p">(</span><span class="n">attrs</span><span class="p">,</span> <span class="p">[</span><span class="ss">:username</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:password</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|&gt;</span> <span class="n">validate_required</span><span class="p">([</span><span class="ss">:username</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:password</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|&gt;</span> <span class="n">unique_constraint</span><span class="p">(</span><span class="ss">:username</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|&gt;</span> <span class="n">unique_constraint</span><span class="p">(</span><span class="ss">:email</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>changeset/2 是 Ecto 的回调函数，一般对数据进行 <strong>过滤</strong>、<strong>验证</strong> 与 <strong>约束</strong> 操作，调用方式</p>
 <div class="highlight"><div class="chroma">
@@ -354,10 +354,10 @@ Etco 所定义的模型，可以直接与数据库交互，而查文档的话也
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">changeset</span> <span class="o">=</span> <span class="nc">User</span><span class="o">.</span><span class="n">changeset</span><span class="p">(%</span><span class="nc">User</span><span class="p">{},</span> <span class="p">%{</span><span class="ss">username</span><span class="p">:</span> <span class="s2">&#34;Example&#34;</span><span class="p">,</span> <span class="ss">email</span><span class="p">:</span> <span class="s2">&#34;i@example.com&#34;</span><span class="p">})</span>
-<span class="p">{</span><span class="ss">:error</span><span class="p">,</span> <span class="n">changeset</span><span class="p">}</span> <span class="o">=</span> <span class="nc">Repo</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">changeset</span><span class="p">)</span>
-<span class="n">changeset</span><span class="o">.</span><span class="n">errors</span> <span class="c1">#=&gt; [password: {&#34;can&#39;t be blank&#34;, []}]</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="n">changeset</span> <span class="o">=</span> <span class="nc">User</span><span class="o">.</span><span class="n">changeset</span><span class="p">(%</span><span class="nc">User</span><span class="p">{},</span> <span class="p">%{</span><span class="ss">username</span><span class="p">:</span> <span class="s2">&#34;Example&#34;</span><span class="p">,</span> <span class="ss">email</span><span class="p">:</span> <span class="s2">&#34;i@example.com&#34;</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:error</span><span class="p">,</span> <span class="n">changeset</span><span class="p">}</span> <span class="o">=</span> <span class="nc">Repo</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">changeset</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">changeset</span><span class="o">.</span><span class="n">errors</span> <span class="c1">#=&gt; [password: {&#34;can&#39;t be blank&#34;, []}]</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>OK，下来我们就开始仔细解读下这个函数，<code>validate_required</code> 是指明哪些字段必填，而 <code>unique_constraint</code> 则是约束字段唯一，那现在我们需要再添加一些代码来实现需求</p>
 <div class="highlight"><div class="chroma">
@@ -367,10 +367,10 @@ Etco 所定义的模型，可以直接与数据库交互，而查文档的话也
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="o">|&gt;</span> <span class="n">validate_exclusion</span><span class="p">(</span><span class="ss">:username</span><span class="p">,</span> <span class="sx">~w(admin administrator root)</span><span class="p">)</span> <span class="c1"># 保留用户名</span>
-<span class="o">|&gt;</span> <span class="n">validate_format</span><span class="p">(</span><span class="ss">:username</span><span class="p">,</span> <span class="sx">~r/^[a-zA-Z0-9_]+$/</span><span class="p">)</span> <span class="c1"># 对格式进行要求</span>
-<span class="o">|&gt;</span> <span class="n">validate_length</span><span class="p">(</span><span class="ss">:username</span><span class="p">,</span> <span class="p">[</span><span class="ss">min</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="ss">max</span><span class="p">:</span> <span class="mi">15</span><span class="p">])</span> <span class="c1"># 限制长度</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">validate_exclusion</span><span class="p">(</span><span class="ss">:username</span><span class="p">,</span> <span class="sx">~w(admin administrator root)</span><span class="p">)</span> <span class="c1"># 保留用户名</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">validate_format</span><span class="p">(</span><span class="ss">:username</span><span class="p">,</span> <span class="sx">~r/^[a-zA-Z0-9_]+$/</span><span class="p">)</span> <span class="c1"># 对格式进行要求</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">validate_length</span><span class="p">(</span><span class="ss">:username</span><span class="p">,</span> <span class="p">[</span><span class="ss">min</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="ss">max</span><span class="p">:</span> <span class="mi">15</span><span class="p">])</span> <span class="c1"># 限制长度</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="基础" class="headerLink">
     <a href="#%e5%9f%ba%e7%a1%80" class="header-mark"></a>基础</h2><h3 id="plug" class="headerLink">
@@ -385,10 +385,10 @@ Router 、 Controller 都属于 Plug</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">def</span> <span class="n">put_headers</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">kvs</span><span class="p">)</span> <span class="k">do</span>
-  <span class="nc">Enum</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">kvs</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="k">fn</span> <span class="p">({</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">},</span> <span class="n">conn</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nc">Plug.Conn</span><span class="o">.</span><span class="n">put_resp_header</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">end</span><span class="p">)</span>
-<span class="k">end</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">def</span> <span class="n">put_headers</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">kvs</span><span class="p">)</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Enum</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">kvs</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="k">fn</span> <span class="p">({</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">},</span> <span class="n">conn</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nc">Plug.Conn</span><span class="o">.</span><span class="n">put_resp_header</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">end</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>我们可以用 plug 将操作流式串联起来，将一个请求所需要的操作流水式的串联起来</p>
 <div class="highlight"><div class="chroma">
@@ -403,15 +403,15 @@ Router 、 Controller 都属于 Plug</p>
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">AwesomeWeb.HelloController</span> <span class="k">do</span>
-  <span class="kn">use</span> <span class="nc">AwesomeWeb</span><span class="p">,</span> <span class="ss">:controller</span>
-
-  <span class="n">plug</span> <span class="ss">:put_haeders</span><span class="p">,</span> <span class="p">%{</span><span class="ss">content_encoding</span><span class="p">:</span> <span class="s2">&#34;gzip&#34;</span><span class="p">,</span> <span class="ss">cache_control</span><span class="p">:</span> <span class="s2">&#34;max-age=3600&#34;</span><span class="p">}</span>
-  <span class="n">plug</span> <span class="ss">:put_layout</span><span class="p">,</span> <span class="s2">&#34;bare.html&#34;</span>
-
-  <span class="c1"># Other Operators</span>
-<span class="k">end</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">AwesomeWeb.HelloController</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">use</span> <span class="nc">AwesomeWeb</span><span class="p">,</span> <span class="ss">:controller</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">plug</span> <span class="ss">:put_haeders</span><span class="p">,</span> <span class="p">%{</span><span class="ss">content_encoding</span><span class="p">:</span> <span class="s2">&#34;gzip&#34;</span><span class="p">,</span> <span class="ss">cache_control</span><span class="p">:</span> <span class="s2">&#34;max-age=3600&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">plug</span> <span class="ss">:put_layout</span><span class="p">,</span> <span class="s2">&#34;bare.html&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Other Operators</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="module-plug" class="headerLink">
     <a href="#module-plug" class="header-mark"></a>module plug</h4><p>Plug 的另一种类型是 module plug，它被定义在 module 中，可以将整个 module 当作一个 plug 放入处理流程中，因此这个 module 需要符合一定的规范</p>
@@ -433,16 +433,16 @@ Router 、 Controller 都属于 Plug</p>
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">HelloPhoenixWeb.Plugs.Locale</span> <span class="k">do</span>
-  <span class="kn">import</span> <span class="nc">Plug.Conn</span>
-  <span class="na">@locales</span> <span class="p">[</span><span class="s2">&#34;en&#34;</span><span class="p">,</span> <span class="s2">&#34;fr&#34;</span><span class="p">,</span> <span class="s2">&#34;de&#34;</span><span class="p">]</span>
-  <span class="kd">def</span> <span class="n">init</span><span class="p">(</span><span class="n">default</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">default</span>
-  <span class="kd">def</span> <span class="n">call</span><span class="p">(%</span><span class="nc">Plug.Conn</span><span class="p">{</span><span class="ss">params</span><span class="p">:</span> <span class="p">%{</span><span class="s2">&#34;locale&#34;</span> <span class="o">=&gt;</span> <span class="n">loc</span><span class="p">}}</span> <span class="o">=</span> <span class="n">conn</span><span class="p">,</span> <span class="n">_default</span><span class="p">)</span> <span class="ow">when</span> <span class="n">loc</span> <span class="ow">in</span> <span class="na">@locales</span> <span class="k">do</span>
-    <span class="n">assign</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:locale</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
-  <span class="k">end</span>
-  <span class="kd">def</span> <span class="n">call</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">default</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">assign</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:locale</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
-<span class="k">end</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">HelloPhoenixWeb.Plugs.Locale</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">import</span> <span class="nc">Plug.Conn</span>
+</span></span><span class="line"><span class="cl">  <span class="na">@locales</span> <span class="p">[</span><span class="s2">&#34;en&#34;</span><span class="p">,</span> <span class="s2">&#34;fr&#34;</span><span class="p">,</span> <span class="s2">&#34;de&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">init</span><span class="p">(</span><span class="n">default</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">default</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">call</span><span class="p">(%</span><span class="nc">Plug.Conn</span><span class="p">{</span><span class="ss">params</span><span class="p">:</span> <span class="p">%{</span><span class="s2">&#34;locale&#34;</span> <span class="o">=&gt;</span> <span class="n">loc</span><span class="p">}}</span> <span class="o">=</span> <span class="n">conn</span><span class="p">,</span> <span class="n">_default</span><span class="p">)</span> <span class="ow">when</span> <span class="n">loc</span> <span class="ow">in</span> <span class="na">@locales</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assign</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:locale</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">call</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">default</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">assign</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:locale</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>我们将 Locale Plug 串入 router 中即可</p>
 <div class="highlight"><div class="chroma">
@@ -457,15 +457,15 @@ Router 、 Controller 都属于 Plug</p>
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">HelloPhoenixWeb.Router</span> <span class="k">do</span>
-  <span class="kn">use</span> <span class="nc">HelloPhoenixWeb</span><span class="p">,</span> <span class="ss">:router</span>
-  <span class="n">pipeline</span> <span class="ss">:browser</span> <span class="k">do</span>
-    <span class="n">...</span>
-    <span class="n">plug</span> <span class="nc">HelloPhoenixWeb.Plugs.Locale</span> <span class="s2">&#34;en&#34;</span>
-  <span class="k">end</span>
-  <span class="n">...</span>
-<span class="k">end</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">HelloPhoenixWeb.Router</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">use</span> <span class="nc">HelloPhoenixWeb</span><span class="p">,</span> <span class="ss">:router</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pipeline</span> <span class="ss">:browser</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="n">...</span>
+</span></span><span class="line"><span class="cl">    <span class="n">plug</span> <span class="nc">HelloPhoenixWeb.Plugs.Locale</span> <span class="s2">&#34;en&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl">  <span class="n">...</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="路由" class="headerLink">
     <a href="#%e8%b7%af%e7%94%b1" class="header-mark"></a>路由</h3><p>路由是 Phoenix 应用的重要组成部分，可以将对应的 HTTP 请求映射到
@@ -488,18 +488,18 @@ controller/action, 处理实时 channel，还为路由之前的中间件定义�
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">pipeline</span> <span class="ss">:browser</span> <span class="k">do</span>
-  <span class="n">plug</span> <span class="ss">:accepts</span><span class="p">,</span> <span class="p">[</span><span class="s2">&#34;html&#34;</span><span class="p">]</span>
-  <span class="n">plug</span> <span class="ss">:fetch_session</span>
-  <span class="n">plug</span> <span class="ss">:fetch_flash</span>
-  <span class="n">plug</span> <span class="ss">:protect_from_forgery</span>
-  <span class="n">plug</span> <span class="ss">:put_secure_browser_headers</span>
-<span class="k">end</span>
-<span class="n">scope</span> <span class="s2">&#34;/&#34;</span><span class="p">,</span> <span class="nc">HelloPhoenixWeb</span> <span class="k">do</span>
-  <span class="n">pipe_through</span> <span class="ss">:browser</span>
-  <span class="n">get</span><span class="p">(</span><span class="s2">&#34;/&#34;</span><span class="p">,</span> <span class="nc">PageController</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span>
-<span class="k">end</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="n">pipeline</span> <span class="ss">:browser</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="n">plug</span> <span class="ss">:accepts</span><span class="p">,</span> <span class="p">[</span><span class="s2">&#34;html&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="n">plug</span> <span class="ss">:fetch_session</span>
+</span></span><span class="line"><span class="cl">  <span class="n">plug</span> <span class="ss">:fetch_flash</span>
+</span></span><span class="line"><span class="cl">  <span class="n">plug</span> <span class="ss">:protect_from_forgery</span>
+</span></span><span class="line"><span class="cl">  <span class="n">plug</span> <span class="ss">:put_secure_browser_headers</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="n">scope</span> <span class="s2">&#34;/&#34;</span><span class="p">,</span> <span class="nc">HelloPhoenixWeb</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pipe_through</span> <span class="ss">:browser</span>
+</span></span><span class="line"><span class="cl">  <span class="n">get</span><span class="p">(</span><span class="s2">&#34;/&#34;</span><span class="p">,</span> <span class="nc">PageController</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>Phoenix 可以使用命令 <code>mix phx.routes</code> 查看所有已定义的 API</p>
 <div class="highlight"><div class="chroma">
@@ -508,9 +508,9 @@ controller/action, 处理实时 channel，还为路由之前的中间件定义�
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"> page_path  GET     /         HelloPhoenixWeb.PageController :index
-hello_path  GET     /hello    HelloPhoenixWeb.HelloController :index
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl"> page_path  GET     /         HelloPhoenixWeb.PageController :index
+</span></span><span class="line"><span class="cl">hello_path  GET     /hello    HelloPhoenixWeb.HelloController :index
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>Path helpers 是 Router.Helpers 模块动态产生的函数，命名规则根据 Controller 生成，我们可以执行命令 <code>iex -S mix</code> 运行项目并中查看 Helps</p>
 <div class="highlight"><div class="chroma">
@@ -519,9 +519,9 @@ hello_path  GET     /hello    HelloPhoenixWeb.HelloController :index
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="nc">HelloPhoenixWeb.Router.Helpers</span><span class="o">.</span><span class="n">page_path</span><span class="p">(</span><span class="nc">HelloPhoenixWeb.Endpoint</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span> <span class="c1"># &#34;/&#34;</span>
-<span class="nc">HelloPhoenixWeb.Router.Helpers</span><span class="o">.</span><span class="n">hello_path</span><span class="p">(</span><span class="nc">HelloPhoenixWeb.Endpoint</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span> <span class="c1"># &#34;/hello&#34;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="nc">HelloPhoenixWeb.Router.Helpers</span><span class="o">.</span><span class="n">page_path</span><span class="p">(</span><span class="nc">HelloPhoenixWeb.Endpoint</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span> <span class="c1"># &#34;/&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nc">HelloPhoenixWeb.Router.Helpers</span><span class="o">.</span><span class="n">hello_path</span><span class="p">(</span><span class="nc">HelloPhoenixWeb.Endpoint</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span> <span class="c1"># &#34;/hello&#34;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>Helps 也可以用在 eex 中，示例 <code>page_path(@conn, :index)</code> 的输出即为 <code>&quot;/&quot;</code></p>
 <div class="highlight"><div class="chroma">
@@ -529,8 +529,8 @@ hello_path  GET     /hello    HelloPhoenixWeb.HelloController :index
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&#34;&lt;%= page_path(@conn, :index) %&gt;&#34;</span><span class="o">&gt;</span><span class="nc">To</span> <span class="n">the</span> <span class="nc">Welcome</span> <span class="nc">Page</span><span class="o">!&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&#34;&lt;%= page_path(@conn, :index) %&gt;&#34;</span><span class="o">&gt;</span><span class="nc">To</span> <span class="n">the</span> <span class="nc">Welcome</span> <span class="nc">Page</span><span class="o">!&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>我们添加一系列 <code>/</code> 与 <code>/admin</code> 下的 API，phx.routes 查看 API，可以发现 uri、
 Controller、function 都是没问题的，但是 helps 都是 <strong>review_path</strong>，这会引起
@@ -555,23 +555,23 @@ helps 函数调用错误</p>
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">review_path  GET     /reviews HelloPhoenixWeb.ReviewController :index
-review_path  GET     /reviews/:id/edit HelloPhoenixWeb.ReviewController :edit
-review_path  GET     /reviews/new HelloPhoenixWeb.ReviewController :new
-review_path  GET     /reviews/:id HelloPhoenixWeb.ReviewController :show
-review_path  POST    /reviews HelloPhoenixWeb.ReviewController :create
-review_path  PATCH   /reviews/:id HelloPhoenixWeb.ReviewController :update
-             PUT     /reviews/:id HelloPhoenixWeb.ReviewController :update
-review_path  DELETE  /reviews/:id HelloPhoenixWeb.ReviewController :delete
-review_path  GET     /admin/reviews HelloPhoenixWeb.Admin.ReviewController :index
-review_path  GET     /admin/reviews/:id/edit HelloPhoenixWeb.Admin.ReviewController :edit
-review_path  GET     /admin/reviews/new HelloPhoenixWeb.Admin.ReviewController :new
-review_path  GET     /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :show
-review_path  POST    /admin/reviews HelloPhoenixWeb.Admin.ReviewController :create
-review_path  PATCH   /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :update
-             PUT     /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :update
-review_path  DELETE  /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :delete
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">review_path  GET     /reviews HelloPhoenixWeb.ReviewController :index
+</span></span><span class="line"><span class="cl">review_path  GET     /reviews/:id/edit HelloPhoenixWeb.ReviewController :edit
+</span></span><span class="line"><span class="cl">review_path  GET     /reviews/new HelloPhoenixWeb.ReviewController :new
+</span></span><span class="line"><span class="cl">review_path  GET     /reviews/:id HelloPhoenixWeb.ReviewController :show
+</span></span><span class="line"><span class="cl">review_path  POST    /reviews HelloPhoenixWeb.ReviewController :create
+</span></span><span class="line"><span class="cl">review_path  PATCH   /reviews/:id HelloPhoenixWeb.ReviewController :update
+</span></span><span class="line"><span class="cl">             PUT     /reviews/:id HelloPhoenixWeb.ReviewController :update
+</span></span><span class="line"><span class="cl">review_path  DELETE  /reviews/:id HelloPhoenixWeb.ReviewController :delete
+</span></span><span class="line"><span class="cl">review_path  GET     /admin/reviews HelloPhoenixWeb.Admin.ReviewController :index
+</span></span><span class="line"><span class="cl">review_path  GET     /admin/reviews/:id/edit HelloPhoenixWeb.Admin.ReviewController :edit
+</span></span><span class="line"><span class="cl">review_path  GET     /admin/reviews/new HelloPhoenixWeb.Admin.ReviewController :new
+</span></span><span class="line"><span class="cl">review_path  GET     /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :show
+</span></span><span class="line"><span class="cl">review_path  POST    /admin/reviews HelloPhoenixWeb.Admin.ReviewController :create
+</span></span><span class="line"><span class="cl">review_path  PATCH   /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :update
+</span></span><span class="line"><span class="cl">             PUT     /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :update
+</span></span><span class="line"><span class="cl">review_path  DELETE  /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :delete
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>我们需要添加 <code>as: :admin</code> 来解决 helps 冲突</p>
 <div class="highlight"><div class="chroma">
@@ -586,15 +586,15 @@ review_path  DELETE  /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">scope</span> <span class="s2">&#34;/&#34;</span><span class="p">,</span> <span class="nc">HelloPhoenixWeb</span> <span class="k">do</span>
-  <span class="n">pipe_through</span> <span class="ss">:browser</span>
-  <span class="n">resources</span> <span class="s2">&#34;/reviews&#34;</span><span class="p">,</span> <span class="nc">ReviewController</span>
-<span class="k">end</span>
-
-<span class="n">scope</span> <span class="s2">&#34;/admin&#34;</span><span class="p">,</span> <span class="nc">HelloPhoenixWeb.Admin</span><span class="p">,</span> <span class="ss">as</span><span class="p">:</span> <span class="ss">:admin</span> <span class="k">do</span>
-  <span class="n">resources</span> <span class="s2">&#34;/reviews&#34;</span><span class="p">,</span> <span class="nc">ReviewController</span>
-<span class="k">end</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="n">scope</span> <span class="s2">&#34;/&#34;</span><span class="p">,</span> <span class="nc">HelloPhoenixWeb</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pipe_through</span> <span class="ss">:browser</span>
+</span></span><span class="line"><span class="cl">  <span class="n">resources</span> <span class="s2">&#34;/reviews&#34;</span><span class="p">,</span> <span class="nc">ReviewController</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">scope</span> <span class="s2">&#34;/admin&#34;</span><span class="p">,</span> <span class="nc">HelloPhoenixWeb.Admin</span><span class="p">,</span> <span class="ss">as</span><span class="p">:</span> <span class="ss">:admin</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="n">resources</span> <span class="s2">&#34;/reviews&#34;</span><span class="p">,</span> <span class="nc">ReviewController</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="控制器" class="headerLink">
     <a href="#%e6%8e%a7%e5%88%b6%e5%99%a8" class="header-mark"></a>控制器</h3><p>Phoenix 控制器是一个类似中间人的角色，里面的函数称为 atcion，它响应路由的 HTTP
@@ -627,21 +627,21 @@ review_path  DELETE  /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">def</span> <span class="n">show</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="p">%{</span><span class="s2">&#34;id&#34;</span> <span class="o">=&gt;</span> <span class="n">id</span><span class="p">})</span> <span class="k">do</span>
-  <span class="n">text</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s2">&#34;Showing id ${id}&#34;</span><span class="p">)</span> <span class="c1"># text: Showing id 15</span>
-  <span class="n">json</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="p">%{</span><span class="n">id</span><span class="p">,</span> <span class="n">id</span><span class="p">})</span> <span class="c1"># json: {&#34;id&#34;: &#34;15&#34;}</span>
-  <span class="n">html</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="sh">&#34;&#34;&#34;
-</span><span class="sh">  &lt;html&gt;
-</span><span class="sh">      &lt;head&gt;
-</span><span class="sh">          &lt;title&gt;Passing an Id&lt;/title&gt;
-</span><span class="sh">      &lt;/head&gt;
-</span><span class="sh">      &lt;body&gt;
-</span><span class="sh">          &lt;p&gt;You sent in id </span><span class="si">#{</span><span class="n">id</span><span class="si">}</span><span class="sh">&lt;/p&gt;
-</span><span class="sh">      &lt;/body&gt;
-</span><span class="sh">  &lt;/html&gt;
-</span><span class="sh">  &#34;&#34;&#34;</span><span class="p">)</span>
-<span class="k">end</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">def</span> <span class="n">show</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="p">%{</span><span class="s2">&#34;id&#34;</span> <span class="o">=&gt;</span> <span class="n">id</span><span class="p">})</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="n">text</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s2">&#34;Showing id ${id}&#34;</span><span class="p">)</span> <span class="c1"># text: Showing id 15</span>
+</span></span><span class="line"><span class="cl">  <span class="n">json</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="p">%{</span><span class="n">id</span><span class="p">,</span> <span class="n">id</span><span class="p">})</span> <span class="c1"># json: {&#34;id&#34;: &#34;15&#34;}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">html</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="sh">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sh">  &lt;html&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sh">      &lt;head&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sh">          &lt;title&gt;Passing an Id&lt;/title&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sh">      &lt;/head&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sh">      &lt;body&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sh">          &lt;p&gt;You sent in id </span><span class="si">#{</span><span class="n">id</span><span class="si">}</span><span class="sh">&lt;/p&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sh">      &lt;/body&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sh">  &lt;/html&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sh">  &#34;&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>render/3</code> 是 Phoenix 提供的渲染 View 的方法，View 与 Controller 需要使用相同的名称，且在 Templates 下有对应的模板目录，目录下对应着 Elixir 模板 HTML 文件</p>
 <div class="highlight"><div class="chroma">
@@ -652,11 +652,11 @@ review_path  DELETE  /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">HelloPhoenixWeb.HelloConttoller</span> <span class="k">do</span>
-  <span class="kn">use</span> <span class="nc">HelloPhoenixWeb</span><span class="p">,</span> <span class="ss">:controller</span>
-  <span class="kd">def</span> <span class="n">show</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="p">%{</span><span class="s2">&#34;messenger&#34;</span> <span class="o">=&gt;</span> <span class="n">messenger</span><span class="p">}),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">render</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s2">&#34;show.html&#34;</span><span class="p">,</span> <span class="ss">messenger</span><span class="p">:</span> <span class="n">messenger</span><span class="p">)</span>
-<span class="k">end</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">HelloPhoenixWeb.HelloConttoller</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">use</span> <span class="nc">HelloPhoenixWeb</span><span class="p">,</span> <span class="ss">:controller</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">show</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="p">%{</span><span class="s2">&#34;messenger&#34;</span> <span class="o">=&gt;</span> <span class="n">messenger</span><span class="p">}),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">render</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s2">&#34;show.html&#34;</span><span class="p">,</span> <span class="ss">messenger</span><span class="p">:</span> <span class="n">messenger</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>控制器还可以直接返回响应状态</p>
 <div class="highlight"><div class="chroma">
@@ -664,8 +664,8 @@ review_path  DELETE  /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">def</span> <span class="n">index</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">conn</span> <span class="o">|&gt;</span> <span class="n">send_resp</span><span class="p">(</span><span class="mi">201</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">def</span> <span class="n">index</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">conn</span> <span class="o">|&gt;</span> <span class="n">send_resp</span><span class="p">(</span><span class="mi">201</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
 
@@ -701,7 +701,7 @@ review_path  DELETE  /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

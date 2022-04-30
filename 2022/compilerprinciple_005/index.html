@@ -37,7 +37,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/compilerprinciple_005\/"
-        },"image": ["https:\/\/blog.ginshio.org\/images\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, SyntacticAnalysis","wordcount":  4721 ,
+        },"image": ["https:\/\/blog.ginshio.org\/images\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, SyntacticAnalysis","wordcount":  4733 ,
         "url": "https:\/\/blog.ginshio.org\/2022\/compilerprinciple_005\/","datePublished": "2022-04-12T22:23:00+08:00","dateModified": "2022-04-30T15:09:59+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.jpg"},"authors": [{
@@ -149,7 +149,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="04-12">04-12</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-30">04-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4721 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="04-12">04-12</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-30">04-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4733 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 10 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -186,11 +186,11 @@
             </div><div class="content" id="content"><p>自顶向下语法可以被看作输入串构造语法分析树的问题，从语法分析树的根结点开始，深度优先创建这棵树的各个结点。</p>
 <p>对于输入 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>，可以根据最左推导序列产生语法分析树序列：
 \[\begin{aligned}
-E &amp;\rightarrow TE^{'}\\<br>
-E^{'} &amp;\rightarrow +\ T\ E^{'}\,|\,\varepsilon\\<br>
-T &amp;\rightarrow FT^{'}\\<br>
-T^{'} &amp;\rightarrow *\ F\ T^{'}\,|\,\varepsilon\\<br>
-F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\<br>
+E &amp;\rightarrow TE^{&rsquo;}\\
+E^{&rsquo;} &amp;\rightarrow +\ T\ E^{&rsquo;}\,|\,\varepsilon\\
+T &amp;\rightarrow FT^{&rsquo;}\\
+T^{&rsquo;} &amp;\rightarrow *\ F\ T^{&rsquo;}\,|\,\varepsilon\\
+F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\
 \end{aligned}\]</p>
 <p>根据左推导有如下自顶向下分析过程</p>
 <figure><img src="/ox-hugo/id-plus-id-multi-id-example-lm-top-down.svg"/>
@@ -274,21 +274,21 @@ F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\<br>
 <h3 id="示例的-first-和-follow-计算" class="headerLink">
     <a href="#%e7%a4%ba%e4%be%8b%e7%9a%84-first-%e5%92%8c-follow-%e8%ae%a1%e7%ae%97" class="header-mark"></a>示例的 FIRST 和 FOLLOW 计算</h3><p>对于示例 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>，我们可以如此计算 FIRST 与 FOLLOW。</p>
 <ol>
-<li>\(\texttt{FIRST}(\textit{F})\ =\ \texttt{FIRST}(\textit{T})\ =\<br>
+<li>\(\texttt{FIRST}(\textit{F})\ =\ \texttt{FIRST}(\textit{T})\ =\
 \texttt{FIRST}(\textit{E})\ =\ \{(,\textbf{id}\}\)。<em>F</em> 的产生式以终结符
 <strong>id</strong> 和左括号开头；<em>T</em> 只有 <em>F</em> 开头的产生式，<em>F</em> 不能推出 \(\varepsilon\)，因此
 \(\texttt{FIRST}(\textit{T})\) 与 \(\texttt{FIRST}(\textit{F})\) 必然相同；对 \(\texttt{FIRST}(\textit{E})\) 论据相同。</li>
-<li>\(\texttt{FIRST}(\textit{E}^{'}) = \{+, \varepsilon\}\)。\(\textit{E}^{'}\) 的两个产生式中，一个以 \(+\) 开头，而另一个为 \(\varepsilon\)。只要有一个 \(\varepsilon\) 我们就将其加入 <code>FIRST</code> 中。</li>
-<li>\(\texttt{FIRST}(\textit{T}^{'}) = \{*, \varepsilon\}\)。论据同 2。</li>
-<li>\(\texttt{FOLLOW}(\textit{E}) = \texttt{FOLLOW}(\textit{E}^{'}) = \{), \$\}\)。因为 <em>E</em> 是开始符号，因此 \(\texttt{FOLLOW(\textit{E})}\) 一定包含 \(\$\)。产生式 <em>(E)</em> 说明了右括号为什么在 <code>FOLLOW</code> 当中。对于 \(\textit{E}^{'}\)，非终结符只出现在了 <em>E</em> 产生式的尾部，因此 \(\texttt{FOLLOW}(\textit{E})\) 必然与
-\(\texttt{FOLLOW}(\textit{E}^{'})\) 相同。</li>
-<li>\(\texttt{FOLLOW}(\textit{T}) = \texttt{FOLLOW}(\textit{T}^{'}) = \{+, ),
-\$\}\)。在所有产生式体中 <em>T</em> 只有 \(\textit{E}^{'}\) 跟在后面，因此
-\(\texttt{FIRST}(\textit{E}^{'})\) 中除 \(\varepsilon\) 外所有符号都在
-\(\texttt{FOLLOW}(\textit{T})\) 中。另外 \(\texttt{FIRST}(\textit{E}^{'})\)
-包含 \(\varepsilon\) (即 \(\textit{E}^{'} \xRightarrow[lm]{} \varepsilon\))，且 <em>E</em> 产生体中
-\(\textit{E}^{'}\) 跟在 <em>T</em> 之后，因此 \(\texttt{FOLLOW}(\textit{E})\) 中的所有符号出现在 \(\texttt{FOLLOW}(\textit{T})\) 中。而 \(\textit{T}^{'}\) 只出现在 <em>T</em> 产生式的末尾，因此 \(\texttt{FOLLOW}(\textit{T}) =
-\texttt{FOLLOW}(\textit{T}^{'})\)</li>
+<li>\(\texttt{FIRST}(\textit{E}^{&rsquo;}) = \{+, \varepsilon\}\)。\(\textit{E}^{&rsquo;}\) 的两个产生式中，一个以 \(+\) 开头，而另一个为 \(\varepsilon\)。只要有一个 \(\varepsilon\) 我们就将其加入 <code>FIRST</code> 中。</li>
+<li>\(\texttt{FIRST}(\textit{T}^{&rsquo;}) = \{*, \varepsilon\}\)。论据同 2。</li>
+<li>\(\texttt{FOLLOW}(\textit{E}) = \texttt{FOLLOW}(\textit{E}^{&rsquo;}) = \{), \$\}\)。因为 <em>E</em> 是开始符号，因此 \(\texttt{FOLLOW(\textit{E})}\) 一定包含 \(\$\)。产生式 <em>(E)</em> 说明了右括号为什么在 <code>FOLLOW</code> 当中。对于 \(\textit{E}^{&rsquo;}\)，非终结符只出现在了 <em>E</em> 产生式的尾部，因此 \(\texttt{FOLLOW}(\textit{E})\) 必然与
+\(\texttt{FOLLOW}(\textit{E}^{&rsquo;})\) 相同。</li>
+<li>\(\texttt{FOLLOW}(\textit{T}) = \texttt{FOLLOW}(\textit{T}^{&rsquo;}) = \{+, ),
+\$\}\)。在所有产生式体中 <em>T</em> 只有 \(\textit{E}^{&rsquo;}\) 跟在后面，因此
+\(\texttt{FIRST}(\textit{E}^{&rsquo;})\) 中除 \(\varepsilon\) 外所有符号都在
+\(\texttt{FOLLOW}(\textit{T})\) 中。另外 \(\texttt{FIRST}(\textit{E}^{&rsquo;})\)
+包含 \(\varepsilon\) (即 \(\textit{E}^{&rsquo;} \xRightarrow[lm]{} \varepsilon\))，且 <em>E</em> 产生体中
+\(\textit{E}^{&rsquo;}\) 跟在 <em>T</em> 之后，因此 \(\texttt{FOLLOW}(\textit{E})\) 中的所有符号出现在 \(\texttt{FOLLOW}(\textit{T})\) 中。而 \(\textit{T}^{&rsquo;}\) 只出现在 <em>T</em> 产生式的末尾，因此 \(\texttt{FOLLOW}(\textit{T}) =
+\texttt{FOLLOW}(\textit{T}^{&rsquo;})\)</li>
 <li>\(\texttt{FOLLOW}(\textit{F}) = \{+, *, ), \$\}\)。论据同 5。</li>
 </ol>
 <h2 id="ll--1--文法" class="headerLink">
@@ -342,39 +342,39 @@ F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\<br>
 <tbody>
 <tr>
 <td><em>E</em></td>
-<td>\(\textit{E} \rightarrow \textit{TE}^{'}\)</td>
+<td>\(\textit{E} \rightarrow \textit{TE}^{&rsquo;}\)</td>
 <td></td>
 <td></td>
-<td>\(\textit{E} \rightarrow \textit{TE}^{'}\)</td>
+<td>\(\textit{E} \rightarrow \textit{TE}^{&rsquo;}\)</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>\(\textit{E}^{'}\)</td>
+<td>\(\textit{E}^{&rsquo;}\)</td>
 <td></td>
-<td>\(\textit{E}^{'} \rightarrow + \textit{TE}^{'}\)</td>
+<td>\(\textit{E}^{&rsquo;} \rightarrow + \textit{TE}^{&rsquo;}\)</td>
 <td></td>
 <td></td>
-<td>\(\textit{E}^{'} \rightarrow \varepsilon\)</td>
-<td>\(\textit{E}^{'} \rightarrow \varepsilon\)</td>
+<td>\(\textit{E}^{&rsquo;} \rightarrow \varepsilon\)</td>
+<td>\(\textit{E}^{&rsquo;} \rightarrow \varepsilon\)</td>
 </tr>
 <tr>
 <td><em>T</em></td>
-<td>\(\textit{T} \rightarrow \textit{FT}^{'}\)</td>
+<td>\(\textit{T} \rightarrow \textit{FT}^{&rsquo;}\)</td>
 <td></td>
 <td></td>
-<td>\(\textit{T} \rightarrow \textit{FT}^{'}\)</td>
+<td>\(\textit{T} \rightarrow \textit{FT}^{&rsquo;}\)</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>\(\textit{T}^{'}\)</td>
+<td>\(\textit{T}^{&rsquo;}\)</td>
 <td></td>
-<td>\(\textit{T}^{'} \rightarrow \varepsilon\)</td>
-<td>\(\textit{T}^{'} \rightarrow * \textit{FT}^{'}\)</td>
+<td>\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
+<td>\(\textit{T}^{&rsquo;} \rightarrow * \textit{FT}^{&rsquo;}\)</td>
 <td></td>
-<td>\(\textit{T}^{'} \rightarrow \varepsilon\)</td>
-<td>\(\textit{T}^{'} \rightarrow \varepsilon\)</td>
+<td>\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
+<td>\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
 </tr>
 <tr>
 <td><em>F</em></td>
@@ -389,9 +389,9 @@ F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\<br>
 </table>
 <p>如果一个文法是左递归或有二义性的，那么 M 中至少会包含一个多重定义的条目。比如悬空-else 文法
 \[\begin{aligned}
-\textit{S} &amp;\rightarrow i\textit{E}t\textit{SS}^{'}\ |\ a\\<br>
-\textit{S}^{'} &amp;\rightarrow e\textit{S}\ |\ \varepsilon\\<br>
-\textit{E} &amp;\rightarrow b\\<br>
+\textit{S} &amp;\rightarrow i\textit{E}t\textit{SS}^{&rsquo;}\ |\ a\\
+\textit{S}^{&rsquo;} &amp;\rightarrow e\textit{S}\ |\ \varepsilon\\
+\textit{E} &amp;\rightarrow b\\
 \end{aligned}\]</p>
 <p>它的分析表如下</p>
 <table>
@@ -412,18 +412,18 @@ F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\<br>
 <td>\(\textit{S} \rightarrow a\)</td>
 <td></td>
 <td></td>
-<td>\(\textit{S} \rightarrow i\textit{E}t\textit{SS}^{'}\)</td>
+<td>\(\textit{S} \rightarrow i\textit{E}t\textit{SS}^{&rsquo;}\)</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>\(\textit{S}^{'}\)</td>
+<td>\(\textit{S}^{&rsquo;}\)</td>
 <td></td>
 <td></td>
-<td>\(\textit{S}^{'} \rightarrow \varepsilon\), \(\textit{S}^{'} \rightarrow e\textit{S}\)</td>
+<td>\(\textit{S}^{&rsquo;} \rightarrow \varepsilon\), \(\textit{S}^{&rsquo;} \rightarrow e\textit{S}\)</td>
 <td></td>
 <td></td>
-<td>\(\textit{S}^{'} \rightarrow \varepsilon\)</td>
+<td>\(\textit{S}^{&rsquo;} \rightarrow \varepsilon\)</td>
 </tr>
 <tr>
 <td><em>E</em></td>
@@ -436,7 +436,7 @@ F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\<br>
 </tr>
 </tbody>
 </table>
-<p>可以看到 \(\textit{M}[\textit{S}^{'}, e]\) 不止一个条目，LL(1) 文法预测分析表会披露出文法中存在的二义性。</p>
+<p>可以看到 \(\textit{M}[\textit{S}^{&rsquo;}, e]\) 不止一个条目，LL(1) 文法预测分析表会披露出文法中存在的二义性。</p>
 <h2 id="非递归的预测分析" class="headerLink">
     <a href="#%e9%9d%9e%e9%80%92%e5%bd%92%e7%9a%84%e9%a2%84%e6%b5%8b%e5%88%86%e6%9e%90" class="header-mark"></a>非递归的预测分析</h2><p>构造递归的预测分析是隐式使用栈，可以采用迭代的方式显示使用栈，如果 w 是已匹配完成的输入部分，那么栈中保存的文法符号序列 \(\alpha\) 满足
 \[S \xRightarrow[lm]{*}w\alpha.\]</p>
@@ -491,99 +491,99 @@ error();
 </tr>
 <tr>
 <td></td>
-<td>\(\textit{TE}^{'}\$\)</td>
+<td>\(\textit{TE}^{&rsquo;}\$\)</td>
 <td>\(\textbf{id}+\textbf{id}*\textbf{id}\$\)</td>
-<td>输出 \(\textit{E}\rightarrow\textit{TE}^{'}\)</td>
+<td>输出 \(\textit{E}\rightarrow\textit{TE}^{&rsquo;}\)</td>
 </tr>
 <tr>
 <td></td>
-<td>\(\textit{FT}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(\textbf{id}+\textbf{id}*\textbf{id}\$\)</td>
-<td>输出 \(\textit{T}\rightarrow\textit{FT}^{'}\)</td>
+<td>输出 \(\textit{T}\rightarrow\textit{FT}^{&rsquo;}\)</td>
 </tr>
 <tr>
 <td></td>
-<td>\(\textbf{id}\textit{T}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textbf{id}\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(\textbf{id}+\textbf{id}*\textbf{id}\$\)</td>
 <td>输出 \(\textit{F}\rightarrow\textbf{id}\)</td>
 </tr>
 <tr>
 <td><strong>id</strong></td>
-<td>\(\textit{T}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(+\textbf{id}*\textbf{id}\$\)</td>
 <td>匹配 <strong>id</strong></td>
 </tr>
 <tr>
 <td><strong>id</strong></td>
-<td>\(\textit{E}^{'}\$\)</td>
+<td>\(\textit{E}^{&rsquo;}\$\)</td>
 <td>\(+\textbf{id}*\textbf{id}\$\)</td>
-<td>输出 \(\textit{T}^{'}\rightarrow\varepsilon\)</td>
+<td>输出 \(\textit{T}^{&rsquo;}\rightarrow\varepsilon\)</td>
 </tr>
 <tr>
 <td><strong>id</strong></td>
-<td>\(+\textit{TE}^{'}\$\)</td>
+<td>\(+\textit{TE}^{&rsquo;}\$\)</td>
 <td>\(+\textbf{id}*\textbf{id}\$\)</td>
-<td>输出 \(\textit{E}^{'}\rightarrow+\textit{TE}^{'}\)</td>
+<td>输出 \(\textit{E}^{&rsquo;}\rightarrow+\textit{TE}^{&rsquo;}\)</td>
 </tr>
 <tr>
 <td>\(\textbf{id}+\)</td>
-<td>\(\textit{TE}^{'}\$\)</td>
+<td>\(\textit{TE}^{&rsquo;}\$\)</td>
 <td>\(\textbf{id}*\textbf{id}\$\)</td>
 <td>匹配 \(+\)</td>
 </tr>
 <tr>
 <td>\(\textbf{id}+\)</td>
-<td>\(\textit{FT}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(\textbf{id}*\textbf{id}\$\)</td>
-<td>输出 \(\textit{T}\rightarrow\textit{FT}^{'}\)</td>
+<td>输出 \(\textit{T}\rightarrow\textit{FT}^{&rsquo;}\)</td>
 </tr>
 <tr>
 <td>\(\textbf{id}+\)</td>
-<td>\(\textbf{id}\textit{T}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textbf{id}\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(\textbf{id}*\textbf{id}\$\)</td>
 <td>输出 \(\textit{F}\rightarrow\textbf{id}\)</td>
 </tr>
 <tr>
 <td>\(\textbf{id}+\textbf{id}\)</td>
-<td>\(\textit{T}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(*\textbf{id}\$\)</td>
 <td>匹配 <strong>id</strong></td>
 </tr>
 <tr>
 <td>\(\textbf{id}+\textbf{id}\)</td>
-<td>\(*\textit{FT}^{'}\textit{E}^{'}\$\)</td>
+<td>\(*\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(*\textbf{id}\$\)</td>
-<td>输出 \(\textit{T}^{'}\rightarrow*\textit{FT}^{'}\)</td>
+<td>输出 \(\textit{T}^{&rsquo;}\rightarrow*\textit{FT}^{&rsquo;}\)</td>
 </tr>
 <tr>
 <td>\(\textbf{id}+\textbf{id}*\)</td>
-<td>\(\textit{FT}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(\textbf{id}\$\)</td>
 <td>匹配 \(*\)</td>
 </tr>
 <tr>
 <td>\(\textbf{id}+\textbf{id}*\)</td>
-<td>\(\textbf{id}\textit{T}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textbf{id}\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(\textbf{id}\$\)</td>
 <td>输出 \(\textit{F}\rightarrow\textbf{id}\)</td>
 </tr>
 <tr>
 <td>\(\textbf{id}+\textbf{id}*\textbf{id}\)</td>
-<td>\(\textit{T}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(\$\)</td>
 <td>匹配 <strong>id</strong></td>
 </tr>
 <tr>
 <td>\(\textbf{id}+\textbf{id}*\textbf{id}\)</td>
-<td>\(\textit{E}^{'}\$\)</td>
+<td>\(\textit{E}^{&rsquo;}\$\)</td>
 <td>\(\$\)</td>
-<td>输出 \(\textit{T}^{'}\rightarrow\varepsilon\)</td>
+<td>输出 \(\textit{T}^{&rsquo;}\rightarrow\varepsilon\)</td>
 </tr>
 <tr>
 <td>\(\textbf{id}+\textbf{id}*\textbf{id}\)</td>
 <td>\(\$\)</td>
 <td>\(\$\)</td>
-<td>输出 \(\textit{E}^{'}\rightarrow\varepsilon\)</td>
+<td>输出 \(\textit{E}^{&rsquo;}\rightarrow\varepsilon\)</td>
 </tr>
 </tbody>
 </table>
@@ -617,39 +617,39 @@ error();
 <tbody>
 <tr>
 <td><em>E</em></td>
-<td>\(\textit{E} \rightarrow \textit{TE}^{'}\)</td>
+<td>\(\textit{E} \rightarrow \textit{TE}^{&rsquo;}\)</td>
 <td></td>
 <td></td>
-<td>\(\textit{E} \rightarrow \textit{TE}^{'}\)</td>
+<td>\(\textit{E} \rightarrow \textit{TE}^{&rsquo;}\)</td>
 <td>synch</td>
 <td>synch</td>
 </tr>
 <tr>
-<td>\(\textit{E}^{'}\)</td>
+<td>\(\textit{E}^{&rsquo;}\)</td>
 <td></td>
-<td>\(\textit{E}^{'} \rightarrow + \textit{TE}^{'}\)</td>
+<td>\(\textit{E}^{&rsquo;} \rightarrow + \textit{TE}^{&rsquo;}\)</td>
 <td></td>
 <td></td>
-<td>\(\textit{E}^{'} \rightarrow \varepsilon\)</td>
-<td>\(\textit{E}^{'} \rightarrow \varepsilon\)</td>
+<td>\(\textit{E}^{&rsquo;} \rightarrow \varepsilon\)</td>
+<td>\(\textit{E}^{&rsquo;} \rightarrow \varepsilon\)</td>
 </tr>
 <tr>
 <td><em>T</em></td>
-<td>\(\textit{T} \rightarrow \textit{FT}^{'}\)</td>
+<td>\(\textit{T} \rightarrow \textit{FT}^{&rsquo;}\)</td>
 <td>synch</td>
 <td></td>
-<td>\(\textit{T} \rightarrow \textit{FT}^{'}\)</td>
+<td>\(\textit{T} \rightarrow \textit{FT}^{&rsquo;}\)</td>
 <td>synch</td>
 <td>synch</td>
 </tr>
 <tr>
-<td>\(\textit{T}^{'}\)</td>
+<td>\(\textit{T}^{&rsquo;}\)</td>
 <td></td>
-<td>\(\textit{T}^{'} \rightarrow \varepsilon\)</td>
-<td>\(\textit{T}^{'} \rightarrow * \textit{FT}^{'}\)</td>
+<td>\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
+<td>\(\textit{T}^{&rsquo;} \rightarrow * \textit{FT}^{&rsquo;}\)</td>
 <td></td>
-<td>\(\textit{T}^{'} \rightarrow \varepsilon\)</td>
-<td>\(\textit{T}^{'} \rightarrow \varepsilon\)</td>
+<td>\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
+<td>\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
 </tr>
 <tr>
 <td><em>F</em></td>
@@ -687,93 +687,93 @@ error();
 </tr>
 <tr>
 <td></td>
-<td>\(\textit{TE}^{'}\$\)</td>
+<td>\(\textit{TE}^{&rsquo;}\$\)</td>
 <td>\(\textbf{id}*+\textbf{id}\$\)</td>
-<td>输出 \(\textit{E}\rightarrow\textit{TE}^{'}\)</td>
+<td>输出 \(\textit{E}\rightarrow\textit{TE}^{&rsquo;}\)</td>
 </tr>
 <tr>
 <td></td>
-<td>\(\textit{FT}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(\textbf{id}*+\textbf{id}\$\)</td>
-<td>输出 \(\textit{T}\rightarrow\textit{FT}^{'}\)</td>
+<td>输出 \(\textit{T}\rightarrow\textit{FT}^{&rsquo;}\)</td>
 </tr>
 <tr>
 <td></td>
-<td>\(\textbf{id}\textit{T}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textbf{id}\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(\textbf{id}*+\textbf{id}\$\)</td>
 <td>输出 \(\textit{F}\rightarrow\textbf{id}\)</td>
 </tr>
 <tr>
 <td><strong>id</strong></td>
-<td>\(\textit{T}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(*+\textbf{id}\$\)</td>
 <td>匹配 <strong>id</strong></td>
 </tr>
 <tr>
 <td><strong>id</strong></td>
-<td>\(*\textit{FT}^{'}\textit{E}^{'}\$\)</td>
+<td>\(*\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(*+\textbf{id}\$\)</td>
-<td>输出 \(\textit{T}^{'}\rightarrow*\textit{FT}^{'}\)</td>
+<td>输出 \(\textit{T}^{&rsquo;}\rightarrow*\textit{FT}^{&rsquo;}\)</td>
 </tr>
 <tr>
 <td>\(\textbf{id}*\)</td>
-<td>\(\textit{FT}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(+\textbf{id}\$\)</td>
 <td>匹配 *</td>
 </tr>
 <tr>
 <td>\(\textbf{id}*\)</td>
-<td>\(\textit{T}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(+\textbf{id}\$\)</td>
 <td>\(\textit{M}[\textit{F},+]\), 弹出 <em>F</em></td>
 </tr>
 <tr>
 <td>\(\textbf{id}*\)</td>
-<td>\(\textit{E}^{'}\$\)</td>
+<td>\(\textit{E}^{&rsquo;}\$\)</td>
 <td>\(+\textbf{id}\$\)</td>
-<td>输出 \(\textit{T}^{'}\rightarrow\varepsilon\)</td>
+<td>输出 \(\textit{T}^{&rsquo;}\rightarrow\varepsilon\)</td>
 </tr>
 <tr>
 <td>\(\textbf{id}*\)</td>
-<td>\(+\textit{TE}^{'}\$\)</td>
+<td>\(+\textit{TE}^{&rsquo;}\$\)</td>
 <td>\(+\textbf{id}\$\)</td>
-<td>输出 \(\textit{E}^{'}\rightarrow+\textit{TE}^{'}\)</td>
+<td>输出 \(\textit{E}^{&rsquo;}\rightarrow+\textit{TE}^{&rsquo;}\)</td>
 </tr>
 <tr>
 <td>\(\textbf{id}*+\)</td>
-<td>\(\textit{TE}^{'}\$\)</td>
+<td>\(\textit{TE}^{&rsquo;}\$\)</td>
 <td>\(\textbf{id}\$\)</td>
 <td>匹配 \(+\)</td>
 </tr>
 <tr>
 <td>\(\textbf{id}*+\)</td>
-<td>\(\textit{FT}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(\textbf{id}\$\)</td>
-<td>输出 \(\textit{T}\rightarrow\textit{FT}^{'}\)</td>
+<td>输出 \(\textit{T}\rightarrow\textit{FT}^{&rsquo;}\)</td>
 </tr>
 <tr>
 <td>\(\textbf{id}*+\)</td>
-<td>\(\textbf{id}\textit{T}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textbf{id}\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(\textbf{id}\$\)</td>
 <td>输出 \(\textit{F}\rightarrow\textbf{id}\)</td>
 </tr>
 <tr>
 <td>\(\textbf{id}*+\textbf{id}\)</td>
-<td>\(\textit{T}^{'}\textit{E}^{'}\$\)</td>
+<td>\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
 <td>\(\$\)</td>
 <td>匹配 <strong>id</strong></td>
 </tr>
 <tr>
 <td>\(\textbf{id}*+\textbf{id}\)</td>
-<td>\(\textit{E}^{'}\$\)</td>
+<td>\(\textit{E}^{&rsquo;}\$\)</td>
 <td>\(\$\)</td>
-<td>输出 \(\textit{T}^{'}\rightarrow\varepsilon\)</td>
+<td>输出 \(\textit{T}^{&rsquo;}\rightarrow\varepsilon\)</td>
 </tr>
 <tr>
 <td>\(\textbf{id}*+\textbf{id}\)</td>
 <td>\(\$\)</td>
 <td>\(\$\)</td>
-<td>输出 \(\textit{E}^{'}\rightarrow\varepsilon\)</td>
+<td>输出 \(\textit{E}^{&rsquo;}\rightarrow\varepsilon\)</td>
 </tr>
 </tbody>
 </table>
@@ -816,7 +816,7 @@ div.info{background:rgba(58,129,195,0.15);border-left:4px solid rgba(58,129,195,
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

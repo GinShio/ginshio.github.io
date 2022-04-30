@@ -375,121 +375,121 @@ Archipelago (群岛)、Moon Morphis (月岛)</li>
 </span><span class="lnt">114
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="c1">-- 前提说明：mod 配置里的</span>
-<span class="c1">---- 关闭 (disable) 用 0 表示，开启 (enable) 用 1 表示</span>
-<span class="c1">---- 是 (YES) 用 true 表示，否 (NO) 用 false 表示</span>
-
-<span class="c1">-- Kind of World</span>
-<span class="c1">----- 5:  hamlet</span>
-<span class="c1">----- 10: shipwrecked</span>
-<span class="c1">----- 15: custom</span>
-<span class="c1">----- 20: Sea World</span>
-<span class="n">kindofworld</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
-
-<span class="c1">--- for hamlet world</span>
-<span class="n">hamletcaves_hamletworld</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>         <span class="c1">---- Hamlet Caves</span>
-<span class="n">togethercaves_hamletworld</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>       <span class="c1">---- Together Caves</span>
-<span class="n">hamletclouds</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>                 <span class="c1">---- Hamlet Clouds</span>
-<span class="n">continentsize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>                   <span class="c1">---- Continent: Compact (1), Default (2), Bigger (3)</span>
-<span class="n">fillingthebiomes</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>                <span class="c1">---- Filling the Biomes: 0% (0), 25% (1), 50% (2), 75% (3), 100% (4)</span>
-<span class="n">compactruins</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>                <span class="c1">---- Compact Pig Ruins</span>
-
-<span class="c1">--- for shipwrecked world</span>
-<span class="n">howmanyislands</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span>                 <span class="c1">---- How many islands</span>
-<span class="n">Shipwreckedworld_plus</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>        <span class="c1">---- Shipwrecked Plus</span>
-<span class="n">frost_islandworld</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>              <span class="c1">---- Frost Island, YES (10) / NO (5)</span>
-<span class="n">Moonshipwrecked</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>                 <span class="c1">---- Moon Biome</span>
-<span class="n">hamletcaves_shipwreckedworld</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>    <span class="c1">---- Hamlet Caves</span>
-<span class="n">togethercaves_shipwreckedworld</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1">---- Together Caves</span>
-
-<span class="c1">--- for custom world</span>
-<span class="c1">----- Biome Value:</span>
-<span class="c1">-----      5: Disable</span>
-<span class="c1">-----     10: Continent</span>
-<span class="c1">-----     15: Islands</span>
-<span class="c1">-----     20: Main Land</span>
-<span class="c1">-----     25: Arquipelago</span>
-<span class="n">startlocation</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>                  <span class="c1">---- Player Portal, Together(5) / Shipwrecked (10) / Hamlet (15)</span>
-<span class="n">Together</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>                      <span class="c1">---- Reign of Giants Biomes</span>
-<span class="n">Moon</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                          <span class="c1">---- Lunar Biomes</span>
-<span class="n">Shipwrecked</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>                   <span class="c1">---- Shipwrecked Biomes</span>
-<span class="n">Shipwrecked_plus</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>            <span class="c1">---- Shipwrecked Plus</span>
-<span class="n">Hamlet</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                        <span class="c1">---- Hamlet Biomes</span>
-<span class="c1">----- Hamlet Island Value:</span>
-<span class="c1">-----      5: Disable</span>
-<span class="c1">-----     10: Main Land</span>
-<span class="c1">-----     15: Continent</span>
-<span class="c1">-----     20: Islands</span>
-<span class="n">pigcity1</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>                      <span class="c1">---- Swinesbury</span>
-<span class="n">pigcity2</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>                      <span class="c1">---- The Royal Palace</span>
-<span class="n">pinacle</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                        <span class="c1">---- Pinacle</span>
-<span class="n">anthill</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                        <span class="c1">---- Ant Hill</span>
-<span class="n">pigruins</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                       <span class="c1">---- Ancient pig ruins</span>
-<span class="n">gorgeisland</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                    <span class="c1">---- Peat Forest Island</span>
-<span class="n">gorgecity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                      <span class="c1">---- Gorge City</span>
-<span class="n">frost_island</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                  <span class="c1">---- Frost Island, 5 (NO) / 10 (YES)</span>
-<span class="n">hamlet_caves</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                   <span class="c1">---- Hamlet Caves</span>
-
-<span class="c1">--- for all world</span>
-<span class="n">Volcano</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>                     <span class="c1">---- Volcano, true (Complete) / false (Compact)</span>
-<span class="n">forge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                          <span class="c1">---- Forge Arena</span>
-<span class="n">underwater</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>                  <span class="c1">---- Underwater</span>
-
-<span class="c1">--- OCEAN SETTINGS</span>
-<span class="n">Waves</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>                       <span class="c1">---- Waves</span>
-<span class="n">aquaticcreatures</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>            <span class="c1">---- Aquatic Creatures</span>
-<span class="n">kraken</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                         <span class="c1">---- Kraken</span>
-<span class="n">octopusking</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                    <span class="c1">---- Octopus King</span>
-<span class="n">mangrove</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                       <span class="c1">---- Mangrove Biome</span>
-<span class="n">lilypad</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                        <span class="c1">---- Lilypad Biome</span>
-<span class="n">shipgraveyard</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                  <span class="c1">---- Ship Graveyard Biome</span>
-<span class="n">coralbiome</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                     <span class="c1">---- Coral Biome</span>
-
-<span class="c1">--- GAMEPLAY SETTINGS</span>
-<span class="n">aporkalypse</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>                 <span class="c1">---- Aporkalypse</span>
-<span class="n">sealnado</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>                    <span class="c1">---- Sealnado</span>
-
-<span class="c1">--- WEATHER SETTINGS</span>
-<span class="c1">-----      5: Disabled</span>
-<span class="c1">-----     10: Tropical Zone / Hamlet Zone / Tropical-Hamlet</span>
-<span class="c1">-----     20: All world</span>
-<span class="n">flood</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                         <span class="c1">---- Flood</span>
-<span class="n">wind</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                          <span class="c1">---- Wind</span>
-<span class="n">hail</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>                        <span class="c1">---- Hail</span>
-<span class="n">volcaniceruption</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>              <span class="c1">---- Volcanic Eruption</span>
-<span class="n">fog</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                           <span class="c1">---- Winter Fog</span>
-<span class="n">hayfever</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                      <span class="c1">---- Hay Fever</span>
-
-<span class="c1">--- HUD SETTINGS</span>
-<span class="n">boatlefthud</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-<span class="n">city_tab</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<span class="n">disable_snow_effectst</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>
-<span class="n">home_tab</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<span class="n">housewallajust</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-<span class="n">megarandomCompatibilityWater</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>
-<span class="n">nautical_tab</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>
-<span class="n">obsidian_tab</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<span class="n">removedark</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>
-<span class="n">seafaring_tab</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>
-<span class="n">set_idioma</span><span class="o">=</span><span class="s2">&#34;stringsEU&#34;</span><span class="p">,</span>
-
-<span class="c1">--- SHARD-DEDICATED</span>
-<span class="n">enableallprefabs</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>           <span class="c1">---- Enable all prefabs</span>
-<span class="c1">---- Tropical Shards</span>
-<span class="n">tropicalshards</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>                 <span class="c1">---- Tropical shards</span>
-<span class="n">lobbyexit</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>                  <span class="c1">---- Lobby exit</span>
-
-<span class="c1">--- OTHER MOD</span>
-<span class="c1">----     10: Mainland</span>
-<span class="c1">----     20: Island</span>
-<span class="c1">----     30: Grove</span>
-<span class="c1">----     40: Archipelago</span>
-<span class="c1">----     50: Moon Morphis</span>
-<span class="n">cherryforest</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>                  <span class="c1">---- Cherry Forest</span>
-
-<span class="c1">--- LUAJIT</span>
-<span class="n">luajit</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>                     <span class="c1">---- luajit</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- 前提说明：mod 配置里的</span>
+</span></span><span class="line"><span class="cl"><span class="c1">---- 关闭 (disable) 用 0 表示，开启 (enable) 用 1 表示</span>
+</span></span><span class="line"><span class="cl"><span class="c1">---- 是 (YES) 用 true 表示，否 (NO) 用 false 表示</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- Kind of World</span>
+</span></span><span class="line"><span class="cl"><span class="c1">----- 5:  hamlet</span>
+</span></span><span class="line"><span class="cl"><span class="c1">----- 10: shipwrecked</span>
+</span></span><span class="line"><span class="cl"><span class="c1">----- 15: custom</span>
+</span></span><span class="line"><span class="cl"><span class="c1">----- 20: Sea World</span>
+</span></span><span class="line"><span class="cl"><span class="n">kindofworld</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">--- for hamlet world</span>
+</span></span><span class="line"><span class="cl"><span class="n">hamletcaves_hamletworld</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>         <span class="c1">---- Hamlet Caves</span>
+</span></span><span class="line"><span class="cl"><span class="n">togethercaves_hamletworld</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>       <span class="c1">---- Together Caves</span>
+</span></span><span class="line"><span class="cl"><span class="n">hamletclouds</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>                 <span class="c1">---- Hamlet Clouds</span>
+</span></span><span class="line"><span class="cl"><span class="n">continentsize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>                   <span class="c1">---- Continent: Compact (1), Default (2), Bigger (3)</span>
+</span></span><span class="line"><span class="cl"><span class="n">fillingthebiomes</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>                <span class="c1">---- Filling the Biomes: 0% (0), 25% (1), 50% (2), 75% (3), 100% (4)</span>
+</span></span><span class="line"><span class="cl"><span class="n">compactruins</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>                <span class="c1">---- Compact Pig Ruins</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">--- for shipwrecked world</span>
+</span></span><span class="line"><span class="cl"><span class="n">howmanyislands</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span>                 <span class="c1">---- How many islands</span>
+</span></span><span class="line"><span class="cl"><span class="n">Shipwreckedworld_plus</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>        <span class="c1">---- Shipwrecked Plus</span>
+</span></span><span class="line"><span class="cl"><span class="n">frost_islandworld</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>              <span class="c1">---- Frost Island, YES (10) / NO (5)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Moonshipwrecked</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>                 <span class="c1">---- Moon Biome</span>
+</span></span><span class="line"><span class="cl"><span class="n">hamletcaves_shipwreckedworld</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>    <span class="c1">---- Hamlet Caves</span>
+</span></span><span class="line"><span class="cl"><span class="n">togethercaves_shipwreckedworld</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1">---- Together Caves</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">--- for custom world</span>
+</span></span><span class="line"><span class="cl"><span class="c1">----- Biome Value:</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-----      5: Disable</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-----     10: Continent</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-----     15: Islands</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-----     20: Main Land</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-----     25: Arquipelago</span>
+</span></span><span class="line"><span class="cl"><span class="n">startlocation</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>                  <span class="c1">---- Player Portal, Together(5) / Shipwrecked (10) / Hamlet (15)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Together</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>                      <span class="c1">---- Reign of Giants Biomes</span>
+</span></span><span class="line"><span class="cl"><span class="n">Moon</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                          <span class="c1">---- Lunar Biomes</span>
+</span></span><span class="line"><span class="cl"><span class="n">Shipwrecked</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>                   <span class="c1">---- Shipwrecked Biomes</span>
+</span></span><span class="line"><span class="cl"><span class="n">Shipwrecked_plus</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>            <span class="c1">---- Shipwrecked Plus</span>
+</span></span><span class="line"><span class="cl"><span class="n">Hamlet</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                        <span class="c1">---- Hamlet Biomes</span>
+</span></span><span class="line"><span class="cl"><span class="c1">----- Hamlet Island Value:</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-----      5: Disable</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-----     10: Main Land</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-----     15: Continent</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-----     20: Islands</span>
+</span></span><span class="line"><span class="cl"><span class="n">pigcity1</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>                      <span class="c1">---- Swinesbury</span>
+</span></span><span class="line"><span class="cl"><span class="n">pigcity2</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>                      <span class="c1">---- The Royal Palace</span>
+</span></span><span class="line"><span class="cl"><span class="n">pinacle</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                        <span class="c1">---- Pinacle</span>
+</span></span><span class="line"><span class="cl"><span class="n">anthill</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                        <span class="c1">---- Ant Hill</span>
+</span></span><span class="line"><span class="cl"><span class="n">pigruins</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                       <span class="c1">---- Ancient pig ruins</span>
+</span></span><span class="line"><span class="cl"><span class="n">gorgeisland</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                    <span class="c1">---- Peat Forest Island</span>
+</span></span><span class="line"><span class="cl"><span class="n">gorgecity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                      <span class="c1">---- Gorge City</span>
+</span></span><span class="line"><span class="cl"><span class="n">frost_island</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                  <span class="c1">---- Frost Island, 5 (NO) / 10 (YES)</span>
+</span></span><span class="line"><span class="cl"><span class="n">hamlet_caves</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                   <span class="c1">---- Hamlet Caves</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">--- for all world</span>
+</span></span><span class="line"><span class="cl"><span class="n">Volcano</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>                     <span class="c1">---- Volcano, true (Complete) / false (Compact)</span>
+</span></span><span class="line"><span class="cl"><span class="n">forge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                          <span class="c1">---- Forge Arena</span>
+</span></span><span class="line"><span class="cl"><span class="n">underwater</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>                  <span class="c1">---- Underwater</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">--- OCEAN SETTINGS</span>
+</span></span><span class="line"><span class="cl"><span class="n">Waves</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>                       <span class="c1">---- Waves</span>
+</span></span><span class="line"><span class="cl"><span class="n">aquaticcreatures</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>            <span class="c1">---- Aquatic Creatures</span>
+</span></span><span class="line"><span class="cl"><span class="n">kraken</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                         <span class="c1">---- Kraken</span>
+</span></span><span class="line"><span class="cl"><span class="n">octopusking</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                    <span class="c1">---- Octopus King</span>
+</span></span><span class="line"><span class="cl"><span class="n">mangrove</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                       <span class="c1">---- Mangrove Biome</span>
+</span></span><span class="line"><span class="cl"><span class="n">lilypad</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                        <span class="c1">---- Lilypad Biome</span>
+</span></span><span class="line"><span class="cl"><span class="n">shipgraveyard</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                  <span class="c1">---- Ship Graveyard Biome</span>
+</span></span><span class="line"><span class="cl"><span class="n">coralbiome</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>                     <span class="c1">---- Coral Biome</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">--- GAMEPLAY SETTINGS</span>
+</span></span><span class="line"><span class="cl"><span class="n">aporkalypse</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>                 <span class="c1">---- Aporkalypse</span>
+</span></span><span class="line"><span class="cl"><span class="n">sealnado</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>                    <span class="c1">---- Sealnado</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">--- WEATHER SETTINGS</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-----      5: Disabled</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-----     10: Tropical Zone / Hamlet Zone / Tropical-Hamlet</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-----     20: All world</span>
+</span></span><span class="line"><span class="cl"><span class="n">flood</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                         <span class="c1">---- Flood</span>
+</span></span><span class="line"><span class="cl"><span class="n">wind</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                          <span class="c1">---- Wind</span>
+</span></span><span class="line"><span class="cl"><span class="n">hail</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>                        <span class="c1">---- Hail</span>
+</span></span><span class="line"><span class="cl"><span class="n">volcaniceruption</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>              <span class="c1">---- Volcanic Eruption</span>
+</span></span><span class="line"><span class="cl"><span class="n">fog</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                           <span class="c1">---- Winter Fog</span>
+</span></span><span class="line"><span class="cl"><span class="n">hayfever</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                      <span class="c1">---- Hay Fever</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">--- HUD SETTINGS</span>
+</span></span><span class="line"><span class="cl"><span class="n">boatlefthud</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="n">city_tab</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="n">disable_snow_effectst</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="n">home_tab</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="n">housewallajust</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="n">megarandomCompatibilityWater</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="n">nautical_tab</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="n">obsidian_tab</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="n">removedark</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="n">seafaring_tab</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="n">set_idioma</span><span class="o">=</span><span class="s2">&#34;stringsEU&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">--- SHARD-DEDICATED</span>
+</span></span><span class="line"><span class="cl"><span class="n">enableallprefabs</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>           <span class="c1">---- Enable all prefabs</span>
+</span></span><span class="line"><span class="cl"><span class="c1">---- Tropical Shards</span>
+</span></span><span class="line"><span class="cl"><span class="n">tropicalshards</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>                 <span class="c1">---- Tropical shards</span>
+</span></span><span class="line"><span class="cl"><span class="n">lobbyexit</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>                  <span class="c1">---- Lobby exit</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">--- OTHER MOD</span>
+</span></span><span class="line"><span class="cl"><span class="c1">----     10: Mainland</span>
+</span></span><span class="line"><span class="cl"><span class="c1">----     20: Island</span>
+</span></span><span class="line"><span class="cl"><span class="c1">----     30: Grove</span>
+</span></span><span class="line"><span class="cl"><span class="c1">----     40: Archipelago</span>
+</span></span><span class="line"><span class="cl"><span class="c1">----     50: Moon Morphis</span>
+</span></span><span class="line"><span class="cl"><span class="n">cherryforest</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>                  <span class="c1">---- Cherry Forest</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">--- LUAJIT</span>
+</span></span><span class="line"><span class="cl"><span class="n">luajit</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span>                     <span class="c1">---- luajit</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>恐怖抽奖机不需要配置，只用开启三合一与该 mod 即可。一般游玩可以关闭洞穴、只开启船难内容。</p>
 </div>
@@ -526,7 +526,7 @@ Archipelago (群岛)、Moon Morphis (月岛)</li>
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

@@ -308,14 +308,14 @@ star 结点，并将它的firstpos中的所有位置放到它的lastpos中各个
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">while Dstates 中存在未标记的状态S:
-    标记 S
-    for 每个输入符号a:
-        令 U 为 S 中和 a 对应的所有位置p的 followpos(p) 的并集
-        if U 不在 Dstates 中:
-            将 U 作为未标记的状态加入 Dstates 中
-        Dtran[S，a] = U
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">while Dstates 中存在未标记的状态S:
+</span></span><span class="line"><span class="cl">    标记 S
+</span></span><span class="line"><span class="cl">    for 每个输入符号a:
+</span></span><span class="line"><span class="cl">        令 U 为 S 中和 a 对应的所有位置p的 followpos(p) 的并集
+</span></span><span class="line"><span class="cl">        if U 不在 Dstates 中:
+</span></span><span class="line"><span class="cl">            将 U 作为未标记的状态加入 Dstates 中
+</span></span><span class="line"><span class="cl">        Dtran[S，a] = U
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>依然以 \((a|b)^{*}abb\) 为例构造 DFA，正则表达式所构造出的语法分析树上面已有，分析语法分析树可知只有 star 结点的 nullable 为真。</p>
 <p>这颗树的根结点的 firstpos 集为 <code>{1,2,3}</code> ，即 DFA 的开始状态集合，我们称这个集合为 A。计算 \(D_{tran}[A，a]\) 和 \(D_{tran}[A，b]\) ，A中1和3对应于a，2对应于b，所有
@@ -386,11 +386,11 @@ s 和 t 存在能够区分它们的串，那么它们就是 <strong>可区分的
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">Pi_new = Pi
-for Pi 中的每个组 G:
-    将 G 划分为更小的组，当且仅当对于所有的输入符号a，使得两个状态s和t在同一小组中，状态s和t在a上的转换都到达 Pi 中的同一组
-    在 Pi_new 中将 G 替换为对 G 进行划分得到的那些小组
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Pi_new = Pi
+</span></span><span class="line"><span class="cl">for Pi 中的每个组 G:
+</span></span><span class="line"><span class="cl">    将 G 划分为更小的组，当且仅当对于所有的输入符号a，使得两个状态s和t在同一小组中，状态s和t在a上的转换都到达 Pi 中的同一组
+</span></span><span class="line"><span class="cl">    在 Pi_new 中将 G 替换为对 G 进行划分得到的那些小组
+</span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 <li>
@@ -398,11 +398,11 @@ for Pi 中的每个组 G:
 \(\Pi\) 并重复步骤2</p>
 </li>
 <li>
-<p>在划分 \(\Pi_{final}\) 的每个组中选取一个状态作为该组的代表，这些代表构成了状态最少 DFA 的状态。最小状态DFA \(D'\) 的其他部分按如下步骤构造</p>
+<p>在划分 \(\Pi_{final}\) 的每个组中选取一个状态作为该组的代表，这些代表构成了状态最少 DFA 的状态。最小状态DFA \(D&rsquo;\) 的其他部分按如下步骤构造</p>
 <ol>
-<li>\(D'\) 的开始状态是包含了 D 的开始状态的组的代表</li>
-<li>\(D'\) 的接受状态是那些包含了 D 的接受状态的组的代表。每个组要么只包含了接受状态，要么只包含了非接受状态，因为我们一开始将这两类状态分开了</li>
-<li>令 s 是 \(\Pi_{final}\) 中某个组 G 的代表，并令 DFA 中正在输入 a 上离开 s 的转换到达状态 t，令 r 为 t 所在组 H 的代表，那么在 \(D'\) 中存在一个从 s 到
+<li>\(D&rsquo;\) 的开始状态是包含了 D 的开始状态的组的代表</li>
+<li>\(D&rsquo;\) 的接受状态是那些包含了 D 的接受状态的组的代表。每个组要么只包含了接受状态，要么只包含了非接受状态，因为我们一开始将这两类状态分开了</li>
+<li>令 s 是 \(\Pi_{final}\) 中某个组 G 的代表，并令 DFA 中正在输入 a 上离开 s 的转换到达状态 t，令 r 为 t 所在组 H 的代表，那么在 \(D&rsquo;\) 中存在一个从 s 到
 r 在输入 a 上的转换</li>
 </ol>
 </li>
@@ -445,7 +445,7 @@ div.info{background:rgba(58,129,195,0.15);border-left:4px solid rgba(58,129,195,
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

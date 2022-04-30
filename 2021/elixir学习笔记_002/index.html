@@ -170,12 +170,12 @@
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">Greeter.Greeting</span> <span class="k">do</span>
-  <span class="kd">def</span> <span class="n">morning</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="s2">&#34;Good morning, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span>
-  <span class="kd">def</span> <span class="n">evening</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="s2">&#34;Good evening, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span>
-<span class="k">end</span>
-<span class="nc">Greeter.Greeting</span><span class="o">.</span><span class="n">morning</span><span class="p">(</span><span class="s2">&#34;iris&#34;</span><span class="p">)</span> <span class="c1"># &#34;Good morning, iris&#34;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Greeter.Greeting</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">morning</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="s2">&#34;Good morning, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">evening</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="s2">&#34;Good evening, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Greeter.Greeting</span><span class="o">.</span><span class="n">morning</span><span class="p">(</span><span class="s2">&#34;iris&#34;</span><span class="p">)</span> <span class="c1"># &#34;Good morning, iris&#34;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>模块通常还会有一些属性，这些属性通常被用作常量</p>
 <div class="highlight"><div class="chroma">
@@ -189,14 +189,14 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">Example</span> <span class="k">do</span>
-  <span class="na">@greeting</span> <span class="s2">&#34;Hello&#34;</span>
-  <span class="kd">def</span> <span class="n">greeting</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">do</span>
-    <span class="sx">~s(</span><span class="si">#{</span><span class="na">@greeting</span><span class="si">}</span><span class="sx">, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="sx">.)</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-<span class="nc">Example</span><span class="o">.</span><span class="n">greeting</span><span class="p">(</span><span class="s2">&#34;iris&#34;</span><span class="p">)</span> <span class="c1"># &#34;Hello, iris.&#34;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="na">@greeting</span> <span class="s2">&#34;Hello&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">greeting</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="sx">~s(</span><span class="si">#{</span><span class="na">@greeting</span><span class="si">}</span><span class="sx">, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="sx">.)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Example</span><span class="o">.</span><span class="n">greeting</span><span class="p">(</span><span class="s2">&#34;iris&#34;</span><span class="p">)</span> <span class="c1"># &#34;Hello, iris.&#34;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>当然还有一些的属性，用于保留功能，比如 <code>moduledoc</code> 和 <code>doc</code> 作为文档，文档可以用
 <strong>ExDoc</strong> 生成 HTML，而 <strong>ExMark</strong> 是一个 Markdown 分析器，最终我们可以使用 mix 来生成文档</p>
@@ -222,25 +222,25 @@
 </span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">Example</span> <span class="k">do</span>
-  <span class="na">@moduledoc</span> <span class="sh">&#34;&#34;&#34;
-</span><span class="sh">  This is the Hello module.
-</span><span class="sh">  &#34;&#34;&#34;</span>
-  <span class="na">@moduledoc</span> <span class="ss">since</span><span class="p">:</span> <span class="s2">&#34;1.0.0&#34;</span>
-
-  <span class="na">@doc</span> <span class="sh">&#34;&#34;&#34;
-</span><span class="sh">  Says hello to the given `name`.
-</span><span class="sh">  Returns `:ok`.
-</span><span class="sh">  </span><span class="err">##</span><span class="sh"> Examples
-</span><span class="sh">      iex&gt; Example.world(:john)
-</span><span class="sh">      :ok
-</span><span class="sh">  &#34;&#34;&#34;</span>
-  <span class="na">@doc</span> <span class="ss">since</span><span class="p">:</span> <span class="s2">&#34;1.3.0&#34;</span>
-  <span class="kd">def</span> <span class="n">world</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">do</span>
-    <span class="nc">IO</span><span class="o">.</span><span class="n">puts</span><span class="p">(</span><span class="s2">&#34;hello </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="na">@moduledoc</span> <span class="sh">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sh">  This is the Hello module.
+</span></span></span><span class="line"><span class="cl"><span class="sh">  &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">@moduledoc</span> <span class="ss">since</span><span class="p">:</span> <span class="s2">&#34;1.0.0&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="na">@doc</span> <span class="sh">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sh">  Says hello to the given `name`.
+</span></span></span><span class="line"><span class="cl"><span class="sh">  Returns `:ok`.
+</span></span></span><span class="line"><span class="cl"><span class="sh">  </span><span class="err">##</span><span class="sh"> Examples
+</span></span></span><span class="line"><span class="cl"><span class="sh">      iex&gt; Example.world(:john)
+</span></span></span><span class="line"><span class="cl"><span class="sh">      :ok
+</span></span></span><span class="line"><span class="cl"><span class="sh">  &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">@doc</span> <span class="ss">since</span><span class="p">:</span> <span class="s2">&#34;1.3.0&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">world</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">IO</span><span class="o">.</span><span class="n">puts</span><span class="p">(</span><span class="s2">&#34;hello </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="结构体--struct" class="headerLink">
     <a href="#%e7%bb%93%e6%9e%84%e4%bd%93--struct" class="header-mark"></a>结构体 (Struct)</h3><p>在 Elixir 中结构体 Struct 是 Map 的特殊形式，它的键是预定义的，一般都有默认值，不过有个限制，Struct 只能定义在 Module 中，一般一个模块定义一个结构体</p>
@@ -255,14 +255,14 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">Example.User</span> <span class="k">do</span>
-  <span class="kd">defstruct</span> <span class="ss">name</span><span class="p">:</span> <span class="s2">&#34;GinShio&#34;</span><span class="p">,</span> <span class="ss">roles</span><span class="p">:</span> <span class="p">[]</span>
-<span class="k">end</span>
-<span class="n">default</span> <span class="o">=</span> <span class="p">%</span><span class="nc">Example.User</span><span class="p">{}</span> <span class="c1"># %Example.User{name: &#34;GinShio&#34;, roles: []}</span>
-<span class="n">iris</span> <span class="o">=</span> <span class="p">%{</span><span class="n">default</span> <span class="o">|</span> <span class="ss">name</span><span class="p">:</span> <span class="s2">&#34;iris&#34;</span><span class="p">}</span> <span class="c1"># %Example.User{name: &#34;iris&#34;, roles: []}</span>
-<span class="n">inspect</span><span class="p">(</span><span class="n">default</span><span class="p">)</span> <span class="c1"># &#34;%Example.User{name: \&#34;GinShio\&#34;, roles: []}&#34;</span>
-<span class="p">%</span><span class="nc">Example.User</span><span class="p">{</span><span class="ss">name</span><span class="p">:</span> <span class="s2">&#34;iris&#34;</span><span class="p">}</span> <span class="o">=</span> <span class="n">iris</span> <span class="c1"># pattern</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example.User</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">defstruct</span> <span class="ss">name</span><span class="p">:</span> <span class="s2">&#34;GinShio&#34;</span><span class="p">,</span> <span class="ss">roles</span><span class="p">:</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="n">default</span> <span class="o">=</span> <span class="p">%</span><span class="nc">Example.User</span><span class="p">{}</span> <span class="c1"># %Example.User{name: &#34;GinShio&#34;, roles: []}</span>
+</span></span><span class="line"><span class="cl"><span class="n">iris</span> <span class="o">=</span> <span class="p">%{</span><span class="n">default</span> <span class="o">|</span> <span class="ss">name</span><span class="p">:</span> <span class="s2">&#34;iris&#34;</span><span class="p">}</span> <span class="c1"># %Example.User{name: &#34;iris&#34;, roles: []}</span>
+</span></span><span class="line"><span class="cl"><span class="n">inspect</span><span class="p">(</span><span class="n">default</span><span class="p">)</span> <span class="c1"># &#34;%Example.User{name: \&#34;GinShio\&#34;, roles: []}&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">%</span><span class="nc">Example.User</span><span class="p">{</span><span class="ss">name</span><span class="p">:</span> <span class="s2">&#34;iris&#34;</span><span class="p">}</span> <span class="o">=</span> <span class="n">iris</span> <span class="c1"># pattern</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>可以看到 inspect 展示了 Struct 中的所有字段，如果我们想排除保护字段，可以使用
 <code>@derive</code> 注解来实现这一功能</p>
@@ -276,13 +276,13 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">Example.User</span> <span class="k">do</span>
-  <span class="na">@derive</span> <span class="p">{</span><span class="nc">Inspect</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="p">[</span><span class="ss">:name</span><span class="p">]}</span> <span class="c1"># 只打印 :only 中的字段</span>
-  <span class="c1"># @derive {Inspect, except: [:roles]} # 排除 :except 中的字段</span>
-  <span class="kd">defstruct</span> <span class="ss">name</span><span class="p">:</span> <span class="no">nil</span><span class="p">,</span> <span class="ss">roles</span><span class="p">:</span> <span class="p">[]</span>
-<span class="k">end</span>
-<span class="n">inspect</span><span class="p">(</span><span class="n">default</span><span class="p">)</span> <span class="c1"># &#34;#Example.User&lt;name: \&#34;GinShio\&#34;, ...&gt;&#34;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example.User</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="na">@derive</span> <span class="p">{</span><span class="nc">Inspect</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="p">[</span><span class="ss">:name</span><span class="p">]}</span> <span class="c1"># 只打印 :only 中的字段</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># @derive {Inspect, except: [:roles]} # 排除 :except 中的字段</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">defstruct</span> <span class="ss">name</span><span class="p">:</span> <span class="no">nil</span><span class="p">,</span> <span class="ss">roles</span><span class="p">:</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="n">inspect</span><span class="p">(</span><span class="n">default</span><span class="p">)</span> <span class="c1"># &#34;#Example.User&lt;name: \&#34;GinShio\&#34;, ...&gt;&#34;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="组合--composition" class="headerLink">
     <a href="#%e7%bb%84%e5%90%88--composition" class="header-mark"></a>组合 (Composition)</h3><p>Elixir 以组合的方式为模块添加全新的功能，并且也为我们提供了多种访问其他模块的方式</p>
@@ -308,22 +308,22 @@
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">Example.Source</span> <span class="k">do</span>
-  <span class="kd">def</span> <span class="n">hello</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="s2">&#34;Hello, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">!&#34;</span>
-<span class="k">end</span>
-<span class="kd">defmodule</span> <span class="nc">Example.Alias</span> <span class="k">do</span>
-  <span class="kn">alias</span> <span class="nc">Example.Source</span>
-  <span class="kd">def</span> <span class="n">hello</span><span class="p">(),</span> <span class="ss">do</span><span class="p">:</span> <span class="nc">Source</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s2">&#34;FooBar&#34;</span><span class="p">)</span>
-<span class="k">end</span>
-<span class="kd">defmodule</span> <span class="nc">Example.AliasMulti</span> <span class="k">do</span>
-  <span class="kn">alias</span> <span class="nc">Example</span><span class="o">.</span><span class="p">{</span><span class="nc">Source</span><span class="p">,</span> <span class="nc">Alias</span><span class="p">}</span>
-  <span class="kd">def</span> <span class="n">hello</span><span class="p">(),</span> <span class="ss">do</span><span class="p">:</span> <span class="nc">Source</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s2">&#34;Src&#34;</span><span class="p">)</span>
-<span class="k">end</span>
-<span class="kd">defmodule</span> <span class="nc">Other.Alias</span> <span class="k">do</span>
-  <span class="kn">alias</span> <span class="nc">Example.Alias</span><span class="p">,</span> <span class="ss">as</span><span class="p">:</span> <span class="nc">ExAlias</span>
-  <span class="kd">def</span> <span class="n">hello</span><span class="p">(),</span> <span class="ss">do</span><span class="p">:</span> <span class="nc">ExAlias</span><span class="o">.</span><span class="n">hello</span><span class="p">()</span>
-<span class="k">end</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example.Source</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">hello</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="s2">&#34;Hello, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">!&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example.Alias</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">alias</span> <span class="nc">Example.Source</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">hello</span><span class="p">(),</span> <span class="ss">do</span><span class="p">:</span> <span class="nc">Source</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s2">&#34;FooBar&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example.AliasMulti</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">alias</span> <span class="nc">Example</span><span class="o">.</span><span class="p">{</span><span class="nc">Source</span><span class="p">,</span> <span class="nc">Alias</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">hello</span><span class="p">(),</span> <span class="ss">do</span><span class="p">:</span> <span class="nc">Source</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s2">&#34;Src&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Other.Alias</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">alias</span> <span class="nc">Example.Alias</span><span class="p">,</span> <span class="ss">as</span><span class="p">:</span> <span class="nc">ExAlias</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">hello</span><span class="p">(),</span> <span class="ss">do</span><span class="p">:</span> <span class="nc">ExAlias</span><span class="o">.</span><span class="n">hello</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></dd>
 <dt>import (导入)</dt>
@@ -336,11 +336,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="c1"># last([1, 2, 3]) # (CompileError): undefined function last/1</span>
-<span class="nc">List</span><span class="o">.</span><span class="n">last</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span> <span class="c1"># 3</span>
-<span class="kn">import</span> <span class="nc">List</span>
-<span class="n">last</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span> <span class="c1"># 3</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="c1"># last([1, 2, 3]) # (CompileError): undefined function last/1</span>
+</span></span><span class="line"><span class="cl"><span class="nc">List</span><span class="o">.</span><span class="n">last</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span> <span class="c1"># 3</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nc">List</span>
+</span></span><span class="line"><span class="cl"><span class="n">last</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span> <span class="c1"># 3</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>好消息是，就像之前学习 Struct 时控制 inspect 输出一样，<code>:only</code> 与 <code>:except</code>
 是我们控制 import 导出的好帮手</p>
@@ -351,10 +351,10 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kn">import</span> <span class="nc">List</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="p">[</span><span class="ss">last</span><span class="p">:</span> <span class="mi">1</span><span class="p">]</span> <span class="c1"># only import `last/1&#39;</span>
-<span class="n">first</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span> <span class="c1"># (CompileError): undefined function first/1</span>
-<span class="n">last</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span> <span class="c1"># 3</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nc">List</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="p">[</span><span class="ss">last</span><span class="p">:</span> <span class="mi">1</span><span class="p">]</span> <span class="c1"># only import `last/1&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">first</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span> <span class="c1"># (CompileError): undefined function first/1</span>
+</span></span><span class="line"><span class="cl"><span class="n">last</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span> <span class="c1"># 3</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>我们如果想导出所有的函数呢，这样太麻烦了吧，好在 Elixir 提供了一种特殊的方法，
 <code>:functions</code> 和 <code>:macros</code> 分别代表函数和宏，不过不能除外就是了</p>
@@ -366,11 +366,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kn">import</span> <span class="nc">List</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="ss">:functions</span> <span class="c1"># 导出 List 中的所有函数</span>
-<span class="kn">import</span> <span class="nc">List</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="ss">:macros</span> <span class="c1"># 导出 List 中的所有宏</span>
-<span class="c1"># import List, except: :functions</span>
-<span class="c1"># (CompileError): invalid :except option for import, expected value to be a list literal, got: :functions</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nc">List</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="ss">:functions</span> <span class="c1"># 导出 List 中的所有函数</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nc">List</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="ss">:macros</span> <span class="c1"># 导出 List 中的所有宏</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># import List, except: :functions</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># (CompileError): invalid :except option for import, expected value to be a list literal, got: :functions</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></dd>
 <dt>require (请求)</dt>
@@ -393,18 +393,18 @@
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">Hello</span> <span class="k">do</span>
-  <span class="kd">defmacro</span> <span class="n">__using__</span><span class="p">(</span><span class="n">opts</span><span class="p">)</span> <span class="k">do</span>
-    <span class="k">quote</span> <span class="k">do</span>
-      <span class="kd">def</span> <span class="n">hello</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="s2">&#34;Hi, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-<span class="kd">defmodule</span> <span class="nc">Example</span> <span class="k">do</span>
-  <span class="kn">use</span> <span class="nc">Hello</span>
-<span class="k">end</span>
-<span class="nc">Example</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s2">&#34;GinShio&#34;</span><span class="p">)</span> <span class="c1"># &#34;Hi, GinShio&#34;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Hello</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">defmacro</span> <span class="n">__using__</span><span class="p">(</span><span class="n">opts</span><span class="p">)</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="k">quote</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">def</span> <span class="n">hello</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="s2">&#34;Hi, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">use</span> <span class="nc">Hello</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Example</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s2">&#34;GinShio&#34;</span><span class="p">)</span> <span class="c1"># &#34;Hi, GinShio&#34;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>非常的神奇，当然宏还是可以带参数的，比如下面这个从 Elixir School 抄来的示例
 (这个更看不懂了</p>
@@ -428,23 +428,23 @@
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">Hello</span> <span class="k">do</span>
-  <span class="kd">defmacro</span> <span class="n">__using__</span><span class="p">(</span><span class="n">opts</span><span class="p">)</span> <span class="k">do</span>
-    <span class="n">greeting</span> <span class="o">=</span> <span class="nc">Keyword</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">opts</span><span class="p">,</span> <span class="ss">:greeting</span><span class="p">,</span> <span class="s2">&#34;Hi&#34;</span><span class="p">)</span>
-    <span class="k">quote</span> <span class="k">do</span>
-      <span class="kd">def</span> <span class="n">hello</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="k">unquote</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span> <span class="o">&lt;&gt;</span> <span class="s2">&#34;, &#34;</span> <span class="o">&lt;&gt;</span> <span class="n">name</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-<span class="kd">defmodule</span> <span class="nc">Example.En</span> <span class="k">do</span>
-  <span class="kn">use</span> <span class="nc">Hello</span>
-<span class="k">end</span>
-<span class="kd">defmodule</span> <span class="nc">Example.Es</span> <span class="k">do</span>
-  <span class="kn">use</span> <span class="nc">Hello</span><span class="p">,</span> <span class="ss">greeting</span><span class="p">:</span> <span class="s2">&#34;Hola&#34;</span>
-<span class="k">end</span>
-<span class="nc">Example.En</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s2">&#34;GinShio&#34;</span><span class="p">)</span> <span class="c1"># &#34;Hi, GinShio&#34;</span>
-<span class="nc">Example.Es</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s2">&#34;GinShio&#34;</span><span class="p">)</span> <span class="c1"># &#34;Hola, GinShio&#34;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Hello</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">defmacro</span> <span class="n">__using__</span><span class="p">(</span><span class="n">opts</span><span class="p">)</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="n">greeting</span> <span class="o">=</span> <span class="nc">Keyword</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">opts</span><span class="p">,</span> <span class="ss">:greeting</span><span class="p">,</span> <span class="s2">&#34;Hi&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">quote</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">def</span> <span class="n">hello</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="k">unquote</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span> <span class="o">&lt;&gt;</span> <span class="s2">&#34;, &#34;</span> <span class="o">&lt;&gt;</span> <span class="n">name</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example.En</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">use</span> <span class="nc">Hello</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example.Es</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">use</span> <span class="nc">Hello</span><span class="p">,</span> <span class="ss">greeting</span><span class="p">:</span> <span class="s2">&#34;Hola&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Example.En</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s2">&#34;GinShio&#34;</span><span class="p">)</span> <span class="c1"># &#34;Hi, GinShio&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Example.Es</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s2">&#34;GinShio&#34;</span><span class="p">)</span> <span class="c1"># &#34;Hola, GinShio&#34;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></dd>
 </dl>
@@ -459,11 +459,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="na">@spec</span> <span class="n">sum_product</span><span class="p">(</span><span class="n">integer</span><span class="p">)</span> <span class="o">::</span> <span class="n">integer</span>
-<span class="kd">def</span> <span class="n">sum_product</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">do</span>
-  <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">|&gt;</span> <span class="nc">Enum</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">fn</span> <span class="n">e</span> <span class="o">-&gt;</span> <span class="n">e</span> <span class="o">*</span> <span class="n">a</span> <span class="k">end</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="nc">Enum</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="k">end</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="na">@spec</span> <span class="n">sum_product</span><span class="p">(</span><span class="n">integer</span><span class="p">)</span> <span class="o">::</span> <span class="n">integer</span>
+</span></span><span class="line"><span class="cl"><span class="kd">def</span> <span class="n">sum_product</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">|&gt;</span> <span class="nc">Enum</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">fn</span> <span class="n">e</span> <span class="o">-&gt;</span> <span class="n">e</span> <span class="o">*</span> <span class="n">a</span> <span class="k">end</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="nc">Enum</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>我们可以正常的使用这个函数，毕竟它不被编译器所关注，<code>Enum.sum()</code> 将会返回一个
 number 而不是 integer，如果想发现这些问题的话，我们需要使用 Dialyzer 这类静态分析器来帮我们解决这些问题</p>
@@ -496,24 +496,24 @@ number 而不是 integer，如果想发现这些问题的话，我们需要使�
 </span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kd">defmodule</span> <span class="nc">Example.Type</span> <span class="k">do</span>
-  <span class="kd">defstruct</span> <span class="ss">first</span><span class="p">:</span> <span class="no">nil</span><span class="p">,</span> <span class="ss">last</span><span class="p">:</span> <span class="no">nil</span>
-  <span class="na">@type</span> <span class="n">t</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span> <span class="o">::</span> <span class="p">%</span><span class="nc">Example.Type</span><span class="p">{</span><span class="ss">first</span><span class="p">:</span> <span class="n">first</span><span class="p">,</span> <span class="ss">last</span><span class="p">:</span> <span class="n">last</span><span class="p">}</span>
-  <span class="na">@typedoc</span> <span class="sh">&#34;&#34;&#34;
-</span><span class="sh">  Type that represents Example struct with :first(integer) and :last(integer)
-</span><span class="sh">  &#34;&#34;&#34;</span>
-  <span class="na">@type</span> <span class="n">t</span> <span class="o">::</span> <span class="p">%</span><span class="nc">Example.Type</span><span class="p">{</span><span class="ss">first</span><span class="p">:</span> <span class="n">integer</span><span class="p">,</span> <span class="ss">last</span><span class="p">:</span> <span class="n">integer</span><span class="p">}</span>
-<span class="k">end</span>
-<span class="kd">defmodule</span> <span class="nc">Example</span> <span class="k">do</span>
-  <span class="na">@spec</span> <span class="n">sum_times</span><span class="p">(</span><span class="n">integer</span><span class="p">,</span> <span class="nc">Example.Type</span><span class="o">.</span><span class="n">t</span><span class="p">())</span> <span class="o">::</span> <span class="n">integer</span>
-  <span class="kd">def</span> <span class="n">sum_times</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="k">do</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="o">&lt;-</span> <span class="n">params</span><span class="o">.</span><span class="n">first</span><span class="o">..</span><span class="n">params</span><span class="o">.</span><span class="n">last</span> <span class="k">do</span>
-      <span class="n">i</span>
-    <span class="k">end</span>
-    <span class="o">|&gt;</span> <span class="nc">Enum</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">fn</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">e</span> <span class="o">*</span> <span class="n">a</span> <span class="k">end</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="nc">Enum</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">|&gt;</span> <span class="n">round</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example.Type</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">defstruct</span> <span class="ss">first</span><span class="p">:</span> <span class="no">nil</span><span class="p">,</span> <span class="ss">last</span><span class="p">:</span> <span class="no">nil</span>
+</span></span><span class="line"><span class="cl">  <span class="na">@type</span> <span class="n">t</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span> <span class="o">::</span> <span class="p">%</span><span class="nc">Example.Type</span><span class="p">{</span><span class="ss">first</span><span class="p">:</span> <span class="n">first</span><span class="p">,</span> <span class="ss">last</span><span class="p">:</span> <span class="n">last</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="na">@typedoc</span> <span class="sh">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sh">  Type that represents Example struct with :first(integer) and :last(integer)
+</span></span></span><span class="line"><span class="cl"><span class="sh">  &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">@type</span> <span class="n">t</span> <span class="o">::</span> <span class="p">%</span><span class="nc">Example.Type</span><span class="p">{</span><span class="ss">first</span><span class="p">:</span> <span class="n">integer</span><span class="p">,</span> <span class="ss">last</span><span class="p">:</span> <span class="n">integer</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="na">@spec</span> <span class="n">sum_times</span><span class="p">(</span><span class="n">integer</span><span class="p">,</span> <span class="nc">Example.Type</span><span class="o">.</span><span class="n">t</span><span class="p">())</span> <span class="o">::</span> <span class="n">integer</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">sum_times</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="o">&lt;-</span> <span class="n">params</span><span class="o">.</span><span class="n">first</span><span class="o">..</span><span class="n">params</span><span class="o">.</span><span class="n">last</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">      <span class="n">i</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nc">Enum</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">fn</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">e</span> <span class="o">*</span> <span class="n">a</span> <span class="k">end</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="nc">Enum</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">|&gt;</span> <span class="n">round</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="字符串" class="headerLink">
     <a href="#%e5%ad%97%e7%ac%a6%e4%b8%b2" class="header-mark"></a>字符串</h2><p>Elixir 字符串是 <strong>UTF-8</strong> 编码，底层是字节序列，即二进制字节表示，如果我们在字符串后添加一个字节 <code>0</code> 的话将看到字符串的底层字节 (<code>&lt;&lt;&gt;&gt;</code> 表示一个字节的值)</p>
@@ -525,11 +525,11 @@ number 而不是 integer，如果想发现这些问题的话，我们需要使�
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">en</span> <span class="o">=</span> <span class="s2">&#34;hello&#34;</span>
-<span class="n">zh</span> <span class="o">=</span> <span class="s2">&#34;你好&#34;</span>
-<span class="n">en_bin</span> <span class="o">=</span> <span class="n">en</span> <span class="o">&lt;&gt;</span> <span class="p">&lt;&lt;</span><span class="mi">0</span><span class="p">&gt;&gt;</span> <span class="c1"># &lt;&lt;104, 101, 108, 108, 111, 0&gt;&gt;</span>
-<span class="n">zh_bin</span> <span class="o">=</span> <span class="n">zh</span> <span class="o">&lt;&gt;</span> <span class="p">&lt;&lt;</span><span class="mi">0</span><span class="p">&gt;&gt;</span> <span class="c1"># &lt;&lt;228, 189, 160, 229, 165, 189, 0&gt;&gt;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="n">en</span> <span class="o">=</span> <span class="s2">&#34;hello&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">zh</span> <span class="o">=</span> <span class="s2">&#34;你好&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">en_bin</span> <span class="o">=</span> <span class="n">en</span> <span class="o">&lt;&gt;</span> <span class="p">&lt;&lt;</span><span class="mi">0</span><span class="p">&gt;&gt;</span> <span class="c1"># &lt;&lt;104, 101, 108, 108, 111, 0&gt;&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="n">zh_bin</span> <span class="o">=</span> <span class="n">zh</span> <span class="o">&lt;&gt;</span> <span class="p">&lt;&lt;</span><span class="mi">0</span><span class="p">&gt;&gt;</span> <span class="c1"># &lt;&lt;228, 189, 160, 229, 165, 189, 0&gt;&gt;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>除了字符序列，Elixir 中还有一种字符列表，它们使用 <code>'char list'</code> 来表示，字符列表的值都是 <strong>UTF-8 码点</strong> ，这与字符序列有很大不同。正如示例中的 <code>你</code>，码点是 20320，但是 UTF-8 编码中是三个字节</p>
 <div class="highlight"><div class="chroma">
@@ -538,9 +538,9 @@ number 而不是 integer，如果想发现这些问题的话，我们需要使�
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">en_</span> <span class="o">=</span> <span class="s1">&#39;hello&#39;</span> <span class="c1"># [104, 101, 108, 108, 111]</span>
-<span class="n">zh_</span> <span class="o">=</span> <span class="s1">&#39;你好&#39;</span> <span class="c1"># [20320, 22909]</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="n">en_</span> <span class="o">=</span> <span class="s1">&#39;hello&#39;</span> <span class="c1"># [104, 101, 108, 108, 111]</span>
+</span></span><span class="line"><span class="cl"><span class="n">zh_</span> <span class="o">=</span> <span class="s1">&#39;你好&#39;</span> <span class="c1"># [20320, 22909]</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="魔符--sigil" class="headerLink">
     <a href="#%e9%ad%94%e7%ac%a6--sigil" class="header-mark"></a>魔符 (Sigil)</h2><p>Sigil 是 Elixir 中用于 <strong>表示</strong> 和 <strong>处理</strong> 字面量的，可以自定义，当然也有一些内置的
@@ -616,12 +616,12 @@ Sigil</p>
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="sx">~C/2 + 7 = #{2 + 7}/</span> <span class="c1"># &#39;2+7=\#{2+7}&#39;</span>
-<span class="sx">~c/2 + 7 = </span><span class="si">#{</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">7</span><span class="si">}</span><span class="sx">/</span> <span class="c1"># &#39;2 + 7 = 9&#39;</span>
-<span class="s2">&#34;Elixir&#34;</span> <span class="o">=~</span> <span class="sx">~r/elixir/</span> <span class="c1"># false</span>
-<span class="s2">&#34;elixir&#34;</span> <span class="o">=~</span> <span class="sx">~r/elixir/</span> <span class="c1"># true</span>
-<span class="sx">~w/i love elixir school/</span> <span class="c1"># [&#34;i&#34;, &#34;love&#34;, &#34;elixir&#34;, &#34;school&#34;]</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="sx">~C/2 + 7 = #{2 + 7}/</span> <span class="c1"># &#39;2+7=\#{2+7}&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="sx">~c/2 + 7 = </span><span class="si">#{</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">7</span><span class="si">}</span><span class="sx">/</span> <span class="c1"># &#39;2 + 7 = 9&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Elixir&#34;</span> <span class="o">=~</span> <span class="sx">~r/elixir/</span> <span class="c1"># false</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;elixir&#34;</span> <span class="o">=~</span> <span class="sx">~r/elixir/</span> <span class="c1"># true</span>
+</span></span><span class="line"><span class="cl"><span class="sx">~w/i love elixir school/</span> <span class="c1"># [&#34;i&#34;, &#34;love&#34;, &#34;elixir&#34;, &#34;school&#34;]</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="时间" class="headerLink">
     <a href="#%e6%97%b6%e9%97%b4" class="header-mark"></a>时间</h2><p>Elixir 内置了几个处理时间的模块，让我们试试最简单的，当前的 UTC 时间</p>
@@ -634,12 +634,12 @@ Sigil</p>
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">t</span> <span class="o">=</span> <span class="nc">Time</span><span class="o">.</span><span class="n">utc_now</span><span class="p">()</span> <span class="c1"># ~T[11:40:46.527943]</span>
-<span class="n">t</span><span class="o">.</span><span class="n">hour</span> <span class="c1"># 11</span>
-<span class="n">t</span><span class="o">.</span><span class="n">minute</span> <span class="c1"># 40</span>
-<span class="n">t</span><span class="o">.</span><span class="n">second</span> <span class="c1"># 49</span>
-<span class="c1"># t.day # (KeyError) key :day not found</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="n">t</span> <span class="o">=</span> <span class="nc">Time</span><span class="o">.</span><span class="n">utc_now</span><span class="p">()</span> <span class="c1"># ~T[11:40:46.527943]</span>
+</span></span><span class="line"><span class="cl"><span class="n">t</span><span class="o">.</span><span class="n">hour</span> <span class="c1"># 11</span>
+</span></span><span class="line"><span class="cl"><span class="n">t</span><span class="o">.</span><span class="n">minute</span> <span class="c1"># 40</span>
+</span></span><span class="line"><span class="cl"><span class="n">t</span><span class="o">.</span><span class="n">second</span> <span class="c1"># 49</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># t.day # (KeyError) key :day not found</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>UTC Time 虽然可以使用 Sigil，但是它只有时间，没有日期信息，也没有时区信息，那我们试试日期吧，只有日期没有时间！！！</p>
 <div class="highlight"><div class="chroma">
@@ -653,14 +653,14 @@ Sigil</p>
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">d</span> <span class="o">=</span> <span class="nc">Date</span><span class="o">.</span><span class="n">utc_today</span><span class="p">()</span> <span class="c1"># ~D[2021-02-19]</span>
-<span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="n">date</span><span class="p">}</span> <span class="o">=</span> <span class="nc">Date</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">03</span><span class="p">,</span> <span class="mi">01</span><span class="p">)</span> <span class="c1"># {:ok, ~D[2021-03-01]}</span>
-<span class="n">d</span><span class="o">.</span><span class="n">year</span> <span class="c1"># 2021</span>
-<span class="n">d</span><span class="o">.</span><span class="n">month</span> <span class="c1"># 2</span>
-<span class="n">d</span><span class="o">.</span><span class="n">day</span> <span class="c1"># 19</span>
-<span class="nc">Date</span><span class="o">.</span><span class="n">day_of_week</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="c1"># 5</span>
-<span class="nc">Date</span><span class="o">.</span><span class="n">leap_year?</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="c1"># false</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="n">d</span> <span class="o">=</span> <span class="nc">Date</span><span class="o">.</span><span class="n">utc_today</span><span class="p">()</span> <span class="c1"># ~D[2021-02-19]</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="n">date</span><span class="p">}</span> <span class="o">=</span> <span class="nc">Date</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">03</span><span class="p">,</span> <span class="mi">01</span><span class="p">)</span> <span class="c1"># {:ok, ~D[2021-03-01]}</span>
+</span></span><span class="line"><span class="cl"><span class="n">d</span><span class="o">.</span><span class="n">year</span> <span class="c1"># 2021</span>
+</span></span><span class="line"><span class="cl"><span class="n">d</span><span class="o">.</span><span class="n">month</span> <span class="c1"># 2</span>
+</span></span><span class="line"><span class="cl"><span class="n">d</span><span class="o">.</span><span class="n">day</span> <span class="c1"># 19</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Date</span><span class="o">.</span><span class="n">day_of_week</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="c1"># 5</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Date</span><span class="o">.</span><span class="n">leap_year?</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="c1"># false</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>Sigil 创建 Date 和 Time 还挺方便，不过有个问题，它们都是最简单的 <strong>UTC</strong> 时间，并且仅有日期或时间，也没有时区，显得很不好用</p>
 <p>还记得之前 Sigil 中列出的 <code>~N</code> 吗，我们现在来看看这个 <strong>NaiveDateTime</strong>，它包含了日期与时间，不过还是缺少时区，所以它所表示的还是 UTC 时间</p>
@@ -672,11 +672,11 @@ Sigil</p>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">n</span> <span class="o">=</span> <span class="nc">NaiveDateTime</span><span class="o">.</span><span class="n">utc_now</span><span class="p">()</span> <span class="c1"># ~N[2021-02-19 11:50:44.630064], UTC时间</span>
-<span class="nc">NaiveDateTime</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span> <span class="c1"># ~N[2021-02-19 11:51:14.630064], 增加30s</span>
-<span class="n">l</span> <span class="o">=</span> <span class="nc">NaiveDateTime</span><span class="o">.</span><span class="n">local_now</span><span class="p">()</span> <span class="c1"># ~N[2021-02-19 19:52:10], 本地时间</span>
-<span class="nc">NaiveDateTime</span><span class="o">.</span><span class="n">to_iso8601</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="c1"># &#34;2021-02-19T19:52:10&#34;, 格式化到 iso8601</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="n">n</span> <span class="o">=</span> <span class="nc">NaiveDateTime</span><span class="o">.</span><span class="n">utc_now</span><span class="p">()</span> <span class="c1"># ~N[2021-02-19 11:50:44.630064], UTC时间</span>
+</span></span><span class="line"><span class="cl"><span class="nc">NaiveDateTime</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span> <span class="c1"># ~N[2021-02-19 11:51:14.630064], 增加30s</span>
+</span></span><span class="line"><span class="cl"><span class="n">l</span> <span class="o">=</span> <span class="nc">NaiveDateTime</span><span class="o">.</span><span class="n">local_now</span><span class="p">()</span> <span class="c1"># ~N[2021-02-19 19:52:10], 本地时间</span>
+</span></span><span class="line"><span class="cl"><span class="nc">NaiveDateTime</span><span class="o">.</span><span class="n">to_iso8601</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="c1"># &#34;2021-02-19T19:52:10&#34;, 格式化到 iso8601</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p><strong>DateTime</strong> 是包含全部信息的时间数据结构，不过遗憾的是这个模块仅有一些转换函数和处理 UTC 的函数，因为 Elixir 还没有提供相关的 <strong>时区数据库</strong>，务必加上 <a href="https://github.com/mathieuprog/tz" target="_blank" rel="noopener noreffer">tz</a> /
 <a href="https://github.com/lau/tzdata" target="_blank" rel="noopener noreffer">tzdata</a> 这个时区数据库再来体验，不然只能 UTC 太痛苦了</p>
@@ -688,11 +688,11 @@ Sigil</p>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="nc">DateTime</span><span class="o">.</span><span class="n">utc_now</span><span class="p">()</span> <span class="c1"># ~U[2021-02-19 11:57:59.244240Z]</span>
-<span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="n">u</span><span class="p">}</span> <span class="o">=</span> <span class="nc">DateTime</span><span class="o">.</span><span class="n">from_naive</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">&#34;Etc/UTC&#34;</span><span class="p">)</span> <span class="c1"># {:ok, ~U[2021-02-19 11:50:44.630064Z]}</span>
-<span class="nc">DateTime</span><span class="o">.</span><span class="n">from_unix</span><span class="p">(</span><span class="mi">1613735444</span><span class="p">)</span> <span class="c1"># {:ok, ~U[2021-02-19 11:50:44Z]}</span>
-<span class="nc">DateTime</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p">(</span><span class="s2">&#34;2021-02-19T19:52:10Z&#34;</span><span class="p">)</span> <span class="c1"># {:ok, ~U[2021-02-19 19:52:10Z], 0}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="nc">DateTime</span><span class="o">.</span><span class="n">utc_now</span><span class="p">()</span> <span class="c1"># ~U[2021-02-19 11:57:59.244240Z]</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="n">u</span><span class="p">}</span> <span class="o">=</span> <span class="nc">DateTime</span><span class="o">.</span><span class="n">from_naive</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">&#34;Etc/UTC&#34;</span><span class="p">)</span> <span class="c1"># {:ok, ~U[2021-02-19 11:50:44.630064Z]}</span>
+</span></span><span class="line"><span class="cl"><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_unix</span><span class="p">(</span><span class="mi">1613735444</span><span class="p">)</span> <span class="c1"># {:ok, ~U[2021-02-19 11:50:44Z]}</span>
+</span></span><span class="line"><span class="cl"><span class="nc">DateTime</span><span class="o">.</span><span class="n">from_iso8601</span><span class="p">(</span><span class="s2">&#34;2021-02-19T19:52:10Z&#34;</span><span class="p">)</span> <span class="c1"># {:ok, ~U[2021-02-19 19:52:10Z], 0}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>还是有点不爽？不爽的话试试 <a href="https://hexdocs.pm/timex/" target="_blank" rel="noopener noreffer">timex</a> / <a href="https://hexdocs.pm/calendar" target="_blank" rel="noopener noreffer">calendar</a> 这些功能强大的第三方时间库</p>
 <h2 id="推导" class="headerLink">
@@ -702,8 +702,8 @@ Sigil</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="k">for</span> <span class="n">x</span> <span class="o">&lt;-</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="ss">do</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="c1"># [1, 4, 9, 16, 25]</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="k">for</span> <span class="n">x</span> <span class="o">&lt;-</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="ss">do</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="c1"># [1, 4, 9, 16, 25]</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>生成器从列表依次获取值，然后根据规则生成全新的列表，不过不一定必须是列表，还可以是任意的可遍历类型</p>
 <div class="highlight"><div class="chroma">
@@ -712,9 +712,9 @@ Sigil</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="k">for</span> <span class="p">{</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">}</span> <span class="o">&lt;-</span> <span class="p">%{</span><span class="ss">foo</span><span class="p">:</span> <span class="s2">&#34;bar&#34;</span><span class="p">,</span> <span class="ss">hello</span><span class="p">:</span> <span class="s2">&#34;world&#34;</span><span class="p">},</span> <span class="ss">do</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">}</span> <span class="c1"># [foo: &#34;bar&#34;, hello: &#34;world&#34;]</span>
-<span class="k">for</span> <span class="p">&lt;&lt;</span><span class="n">c</span> <span class="o">&lt;-</span> <span class="s2">&#34;hello&#34;</span><span class="p">&gt;&gt;,</span> <span class="ss">do</span><span class="p">:</span> <span class="p">&lt;&lt;</span><span class="n">c</span><span class="p">&gt;&gt;</span> <span class="c1"># [&#34;h&#34;, &#34;e&#34;, &#34;l&#34;, &#34;l&#34;, &#34;o&#34;]</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">{</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">}</span> <span class="o">&lt;-</span> <span class="p">%{</span><span class="ss">foo</span><span class="p">:</span> <span class="s2">&#34;bar&#34;</span><span class="p">,</span> <span class="ss">hello</span><span class="p">:</span> <span class="s2">&#34;world&#34;</span><span class="p">},</span> <span class="ss">do</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">}</span> <span class="c1"># [foo: &#34;bar&#34;, hello: &#34;world&#34;]</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">&lt;&lt;</span><span class="n">c</span> <span class="o">&lt;-</span> <span class="s2">&#34;hello&#34;</span><span class="p">&gt;&gt;,</span> <span class="ss">do</span><span class="p">:</span> <span class="p">&lt;&lt;</span><span class="n">c</span><span class="p">&gt;&gt;</span> <span class="c1"># [&#34;h&#34;, &#34;e&#34;, &#34;l&#34;, &#34;l&#34;, &#34;o&#34;]</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>推导表达式可以嵌套，并且支持模式匹配，不过没发现怎么并列 (GHC牛皮</p>
 <div class="highlight"><div class="chroma">
@@ -725,11 +725,11 @@ Sigil</p>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="c1"># [{1, 6}, {1, 7}, {1, 8}, {2, 6}, {2, 7}, {2, 8}, {3, 6}, {3, 7}, {3, 8}]</span>
-<span class="k">for</span> <span class="n">x</span> <span class="o">&lt;-</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">y</span> <span class="o">&lt;-</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">],</span> <span class="ss">do</span><span class="p">:</span> <span class="p">{</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">}</span>
-<span class="c1"># [&#34;Hello&#34;, &#34;World&#34;]</span>
-<span class="k">for</span> <span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="n">v</span><span class="p">}</span> <span class="o">&lt;-</span> <span class="p">[</span><span class="ss">ok</span><span class="p">:</span> <span class="s2">&#34;Hello&#34;</span><span class="p">,</span> <span class="ss">error</span><span class="p">:</span> <span class="s2">&#34;Unknown&#34;</span><span class="p">,</span> <span class="ss">ok</span><span class="p">:</span> <span class="s2">&#34;World&#34;</span><span class="p">],</span> <span class="ss">do</span><span class="p">:</span> <span class="n">v</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="c1"># [{1, 6}, {1, 7}, {1, 8}, {2, 6}, {2, 7}, {2, 8}, {3, 6}, {3, 7}, {3, 8}]</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">x</span> <span class="o">&lt;-</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">y</span> <span class="o">&lt;-</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">],</span> <span class="ss">do</span><span class="p">:</span> <span class="p">{</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># [&#34;Hello&#34;, &#34;World&#34;]</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="n">v</span><span class="p">}</span> <span class="o">&lt;-</span> <span class="p">[</span><span class="ss">ok</span><span class="p">:</span> <span class="s2">&#34;Hello&#34;</span><span class="p">,</span> <span class="ss">error</span><span class="p">:</span> <span class="s2">&#34;Unknown&#34;</span><span class="p">,</span> <span class="ss">ok</span><span class="p">:</span> <span class="s2">&#34;World&#34;</span><span class="p">],</span> <span class="ss">do</span><span class="p">:</span> <span class="n">v</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>好消息，guard 可以在这里使用，推导表达式会为检查相应的变量，只有 guard 表达式为真时才会继续执行</p>
 <div class="highlight"><div class="chroma">
@@ -739,10 +739,10 @@ Sigil</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="kn">require</span> <span class="nc">Integer</span>
-<span class="k">for</span> <span class="n">x</span> <span class="o">&lt;-</span> <span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">,</span> <span class="nc">Integer</span><span class="o">.</span><span class="n">is_even</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">x</span> <span class="c1"># [2, 4, 6, 8, 10]</span>
-<span class="k">for</span> <span class="n">x</span> <span class="o">&lt;-</span> <span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="p">,</span> <span class="nc">Integer</span><span class="o">.</span><span class="n">is_even</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">rem</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">do</span><span class="p">:</span> <span class="n">x</span> <span class="c1"># [18, 36, 54, 72, 90]</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kn">require</span> <span class="nc">Integer</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">x</span> <span class="o">&lt;-</span> <span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">,</span> <span class="nc">Integer</span><span class="o">.</span><span class="n">is_even</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">x</span> <span class="c1"># [2, 4, 6, 8, 10]</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">x</span> <span class="o">&lt;-</span> <span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="p">,</span> <span class="nc">Integer</span><span class="o">.</span><span class="n">is_even</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">rem</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">do</span><span class="p">:</span> <span class="n">x</span> <span class="c1"># [18, 36, 54, 72, 90]</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>推导表达式可以不止生成列表，还能生成很多东西，任何 <strong>Collectable</strong> 协议的结构体！！！当然这个协议，现在不重要，重要的是，可以生成其他结构</p>
 <div class="highlight"><div class="chroma">
@@ -753,11 +753,11 @@ Sigil</p>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="c1"># %{one: 1, three: 3, two: 2}</span>
-<span class="k">for</span> <span class="p">{</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">}</span> <span class="o">&lt;-</span> <span class="p">[</span><span class="ss">one</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">two</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="ss">three</span><span class="p">:</span> <span class="mi">3</span><span class="p">],</span> <span class="ss">into</span><span class="p">:</span> <span class="p">%{},</span> <span class="ss">do</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">}</span>
-<span class="c1"># &#34;Hello,iris&#34;</span>
-<span class="k">for</span> <span class="n">c</span> <span class="o">&lt;-</span> <span class="p">[</span><span class="mi">72</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">108</span><span class="p">,</span> <span class="mi">108</span><span class="p">,</span> <span class="mi">111</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">114</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">115</span><span class="p">],</span> <span class="ss">into</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="ss">do</span><span class="p">:</span> <span class="p">&lt;&lt;</span><span class="n">c</span><span class="p">&gt;&gt;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="c1"># %{one: 1, three: 3, two: 2}</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">{</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">}</span> <span class="o">&lt;-</span> <span class="p">[</span><span class="ss">one</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">two</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="ss">three</span><span class="p">:</span> <span class="mi">3</span><span class="p">],</span> <span class="ss">into</span><span class="p">:</span> <span class="p">%{},</span> <span class="ss">do</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># &#34;Hello,iris&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">c</span> <span class="o">&lt;-</span> <span class="p">[</span><span class="mi">72</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">108</span><span class="p">,</span> <span class="mi">108</span><span class="p">,</span> <span class="mi">111</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">114</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">115</span><span class="p">],</span> <span class="ss">into</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="ss">do</span><span class="p">:</span> <span class="p">&lt;&lt;</span><span class="n">c</span><span class="p">&gt;&gt;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
 
@@ -793,7 +793,7 @@ Sigil</p>
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

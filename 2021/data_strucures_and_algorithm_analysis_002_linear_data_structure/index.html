@@ -352,40 +352,40 @@ I thought, proper consideration.</p>
 </span><span class="lnt">33
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="p">,</span> <span class="k">class</span> <span class="nc">Iter</span><span class="o">&gt;</span>
-<span class="k">concept</span> <span class="n">sequence_container</span> <span class="o">=</span>
-    <span class="k">requires</span><span class="p">(</span><span class="n">T</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">pos</span><span class="p">,</span>
-             <span class="n">Iter</span> <span class="n">first</span><span class="p">,</span> <span class="n">Iter</span> <span class="n">last</span><span class="p">,</span>
-             <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">iterator</span> <span class="n">self_first</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">iterator</span> <span class="n">self_last</span><span class="p">,</span>
-             <span class="n">size_type</span> <span class="n">count</span><span class="p">,</span> <span class="k">const</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&amp;</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">requires</span> <span class="n">container</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">;</span>
-    <span class="k">requires</span> <span class="n">input_iterator</span><span class="o">&lt;</span><span class="n">Iter</span><span class="o">&gt;</span><span class="p">;</span>
-    <span class="c1">// iterator
-</span><span class="c1"></span>    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">rbegin</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reverse_iterator</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">rend</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reverse_iterator</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">b</span><span class="p">.</span><span class="n">rbegin</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reverse_iterator</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">b</span><span class="p">.</span><span class="n">rend</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reverse_iterator</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">crbegin</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reverse_iterator</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">crend</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reverse_iterator</span><span class="p">;</span>
-    <span class="c1">// access
-</span><span class="c1"></span>    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">front</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reference</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">b</span><span class="p">.</span><span class="n">front</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reference</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reference</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">b</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reference</span><span class="p">;</span>
-    <span class="c1">// capacity
-</span><span class="c1"></span>    <span class="n">a</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
-    <span class="c1">// modifier
-</span><span class="c1"></span>    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">iterator</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">iterator</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">iterator</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">iterator</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">self_first</span><span class="p">,</span> <span class="n">self_last</span><span class="p">)</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">iterator</span><span class="p">;</span>
-    <span class="n">a</span><span class="p">.</span><span class="n">push_front</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
-    <span class="n">a</span><span class="p">.</span><span class="n">pop_front</span><span class="p">();</span>
-    <span class="n">a</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
-    <span class="n">a</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
-<span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="p">,</span> <span class="k">class</span> <span class="nc">Iter</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">concept</span> <span class="n">sequence_container</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">requires</span><span class="p">(</span><span class="n">T</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">pos</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">             <span class="n">Iter</span> <span class="n">first</span><span class="p">,</span> <span class="n">Iter</span> <span class="n">last</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">             <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">iterator</span> <span class="n">self_first</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">iterator</span> <span class="n">self_last</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">             <span class="n">size_type</span> <span class="n">count</span><span class="p">,</span> <span class="k">const</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&amp;</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">requires</span> <span class="n">container</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">requires</span> <span class="n">input_iterator</span><span class="o">&lt;</span><span class="n">Iter</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// iterator
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">rbegin</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reverse_iterator</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">rend</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reverse_iterator</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">b</span><span class="p">.</span><span class="n">rbegin</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reverse_iterator</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">b</span><span class="p">.</span><span class="n">rend</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reverse_iterator</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">crbegin</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reverse_iterator</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">crend</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reverse_iterator</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// access
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">front</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reference</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">b</span><span class="p">.</span><span class="n">front</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reference</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reference</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">b</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reference</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// capacity
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">a</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// modifier
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">iterator</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">iterator</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">iterator</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">iterator</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">self_first</span><span class="p">,</span> <span class="n">self_last</span><span class="p">)</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">iterator</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span><span class="p">.</span><span class="n">push_front</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span><span class="p">.</span><span class="n">pop_front</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><table>
 <thead>
@@ -488,13 +488,13 @@ end\) 时意味着当前线性边需要生长。</p>
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="nc">SequenceList</span> <span class="p">{</span>
-  <span class="n">Element</span><span class="o">*</span> <span class="n">start</span><span class="p">;</span>
-  <span class="n">Element</span><span class="o">*</span> <span class="n">finish</span><span class="p">;</span>
-  <span class="n">Element</span><span class="o">*</span> <span class="n">end</span><span class="p">;</span>
-<span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">SequenceList</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Element</span><span class="o">*</span> <span class="n">start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Element</span><span class="o">*</span> <span class="n">finish</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Element</span><span class="o">*</span> <span class="n">end</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这里存储结构中并没有给出迭代器，这是因为这是一个数组结构，我们可以将指针当作迭代器使用，这个迭代器是符合 <strong>contiguous_iterator</strong> 的。因此在实现该结构时，我们可以为其提供随即访问的接口 &ndash; <code>operator[]</code> 和 <code>at</code> ，它们接收一个 <code>size_type</code> 类型参数 n 用以 \(\Theta(1)\) 时间复杂度访问 \(start + n\) 的元素。</p>
 <div class="info">
@@ -537,18 +537,18 @@ base class 所提供的链域操作。</p>
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">ForwardListBaseNode</span> <span class="p">{</span> <span class="c1">// 单链表基础结点，用于存储并处理链域
-</span><span class="c1"></span>  <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span>
-<span class="p">};</span>
-<span class="k">struct</span> <span class="nc">ForwardListHead</span> <span class="o">:</span> <span class="n">ForwardListBaseNode</span> <span class="p">{</span> <span class="c1">// 单链表的头结点，用于存储长度与尾结点
-</span><span class="c1"></span>  <span class="n">size_t</span> <span class="n">size</span><span class="p">;</span>
-  <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">finish</span><span class="p">;</span>
-<span class="p">};</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="nc">ForwardListNode</span> <span class="o">:</span> <span class="n">ForwardListBaseNode</span> <span class="p">{</span> <span class="c1">// 单链表的结点，用于存储真正的数据
-</span><span class="c1"></span>  <span class="n">Element</span> <span class="n">value</span><span class="p">;</span>
-<span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">ForwardListBaseNode</span> <span class="p">{</span> <span class="c1">// 单链表基础结点，用于存储并处理链域
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">ForwardListHead</span> <span class="o">:</span> <span class="n">ForwardListBaseNode</span> <span class="p">{</span> <span class="c1">// 单链表的头结点，用于存储长度与尾结点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">size_t</span> <span class="n">size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">finish</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">ForwardListNode</span> <span class="o">:</span> <span class="n">ForwardListBaseNode</span> <span class="p">{</span> <span class="c1">// 单链表的结点，用于存储真正的数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">Element</span> <span class="n">value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="单链表-basenode-的实现" class="headerLink">
     <a href="#%e5%8d%95%e9%93%be%e8%a1%a8-basenode-%e7%9a%84%e5%ae%9e%e7%8e%b0" class="header-mark"></a>单链表 BaseNode 的实现</h5><p>刚刚说了 BaseNode 主要实现对链域的操作，对一个结点，主要有插入、移除结点两种操作。受限于 <code>forward_iterator</code> ，为了运行效率，我们对 ADT 的插入删除进行一些修改。</p>
@@ -616,30 +616,30 @@ base class 所提供的链域操作。</p>
 </span><span class="lnt">23
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// 将 node 插入到 pos 之后
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">insert</span><span class="p">(</span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">pos</span><span class="p">,</span> <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-  <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="c1">// 由实现范围 [first, last) 上迭代器到单链表的构造，接收单链表 [first, last) 并插入
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">insert</span><span class="p">(</span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">pos</span><span class="p">,</span>
-            <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">first</span><span class="p">,</span> <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">last</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">last</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-  <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">first</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="c1">// 移除 pos 之后一个的元素，并将其返回
-</span><span class="c1"></span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="nf">erase</span><span class="p">(</span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">pos</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">erase</span> <span class="o">=</span> <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-  <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">erase</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-  <span class="k">return</span> <span class="n">erase</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="c1">// 移除 [first + 1, last) 的所有元素，并将其 first + 1 返回
-</span><span class="c1"></span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="nf">erase</span><span class="p">(</span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">first</span><span class="p">,</span> <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">last</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">erase</span> <span class="o">=</span> <span class="n">first</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-  <span class="n">first</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">last</span><span class="p">;</span>
-  <span class="k">return</span> <span class="n">erase</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// 将 node 插入到 pos 之后
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">insert</span><span class="p">(</span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">pos</span><span class="p">,</span> <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 由实现范围 [first, last) 上迭代器到单链表的构造，接收单链表 [first, last) 并插入
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">insert</span><span class="p">(</span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">pos</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">first</span><span class="p">,</span> <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">last</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">last</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">first</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 移除 pos 之后一个的元素，并将其返回
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="nf">erase</span><span class="p">(</span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">pos</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">erase</span> <span class="o">=</span> <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">erase</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">erase</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 移除 [first + 1, last) 的所有元素，并将其 first + 1 返回
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="nf">erase</span><span class="p">(</span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">first</span><span class="p">,</span> <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">last</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">erase</span> <span class="o">=</span> <span class="n">first</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">first</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">last</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">erase</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>对于以上的代码进行分析，我们可以得知，一旦位置、端结点确定，从 linked list 中添加或移除任意多的连续结点，其时间复杂度是 \(\mathcal{O}(1)\) 的。至于构造和析构
 \([first, last)\) 上的元素，不再 BaseNode 的讨论范围内，它们不是针对链域的操作。</p>
@@ -679,14 +679,14 @@ base class 所提供的链域操作。</p>
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">BidirectionalListBaseNode</span> <span class="p">{</span>
-  <span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">prev</span><span class="p">;</span>
-  <span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span>
-<span class="p">};</span>
-<span class="k">struct</span> <span class="nc">ForwardListHead</span> <span class="o">:</span> <span class="n">BidirectionalListBaseNode</span> <span class="p">{</span> <span class="n">size_t</span> <span class="n">size</span><span class="p">;</span> <span class="p">};</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="nc">BidirectionalListNode</span> <span class="o">:</span> <span class="n">BidirectionalListBaseNode</span> <span class="p">{</span> <span class="n">Element</span> <span class="n">value</span><span class="p">;</span> <span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">BidirectionalListBaseNode</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">prev</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">ForwardListHead</span> <span class="o">:</span> <span class="n">BidirectionalListBaseNode</span> <span class="p">{</span> <span class="n">size_t</span> <span class="n">size</span><span class="p">;</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">BidirectionalListNode</span> <span class="o">:</span> <span class="n">BidirectionalListBaseNode</span> <span class="p">{</span> <span class="n">Element</span> <span class="n">value</span><span class="p">;</span> <span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="双链表的-basenode-实现" class="headerLink">
     <a href="#%e5%8f%8c%e9%93%be%e8%a1%a8%e7%9a%84-basenode-%e5%ae%9e%e7%8e%b0" class="header-mark"></a>双链表的 BaseNode 实现</h5><p>我们可以 \(\mathcal{O}(1)\) 的访问结点的前驱，因此按照 ADT 的要求来实现相关的插入与移除。同样地，我们在 BaseNode 中仅处理最核心的链域的修改。</p>
@@ -722,35 +722,35 @@ base class 所提供的链域操作。</p>
 </span><span class="lnt">28
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// 将 node 插入到 pos 之前
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">insert</span><span class="p">(</span><span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">pos</span><span class="p">,</span> <span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">node</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">pos</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
-  <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">pos</span><span class="p">;</span>
-  <span class="n">node</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="c1">// 将 [first, last) 插入到 pos 之前，并将 first - 1 与 last 重新连接
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">insert</span><span class="p">(</span><span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">pos</span><span class="p">,</span>
-            <span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">first</span><span class="p">,</span> <span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">last</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">first_prev</span> <span class="o">=</span> <span class="n">first</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
-  <span class="n">first</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">last</span><span class="p">;</span>
-  <span class="n">last</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">pos</span><span class="p">;</span>
-  <span class="n">pos</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">first</span><span class="p">;</span>
-  <span class="n">first</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">pos</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
-  <span class="n">pos</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">last</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
-  <span class="n">last</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">first_prev</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="c1">// 移除 pos 并将 pos 的后继返回
-</span><span class="c1"></span><span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="nf">erase</span><span class="p">(</span><span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">pos</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">pos</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
-  <span class="n">pos</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-  <span class="k">return</span> <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="c1">// 移除 [first, last) 的所有元素
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">erase</span><span class="p">(</span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">first</span><span class="p">,</span> <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">last</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">first</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">last</span><span class="p">;</span>
-  <span class="n">last</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">first</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// 将 node 插入到 pos 之前
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">insert</span><span class="p">(</span><span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">pos</span><span class="p">,</span> <span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">node</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">pos</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">pos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">node</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 将 [first, last) 插入到 pos 之前，并将 first - 1 与 last 重新连接
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">insert</span><span class="p">(</span><span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">pos</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">first</span><span class="p">,</span> <span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">last</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">first_prev</span> <span class="o">=</span> <span class="n">first</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">first</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">last</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">last</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">pos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pos</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">first</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">first</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">pos</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pos</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">last</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">last</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">first_prev</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 移除 pos 并将 pos 的后继返回
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="nf">erase</span><span class="p">(</span><span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">pos</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">pos</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pos</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">pos</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 移除 [first, last) 的所有元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">erase</span><span class="p">(</span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">first</span><span class="p">,</span> <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">last</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">first</span><span class="o">-&gt;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">last</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">last</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">first</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="一些关于表的算法" class="headerLink">
     <a href="#%e4%b8%80%e4%ba%9b%e5%85%b3%e4%ba%8e%e8%a1%a8%e7%9a%84%e7%ae%97%e6%b3%95" class="header-mark"></a>一些关于表的算法</h3><p>为了屏蔽一些不必要的实现细节，因此我们约定，使用 iterator 进行 traverse，且
@@ -776,22 +776,22 @@ iterator 可以通过 <code>handle</code> 取得底层的链表结点。而函�
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">__transfer</span><span class="p">(</span><span class="n">iterator</span><span class="o">&amp;</span> <span class="n">pos</span><span class="p">,</span> <span class="n">iterator</span><span class="o">&amp;</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="n">pos</span><span class="o">++</span><span class="p">;</span>
-  <span class="n">insert</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">handle</span><span class="p">(),</span> <span class="n">it</span><span class="p">.</span><span class="n">handle</span><span class="p">(),</span> <span class="n">pos</span><span class="p">.</span><span class="n">handle</span><span class="p">());</span>
-<span class="p">}</span>
-<span class="kt">void</span> <span class="nf">merge</span><span class="p">(</span><span class="n">iterator</span> <span class="n">a_begin</span><span class="p">,</span> <span class="n">iterator</span> <span class="n">a_end</span><span class="p">,</span> <span class="n">iterator</span> <span class="n">b_begin</span><span class="p">,</span> <span class="n">iterator</span> <span class="n">b_end</span><span class="p">,</span> <span class="n">iterator</span><span class="o">&amp;</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">a_begin</span> <span class="o">!=</span> <span class="n">a_end</span> <span class="o">&amp;&amp;</span> <span class="n">b_begin</span> <span class="o">!=</span> <span class="n">b_end</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">__transfer</span><span class="p">(</span><span class="o">*</span><span class="n">a_begin</span> <span class="o">&lt;</span> <span class="o">*</span><span class="n">b_begin</span> <span class="o">?</span> <span class="nl">a_begin</span> <span class="p">:</span> <span class="n">b_begin</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">a_begin</span> <span class="o">!=</span> <span class="n">a_end</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">insert</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">handle</span><span class="p">(),</span> <span class="n">a_begin</span><span class="p">.</span><span class="n">handle</span><span class="p">(),</span> <span class="n">a_end</span><span class="p">.</span><span class="n">handle</span><span class="p">());</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">b_begin</span> <span class="o">!=</span> <span class="n">b_end</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">insert</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">handle</span><span class="p">(),</span> <span class="n">b_begin</span><span class="p">.</span><span class="n">handle</span><span class="p">(),</span> <span class="n">b_end</span><span class="p">.</span><span class="n">handle</span><span class="p">());</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">__transfer</span><span class="p">(</span><span class="n">iterator</span><span class="o">&amp;</span> <span class="n">pos</span><span class="p">,</span> <span class="n">iterator</span><span class="o">&amp;</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="n">pos</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">insert</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">handle</span><span class="p">(),</span> <span class="n">it</span><span class="p">.</span><span class="n">handle</span><span class="p">(),</span> <span class="n">pos</span><span class="p">.</span><span class="n">handle</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">merge</span><span class="p">(</span><span class="n">iterator</span> <span class="n">a_begin</span><span class="p">,</span> <span class="n">iterator</span> <span class="n">a_end</span><span class="p">,</span> <span class="n">iterator</span> <span class="n">b_begin</span><span class="p">,</span> <span class="n">iterator</span> <span class="n">b_end</span><span class="p">,</span> <span class="n">iterator</span><span class="o">&amp;</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">a_begin</span> <span class="o">!=</span> <span class="n">a_end</span> <span class="o">&amp;&amp;</span> <span class="n">b_begin</span> <span class="o">!=</span> <span class="n">b_end</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__transfer</span><span class="p">(</span><span class="o">*</span><span class="n">a_begin</span> <span class="o">&lt;</span> <span class="o">*</span><span class="n">b_begin</span> <span class="o">?</span> <span class="nl">a_begin</span> <span class="p">:</span> <span class="n">b_begin</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">a_begin</span> <span class="o">!=</span> <span class="n">a_end</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">insert</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">handle</span><span class="p">(),</span> <span class="n">a_begin</span><span class="p">.</span><span class="n">handle</span><span class="p">(),</span> <span class="n">a_end</span><span class="p">.</span><span class="n">handle</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">b_begin</span> <span class="o">!=</span> <span class="n">b_end</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">insert</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">handle</span><span class="p">(),</span> <span class="n">b_begin</span><span class="p">.</span><span class="n">handle</span><span class="p">(),</span> <span class="n">b_end</span><span class="p">.</span><span class="n">handle</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>引入了 <code>__transfer</code> 函数将找到的 a、b 当前最小的元素插入 c 中，并使其迭代器向前步进一。在 a 或 b 结束之后，我们将 a 或 b 剩余的元素全部添加到 c 的后面，这些元素是最大的一批。分析该算法的时间复杂度得 \(\mathcal{O}(size_{a}+size_{b}-1)\) 。</p>
 <h4 id="反转" class="headerLink">
@@ -810,17 +810,17 @@ iterator 可以通过 <code>handle</code> 取得底层的链表结点。而函�
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">reverse</span><span class="p">(</span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-  <span class="n">head</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">curr</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">ListNode</span><span class="o">*</span> <span class="n">next</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-    <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
-    <span class="n">head</span> <span class="o">=</span> <span class="n">curr</span><span class="p">;</span>
-    <span class="n">curr</span> <span class="o">=</span> <span class="n">next</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">reverse</span><span class="p">(</span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">head</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">curr</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ListNode</span><span class="o">*</span> <span class="n">next</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">head</span> <span class="o">=</span> <span class="n">curr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">curr</span> <span class="o">=</span> <span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这个方法直接使用到了 <code>ForwardListHead</code> ，利用 head 指向当前结点的前驱，当
 traverse 完成后，head 也顺利指向最终结果。其时间复杂度 \(\mathcal{O}(N)\) 。我们可以将其改为递归方式，时间复杂度不变：</p>
@@ -844,23 +844,23 @@ traverse 完成后，head 也顺利指向最终结果。其时间复杂度 \(\ma
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="nf">__recursion</span><span class="p">(</span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">,</span> <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
-    <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">__recursion</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
-  <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
-  <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-  <span class="k">return</span> <span class="n">tmp</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="kt">void</span> <span class="nf">reverse</span><span class="p">(</span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">__recursion</span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">,</span> <span class="n">head</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="nf">__recursion</span><span class="p">(</span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">node</span><span class="p">,</span> <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">__recursion</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">tmp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">reverse</span><span class="p">(</span><span class="n">ForwardListBaseNode</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">__recursion</span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">,</span> <span class="n">head</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>双链表的操作也很精彩！由于实现是循环的，因此我们只需要将每个结点的前驱后继按顺序调换位置即可。其时间复杂度同样是 \(\mathcal{O}(N)\) 。</p>
 <div class="highlight"><div class="chroma">
@@ -878,18 +878,18 @@ traverse 完成后，head 也顺利指向最终结果。其时间复杂度 \(\ma
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">reverse</span><span class="p">(</span><span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">,</span><span class="o">*</span> <span class="n">temp</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">curr</span> <span class="o">!=</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-    <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
-    <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">temp</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-  <span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
-  <span class="n">head</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">reverse</span><span class="p">(</span><span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BidirectionalListBaseNode</span><span class="o">*</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">,</span><span class="o">*</span> <span class="n">temp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">curr</span> <span class="o">!=</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">temp</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">temp</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">prev</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">head</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="栈--stack" class="headerLink">
     <a href="#%e6%a0%88--stack" class="header-mark"></a>栈 (Stack)</h2><p>Stack 是一种受限的线性结构，其末尾称之为 <strong>栈顶</strong> (top)，元素进入栈称为 <strong>入栈</strong>
@@ -918,22 +918,22 @@ pop 也只能从 top 进行，移除的元素总是 top 的元素。由于其受
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
-<span class="k">concept</span> <span class="n">stack</span> <span class="o">=</span>
-    <span class="k">requires</span><span class="p">(</span><span class="n">T</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">,</span> <span class="k">const</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&amp;</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">requires</span> <span class="n">swappable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">;</span>
-    <span class="k">requires</span> <span class="n">erasable</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&gt;</span><span class="p">;</span>
-    <span class="k">requires</span> <span class="n">same</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reference</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&amp;&gt;</span><span class="p">;</span>
-    <span class="k">requires</span> <span class="n">same</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reference</span><span class="p">,</span> <span class="k">const</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&amp;&gt;</span><span class="p">;</span>
-    <span class="k">requires</span> <span class="kt">unsigned</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">size_type</span><span class="o">&gt;</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="n">boolean</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">size_type</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reference</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">b</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reference</span><span class="p">;</span>
-    <span class="n">a</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
-    <span class="n">a</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-<span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">concept</span> <span class="n">stack</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">requires</span><span class="p">(</span><span class="n">T</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">,</span> <span class="k">const</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&amp;</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">requires</span> <span class="n">swappable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">requires</span> <span class="n">erasable</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">requires</span> <span class="n">same</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reference</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&amp;&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">requires</span> <span class="n">same</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reference</span><span class="p">,</span> <span class="k">const</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&amp;&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">requires</span> <span class="kt">unsigned</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">size_type</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="n">boolean</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">size_type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reference</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">b</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reference</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><table>
 <thead>
@@ -983,22 +983,22 @@ pop 也只能从 top 进行，移除的元素总是 top 的元素。由于其受
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">stack</span> <span class="n">s</span><span class="p">;</span>
-<span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">bracket</span> <span class="p">:</span> <span class="n">sequence</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">bracket</span> <span class="o">==</span> <span class="sc">&#39;[&#39;</span> <span class="o">||</span> <span class="n">bracket</span> <span class="o">==</span> <span class="sc">&#39;(&#39;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">bracket</span><span class="p">);</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="n">ERROR</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">auto</span> <span class="n">top</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
-    <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">top</span> <span class="o">==</span> <span class="sc">&#39;[&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">bracket</span> <span class="o">==</span> <span class="sc">&#39;)&#39;</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">top</span> <span class="o">==</span> <span class="sc">&#39;(&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">bracket</span> <span class="o">==</span> <span class="sc">&#39;]&#39;</span><span class="p">))</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="n">ERROR</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">stack</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">bracket</span> <span class="p">:</span> <span class="n">sequence</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">bracket</span> <span class="o">==</span> <span class="sc">&#39;[&#39;</span> <span class="o">||</span> <span class="n">bracket</span> <span class="o">==</span> <span class="sc">&#39;(&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">bracket</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">ERROR</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">top</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">((</span><span class="n">top</span> <span class="o">==</span> <span class="sc">&#39;[&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">bracket</span> <span class="o">==</span> <span class="sc">&#39;)&#39;</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">top</span> <span class="o">==</span> <span class="sc">&#39;(&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">bracket</span> <span class="o">==</span> <span class="sc">&#39;]&#39;</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">ERROR</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="后缀表达式" class="headerLink">
     <a href="#%e5%90%8e%e7%bc%80%e8%a1%a8%e8%be%be%e5%bc%8f" class="header-mark"></a>后缀表达式</h4><p>当你在计算器上输入 <code>a + b * c + d</code> ，有没有好奇为什么计算器可以理解正确的优先级，而不是将其理解 <code>(a + b) * c</code> 。或许因为它遵循优先级，才显得这是很理所应当的，而后者是不可理喻的。那么我们需要探寻的是计算器如何遵循优先级。</p>
@@ -1025,18 +1025,18 @@ postfix expression 有个好处，那就是并不需要括号的支持，在序�
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">stack</span> <span class="n">s</span><span class="p">;</span>
-<span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">symbol</span> <span class="p">:</span> <span class="n">sequence</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">is_op</span><span class="p">(</span><span class="n">symbol</span><span class="p">))</span> <span class="p">{</span>
-    <span class="k">auto</span> <span class="n">b</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">();</span> <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-    <span class="k">auto</span> <span class="n">a</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">();</span> <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-    <span class="c1">// 假设存在 eval 函数，且 eval 可以执行操作 a op b，并返回相应的结果
-</span><span class="c1"></span>    <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">eval</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">b</span><span class="p">));</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">symbol</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">stack</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">symbol</span> <span class="p">:</span> <span class="n">sequence</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">is_op</span><span class="p">(</span><span class="n">symbol</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">b</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">();</span> <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">a</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">();</span> <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 假设存在 eval 函数，且 eval 可以执行操作 a op b，并返回相应的结果
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">eval</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">b</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">symbol</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="中缀表达式转后缀表达式" class="headerLink">
     <a href="#%e4%b8%ad%e7%bc%80%e8%a1%a8%e8%be%be%e5%bc%8f%e8%bd%ac%e5%90%8e%e7%bc%80%e8%a1%a8%e8%be%be%e5%bc%8f" class="header-mark"></a>中缀表达式转后缀表达式</h5><p>那既然会计算 postfix 了，那如何将一个 infix expression 转换为 postfix expression。</p>
@@ -1122,17 +1122,17 @@ sequence 即可。</p>
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// 比较运算符 o 和 p，如果 o 大于 p 则返回 true，否则返回 false
-</span><span class="c1"></span><span class="kt">bool</span> <span class="nf">compare</span><span class="p">(</span><span class="n">operation</span> <span class="n">o</span><span class="p">,</span> <span class="n">operation</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">switch</span> <span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="nl">PLUS</span><span class="p">:</span> <span class="k">case</span> <span class="nl">MINUS</span><span class="p">:</span> <span class="k">return</span> <span class="n">is_plus</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">||</span> <span class="n">is_minus</span><span class="p">(</span><span class="n">p</span><span class="p">);</span> <span class="c1">// o 是加号或减号
-</span><span class="c1"></span>    <span class="k">case</span> <span class="nl">TIMES</span><span class="p">:</span> <span class="k">case</span> <span class="nl">DIVISION</span><span class="p">:</span> <span class="k">return</span> <span class="o">!</span><span class="n">is_left_bracket</span><span class="p">(</span><span class="n">p</span><span class="p">);</span> <span class="c1">// o 是乘号或除号
-</span><span class="c1"></span>    <span class="k">case</span> <span class="nl">LEFT_BRACKET</span><span class="p">:</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// o 是左括号
-</span><span class="c1"></span>    <span class="k">case</span> <span class="nl">RIGHT_BRACKET</span><span class="p">:</span> <span class="k">return</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">// o 是右括号
-</span><span class="c1"></span>    <span class="nl">defalut</span><span class="p">:</span> <span class="k">return</span> <span class="n">ERROR</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// 比较运算符 o 和 p，如果 o 大于 p 则返回 true，否则返回 false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">bool</span> <span class="nf">compare</span><span class="p">(</span><span class="n">operation</span> <span class="n">o</span><span class="p">,</span> <span class="n">operation</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">switch</span> <span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nl">PLUS</span><span class="p">:</span> <span class="k">case</span> <span class="nl">MINUS</span><span class="p">:</span> <span class="k">return</span> <span class="n">is_plus</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">||</span> <span class="n">is_minus</span><span class="p">(</span><span class="n">p</span><span class="p">);</span> <span class="c1">// o 是加号或减号
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">case</span> <span class="nl">TIMES</span><span class="p">:</span> <span class="k">case</span> <span class="nl">DIVISION</span><span class="p">:</span> <span class="k">return</span> <span class="o">!</span><span class="n">is_left_bracket</span><span class="p">(</span><span class="n">p</span><span class="p">);</span> <span class="c1">// o 是乘号或除号
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">case</span> <span class="nl">LEFT_BRACKET</span><span class="p">:</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// o 是左括号
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">case</span> <span class="nl">RIGHT_BRACKET</span><span class="p">:</span> <span class="k">return</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">// o 是右括号
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nl">defalut</span><span class="p">:</span> <span class="k">return</span> <span class="n">ERROR</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>在上述比较操作的基础上，我们可以轻松的实现一个中缀表达式转后缀表达式的过程。分析该算法的时间复杂度，该算法需要遍历整个 infix expression，并会额外遍历一遍
 operation，因此复杂度为 \(\Theta(N)\) 。</p>
@@ -1178,45 +1178,45 @@ operation，因此复杂度为 \(\Theta(N)\) 。</p>
 </span><span class="lnt">38
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// 接收一个中缀表达式序列，返回一个后缀表达式序列
-</span><span class="c1"></span><span class="n">sequence_container</span> <span class="nf">infix2postfix</span><span class="p">(</span><span class="n">sequence_container</span> <span class="n">infix</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">stack</span> <span class="n">s</span><span class="p">;</span>
-  <span class="n">sequence_container</span> <span class="n">postfix</span><span class="p">;</span>
-  <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">symbol</span> <span class="p">:</span> <span class="n">infix</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// 当前元素是一个操作数
-</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">is_operation</span><span class="p">(</span><span class="n">symbol</span><span class="p">))</span> <span class="p">{</span>
-      <span class="n">postfix</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">symbol</span><span class="p">);</span>
-      <span class="k">continue</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="c1">// 当前元素是右括号且栈不为空，弹出运算符
-</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">is_right_bracket</span><span class="p">(</span><span class="n">symbol</span><span class="p">))</span> <span class="p">{</span>
-      <span class="c1">// 将运算符弹出到 postfix 序列中，直到运算符为左括号或空栈为止
-</span><span class="c1"></span>      <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">is_left_bracket</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">()))</span> <span class="p">{</span>
-        <span class="n">postfix</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">());</span>
-        <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-      <span class="p">}</span>
-      <span class="c1">// 将左括号移除
-</span><span class="c1"></span>      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">is_left_bracket</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">()))</span> <span class="p">{</span>
-        <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-      <span class="p">}</span>
-      <span class="k">continue</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="c1">// 当前元素优先级小于栈顶元素，弹出运算符，直到元素优先级大于栈顶或空栈为止
-</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">compare</span><span class="p">(</span><span class="n">symbol</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">()))</span> <span class="p">{</span>
-      <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">compare</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">(),</span> <span class="n">symbol</span><span class="p">))</span> <span class="p">{</span>
-        <span class="n">postfix</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">());</span>
-        <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">symbol</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-    <span class="n">postfix</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">());</span>
-    <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">postfix</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// 接收一个中缀表达式序列，返回一个后缀表达式序列
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">sequence_container</span> <span class="nf">infix2postfix</span><span class="p">(</span><span class="n">sequence_container</span> <span class="n">infix</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">stack</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">sequence_container</span> <span class="n">postfix</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">symbol</span> <span class="p">:</span> <span class="n">infix</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 当前元素是一个操作数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">is_operation</span><span class="p">(</span><span class="n">symbol</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">postfix</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">symbol</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 当前元素是右括号且栈不为空，弹出运算符
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">is_right_bracket</span><span class="p">(</span><span class="n">symbol</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 将运算符弹出到 postfix 序列中，直到运算符为左括号或空栈为止
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">is_left_bracket</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">()))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">postfix</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 将左括号移除
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">is_left_bracket</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">()))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 当前元素优先级小于栈顶元素，弹出运算符，直到元素优先级大于栈顶或空栈为止
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">compare</span><span class="p">(</span><span class="n">symbol</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">()))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">compare</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">(),</span> <span class="n">symbol</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">postfix</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">symbol</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">postfix</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">postfix</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="前缀表达式" class="headerLink">
     <a href="#%e5%89%8d%e7%bc%80%e8%a1%a8%e8%be%be%e5%bc%8f" class="header-mark"></a>前缀表达式</h5><p>既然有 infix 与 postfix，怎么会没有前缀表达式 (prefix) 呢。就如其字面意思，运算符在操作数之前。因此我们需要表示 \(5 + 2\) 时就可以写成 <code>+ 5 2</code> ，好像还不错，但感觉并没有什么用。</p>
@@ -1234,9 +1234,9 @@ operation，因此复杂度为 \(\Theta(N)\) 。</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="mi">4</span> <span class="p">(</span><span class="nb">- </span><span class="mi">2</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">6</span> <span class="p">(</span><span class="nb">/ </span><span class="mi">4</span> <span class="mi">5</span><span class="p">))</span> <span class="c1">;; 这里进行了去括号操作</span>
-   <span class="p">(</span><span class="nb">* </span><span class="mi">3</span> <span class="p">(</span><span class="nb">- </span><span class="mi">6</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="mi">2</span> <span class="mi">7</span><span class="p">)))</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="mi">4</span> <span class="p">(</span><span class="nb">- </span><span class="mi">2</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">6</span> <span class="p">(</span><span class="nb">/ </span><span class="mi">4</span> <span class="mi">5</span><span class="p">))</span> <span class="c1">;; 这里进行了去括号操作</span>
+</span></span><span class="line"><span class="cl">   <span class="p">(</span><span class="nb">* </span><span class="mi">3</span> <span class="p">(</span><span class="nb">- </span><span class="mi">6</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="mi">2</span> <span class="mi">7</span><span class="p">)))</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="运算符的结合性" class="headerLink">
     <a href="#%e8%bf%90%e7%ae%97%e7%ac%a6%e7%9a%84%e7%bb%93%e5%90%88%e6%80%a7" class="header-mark"></a>运算符的结合性</h5><p>大部分时刻我们都会忽略运算符的结合性问题，因为绝大多数运算符都是 <strong>左折叠</strong> (fold
@@ -1261,15 +1261,15 @@ left)，只有一小部分运算符采用 <strong>右折叠</strong> (fold right
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">a</span> <span class="mi">0</span><span class="p">)</span>
-      <span class="nv">b</span>
-      <span class="p">(</span><span class="nf">inc</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">dec</span> <span class="nv">a</span><span class="p">)</span> <span class="nv">b</span><span class="p">))))</span>
-<span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">a</span> <span class="mi">0</span><span class="p">)</span>
-      <span class="nv">b</span>
-      <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">dec</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">inc</span> <span class="nv">b</span><span class="p">))))</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">a</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="nv">b</span>
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="nf">inc</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">dec</span> <span class="nv">a</span><span class="p">)</span> <span class="nv">b</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">a</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="nv">b</span>
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">dec</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="nf">inc</span> <span class="nv">b</span><span class="p">))))</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>代码并不复杂，我们将这种递归实现的迭代又称之为 <strong>尾递归</strong> (tail recursion)。如果编译器有针对递归的优化，往往会将 tail recursion 消除，或者将局部变量的值直接转移到函数的顶部，依次来消除递归带来的栈空间损耗。另外可以说明一点，tail recusion 总是可以机械地改写为 loop，而有些 recursion 需要 stack 的帮助就能改写为 loop。</p>
 <p>在编程语言的实现中，tail recursion 比一般的递归效率更高，且不会有 stack overflow
@@ -1306,24 +1306,24 @@ left)，只有一小部分运算符采用 <strong>右折叠</strong> (fold right
 </span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
-<span class="k">concept</span> <span class="n">queue</span> <span class="o">=</span>
-    <span class="k">requires</span><span class="p">(</span><span class="n">T</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">,</span> <span class="k">const</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&amp;</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">requires</span> <span class="n">swappable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">;</span>
-    <span class="k">requires</span> <span class="n">erasable</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&gt;</span><span class="p">;</span>
-    <span class="k">requires</span> <span class="n">same</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reference</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&amp;&gt;</span><span class="p">;</span>
-    <span class="k">requires</span> <span class="n">same</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reference</span><span class="p">,</span> <span class="k">const</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&amp;&gt;</span><span class="p">;</span>
-    <span class="k">requires</span> <span class="kt">unsigned</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">size_type</span><span class="o">&gt;</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="n">boolean</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">size_type</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">front</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reference</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">b</span><span class="p">.</span><span class="n">front</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reference</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reference</span><span class="p">;</span>
-    <span class="p">{</span> <span class="n">b</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reference</span><span class="p">;</span>
-    <span class="n">a</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
-    <span class="n">a</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-<span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">concept</span> <span class="n">queue</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">requires</span><span class="p">(</span><span class="n">T</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">,</span> <span class="k">const</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&amp;</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">requires</span> <span class="n">swappable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">requires</span> <span class="n">erasable</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">requires</span> <span class="n">same</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reference</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&amp;&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">requires</span> <span class="n">same</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reference</span><span class="p">,</span> <span class="k">const</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">value_type</span><span class="o">&amp;&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">requires</span> <span class="kt">unsigned</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">size_type</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="n">boolean</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">size_type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">front</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reference</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">b</span><span class="p">.</span><span class="n">front</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reference</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">a</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">reference</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">b</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">const_reference</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><table>
 <thead>
@@ -1388,14 +1388,14 @@ left)，只有一小部分运算符采用 <strong>右折叠</strong> (fold right
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="nc">iterator</span> <span class="p">{</span>
-  <span class="n">Element</span><span class="o">*</span> <span class="n">cur</span><span class="p">;</span>    <span class="c1">// 迭代器指向的元素
-</span><span class="c1"></span>  <span class="n">Element</span><span class="o">*</span> <span class="n">first</span><span class="p">;</span>  <span class="c1">// 当前元素所在块数组的起始指针
-</span><span class="c1"></span>  <span class="n">Element</span><span class="o">*</span> <span class="n">last</span><span class="p">;</span>   <span class="c1">// 当前元素所在块数组的末尾指针
-</span><span class="c1"></span>  <span class="n">Element</span><span class="o">**</span> <span class="n">node</span><span class="p">;</span>  <span class="c1">// 当前元素所在的块
-</span><span class="c1"></span><span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">iterator</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Element</span><span class="o">*</span> <span class="n">cur</span><span class="p">;</span>    <span class="c1">// 迭代器指向的元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">Element</span><span class="o">*</span> <span class="n">first</span><span class="p">;</span>  <span class="c1">// 当前元素所在块数组的起始指针
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">Element</span><span class="o">*</span> <span class="n">last</span><span class="p">;</span>   <span class="c1">// 当前元素所在块数组的末尾指针
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">Element</span><span class="o">**</span> <span class="n">node</span><span class="p">;</span>  <span class="c1">// 当前元素所在的块
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>为了进行随机访问，必须确定当前元素所在的块，才能在不同块之间进行随机访问。在进行随机访问的示例中， <code>chunk_capacity</code> 是一个获取每个块数组可以容纳有多少元素的函数，因此确认每个块的末尾边界。而 <code>__set_node</code> 根据 it 当前指向的元素与将步进的块数量，来设置随机访问的目标结点正确的块信息。</p>
 <div class="highlight"><div class="chroma">
@@ -1421,26 +1421,26 @@ left)，只有一小部分运算符采用 <strong>右折叠</strong> (fold right
 </span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
-<span class="kt">void</span> <span class="n">__set_node</span><span class="p">(</span><span class="n">iterator</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;&amp;</span> <span class="n">it</span><span class="p">,</span> <span class="k">const</span> <span class="n">difference_type</span><span class="o">&amp;</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">it</span><span class="p">.</span><span class="n">node</span> <span class="o">+=</span> <span class="n">n</span><span class="p">;</span>
-  <span class="n">it</span><span class="p">.</span><span class="n">first</span> <span class="o">=</span> <span class="o">*</span><span class="n">it</span><span class="p">.</span><span class="n">node</span><span class="p">;</span>
-  <span class="n">it</span><span class="p">.</span><span class="n">last</span> <span class="o">=</span> <span class="o">*</span><span class="n">it</span><span class="p">.</span><span class="n">node</span> <span class="o">+</span> <span class="n">chunk_capacity</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;</span><span class="p">();</span>
-<span class="p">}</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
-<span class="n">iterator</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;&amp;</span> <span class="k">operator</span><span class="o">+=</span><span class="p">(</span><span class="n">iterator</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;&amp;</span> <span class="n">it</span><span class="p">,</span> <span class="k">const</span> <span class="n">difference_type</span><span class="o">&amp;</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">difference_type</span> <span class="n">cap</span> <span class="o">=</span> <span class="n">chunk_capacity</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;</span><span class="p">();</span>
-  <span class="k">const</span> <span class="n">difference_type</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="n">cur</span> <span class="o">-</span> <span class="n">it</span><span class="p">.</span><span class="n">first</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">offset</span> <span class="o">&amp;&amp;</span> <span class="n">offset</span> <span class="o">&lt;</span> <span class="n">chunk_cap</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">it</span><span class="p">.</span><span class="n">cur</span> <span class="o">+=</span> <span class="n">n</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="k">const</span> <span class="n">difference_type</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="o">-</span><span class="p">((</span><span class="o">-</span><span class="n">offset</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">cap</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">offset</span> <span class="o">/</span> <span class="n">cap</span><span class="p">;</span>
-    <span class="n">__set_node</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">tmp</span><span class="p">);</span>
-    <span class="n">it</span><span class="p">.</span><span class="n">cur</span> <span class="o">=</span> <span class="n">it</span><span class="p">.</span><span class="n">first</span> <span class="o">+</span> <span class="p">(</span><span class="n">offset</span> <span class="o">-</span> <span class="n">tmp</span> <span class="o">*</span> <span class="n">cap</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">it</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">__set_node</span><span class="p">(</span><span class="n">iterator</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;&amp;</span> <span class="n">it</span><span class="p">,</span> <span class="k">const</span> <span class="n">difference_type</span><span class="o">&amp;</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">it</span><span class="p">.</span><span class="n">node</span> <span class="o">+=</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">it</span><span class="p">.</span><span class="n">first</span> <span class="o">=</span> <span class="o">*</span><span class="n">it</span><span class="p">.</span><span class="n">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">it</span><span class="p">.</span><span class="n">last</span> <span class="o">=</span> <span class="o">*</span><span class="n">it</span><span class="p">.</span><span class="n">node</span> <span class="o">+</span> <span class="n">chunk_capacity</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="n">iterator</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;&amp;</span> <span class="k">operator</span><span class="o">+=</span><span class="p">(</span><span class="n">iterator</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;&amp;</span> <span class="n">it</span><span class="p">,</span> <span class="k">const</span> <span class="n">difference_type</span><span class="o">&amp;</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">difference_type</span> <span class="n">cap</span> <span class="o">=</span> <span class="n">chunk_capacity</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="k">const</span> <span class="n">difference_type</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="n">cur</span> <span class="o">-</span> <span class="n">it</span><span class="p">.</span><span class="n">first</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">offset</span> <span class="o">&amp;&amp;</span> <span class="n">offset</span> <span class="o">&lt;</span> <span class="n">chunk_cap</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">it</span><span class="p">.</span><span class="n">cur</span> <span class="o">+=</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="n">difference_type</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="o">-</span><span class="p">((</span><span class="o">-</span><span class="n">offset</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">cap</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">offset</span> <span class="o">/</span> <span class="n">cap</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__set_node</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">tmp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">it</span><span class="p">.</span><span class="n">cur</span> <span class="o">=</span> <span class="n">it</span><span class="p">.</span><span class="n">first</span> <span class="o">+</span> <span class="p">(</span><span class="n">offset</span> <span class="o">-</span> <span class="n">tmp</span> <span class="o">*</span> <span class="n">cap</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">it</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>视线放在 <code>operator+=</code> 这个函数，offset 用于判断当前结点需要向前或后步进多少个元素，加 \(it.cur - it.first\) 是为了将相对起点从 cur 移动到当前所在块的开始位置
 first。如果 \(0 \leq offset \leq capacity\) 则意味着这次随机访问并不会变更所在块，否则需要计算变更到哪一块。仔细判断步进方向与步进大小，向前步进时将移动
@@ -1461,15 +1461,15 @@ first。如果 \(0 \leq offset \leq capacity\) 则意味着这次随机访问并
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="nc">Base</span> <span class="p">{</span>
-  <span class="k">using</span> <span class="n">iterator</span> <span class="o">=</span> <span class="n">iterator</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;</span><span class="p">;</span>
-  <span class="n">size_t</span> <span class="n">size</span><span class="p">;</span>
-  <span class="n">Element</span><span class="o">**</span> <span class="n">chunks</span><span class="p">;</span>
-  <span class="n">iterator</span> <span class="n">begin</span><span class="p">;</span>
-  <span class="n">iterator</span> <span class="n">end</span><span class="p">;</span>
-<span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Element</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Base</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">using</span> <span class="n">iterator</span> <span class="o">=</span> <span class="n">iterator</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">size_t</span> <span class="n">size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Element</span><span class="o">**</span> <span class="n">chunks</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">iterator</span> <span class="n">begin</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">iterator</span> <span class="n">end</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="串--string" class="headerLink">
     <a href="#%e4%b8%b2--string" class="header-mark"></a>串 (string)</h2><p>串是一种特殊的线性结构，它的内部元素只存储字符，因此又称为字符串。其特殊性主要来源于我们对字符序列的依赖程度很高，而特化一个线性结构并为其增加一些针对于字符的常用算法，可以方便我们的使用，提高编码效率。</p>
@@ -1499,23 +1499,23 @@ first。如果 \(0 \leq offset \leq capacity\) 则意味着这次随机访问并
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="nf">strstr</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">source</span><span class="p">,</span> <span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">pattern</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">n</span> <span class="o">=</span> <span class="n">pattern</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">+</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">bool</span> <span class="n">flag</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="n">pattern</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
-        <span class="n">flag</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-        <span class="k">break</span><span class="p">;</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">flag</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">strstr</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">source</span><span class="p">,</span> <span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">pattern</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">n</span> <span class="o">=</span> <span class="n">pattern</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">+</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">flag</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="n">pattern</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">flag</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">flag</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="kmp-算法" class="headerLink">
     <a href="#kmp-%e7%ae%97%e6%b3%95" class="header-mark"></a>KMP 算法</h4><p>KMP 实际上是三位计算机科学家的名字缩写，Knuth、Morris 和 Pratt，有意思的是，之后你还会见到 Morris 的名字，而 Pratt 的博士生导师就是 Knuth。</p>
@@ -1563,17 +1563,17 @@ n)\) ，\(\pi(i)\) 是最长的一对相等的真前缀与真后缀的长度，�
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">get_prefix_array</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">pattern</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">len</span><span class="p">,</span> <span class="kt">int</span> <span class="n">pi</span><span class="p">[])</span> <span class="p">{</span>
-  <span class="n">pi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">pattern</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">pattern</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
-      <span class="n">j</span> <span class="o">=</span> <span class="n">pi</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
-    <span class="p">}</span>
-    <span class="n">j</span> <span class="o">+=</span> <span class="n">pattern</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">pattern</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
-    <span class="n">pi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">get_prefix_array</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">pattern</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">len</span><span class="p">,</span> <span class="kt">int</span> <span class="n">pi</span><span class="p">[])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">pattern</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">pattern</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">j</span> <span class="o">=</span> <span class="n">pi</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">j</span> <span class="o">+=</span> <span class="n">pattern</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">pattern</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="kmp-的实现" class="headerLink">
     <a href="#kmp-%e7%9a%84%e5%ae%9e%e7%8e%b0" class="header-mark"></a>KMP 的实现</h5><p>我们需要利用先生成前缀数组，再对原串进行遍历匹配模式串，因此总的时间复杂度需要
@@ -1599,24 +1599,24 @@ n)\) ，\(\pi(i)\) 是最长的一对相等的真前缀与真后缀的长度，�
 </span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="nf">strstr</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">source</span><span class="p">,</span> <span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">pattern</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">m</span> <span class="o">=</span> <span class="n">pattern</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
-  <span class="kt">int</span> <span class="n">pi</span><span class="p">[</span><span class="n">m</span><span class="p">];</span>
-  <span class="n">get_prefix_array</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">pi</span><span class="p">);</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">source</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">pattern</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
-      <span class="n">j</span> <span class="o">=</span> <span class="n">pi</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">pattern</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
-      <span class="n">j</span><span class="o">++</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="n">m</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="n">i</span> <span class="o">-</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">strstr</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">source</span><span class="p">,</span> <span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">pattern</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">m</span> <span class="o">=</span> <span class="n">pattern</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">pi</span><span class="p">[</span><span class="n">m</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="n">get_prefix_array</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">pi</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">source</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">pattern</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">j</span> <span class="o">=</span> <span class="n">pi</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">pattern</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">j</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="n">m</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">i</span> <span class="o">-</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="sunday-算法" class="headerLink">
     <a href="#sunday-%e7%ae%97%e6%b3%95" class="header-mark"></a>Sunday 算法</h4><p>Sunday 算法是 BM 算法的变种，与 KMP 的核心思路一样，利用 pattern 已给出的信息，最大程度的跳过不匹配的字符。</p>
@@ -1650,26 +1650,26 @@ Sunday 算法如果发现无法匹配，则观察这个坏字符的下一个位�
 </span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// 为实现的简便，假设 source 中只包含 ASCII 字符
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">strstr</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">source</span><span class="p">,</span> <span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">pattern</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">m</span> <span class="o">=</span> <span class="n">pattern</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
-  <span class="kt">int</span> <span class="n">shift</span><span class="p">[</span><span class="mi">128</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">shift</span><span class="p">[</span><span class="n">pattern</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="n">i</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">;)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">pattern</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
-      <span class="o">++</span><span class="n">j</span><span class="p">;</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="n">m</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="n">i</span> <span class="o">+=</span> <span class="n">shift</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">m</span><span class="p">]]</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">shift</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">m</span><span class="p">]];</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// 为实现的简便，假设 source 中只包含 ASCII 字符
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">strstr</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">source</span><span class="p">,</span> <span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">pattern</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">m</span> <span class="o">=</span> <span class="n">pattern</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">shift</span><span class="p">[</span><span class="mi">128</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">shift</span><span class="p">[</span><span class="n">pattern</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">;)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">pattern</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="o">++</span><span class="n">j</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="n">m</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">i</span> <span class="o">+=</span> <span class="n">shift</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">m</span><span class="p">]]</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">shift</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">m</span><span class="p">]];</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><style>
 footer{font-weight:normal;font-style:normal;font-size:12px;line-height:1.9;text-transform:none}div.info{background:rgba(58,129,195,0.15);border-left:4px solid rgba(58,129,195,0.45);margin:1.8rem 0 1.25rem 15px;padding:0.8em;line-height:1.4;text-align:left;position:relative;clear:both}div.info p{margin:0}div.info::before{content:"i";background:rgba(58,129,195,0.8);align-items:flex-end;top:-1rem;font-weight:700;font-size:1.4rem;-webkit-clip-path:circle(50% at 50% 50%);clip-path:circle(50% at 50% 50%);width:30px;height:30px;display:inline-flex;justify-content:center;position:absolute;left:-1.2rem;line-height:1.3;text-align:left}div.success{background:rgba(45,149,116,0.15);border-left:4px solid rgba(45,149,116,0.45);margin:1.8rem 0 1.25rem 15px;padding:0.8em;line-height:1.4;text-align:left;position:relative;clear:both}div.success p{margin:0}div.success::before{content:"✔";background:rgba(45,149,116,0.8);align-items:flex-end;top:-1rem;font-weight:700;font-size:1.4rem;-webkit-clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);width:35px;height:35px;display:inline-flex;justify-content:center;position:absolute;left:-1.2rem;line-height:1.5;text-align:left}div.warning{background:rgba(220,117,47,0.15);border-left:4px solid rgba(220,117,47,0.45);margin:1.8rem 0 1.25rem 15px;padding:0.8em;line-height:1.4;text-align:left;position:relative;clear:both}div.warning p{margin:0}div.warning::before{content:"!";background:rgba(220,117,47,0.8);align-items:flex-end;top:-1rem;font-weight:700;font-size:1.4rem;-webkit-clip-path:polygon(50% 0, 0 100%, 100% 100%);clip-path:polygon(50% 0, 0 100%, 100% 100%);width:35px;height:35px;display:inline-flex;justify-content:center;position:absolute;left:-1.2rem;line-height:1.1;text-align:left}div.error{background:rgba(186,47,89,0.15);border-left:4px solid rgba(186,47,89,0.45);margin:1.8rem 0 1.25rem 15px;padding:0.8em;line-height:1.4;text-align:left;position:relative;clear:both}div.error p{margin:0}div.error::before{content:"!";background:rgba(186,47,89,0.8);align-items:flex-end;top:-1rem;font-weight:700;font-size:1.4rem;-webkit-clip-path:polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);clip-path:polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);width:35px;height:30px;display:inline-flex;justify-content:center;position:absolute;left:-1.2rem;line-height:1.1;text-align:left}
@@ -1708,7 +1708,7 @@ footer{font-weight:normal;font-style:normal;font-size:12px;line-height:1.9;text-
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.87.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.97.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
