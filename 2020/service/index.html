@@ -10,7 +10,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.ginshio.org/2020/service/" /><meta property="og:image" content="https://blog.ginshio.org/logo.jpg"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-10-13T20:16:00+08:00" />
-<meta property="article:modified_time" content="2022-04-08T11:54:20+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+<meta property="article:modified_time" content="2022-05-06T13:52:38+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://blog.ginshio.org/logo.jpg"/>
@@ -37,8 +37,8 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2020\/service\/"
-        },"image": ["https:\/\/blog.ginshio.org\/images\/screenshot.png"],"genre": "posts","keywords": "Server, NextCloud, GitLab, Lychee","wordcount":  3515 ,
-        "url": "https:\/\/blog.ginshio.org\/2020\/service\/","datePublished": "2020-10-13T20:16:00+08:00","dateModified": "2022-04-08T11:54:20+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["https:\/\/blog.ginshio.org\/images\/screenshot.png"],"genre": "posts","keywords": "Server, NextCloud, GitLab, Lychee","wordcount":  3822 ,
+        "url": "https:\/\/blog.ginshio.org\/2020\/service\/","datePublished": "2020-10-13T20:16:00+08:00","dateModified": "2022-05-06T13:52:38+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.jpg"},"authors": [{
                     "@type": "Person",
@@ -133,6 +133,7 @@
         <li><a href="#gitlab-组件">Gitlab 组件</a></li>
         <li><a href="#gitlab-依赖">Gitlab 依赖</a></li>
         <li><a href="#gitlab-安装">Gitlab 安装</a></li>
+        <li><a href="#gitlab-ci-cd">GitLab CI/CD</a></li>
         <li><a href="#gitlab-开启邮件服务">GitLab 开启邮件服务</a></li>
       </ul>
     </li>
@@ -149,7 +150,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="10-13">10-13</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3515 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="10-13">10-13</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="05-06">05-06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3822 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -171,6 +172,7 @@
         <li><a href="#gitlab-组件">Gitlab 组件</a></li>
         <li><a href="#gitlab-依赖">Gitlab 依赖</a></li>
         <li><a href="#gitlab-安装">Gitlab 安装</a></li>
+        <li><a href="#gitlab-ci-cd">GitLab CI/CD</a></li>
         <li><a href="#gitlab-开启邮件服务">GitLab 开启邮件服务</a></li>
       </ul>
     </li>
@@ -185,15 +187,8 @@
 </nav></div>
             </div><div class="content" id="content"><p>个人使用的是腾讯云的轻量服务器，系统镜像选择的是 Debian 11，搭建的服务有 博客
 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer">HUGO</a> 、私有网盘 <a href="https://nextcloud.com/" target="_blank" rel="noopener noreffer">Nextcloud</a> 以及 Git服务器 <a href="https://about.gitlab.com/" target="_blank" rel="noopener noreffer">GitLab</a></p>
-<p>一下服务搭建时，域名统一使用 example.com，请根据自己的情况修改对应的配置，用到一些基础依赖请自行安装</p>
-<ul>
-<li>Nginx</li>
-<li>Git</li>
-<li>PHP</li>
-<li>PostgreSQL</li>
-<li>Redis</li>
-</ul>
-<p>我们首先定义一些变量，以便后边使用和修改</p>
+<p>目前使用的是 Debian GNU/Linux 11 (bullseye) 搭建服务器，当然用的是 fish 作为
+shell</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -208,33 +203,54 @@
 </span><span class="lnt">10
 </span><span class="lnt">11
 </span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">fpm_path</span><span class="o">=</span><span class="s2">&#34;/etc/php/7.4/fpm&#34;</span> <span class="c1"># php-fpm 根目录</span>
-</span></span><span class="line"><span class="cl"><span class="nv">nextcloud_path</span><span class="o">=</span><span class="s2">&#34;/path/to/nextcloud&#34;</span> <span class="c1"># nextcloud 所在目录</span>
-</span></span><span class="line"><span class="cl"><span class="nv">nextcloud_host</span><span class="o">=</span><span class="s2">&#34;example.com&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">nextcloud_db_user</span><span class="o">=</span><span class="s2">&#34;nextcloud&#34;</span> <span class="c1"># Nextcloud 数据库用户</span>
-</span></span><span class="line"><span class="cl"><span class="nv">nextcloud_db_passwd</span><span class="o">=</span><span class="s2">&#34;YourPassword&#34;</span> <span class="c1"># Nextcloud 数据库密码</span>
-</span></span><span class="line"><span class="cl"><span class="nv">nextcloud_db_name</span><span class="o">=</span><span class="s2">&#34;nextcloud&#34;</span> <span class="c1"># Nextcloud 数据库名称</span>
-</span></span><span class="line"><span class="cl"><span class="nv">gitlab_path</span><span class="o">=</span><span class="s2">&#34;/home/git/gitlab&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">gitaly_path</span><span class="o">=</span><span class="s2">&#34;/home/git/gitaly&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">gitlab_host</span><span class="o">=</span><span class="s2">&#34;example.com&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">gitlab_db_passwd</span><span class="o">=</span><span class="s2">&#34;YourPassword&#34;</span> <span class="c1"># GitLab 数据库密码</span>
-</span></span><span class="line"><span class="cl"><span class="nv">lychee_path</span><span class="o">=</span><span class="s2">&#34;/path/to/lychee&#34;</span> <span class="c1"># Lychee 所在目录</span>
-</span></span><span class="line"><span class="cl"><span class="nv">lychee_version</span><span class="o">=</span><span class="s2">&#34;v4.0.8&#34;</span> <span class="c1"># Lychee 版本</span>
-</span></span><span class="line"><span class="cl"><span class="nv">lychee_host</span><span class="o">=</span><span class="s2">&#34;example.com&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">lychee_db_user</span><span class="o">=</span><span class="s2">&#34;lychee&#34;</span> <span class="c1"># Lychee 数据库用户</span>
-</span></span><span class="line"><span class="cl"><span class="nv">lychee_db_passwd</span><span class="o">=</span><span class="s2">&#34;YourPassword&#34;</span> <span class="c1"># Lychee 数据库密码</span>
-</span></span><span class="line"><span class="cl"><span class="nv">lychee_db_name</span><span class="o">=</span><span class="s2">&#34;lychee&#34;</span> <span class="c1"># Lychee 数据库名称</span>
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">bash</span> <span class="na">-c</span> <span class="s2">&#34;cat &lt;&lt;- EOF | sudo tee /etc/apt/sources.list
+</span></span></span><span class="line"><span class="cl"><span class="s2">deb https://mirrors.ustc.edu.cn/debian/ bullseye main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2">deb https://mirrors.ustc.edu.cn/debian/ bullseye-updates main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2">deb https://mirrors.ustc.edu.cn/debian/ bullseye-backports main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2">deb https://mirrors.ustc.edu.cn/debian-security bullseye-security main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2"># deb-src https://mirrors.ustc.edu.cn/debian/ bullseye main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2"># deb-src https://mirrors.ustc.edu.cn/debian/ bullseye-updates main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2"># deb-src https://mirrors.ustc.edu.cn/debian/ bullseye-backports main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2"># deb-src https://mirrors.ustc.edu.cn/debian-security bullseye-security main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2">EOF&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">apt</span> update <span class="na">-y</span> <span class="o">&amp;&amp;</span> <span class="nf">sudo</span> <span class="nf">apt</span> upgrade <span class="na">-y</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="nextcloud" class="headerLink">
+</div><p>一下服务搭建时，域名统一使用 example.com，请根据自己的情况修改对应的配置，用到一些基础依赖请自行安装</p>
+<ul>
+<li>Nginx</li>
+<li>Git</li>
+<li>PHP</li>
+<li>PostgreSQL</li>
+<li>Redis</li>
+</ul>
+<h2 id="nextcloud" class="headerLink">
     <a href="#nextcloud" class="header-mark"></a>Nextcloud</h2><p>Nextcloud 是 <a href="https://owncloud.com/" target="_blank" rel="noopener noreffer">ownCloud</a> 项目的一个分支，一个开源的私有云盘应用，官方提供了包括 桌面以及移动系统的客户端。</p>
-<h3 id="nextcloud-依赖" class="headerLink">
+<p>定义一些变量</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">fpm_path</span> /etc/php/<span class="m">7</span>.<span class="m">4</span>/fpm
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">nextcloud_version</span> <span class="m">23</span>.<span class="m">0</span>.<span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">nextcloud_path</span> /path/to/nextcloud
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">nextcloud_host</span> example.com
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">nextcloud_db_user</span> nextcloud
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">nextcloud_db_passwd</span> YourPassword
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">nextcloud_db_name</span> nextcloud
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="nextcloud-依赖" class="headerLink">
     <a href="#nextcloud-%e4%be%9d%e8%b5%96" class="header-mark"></a>Nextcloud 依赖</h3><p>Nextcloud 依赖 PHP 运行时以及数据库 (MySQL 5.7+ / MariaDB 10.2+ 或 PostgreSQL)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -244,10 +260,10 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">apt install -y nginx postgresql <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    php php-fpm php-cli php-mysql php-pgsql php-sqlite3 php-redis <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    php-apcu php-memcached php-bcmath php-intl php-mbstring php-json php-xml <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    php-curl php-imagick php-gd php-zip php-gmp php-ctype php-dom php-iconv php-zlib
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">apt</span> install <span class="na">-y</span> nginx postgresql <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">php</span> php-fpm php-cli php-mysql php-pgsql php-sqlite3 php-redis <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">php-apcu</span> php-memcached php-bcmath php-intl php-mbstring php-json php-xml <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">php-curl</span> php-imagick php-gd php-zip php-gmp php-ctype php-dom php-iconv
 </span></span></code></pre></td></tr></table>
 </div>
 </div><dl>
@@ -283,36 +299,40 @@
 </span><span class="lnt">26
 </span><span class="lnt">27
 </span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">cd</span> <span class="si">${</span><span class="nv">fpm_path</span><span class="si">}</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># php config</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/memory_limit = .*/memory_limit = 512M/&#34;</span> php.ini
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/;date.timezone.*/date.timezone = UTC/&#34;</span> php.ini
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=1/&#34;</span> php.ini
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/upload_max_filesize = .*/upload_max_filesize = 4096M/&#34;</span> php.ini
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/post_max_size = .*/post_max_size = 4096M/&#34;</span> php.ini
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/max_input_time = .*/max_input_time = 480/&#34;</span> php.ini
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/max_execution_time = .*/max_execution_time = 360/&#34;</span> php.ini
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/pm.max_children = .*/pm.max_children = 32/&#34;</span> pool.d/www.conf
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/pm.min_spare_servers = .*/pm.min_spare_servers = 1/&#34;</span> pool.d/www.conf
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/pm.max_spare_servers = .*/pm.max_spare_servers = 8/&#34;</span> pool.d/www.conf
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/pm.start_servers = .*/pm.start_servers = 4/&#34;</span> pool.d/www.conf
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/;clear_env = no/clear_env = no/&#34;</span> pool.d/www.conf
-</span></span><span class="line"><span class="cl"><span class="c1"># opcache config</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/;opcache.enable=1/opcache.enable=1/&#34;</span> php.ini
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/;opcache.memory_consumption=128/opcache.memory_consumption=128/&#34;</span> php.ini
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/;opcache.interned_strings_buffer=8/opcache.interned_strings_buffer=8/&#34;</span> php.ini
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/;opcache.max_accelerated_files=10000/opcache.max_accelerated_files=10000/&#34;</span> php.ini
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/;opcache.revalidate_freq=2/opcache.revalidate_freq=1/&#34;</span> php.ini
-</span></span><span class="line"><span class="cl"><span class="c1"># apc config</span>
-</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;[apc]&#34;</span> &gt;&gt; php.ini
-</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;apc.cache_by_default = on&#34;</span> &gt;&gt; php.ini
-</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;apc.enable_cli = off&#34;</span> &gt;&gt; php.ini
-</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;apc.enable = on&#34;</span> &gt;&gt; php.ini
-</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;apc.file_update_protection = 2&#34;</span> &gt;&gt; php.ini
-</span></span><span class="line"><span class="cl"><span class="c1"># restart</span>
-</span></span><span class="line"><span class="cl">systemctl restart php7.4-fpm
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">cd</span> <span class="nv">$fpm_path</span>
+</span></span><span class="line"><span class="cl"><span class="c"># php config
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/memory_limit = .*/memory_limit = 512M/&#34;</span> php.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/;date.timezone.*/date.timezone = UTC/&#34;</span> php.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=1/&#34;</span> <span class="nf">php</span>.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/upload_max_filesize = .*/upload_max_filesize = 4096M/&#34;</span> php.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/post_max_size = .*/post_max_size = 4096M/&#34;</span> php.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/max_input_time = .*/max_input_time = 480/&#34;</span> php.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/max_execution_time = .*/max_execution_time = 360/&#34;</span> php.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/pm.max_children = .*/pm.max_children = 32/&#34;</span> pool.d/www.conf
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/pm.min_spare_servers = .*/pm.min_spare_servers = 1/&#34;</span> pool.d/www.conf
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/pm.max_spare_servers = .*/pm.max_spare_servers = 8/&#34;</span> pool.d/www.conf
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/pm.start_servers = .*/pm.start_servers = 4/&#34;</span> pool.d/www.conf
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/;clear_env = no/clear_env = no/&#34;</span> pool.d/www.conf
+</span></span><span class="line"><span class="cl"><span class="c"># opcache config
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/;opcache.enable=1/opcache.enable=1/&#34;</span> <span class="nf">php</span>.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/;opcache.memory_consumption=128/opcache.memory_consumption=128/&#34;</span> <span class="nf">php</span>.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/;opcache.interned_strings_buffer=8/opcache.interned_strings_buffer=8/&#34;</span> <span class="nf">php</span>.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/;opcache.max_accelerated_files=10000/opcache.max_accelerated_files=10000/&#34;</span> <span class="nf">php</span>.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/;opcache.revalidate_freq=2/opcache.revalidate_freq=1/&#34;</span> <span class="nf">php</span>.ini
+</span></span><span class="line"><span class="cl"><span class="c"># apc config
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">bash</span> <span class="na">-c</span> <span class="s2">&#34;cat &lt;&lt;- EOF | sudo tee -a test.sh
+</span></span></span><span class="line"><span class="cl"><span class="s2">[apc]
+</span></span></span><span class="line"><span class="cl"><span class="s2">apc.cache_by_default = on
+</span></span></span><span class="line"><span class="cl"><span class="s2">apc.enable_cli = off
+</span></span></span><span class="line"><span class="cl"><span class="s2">apc.enable = on
+</span></span></span><span class="line"><span class="cl"><span class="s2">apc.file_update_protection = 2
+</span></span></span><span class="line"><span class="cl"><span class="s2">EOF&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c"># restart
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">systemctl</span> restart php7.<span class="m">4</span>-fpm
 </span></span></code></pre></td></tr></table>
 </div>
 </div></dd>
@@ -325,9 +345,9 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo adduser --disabled-login --gecos <span class="s1">&#39;Nextcloud&#39;</span> <span class="si">${</span><span class="nv">nextcloud_db_user</span><span class="si">}</span>
-</span></span><span class="line"><span class="cl">sudo -u postgres -H psql -c <span class="s2">&#34;CREATE USER </span><span class="si">${</span><span class="nv">nextcloud_db_user</span><span class="si">}</span><span class="s2"> WITH PASSWORD &#39;</span><span class="si">${</span><span class="nv">nextcloud_db_passwd</span><span class="si">}</span><span class="s2">&#39;&#34;</span>
-</span></span><span class="line"><span class="cl">sudo -u postgres -H psql -c <span class="s2">&#34;CREATE DATABASE </span><span class="si">${</span><span class="nv">nextcloud_db_name</span><span class="si">}</span><span class="s2"> OWNER </span><span class="si">${</span><span class="nv">nextcloud_db_user</span><span class="si">}</span><span class="s2">&#34;</span>
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">useradd</span> <span class="nv">$nextcloud_db_user</span> <span class="na">--create-home</span> <span class="na">--shell</span> /sbin/nologin
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> postgres <span class="na">-H</span> psql <span class="na">-c</span> <span class="s2">&#34;CREATE USER </span><span class="nv">$nextcloud_db_user</span><span class="s2"> WITH PASSWORD &#39;</span><span class="nv">$nextcloud_db_passwd</span><span class="s2">&#39;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> postgres <span class="na">-H</span> psql <span class="na">-c</span> <span class="s2">&#34;CREATE DATABASE </span><span class="nv">$nextcloud_db_name</span><span class="s2"> OWNER </span><span class="nv">$nextcloud_db_user</span><span class="s2">&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div></dd>
@@ -338,12 +358,10 @@
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
-</span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">ln</span> <span class="na">-sf</span> /etc/nginx/sites-available/nextcloud /etc/nginx/sites-enabled/
-</span></span><span class="line"><span class="cl"><span class="nf">nginx</span> <span class="na">-t</span> <span class="c"># 检查配置文件
-</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">systemctl</span> restart nginx
+</span></span><span class="line"><span class="cl"><span class="nf">systemctl</span> restart nginx
 </span></span></code></pre></td></tr></table>
 </div>
 </div></dd>
@@ -354,10 +372,14 @@
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo chown -R www-data:www-data <span class="si">${</span><span class="nv">nextcloud_path</span><span class="si">}</span>
-</span></span><span class="line"><span class="cl">sudo -u www-data -H mkdir -p <span class="si">${</span><span class="nv">nextcloud_path</span><span class="si">}</span>
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-E</span> wget https://download.nextcloud.com/server/releases/nextcloud-<span class="s2">&#34;</span><span class="nv">$nextcloud_version</span><span class="s2">&#34;</span>.tar.bz2
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">mkdir</span> <span class="na">-p</span> <span class="nv">$nextcloud_path</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">tar</span> <span class="na">-jxvf</span> nextcloud-<span class="s2">&#34;</span><span class="nv">$nextcloud_version</span><span class="s2">&#34;</span>.tar.bz2 <span class="na">-C</span> <span class="nv">$nextcloud_path</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chown</span> <span class="na">-R</span> www-data:www-data <span class="nv">$nextcloud_path</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>准备工作完成后，进入网页，设置管理员帐号和数据库。</p>
@@ -372,11 +394,11 @@
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">cd</span> /path/to/nextcloud
-</span></span><span class="line"><span class="cl">sed -i <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">cd</span> /path/to/nextcloud
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="s2">&#34;s/\$streamContext = .*;/\$streamContext = stream_context_create(array(&#39;ssl&#39;=&gt;[&#39;verify_peer&#39;=&gt;false, &#39;verify_peer_name&#39;=&gt;false, &#39;allow_self_signed&#39;=&gt;true]));/&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    3rdparty/swiftmailer/swiftmailer/lib/classes/Swift/Transport/StreamBuffer.php
-</span></span><span class="line"><span class="cl">systemctl restart php7.4-fpm
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">3rdparty</span>/swiftmailer/swiftmailer/lib/classes/Swift/Transport/StreamBuffer.php
+</span></span><span class="line"><span class="cl"><span class="nf">systemctl</span> restart php7.<span class="m">4</span>-fpm
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>登录管理员帐号进行邮箱服务器配置即可</p>
@@ -449,17 +471,15 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span><span class="lnt">5
 </span><span class="lnt">6
 </span><span class="lnt">7
-</span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">|-- home
-</span></span><span class="line"><span class="cl">|    |-- git
-</span></span><span class="line"><span class="cl">|        |-- .ssh
-</span></span><span class="line"><span class="cl">|        |-- gitaly
-</span></span><span class="line"><span class="cl">|        |-- gitlab
-</span></span><span class="line"><span class="cl">|        |-- gitlab-shell
-</span></span><span class="line"><span class="cl">|        |-- gitlab-workhorse
-</span></span><span class="line"><span class="cl">|        |-- repositories
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/home/git
+</span></span><span class="line"><span class="cl">├── gitaly
+</span></span><span class="line"><span class="cl">├── gitlab
+</span></span><span class="line"><span class="cl">├── gitlab-shell
+</span></span><span class="line"><span class="cl">├── gitlab-workhorse
+</span></span><span class="line"><span class="cl">├── go
+</span></span><span class="line"><span class="cl">└── repositories
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="gitlab-组件" class="headerLink">
@@ -528,6 +548,11 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 <td>GitLab 13.0 最低要求 pgsql 12，14.0 最低要求 pgsql 13</td>
 </tr>
 <tr>
+<td>Git</td>
+<td>2.33.x</td>
+<td></td>
+</tr>
+<tr>
 <td>Nginx</td>
 <td></td>
 <td></td>
@@ -543,6 +568,25 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 <p>安装相关依赖，建立数据库，将 Redis 设置为 Unix Domain Socket (UDS) 连接</p>
 <ul>
 <li>
+<p>定义变量</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">gitlab_version</span> <span class="m">14</span>-<span class="m">10</span>-stable
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">gitlab_path</span> /home/git/gitlab
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">gitaly_path</span> /home/git/gitaly
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">gitlab_host</span> example.com
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">gitlab_db_passwd</span> YourPassword
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
 <p>安装相关依赖</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -552,16 +596,14 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
-</span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">apt update -y <span class="o">&amp;&amp;</span> apt upgrade -y
-</span></span><span class="line"><span class="cl"><span class="c1"># install dependencies</span>
-</span></span><span class="line"><span class="cl">sudo apt install -y <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libre2-dev <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    libreadline-dev libncurses5-dev libffi-dev curl openssh-server libxml2-dev <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    libxslt1-dev libcurl4-openssl-dev libicu-dev logrotate rsync python3-docutils <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    pkg-config cmake runit-systemd libkrb5-dev graphicsmagick libimage-exiftool-perl
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># install dependencies
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="nf">apt</span> install <span class="na">-y</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">build-essential</span> zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libre2-dev <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">libreadline-dev</span> libncurses5-dev libffi-dev curl openssh-server libxml2-dev <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">libxslt1-dev</span> libcurl4-openssl-dev libicu-dev logrotate rsync python3-docutils <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">pkg-config</span> cmake runit-systemd libkrb5-dev graphicsmagick libimage-exiftool-perl
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -580,15 +622,15 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># install git</span>
-</span></span><span class="line"><span class="cl">sudo apt install -y <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    libcurl4-openssl-dev libexpat1-dev gettext libz-dev <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    libssl-dev libpcre2-dev build-essential git-core
-</span></span><span class="line"><span class="cl">git clone https://gitlab.com/gitlab-org/gitaly.git -b &lt;X-Y-stable&gt; /tmp/gitaly
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /tmp/gitaly
-</span></span><span class="line"><span class="cl">sudo make git <span class="nv">GIT_PREFIX</span><span class="o">=</span>/usr/local
-</span></span><span class="line"><span class="cl">sudo apt remove -y git-core
-</span></span><span class="line"><span class="cl">sudo apt autoremove
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># install git
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="nf">apt</span> install <span class="na">-y</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">libcurl4-openssl-dev</span> libexpat1-dev gettext libz-dev <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">libssl-dev</span> libpcre2-dev build-essential git-core
+</span></span><span class="line"><span class="cl"><span class="nf">git</span> clone https://gitlab.com/gitlab-org/gitaly.git <span class="na">-b</span> <span class="nv">$gitlab_version</span> /tmp/gitaly
+</span></span><span class="line"><span class="cl"><span class="k">cd</span> /tmp/gitaly
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">make</span> git <span class="nv">GIT_PREFIX</span><span class="o">=</span>/usr/local
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">apt</span> remove <span class="na">-y</span> git-core
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">apt</span> autoremove
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>需要注意，这种方法安装的 Git 需要修改配置文件 <code>config/gitlab.yml</code> 中的 git 路径</p>
@@ -616,13 +658,13 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mkdir /tmp/ruby <span class="o">&amp;&amp;</span> <span class="nb">cd</span> /tmp/ruby
-</span></span><span class="line"><span class="cl">curl --remote-name --location --progress-bar <span class="s2">&#34;https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.4.tar.gz&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;3043099089608859fc8cce7f9fdccaa1f53a462457e3838ec3b25a7d609fbc5b ruby-2.7.4.tar.gz&#39;</span> <span class="p">|</span> sha256sum -c - <span class="o">&amp;&amp;</span> tar xzf ruby-2.7.4.tar.gz
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ruby-2.7.4
-</span></span><span class="line"><span class="cl">./configure --disable-install-rdoc --enable-shared
-</span></span><span class="line"><span class="cl">make
-</span></span><span class="line"><span class="cl">sudo make install
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">mkdir</span> /tmp/ruby <span class="o">&amp;&amp;</span> <span class="k">cd</span> /tmp/ruby
+</span></span><span class="line"><span class="cl"><span class="nf">curl</span> <span class="na">--remote-name</span> <span class="na">--location</span> <span class="na">--progress-bar</span> <span class="s2">&#34;https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.4.tar.gz&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s1">&#39;3043099089608859fc8cce7f9fdccaa1f53a462457e3838ec3b25a7d609fbc5b ruby-2.7.4.tar.gz&#39;</span> <span class="o">|</span> <span class="nf">sha256sum</span> <span class="na">-c</span> <span class="na">- </span><span class="o">&amp;&amp;</span> <span class="nf">tar</span> xzf ruby-<span class="m">2</span>.<span class="m">7</span>.<span class="m">4</span>.tar.gz
+</span></span><span class="line"><span class="cl"><span class="k">cd</span> ruby-<span class="m">2</span>.<span class="m">7</span>.<span class="m">4</span>
+</span></span><span class="line"><span class="cl">./configure <span class="na">--disable-install-rdoc</span> <span class="na">--enable-shared</span>
+</span></span><span class="line"><span class="cl"><span class="nf">make</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">make</span> install
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -638,12 +680,12 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo rm -rf /usr/local/go
-</span></span><span class="line"><span class="cl">curl --remote-name --location --progress-bar <span class="s2">&#34;https://go.dev/dl/go1.16.10.linux-amd64.tar.gz&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;414cd18ce1d193769b9e97d2401ad718755ab47816e13b2a1cde203d263b55cf  go1.16.10.linux-amd64.tar.gz&#39;</span> <span class="p">|</span> shasum -a256 -c - <span class="o">&amp;&amp;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  sudo tar -C /usr/local -xzf go1.16.10.linux-amd64.tar.gz
-</span></span><span class="line"><span class="cl">sudo ln -sf /usr/local/go/bin/<span class="o">{</span>go,gofmt<span class="o">}</span> /usr/local/bin/
-</span></span><span class="line"><span class="cl">rm go1.16.10.linux-amd64.tar.gz
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">rm</span> <span class="na">-rf</span> /usr/local/go
+</span></span><span class="line"><span class="cl"><span class="nf">curl</span> <span class="na">--remote-name</span> <span class="na">--location</span> <span class="na">--progress-bar</span> <span class="s2">&#34;https://go.dev/dl/go1.16.10.linux-amd64.tar.gz&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s1">&#39;414cd18ce1d193769b9e97d2401ad718755ab47816e13b2a1cde203d263b55cf  go1.16.10.linux-amd64.tar.gz&#39;</span> <span class="o">|</span> <span class="nf">shasum</span> <span class="na">-a256</span> <span class="na">-c</span> <span class="na">- </span><span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="nf">sudo</span> <span class="nf">tar</span> <span class="na">-C</span> /usr/local <span class="na">-xzf</span> go1.<span class="m">16</span>.<span class="m">10</span>.linux-amd64.tar.gz
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">ln</span> <span class="na">-sf</span> /usr/local/go/bin/<span class="o">{</span>go,gofmt<span class="o">}</span> /usr/local/bin/
+</span></span><span class="line"><span class="cl"><span class="nf">rm</span> go1.<span class="m">16</span>.<span class="m">10</span>.linux-amd64.tar.gz
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -657,10 +699,10 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># install node v14.x</span>
-</span></span><span class="line"><span class="cl">curl --location <span class="s2">&#34;https://deb.nodesource.com/setup_14.x&#34;</span> <span class="p">|</span> sudo bash -
-</span></span><span class="line"><span class="cl">sudo apt-get install -y nodejs
-</span></span><span class="line"><span class="cl">npm install --global yarn
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># install node v16.x
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">curl</span> <span class="na">--location</span> <span class="s2">&#34;https://deb.nodesource.com/setup_16.x&#34;</span> <span class="o">|</span> <span class="nf">sudo</span> <span class="nf">bash</span> <span class="na">-
+</span></span></span><span class="line"><span class="cl"><span class="na">sudo</span> <span class="nf">apt-get</span> install <span class="na">-y</span> nodejs
+</span></span><span class="line"><span class="cl"><span class="nf">npm</span> install <span class="na">--global</span> yarn
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -676,12 +718,12 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo adduser --disabled-login --gecos <span class="s1">&#39;GitLab&#39;</span> git
-</span></span><span class="line"><span class="cl">sudo apt install -y postgresql postgresql-client libpq-dev postgresql-contrib
-</span></span><span class="line"><span class="cl">sudo -u postgres psql -d template1 -c <span class="s2">&#34;CREATE USER git WITH PASSWORD &#39;</span><span class="si">${</span><span class="nv">gitlab_db_passwd</span><span class="si">}</span><span class="s2">&#39; CREATEDB;&#34;</span>
-</span></span><span class="line"><span class="cl">sudo -u postgres psql -d template1 -c <span class="s2">&#34;CREATE EXTENSION IF NOT EXISTS pg_trgm;&#34;</span>
-</span></span><span class="line"><span class="cl">sudo -u postgres psql -d template1 -c <span class="s2">&#34;CREATE EXTENSION IF NOT EXISTS btree_gist&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">sudo -u postgres psql -d template1 -c <span class="s2">&#34;CREATE DATABASE gitlabhq_production OWNER git;&#34;</span>
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">useradd</span> git <span class="na">--create-home</span> <span class="na">--shell</span> /sbin/nologin
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">apt</span> install <span class="na">-y</span> postgresql postgresql-client libpq-dev postgresql-contrib
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> postgres psql <span class="na">-d</span> template1 <span class="na">-c</span> <span class="s2">&#34;CREATE USER git WITH PASSWORD &#39;</span><span class="nv">$gitlab_db_passwd</span><span class="s2">&#39; CREATEDB;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> postgres psql <span class="na">-d</span> template1 <span class="na">-c</span> <span class="s2">&#34;CREATE EXTENSION IF NOT EXISTS pg_trgm;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> postgres psql <span class="na">-d</span> template1 <span class="na">-c</span> <span class="s2">&#34;CREATE EXTENSION IF NOT EXISTS btree_gist&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> postgres psql <span class="na">-d</span> template1 <span class="na">-c</span> <span class="s2">&#34;CREATE DATABASE gitlabhq_production OWNER git;&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>检查 <code>pg_trgm</code> 扩展是否启用</p>
@@ -734,19 +776,19 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt install redis-server
-</span></span><span class="line"><span class="cl">sudo cp /etc/redis/redis.conf /etc/redis/redis.conf.orig
-</span></span><span class="line"><span class="cl">sudo sed <span class="s1">&#39;s/^port .*/port 0/&#39;</span> /etc/redis/redis.conf.orig <span class="p">|</span> sudo tee /etc/redis/redis.conf
-</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;unixsocket /var/run/redis/redis.sock&#39;</span> <span class="p">|</span> sudo tee -a /etc/redis/redis.conf
-</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;unixsocketperm 770&#39;</span> <span class="p">|</span> sudo tee -a /etc/redis/redis.conf
-</span></span><span class="line"><span class="cl">sudo mkdir -p /var/run/redis
-</span></span><span class="line"><span class="cl">sudo chown redis:redis /var/run/redis
-</span></span><span class="line"><span class="cl">sudo chmod <span class="m">755</span> /var/run/redis
-</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> -d /etc/tmpfiles.d <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-</span></span><span class="line"><span class="cl">  <span class="nb">echo</span> <span class="s1">&#39;d  /var/run/redis  0755  redis  redis  10d  -&#39;</span> <span class="p">|</span> sudo tee -a /etc/tmpfiles.d/redis.conf
-</span></span><span class="line"><span class="cl"><span class="k">fi</span>
-</span></span><span class="line"><span class="cl">sudo systemctl restart redis
-</span></span><span class="line"><span class="cl">sudo usermod -aG redis git
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">apt</span> install redis-server
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">cp</span> /etc/redis/redis.conf /etc/redis/redis.conf.orig
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">sed</span> <span class="s1">&#39;s/^port .*/port 0/&#39;</span> /etc/redis/redis.conf.orig <span class="o">|</span> <span class="nf">sudo</span> <span class="nf">tee</span> /etc/redis/redis.conf
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s1">&#39;unixsocket /var/run/redis/redis.sock&#39;</span> <span class="o">|</span> <span class="nf">sudo</span> <span class="nf">tee</span> <span class="na">-a</span> /etc/redis/redis.conf
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s1">&#39;unixsocketperm 770&#39;</span> <span class="o">|</span> <span class="nf">sudo</span> <span class="nf">tee</span> <span class="na">-a</span> /etc/redis/redis.conf
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">mkdir</span> <span class="na">-p</span> /var/run/redis
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chown</span> redis:redis /var/run/redis
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="m">755</span> /var/run/redis
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="k">test</span> <span class="na">-d</span> /etc/tmpfiles.d
+</span></span><span class="line"><span class="cl">  <span class="k">echo</span> <span class="s1">&#39;d  /var/run/redis  0755  redis  redis  10d  -&#39;</span> <span class="o">|</span> <span class="nf">sudo</span> <span class="nf">tee</span> <span class="na">-a</span> /etc/tmpfiles.d/redis.conf
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">systemctl</span> restart redis
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">usermod</span> <span class="na">-aG</span> redis git
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -797,44 +839,44 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span><span class="lnt">38
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># clone gitlab src</span>
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ~git
-</span></span><span class="line"><span class="cl">sudo -u git -H git clone https://gitlab.com/gitlab-org/gitlab-foss.git -b 13-0-stable gitlab
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> <span class="si">${</span><span class="nv">gitlab_path</span><span class="si">}</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># config gitlab.yml</span>
-</span></span><span class="line"><span class="cl">sudo -u git -H cp config/gitlab.yml.example config/gitlab.yml
-</span></span><span class="line"><span class="cl">sudo -u git -H editor config/gitlab.yml
-</span></span><span class="line"><span class="cl"><span class="c1"># config permissions</span>
-</span></span><span class="line"><span class="cl">sudo -u git -H cp config/secrets.yml.example config/secrets.yml
-</span></span><span class="line"><span class="cl">sudo -u git -H chmod <span class="m">0600</span> config/secrets.yml
-</span></span><span class="line"><span class="cl">sudo chown -R git log/
-</span></span><span class="line"><span class="cl">sudo chown -R git tmp/
-</span></span><span class="line"><span class="cl">sudo chmod -R u+rwX,go-w log/
-</span></span><span class="line"><span class="cl">sudo chmod -R u+rwX tmp/
-</span></span><span class="line"><span class="cl">sudo chmod -R u+rwX tmp/pids/
-</span></span><span class="line"><span class="cl">sudo chmod -R u+rwX tmp/sockets/
-</span></span><span class="line"><span class="cl">sudo -u git -H mkdir -p public/uploads/
-</span></span><span class="line"><span class="cl">sudo chmod <span class="m">0700</span> public/uploads
-</span></span><span class="line"><span class="cl">sudo chmod -R u+rwX builds/
-</span></span><span class="line"><span class="cl">sudo chmod -R u+rwX shared/artifacts/
-</span></span><span class="line"><span class="cl">sudo chmod -R ug+rwX shared/pages/
-</span></span><span class="line"><span class="cl"><span class="c1"># config puma</span>
-</span></span><span class="line"><span class="cl">sudo -u git -H cp config/puma.rb.example config/puma.rb
-</span></span><span class="line"><span class="cl">sudo -u git -H editor config/puma.rb
-</span></span><span class="line"><span class="cl"><span class="c1"># config git</span>
-</span></span><span class="line"><span class="cl">sudo -u git -H git config --global core.autocrlf input
-</span></span><span class="line"><span class="cl">sudo -u git -H git config --global gc.auto <span class="m">0</span>
-</span></span><span class="line"><span class="cl">sudo -u git -H git config --global repack.writeBitmaps <span class="nb">true</span>
-</span></span><span class="line"><span class="cl">sudo -u git -H git config --global receive.advertisePushOptions <span class="nb">true</span>
-</span></span><span class="line"><span class="cl">sudo -u git -H git config --global core.fsyncObjectFiles <span class="nb">true</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># config Redis</span>
-</span></span><span class="line"><span class="cl">sudo -u git -H cp config/resque.yml.example config/resque.yml
-</span></span><span class="line"><span class="cl">sudo -u git -H cp config/cable.yml.example config/cable.yml
-</span></span><span class="line"><span class="cl">sudo -u git -H editor config/resque.yml config/cable.yml
-</span></span><span class="line"><span class="cl"><span class="c1"># config database</span>
-</span></span><span class="line"><span class="cl">sudo -u git cp config/database.yml.postgresql config/database.yml
-</span></span><span class="line"><span class="cl">sudo -u git -H editor config/database.yml
-</span></span><span class="line"><span class="cl">sudo -u git -H chmod o-rwx config/database.yml
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># clone gitlab src
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">cd</span> ~git
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> <span class="na">-E</span> git clone https://gitlab.com/gitlab-org/gitlab-foss.git <span class="na">-b</span> <span class="nv">$gitlab_version</span> gitlab
+</span></span><span class="line"><span class="cl"><span class="k">cd</span> <span class="nv">$gitlab_path</span>
+</span></span><span class="line"><span class="cl"><span class="c"># config gitlab.yml
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> cp config/gitlab.yml.example config/gitlab.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> editor config/gitlab.yml
+</span></span><span class="line"><span class="cl"><span class="c"># config permissions
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> cp config/secrets.yml.example config/secrets.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> chmod <span class="m">0600</span> config/secrets.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chown</span> <span class="na">-R</span> git log/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chown</span> <span class="na">-R</span> git tmp/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="na">-R</span> u+rwX,go-w log/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="na">-R</span> u+rwX tmp/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="na">-R</span> u+rwX tmp/pids/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="na">-R</span> u+rwX tmp/sockets/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> mkdir <span class="na">-p</span> public/uploads/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="m">0700</span> public/uploads
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="na">-R</span> u+rwX builds/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="na">-R</span> u+rwX shared/artifacts/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="na">-R</span> ug+rwX shared/pages/
+</span></span><span class="line"><span class="cl"><span class="c"># config puma
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> cp config/puma.rb.example config/puma.rb
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> editor config/puma.rb
+</span></span><span class="line"><span class="cl"><span class="c"># config git
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> git config <span class="na">--global</span> core.autocrlf input
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> git config <span class="na">--global</span> gc.auto <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> git config <span class="na">--global</span> repack.writeBitmaps true
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> git config <span class="na">--global</span> receive.advertisePushOptions true
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> git config <span class="na">--global</span> core.fsyncObjectFiles true
+</span></span><span class="line"><span class="cl"><span class="c"># config Redis
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> cp config/resque.yml.example config/resque.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> cp config/cable.yml.example config/cable.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> editor config/resque.yml config/cable.yml
+</span></span><span class="line"><span class="cl"><span class="c"># config database
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git cp config/database.yml.postgresql config/database.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> editor config/database.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> chmod o-rwx config/database.yml
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -867,29 +909,29 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span><span class="lnt">23
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># install gems</span>
-</span></span><span class="line"><span class="cl">sudo -u git -H bundle config <span class="nb">set</span> --local deployment <span class="s1">&#39;true&#39;</span>
-</span></span><span class="line"><span class="cl">sudo -u git -H bundle config <span class="nb">set</span> --local without <span class="s1">&#39;development test mysql aws kerberos&#39;</span>
-</span></span><span class="line"><span class="cl">sudo -u git -H bundle install
-</span></span><span class="line"><span class="cl"><span class="c1"># install gitlab-shell</span>
-</span></span><span class="line"><span class="cl">sudo -u git -H bundle <span class="nb">exec</span> rake gitlab🐚install <span class="nv">RAILS_ENV</span><span class="o">=</span>production
-</span></span><span class="line"><span class="cl">sudo -u git -H editor /home/git/gitlab-shell/config.yml
-</span></span><span class="line"><span class="cl"><span class="c1"># install gitlab-workhorse</span>
-</span></span><span class="line"><span class="cl">sudo -u git -H bundle <span class="nb">exec</span> rake <span class="s2">&#34;gitlab:workhorse:install[/home/git/gitlab-workhorse]&#34;</span> <span class="nv">RAILS_ENV</span><span class="o">=</span>production
-</span></span><span class="line"><span class="cl"><span class="c1"># install gitaly</span>
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /home/git/gitlab
-</span></span><span class="line"><span class="cl">sudo -u git -H bundle <span class="nb">exec</span> rake <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># install gems
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle config set <span class="na">--local</span> <span class="nv">deployment</span> <span class="s1">&#39;true&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle config set <span class="na">--local</span> <span class="nv">without</span> <span class="s1">&#39;development test mysql aws kerberos&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> <span class="na">-E</span> bundle install
+</span></span><span class="line"><span class="cl"><span class="c"># install gitlab-shell
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> <span class="na">-E</span> bundle <span class="nb">exec </span>rake gitlab🐚install <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> editor ~git/gitlab-shell/config.yml
+</span></span><span class="line"><span class="cl"><span class="c"># install gitlab-workhorse
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> <span class="na">-E</span> bundle <span class="nb">exec </span>rake <span class="s2">&#34;gitlab:workhorse:install[/home/git/gitlab-workhorse]&#34;</span> <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span><span class="line"><span class="cl"><span class="c"># install gitaly
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">cd</span> /home/git/gitlab
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> <span class="na">-E</span> bundle <span class="nb">exec </span>rake <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="s2">&#34;gitlab:gitaly:install[/home/git/gitaly,/home/git/repositories]&#34;</span> <span class="nv">RAILS_ENV</span><span class="o">=</span>production
-</span></span><span class="line"><span class="cl">sudo chmod <span class="m">0700</span> <span class="si">${</span><span class="nv">gitlab_path</span><span class="si">}</span>/tmp/sockets/private
-</span></span><span class="line"><span class="cl">sudo chown git <span class="si">${</span><span class="nv">gitlab_path</span><span class="si">}</span>/tmp/sockets/private
-</span></span><span class="line"><span class="cl">sudo -u git -H editor <span class="si">${</span><span class="nv">gitaly_path</span><span class="si">}</span>/config.toml
-</span></span><span class="line"><span class="cl"><span class="c1"># install service</span>
-</span></span><span class="line"><span class="cl">sudo mkdir -p /usr/local/lib/systemd/system
-</span></span><span class="line"><span class="cl">sudo cp lib/support/systemd/* /usr/local/lib/systemd/system/
-</span></span><span class="line"><span class="cl">sudo systemctl daemon-reload
-</span></span><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> gitlab.target
-</span></span><span class="line"><span class="cl"><span class="c1"># setup logrotate</span>
-</span></span><span class="line"><span class="cl">sudo cp lib/support/logrotate/gitlab /etc/logrotate.d/gitlab
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="m">0700</span> <span class="nv">$gitlab_path</span>/tmp/sockets/private
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chown</span> git <span class="nv">$gitlab_path</span>/tmp/sockets/private
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> editor <span class="nv">$gitaly_path</span>/config.toml
+</span></span><span class="line"><span class="cl"><span class="c"># install service
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="nf">mkdir</span> <span class="na">-p</span> /usr/local/lib/systemd/system
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">cp</span> lib/support/systemd/* /usr/local/lib/systemd/system/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">systemctl</span> daemon-reload
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">systemctl</span> enable gitlab.target
+</span></span><span class="line"><span class="cl"><span class="c"># setup logrotate
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="nf">cp</span> lib/support/logrotate/gitlab /etc/logrotate.d/gitlab
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>如果主机上还有 PostgreSQL 以及 Redis，可以在 <code>gitlab-*.service</code> 文件 Unit 单元的 <strong>Wants</strong> 与 <strong>After</strong> 两个字段追加下面两个服务</p>
@@ -906,9 +948,6 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
-</ul>
-<!--listend-->
-<ul>
 <li>
 <p>启动相关项目</p>
 <div class="highlight"><div class="chroma">
@@ -919,10 +958,10 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># start gitaly</span>
-</span></span><span class="line"><span class="cl">sudo systemctl start gitlab-gitaly.service
-</span></span><span class="line"><span class="cl"><span class="c1"># init database and activate advanced features</span>
-</span></span><span class="line"><span class="cl">sudo -u git -H bundle <span class="nb">exec</span> rake gitlab:setup <span class="nv">RAILS_ENV</span><span class="o">=</span>production <span class="nv">force</span><span class="o">=</span>yes
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># start gitaly
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="nf">systemctl</span> start gitlab-gitaly.service
+</span></span><span class="line"><span class="cl"><span class="c"># init database and activate advanced features
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake gitlab:setup <span class="nv">RAILS_ENV</span><span class="o">=</span>production <span class="nv">force</span><span class="o">=</span>yes
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -933,7 +972,7 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo -u git -H bundle <span class="nb">exec</span> rake gitlab:env:info <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake gitlab:env:info <span class="nv">RAILS_ENV</span><span class="o">=</span>production
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -954,17 +993,17 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># GetText PO files</span>
-</span></span><span class="line"><span class="cl">sudo -u git -H bundle <span class="nb">exec</span> rake gettext:compile <span class="nv">RAILS_ENV</span><span class="o">=</span>production
-</span></span><span class="line"><span class="cl"><span class="c1"># Assets</span>
-</span></span><span class="line"><span class="cl">sudo -u git -H yarn install --production --pure-lockfile
-</span></span><span class="line"><span class="cl">sudo -u git -H bundle <span class="nb">exec</span> rake gitlab:assets:compile <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># GetText PO files
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake gettext:compile <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span><span class="line"><span class="cl"><span class="c"># Assets
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> yarn install <span class="na">--production</span> <span class="na">--pure-lockfile</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake gitlab:assets:compile <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">RAILS_ENV</span><span class="o">=</span>production <span class="nv">NODE_ENV</span><span class="o">=</span>production <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">NODE_OPTIONS</span><span class="o">=</span><span class="s2">&#34;--max_old_space_size=2048&#34;</span> <span class="c1"># 内存限制在 2 G</span>
-</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> !<span class="o">=</span> <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;\033[31m compile assets error. desc &#39;--max_old_space_size&#39; \033[0m&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="m">64</span>
-</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">NODE_OPTIONS</span><span class="o">=</span><span class="s2">&#34;--max_old_space_size=8192&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="k">test</span> <span class="m">0</span> <span class="na">-ne</span> <span class="nv">$status</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;\033[31m compile assets error. desc &#39;--max_old_space_size&#39; \033[0m&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">exit</span> <span class="m">64</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -979,15 +1018,17 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span><span class="lnt">5
 </span><span class="lnt">6
 </span><span class="lnt">7
+</span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo cp lib/support/nginx/gitlab-ssl /etc/nginx/sites-available/gitlab
-</span></span><span class="line"><span class="cl">sudo ln -sf /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/gitlab
-</span></span><span class="line"><span class="cl">sudo editor /etc/nginx/sites-available/gitlab
-</span></span><span class="line"><span class="cl">sudo nginx -t<span class="p">;</span> <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> !<span class="o">=</span> <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;nginx config error. editor /etc/nginx/sites-available/gitlab&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="m">64</span>
-</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">cp</span> lib/support/nginx/gitlab-ssl /etc/nginx/sites-available/gitlab
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">ln</span> <span class="na">-sf</span> /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/gitlab
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">editor</span> /etc/nginx/sites-available/gitlab
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">nginx</span> <span class="na">-t</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="k">test</span> <span class="m">0</span> <span class="na">-ne</span> <span class="nv">$status</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;nginx config error. editor /etc/nginx/sites-available/gitlab&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">exit</span> <span class="m">64</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -999,33 +1040,62 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo systemctl restart nginx.service gitlab.target
-</span></span><span class="line"><span class="cl">sudo -u git -H bundle <span class="nb">exec</span> rake gitlab:check <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">systemctl</span> restart nginx.service gitlab.target
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake gitlab:check <span class="nv">RAILS_ENV</span><span class="o">=</span>production
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 </ul>
 <p>Gitlab基本配置完成，登录网站设置默认管理员密码即可登录，默认管理员帐号为 <strong>root</strong></p>
-<p>接下来安装 <code>Gitlab Runner</code> 最新版，使 CI/CD 可用</p>
+<h3 id="gitlab-ci-cd" class="headerLink">
+    <a href="#gitlab-ci-cd" class="header-mark"></a>GitLab CI/CD</h3><p>接下来安装 <code>Gitlab Runner</code> 最新版，使 CI/CD 可用</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">curl -LJO https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_amd64.deb
-</span></span><span class="line"><span class="cl">dpkg -i gitlab-runner_amd64.deb
-</span></span><span class="line"><span class="cl">sudo gitlab-runner register
-</span></span><span class="line"><span class="cl">sudo -u gitlan-runner -H mv /home/gitlab-runner/.bash_logout /home/gitlab-runner/.bash_logout.bkp
-</span></span><span class="line"><span class="cl">sudo systemctl restart gitlab-runnner
-</span></span><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> gitlab-runner
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">cd</span> /tmp
+</span></span><span class="line"><span class="cl"><span class="nf">curl</span> <span class="na">-L</span> <span class="s2">&#34;https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh&#34;</span> <span class="o">|</span> <span class="nf">sudo</span> <span class="nf">bash</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-E</span> apt install docker docker-compose gitlab-runner
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="gitlab-开启邮件服务" class="headerLink">
+</div><p>Gitlab Runner 提供了几种模式，分别是</p>
+<ul>
+<li>shell</li>
+<li>docker</li>
+<li>docker-ssh</li>
+<li>ssh</li>
+<li>parallels</li>
+<li>virtualbox</li>
+<li>docker+machine</li>
+<li>docker-ssh+machine</li>
+<li>kubernetes</li>
+</ul>
+<p>virtualbox、parallels、docker-ssh 都是使用 SSH 的方式连接到镜像。而通常采用
+docker 执行器就可以轻量化的实现各种环境的构建；如果你需要执行 CI 任务时多时少则可以选用 docker+machine；shell 就很暴力了，直接在主机上执行，但是需要自行搭建环境，这不如 container 来的灵活自在。</p>
+<p>在管理员面板的 <strong>Overview &gt; Runners</strong> 中获取到注册 runner 要用的 token。注册
+docker 执行器的 runner</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">gitlab-runner</span> register <span class="na">--executor</span> docker <span class="na">--docker-image</span> alpine:latest
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>或许以后会改为 k8s 搭建 runner。先将 docker build 映射到 <code>/tmp</code>，只需要修改配置文件中的 volumes 为</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">volumes</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;/cache&#34;</span><span class="p">,</span> <span class="s2">&#34;/tmp:/builds:rw&#34;</span><span class="p">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果对 GitLab Runner 的配置感兴趣，可以参考<a href="https://docs.gitlab.com/runner/configuration/" target="_blank" rel="noopener noreffer">官方文档</a>。</p>
+<h3 id="gitlab-开启邮件服务" class="headerLink">
     <a href="#gitlab-%e5%bc%80%e5%90%af%e9%82%ae%e4%bb%b6%e6%9c%8d%e5%8a%a1" class="header-mark"></a>GitLab 开启邮件服务</h3><p>我们的GitLab使用的是源码安装，需要修改 <code>config/gitlab.yml</code> 开启 emil</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1038,13 +1108,13 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">gitlab_email_from</span><span class="o">=</span><span class="s2">&#34;noreply@example.com&#34;</span>
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nv">gitlab_email_from</span><span class="o">=</span><span class="s2">&#34;noreply@example.com&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="nv">gitlab_email_reply</span><span class="o">=</span><span class="s2">&#34;noreply@example.com&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /home/git/gitlab
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/email_enabled:.*/email_enabled: true/&#34;</span> config/gitlab.yml
-</span></span><span class="line"><span class="cl">sed -ie <span class="s2">&#34;s/email_from:.*/email_from: </span><span class="si">${</span><span class="nv">gitlab_email_from</span><span class="si">}</span><span class="s2">&#34;</span> config/gitlab.yml
-</span></span><span class="line"><span class="cl">sed -ie <span class="s2">&#34;s/email_reply_to:.*/email_reply_to: </span><span class="si">${</span><span class="nv">gitlab_email_reply</span><span class="si">}</span><span class="s2">&#34;</span> config/gitlab.yml
-</span></span><span class="line"><span class="cl">cp config/initializers/smtp_settings.rb.sample config/initializers/smtp_settings.rb
+</span></span><span class="line"><span class="cl"><span class="k">cd</span> /home/git/gitlab
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/email_enabled:.*/email_enabled: true/&#34;</span> config/gitlab.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-ie</span> <span class="s2">&#34;s/email_from:.*/email_from: </span><span class="nv">${</span><span class="s2">gitlab_email_from}&#34;</span> config/gitlab.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-ie</span> <span class="s2">&#34;s/email_reply_to:.*/email_reply_to: </span><span class="nv">${</span><span class="s2">gitlab_email_reply}&#34;</span> config/gitlab.yml
+</span></span><span class="line"><span class="cl"><span class="nf">cp</span> config/initializers/smtp_settings.rb.sample config/initializers/smtp_settings.rb
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>将email启用后，还需要配置smtp，可以参考 <a href="https://docs.gitlab.com/omnibus/settings/smtp.html#mailcow" target="_blank" rel="noopener noreffer">官方教程</a>，修改配置文件
@@ -1076,14 +1146,14 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>开启对邮件的 S/MIME 签名服务，将你的S/MIME私钥保存到
-<code>${gitlab_path}/.gitlab_smime_key</code>，公钥保存到
-<code>${gitlab_path}/.gitlab_smime_cert</code></p>
+<code>$gitlab_path/.gitlab_smime_key</code>，公钥保存到
+<code>$gitlab_path/.gitlab_smime_cert</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sed -i <span class="s2">&#34;103s/# enabled:.*/enabled: true/&#34;</span> config/gitlab.yml
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;103s/# enabled:.*/enabled: true/&#34;</span> config/gitlab.yml
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>配置完成后重启服务即可，如果需要验证SMTP是否工作，可以使用以下命令</p>
@@ -1093,14 +1163,32 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Notify.test_email(&#39;</span><span class="si">${</span><span class="nv">gitlab_email_reply</span><span class="si">}</span><span class="s2">&#39;, &#39;Message Subject&#39;, &#39;Message Body&#39;).deliver_now&#34;</span> <span class="p">|</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>sudo -u git -H bundle <span class="nb">exec</span> rails console -e production
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;Notify.test_email(&#39;</span><span class="nv">$gitlab_email_reply</span><span class="s2">&#39;, &#39;Message Subject&#39;, &#39;Message Body&#39;).deliver_now&#34;</span> <span class="o">|</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rails console <span class="na">-e</span> production
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="lychee" class="headerLink">
     <a href="#lychee" class="header-mark"></a>Lychee</h2><p>Lychee 现在是由 LycheeOrg 维护的开源项目，旨在实现一个简单易用的照片管理系统，我们搭建服务将使用 4.x 版本作为示例</p>
-<p>Lychee 是目前为数不多的支持 PostgreSQL 的图床，不过遗憾的是不支持 SVG 图片</p>
-<h3 id="lychee-依赖" class="headerLink">
+<p>Lychee 是目前为数不多的支持 PostgreSQL 的图床</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">lychee_path</span> /path/to/lychee
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">lychee_version</span> v4.<span class="m">0</span>.<span class="m">8</span>
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">lychee_host</span> example.com
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">lychee_db_user</span> lychee
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">lychee_db_passwd</span> YourPassword
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">lychee_db_name</span> lychee
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="lychee-依赖" class="headerLink">
     <a href="#lychee-%e4%be%9d%e8%b5%96" class="header-mark"></a>Lychee 依赖</h3><p>由于 Lychee 同样也是 PHP 开发的服务，所以已经安装 Nextcloud 的情况下，并不需要再安装 PHP 相关的其他 package (当然除了 PHP 的依赖管理器 composer)</p>
 <p>PHP &gt;= 7.4，依赖的扩展 (可以使用命令 <code>php -m</code> 查看已安装的扩展)</p>
 <ul>
@@ -1129,9 +1217,9 @@ PostgreSQL (&gt; 9.2)，我们继续使用 PostgreSQL 就好</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo adduser --disabled-login --gecos <span class="s1">&#39;Lychee&#39;</span> <span class="si">${</span><span class="nv">lychee_db_user</span><span class="si">}</span>
-</span></span><span class="line"><span class="cl">sudo -u postgres -H psql -c <span class="s2">&#34;CREATE USER </span><span class="si">${</span><span class="nv">lychee_db_user</span><span class="si">}</span><span class="s2"> WITH PASSWORD &#39;</span><span class="si">${</span><span class="nv">lychee_db_passwd</span><span class="si">}</span><span class="s2">&#39;&#34;</span>
-</span></span><span class="line"><span class="cl">sudo -u postgres -H psql -c <span class="s2">&#34;CREATE DATABASE </span><span class="si">${</span><span class="nv">lychee_db_name</span><span class="si">}</span><span class="s2"> OWNER </span><span class="si">${</span><span class="nv">lychee_db_user</span><span class="si">}</span><span class="s2">&#34;</span>
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">useradd</span> <span class="nv">$lychee_db_user</span> <span class="na">--create-home</span> <span class="na">--shell</span> /sbin/nologin
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> postgres <span class="na">-H</span> psql <span class="na">-c</span> <span class="s2">&#34;CREATE USER </span><span class="nv">$lychee_db_user</span><span class="s2"> WITH PASSWORD &#39;</span><span class="nv">$lychee_db_passwd</span><span class="s2">&#39;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> postgres <span class="na">-H</span> psql <span class="na">-c</span> <span class="s2">&#34;CREATE DATABASE </span><span class="nv">$lychee_db_name</span><span class="s2"> OWNER </span><span class="nv">$lychee_db_user</span><span class="s2">&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>我们将安装 v4.0.8，更多详细版本信息请浏览 <a href="https://lycheeorg.github.io/docs/releases.html" target="_blank" rel="noopener noreffer">更新日志</a></p>
@@ -1143,10 +1231,10 @@ PostgreSQL (&gt; 9.2)，我们继续使用 PostgreSQL 就好</p>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git clone https://www.github.com/LycheeOrg/Lychee -b <span class="si">${</span><span class="nv">lychee_version</span><span class="si">}</span> <span class="si">${</span><span class="nv">lychee_path</span><span class="si">}</span>
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> <span class="si">${</span><span class="nv">lychee_path</span><span class="si">}</span>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git clone https://www.github.com/LycheeOrg/Lychee -b <span class="nv">$lychee_version</span> <span class="nv">$lychee_path</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> <span class="nv">$lychee_path</span>
 </span></span><span class="line"><span class="cl">composer install --no-dev
-</span></span><span class="line"><span class="cl">chown -R www-data:www-data <span class="si">${</span><span class="nv">lychee_path</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">chown -R www-data:www-data <span class="nv">$lychee_path</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>关于 Web 服务器的配置官方已经给出了 <a href="https://lycheeorg.github.io/docs/#nginx" target="_blank" rel="noopener noreffer">Nginx</a> 和 <a href="https://lycheeorg.github.io/docs/#apache" target="_blank" rel="noopener noreffer">Apache</a> 的相关配置</p>
@@ -1203,53 +1291,53 @@ PostgreSQL (&gt; 9.2)，我们继续使用 PostgreSQL 就好</p>
 </span><span class="lnt">47
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;- EOF &gt; ${lychee_path}/.env
-</span></span></span><span class="line"><span class="cl"><span class="s">APP_NAME=Lychee
-</span></span></span><span class="line"><span class="cl"><span class="s">APP_ENV=production
-</span></span></span><span class="line"><span class="cl"><span class="s">APP_DEBUG=false
-</span></span></span><span class="line"><span class="cl"><span class="s">APP_URL=http://${lychee_host}
-</span></span></span><span class="line"><span class="cl"><span class="s">APP_KEY=
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">DEBUGBAR_ENABLED=false
-</span></span></span><span class="line"><span class="cl"><span class="s">LOG_CHANNEL=stack
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">DB_CONNECTION=pgsql
-</span></span></span><span class="line"><span class="cl"><span class="s">DB_HOST=localhost
-</span></span></span><span class="line"><span class="cl"><span class="s">DB_PORT=5432
-</span></span></span><span class="line"><span class="cl"><span class="s">DB_DATABASE=${lychee_db_name}
-</span></span></span><span class="line"><span class="cl"><span class="s">DB_USERNAME=${lychee_db_user}
-</span></span></span><span class="line"><span class="cl"><span class="s">DB_PASSWORD=${lychee_db_passwd}
-</span></span></span><span class="line"><span class="cl"><span class="s">DB_LOG_SQL=false
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">TIMEZONE=Asia/Shanghai
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">BROADCAST_DRIVER=log
-</span></span></span><span class="line"><span class="cl"><span class="s">CACHE_DRIVER=file
-</span></span></span><span class="line"><span class="cl"><span class="s">SESSION_DRIVER=file
-</span></span></span><span class="line"><span class="cl"><span class="s">SESSION_LIFETIME=120
-</span></span></span><span class="line"><span class="cl"><span class="s">QUEUE_DRIVER=sync
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">REDIS_HOST=/var/run/redis/redis.sock
-</span></span></span><span class="line"><span class="cl"><span class="s">REDIS_PASSWORD=null
-</span></span></span><span class="line"><span class="cl"><span class="s">REDIS_PORT=0
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">MAIL_DRIVER=smtp
-</span></span></span><span class="line"><span class="cl"><span class="s">MAIL_HOST=
-</span></span></span><span class="line"><span class="cl"><span class="s">MAIL_PORT=
-</span></span></span><span class="line"><span class="cl"><span class="s">MAIL_USERNAME=
-</span></span></span><span class="line"><span class="cl"><span class="s">MAIL_PASSWORD=
-</span></span></span><span class="line"><span class="cl"><span class="s">MAIL_ENCRYPTION=
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">PUSHER_APP_ID=
-</span></span></span><span class="line"><span class="cl"><span class="s">PUSHER_APP_KEY=
-</span></span></span><span class="line"><span class="cl"><span class="s">PUSHER_APP_SECRET=
-</span></span></span><span class="line"><span class="cl"><span class="s">PUSHER_APP_CLUSTER=mt1
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">MIX_PUSHER_APP_KEY=&#34;\${PUSHER_APP_KEY}&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s">MIX_PUSHER_APP_CLUSTER=&#34;\${PUSHER_APP_CLUSTER}&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
-</span></span><span class="line"><span class="cl">chown www-data:www-data <span class="si">${</span><span class="nv">lychee_path</span><span class="si">}</span>/.env
-</span></span><span class="line"><span class="cl">sudo -u www-data php artisan key:generate
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">bash</span> <span class="na">-c</span> <span class="s2">&#34;cat &lt;&lt;- EOF &gt; </span><span class="nv">$lychee_path</span><span class="s2">/.env
+</span></span></span><span class="line"><span class="cl"><span class="s2">APP_NAME=Lychee
+</span></span></span><span class="line"><span class="cl"><span class="s2">APP_ENV=production
+</span></span></span><span class="line"><span class="cl"><span class="s2">APP_DEBUG=false
+</span></span></span><span class="line"><span class="cl"><span class="s2">APP_URL=http://</span><span class="nv">$lychee_host</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">APP_KEY=
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">DEBUGBAR_ENABLED=false
+</span></span></span><span class="line"><span class="cl"><span class="s2">LOG_CHANNEL=stack
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">DB_CONNECTION=pgsql
+</span></span></span><span class="line"><span class="cl"><span class="s2">DB_HOST=localhost
+</span></span></span><span class="line"><span class="cl"><span class="s2">DB_PORT=5432
+</span></span></span><span class="line"><span class="cl"><span class="s2">DB_DATABASE=</span><span class="nv">$lychee_db_name</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">DB_USERNAME=</span><span class="nv">$lychee_db_user</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">DB_PASSWORD=</span><span class="nv">$lychee_db_passwd</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">DB_LOG_SQL=false
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">TIMEZONE=Asia/Shanghai
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">BROADCAST_DRIVER=log
+</span></span></span><span class="line"><span class="cl"><span class="s2">CACHE_DRIVER=file
+</span></span></span><span class="line"><span class="cl"><span class="s2">SESSION_DRIVER=file
+</span></span></span><span class="line"><span class="cl"><span class="s2">SESSION_LIFETIME=120
+</span></span></span><span class="line"><span class="cl"><span class="s2">QUEUE_DRIVER=sync
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">REDIS_HOST=/var/run/redis/redis.sock
+</span></span></span><span class="line"><span class="cl"><span class="s2">REDIS_PASSWORD=null
+</span></span></span><span class="line"><span class="cl"><span class="s2">REDIS_PORT=0
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">MAIL_DRIVER=smtp
+</span></span></span><span class="line"><span class="cl"><span class="s2">MAIL_HOST=
+</span></span></span><span class="line"><span class="cl"><span class="s2">MAIL_PORT=
+</span></span></span><span class="line"><span class="cl"><span class="s2">MAIL_USERNAME=
+</span></span></span><span class="line"><span class="cl"><span class="s2">MAIL_PASSWORD=
+</span></span></span><span class="line"><span class="cl"><span class="s2">MAIL_ENCRYPTION=
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">PUSHER_APP_ID=
+</span></span></span><span class="line"><span class="cl"><span class="s2">PUSHER_APP_KEY=
+</span></span></span><span class="line"><span class="cl"><span class="s2">PUSHER_APP_SECRET=
+</span></span></span><span class="line"><span class="cl"><span class="s2">PUSHER_APP_CLUSTER=mt1
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">MIX_PUSHER_APP_KEY=\&#34;\${PUSHER_APP_KEY}\&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">MIX_PUSHER_APP_CLUSTER=\&#34;\${PUSHER_APP_CLUSTER}\&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">EOF&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">chown</span> www-data:www-data <span class="nv">$lychee_path</span>/.env
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> www-data php artisan key:generate
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>最后只需要配置 Nginx 相关内容即可</p>
@@ -1259,7 +1347,7 @@ PostgreSQL (&gt; 9.2)，我们继续使用 PostgreSQL 就好</p>
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>更新于 04-08</span>
+                <span>更新于 05-06</span>
             </div>
             <div class="post-info-license"></div>
         </div>
