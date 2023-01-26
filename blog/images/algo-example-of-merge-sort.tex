@@ -1,0 +1,121 @@
+% https://tex.stackexchange.com/a/592169
+% CC BY-SA 4.0 (c) 2021 SebGlav
+\documentclass[border=0.8ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usetikzlibrary{shapes.multipart}
+\def\lvld{1.2}                  % Choose level distance
+\pgfmathsetmacro\shft{-6*\lvld} % Calculate the yshift for the green tree
+\begin{document}
+\begin{tikzpicture}[
+  level distance=\lvld cm,
+  level 1/.style={sibling distance=4cm},
+  level 2/.style={sibling distance=2cm},
+  level 3/.style={sibling distance=1cm},
+  every one node part/.style={text width=1em,text height=.9em,text depth=.2em},
+  every two node part/.style={text width=1em,text height=.9em,text depth=.2em},
+  every three node part/.style={text width=1em,text height=.9em,text depth=.2em},
+  every four node part/.style={text width=1em,text height=.9em,text depth=.2em},
+  every five node part/.style={text width=1em,text height=.9em,text depth=.2em},
+  every six node part/.style={text width=1em,text height=.9em,text depth=.2em},
+  every seven node part/.style={text width=1em,text height=.9em,text depth=.2em},
+  every node/.style={
+    thin,
+    draw=Black,
+    align=center,
+    outer sep=0pt,
+    rectangle split,
+    rectangle split horizontal,
+  },
+  nblock/.append style={
+    draw=none,
+    rectangle split parts=1,
+  },
+  ]
+  \begin{scope}[
+    block/.style n args={1}{fill=Green!30,rectangle split parts=#1},
+    edge from parent/.style={draw=Green!50!Black,thick,>=latex},
+    ]
+    \node[block={7},yshift=\shft cm] (A') {
+      \nodepart{one}3 \nodepart{two} 9 \nodepart{three}10 \nodepart{four}27
+      \nodepart{five}39 \nodepart{six}43 \nodepart{seven}82
+    }
+    [grow=up,<-]
+    child{
+      node[block={3}] (B2')
+      { \nodepart{one}9 \nodepart{two}10 \nodepart{three}82 }
+      child{
+        node[block={1}] (C4') {\nodepart{one}10}
+        child{ node[nblock]{} }
+      }
+      child {
+        node[block={2}] (C2') {\nodepart{one}9 \nodepart{two}82}
+        child{ node[nblock]{} }
+        child{ node[nblock]{} }
+      }
+    }
+    child{
+      node[block={4}] (B1') {
+        \nodepart{one}3 \nodepart{two}27
+        \nodepart{three}39 \nodepart{four} 43
+      }
+      child{
+        node[block={2}] (C3') {\nodepart{one}3 \nodepart{two}43}
+        child{ node[nblock]{} }
+        child{ node[nblock]{} }
+      }
+      child{
+        node[block={2}] (C1') {\nodepart{one}27 \nodepart{two}39}
+        child{ node[nblock]{} }
+        child{ node[nblock]{} }
+      }
+    };
+  \end{scope}
+  \begin{scope}[
+    block/.style n args={1}{fill=Red!30,rectangle split parts=#1},
+    edge from parent/.style={draw=Red,thick,>=latex},
+    ]
+    \node[block={7}] (A) {
+      \nodepart{one}39 \nodepart{two}27 \nodepart{three}43 \nodepart{four}3
+      \nodepart{five}9 \nodepart{six}82 \nodepart{seven}10
+    }
+    [grow=down,->]
+    child {
+      node[block={4}] (B1) {
+        \nodepart{one}39 \nodepart{two}27
+        \nodepart{three}43 \nodepart{four}3
+      }
+      child{
+        node[block={2}] (C1) {\nodepart{one}39 \nodepart{two} 27}
+        child{ node[nblock](D1){} }
+        child{ node[nblock](D2){} }
+      }
+      child{
+        node[block={2}] (C2) {\nodepart{one}43 \nodepart{two}3}
+        child{ node[nblock](D3){} }
+        child{ node[nblock](D4){} }
+      }
+    }
+    child {
+      node[block={3}] (B2) {\nodepart{one}9 \nodepart{two}82 \nodepart{three}10}
+      child {
+        node[block={2}] (C3) {\nodepart{one}9 \nodepart{two}82}
+        child{ node[nblock](D5){} }
+        child{ node[nblock](D6){} }
+      }
+      child{
+        node[block={1}] (C4) {\nodepart{one}10}
+        child{ node[nblock](D7){} }
+      }
+    };
+  \end{scope}
+  \begin{scope}[every node/.append style={nblock,draw=Black,fill=Black!30}]
+    \foreach[count=\i] \val in {39,27,43,3,9,82,10}{
+      \node at(D\i) {\nodepart{one}\val};
+    }
+  \end{scope}
+\end{tikzpicture}
+\end{document}

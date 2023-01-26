@@ -1,0 +1,75 @@
+\documentclass[border=0.8ex,svgnames,varwidth]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+
+\usepackage{bytefield}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{xparse}
+\captionsetup{
+  font=scriptsize,
+  labelfont=it,
+  textfont=rm,
+  labelformat=parens,
+  position=above,
+  labelsep=space,
+  justification=centering,
+}
+\newsavebox{\bytefieldbox}
+\NewDocumentEnvironment{subfigurebox}{mmm}%
+{% start of environment
+  \begin{lrbox}{\bytefieldbox}
+    \begin{bytefield}[bitheight=4ex,boxformatting={\centering\small}]{16}
+      \wordbox[]{1}{\textcolor{PowderBlue}{#1}}\\
+      \bitheader{0,7,8,15}\\
+      \begin{rightwordgroup}{#2}
+      }%
+      {% end of environment
+      \end{rightwordgroup}
+    \end{bytefield}
+  \end{lrbox}
+  \begin{subfigure}[t]{.18\linewidth}
+    \centering\resizebox{\linewidth}{!}{\usebox{\bytefieldbox}}
+    \caption{#3}
+  \end{subfigure}
+}%
+\begin{document}
+\begin{figure}
+  \centering
+  \begin{subfigurebox}{sockaddr\_in}{16 bytes}{IPv4}
+    \bitbox{8}[bgcolor=Silver]{length} & \bitbox{8}{AF\_INET} \\
+    \wordbox{1}{port} \\
+    \wordbox{2}{addr (32 bits)} \\
+    \wordbox{4}[bgcolor=Silver]{unused}
+  \end{subfigurebox}
+  \hfill
+  \begin{subfigurebox}{sockaddr\_in6}{28 bytes}{IPv6}
+    \bitbox{8}[bgcolor=Silver]{length} & \bitbox{8}{AF\_INET6} \\
+    \wordbox{1}{port} \\
+    \wordbox{2}[bgcolor=Silver]{flow label (32 bits)} \\
+    \wordbox{8}{addr (128 bits)} \\
+    \wordbox{2}{scope ID (32 bits)}
+  \end{subfigurebox}
+  \hfill
+  \begin{subfigurebox}{sockaddr\_un}{variable}{Unix Domain}
+    \bitbox{8}{length} & \bitbox{8}{AF\_LOCAL} \\
+    \wordbox{12}{pathname (up to 104 bytes)}
+  \end{subfigurebox}
+  \hfill
+  \begin{subfigurebox}{sockaddr\_dl}{variable}{Datalink}
+    \bitbox{8}{length} & \bitbox{8}{AF\_LINK} \\
+    \wordbox{1}{interface index} \\
+    \bitbox{8}{type} & \bitbox{8}{name len} \\
+    \bitbox{8}{addr len} & \bitbox{8}{sel len} \\
+    \wordbox{8}{interface name and link-layer addr}
+  \end{subfigurebox}
+  \hfill
+  \begin{subfigurebox}{sockaddr\_storage}{128 bytes}{Storage}
+    \bitbox{8}{length} & \bitbox{8}{AF\_xxxx} \\
+    \wordbox{8}[bgcolor=Silver]{user opaque}
+  \end{subfigurebox}
+\end{figure}
+\end{document}

@@ -1,0 +1,823 @@
+#+hugo_categories: CompilerPrinciple
+#+hugo_tags: Note DragonBook SyntacticAnalysis
+#+hugo_draft: false
+#+hugo_locale: zh
+#+hugo_lastmod: 2022-04-30T15:09:46+08:00
+#+hugo_auto_set_lastmod: nil
+#+hugo_front_matter_key_replace: author>authors
+#+hugo_custom_front_matter: :subtitle 自底向上语法分析
+#+hugo_custom_front_matter: :series ["龙书学习笔记"] :series_weight 6
+#+title: 语法分析 3
+#+subtitle: 自底向上语法分析
+#+author: GinShio
+#+date: 2022-04-20T16:25:13+08:00
+#+email: ginshio78@gmail.com
+#+description: GinShio | 编译原理第四章 4.5 4.6 4.7 读书笔记
+#+keywords: CompilerPrinciple Note DragonBook SyntacticAnalysis
+#+export_file_name: CompilerPrinciple_006.zh-cn.txt
+
+一个自底向上的语法分析过程对应于为输入字符串构造语法分析树的过程，它从叶节点开始
+开始逐渐向上构造。虽然大部分编译器前端不会显示构造语法分析树，而是直接翻译，但自
+底向上构建有些像构建语法分析树。
+
+移入归约语法分析是自底向上语法分析的通用框架。LR 文法就是采用移入-归约语法分析的
+文法。
+
+* 移入-归约
+** 归约
+将语法分析过程，看作输入串 w ~归约~ (reduction) 为文法开始符号的过程， 在归约步
+骤中，一个与某产生式体相匹配的特定子串被替换为该产生式头部的非终结符。
+
+自底向上语法分析过程中，最关键的是何时进行归约，以及应用哪个产生式进行归约。
+
+当然归约是推导步骤的反向操作，不过可以是 *最右* 推导。
+
+** 句柄剪枝
+对输入进行从左向右扫描，并在扫描过程中进行自底向上语法分析，就可以反向构造出最右
+推导。简单地说，​*句柄* 是和某个产生式体匹配的子串，对它的归约代表了相应最右推导
+中的一个反向步骤。
+
+如果有 \(\textit{S}\xRightarrow[rm]{*}\alpha\textit{A}w\xRightarrow[rm]{}\alpha\beta{}w\)，那
+么紧跟 \(\alpha\) 的产生式 \(\textit{A}\rightarrow\beta\) 是 \(\alpha\beta{}w\) 的一个 *句柄* (handle)。换句
+话说，最右句型 \(\gamma\) 的一个句柄是满足以下条件的产生式 \(\textit{A}\rightarrow\beta\) 及串
+\(\beta\) 在 \(\gamma\) 中出现的位置：将这个位置上的 \(\beta\) 替换为 /A/ 之后得到的串是
+\(\gamma\) 的某个最右推导序列中出现在位于 \(\gamma\) 之前的最右句型。
+
+[[file:../images/CompilerPrinciple/alpha-beta-w-parsing-tree-handle.svg]]
+
+句柄右边的串 w 一定只包含终结符，即产生式体 \(\beta\) 称为一个句柄 (而不是
+\(\textit{A}\rightarrow\beta\))，如果文法有二义性时可能存在多个最右推导，但无二义性的文法有且
+仅有一个句柄。通过​*句柄剪枝*​可以得到一个反向的最右推导。
+
+** 移入-规约语法分析技术
+该语法分析使用栈来保存符号，并用一个输入缓冲区来存放将要进行语法分析的其余符号。
+句柄在被识别之前，总是出现在栈顶的。
+
+在栈中依然用 \(\$\) 标记栈底位置，在从左到右扫描输入串时，语法分析器将零个或多个
+输入符号移动到栈顶，直到对栈顶的一个文法符号串 \(\beta\) 进行归约为止。语法分析器将
+不断重复这个过程，直到检测到错误，或栈中包含了开始符号且输入缓冲区为空为止。此时
+宣告语法分析完成。
+
+语法分析器主要由四个动作构成
+  - 移入 (shift) :: 将下一个输入符号移到栈顶
+  - 归约 (reduce) :: 被归约的符号串的右端必然是栈顶，语法分析器在栈中确定这个栈的
+    左端，并决定用哪个非终结符来替换这个串
+  - 接受 (accept) :: 语法分析完成
+  - 报错 (error) :: 发现一个语法错误，调用错误恢复过程
+
+使用栈主要是因为在语法分析过程中有个重要的性质：​*句柄总出现在栈顶，绝不会出现在
+栈中*​。
+
+** 移入-归约语法分析中的冲突
+某些上下文无关文法无法使用移入-归约语法分析技术，对于这样的文法可能出现如下
+configuration：虽然知道栈中的所有内容以及接下来的 k 个输入符号，
+  - 移入/归约冲突 :: 无法判断应该进行移动还是归约
+  - 归约/归约冲突 :: 无法在多个可能的归约方法中原则正确的归约
+
+简单的来看一个有关过程调用和数组引用的文法
+
+#+begin_LaTeX
+\begin{align}
+stmt&\rightarrow\textbf{id}\ \texttt{(}\ parameter\_list\ \texttt{)}\\
+stmt&\rightarrow expr\ \texttt{::=}\ expr\\
+parameter\_list&\rightarrow parameter\_list \ ,\ parameter\\
+parameter\_list&\rightarrow parameter\\
+parameter&\rightarrow \textbf{id}\\
+expr&\rightarrow \textbf{id} \ \texttt{(}\ expr\_list \ \texttt{)}\\
+expr&\rightarrow \textbf{id}\\
+expr\_list&\rightarrow expr\_list \ ,\ expr\\
+expr\_list&\rightarrow expr
+\end{align}
+#+end_LaTeX
+
+对一个以 \(p(i, j)\) 开头的语句以词法单元流 \(\textbf{id}(\textbf{id},
+\textbf{id})\) 的方式输入词法分析器。在处于如下 configuration 时，
+
+栈 \(\cdots \textbf{id} ( \textbf{id}\)，输入 \(, \textbf{id} )\cdots\)
+
+此时应该归约栈顶的 *id*​，但选用哪个产生式呢？如果：
+  - p 是一个过程，那么正确的选择是产生式 ~5~
+  - p 是一个数组，那么正确的选择是产生式 ~7~
+
+这将产生归约/归约冲突。
+
+这必须在 p 的声明中来确定符号表中的信息。相对简单地方法是，将产生式 ~1~ 中的词法
+单元 *id* 改为 *procid*​，使用更加复杂的词法分析器，在识别到过程名字的词素时返回
+词法单元名 *procid*​。
+
+可以发现，移入-归约语法分析技术可以使用栈中离栈顶较远的信息来引导语法分析过程。
+
+
+* 简单 LR 技术
+与 LL(1) 技术类似，​~LR(k)~ 技术即从左向右扫描的最右推导过程，语法分析决定最多向
+前看 k 个字符。
+
+最简单的移入-规约语法分析方法被称为 ~SLR~ (简单 LR 技术)。
+
+** 为什么使用 LR 语法分析器
+LR 分析器是表格驱动的，与迭代 LL 语法分析器类似。并且只要存在从左到右的移入-归约
+语法分析器，它总能在某文法的最右句型的句柄出现在栈顶时识别出句柄，那么这个文法是
+LR 的。
+
+LR 语法分析技术的吸引力如下：
+  - 对几乎所有的程序设计语言都糟，只要能写出该构造的上下文无关文法，就能构造出识
+    别该构造的 LR 语法分析器。确实存在非 LR 的上下文无关文法，但一般来说构造都可
+    以避免这样的文法。
+  - LR 语法分析方法是已知最通用的无回溯移入-归约方法，并且实现可以和其他更原始的
+    移入-归约方法一样高效。
+  - 一个 LR 语法分析器可以在对输入进行从左到右扫描时，尽可能早地检测到错误。
+  - 可以使用 LR 方法进行语法分析的文法类是可以使用预测方法或 LL 方法进行语法分析
+    的文法类的真超集。因此 LR 文法能够比 LL 文法描述更多的程序设计语言。
+    - ~LR(k)~ 文法是，当在一个最右句型中看到某个产生式的右部时，再向前看 k
+      个符号就可以决定是否使用这个产生式进行归约
+    - ~LL(k)~ 文法是，决定是否使用某个产生式时，只能向前看该产生式右部推导出的串
+      的前 k 个符号
+
+LR 方法的主要缺点是，为一个典型的程序设计语言文法手工构造 LR 分析器的工作量非常
+大。因此有很多通用的 LR 语法分析生成器的工具诞生，简化了 LR 分析器构造的工作量。
+
+** 项和 LR(0) 自动机
+那么一个语法分析器怎么知道何时移入、何时归约的呢？
+
+一个 IR 语法分析器通过维护一些状态，用这些状态来表明我们在语法分析过程中所处的位
+置，从而做出移入-归约决定。这些状态代表了​*项* (item) 的集合。一个文法 G 的一个
+LR (0) 项是 G 的一个产生式再加上一个位于它的体中某处的点。因此，产生式
+\(\textit{A}\rightarrow\textit{XYZ}\) 产生了四个项：
+
+\[\begin{aligned}
+\textit{A} &\rightarrow \cdot\textit{XYZ}\\
+\textit{A} &\rightarrow \textit{X}\cdot\textit{YZ}\\
+\textit{A} &\rightarrow \textit{XY}\cdot\textit{Z}\\
+\textit{A} &\rightarrow \textit{XYZ}\cdot
+\end{aligned}\]
+
+产生式 \(\textit{A}\rightarrow\varepsilon\) 只生成一个项 \(\textit{A}\rightarrow\cdot\) 。
+
+一个称为​*规范 LR(0) 项集族*​的一组项集提供了构建一个确定有穷自动机的基础，该自动
+机用于做出语法分析决定，这样的自动机被称为 LR(0) 自动机。这个自动机的每个状态代
+表了规范 LR(0) 项集族中的一个项集。
+
+为了构造一个文法的规范 LR(0) 项集族，我们定义了一个增广文法和两个函数 =CLOSURE=
+和 =GOTO=​。如果 G 是以 S 为开始符号的文法，那么 G 的增广文法 \(\textit{G}^{'}\)
+就是在 G 中加上新的开始符号 \(\textit{S}^{'}\) 和产生式
+\(\textit{S}^{'}\rightarrow\textit{S}\) 的文法。引入新的产生式的目的是告诉文法分析器何时应
+该停止语法分析并宣称接受输入符号串。
+
+对于之前反复提到的示例 *id* =+= *id* =*= *id*​，可以构造出如下自动机。
+
+[[file:../images/CompilerPrinciple/LR-0-automachine-example.svg]]
+
+*** 项集的闭包
+如果 /I/ 是文法 G 的一个项集，那么 \(\texttt{CLOSURE}(\textit{I})\) 就是根据以下
+两个规则从 /I/ 构造得到的：
+  1. 将 /I/ 中的各个项加入到 \(\texttt{CLOSURE}(\textit{I})\) 中
+  2. 如果 \(\textit{A}\rightarrow\alpha\cdot\textit{B}\beta\) 在 \(\texttt{CLOSURE}(\textit{I})\) 中，
+     \(\textit{B}\rightarrow\gamma\) 是一个产生式，并且项 \(\textit{B}\rightarrow\cdot\gamma\) 不在
+     \(\texttt{CLOSURE}(\textit{I})\) 中，就将这个项加入其中。不断应用这个规则，
+     直到没有新项可以加入 \(\texttt{CLOSURE}(\textit{I})\) 中为止。
+
+closure 可以按照以下方式计算。函数 closure 可以添加一个 added 数组来方便实现，该
+数组下标是 G 的非终结符，当各个 B 的产生式 \(\textit{B}\rightarrow\gamma\) 加入对应的项
+\(\textit{B}\rightarrow\cdot\gamma\) 时，​=added[B]= 被设置为 *true*​。
+
+#+begin_verse
+SetOfItems CLOSURE(/I/) {
+    /J/ = /I/;
+    *repeat*
+        *for* (/J/ 中的每个项 \(\textit{A}\rightarrow\alpha\cdot\textit{B}\beta\))
+            *for* (/G/ 的每个产生式 \(\textit{B}\rightarrow\gamma\))
+                *if* (项 \(\textit{B}\rightarrow\cdot\gamma\) 不在 /G/ 中)
+                    将 \(\textit{B}\rightarrow\cdot\gamma\) 添加到 /J/ 中;
+    *until* 没有可以被加入到 /J/ 中的项;
+    *return* /J/;
+}
+#+end_verse
+
+如果点在最左端的产生式 /B/ 被加入 /I/ 中，那么所有 /B/ 的产生式都会被加入 /I/ 的
+闭包中。因此在某些情况下，不需要真的将那些被 \(\texttt{CLOSURE}\) 函数加入到 /I/
+中的项 \(\textit{B}\rightarrow\cdot\gamma\) 列出来，只需要列出这些被加入的产生式的左部非终结符就行。
+可以将各项分为两类：
+  - 内核项 ::
+    包括初始化 \(\textit{S}^{'}\rightarrow\cdot\textit{S}\) 以及点不在最左端的所有项
+  - 非内核项 ::
+    除了 \(\textit{S}^{'}\rightarrow\cdot\textit{S}\) 之外的所有点在最左端的所有项
+
+感兴趣的项集是某个内核项集合的闭包，求闭包加入的项必然是非内核项。如果我们抛弃所
+有非内核项，就可以用很少的内存来表示真正感兴趣的项的集合，因为我们已知这些非内核
+项可以通过闭包运算重新生成。即之前构造出自动机的阴影部分。
+
+*** GOTO 函数
+~GOTO(I,X)~​，其中 /I/ 是一个项集而 /X/ 是一个文法符号。​~GOTO(I,X)~ 被定义为 /I/
+中所有形如 \([\textit{A}\rightarrow\alpha\cdot\textit{X}\beta]\) 的项所对应的项
+\([\textit{A}\rightarrow\alpha\textit{X}\cdot\beta]\) 的集合的闭包。简单地说，就是自动机的状态转换。示
+例自动机，\(\texttt{GOTO}(\textit{I}_{1}, +)\) 的结果为项集 \(\textit{I}_{6}\)。
+
+现在我们可以构造出增广文法 \(\textit{G}^{'}\) 的规范 LR(0) 项集族 /C/ 的算法。
+#+begin_verse
+*void* items(\(\textit{G}^{'}\)) {
+    C = {\(\texttt{CLOSURE}\)(\([\textit{S}^{'}\rightarrow\cdot\textit{S}]\))};
+    *repeat*
+        *for* (/C/ 中的每个项集 /I/)
+            *for* (每个文法符号 /X/)
+                *if* (\(\texttt{GOTO}(\textit{I}, \textit{X})\) 非空且不在 /C/ 中)
+                    将 \(\texttt{GOTO}(\textit{I}, \textit{X})\) 加入 /C/ 中;
+    *until* 在某轮中没有新的项集加入到 /C/ 中;
+}
+#+end_verse
+
+*** LR(0) 自动机的用法
+SLR 的中心思想是根据文法构造出 LR(0) 自动机。这个自动机的状态是规范 LR(0) 项集族
+中的元素，而它的转换由 \(\texttt{GOTO}\) 函数给出。
+
+状态 j 是指对应的与项集 \(\textit{I}_{j}\) 的状态。LR(0) 自动机从开始状态 0 运行
+到某个状态 j，如果下一个输入符号为 a 且状态 j 有一个 a 上的转换，那么就移入 a，
+否则就进行归约。
+
+** LR 语法分析算法
+还记得 LL 语法分析的非递归预测分析中提到的​*分析表驱动的语法分析器*​吗，我们的 LR
+语法分析器与它很像。
+
+[[file:../images/CompilerPrinciple/LR-parser-model.svg]]
+
+所有 LR 语法分析器的驱动程序都是相同的，而语法分析表是根据语法分析器的不同而变化
+的。每个状态都有一个对应的文法符号，各个状态都和每个项集对应，并有从状态 i 到状
+态 j 的转换 \(\texttt{GOTO}(\textit{I}_{i}, \textit{X}) = \textit{I}_{j}\)。所有
+到达状态 j 的转换一定对应于同一个文法符号 \(\textit{X}\)。因此，除了开始状态 0
+之外每个状态都和唯一的文法符号项关联。
+
+*** LR 语法分析表的结构
+语法分析表由语法分析动作函数 =ACTION= 和转换函数 =GOTO= 组成。
+  1. \(\texttt{ACTION}[i, a]\) 取值有四种形式:
+     1. 移入状态 j。语法分析器将输入符号 a 高效地移入栈中，并使用 j 来代表 a
+     2. 归约 \(\textit{A}\rightarrow\beta\)。语法分析器将栈顶的 \(\beta\) 高效地归约为产生式头 /A/
+     3. 接受。语法分析器接受输入并完成分析过程
+     4. 报错。发现语法分析错误并执行纠正动作
+  2. \(\texttt{GOTO}[\textit{I}_{i}, \textit{A}] = \textit{I}_{j}\)，将状态 i 与
+     非终结符 /A/ 映射到状态 j
+
+*** LR 语法分析器的行为
+语法分析器根据 configuration 决定下一个动作时，首先读入当前输入符号 \(a_{i}\) 和栈顶状态
+\(s_{m}\)，在分析动作表中查询条目 \(\texttt{ACTION}[s_{m}, a_{i}]\)。对于每个
+~ACTION~ 的形式结束后格局如下：
+
+  - 如果 ACTION 为移入 s，那么语法分析器将下一个状态 s 移入栈中，而输入符号
+    \(a_{i}\) 不需要存放在栈中
+  - 如果 ACTION 为归约 \(\textit{A}\rightarrow\beta\)，那么语法分析器进行一次归约操作。语法分
+    析器会先从栈中弹出 r 个状态 (r 是 \(\beta\) 的长度)，之后将状态 s
+    (\(\texttt{GOTO}[s_{m-r}, \textit{A}]\) 的值) 压入栈。而归约动作中，当前输入
+    符号不会改变。
+
+所有的 LR 语法分析器都会按照以下的算法执行，两个 LR 语法分析器之间唯一的区别即
+~ACTION~ 和 ~GOTO~ 包含的信息不同。
+
+#+begin_verse
+输入：一个输入串 w，一个 LR 语法分析表 (GOTO 和 ACTION)
+输出：如果 w 在 L(G) 中，输出 w 的自底向上语法分析过程的归约步骤，否则报错
+方法：语法分析器栈中最初为 \(s_{0}\)，输入缓冲区的内容为 \(w\$\)，然后执行以下算法
+
+令 a 为 \(w\$\) 的第一个符号;
+*while* (true) {
+    令 s 是栈顶状态;
+    *if* (\(\texttt{ACTION}[s, a] =\) 移入 t) {
+        将 t 压入栈;
+        令 a 为下一个符号;
+    } *else if* (\(\texttt{ACTION}[s, a] =\) 归约 \(\textit{A}\rightarrow\beta\)) {
+        从栈中弹出 \(\texttt{len}(\beta)\) 个符号;
+        令 t 为当前栈顶的符号;
+        将 \(\texttt{GOTO}[t, \textit{A}]\) 压入栈;
+        输出产生式 \(\textit{A}\rightarrow\beta\);
+    } *else if* (\(\texttt{ACTION}[s, a] =\) 接受) *break*;
+    *else* 调用错误恢复例程;
+}
+#+end_verse
+
+我们尝试构造一下老朋友 *id* =+= *id* =*= *id* 的语法分析表，首先对产生式进行编号：
+
+#+begin_LaTeX
+\begin{align}
+\textit{E} &\rightarrow \textit{E} + \textit{T}\tag{1}\\
+\textit{E} &\rightarrow \textit{T}\tag{2}\\
+\textit{T} &\rightarrow \textit{T} * \textit{F}\tag{3}\\
+\textit{T} &\rightarrow \textit{F}\tag{4}\\
+\textit{F} &\rightarrow (\textit{E})\tag{5}\\
+\textit{F} &\rightarrow \textbf{id}\tag{6}
+\end{align}
+#+end_LaTeX
+
+我们由如下规定
+  - si 表示移入并将状态 i 压入栈
+  - rj 表示将编号为 j 的产生式进行归约
+  - acc 表示接受
+  - 空白表示报错
+
+[[file:../images/CompilerPrinciple/analysis-table-of-SLR-example.svg]]
+
+** 构造 SLR 语法分析表
+构造增广文法 \(\textit{G}^{'}\) 的语法分析表方法如下：
+  1. 构造 \(\textit{G}^{'}\) 的规范 LR(0) 项集族 \(C = \{\textit{I}_{0},
+     \textit{I}_{1}, \cdots, \textit{I}_{n}\}\)
+  2. 根据 \(\textit{I}_{i}\) 构造出状态 i,状态 i 的语法分析动作按照下面的方法决
+     定。如果这些规则生成了任何冲突动作，那么文法就不是 SLR(1) 的，也就无法生成
+     语法分析器。
+     1. 如果 \([\textit{A}\rightarrow\alpha\cdot{}a\beta]\) 在 \(\textit{I}_{i}\) 中且
+        \(\texttt{GOTO}(\textit{I}_{i}, a) = \textit{I}_{j}\)，那么将
+        \(\texttt{ACTION}[i, a]\) 设置为移入 j，其中 a 必须是一个终结符
+     2. 如果 \([\textit{A}\rightarrow\alpha\cdot]\) 在 \(\textit{I}_{i}\) 中，那么对于
+        \(\texttt{FOLLOW}(\textit{A})\) 中的所有 a，将 \(\texttt{ACTION}[i, a]\)
+        设置为归约 \(\textit{A}\rightarrow\alpha\)，这里 \(\textit{A}\) 不为 \(\textit{S}^{'}\)
+     3. 如果 \([\textit{S}^{'}\rightarrow\textit{S}\cdot]\) 在 \(\textit{I}_{i}\) 中，那么将
+        \(\texttt{ACTION}[i, \$]\) 设置为接受
+  3. 状态 i 对于各个非终结符 /A/ 的 \(\texttt{GOTO}\) 转换使用下面的规则构造：如
+     果 \(\texttt{GOTO}(\textit{I}_{i}, \textit{A}) = \textit{I}_{j}\)，那么
+     \(\textit{GOTO}[i, \textit{A}] = j\)。
+  4. 规则 2 与规则 3 没有定义的所有条目都是报错。
+  5. 语法分析器的初始状态根据 \([\textit{S}^{'}\rightarrow\cdot\textit{S}]\) 所在的项集构造得
+     到的状态。
+
+每个 SLR 文法都是无二义性的，但还是存在一些非 SLR 的无二义性文法，如：
+\[\begin{aligned}
+\textit{S} &\rightarrow \textit{L} = \textit{R} \ |\ \textit{R}\\
+\textit{L} &\rightarrow * \textit{R} \ |\ \textbf{id}\\
+\textit{R} &\rightarrow \textit{L}
+\end{aligned}.\]
+
+其对应的规范 LR(0) 项集为：
+  - \(\textit{I}_{0}\)
+    \[\begin{aligned}
+    \textit{S}^{'} &\rightarrow \cdot\textit{S}\\
+    \textit{S} &\rightarrow \cdot\textit{L} = \textit{R}\\
+    \textit{S} &\rightarrow \cdot\textit{R}\\
+    \textit{L} &\rightarrow \cdot*\textit{R}\\
+    \textit{L} &\rightarrow \cdot\textbf{id}\\
+    \textit{R} &\rightarrow \cdot\textit{L}
+    \end{aligned}\]
+  - \(\textit{I}_{1}\)
+    \[\textit{S}^{'} \rightarrow \textit{S}\cdot\]
+  - \(\textit{I}_{2}\)
+    \[\begin{aligned}
+    \textit{S} &\rightarrow \textit{L}\cdot = \textit{R}\\
+    \textit{R} &\rightarrow \textit{L}\cdot
+    \end{aligned}\]
+  - \(\textit{I}_{3}\)
+    \[\textit{S} \rightarrow \textit{R}\cdot\]
+  - \(\textit{I}_{4}\)
+    \[\begin{aligned}
+    \textit{L} &\rightarrow *\cdot\textit{R}\\
+    \textit{R} &\rightarrow \cdot\textit{L}\\
+    \textit{L} &\rightarrow \cdot*\textit{R}\\
+    \textit{L} &\rightarrow \cdot\textbf{id}
+    \end{aligned}\]
+  - \(\textit{I}_{5}\)
+    \[\textit{L} \rightarrow \textbf{id}\cdot\]
+  - \(\textit{I}_{6}\)
+    \[\begin{aligned}
+    \textit{S} &\rightarrow \textit{L} = \cdot\textit{R}\\
+    \textit{R} &\rightarrow \cdot\textit{L}\\
+    \textit{L} &\rightarrow \cdot*\textit{R}\\
+    \textit{L} &\rightarrow \cdot\textbf{id}
+    \end{aligned}\]
+  - \(\textit{I}_{7}\)
+    \[\textit{L}\rightarrow*\textit{R}\cdot\]
+  - \(\textit{I}_{8}\)
+    \[\textit{R}\rightarrow\textit{L}\cdot\]
+  - \(\textit{I}_{9}\)
+    \[\textit{S}\rightarrow\textit{L}=\textit{R}\cdot\]
+
+项集 \(\textit{I}_{2}\) 告诉我们 \(\texttt{ACTION}[2, =]\) 是移入 6，而
+\(\texttt{FOLLOW}(\textit{R})\) 告诉我们 \(\texttt{ACTION}[2, =]\) 是归约
+\(\textit{R}\rightarrow\textit{L}\)，因此这回导致移入 / 归约冲突。产生的原因是 SLR 不够强
+大，之后更强大的 LR 语法分析可以成功处理更大的文法类型。当然有些无论什么 LR 方法
+都产生冲突的文法，在设计时都会避免使用。
+
+
+* 更强大的 LR 语法分析器
+扩展 LR(0) 语法分析技术，在输入中向前看一个符号，有两种方法：
+  1. *规范 LR*​，采用很大的 LR(1) 项集，充分利用向前符号
+  2. *向前看 LR*​ 或 *LALR*​，基于 LR(0) 项集族，但比 LR(1) 拥有更少的状态。可以构
+     造出更强的文法，同时分析表与 SLR 差不多大。
+
+** 规范 LR(1) 项
+回顾一下在 [[构造 SLR 语法分析表]] 中提到的那个无二义性文法，\(\textit{I}_{2}\) 要求
+按照 \(\textit{R}\rightarrow\textit{L}\) 归约，同时要求
+\(\textit{S}\rightarrow\textit{L}\cdot=\textit{R}\) 移入，很明显 \(\textit{I}_{2}\) 没有
+\(\textit{R}=\cdots\) 开头的最右句型，因此只能进行移入操作。
+
+如果我们在状态中添加额外的信息，在必要时分裂某些状态，设法让 LR 语法分析器的每个
+状态精确地指明哪些输入符号可以跟在句柄只有，从而使句柄被正确归约。
+
+这个额外的信息将项变为了 \([\textit{A}\rightarrow\alpha\cdot\beta,{}a]\)，其中 \(\textit{A}\rightarrow\alpha\beta\) 是产生
+式，a 是终结符或结束标记。我们称这样的对象为 LR(1) 项，第二个分量称为向前看符号。
+在形如 \([\textit{A}\rightarrow\alpha\cdot\beta,{}a]\) 且 \(\beta\ne\varepsilon\) 的项中向前看符没有任何用；但
+\([\textit{A}\rightarrow\alpha\cdot,{}a]\) 的项只有在下一个输入符号等于 a 时才进行归约。通常 a 的集
+合是 \(\texttt{FOLLOW}(\textit{A})\) 的子集。
+
+** 构造 LR(1) 项集
+构造 LR(1) 项集只需要改写 ~CLOSURE~ 和 ~GOTO~ 方法。
+
+#+begin_verse
+SetOfItems \(\texttt{CLOSURE}\)(/I/) {
+    *repeat*
+        *for* (/I/ 中的每个项 \([\textit{A}\rightarrow\alpha\cdot\textit{B}\beta,{}a]\))
+            *for* (\(\textit{G}^{'}\) 中的每个产生式 \(\textit{B}\rightarrow\gamma\))
+                *for* (\(\texttt{FIRST}(\beta{}a)\) 中的每个终结符 b)
+                    将 \([\textit{B}\rightarrow\cdot\gamma,{}b]\) 加入到集合 /I/ 中;
+    *until* 不能向 /I/ 中加入更多的项;
+    *return* /I/;
+}
+SetOfItems \(\texttt{GOTO}\)(/I/, /X/) {
+    将 /J/ 初始化为空集;
+    *for* (/I/ 中的每个项 \([\textit{A}\rightarrow\alpha\cdot\textit{X}\beta,{}a]\))
+        将\([\textit{A}\rightarrow\alpha\textit{X}\cdot\beta,{}a]\) 加入集合 /J/ 中;
+    *return* \(\texttt{CLOSURE}(\textit{J})\);
+}
+*void* items(\(\textit{G}^{'}\)) {
+    将 /C/ 初始化为 \(\{\texttt{CLOSURE}\}(\{[\textit{S}^{'}\rightarrow\cdot\textit{S},\$]\})\);
+    *repeat*
+        *for* (/C/ 中的每个项集 /I/)
+            *for* (每个文法符号 /X/)
+                *if* (\(\texttt{GOTO}(\textit{I}, \textit{X})\) 非空且不在 /C/ 中)
+                    将 \(\texttt{GOTO}(\textit{I}, \textit{X})\) 加入 /C/ 中;
+    *until* 不再有新的项集加入到 /C/ 中;
+}
+#+end_verse
+
+我们可以针对增广文法构造自动机
+\[\begin{aligned}
+\textit{S}^{'} &\rightarrow \textit{S}\\
+\textit{S} &\rightarrow \textit{C}\ \textit{C}\\
+\textit{C} &\rightarrow c\ \textit{C} \ |\ d
+\end{aligned}\]
+
+[[file:../images/CompilerPrinciple/LR-1-automachine-example.svg]]
+
+** 规范 LR(1) 语法分析表
+  1. 构造 \(\textit{G}^{'}\) 的规范 LR(1) 项集族
+     \(C^{'} = \{\textit{I}_{0}, \textit{I}_{1}, \cdots, \textit{I}_{n}\}\)
+  2. 根据 \(\textit{I}_{i}\) 构造出状态 i，状态 i 的语法分析动作按照下面的方法决
+     定。如果这些规则生成了任何冲突动作，那么文法就不是 LR(1) 的，也就无法生成
+     语法分析器。
+     1. 如果 \([\textit{A}\rightarrow\alpha\cdot{}a\beta, b]\) 在 \(\textit{I}_{i}\) 中且
+        \(\texttt{GOTO}(\textit{I}_{i}, a) = \textit{I}_{j}\)，那么将
+        \(\texttt{ACTION}[i, a]\) 设置为移入 j，其中 a 必须是一个终结符
+     2. 如果 \([\textit{A}\rightarrow\alpha\cdot, a]\) 在 \(\textit{I}_{i}\) 中且 \(\textit{A}\ne\textit{S}^{'}\)，那么对于将 \(\texttt{ACTION}[i, a]\)
+        设置为归约 \(\textit{A}\rightarrow\alpha\)
+     3. 如果 \([\textit{S}^{'}\rightarrow\textit{S}\cdot,\$]\) 在 \(\textit{I}_{i}\) 中，那么将
+        \(\texttt{ACTION}[i, \$]\) 设置为接受
+  3. 状态 i 对于各个非终结符 /A/ 的 \(\texttt{GOTO}\) 转换使用下面的规则构造：如
+     果 \(\texttt{GOTO}(\textit{I}_{i}, \textit{A}) = \textit{I}_{j}\)，那么
+     \(\textit{GOTO}[i, \textit{A}] = j\)。
+  4. 规则 2 与规则 3 没有定义的所有条目都是报错。
+  5. 语法分析器的初始状态根据 \([\textit{S}^{'}\rightarrow\cdot\textit{S},\$]\) 所在的项集构造得
+     到的状态。
+
+每个 SLR 文法都是规范 LR(1) 文法，但对同一文法 SLR 的状态比 LR(1) 少。上一节提到
+的文法，SLR 只需要七个状态，而 LR(1) 文法需要 10 个状态。
+
+#+begin_LaTeX
+\begin{align}
+\textit{S} &\rightarrow \textit{C}\ \textit{C}\tag{1}\\
+\textit{C} &\rightarrow c\ \textit{C}\tag{2}\\
+\textit{C} &\rightarrow d\tag{3}
+\end{align}
+#+end_LaTeX
+
+其语法分析表如下：
+
+[[file:../images/CompilerPrinciple/analysis-table-of-LR-1-example.svg]]
+
+** 构造 LALR 语法分析表
+LALR 语法分析技术是实践中常用的分析技术，因为其分析表比 LR 分析表小的多，且大部
+分常见的程序设计语言都可以方便构造 LALR 文法表示。SLR 与 LALR 总是有相同数量的状
+态。比如 C 语言 SLR 可能有几百个状态，但规范 LR(1) 可能达到上千个状态。
+
+考虑规范 LR(1) 文法中的示例，考虑状态 4 与状态 7 的区别，正则表达式 =c*dc*d=​，第
+一组 =c*d= 会进入状态 4，而第二组 =c*d= 会进入状态 7
+  - \(\textit{I}_{4}\): \(\textit{C}\rightarrow{}d\cdot,c/d\)
+  - \(\textit{I}_{7}\): \(\textit{C}\rightarrow{}d\cdot,\$\)
+
+基本没什么区别，可以将状态 4 和状态 7 作为并集替换为 \(\textit{I}_{47}\)，这个项
+集包含了 \([\textit{C}\rightarrow{}d\cdot,c/d/\$]\)。
+
+我们通常将具有相同​*核心* (core) 的 LR(1) 项集合并为第一分量的集合，一个核心就是
+当前正处理的文法的 LR(0) 项集，LR(1) 文法可能产生多个具有相同核心的项集。
+\(\texttt{GOTO}(\textit{I}, \textit{X})\) 的核心只有 /I/ 的核心决定，一组被合并
+的项集的 \(\texttt{GOTO}\) 的目标也可以被合并。因此我们可以相应地修改
+\(\texttt{GOTO}\) 函数和动作函数。
+
+但是如果无脑合并，可能会产生冲突，比如以下这个文法
+\[\begin{aligned}
+\textit{S}^{'} &\rightarrow \textit{S}\\
+\textit{S} &\rightarrow a\textit{A}d\,|\,b\textit{B}d\,|\,a\textit{A}e\,|\,b\textit{A}e\\
+\textit{A} &\rightarrow c\\
+\textit{B} &\rightarrow c
+\end{aligned}\]
+
+这是一个 LR(1) 文法，其中有两个项集 core 相同：\(\{[\textit{A}\rightarrow{}c\cdot,d],
+[\textit{B}\rightarrow{}c\cdot,e]\}\) 和 \(\{[\textit{A}\rightarrow{}c\cdot,e], [\textit{B}\rightarrow{}c\cdot,d]\}\)。但
+是它们的并集 \(\{[\textit{A}\rightarrow{}c\cdot,d/e], [\textit{B}\rightarrow{}c\cdot,d/e]\}\) 将会造成归约/
+归约冲突。
+
+那么可以给出定义 LALR(1) 文法的语法分析表构建方法，其核心思想就是​*构造出 LR(1)
+项集，将没有冲突且相同核心的项集合并*​。
+  1. 构造 LR(1) 项集族 \(\textit{C}=\{\textit{I}_{0}, \textit{I}_{1}, \cdots,
+     \textit{I}_{n}\}\)
+  2. 对于 LR(1) 项集中的每个核心，找出具有相同和新的项集，用并集替换它们
+  3. 令 \(\textit{C}^{'}=\{\textit{J}_{0}, \textit{J}_{1}, \cdots, \textit{J}_{m}\}\)
+     是得到的 LR(1) 项集族
+  4. GOTO 表的构造方法如下：如果 /J/ 是一个或多个 LR(1) 项集的并集
+     (\(\textit{J}=\textit{I}_{1}\cup\textit{I}_{2}\cup\cdots\cup\textit{I}_{k}\))，那么
+     \(\texttt{GOTO}(\textit{I}_{1}, \textit{X})\)、
+     \(\texttt{GOTO}(\textit{I}_{2}, \textit{X})\)、\(\cdots\)、
+     \(\texttt{GOTO}(\textit{I}_{k}, \textit{X})\) 的核心相同，令 /K/ 是所有和
+     \(\texttt{GOTO}(\textit{I}_{1}, \textit{X})\) 具有相同核心的项集的并集，那
+     么 \(\texttt{GOTO}(\textit{J}, \textit{X}) = \textit{K}\)。
+
+如果没有冲突，那么将其称为 LALR(1) 文法，第三步的项集族被称为 LALR(1) 项集族。
+
+我们可以针对之前 LR(1) 文法示例的增广文法构造自动机，方便对比两个文法
+\[\begin{aligned}
+\textit{S}^{'} &\rightarrow \textit{S}\\
+\textit{S} &\rightarrow \textit{C}\ \textit{C}\\
+\textit{C} &\rightarrow c\ \textit{C} \ |\ d
+\end{aligned}\]
+
+[[file:../images/CompilerPrinciple/LALR-1-automachine-example.svg]]
+
+其分析表也很简单。
+
+[[file:../images/CompilerPrinciple/analysis-table-of-LALR-1-example.svg]]
+
+在处理正确的输入时，LR 语法分析器和 LALR 语法分析器可以相互模拟；在处理错误的输
+入时，LALR 语法分析器可能在 LR 语法分析器报错之后继续执行一些归约动作，但绝不会
+在 LR 语法分析器报错之后移入任何符号。
+
+** 高效构造 LALR 语法分析表
+构建 LALR(1) 文法时，实际上我们不需要先构建完整的规范 LR(1) 项集族，这样效率太低
+了，也不是实际应用的构建方式。因此可以优化其构造。
+  - 首先只用用内核项来表示任意的 LR(0) 或 LR(1) 项集。就是只使用初始项
+    \([\textit{S}^{'}\rightarrow\cdot\textit{S}]\) 或 \([\textit{S}^{'}\rightarrow\cdot\textit{S},\$]\) 以及
+    那些点不在产生体左端的项来表示项集
+  - 我们可以使用一个​*传播和自发生成*​的过程生成向前看符号，根据 LR(0) 项的内核来
+    生成 LALR(1) 项的内核
+  - 如果有了 LALR(1) 内核，对各个内核求 \(\texttt{CLOSURE}\)，再把 LALR(1) 项集
+    当作规范 LR(1) 项集族，计算分析表，从而得到 LALR(1) 语法分析表
+
+还是一样的用一个示例构造 LALR(1) 语法分析表。
+\[\begin{aligned}
+\textit{S}^{'} &\rightarrow \textit{S}\\
+\textit{S} &\rightarrow \textit{L} = \textit{R}\ |\ \textit{R}\\
+\textit{L} &\rightarrow * \textit{R} \ |\ \textbf{id}\\
+\textit{R} &\rightarrow \textit{L}
+\end{aligned}\]
+
+状态内核如下
+  - \(\textit{I}_{0}\): \(\textit{S}^{'}\rightarrow\cdot\textit{S}\)
+  - \(\textit{I}_{1}\): \(\textit{S}^{'}\rightarrow\textit{S}\cdot\)
+  - \(\textit{I}_{2}\): \[\begin{aligned}
+    \textit{S}&\rightarrow\textit{L}\cdot=\textit{R}\\ \textit{R}&\rightarrow\textit{L}\cdot\end{aligned}\]
+  - \(\textit{I}_{3}\): \(\textit{S}\rightarrow\textit{R}\cdot\)
+  - \(\textit{I}_{4}\): \(\textit{L}\rightarrow*\cdot\textit{R}\)
+  - \(\textit{I}_{5}\): \(\textit{L}\rightarrow\textbf{id}\cdot\)
+  - \(\textit{I}_{6}\): \(\textit{S}\rightarrow\textit{L}=\cdot\textit{R}\)
+  - \(\textit{I}_{7}\): \(\textit{L}\rightarrow*\textit{R}\cdot\)
+  - \(\textit{I}_{8}\): \(\textit{R}\rightarrow\textit{L}\cdot\)
+  - \(\textit{I}_{9}\): \(\textit{S}\rightarrow\textit{L}=\textit{R}\cdot\)
+
+在这些内核上加上正确的向前看符号，创建出 LALR(1) 项集的内核。在两种情况下向前看
+符号 b 可以添加到某个 LALR(1) 项集 /J/ 中的 LR(0) 项 \(\textit{B}\rightarrow\gamma\cdot\delta\) 上
+  - 存在一个包含内核项 \([\textit{A}\rightarrow\alpha\cdot\beta, a]\) 的项集 /I/ 且
+    \(\textit{J}=\texttt{GOTO}(\textit{I},\textit{X})\)。不管 a 为何值，构造
+    \(\texttt{GOTO}(\texttt{CLOSURE}(\{[\textit{A}\rightarrow\alpha\cdot\beta, a]\}), X)\) 时得到的结果
+    总是包含 \([\textit{B}\rightarrow\gamma\cdot\delta, b]\)。对于 \(\textit{B}\rightarrow\gamma\cdot\delta\) 而言，这个向前看符
+    号 b 称为​*自发生成的*​。符号 \(\$\) 对于初始项
+    \([\textit{S}^{'}\rightarrow\cdot\textit{S}]\) 而言总是自发生成的。
+  - 其余条件与上一个条件相同，但是 \(a=b\)，且计算
+    \(\texttt{GOTO}(\texttt{CLOSURE}(\{[\textit{A}\rightarrow\alpha\cdot\beta, b]\}), \textit{X})\) 得
+    到的结果中包含 \([\textit{B}\rightarrow\gamma\cdot\delta, b]\) 的原因是项 \(\textit{A}\rightarrow\alpha\cdot\beta\) 有一个
+    向前看符号 b。这种情况称为向前看符号从 /I/ 的内核中的 \(\textit{A}\rightarrow\alpha\cdot\beta\) 传
+    播到了 /J/ 的内核中的 \(\textit{B}\rightarrow\gamma\cdot\delta\) 上。
+
+需要确定每个 LR(0)　项集中自发生成的向前看符号，同时也要确定向前看符号从哪些项传
+播到了哪些项。
+
+这个检测实际上很简单。令 \(\#\) 为一个不在当前文法中的符号。令
+\(\textit{A}\rightarrow\alpha\cdot\beta\)　为项集 /I/ 中的一个内核 LR(0) 项。对每个 /X/ 计算
+\(\textit{J}=\texttt{GOTO}(\texttt{CLOSURE}(\{[\textit{A}\rightarrow\alpha\cdot\beta, \#]\}),
+\textit{X})\)。检查 /J/ 中的每个内核项的向前看符号集合，如果 \(\#\) 是它的向前
+看符号，那么向前看符号就从 \(\textit{A}\rightarrow\alpha\cdot\beta\) 传播到这个项。所有其他的向前看符号
+都是自发生成的。这个算法还用到了一个性质：​/J/ 中的所有内核项中点的左边都是 /X/​，
+即它们必然是形如 \(\textit{B}\rightarrow\gamma\textit{X}\cdot\delta\) 的项。
+
+有 LR(0) 项集 /I/ 的内核 /K/ 构造向前看符号的算法如下：
+#+begin_verse
+*for* (/K/ 中的每个项 \(\textit{A}\rightarrow\alpha\cdot\beta\)) {
+    /J/ := \(\texttt{CLOSURE}(\{[\textit{A}\rightarrow\alpha\cdot\beta, \#]\})\);
+    *if* (\([\textit{B}\rightarrow\gamma\cdot\textit{X}\delta, a]\) 在 /J/ 中，且 \(a\ne\#\)) {
+        断定 \(\texttt{GOTO}(\textit{I}, \textit{X})\) 中的项 \(\textit{B}\rightarrow\gamma\textit{X}\cdot\delta\) 的向前看符号 a 是自发生成的;
+    }
+    *if* (\([\textit{B}\rightarrow\gamma\cdot\textit{X}\delta, \#]\) 在 /J/ 中) {
+        断定向前看符号从 /I/ 中的项 \(\textit{A}\rightarrow\alpha\cdot\beta\) 传播到了 \(\texttt{GOTO}(\textit{I}, \textit{X})\) 中的项 \(\textit{B}\rightarrow\gamma\textit{X}\cdot\delta\) 上;
+    }
+}
+#+end_verse
+
+现在我们就可以高效地构建 LALR(1) 项集族内核了。
+  1. 构造 G 的 LR(0) 项集族的内核，保留各个项集的内核项，并计算一个项集 /I/ 的
+     =GOTO= 之前先计算 /I/ 的闭包
+  2. 对每个 LR(0) 项集的内核和每个文法符号 /X/ 应用上面介绍的构造向前看符号的算
+     法，确定 \(\texttt{GOTO}(\textit{I}, \textit{X})\) 中各内核项的哪些向前看符
+     号是自发生成的，并确定向前看符号从 /I/ 中的哪个项被传播
+     \(\texttt{GOTO}(\textit{I}, \textit{X})\) 中的内核上
+  3. 初始化一个表格，表中给出了每个项集中的每个内核项相关的向前看符号。最初每个
+     项的向前看符号只包括那些我们确定的自发生成的符号
+  4. 不断扫描所有项集的内核项。当我们访问一个项 i 时，使用表中符号以及自发生成的
+     符号，确定 i 将它的向前看符号传播到了哪些内核项中。项 i 的qq当前向前看符号
+     集合被加到和这些被传播的内核项相关连的向前看符号集中。直到没有新的向前看符
+     号被传播为止
+
+本节前文提到了 LALR(1) 的一个示例，对这个内核，我们先将计算向前看符号的算法应用
+到项集 \(\textit{I}_{0}\) 的内核上，计算
+\(\texttt{CLOSURE}(\{[\textit{S}^{'}\rightarrow\cdot\textit{S}, \#]\})\) 可以得到
+\[\begin{aligned}
+\textit{S}^{'} &\rightarrow \cdot\textit{S}, \#  \qquad\qquad\qquad & \textit{L} &\rightarrow \cdot*\textit{R}, \#/=\\
+\textit{S} &\rightarrow \cdot\textit{L}=\textit{R}, \#  \qquad\qquad\qquad & \textit{L} &\rightarrow \cdot\textbf{id},\#/=\\
+\textit{S} &\rightarrow \cdot\textit{R}, \#  \qquad\qquad\qquad & \textit{R} &\rightarrow \cdot\textit{L}, \#
+\end{aligned}\]
+
+所以我们可以确定 \(\textit{I}_{0}\) 中的项 \(\textit{S}^{'}\rightarrow\cdot\textit{S}\) 将它的
+向前看符号传播到了以下六个项中
+  - \(\textit{I}_{1}\) 中的 \(\textit{S}^{'}\rightarrow\textit{S}\cdot\)
+  - \(\textit{I}_{2}\) 中的 \(\textit{S}\rightarrow\textit{L}\cdot=\textit{R}\)
+  - \(\textit{I}_{3}\) 中的 \(\textit{S}\rightarrow\textit{R}\cdot\)
+  - \(\textit{I}_{4}\) 中的 \(\textit{L}\rightarrow*\cdot\textit{R}\)
+  - \(\textit{I}_{5}\) 中的 \(\textit{L}\rightarrow\textbf{id}\cdot\)
+  - \(\textit{I}_{2}\) 中的 \(\textit{R}\rightarrow\textit{L}\cdot\)
+
+依次列出每轮扫描向前看符号的传播途径
+|-----------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 基础状态                                                  | 传播到                                                                                                                                                                                                                                                                                                           |
+|-----------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| \(\textit{I}_{0}\): \(\textit{S}^{'}\rightarrow\cdot\textit{S}\)        | \(\begin{aligned}\textit{I}_{1}:\ \textit{S}^{'}&\rightarrow\textit{S}\cdot\\ \textit{I}_{2}:\ \textit{S}&\rightarrow\textit{L}\cdot=\textit{R}\\ \textit{I}_{2}:\ \textit{R}&\rightarrow\textit{L}\cdot\\ \textit{I}_{3}:\ \textit{S}&\rightarrow\textit{R}\cdot\\ \textit{I}_{4}:\ \textit{L}&\rightarrow*\cdot\textit{R}\\ \textit{I}_{5}:\ \textit{L}&\rightarrow\textbf{id}\cdot\end{aligned}\) |
+| \(\textit{I}_{2}\): \(\textit{S}\rightarrow\textit{L}\cdot=\textit{R}\) | \(\textit{I}_{6}:\ \textit{S}\rightarrow\textit{L}=\cdot\textit{R}\)                                                                                                                                                                                                                                                           |
+| \(\textit{I}_{4}\): \(\textit{L}\rightarrow*\cdot\textit{R}\)           | \(\begin{aligned}\textit{I}_{4}:\ \textit{L}&\rightarrow*\cdot\textit{R}\\ \textit{I}_{5}:\ \textit{L}&\rightarrow\textbf{id}\cdot\\ \textit{I}_{7}:\ \textit{L}&\rightarrow*\textit{R}\cdot\\ \textit{I}_{8}:\ \textit{R}&\rightarrow\textit{L}\cdot\end{aligned}\)                                                                                                     |
+| \(\textit{I}_{6}\): \(\textit{S}\rightarrow\textit{L}=\cdot\textit{R}\) | \(\begin{aligned}\textit{I}_{4}:\ \textit{L}&\rightarrow*\cdot\textit{R}\\ \textit{I}_{5}:\ \textit{L}&\rightarrow\textbf{id}\cdot\\ \textit{I}_{8}:\ \textit{R}&\rightarrow\textit{L}\cdot\\ \textit{I}_{9}:\ \textit{S}&\rightarrow\textit{L}=\textit{R}\cdot\end{aligned}\)                                                                                           |
+
+
+* 使用二义性文法
+每个二义性文法都不是 LR 的，但某些类型的二义性文法在语言的归约和实现中很有用。像
+表达式这样的语言构造，二义性文法能提供比任何等价的无二义性文法更短、更自然的归约。
+二义性文法的另一个用途是隔离经常出现的语法构造，以对其进行特殊优化。
+
+虽然使用的文法有二义性，但在所有情况下给出消除二义性的规则，使得每个句子只有一颗
+语法分析树。通过这个方法，语言的归约在整体上是无二义性的，有时还可以构造出遵循这
+个二义性解决方法的 LR 语法分析器。
+
+** 用优先级和结合性解决冲突
+回想之前一直提及的示例 *id* =+= *id* =*= *id*​，其无二义性文法
+\[\begin{aligned}
+\textit{E}&\rightarrow\textit{E}+\textit{T}\\
+\textit{E}&\rightarrow\textit{T}\\
+\textit{T}&\rightarrow\textit{T}*\textit{F}\\
+\textit{T}&\rightarrow\textit{F}\\
+\textit{F}&\rightarrow(\textit{E})\\
+\textit{F}&\rightarrow\textbf{id}\end{aligned}.\]
+
+但其二义性文法
+\[\begin{aligned}
+\textit{E}&\rightarrow\textit{E}+\textit{E}\\
+\textit{E}&\rightarrow\textit{E}*\textit{E}\\
+\textit{E}&\rightarrow(\textit{E})\\
+\textit{E}&\rightarrow\textbf{id}\end{aligned}.\]
+
+无二义性的版本指定了运算符 =+= 和 =*= 的优先级和结合性。但二义性文法没有给出这样
+的信息，可以轻易改变运算符的优先级和结合性，且不用修改文法产生式，也不用修改语法
+分析器的状态数目。
+
+首先给出二义性文法的 LR(0) 项集
+  - \(\textit{I}_{0}\): \[\begin{aligned}
+    \textit{E}^{'}&\rightarrow\cdot\textit{E}\\
+    \textit{E}&\rightarrow\cdot\textit{E}+\textit{E}\\
+    \textit{E}&\rightarrow\cdot\textit{E}*\textit{E}\\
+    \textit{E}&\rightarrow\cdot(\textit{E})\\
+    \textit{E}&\rightarrow\cdot\textbf{id}
+    \end{aligned}\]
+  - \(\textit{I}_{1}\): \[\begin{aligned}
+    \textit{E}^{'}&\rightarrow\textit{E}\cdot\\
+    \textit{E}&\rightarrow\textit{E}\cdot+\textit{E}\\
+    \textit{E}&\rightarrow\textit{E}\cdot*\textit{E}
+    \end{aligned}\]
+  - \(\textit{I}_{2}\): \[\begin{aligned}
+    \textit{E}&\rightarrow(\cdot\textit{E})\\
+    \textit{E}&\rightarrow\cdot\textit{E}+\textit{E}\\
+    \textit{E}&\rightarrow\cdot\textit{E}*\textit{E}\\
+    \textit{E}&\rightarrow\cdot(\textit{E})\\
+    \textit{E}&\rightarrow\cdot\textbf{id}
+    \end{aligned}\]
+  - \(\textit{I}_{3}\): \(\textit{E}\rightarrow\textbf{id}\cdot\)
+  - \(\textit{I}_{4}\): \[\begin{aligned}
+    \textit{E}&\rightarrow\textit{E}+\cdot\textit{E}\\
+    \textit{E}&\rightarrow\cdot\textit{E}+\textit{E}\\
+    \textit{E}&\rightarrow\cdot\textit{E}*\textit{E}\\
+    \textit{E}&\rightarrow\cdot(\textit{E})\\
+    \textit{E}&\rightarrow\cdot\textbf{id}
+    \end{aligned}\]
+  - \(\textit{I}_{5}\): \[\begin{aligned}
+    \textit{E}&\rightarrow\textit{E}*\cdot\textit{E}\\
+    \textit{E}&\rightarrow\cdot\textit{E}+\textit{E}\\
+    \textit{E}&\rightarrow\cdot\textit{E}*\textit{E}\\
+    \textit{E}&\rightarrow\cdot(\textit{E})\\
+    \textit{E}&\rightarrow\cdot\textbf{id}
+    \end{aligned}\]
+  - \(\textit{I}_{6}\): \[\begin{aligned}
+    \textit{E}&\rightarrow(\textit{E}\cdot)\\
+    \textit{E}&\rightarrow\textit{E}\cdot+\textit{E}\\
+    \textit{E}&\rightarrow\textit{E}\cdot*\textit{E}
+    \end{aligned}\]
+  - \(\textit{I}_{7}\): \[\begin{aligned}
+    \textit{E}&\rightarrow\textit{E}+\textit{E}\cdot\\
+    \textit{E}&\rightarrow\textit{E}\cdot+\textit{E}\\
+    \textit{E}&\rightarrow\textit{E}\cdot*\textit{E}
+    \end{aligned}\]
+  - \(\textit{I}_{8}\): \[\begin{aligned}
+    \textit{E}&\rightarrow\textit{E}*\textit{E}\cdot\\
+    \textit{E}&\rightarrow\textit{E}\cdot+\textit{E}\\
+    \textit{E}&\rightarrow\textit{E}\cdot*\textit{E}
+    \end{aligned}\]
+  - \(\textit{I}_{9}\): \(\textit{E}\rightarrow(\textit{E})\cdot\)
+
+现在假设语法分析器处理完了 *id* =+= *id*​，栈中的状态为 \(0, 1, 4, 7\)，剩下的输入为
+  - =*= *id*​，这会产生移入/归约冲突
+    - 如果 =*= 的优先级高于 =+=​，语法分析器将移入 =*=
+    - 如果 =+= 的优先级高于 =*=​，语法分析器将归约
+      \(\textit{E}\rightarrow\textit{E}+\textit{E}\)
+  - =+= *id*​，这会产生移入/归约冲突。如果 =+= 是左结合的，那么按照
+    \(\textit{E}\rightarrow\textit{E}+\textit{E}\) 归约
+
+因此利用优先级和结合性，可以得到一个与 SLR 近似的语法动作表。
+
+[[file:../images/CompilerPrinciple/analysis-table-of-ambiguous-grammar.svg]]
+
+** 悬空-else 的二义性
+再说说悬空 else 的文法
+\[\begin{aligned}
+smtm &\rightarrow\ \textbf{if}\ expr\ \textbf{then}\ stmt\ \textbf{else}\ stmt\\
+     &|\ \textbf{if}\ expr\ \textbf{then}\ stmt\\
+     &|\ \textbf{other}
+\end{aligned}\]
+
+将其简写为如下这个增广文法
+\[\begin{aligned}
+\textit{S}^{'} &\rightarrow \textit{S}\\
+\textit{S} &\rightarrow i\textit{S}e\textit{S} \ |\ i\textit{S} \ |\ a
+\end{aligned}\]
+
+它有如下 LR(0) 状态
+  - \(\textit{I}_{0}\): \[\begin{aligned}
+    \textit{S}^{'} &\rightarrow \cdot\textit{S}\\
+    \textit{S} &\rightarrow \cdot{}i\textit{S}e\textit{S}\\
+    \textit{S} &\rightarrow \cdot{}i\textit{S}\\
+    \textit{S} &\rightarrow \cdot{}a
+    \end{aligned}\]
+  - \(\textit{I}_{1}\): \(\textit{S}^{'} \rightarrow \cdot\textit{S}\)
+  - \(\textit{I}_{2}\): \[\begin{aligned}
+    \textit{S} &\rightarrow i\cdot\textit{S}e\textit{S}\\
+    \textit{S} &\rightarrow i\cdot\textit{S}\\
+    \textit{S} &\rightarrow \cdot{}i\textit{S}e\textit{S}\\
+    \textit{S} &\rightarrow \cdot{}i\textit{S}\\
+    \textit{S} &\rightarrow \cdot{}a
+    \end{aligned}\]
+  - \(\textit{I}_{3}\): \(\textit{S}\rightarrow{}a\cdot\)
+
+  - \(\textit{I}_{4}\): \[\begin{aligned}
+    \textit{S} &\rightarrow i\textit{S}\cdot{}e\textit{S}\\
+    \textit{S} &\rightarrow i\textit{S}\cdot
+    \end{aligned}\]
+  - \(\textit{I}_{5}\): \[\begin{aligned}
+    \textit{S} &\rightarrow i\textit{S}e\cdot\textit{S}\\
+    \textit{S} &\rightarrow \cdot{}i\textit{S}e\textit{S}\\
+    \textit{S} &\rightarrow \cdot{}i\textit{S}\\
+    \textit{S} &\rightarrow \cdot{}a
+    \end{aligned}\]
+  - \(\textit{I}_{6}\): \(\textit{S}\rightarrow{}i\textit{S}e\textit{S}\cdot\)
+
+在 \(\textit{I}_{4}\) 上有一个移入/归约冲突。项
+\(\textit{S}\rightarrow{}i\textit{S}\cdot{}e\textit{S}\) 要求移入 e，但 \(\texttt{FOLLOW}(S) =
+\{e, \$\}\)，项 \(\textit{S}\rightarrow{}i\textit{S}\cdot\) 在输入为 e 时进行归约。我们可以要
+求在输入 e 时执行移入操作，可以得到一个近似无二义性的 LR 分析表。
+
+[[file:../images/CompilerPrinciple/analysis-table-of-ambiguous-grammar-for-if-else.svg]]
+
+当然如此解决悬空 else 问题后，我们可以为 iiaea 语法产生正确的语法分析动作。
+|------+--------+-----------------------------+-------------+----------------------------------------------|
+| 编号 |     栈 | 符号                        | 输入        | 动作                                         |
+|------+--------+-----------------------------+-------------+----------------------------------------------|
+|    1 |      0 |                             | \(iiaea\$\) | 移入                                         |
+|    2 |     02 | \(i\)                       | \(iaea\$\)  | 移入                                         |
+|    3 |    022 | \(ii\)                      | \(aea\$\)   | 移入                                         |
+|    4 |   0223 | \(iia\)                     | \(ea\$\)    | 归约 \(\textit{S}\rightarrow{}a\)                      |
+|    5 |   0224 | \(ii\textit{S}\)            | \(ea\$\)    | 移入                                         |
+|    6 |  02245 | \(ii\textit{S}e\)           | \(a\$\)     | 移入                                         |
+|    7 | 022453 | \(ii\textit{S}ea\)          | \(\$\)      | 归约 \(\textit{S}\rightarrow{}a\)                      |
+|    8 | 022456 | \(ii\textit{S}e\textit{S}\) | \(\$\)      | 归约 \(\textit{S}\rightarrow{}i\textit{S}e\textit{S}\) |
+|    9 |    024 | \(i\textit{S}\)             | \(\$\)      | 归约 \(\textit{S}\rightarrow{}i\textit{S}\)            |
+|   10 |     01 | \(\textit{S}\)              | \(\$\)      | 接受                                         |

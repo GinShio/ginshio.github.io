@@ -1,0 +1,84 @@
+\documentclass[border=1pt,tikz,varwidth=\maxdimen]{standalone}
+
+\usetikzlibrary{positioning,calc}
+
+\usepackage{amsmath,mathtools}
+
+\begin{document}
+\begin{tikzpicture}[
+  level/.style={sibling distance=9em/#1},
+  emph/.style={edge from parent/.style={dashed,draw}},
+  norm/.style={edge from parent/.style={solid,draw}}
+  ]
+  \node{L}
+  child[norm] {
+    node {E}
+    child[emph] {
+      node {\texttt{\{\,print('+');\,\}}}
+    }
+    child[missing]
+    child {
+      node {E}
+      child {
+        node {T}
+        child[emph] {
+          node {\texttt{\{\,print('*');\,\}}}
+        }
+        child[missing]
+        child[missing]
+        child {
+          node {T}
+          child {
+            node {F}
+            child {
+              node {\textbf{digit}}
+            }
+            child[missing]
+            child[missing]
+            child[missing]
+            child[emph] {
+              node {\texttt{\{\,print(3);\,\}}}
+            }
+          }
+        }
+        child {
+          node {\(*\)}
+        }
+        child[missing]
+        child {
+          node {F}
+          child {
+            node {\textbf{digit}}
+          }
+          child[missing]
+          child[missing]
+          child[emph] {
+            node {\texttt{\{\,print(5);\,\}}}
+          }
+        }
+      }
+    }
+    child {
+      node {\(+\)}
+    }
+    child[missing]
+    child {
+      node {T}
+      child {
+        node {F}
+        child {
+          node {\textbf{digit}}
+        }
+        child[missing]
+        child[missing]
+        child[emph] {
+          node {\texttt{\{\,print(4);\,\}}}
+        }
+      }
+    }
+  }
+  child {
+    node{\textbf{n}}
+  };
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,71 @@
+
+* TODO [#B] Gitlab CICD
+:properties:
+:categories: Applications
+:tags: Server GitLab CI
+:title: Gitlab CI/CD
+:file_name: gitlab_cicd.org
+:end:
+
+* TODO [#C] WSL Custom Distro
+:properties:
+:categories: Applications
+:tags: WSL Linux
+:title: 用 WSL 创建自己喜欢的 Linux 发行版
+:file_name: wsl_custon_distro.org
+:end:
+  - [[https://docs.microsoft.com/en-us/windows/wsl/build-custom-distro][Creating a Custom Linux Distribution for WSL]]
+  - [[https://sourceforge.net/p/vcxsrv/wiki/Using%20VcXsrv%20Windows%20X%20Server/][VcXsrv Windows X Server wiki]]
+    - multiwindow 多窗口模式 [display]
+    - fullscreen 全屏 [diplay]
+    - wgl native Windows WGL interface [extra]
+   - clipboard
+   - clipboardprimary
+   - ac
+   - keyhook
+   - 
+    #+begin_src powershell
+vcxsrv :0 -fullscreen -clipboard -wgl -ac -keyhook -unixkill
+    #+end_src
+  - WSL 下运行 DBus，使用 TCP 运行 daemon 并执行命令
+    #+begin_src shell
+sed -i "s$<listen>.*</listen>$<listen>tcp:host=localhost,port=0</listen>$" /usr/share/dbus-1/session.conf
+sed -i "s$<auth>EXTERNAL</auth>$<auth>ANONYMOUS</auth>$" /usr/share/dbus-1/session.conf
+sed -i "s$</busconfig>$<allow_anonymous/></busconfig>$" /usr/share/dbus-1/session.conf
+
+sh -c "dbus-uuidgen > /var/lib/dbus/machine-id"
+    #+end_src
+
+* TODO [#D] SSG Guide
+:properties:
+:categories: Applications
+:tags: Blog
+:title: 静态博客搭建指南
+:file_name: ssg_deploy_guide.org
+:end:
+  - Hugo
+  - Gatsby
+  - Maybe other
+
+* TODO [#B] Let's encrypt Tools -- Certbot
+:properties:
+:categories: Applications
+:tags: Server Encrypt
+:title: Certbot 免费证书申请
+:file_name: lets_encrypt_tools_certbot.org
+:end:
+
+- [[https://letsencrypt.org/zh-cn/docs/][官方文档]]
+
+* TODO [#D] [0/5] library
+:properties:
+:categories: C++
+:tags: library
+:title: D
+:end:
+
+  1. [ ] 基于 mini DFA 的静态正则库
+  2. [ ] 静态反射库 (侵入式或非侵入式)
+  3. [ ] 序列化库 [require 2]
+  4. [ ] HTML template [maybe require flex/bison]
+  5. [ ] ORM 库 [require 2] [maybe require eventloop]

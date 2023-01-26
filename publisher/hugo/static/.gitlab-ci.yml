@@ -1,0 +1,14 @@
+image: bash:latest
+
+pages:
+  stage: deploy
+  script:
+    - mkdir public
+    - shopt -s extglob
+    - mv !(public) public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == "hugo"
+      when: always

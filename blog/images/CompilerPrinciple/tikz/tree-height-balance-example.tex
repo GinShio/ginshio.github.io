@@ -1,0 +1,157 @@
+\documentclass[border=1pt,tikz,varwidth=\maxdimen]{standalone}
+
+\usetikzlibrary{positioning,calc,arrows.meta,trees}
+
+\usepackage{amsmath,mathtools}
+
+\begin{document}
+
+\begin{tikzpicture}[
+  level distance=6ex,
+  sibling distance=9ex,
+  line/.style={edge from parent/.style={solid,draw}},
+  empty/.style={edge from parent/.style={}},
+  narrow/.style={sibling distance=5ex},
+  ]
+  \coordinate (left-recursive-tree);
+  \node [below=1ex of left-recursive-tree] {\(+\)}
+  child {
+    node {\(+\)}
+    child {
+      node {\(+\)}
+      child {
+        node {\(+\)}
+        child {
+          node {\(+\)}
+          child {
+            node {\(+\)}
+            child {
+              node {\(+\)}
+              child {
+                node {a}
+              }
+              child {
+                node {b}
+              }
+            }
+            child {
+              node {c}
+            }
+          }
+          child {
+            node {d}
+          }
+        }
+        child {
+          node {e}
+        }
+      }
+      child {
+        node {f}
+      }
+    }
+    child {
+      node {g}
+    }
+  }
+  child {
+    node {h}
+  };
+
+  \coordinate [right=16em of left-recursive-tree] (right-recursive-tree);
+  \node [below=1ex of right-recursive-tree] {\(+\)}
+  child {
+    node {a}
+  }
+  child {
+    node {\(+\)}
+    child {
+      node {b}
+    }
+    child {
+      node {\(+\)}
+      child {
+        node {c}
+      }
+      child {
+        node {\(+\)}
+        child {
+          node {d}
+        }
+        child {
+          node {\(+\)}
+          child {
+            node {e}
+          }
+          child {
+            node {\(+\)}
+            child {
+              node {f}
+            }
+            child {
+              node {\(+\)}
+              child {
+                node {g}
+              }
+              child {
+                node {h}
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+
+  \coordinate [below=6em of $(left-recursive-tree)!0.5!(right-recursive-tree)$]
+  (balance-tree);
+  \node [below=1ex of balance-tree] {\(+\)}
+  child {
+    node {\(+\)}
+    child [narrow] {
+      node {\(+\)}
+      child {
+        node {a}
+      }
+      child {
+        node {b}
+      }
+    }
+    child [empty] {}
+    child [narrow] {
+      node {\(+\)}
+      child {
+        node {c}
+      }
+      child {
+        node {d}
+      }
+    }
+  }
+  child [empty] {}
+  child {
+    node {\(+\)}
+    child [narrow] {
+      node {\(+\)}
+      child {
+        node {e}
+      }
+      child {
+        node {f}
+      }
+    }
+    child [empty] {}
+    child [narrow] {
+      node {\(+\)}
+      child {
+        node {g}
+      }
+      child {
+        node {h}
+      }
+    }
+  };
+
+\end{tikzpicture}
+
+\end{document}

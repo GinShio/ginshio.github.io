@@ -1,0 +1,43 @@
+\documentclass[border=10pt,margin=5pt,tikz,dvisvgm,rgb,utf8]{standalone}
+\usepackage{ctex,xeCJK}  % 中文环境
+\setCJKmainfont[BoldFont=Source Han Sans SC]{Source Han Serif SC}
+\usepackage{calc,fontawesome,forest,smartdiagram,xcolor}
+\usetikzlibrary{animations,arrows,automata,graphs,matrix,positioning,shadows,shapes}
+
+\begin{document}
+\renewcommand{\baselinestretch}{0.4}
+
+\begin{tikzpicture}
+  \node[align=center, text width=0.9em, minimum height=2.7em](char_stream){字符流};
+  \node[align=center, draw=black, text width=0.9em, minimum height=4.5em, right=1em of char_stream](lexical_analyzer){词法分析器};
+  \node[align=center, text width=0.9em, minimum height=2.7em, right=1em of lexical_analyzer](symbol_stream){符号流};
+  \node[align=center, draw=black, text width=0.9em, minimum height=3.6em, right=1em of symbol_stream](lexical_analysis){词法分析};
+  \node[align=center, text width=0.9em, minimum height=2.7em, right=1em of lexical_analysis](parse_tree1){语法树};
+  \node[align=center, draw=black, text width=0.9em, minimum height=3.6em, right=1em of parse_tree1](semantic_analysis){语义分析};
+  \node[align=center, text width=0.9em, minimum height=2.7em, right=1em of semantic_analysis](parse_tree2){语法树};
+  \node[align=center, draw=black, text width=0.9em, minimum height=6.3em, right=1em of parse_tree2](intermediate_code_generator){中间代码生成器};
+  \node[align=center, text width=0.9em, minimum height=5.4em, right=1em of intermediate_code_generator](intermediate_representation1){中间表示形式};
+  \node[align=center, draw=black, text width=0.9em, minimum height=8.1em, right=1em of intermediate_representation1](machine_independent_code_optimizer){机器无关代码优化器};
+  \node[align=center, text width=0.9em, minimum height=5.4em, right=1em of machine_independent_code_optimizer](intermediate_representation2){中间表示形式};
+  \node[align=center, draw=black, text width=0.9em, minimum height=4.5em, right=1em of intermediate_representation2](code_generator){代码生成器};
+  \node[align=center, text width=0.9em, minimum height=5.4em, right=1em of code_generator](target_machine_code1){目标机器代码};
+  \node[align=center, draw=black, text width=0.9em, minimum height=8.1em, right=1em of target_machine_code1](machine_related_code_optimizer){机器相关代码优化器};
+  \node[align=center, text width=0.9em, minimum height=5.4em, right=1em of machine_related_code_optimizer](target_machine_code2){目标机器代码};
+
+  \draw[->](char_stream) -- (lexical_analyzer);
+  \draw[->](lexical_analyzer) -- (symbol_stream);
+  \draw[->](symbol_stream) -- (lexical_analysis);
+  \draw[->](lexical_analysis) -- (parse_tree1);
+  \draw[->](parse_tree1) -- (semantic_analysis);
+  \draw[->](semantic_analysis) -- (parse_tree2);
+  \draw[->](parse_tree2) -- (intermediate_code_generator);
+  \draw[->](intermediate_code_generator) -- (intermediate_representation1);
+  \draw[->](intermediate_representation1) -- (machine_independent_code_optimizer);
+  \draw[->](machine_independent_code_optimizer) -- (intermediate_representation2);
+  \draw[->](intermediate_representation2) -- (code_generator);
+  \draw[->](code_generator) -- (target_machine_code1);
+  \draw[->](target_machine_code1) -- (machine_related_code_optimizer);
+  \draw[->](machine_related_code_optimizer) -- (target_machine_code2);
+\end{tikzpicture}
+
+\end{document}

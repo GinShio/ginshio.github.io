@@ -1,0 +1,92 @@
+\documentclass[border=0.8ex,svgnames,varwidth]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{xparse}
+\usetikzlibrary{shapes.multipart}
+\captionsetup{
+  font=scriptsize,
+  labelfont=it,
+  textfont=rm,
+  labelformat=parens,
+  position=above,
+  labelsep=space,
+  justification=centering,
+}
+\NewDocumentCommand{\finishsubfig}{}{
+  \node(root){\nodepart{one}23 \nodepart{two}{55}}
+  [->]
+  child[sibling distance=3em]{ node{\nodepart{one}1 \nodepart{two}10} }
+  child[sibling distance=3em]{ node{\nodepart{one}33 \nodepart{two}45} }
+  child[sibling distance=3em]{ node{\nodepart{one}76 \nodepart{two}90} }
+}
+\NewDocumentCommand{\tikzgeninsubfig}{st+}{
+  \begin{tikzpicture}[
+    level distance=2.8em,
+    every node/.style={
+      draw,
+      align=center,
+      font=\tiny,
+      rectangle split,
+      rectangle split horizontal,
+      rectangle split parts=2,
+      rectangle split ignore empty parts,
+    },
+    level 1/.style={sibling distance=5.0em},
+    level 2/.style={sibling distance=2.4em},
+    every path/.style={draw,>=latex},
+    every one node part/.style={text width=1ex},
+    every two node part/.style={text width=1ex},
+    every three node part/.style={text width=1ex},
+    ]
+    \IfBooleanTF{#2}{
+      \finishsubfig%
+    }{
+      \node(root){\nodepart{one}55 \nodepart{two}{}}
+      [->]
+      child{
+        node{\nodepart{one}23 \nodepart{two}{}}
+        child{ node{\nodepart{one}1 \nodepart{two}10} }
+        child{ node{\nodepart{one}33 \nodepart{two}45} }
+        child{ edge from parent[draw=none] }
+      }
+      child{
+        \IfBooleanTF{#1}{
+          node{\nodepart{one}76 \nodepart{two}{}}
+          child{ node{\nodepart{one}56 \nodepart{two}{}} }
+          child{ node{\nodepart{one}90 \nodepart{two}{}} }
+          child{ edge from parent[draw=none] }
+        }{
+          node[draw=Red]{\nodepart{one}{} \nodepart{two}{}}
+          child{ node{\nodepart{one}76 \nodepart{two}90} }
+          child{ edge from parent[draw=none] }
+          child{ edge from parent[draw=none] }
+        }
+      }
+      child{ edge from parent[draw=none] }
+    };
+  \end{tikzpicture}
+}
+\begin{document}
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{.3\linewidth}
+    \centering\tikzgeninsubfig*%
+    \caption{remove 56}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{.3\linewidth}
+    \centering\tikzgeninsubfig%
+    \caption{rotation}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{.3\linewidth}
+    \centering\tikzgeninsubfig+%
+    \caption{balance}
+  \end{subfigure}
+\end{figure}
+\end{document}

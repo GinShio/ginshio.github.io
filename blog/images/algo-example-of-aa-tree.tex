@@ -1,0 +1,51 @@
+\documentclass[border=0.8ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\begin{document}
+  \begin{tikzpicture}[
+    level distance=3em,
+    every node/.style={text=White,circle,inner sep=0.1ex,minimum size=1.44em},
+    level 1/.style={sibling distance=9.6em},
+    level 2/.style={sibling distance=7.2em},
+    level 3/.style={sibling distance=4.8em},
+    level 4/.style={sibling distance=2.4em},
+    every path/.style={draw,>=latex},
+    black node/.append style={draw=none,fill=Black},
+    red node/.append style={draw=none,fill=Red},
+    ]
+    \node[black node]{30}[->]
+    child{
+      node[black node]{15}
+      child{
+        node[black node]{5}
+        child[missing]
+        child{ node[red node]{10} }
+      }
+      child{ node[black node]{20} }
+    }
+    child{
+      node[red node]{20}
+      child{
+        node[black node]{50}
+        child{
+          node[black node]{35}
+          child[missing]
+          child{ node[red node]{40} }
+        }
+        child{
+          node[red node]{60}
+          child{ node[black node]{55} }
+          child{ node[black node]{65} }
+        }
+      }
+      child{
+        node[black node]{85}
+        child{ node[black node]{80} }
+        child{ node[black node]{90} }
+      }
+    };
+  \end{tikzpicture}
+\end{document}

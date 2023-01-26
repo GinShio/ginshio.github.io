@@ -1,0 +1,62 @@
+\documentclass[border=0.8ex,svgnames,varwidth]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{xparse}
+\captionsetup{
+  font=scriptsize,
+  labelfont=it,
+  textfont=rm,
+  labelformat=parens,
+  position=above,
+  labelsep=space,
+  justification=centering,
+}
+\NewDocumentCommand{\tikzgeninsubfig}{m}{
+  \begin{tikzpicture}
+    \begin{scope}[
+      level distance=2.4em,
+      every node/.style={draw,circle,inner sep=0.1ex,minimum size=1.44em},
+      level 1/.style={sibling distance=8.0em},
+      level 2/.style={sibling distance=4.0em},
+      level 3/.style={sibling distance=2.4em},
+      ]
+      \node(node0){}
+      child{
+        node(node1){}
+        child{ node(node3){} child{ node(node7){} } child{ node(node8){} } }
+        child{ node(node4){} child{ node(node9){} } child[missing] }
+      }
+      child{
+        node(node2){}
+        child{ node(node5){} }
+        child{ node(node6){} }
+      };
+    \end{scope}
+    \begin{scope}[every node/.style={draw=none}]
+      \foreach[count=\i from 0] \val in {#1}{
+        \node at(node\i) {\val};
+      }
+    \end{scope}
+  \end{tikzpicture}
+}
+\begin{document}
+\begin{figure}
+  \centering
+  \begin{subfigure}[t]{.48\linewidth}
+    \centering
+    \tikzgeninsubfig{13,21,16,24,31,19,68,65,26,32}
+    \caption{min heap}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{.48\linewidth}
+    \centering
+    \tikzgeninsubfig{68,65,26,32,21,24,19,31,13,16}
+    \caption{max heap}
+  \end{subfigure}
+\end{figure}
+\end{document}

@@ -1,0 +1,103 @@
+\documentclass[border=0.8ex,svgnames,varwidth]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{xparse}
+\usetikzlibrary{positioning,shapes.geometric}
+\captionsetup{
+  font=scriptsize,
+  labelfont=it,
+  textfont=rm,
+  labelformat=parens,
+  position=above,
+  labelsep=space,
+  justification=centering,
+}
+\NewDocumentCommand{\tikzgeninsubfig}{t*t+t-}{
+  \begin{tikzpicture}
+    \begin{scope}[
+      level distance=3.6em,
+      every node/.style={draw,circle,inner sep=0.1ex,minimum size=2em},
+      subtree node/.append style={regular polygon,regular polygon sides=3},
+      level 1/.style={sibling distance=8.0em},
+      level 2/.style={sibling distance=5.0em},
+      level 3/.style={sibling distance=3.2em},
+      ]
+      \IfBooleanTF{#3}{\node(r){r}}{\node(p){p}}
+      child{
+        \IfBooleanTF{#3}
+        { node(n){n} }
+        { \IfBooleanTF{#1}{node[draw=Red](n){n}}{node[draw=Red](r){r}} }
+        child{
+          \IfBooleanTF{#2}{
+            node(n){n}
+            child{ node[subtree node](t1){\(T_{1}\)} }
+            child{ node[subtree node](t2){\(T_{2}\)} }
+          }{
+            node[subtree node](t1){\(T_{1}\)}
+          }
+        }
+        child{
+          \IfBooleanTF{#1}{
+            node(r){r}
+            child{ node[subtree node](t2){\(T_{2}\)} }
+            child{ node[subtree node](t3){\(T_{3}\)} }
+          }{
+            \IfBooleanTF{#2}
+            { node[subtree node](t3){\(T_{3}\)} }
+            { node[subtree node](t2){\(T_{2}\)} }
+          }
+        }
+      }
+      child{
+        \IfBooleanTF{#3}{
+          node(p){p}
+          child{ node[subtree node](t3){\(T_{3}\)} }
+          child{ node[subtree node](t4){\(T_{4}\)} }
+        }{
+          node[subtree node](t4){\(T_{4}\)}
+        }
+      };
+    \end{scope}
+    \begin{scope}[
+      node distance=0.25em,
+      every node/.style={font=\tiny,text=DarkTurquoise},
+      ]
+      \node[left=of t1]{n-1};
+      \node[\IfBooleanTF{#2}{right}{left}=of t2]{n};
+      \node[right=of t3]{n-1};
+      \node[\IfBooleanTF{#3}{right}{left}=of t4]{n};
+      \IfBooleanTF{#3}{
+        \node[left=of n]{n+1};
+        \node[right=of p]{n+1};
+      }{
+        \IfBooleanTF{#1}
+        { \node[right=of r]{n+1}; }
+        { \node[left=of n]{n+1}; }
+      }
+    \end{scope}
+  \end{tikzpicture}
+}
+\begin{document}
+\begin{figure}
+  \centering
+  \begin{subfigure}[t]{.48\linewidth}
+    \centering\tikzgeninsubfig*%
+    \caption{before rotation}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{.48\linewidth}
+    \centering\tikzgeninsubfig+%
+    \caption{first rotation}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{.48\linewidth}
+    \centering\tikzgeninsubfig-%
+    \caption{second rotation}
+  \end{subfigure}
+\end{figure}
+\end{document}

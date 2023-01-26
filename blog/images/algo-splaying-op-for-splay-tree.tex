@@ -1,0 +1,65 @@
+\documentclass[border=0.8ex,svgnames,varwidth]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{xparse}
+\captionsetup{
+  font=scriptsize,
+  labelfont=it,
+  textfont=rm,
+  labelformat=parens,
+  position=above,
+  labelsep=space,
+  justification=centering,
+}
+\NewDocumentCommand{\splayingbefore}{}{
+  \node{\(K_{5}\)}
+  child{
+    node{\(K_{4}\)}
+    child{
+      node{\(K_{1}\)}
+      child{ node{\(K_{2}\)} }
+      child{ node{\(K_{3}\)} }
+    }
+    child[missing]
+  }
+  child[missing];
+}
+\NewDocumentCommand{\splayingafter}{}{
+  \node{\(K_{1}\)}
+  child{ node{\(K_{2}\)} }
+  child{
+      node{\(K_{4}\)}
+      child{ node{\(K_{3}\)} }
+      child{ node{\(K_{5}\)} }
+    };
+}
+\NewDocumentCommand{\tikzgeninsubfig}{s}{
+  \begin{tikzpicture}[
+    level distance=2.4em,
+    every node/.style={draw,circle,inner sep=1pt,minimum size=1.6em},
+    level 1/.style={sibling distance=8.0em},
+    level 2/.style={sibling distance=4.0em},
+    level 3/.style={sibling distance=2.4em},
+    ]
+    \IfBooleanTF{#1}{ \splayingbefore }{ \splayingafter };
+  \end{tikzpicture}
+}
+\begin{document}
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{0.4\linewidth}
+    \centering\tikzgeninsubfig*%
+    \caption{before splaying}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.4\linewidth}
+    \centering\tikzgeninsubfig%
+    \caption{after splaying}
+  \end{subfigure}
+\end{figure}
+\end{document}

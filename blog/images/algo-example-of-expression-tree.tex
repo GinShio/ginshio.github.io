@@ -1,0 +1,32 @@
+\documentclass[border=0.8ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\begin{document}
+\begin{tikzpicture}[
+  level distance=10mm,
+  every node/.style={draw,circle,inner sep=1pt,minimum size=1.6em},
+  level 1/.style={sibling distance=48mm},
+  level 2/.style={sibling distance=28mm},
+  level 3/.style={sibling distance=12mm},
+  level 4/.style={sibling distance=08mm},
+  ]
+  \node{\(+\)}
+  child{
+    node{\(+\)}
+    child{ node{\(a\)} }
+    child{ node{\(*\)} child{ node{\(b\)} } child{ node{\(c\)} } }
+  }
+  child{
+    node{\(*\)}
+    child{
+      node{\(+\)}
+      child{ node{\(*\)} child{ node{\(d\)} } child{ node{\(e\)} } }
+      child{ node{\(f\)} }
+    }
+    child{ node{\(g\)} }
+  };
+\end{tikzpicture}
+\end{document}

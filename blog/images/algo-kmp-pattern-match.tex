@@ -1,0 +1,82 @@
+\documentclass[border=0.8ex,svgnames,varwidth]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{xparse}
+\usetikzlibrary{chains,positioning,calc}
+\captionsetup{
+  font=scriptsize,
+  labelfont=it,
+  textfont=rm,
+  labelformat=parens,
+  position=above,
+  labelsep=space,
+  justification=centering,
+}
+\tikzset{
+  node distance=0,
+  every node/.style={draw,on chain,inner sep=1ex,minimum width=2.5em},
+  start chain=going right,
+}
+\NewDocumentEnvironment{tikzgensubfig}{O{Red}mmO{field}mmm}{
+  \begin{subfigure}[t]{\linewidth}
+    \centering
+    \begin{tikzpicture}
+      \begin{scope}[every node/.style={draw=none,text
+          width=3em,align=right,font=\small}]
+        \node(source) at (0,1.8) {source};
+        \node(pattern) at (0,0) {pattern};
+        \node(prefix) at (0,-.6) {prefix};
+      \end{scope}
+      \begin{scope}[every node/.append style={minimum height=2.5em}]
+        \chainin(source);
+        \foreach[count=\i] \ch in {a,a,c,a,a,c,a,a,c,a,a,d}{
+          \node(source\i){\ch};
+        };
+      \end{scope}
+    }{
+      \begin{scope}[
+        every node/.append style={minimum height=2.5em},
+        index node/.append style={draw=none,inner sep=0ex,minimum
+          height=1.5ex,font=\scriptsize},
+        ]
+        \chainin(#2);
+        \foreach[count=\i] \ch in {a,a,c,a,a,d}{
+          \node(pattern\i){\ch};
+        };
+        \chainin(#3);
+        \foreach \i in {0,1,0,1,2,0}{
+          \node[index node](prefix\i){\i};
+        };
+      \end{scope}
+      \begin{scope}[
+        every node/.style={
+          right,
+          draw=none,
+          text=#1,
+          inner sep=0.2ex,
+          font=\scriptsize,
+        },
+        ]
+        \path[draw=#1] (source#5.south) -- node{#4} (pattern#6.north);
+      \end{scope}
+    \end{tikzpicture}
+    \caption{#7}
+  \end{subfigure}
+}
+\begin{document}
+\begin{figure}
+  \centering
+  \begin{tikzgensubfig}{pattern}{prefix}{6}{6}{failed to match}
+  \end{tikzgensubfig}
+  \hfill
+  \begin{tikzgensubfig}[Green]{patternx}{prefixx}[success]{6}{3}{next match}
+    \coordinate(patternx) at ($(source4.west)-(source)+(pattern)$);
+    \coordinate(prefixx) at ($(source4.west)-(source)+(prefix)$);
+  \end{tikzgensubfig}
+\end{figure}
+\end{document}

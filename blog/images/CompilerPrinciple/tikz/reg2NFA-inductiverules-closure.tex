@@ -1,0 +1,30 @@
+\documentclass[border=10pt,margin=5pt,tikz,dvisvgm,rgb,utf8]{standalone}
+\usepackage{ctex,xeCJK}  % 中文环境
+\setCJKmainfont[BoldFont=Source Han Sans SC]{Source Han Serif SC}
+\usepackage{calc,fontawesome,forest,smartdiagram,xcolor}
+\usetikzlibrary{animations,arrows,automata,graphs,matrix,positioning,shadows,shapes}
+
+\begin{document}
+\renewcommand{\baselinestretch}{0.4}
+
+\begin{tikzpicture}
+  \node[text width=-3em](Start){};
+  \node[circle, draw=black, minimum width=15pt, minimum height=15pt, right=of Start](RI){\tiny i};
+  \node[circle, draw=black, minimum width=15pt, minimum height=15pt, right=of RI](SI){};
+  \node[circle, draw=black, minimum width=15pt, minimum height=15pt, right=of SI](SF){};
+  \node[circle, double, double distance=1pt, draw=black, minimum width=15pt, minimum height=15pt, right=of SF](RF){\tiny f};
+
+  \path[->]
+  (Start) edge node[above=-2pt]{\tiny start} (RI)
+  (RI) edge node[above=-2pt]{\tiny $\varepsilon$} (SI)
+  (SI) edge[draw=none] node{\tiny N(s)} (SF)
+  (SF) edge node[above=-2pt]{\tiny $\varepsilon$} (RF);
+
+  \path[->]
+  (SF) edge[out=120, in=60, min distance=1.2em] node[above=-3pt]{\tiny $\varepsilon$} (SI)
+  (RI) edge[out=60, in=120, min distance=1em] node[below=-2pt]{\tiny $\varepsilon$} (RF);
+
+  \draw ($(SI)!0.5!(SF)$) ellipse (1.25 and 0.4);
+\end{tikzpicture}
+
+\end{document}

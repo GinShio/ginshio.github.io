@@ -1,0 +1,33 @@
+\documentclass[border=10pt,margin=5pt,tikz,dvisvgm,rgb,utf8]{standalone}
+\usepackage{ctex,xeCJK}  % 中文环境
+\setCJKmainfont[BoldFont=Source Han Sans SC]{Source Han Serif SC}
+\usepackage{calc,fontawesome,forest,smartdiagram,xcolor}
+\usetikzlibrary{animations,arrows,automata,graphs,matrix,positioning,shadows,shapes}
+
+\begin{document}
+\renewcommand{\baselinestretch}{0.4}
+
+\begin{tikzpicture}
+  \node[align=center, text width=0.9em, minimum height=2.7em](source){源程序};
+  \node[draw=black, align=center, text width=0.9em, minimum height=3.6em, right=1.5em of source](preprocessor){预处理器};
+  \node[align=center, text width=0.9em, minimum height=7.2em, right=1.5em of preprocessor](process_source){预处理后的源程序};
+  \node[draw=black, align=center, text width=0.9em, minimum height=2.7em, right=1.5em of process_source](compiler){编译器};
+  \node[align=center, text width=0.9em, minimum height=5.4em, right=1.5em of compiler](assembly){目标汇编程序};
+  \node[draw=black, align=center, text width=0.9em, minimum height=2.7em, right=1.5em of assembly](assembler){汇编器};
+  \node[align=center, text width=0.9em, minimum height=7.2em, right=1.5em of assembler](machine_language){可重定位机器代码};
+  \node[draw=black, align=center, text width=0.9em, minimum height=2.7em, right=1.5em of machine_language](linker){链接器};
+  \node[align=center, text width=11em, below=2.5em of linker](lib){库文件\\可重定位对象文件};
+  \node[align=center, text width=0.9em, minimum height=5.4em, right=1.5em of linker](obj){目标机器代码};
+
+  \draw[->](source) -- (preprocessor);
+  \draw[->](preprocessor) -- (process_source);
+  \draw[->](process_source) -- (compiler);
+  \draw[->](compiler) -- (assembly);
+  \draw[->](assembly) -- (assembler);
+  \draw[->](assembler) -- (machine_language);
+  \draw[->](machine_language) -- (linker);
+  \draw[->](lib) -- (linker);
+  \draw[->](linker) -- (obj);
+\end{tikzpicture}
+
+\end{document}

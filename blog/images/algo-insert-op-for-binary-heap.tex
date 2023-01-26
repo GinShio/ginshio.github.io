@@ -1,0 +1,68 @@
+\documentclass[border=0.8ex,svgnames,varwidth]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{xparse}
+\captionsetup{
+  font=scriptsize,
+  labelfont=it,
+  textfont=rm,
+  labelformat=parens,
+  position=above,
+  labelsep=space,
+  justification=centering,
+}
+\NewDocumentCommand{\tikzgeninsubfig}{st+t-}{
+  \begin{tikzpicture}[
+    level distance=2.4em,
+    every node/.style={draw,circle,inner sep=0.1ex,minimum
+      size=1.44em,font=\small},
+    level 1/.style={sibling distance=4.0em},
+    level 2/.style={sibling distance=2.1em},
+    ]
+    \node(node0){13}
+    child{
+      node(node1){21}
+      child{ node(node3){24} }
+      child{ node(node4){31} }
+    }
+    child{
+      node(node2){\IfBooleanTF{#2}{\IfBooleanT{#3}{16}}{19}}
+      \IfBooleanTF{#1}{
+        child{ node(node5){68} }
+        child[missing]
+      }{
+        child{ node(node5){68} }
+        child{ node(node6){\IfBooleanT{#2}{19}} }
+      }
+    };
+  \end{tikzpicture}
+}
+\begin{document}
+\begin{figure}
+  \centering
+  \begin{subfigure}[t]{.24\linewidth}
+    \centering\tikzgeninsubfig*%
+    \caption{before}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{.24\linewidth}
+    \centering\tikzgeninsubfig%
+    \caption{insert}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{.24\linewidth}
+    \centering\tikzgeninsubfig+%
+    \caption{percolate up}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{.24\linewidth}
+    \centering\tikzgeninsubfig+-%
+    \caption{done}
+  \end{subfigure}
+\end{figure}
+\end{document}

@@ -1,0 +1,45 @@
+\documentclass[border=0.8ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{xparse}
+\usetikzlibrary{positioning,fit,arrows.meta}
+\NewDocumentCommand{\nodegen}{m}{
+  \node(#1) at (#1-on) {#1};
+  \node[above right=3em of #1] (#1-a) {#1-a};
+  \node[below right=3em of #1] (#1-b) {#1-b};
+  \node[fit=(#1)(#1-a)(#1-b),draw,inner sep=1.5em,
+  label={[xshift=-3.6em,yshift=1.8em]below:{\footnotesize #1 stage}}]{};
+}
+\NewDocumentCommand{\pathgen}{mo}{
+  \begin{scope}[every path/.style={draw,rounded corners=2mm,>=Stealth[round]}]
+    \path[->] (#1.east) -- ++(.6em,0) |- (#1-a);
+    \path[->] (#1.east) -- ++(.6em,0) |- (#1-b);
+  \end{scope}
+  \IfValueT{#2}{
+    \begin{scope}[every path/.style={draw,dashed,rounded
+        corners=2mm,>=Stealth[round]}]
+      \path[->] (#1-a.east) -- ++(1em,0) |- (#2);
+      \path[->] (#1-b.east) -- ++(1em,0) |- (#2);
+    \end{scope}
+  }
+}
+\begin{document}
+\begin{tikzpicture}
+  \coordinate(build-on) at (0em,0);
+  \coordinate(test-on) at (16em,0);
+  \coordinate(deploy-on) at (32em,0);
+  \begin{scope}[
+    every node/.style={draw,minimum width=5em,minimum height=1.8em},
+    ]
+    \nodegen{build};
+    \nodegen{test};
+    \nodegen{deploy};
+  \end{scope}
+  \pathgen{build}[test];
+  \pathgen{test}[deploy];
+  \pathgen{deploy};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,42 @@
+\documentclass[border=0.8ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+
+\usetikzlibrary{positioning,calc}
+
+\begin{document}
+\begin{tikzpicture}
+  \coordinate(appl) at (0,0);
+  \coordinate(kernel) at ($(appl)+(13.3em,0)$);
+  \begin{scope}[
+    every node/.style={
+      align=center,
+      anchor=center,
+      font=\small,
+      text width=5.5em,
+    },
+    ]
+    \path[draw=none] node(noready){no data}
+    ++(0,-4.2em) node(ready){ready \& copy}
+    ++(0,-3.0em) node(complete){complete};
+    \node (call)   at ($(noready)-(kernel)-(appl)$)  {call aio};
+    \node (return) at ($(complete)-(kernel)-(appl)$) {return aio};
+  \end{scope}
+  \begin{scope}[
+    every node/.style={above,inner sep=0.45ex,font=\tiny},
+    every path/.style={draw,>=latex},
+    ]
+    \path[->]
+    (call)     edge[bend left=8] node{system call} (noready)
+    (noready)  edge[bend left=8] node{return}      (call)
+    (noready)  edge                                (ready)
+    (ready)    edge                                (complete)
+    (complete) edge node{deliver aio signal}       (return);
+  \end{scope}
+  \node[above=1ex of call,inner sep=0ex](appl-label){\bfseries appl};
+  \node at ($(appl-label)+(kernel)-(appl)$) {\bfseries kernel};
+\end{tikzpicture}
+\end{document}

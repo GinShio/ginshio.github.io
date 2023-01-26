@@ -1,0 +1,135 @@
+#+hugo_categories: ProgrammingLanguage
+#+hugo_tags: Note Haskell Guide
+#+hugo_draft: true
+#+hugo_locale: zh
+#+hugo_lastmod: 2020-12-15T17:07:20+08:00
+#+hugo_auto_set_lastmod: nil
+#+hugo_front_matter_key_replace: author>authors
+#+hugo_custom_front_matter: :series ["Haskell Guide"] :series_weight 3
+#+title: Haskell 数据结构
+#+author: GinShio
+#+date: 2020-12-15T17:07:20+08:00
+#+email: ginshio78@gmail.com
+#+description: GinShio | Haskell 函数式编程入门 (第八、九章读书笔记)
+#+keywords: ProgrammingLanguage Note Haskell Guide
+#+export_file_name: haskell_struct.zh-cn.txt
+
+
+* 数据类型
+为了方便使用，一般编程语言会提供定义新的数据类型的方法，Haskell 中使用 data 与 newtype 关键字来定义新类型
+
+** 定义数据类型
+*** 枚举类型
+data 是定义新类型的关键字，类型名称的首字母要大写，我们先来学习如何定义枚举类型，枚举值也是需要首字母大写的，就像布尔值
+#+begin_src haskell
+data Day = Mon | Tue | Wed | Thu | Fri | Sat | Sun deriving (Enum, Show, Eq, Ord)
+#+end_src
+
+我们现在定义了Day这个类型，它是 Enum 类型类的类型，所以可以使用 =..= 语法生成一个列表，Show 类型类可以打印其值，Eq 和 Ord 类型类可以让它的值进行比较
+#+begin_src haskell
+Mon -- Mon
+Mon == Mon -- True
+Fri < Tue -- False
+[Mon .. Sun] -- [Mon,Tue,Wed,Thu,Fri,Sat,Sun]
+#+end_src
+
+现在我们需要实现 =tomorrow :: Day -> Day= 和 =yesterday :: Day -> Day= 函数呢，使用模式匹配来完成，听起来不错，不过模式匹配必须遍历所有值，这也太麻烦了，既然实现了 Enum 类型类那可以直接使用类型类的方法
+#+begin_src haskell
+-- 使用模式匹配特判边界条件，否则在枚举边界会出错
+:{
+tomorrow :: Day -> Day
+tomorrow Sun = Mon
+tomorrow d = succ d
+yesterday :: Day -> Day
+yesterday Mon = Sun
+yesterday d = pred d
+:}
+#+end_src
+
+*** 普通类型
+我们可以尝试定义一个不同类型，比如书的类型
+#+begin_src haskell
+type Name = String
+type Author = String
+type ISBN = String
+type Price = Float
+data Book = Book Name Author ISBN Price deriving (Show, Eq)
+#+end_src
+
+这会生成一个 Book 类型的构造器，可以为这个函数传入参数构造一个 Book 类型的对象，不过相对的访问内部成员会相对的麻烦
+#+begin_src haskell
+:t Book -- Book :: Name -> Author -> ISBN -> Price -> Bool
+name (Book n _ _ _) = n -- name :: Book -> Name
+author (Book _ a _ _) = a -- author :: Book -> Author
+isbn (Book _ _ i _) = i -- isbn :: Book -> ISBN
+price (Book _ _ _ p) = p -- price :: Book -> Price
+#+end_src
+
+幸运的是，Haskell 提供了相对简单的方法，可以在定义类型时，同时定义访问器
+#+begin_src haskell
+:{
+data Book = Book
+  {
+    name :: Name,
+    author :: Author,
+    isbn :: ISBN,
+    price :: Price
+  } deriving (Show, Eq)
+:}
+#+end_src
+
+当定义函数的时候，可能同时用到构造出的值和这个构造器中的参数，可以不用变量来匹配这个构造器的参数而仅仅是用一个名字指代，然后用访问器函数来得到这个构造数据中的值。比如书店中的一些书要涨价，书店需要分别记录原价和涨价后书的信息，所以需要一个如下的函数
+#+begin_src haskell
+increase_price :: ([Book],[Book]) -> Book -> Price -> ([Book],[Book])
+increase_price (b1, b2) (Book n a i p) pri = ((Book n a i p) : b1, (Book n a i (p + pri)) : b2)
+#+end_src
+
+这样写可能有些麻烦，所以一般我们可以使用 =@= 来简单的实现这个功能
+#+begin_src haskell
+increase_price :: ([Book],[Book]) -> Book -> Price -> ([Book],[Book])
+increase_price (b1, b2) b@(Book n a i p) pri = (b : b1, (Book n a i (p + pri)) : b2)
+-- 或者：increase_price (b1, b2) b pri = (b : b1, (b {price = pri + (price b)}) : b2)
+#+end_src
+
+*** 参数化类型
+参数化类型是需要类型参数的类型，这种类似于 C++ 中的 STL 容器，而在 Haskell 中 List 和 Maybe 就是其中之一。我们先来学习 Maybe，它有如下定义，你可以看到它的类型是 =* -> *= ，有些奇怪，不过别担心， * 是一个 *零元类型构造器* 的 kind，它表示 Maybe 需要另外一个类型来得到完整的类型
+#+begin_src haskell
+:i Maybe
+-- type Maybe :: * -> *
+-- data Maybe a = Nothing | Just a
+--         -- Defined in ‘GHC.Maybe’
+-- instance Eq a => Eq (Maybe a) -- Defined in ‘GHC.Maybe’
+-- instance Functor Maybe -- Defined in ‘GHC.Base’
+-- instance Monad Maybe -- Defined in ‘GHC.Base’
+-- instance Ord a => Ord (Maybe a) -- Defined in ‘GHC.Maybe’
+-- instance Show a => Show (Maybe a) -- Defined in ‘GHC.Show’
+-- ...
+:k Maybe -- Maybe :: * -> *
+:k Int -- Int :: *
+#+end_src
+
+Maybe 是一种容器，它可以存储任意类型的值，或者 Nothing，Just 则是 Maybe 的构造器，当然 Maybe 也实现了一些类型类，比如 Monad 类型类，而 Eq 类型类的实现取决于 Maybe 存储的值 a 是否实现了 Eq 类型类
+#+begin_src haskell
+a = Just 10 -- a :: Num a => Maybe a
+a < Just 100 -- True
+f = Just (+3) -- f :: Num a => Maybe (a -> a)
+-- f < Just (+4) -- 错误，函数不是 Ord 类型成员
+#+end_src
+
+那现在我们看一下 Maybe 可以干什么吧，简单地说它是一种简单的程序处理异常的方式，当出现异常的时候返回 Nothing，比如 head 一个空列表时应该返回 Nothing，这和其他语言中的 =optional= 是一样的
+#+begin_src haskell
+:{
+my_head :: [a] -> Maybe a
+my_head [] = Nothing
+my_head (e:l) = Just e
+:}
+#+end_src
+
+** 类型的同构
+对于两个类型 A 与 B，若可以定义 =f :: A -> B= 将 A 映射到 B，并且可以定义 f 的反函数 =g :: B -> A= 将 B 映射到 A 且满足 $f \circ g = id_{B}$ 和 $g \circ f = id_{A}$ ，那么则说类型 A 与类
+型 B 为 *同构* 的，记做 \(A \simeq B\)​，而函数 f 与 g 被称为 *同构映射* 。
+
+#+attr_html: :width 30%
+[[file:../../_build/tikzgen/haskell-type-isomorphism.svg]]
+
+同构是 *自反* (reflexive) 的，任意类型都与自己同构；是 *对称* (symmetric) 的，类型 A 与类型 B 同构，则 B 与 A 也同构；是 *传递* (transitive) 的，如果类型 A 与类型 B 同构，而类型 B 与类型 C 同构，那么 A 与 C 同构。

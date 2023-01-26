@@ -1,0 +1,53 @@
+\documentclass[border=1pt,tikz,varwidth=\maxdimen]{standalone}
+
+\usetikzlibrary{positioning,calc}
+
+\usepackage{amsmath,mathtools}
+
+\begin{document}
+\begin{tikzpicture}[
+  level/.style={sibling distance=9em/#1},
+  ]
+  \node (source) {\(A.a=g(g(f(X.x), Y_{1}.y), Y_{2}.y)\)}
+  child {
+    node {\(A.a=g(f(X.x), Y_{1}.y)\)}
+    child {
+      node {\(A.a=f(X.x)\)}
+      child {
+        node {\(X\)}
+      }
+    }
+    child[missing]
+    child {
+      node {\(Y_{1}\)}
+    }
+  }
+  child { node {\(Y_{2}\)} };
+
+  \node[right=2.3 of source] {\(A\)}
+  child {
+    node {\(X\)}
+  }
+  child {
+    node {\(R.i=f(X.x)\)}
+    child {
+      node {\(Y_{1}\)}
+    }
+    child[missing]
+    child {
+      node {\(R.i=g(f(X.x), Y_{1}.y)\)}
+      child {
+        node {\(Y_{1}\)}
+      }
+      child[missing]
+      child[missing]
+      child {
+        node {\(R.i=g(g(f(X.x), Y_{1}.y), Y_{2}.y)\)}
+        child {
+          node {\(\varepsilon\)}
+        }
+      }
+    }
+  };
+\end{tikzpicture}
+\end{document}

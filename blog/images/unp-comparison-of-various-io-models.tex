@@ -1,0 +1,88 @@
+\documentclass[border=0.8ex,svgnames,varwidth]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{xparse}
+\usetikzlibrary{chains,calc}
+\captionsetup{
+  font=scriptsize,
+  labelfont=it,
+  textfont=rm,
+  labelformat=parens,
+  position=above,
+  labelsep=space,
+  justification=centering,
+}
+\NewDocumentEnvironment{subfigurebox}{m}%
+{% start of environment
+  \begin{subfigure}[t]{.18\linewidth}
+    \centering
+    \begin{tikzpicture}[
+      every node/.style={draw=none,inner sep=0.3ex},
+      every path/.style={draw,>=latex},
+      label node/.style={draw=none,above,sloped,inner sep=0.3ex,font=\tiny},
+      ]
+      \coordinate(end)   at (0,0);
+      \coordinate(start) at ($(end)+(0,8em)$);
+    }%
+    {% end of environment
+    \end{tikzpicture}
+    \caption{#1}
+  \end{subfigure}
+}%
+\begin{document}
+\begin{figure}
+  \begin{subfigurebox}{Blocking}
+    \node(initiate) at (start) {initiate};
+    \node(complete) at (end)   {complete};
+    \path[->] (initiate) edge node[label node]{blocked} (complete);
+  \end{subfigurebox}
+  \hfill
+  \begin{subfigurebox}{NonBlocking}
+    \begin{scope}[
+      node distance=-0.5ex,
+      start chain=going below,
+      every node/.append style={on chain},
+      ]
+      \node at (start) {check};
+      \node{check};
+      \node{check};
+      \node{check};
+      \node(check){check};
+    \end{scope}
+    \node(complete) at (end) {complete};
+    \path[->] (check) edge node[label node]{blocked} (complete);
+  \end{subfigurebox}
+  \hfill
+  \begin{subfigurebox}{IO multiplexing}
+    \node(check) at (start) {check};
+    \begin{scope}[every node/.append style={node distance=-0.5ex,inner sep=0.2ex}]
+      \node[below=2.4em of check] (ready) {ready};
+      \node[below=of ready] (initiate) {initiate};
+    \end{scope}
+    \node(complete) at (end) {complete};
+    \path[->] (check) edge node[label node]{blocked} (ready);
+    \path[->] (initiate) edge node[label node]{blocked} (complete);
+  \end{subfigurebox}
+  \hfill
+  \begin{subfigurebox}{signal-driven}
+    \node(register) at (start) {register};
+    \begin{scope}[every node/.append style={node distance=0ex,inner sep=0.2ex}]
+      \node[below=2.4em of register] (notification) {notification};
+      \node[below=of notification] (initiate) {initiate};
+    \end{scope}
+    \node(complete) at (end) {complete};
+    \path[->] (initiate) edge node[label node]{blocked} (complete);
+  \end{subfigurebox}
+  \hfill
+  \begin{subfigurebox}{signal-driven}
+    \node(initiate) at (start) {initiate};
+    \node(notification) at (end) {notification};
+  \end{subfigurebox}
+\end{figure}
+\end{document}

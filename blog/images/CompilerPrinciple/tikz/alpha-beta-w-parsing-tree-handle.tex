@@ -1,0 +1,23 @@
+\documentclass[border=3pt,tikz]{standalone}
+\usetikzlibrary{positioning}
+\begin{document}
+\tikzstyle{empty}=[rectangle,inner sep=0pt,minimum height=0pt,minimum width=0pt]
+\begin{tikzpicture}
+  \node[circle](S){\textit{S}};
+  \node[circle,below=of S](A){\textit{A}};
+  \node[empty,below left=2em of A](empty1){};
+  \node[empty,below right=2em of A](empty2){};
+  \node[empty,left=of empty1](empty3){};
+  \node[empty,left=0.5em of empty1](empty4){};
+  \node[empty,right=of empty2](empty5){};
+  \node[empty,right=0.5em of empty2](empty6){};
+
+  \path
+  (S) edge[dashed] (A);
+
+  \draw (S) -- (empty3) -- node[below=0em]{\(\alpha\)} (empty4);
+  \draw (S) -- (empty5) -- node[below=0em]{\(w\)} (empty6);
+  \draw (A) -- (empty1) -- node[below=0em]{\(\beta\)} (empty2) -- (A);
+
+\end{tikzpicture}
+\end{document}

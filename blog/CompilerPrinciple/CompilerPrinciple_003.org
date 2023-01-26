@@ -1,0 +1,226 @@
+#+hugo_categories: CompilerPrinciple
+#+hugo_tags: Note DragonBook LexicalAnalysis
+#+hugo_draft: false
+#+hugo_locale: zh
+#+hugo_lastmod: 2022-04-12T21:23:18+08:00
+#+hugo_auto_set_lastmod: nil
+#+hugo_front_matter_key_replace: author>authors
+#+hugo_custom_front_matter: :subtitle 基于DFA的模式匹配器的优化
+#+hugo_custom_front_matter: :series ["龙书学习笔记"] :series_weight 3
+#+title: 词法分析 2
+#+subtitle: 基于DFA的模式匹配器的优化
+#+author: GinShio
+#+date: 2020-10-17T22:33:04+08:00
+#+email: ginshio78@gmail.com
+#+description: GinShio | 编译原理第三章读书笔记
+#+keywords: CompilerPrinciple Note DragonBook LexicalAnalysis
+#+export_file_name: CompilerPrinciple_003.zh-cn.txt
+
+* NFA的重要状态
+如果一个 NFA 状态有一个标号非 $\varepsilon$ 的离开转换，那么我们称这个状态为 *重要状态*
+(important state)。子集构造法在计算 $\varepsilon-closure(move(T，a))$ 的时候，它只使用了集
+合T中的重要状态，也就是说只有当状态s是重要的，状态集合 $move(s,a)$ 才可能是非空
+的。在子集构造法的应用过程中，两个NFA状态集合可以被认为是一致的条件是
+  1. 具有相同的重要状态，且
+  2. 要么都包含接受状态，要么都不包含接受状态
+
+如果 NFA 是使用 =McMaughton-Yamada-Thompson= 算法根据一个正则表达式生成的，那么
+我们可以获得更多重要状态的性质
+  - 重要状态只包括在基础规则部分为正则表达式中某个特定符号位置引入的初始状态，即
+    每个重要状态对应于正则表达式中的某个运算分量
+  - NFA 只有一个接受状态，但该接受状态不是重要状态。我们可以在正则表达式r的右端
+    连接一个独特的结束标记符 =#=​，使得r的接收状态增加一个在 =#= 上的转换，使其成为
+    =(r)#= 的NFA的重要状态
+  - NFA 的重要状态直接对应于正则表达式中存放了字母表中符号的位置，使用抽象语法树
+    来表示扩展的正则表达式是非常有用的
+
+* 抽象语法树
+抽象语法树的叶子结点对应于运算分量，内部结点表示运算符。标号为 =连接运算符=
+($\circ$) 的内部结点被称为 *cat结点*​，​=并运算符= ($|$) 的内部结点被称为 *or结点*​，​=
+星号运算符= ($*$) 的内部结点被称为 *star结点*​，我们构建正则表达式
+\((a|b)^{*}abb\#\) 的抽象语法树。
+
+[[file:../images/CompilerPrinciple/ast-example.svg]]
+
+抽象语法树的叶子结点可以标号为 $\varepsilon$​，也可以用字母表中的符号作为标号，对于每个标
+号不为 $\varepsilon$ 的叶子结点，我们赋予一个独立的整数，我们将这个整数称作叶子结点的 *位
+置*​，同时也表示和它对应的符号的位置，当然一个符号可以有多个位置。抽象语法树中的
+这些位置对应构造出的 NFA 中的重要状态。
+
+[[file:../images/CompilerPrinciple/NFA-with-ast-example.svg]]
+
+* 计算函数
+要从一个正则表达式直接构造出 DFA，我们要先构造出它的抽象语法树，然后计算如下四个
+函数：​=nullable=​、​=firstpos=​、​=lastpos= 和 =followpos=​，且这四个函数都用到了扩展
+正则表达式 =(r)#= 的抽象语法树。
+
+  - nullable(n) ::
+    当且仅当此结点代表的子表达式的语言中包含空串 $\varepsilon$ 时抽象语法树结点n为真，即：
+    这个子表达式可以生成空串或本身就是空串，即使它也可能表示其他串
+  - firstpos(n) ::
+    定义了以结点n为根的子树中的位置集合，这些位置对应于以n为根的子表达式的语言中
+    某个串的 *第一个符号*
+  - lastpos(n) ::
+    定义了以结点n为根的子树中的位置集合，这些位置对应于以n为根的子表达式的语言中
+    某个串的 *最后一个符号*
+  - followpos(p) ::
+    定义了一个和位置p相关的、抽象语法树中的某些位置的集合。当且仅当存在 L((r)#)
+    中的某个串 $x=a_{1}a_{2}\cdots a_{n}$​，使得我们在解释为什么x属于 L((r)#) 时，可
+    以将x中的某个 $a_{i}$ 和抽象语法树中的位置p匹配，且将位置 $a_{i+1}$ 和位置q
+    匹配，那么位置q在 $followpos(p)$ 中。简单地说，该函数计算出位置n之后可以跟随
+    的其他位置
+
+在计算函数时，我们先给出较为简单的 nullable 、 firstpos 和 lastpos 的计算方式，
+可以使用一个对树的高度直接进行递归的过程来计算它们，计算方式如下。
+ - 一个标号为 $\varepsilon$ 的叶子结点
+   - ~nullable(n)~: true
+   - ~firstpos(n)~: $\emptyset$
+   - ~lastpos(n)~: $\emptyset$
+ - 一个位置为 i 的叶子结点
+   - ~nullable(n)~: false
+   - ~firstpos(n)~: ={i}=
+   - ~lastpos(n)~: ={i}=
+ - 一个 or 结点 ($n = c_{1}\mid c_{2}$)
+   - ~nullable(n)~: $nullable(c_{1})$ *or* $nullable(c_{2})$
+   - ~firstpos(n)~: $firstpos(c_{1}) \cup firstpos(c_{2})$
+   - ~lastpos(n)~: $lastpos(c_{1}) \cup lastpos(c_{2})$
+ - 一个 cat 结点 ($n = c_{1}c_{2}$)
+   - ~nullable(n)~: $nullable(c_{1})$ *and* $nullable(c_{2})$
+   - ~firstpos(n)~: *if* $nullable(c_{1})$ *then* $firstpos(c_{1}) \cup firstpos(c_{2})$ *else* $firstpos(c_{1})$
+   - ~lastpos(n)~: *if* $nullable(c_{2})$ *then* $lastpos(c_{1}) \cup lastpos(c_{2})$ *else* $lastpos(c_{2})$
+ - 一个 star 结点 ($n=(c_{1})^{*}$)
+   - ~nullable(n)~: true
+   - ~firstpos(n)~: $firstpos(c_{1})$
+   - ~lastpos(n)~: $lastpos(c_{1})$
+
+followpos 的概念有些复杂，我们先来了解如何计算 followpos，只有两种情况会使得正则
+表达式的某个位置跟在另一个位置之后
+  1. 如果 n 是 cat 结点，且其左右子结点分别是 $c_{1}$ 和 $c_{2}$​，那么对于
+     $lastpos(c_{1})$ 中的每个位置 i， $firstpos(c_{2})$ 中的所有位置都在
+     $followpos(i)$ 中
+  2. 如果 n 是 star 结点，且 i 是 $lastpos(n)$ 中的一个位置，那么 $firstpos(n)$
+     中的所有位置都在 $followpos(i)$ 中
+
+四个函数如何计算都已经给出，现在我们用正则表达式 \((a|b)^{*}abb\#\) 练练手，下图
+给出构建出的语法分析树，结点左边给出其 *firstpos*​，结点右边给出其 *lastpos*
+
+[[file:../images/CompilerPrinciple/ast-with-firstpos-and-lastpos.svg]]
+
+followpos 的计算规则1要求我们查看每个cat结点，并将它的右子结点的firstpos中的每个
+位置放到它的左子结点的lastpos中各个位置的followpos中；计算规则2要求我们查看每个
+star 结点，并将它的firstpos中的所有位置放到它的lastpos中各个位置的followpos中。
+例如上图中最下面的一个 cat 结点，根据规则1，将位置3加入到 =followpos(1)= 和
+=followpos(2)= 中。
+|-------+--------------|
+| 位置n | followpos(n) |
+|-------+--------------|
+|     1 | ={1,2,3}=    |
+|     2 | ={1,2,3}=    |
+|     3 | ={4}=        |
+|     4 | ={5}=        |
+|     5 | ={6}=        |
+|     6 | $\emptyset$          |
+
+我们可以创建有向图来表示函数 followpos，其中每个位置有一个对应的结点，当且仅当j
+在followpos(i)中时从位置i到位置j有一条有向边。那么这个表示followpos函数的有向图
+几乎就是相应正则表达式的不含 $\varepsilon$ 转换的NFA，我们经过以下处理即可由有向图得到NFA
+  1. 将根结点的firstpos中的所有位置设置为开始状态
+  2. 在每条从i到j的有向边上添加位置i上的符号作为标号
+  3. 把和结尾 =#= 相关的位置当作唯一的接收状态
+
+[[file:../images/CompilerPrinciple/followpos-directed-graph.svg]]
+
+* 从正则表达式构造DFA
+接下来我们给出算法，直接从正则表达式构造DFA
+
+#+begin_info
+输入：一个正则表达式 r
+
+输出：一个识别 L(r) 的 DFA D
+#+end_info
+
+方法：
+  1. 根据扩展的正则表达式 =(r)#= 构造出一颗抽象语法树 T
+  2. 计算T的函数 nullable，firstpos，lastpos 和 followpos
+  3. 构造出 D 的 *状态集* $D_{states}$ 和 D 的 *转换函数* $D_{tran}$​，D的状态就
+     是T中的位置集合，开始状态是 $firstpos(n_{0})$ ($n_{0}$ 是T的根节点)，接受状
+     态集合是那些包含了和结束标记#对应的位置的状态。每个状态最初都是 =未标记的=​，
+     当我们开始考虑某个状态的离开转换时，该状态就变为 *已标记的*
+
+构造的伪代码如下:
+#+begin_example
+while Dstates 中存在未标记的状态S:
+    标记 S
+    for 每个输入符号a:
+        令 U 为 S 中和 a 对应的所有位置p的 followpos(p) 的并集
+        if U 不在 Dstates 中:
+            将 U 作为未标记的状态加入 Dstates 中
+        Dtran[S，a] = U
+#+end_example
+
+依然以 $(a|b)^{*}abb$ 为例构造 DFA，正则表达式所构造出的语法分析树上面已有，分析
+语法分析树可知只有 star 结点的 nullable 为真。
+
+这颗树的根结点的 firstpos 集为 ={1,2,3}= ，即 DFA 的开始状态集合，我们称这个集合
+为 A。计算 $D_{tran}[A，a]$ 和 $D_{tran}[A，b]$ ，A中1和3对应于a，2对应于b，所有
+$D_{tran}[A，a] = followpos(1) \cup followpos(3) = {1，2，3，4}$​，​$D_{tran}[A，b]
+= followpos(2) = {1,2,3}$ ​以此类推，构造出该正则表达式的 DFA。
+|------+-------------+---+---|
+| 名称 | 集合        | a | b |
+|------+-------------+---+---|
+| A    | ={1,2,3}=   | B | A |
+| B    | ={1,2,3,4}= | B | C |
+| C    | ={1,2,3,5}= | B | D |
+| D    | ={1,2,3,6}= | B | A |
+
+[[file:../images/CompilerPrinciple/reg2DFA.svg]]
+
+* 最小化DFA
+对于同一个语言，可以存在多个识别此语言的DFA。对于不同的DFA，各个状态的的名字可能
+不同，状态的个数也可能不一样，如果我们使用DFA实现词法分析器，则希望DFA的状态数尽
+可能的少，因为词法分析器的转换表需要为每个状态分配条目。
+
+状态名如果不同，但只改变状态名就可以将一个自动机转换为另一个自动机，那么这两个自
+动机是​*同构的*​，反之则不是。有一个重要结论：任何正则语言都有一个​*唯一的*​且​*状态
+数目最少*​的DFA，而且从任意接受相同正则语言的DFA出发，通过分组合并等价状态，我们
+总可以构造出状态数最少的 DFA。
+
+我们以正则表达式 $(a|b)^{*}abb$ 的两个已经构造出的DFA来讲解最小化，其中最小化的
+DFA是本篇中由正则表达式直接构造出的DFA，另一个非同构DFA是上一篇中由NFA转换来的
+DFA。
+
+[[file:../images/CompilerPrinciple/DFA-minimization-example.svg]]
+
+在最小化DFA之前，先说明输入串是如何区分各个状态的，如果分别从状态s和t出发，沿着
+标号为x的路径到达的两个状态只有一个是接受状态，则串x =区分状态= s 和 t；如果状态
+s 和 t 存在能够区分它们的串，那么它们就是 *可区分的*​。空串 $\varepsilon$ 可以区分如何一个
+接受状态和非接受状态。串 =bb= 区分状态 A 和 B，因为从 A 出发经过标号 bb 的路径会
+到达非接受状态 C，而从B出发可以到达接受状态。
+
+DFA状态最小化的工作原理是将一个DFA的状态集合划分为多个组，每个组中的各个状态相互
+不可区分，但不同组的状态是可区分的，每个组中的状态合并为最小DFA的一个状态，当任
+意一个组都不能再被分解为更小的组时这个划分结束，此时我们就得到了状态最少的DFA。
+具体方法如下
+
+  1. 首先构造包含两个组 =F= 和 =S-F= 的初始划分 $\Pi$​，这两个组分别是D的接受状态
+     组和非接受状态组
+  2. 应用以下方法构造新的分划 $\Pi_{new}$
+     #+begin_example
+Pi_new = Pi
+for Pi 中的每个组 G:
+    将 G 划分为更小的组，当且仅当对于所有的输入符号a，使得两个状态s和t在同一小组中，状态s和t在a上的转换都到达 Pi 中的同一组
+    在 Pi_new 中将 G 替换为对 G 进行划分得到的那些小组
+      #+end_example
+  3. 如果 $\Pi_{new} = \Pi$​，令 $\Pi_{final} = \Pi$ 并执行步骤4，否则用 $\Pi_{new}$ 替换
+     $\Pi$ 并重复步骤2
+  4. 在划分 $\Pi_{final}$ 的每个组中选取一个状态作为该组的代表，这些代表构成了状态
+     最少 DFA 的状态。最小状态DFA $D'$ 的其他部分按如下步骤构造
+     a. $D'$ 的开始状态是包含了 D 的开始状态的组的代表
+     b. $D'$ 的接受状态是那些包含了 D 的接受状态的组的代表。每个组要么只包含了接
+        受状态，要么只包含了非接受状态，因为我们一开始将这两类状态分开了
+     c. 令 s 是 $\Pi_{final}$ 中某个组 G 的代表，并令 DFA 中正在输入 a 上离开 s 的
+        转换到达状态 t，令 r 为 t 所在组 H 的代表，那么在 $D'$ 中存在一个从 s 到
+        r 在输入 a 上的转换
+
+上述算法可能会产生一个带有 *死状态* 的DFA，所谓死状态是在所有输入符号上都转向自
+己的非接受状态。我们可以消除掉死状态，使这个DFA可能会变为缺少某些转换的自动机。

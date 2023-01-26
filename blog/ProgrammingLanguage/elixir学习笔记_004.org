@@ -1,0 +1,98 @@
+#+hugo_categories: ProgrammingLanguage
+#+hugo_tags: Note Elixir Guide
+#+hugo_draft: true
+#+hugo_locale: zh
+#+hugo_lastmod: 2021-02-23T12:38:41+08:00
+#+hugo_auto_set_lastmod: nil
+#+hugo_front_matter_key_replace: author>authors
+#+hugo_custom_front_matter: :series ["Elixir 学习笔记"] :series_weight 4
+#+title: Elixir 4
+#+author: GinShio
+#+date: 2021-02-23T12:38:41+08:00
+#+email: ginshio78@gmail.com
+#+description: GinShio | Elixir 学习笔记 004
+#+keywords: ProgrammingLanguage Note Elixir Guide
+#+export_file_name: elixir学习笔记_004.zh-cn.txt
+
+
+* 协议
+协议是 Elixir 实现 *多态* 的一种方式，函数是基于数值的类型来动态派遣的，有点类似
+与 *interface* 的概念，当类型实现了某个协议，就可以实现对应的函数
+#+begin_src elixir
+to_string(5) # "5"
+to_string(3.14) # "3.14"
+to_string("foo") # "foo"
+# to_string({:foo}) # (Protocol.UndefinedError) protocol String.Chars not implemented for type Tuple
+#+end_src
+
+~to_string/1~ 并没有为元组提供实现，我们现在为元组实现一个协议， *defimpl* 可以
+指定一个协议，而 *:for* 可以指明一个类型实现
+#+begin_src elixir
+defimpl String.Chars, for: Tuple do
+  def to_string(tuple) do
+    interior =
+      tuple
+      |> Tuple.to_list() |> Enum.map(&Kernel.to_string/1) |> Enum.join(", ")
+    "{#{interior}}"
+  end
+end
+to_string({:foo, 3.14, "iris", 1}) # "{foo, 3.14, iris, 1}"
+#+end_src
+
+这样我们为 Tuple 实现了 String.Chars 协议，那现在定义一个新的协议 AsAtom
+#+begin_src elixir
+defprotocol AsAtom do
+  def to_atom(data)
+end
+defimpl AsAtom, for: Atom do
+  def to_atom(atom), do: atom
+end
+defimpl AsAtom, for: BitString do
+  defdelegate to_atom(string), to: String
+end
+defimpl AsAtom, for: List do
+  defdelegate to_atom(list), to: List
+end
+defimpl AsAtom, for: Map do
+  def to_atom(map), do: List.first(Map.keys(map))
+end
+#+end_src
+
+----------
+
+
+* 嵌入 Elixir
+TODO: https://elixirschool.com/zh-hans/lessons/specifics/eex/
+
+----------
+
+
+* 行为
+TODO: https://elixirschool.com/zh-hans/lessons/advanced/behaviours/
+
+----------
+
+* 元编程
+TODO: https://elixirschool.com/zh-hans/lessons/advanced/metaprogramming/
+
+----------
+
+
+* 构建项目
+** Umbrella
+TODO: https://elixirschool.com/zh-hans/lessons/advanced/umbrella-projects/
+
+** 构建可执行文件
+TODO: https://elixirschool.com/zh-hans/lessons/advanced/escripts/
+
+----------
+
+
+* Debug
+TODO: https://elixirschool.com/zh-hans/lessons/specifics/debugging/
+
+----------
+
+
+* OTP 分布式
+TODO: https://elixirschool.com/zh-hans/lessons/advanced/otp-distribution/

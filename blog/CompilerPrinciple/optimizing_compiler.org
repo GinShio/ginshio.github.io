@@ -1,0 +1,381 @@
+#+hugo_categories: CompilerPrinciple
+#+hugo_tags: Optimization
+#+hugo_draft: true
+#+hugo_locale: zh
+#+hugo_lastmod: 2022-09-21T22:13:56+08:00
+#+hugo_auto_set_lastmod: nil
+#+hugo_front_matter_key_replace: author>authors
+#+title: 优化编译器
+#+author: GinShio
+#+date: 2022-09-12T18:30:19+08:00
+#+email: ginshio78@gmail.com
+#+description: GinShio | 优化编译器 -- Wikipedia 翻译
+#+keywords: CompilerPrinciple Optimization
+#+export_file_name: optimizing_compiler.zh-cn.txt
+
+
+在[[https://en.wikipedia.org/wiki/Computing][计算机科学]]中，​*编译器优化*​是[[https://en.wikipedia.org/wiki/Compiler][编译器]]试图最小化或最大化[[https://en.wikipedia.org/wiki/Executable][可执行]]程序的某些属性。通常的
+需求是最小化程序的执行时间、内存占用、文件大小和功耗 (在便携式计算机中后三者很流
+行)。
+
+编译器优化通常被实现为一系列优化转换、算法，这些优化将程序转换为一个语义等价的使
+用更少资源或执行更快的程序。事实证明，一些代码优化问题是[[https://en.wikipedia.org/wiki/NP-complete][NP完全]]的，甚至是[[https://en.wikipedia.org/wiki/Undecidable_problem][不可判定
+问题]]。在实践中，程序员愿意等待编译器完成其编译任务的因素是，在编译器可能提供的
+优化上提供程序的某些上限。优化通常是一个 CPU 和内存密集型过程。在过去，计算机内
+存限制也是可以进行哪些优化的主要因素。
+
+由于这些原因，优化很少产生任何意义上的“最佳”输出，实际上“优化”可能在某些情况下阻
+碍性能。相反，它们是改善典型程序中资源使用的启发式方法。[fn:1]
+
+* 优化的种类
+
+用于优化的技术可以拆分成不同的​=作用域=​，从而可以从单语句到整个程序产生影响。通常来
+讲，当前作用域的技术相比全局技术更容易实现，但收益更小。一些作用域的例子包括：
+
+  + [[https://en.wikipedia.org/wiki/Peephole_optimization][窥孔优化]]
+
+    这些优化通常发生在[[https://en.wikipedia.org/wiki/Machine_code][机器代码]]生成之后的编译流程后期。该形式的优化会检查几条相邻
+    的指令 (就像“通过小孔观察代码”)，来看它们是否可以被单条指令或更短的指令序列
+    替代。[fn:2]  例如，一个值乘以 2 可能被左移运算或加自身来更高效的执行 (这也
+    是一个[[https://en.wikipedia.org/wiki/Strength_reduction][强度折减]]的例子)。
+
+  + 本地优化
+
+    该优化仅考虑当前[[https://en.wikipedia.org/wiki/Basic_block][基本块]]的信息。[fn:3] 由于基本块没有控制流，因此这些优化只需
+    要很少的分析，节约时间且降低了存储需求，但也意味着不会保留任何跨跳转的信息。
+
+  + 全局优化
+
+    也被称为程序内方法，并在整个函数中活动。[fn:3] 使它们由更多信息可以利用，但
+    也需要高昂的计算成本。最坏情况发生在函数调用或全局变量使用时，因为此时只有少
+    数信息可用。
+
+  + [[https://en.wikipedia.org/wiki/Loop_optimization][循环优化]]
+
+    这个优化发生在循环语句中，比如 =for= 循环，比如[[https://en.wikipedia.org/wiki/Loop-invariant_code_motion][循环不变代码外提]]。循环优化可以
+    产生巨大的影响，因为许多程序中循环语句所用的实践都会占据相当大的比例。[fn:4]
+
+  + 确定性 Store 优化
+
+    该优化在[[https://en.wikipedia.org/wiki/Threads_(computer_science)][线程]]和锁的上下文中，允许 store 比被允许的操作时刻更早地发生。这一流
+    程需要某种方式提前得知，它被调用的赋值将存储什么值。这个宽松的目的是允许编译
+    器优化执行某些种类的代码的重排，以保留正确的同步语义。[fn:5]
+
+  + 程序间、整个程序或[[https://en.wikipedia.org/wiki/Interprocedural_optimization][链接时优化]]
+
+    该优化将分析整个源代码。这将获取大量的信息，意味着比仅有本地信息的优化更为有
+    效，即一个单函数内。这种优化还可以执行新技术。例如[[https://en.wikipedia.org/wiki/Inline_expansion][函数内联展开]]，函数调用被复
+    制到调用的函数体内的副本替代。
+
+  + 机器码优化和[[https://en.wikipedia.org/wiki/Object_code_optimizer][字节码优化]]
+
+    在链接所有的可执行机器码之后，优化可以分析生成的可执行二进制程序。一些可以被
+    应用在更有限领域上的技术，比如压缩更常见指令序列来节省空间的宏压缩，当整个二
+    进制程序可用于优化分析时将会更有用。[fn:6]
+
+除了基于范围的优化外，还有两个通用的优化类别：
+  + 编程语言无关与语言相关的优化
+
+    大多数高级语言共有的编程结构和抽象：选择 (if, switch, case)、循环 (for,
+    while, repeat.. until, do.. while)，以及封装 (structures, objects)。即使在不
+    同的语言中，它们也有相似的优化技术。然而，某些语言的特性会对某些种类的优化造
+    成一定困难。比如说，C 和 C++ 中存在的指针对数组访问的优化造成了一定困扰 (见
+    [[https://en.wikipedia.org/wiki/Alias_analysis][别名分析]])。然而 [[https://en.wikipedia.org/wiki/PL/I][PL/I]] 这样的语言 (也支持指针) 依然具有复杂的编译器优化，以便
+    在其他方面实现更好的性能。相反地，一些语言特性会让编译器优化变得简单。比如，
+    一些语言不允许函数有[[https://en.wikipedia.org/wiki/Side_effect_(computer_science)][副作用]]。所以，当程序使用相同的参数调用相同的函数时，编译
+    器可以立即提供上一次编译所产生的调用结果。在函数允许产生副作用的语言中，需要
+    使用其他策略。优化器可以确定哪些函数没有副作用，并将此类优化限制在无副作用函
+    数中。这种优化仅可用于优化器可以访问被调用函数时。
+
+  + 机器相关与无关的优化
+
+    对于抽象编程概念 (循环、封装) 等操作的许多优化都与编译器针对的目标机器无关。
+    但许多有效的优化依然是使用那些目标平台提供的特殊功能。
+
+
+这里有一个机器相关的优化示例。当设置一个寄存器为 0 时，显而易见的方法是在指令中
+使用一个常量 0 来将[[https://en.wikipedia.org/wiki/Processor_register][寄存器]]的值置零。一个不那么常用的方法则是让寄存器的值异或
+([[https://en.wikipedia.org/wiki/Exclusive_or][XOR]]) 它自己。这要求编译器知道使用哪种指令的变体。许多 [[https://en.wikipedia.org/wiki/Reduced_instruction_set_computer][RISC]] 指令的机器，两种指令
+同样适用，它们拥有相同的指令长度和相同的执行时间。但如 Intel [[https://en.wikipedia.org/wiki/X86][X86]] 家族的其他微处
+理器，事实证明异或指令长度更短且执行的更快，因为不需要解码立即数的操作，也不需要
+使用内部的立即数操作寄存器。一个潜在的问题就是，异或操作会引起一个对先前寄存器值
+的数据依赖，从而导致[[https://en.wikipedia.org/wiki/Instruction_pipelining][流水线]]停顿。然而处理器经常采用寄存器异或自身的操作，这并不会
+导致停顿。
+
+
+* 影响优化的因素
+
+ + *机器自身*
+
+   许多优化的选择都应该依赖于目标机器提供的特性。有时可以对机器相关的因素进行参
+   数化处理，这样一份编译器代码可以用不同的机器依赖参数来进行针对不同机器的优化。
+   [[https://en.wikipedia.org/wiki/GNU_Project][GNU 项目]]的 [[https://en.wikipedia.org/wiki/GNU_Compiler_Collection][GCC]] 和 [[https://en.wikipedia.org/wiki/LLVM][LLVM]] 的 [[https://en.wikipedia.org/wiki/Clang][clang]] 都是遵循这种方法的优化编译器。
+
+ + *目标 CPU 的架构*
+
+   * CPU 寄存器的数量：在一定程度上，寄存器越多越容易进行性能优化。[[https://en.wikipedia.org/wiki/Local_variable][局部变量]]可以
+     被直接分配在寄存器中，而不是[[https://en.wikipedia.org/wiki/Call_stack][栈]]中。临时或中间结果也可以回写进寄存器而不是写
+     到内存上的栈中再进行读回。
+
+   * RISC vs CISC：CISC 指令集通常是变长的，通常使用时可能有大量可选的指令，且每
+     条指令可能需要不同的时间。RISC 指令集试图限制这些变化：指令长度通常是定长的，
+     很少出现例外，寄存器和内存操作很少组合，在内存延迟不是影响因素的前提下，指
+     令发出率 (instruction issue rate，每单位时间指令完成的数量，通常是时钟周期
+     的整数倍) 是恒定的。完成一个确定的任务可能有多种方式，CISC 通常比 RISC 有更
+     多的选择。编译器需要知道每种指令的相关消耗，并选择一组最好的指令序列 (见[[https://en.wikipedia.org/wiki/Instruction_selection][指
+     令选择]])。
+
+   * 流水线：本质上 CPU 可以被拆解为一个流水线，通过将指令的执行拆分为不同阶段，
+     从而允许 CPU 的每个部分运行执行不同的指令：指令解码、地址解码、内存读取、寄
+     存器读取、计算、寄存器写回……一条指令可以处于写寄存器阶段，另一条则可以处于
+     读寄存器阶段。当一条指令的一个阶段依赖于另一条指令的结果，而这条指令还没有
+     完成时，则称为流水线冲突。流水线冲突将造成[[https://en.wikipedia.org/wiki/Pipeline_stall][流水线停顿]]，CPU 需要浪费时钟来等
+     待冲突的解决。编译器需要尽可能规划、重排指令，以减少停顿发生的频率。
+
+   * [[https://en.wikipedia.org/wiki/Superscalar][计算单元的数量]]：一些 CPU 有多个[[https://en.wikipedia.org/wiki/Arithmetic_logic_unit][算数运算器]]和[[https://en.wikipedia.org/wiki/Floating-point_unit][浮点运算器]]，这允许同时执行多条指
+     令。在哪些指令可以和其他指令匹配使用，或哪些功能单元可以执行哪些指令上，可
+     能会存在限制。它们也有类似于流水线冲突的问题。同时，编译器需要将指令安排好，
+     以尽可能充分利用各个计算单元。
+
+ + *机器的架构*
+
+   * [[https://en.wikipedia.org/wiki/CPU_cache][缓存]]大小 (256 KiB ~ 12 MiB) 和种类 (直接映射、2/4/8/16路组相联、全相联)：像
+     [[https://en.wikipedia.org/wiki/Inline_expansion][内联展开]]和[[https://en.wikipedia.org/wiki/Loop_unrolling][循环展开]]这样的技术，可能增大生成代码的大小并降低代码的局部性。如
+     果一段高利用率代码 (如各种算法中的内循环) 突然无法放入缓存，程序的性能可能
+     会急剧下降。即使没有完全填充的缓存，非全相联的缓存也有很高的概率发生缓存冲
+     突。
+
+   * 缓存 / 内存交换率：这是给编译器的一个缓存未命中惩罚的指示。主要在应用中使用。
+
+ + *生成代码的预期用途*
+
+   * [[https://en.wikipedia.org/wiki/Debugging][调试]]：编写程序时程序员会经常重编译并测试代码，因此编译必须尽可能得快。这也
+     是大量优化在测试、调试阶段被刻意关闭的原因。程序代码通常需要在[[https://en.wikipedia.org/wiki/Symbolic_debugger][调试器]]中进行
+     单步执行，优化转变，特别是代码重排，会大大降低输出的代码与源代码中行号的关
+     联性。优化会让调试工具和程序员都变得不知所措。
+
+   * 通用用途：打包好的软件通常期望在大量拥有不同时序、缓存或内存架构，但相同指
+     令集的 CPU 的机器上执行。因此代码可能不会针对特定的 CPU 进行调整，但依然可
+     以在大部分 CPU 上正确执行。
+
+   * 特定用途：当软件需要被编译到一台或几台相似的机器上时，编译器可以根据这些已
+     知的信息，对代码进行大量调整 (前提是有相关选项)。一个重要特化是为[[https://en.wikipedia.org/wiki/Parallel_computing][并行化]]和向
+     量寄存器设计的代码，为此使用特殊的[[https://en.wikipedia.org/wiki/Parallelizing_compiler][并行化编译器]]。
+
+   * 嵌入式系统：通常是特定用途，嵌入式软件可以精确 CPU 和内存大小，通常系统成本
+     与可靠性比执行效率重要的多。比如嵌入式编译器通常有牺牲运行速度来降低生成大
+     小的选项，因为内存是嵌入式计算机的主要成本。代码的时序通常是需要可预测的，
+     而不是尽可能快的。因此可能关闭代码缓存和相关的优化选项。
+
+
+* 共同主题
+
+大多数情况，编译器优化技术有以下几个方面，它们可能会有冲突。
+
+ + 优化公共项 (Optimize the common case)
+
+   公共项通常有允许牺牲慢速路径而使用[[https://en.wikipedia.org/wiki/Fast_path][快速路径]]的独特属性，如果更长执行快速路径将
+   获得更好的性能。
+
+ + 避免冗余 (Avoid redundancy)
+
+   已经计算过的结果，将其缓存起来供下次使用，而不是重新计算。
+
+ + 更少的代码 (Less code)
+
+   移除不必要的计算与中间值。CPU、缓存、内存的使用减少通常意味着更快的执行速度。
+   而嵌入式系统中，意味着更低的成本。
+
+ + 线性代码减少跳转，或称[[https://en.wikipedia.org/wiki/Branch-free_code][无分支代码]] (branch-free code)
+
+   更低复杂度的代码。条件跳转或无条件跳转会干扰指令的预取，从而降低运行速度。使
+   用内联或循环展开可以减少分支，而代价是增大生成代码的大小。这倾向于将几个基本
+   块合并为一个。
+
+ + 局部性 (Locality)
+
+   时间上相邻访问的代码和数据应该尽可能近的存放在内存中，来增加空间局部性。
+
+ + 利用内存的层次结构 (Exploit the memory hierarchy)
+
+   访问远离 CPU 的内存层次将会花费昂贵的代价，因此通常按照寄存器、缓存、内存、硬
+   盘的顺序依次使用它们。
+
+ + 并行化 (Parallelize)
+
+   重排指令以允许计算在指令、内存、线程级别并行发生。
+
+ + 更多准确信息是更好的 (More precise information is better)
+
+   更多准确的信息给编译器，给以选择更好的优化技术。
+
+ + 运行时指标可以提供帮助 (Runtime metrics can help)
+
+   在测试期间可以生成优化信息。在运行时收集的信息，最好是最小的开销，可以被 [[https://en.wikipedia.org/wiki/Just-in-time_compilation][JIT]]
+   编译器用来动态地改善优化
+
+ + 强度折减 (Strength reduction)
+
+   用简单的操作去替换复杂或困难或昂贵的操作。比如用乘以一个数的倒数替换除法，或
+   使用变量归纳分析用加法替换循环索引中的乘法。
+
+
+* 特化技术
+
+** 循环优化
+
+*** [[https://en.wikipedia.org/wiki/Induction_variable_analysis][归纳变量分析]] (Induction variable analysis)
+
+如果一个循环中的变量与简单索引变量的一个线型函数相关，例如 ~j := 4 * i + 1~​，循环
+变量每次改变时都会引起关联变量的更新。这可以做一个强度折减，并允许索引变量成为一个
+[[https://en.wikipedia.org/wiki/Dead_code][死代码]]。[fn:7] 这个信息对[[https://en.wikipedia.org/wiki/Bounds-checking_elimination][边界检查消除]]和[[https://en.wikipedia.org/wiki/Dependence_analysis][依赖分析]]同样有用。
+
+*** [[https://en.wikipedia.org/wiki/Loop_fission][循环裂变]] (Loop fission)
+
+循环裂变尝试将一个循环分裂成同一索引范围内的多个循环，每个循环只是原循环体的一部
+分。这可以提升[[https://en.wikipedia.org/wiki/Locality_of_reference][引用局部性]]，包括循环中访问的数据和循环体中的代码。
+
+*** [[https://en.wikipedia.org/wiki/Loop_fusion][循环融合]] (Loop fusion)
+
+尝试减少循环开销的技术。两个临近的循环且迭代次数相同时，不论该次数在编译期是否已
+知，只要它们不彼此产生数据依赖，它们的循环体就可以合并。
+
+*** [[https://en.wikipedia.org/wiki/Loop_inversion][循环颠倒]] (Loop inversion)
+
+这种技术将标准的 ~while~ 循环转换为包含在 if 条件中的 ~do.. while~ 循环，从而减少了
+2 次跳转。虽然复制了条件的检查，但通常很有效，因此跳转通常意味着流水线停顿。另外，
+如果编译期知道初始条件且已知无副作用，则可以直接跳过开始的 if guard。
+
+*** [[https://en.wikipedia.org/wiki/Loop_interchange][循环交换]] (Loop interchange)
+
+该优化交换内外两层循环。当循环索引变量使用在数组中时，该优化可以提升引用的空间局
+部性 (依赖于数组布局)。
+
+*** [[https://en.wikipedia.org/wiki/Loop-invariant_code_motion][循环不变代码提升]] (Loop-invariant code motion)
+
+如果每次迭代，都会计算一个数据，且每次循环该值不变，那么将该次计算置于循环开始处
+仅计算一次，将极大提升有效性。[fn:4] 这对于数组循环生成的地址计算表达式极其重要。
+对正确的实现，该优化必须使用循环反转，因为不是所有代码都可以安全的提升到循环外的。
+
+*** [[https://en.wikipedia.org/wiki/Loop_nest_optimization][循环嵌套优化]] (Loop nest optimization)
+
+一些常见算法，如矩阵乘法，缓存行为非常差，内存访问过多。该优化通过在小块上执行操
+作和使用循环交换来增加缓存命中率，以提升性能。
+
+*** 循环反转 (Loop reversal)
+
+循环反转是将循环索引变量的赋值进行反转，这是一个微妙的优化，可以消除数据依赖并开
+启其他优化。此外某些架构上，循环反转有助于缩小代码量，因为循环索引变量递减时，循
+环终止条件往往是与 0 进行比较，而该指令通常是一个特殊的无参数指令。因此存储参数
+所需的字节可以通过循环反转来节省。额外说明，待比较的数超出了平台字大小，标准循环
+序需要执行多条指令才能评估比较结果，而循环反转不需要。
+
+*** [[https://en.wikipedia.org/wiki/Loop_unrolling][循环展开]] (Loop unrolling)
+
+循环展开以复制多次循环体，以减少终止条件的判断次数与跳转次数。完全展开的循环可以
+消除所有开销，但需要在编译期知道迭代次数。
+
+现代编译器上，循环展开往往会适得其反，因为增大代码大小会造成更多的缓存未命中，比
+如[[https://en.wikipedia.org/wiki/Duff%27s_device#Performance][达夫设备]]。[fn:10]
+
+loop unrolling 的优点：
+  * 如果执行指令的减少可以弥补因程序大小增加而导致的任何性能下降，则可以实现显着
+    收益
+  * 最小化分支惩罚 [fn:11]
+  * 如果没有数据依赖，语句可以并行化执行
+  * 对编译时未知长度的数组进行动态循环展开 (Duff's Device)
+
+缺点：
+  * 增加程序大小，对嵌入式软件来说这是不可取的。还可能降低缓存命中率，对性能产生
+    不良影响
+  * 除非由编译器透明实现，否则代码可读性下降
+  * 如果循环体内有函数调用，由于代码增加过多，可能不能内联和展开同时进行，需要在
+    两种优化间进行取舍
+  * 除了非常小和简单的代码外，包含分支的循环展开可能比递归还慢 [fn:12]
+
+*** [[https://en.wikipedia.org/wiki/Loop_splitting][循环拆分]] (Loop Splitting)
+
+循环拆分通过尝试拆分为多个循环来简化循环或消除数据依赖，这些循环具有相同的循环体，
+但循环索引范围不同。
+
+[[https://en.wikipedia.org/wiki/Loop_peeling][循环剥离 (Loop peeling)]] 作为一个常见示例，通过在进行循环之前单独执行第一次迭代，
+来简化循环。
+
+*** [[https://en.wikipedia.org/wiki/Loop_unswitching][循环判断外提]] (Loop unswitching)
+
+通过将循环体复制到每个循环体中的选择语句中，将循环中的选择语句外提，从而简化循环
+体，或减少跳转次数。
+
+*** [[https://en.wikipedia.org/wiki/Software_pipelining][软件流水化]] (Software pipelining)
+
+在一次迭代中完成的工作被分成几个部分并在多次迭代中完成。在一个紧密的循环中，这种
+技术隐藏了加载和使用值之间的延迟。
+
+*** [[https://en.wikipedia.org/wiki/Automatic_parallelization][原子并行化]] (Automatic parallelization)
+
+循环被转换为多线程或矢量化代码，从而在共享内存的多处理器 (SMP, Shared Memory
+MultiProcessing) 机器 (包括多核机器) 中同时使用多个处理器。
+
+** 控制流优化
+
+基于控制流分析进行优化，主要依赖数据的某些属性如何在控制流图的边上传播。
+
+*** [[https://en.wikipedia.org/wiki/Common_subexpression_elimination][公共子表达式消除]] (Common subexpression elimination)
+
+如表达式 ~(a+b) - (a+b) / 4~​，其中 ~(a+b)~ 是公共表达式，不会改变，因此编译器只会计
+算一次该表达式，并将其结果保留下来。[fn:8]
+
+*** [[https://en.wikipedia.org/wiki/Constant_folding][常量折叠与传播]] (Constant folding and propagation)
+
+编译期计算常量表达式的最终值，并用最终值替换表达式，而不是运行时计算表达式。 [fn:9]
+
+*** [[https://en.wikipedia.org/wiki/Induction_variable][归纳变量识别与消除]] (Induction variable recognition and elimination)
+
+详见 [[\[\[https://en.wikipedia.org/wiki/Induction_variable_analysis\]\[归纳变量分析\]\] (Induction variable analysis)]]
+
+*** [[https://en.wikipedia.org/wiki/Strict_aliasing][别名分类与指针分析]] (Alias classification and pointer analysis)
+
+当存在指针的情况下，很难进行优化，因为在分配内存位置时可能修改任意变量。通过指定
+哪些指针可以给哪些变量起别名，从而忽略不相关的指针。
+
+*** [[https://en.wikipedia.org/wiki/Dead_store][数据存储]]消除 (Data-Store elimination)
+
+消除对随后未读取变量的复制，因为变量生命周期结束或后续赋值将修改冗余的赋值。
+
+** 基于 SSA 的优化
+
+** 代码生成优化
+
+** 函数式语言优化
+
+** 其他优化
+
+** 过程间优化
+
+
+
+* Footnotes
+
+[fn:12] Adam Horvath "[[http://blog.teamleadnet.com/2012/02/code-unwinding-performance-is-far-away.html][Code unwinding - performance is far away]]"
+
+[fn:11] Fog, Agner (2012-02-29). "[[https://www.agner.org/optimize/optimizing_assembly.pdf][Optimizing subroutines in assembly language]]". Copenhagen University College of Engineering. p. 100. Retrieved 2012-09-22. 12.11 Loop unrolling
+
+[fn:10] Tso, Ted (August 22, 2000). "[[http://lkml.indiana.edu/hypermail/linux/kernel/0008.2/0171.html][Re: [PATCH] Re: Move of input drivers, some word needed from you]]". lkml.indiana.edu. Linux kernel mailing list. Retrieved August 22, 2014.
+
+[fn:9] Steven Muchnick; Muchnick and Associates (15 August 1997). [[https://archive.org/details/advancedcompiler00much][Advanced Compiler Design Implementation]]. Morgan Kaufmann. pp. 329–. ISBN 978-1-55860-320-2. constant folding.
+
+[fn:8] Aho, Sethi, and Ullman, Compilers, pp. 592–594.
+
+[fn:7] Aho, Sethi, and Ullman, Compilers, pp. 596–598.
+
+[fn:6] Clinton F. Goss (August 2013) [First published June 1986]. [[http://www.clintgoss.com/mco/Goss_1986_MachineCodeOptimization.pdf][Machine Code Optimization - Improving Executable Object Code]] (Ph.D. dissertation). Vol. Computer Science Department Technical Report #246. Courant Institute, New York University. arXiv:1308.4815. Bibcode:2013arXiv1308.4815G. Retrieved 22 Aug 2013.
+
+[fn:5] [[https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-6.0/aa245162(v=vs.60)?redirectedfrom=MSDN][MSDN - Prescient Store Actions]]. Microsoft. Retrieved 2014-03-15.
+
+[fn:4] Aho, Sethi, and Ullman, Compilers, p. 596.
+
+[fn:3] Cooper, Keith D.; Torczon, Linda (2003) [2002-01-01]. Engineering a Compiler. Morgan Kaufmann. pp. 404, 407. ISBN 978-1-55860-698-2.
+
+[fn:2] Aho, Sethi, and Ullman, Compilers, p. 554.
+
+[fn:1] Aho, Alfred V.; Sethi, Ravi; Ullman, Jeffrey D. (1986). Compilers: Principles, Techniques, and Tools. Reading, Massachusetts: Addison-Wesley. p. 585. ISBN 0-201-10088-6.

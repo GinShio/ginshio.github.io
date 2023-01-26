@@ -1,0 +1,335 @@
+#+hugo_categories: ProgrammingLanguage
+#+hugo_tags: Note Haskell Guide
+#+hugo_draft: true
+#+hugo_locale: zh
+#+hugo_lastmod: 2020-11-20T17:03:07+08:00
+#+hugo_auto_set_lastmod: nil
+#+hugo_front_matter_key_replace: author>authors
+#+hugo_custom_front_matter: :series ["Haskell Guide"] :series_weight 1
+#+title: Haskell 类型与表达式
+#+author: GinShio
+#+date: 2020-11-20T17:03:07+08:00
+#+email: ginshio78@gmail.com
+#+description: GinShio | Haskell 函数式编程入门 (第二、六章读书笔记)
+#+keywords: ProgrammingLanguage Note Haskell Guide
+#+export_file_name: haskell_type_and_expr.zh-cn.txt
+
+
+类型系统的三个优点:
+  1. *错误检查* ，类型系统是对程序的一种限定，人是很容易犯错的，类型检查可以辅助用户检查程序中的类型是否正确，帮助用户检查出大部分错误
+  2. *对于程序抽象* ，将一些不同的计算分成不同的种类，在编写程序时使它们互不干扰
+  3. *文档作用* ，类型签名不但可以辅助定义函数，还可以增加代码的可读性，作为补充文档便于软件维护
+
+我们在学习 Haskell 时，目前所有的操作都需要在 GHCi 解析器中进行
+
+----------
+
+
+* 基础类型
+Haskell 是强类型语言，即每一个数据或每一个函数都有非常精确、严格的类型，在 GHCi 中可以输入 =:type= 或 =:t= 查看数据的类型，我们现在学习以在 =GHCi= 中操作为主。
+
+** 布尔类型 (Bool)
+布尔类型是只有 *True* 与 *False* 两个值的数据类型，另外布尔类型可以进行逻辑运算， =&&= 表示逻辑与运算， =||= 表示逻辑或运算， =not= 表示逻辑非运算。
+    #+begin_src haskell
+True || False -- True
+not True -- False
+:type True -- True :: Bool
+    #+end_src
+
+** 字符类型 (Char)
+由单引号包裹的单字符类型，并且字符也遵循 =ASCII= 码转义，除了单字符外还可以用 *反斜线* 加 *ASCII码* 表示一个字符，当然也可以使用转义字符表示ASCII表中的控制字符，同时还支持 *Unicode* 字符
+    #+begin_src haskell
+'A' -- 'A', ascii: 65
+'\97' -- 'a', ascii: 97
+'\n' -- '\n' (LF), ascii: 10
+'ε' -- '\949' (ε), unicode: 949
+'\22963' -- '\22963' (妳), unicode: 22963
+:type '\0' -- '\0' :: Char
+    #+end_src
+
+** 整型
+整数类型，与其他语言相似，原生整型也分为了有符号和无符号两种类型，一般书写整数时使用十进制表示，不过有时我们还需要其他进制的表示方式，Haskell还提供了八进制 (前缀 =0o=) 与十六进制 (前缀 =0x=) 的表示方式。Haskell2010 标准中并没有对二进制表示作出规定，如果要使用二进制 (前缀 =0b=) 表示，需要使用编译器的语法扩展 *BinaryLiterals* (GHC v7.10 or later)
+#+begin_src haskell
+0x3F3F3F -- 十六进制整数，4144959
+465 -- 十进制整数
+0o1234567 -- 八进制整数，342391
+:set -XBinaryLiterals -- 开启GHC语法扩展以支持整数二进制表示
+0b01101001 -- 二进制整数，105
+#+end_src
+  - *有符号整型* (Int)：
+    整数类型，大小与操作系统和GHC的位数有关，32位的话范围是 $-2^{31}~2^{31}-1$，64位的话范围是 $-2^{63}~2^{63}-1$，除了默认位数的有符号整型之外，Haskell 还提供了指定位数的有符号整型 =Int8= 、 =Int16= 、 =Int32= 和 =Int64= ，指定位数的有符号整型需要引入模块 *Data.Int*
+  - *无符号整型* (Word)：
+    整数类型，与有符号整型相似，区别在于它表示的是无符号数，64位GHC的Word范围为 $0~2^{64}-1$，除了默认位数的无符号整型之外，Haskell 还提供了指定位数的无符号整型 =Word8= 、 =Word16= 、 =Word32= 和 =Word64= ，指定位数的无符号整型需要引入模块 *Data.Word*
+    #+begin_src haskell
+-1 :: Word -- Word 下溢出，18446744073709551615
+    #+end_src
+  - *任意精度整数* (Integer)：
+    整数类型，可以表示任意大小的整数，不再受限于操作系统或GHC的位数限制，可表示的范围受到内容限制，其性能无法与原生整型相比
+    #+begin_src haskell
+2^128 -- 340282366920938463463374607431768211456
+    #+end_src
+
+** 浮点数与有理数
+  - *浮点数* 是原生类型，分为 =单精度= (Float) 与 =双精度= (Double) 浮点数，浮点数遵循 *IEEE754* 标准，相比其他语言中的浮点数没有什么区别
+    #+begin_src haskell
+pi :: Float -- 3.1415927
+pi :: Double -- 3.141592653589793
+    #+end_src
+    浮点数在处理的过程中会有一些非常特殊的值， *非数* (NaN) 和 *无穷大* (Infinity)，它们的产生都与除数为0有关，NaN是由于被除数与除数都为零导致的，在标准中，NaN 不与任何值比较相等，包括它本身; 而infinity的出现是由于被除数不为零，不过遗憾的是我们并不能直接使用这两个值
+    #+begin_src haskell
+100 / 0 -- Infinity
+0.0 / 0.0 -- NaN
+-5 / 0.0 -- -Infinity
+(0 / 0) /= (0.0 / 0.0) -- True
+(5.0 / 0.0) /= (3 / 0) -- False
+(0 / 0) == (3 / 0) -- False
+(5.0 / 0.0) > (-3 / 0) -- True
+(5 / 0) > (0 / 0) -- False
+(5 / 0) < (0 / 0) -- False
+    #+end_src
+    我们可以安装 *Numeric.IEEE* 模块，使用基于 RealFloat 类型类定义的IEEE类型类，它包含了我们常用的处理 IEEE 类型的方法以及类型
+
+  - *有理数* (Rational) 是用两个任意精度的整数来表示小数的类型，如果了解浮点数的规范可以明白 Rational 可以提供任意精度的有理数，在输出中 =%= 代表分数线，分数线前的为分子
+    #+begin_src haskell
+4.133332 :: Rational -- 1033333 % 250000
+    #+end_src
+
+** 列表 (List)
+    列表是同一类型的多个元素的集合，类似于其他语言中的数组，不过列表可以动态的修改数据，而数组是定长的，我们可以使用 =!!= 运算符通过下标取得列表中的元素，Haskell 中与其他语言一样下标从零开始
+    #+begin_src haskell
+[1,2,3,4,5] -- 一个整数列表
+-- [1,2,'C',3.15] -- 错误的列表，包含了不同类型的数据
+:t [3.14::Float,1.73] -- [Float]
+[1,2,3,4,5] !! 2 -- 3
+    #+end_src
+    你可以使用 =:= (cons) 操作符将新数据附加到列表上，从而创建一个新列表，不过它只能 *push_front* ，我们常常使用方括号创建列表，就像是cons空列表的语法糖
+    #+begin_src haskell
+0:1:[2,3,4] -- [-1,0,1,2,3]
+-- [5,6,7]:8 -- 错误
+9:8:7:6:5:[] -- 创建一个新列表 [9,8,7,6,5]
+-- 4:3:2:1 -- 错误
+    #+end_src
+    cons来一个一个push_front如果觉得不爽的话，当然可以直接 *拼接* 两个或多个列表，Haskell 中提供了 =++= 运算符用来拼接列表
+    #+begin_src haskell
+[0,1,2] ++ [3,4,5] ++ [6,7,8] -- [0,1,2,3,4,5,6,7,8]
+-- [0,1,2] ++ 3 -- 错误
+    #+end_src
+    好消息，列表是可以嵌套的，当然嵌套的条件是元素类型相同
+    #+begin_src haskell
+[[3.142::Float,2.718],[1.0,2.0]] -- 嵌套的单精度浮点数列表
+:t [[3.142::Float,2.718],[1.0,2.0]] -- [[Float]]
+    #+end_src
+    字符串类型是使用列表实现的，即 [Char]，和其他语言一样，也可以使用 ="String"= 来表示字符串
+    #+begin_src haskell
+['H','e','l','l','o'] -- "Hello"
+:t "World" -- [Char]
+    #+end_src
+    列表的操作还有还多，如果你学过Python你一定对列表推导式这个东西很熟悉，它允许你使用一个表达式生成新的列表
+    #+begin_src haskell
+[x * 2 | x <-[1,3,5]] -- [2,6,10]
+[x * y | x <-[1,3,5], y <-[2,4,6], x * y > 10] -- [12,18,20,30]
+    #+end_src
+    其中 =x<-[1,3,5]= 被称为生成器，表示x的取值为 1/3/5，如果有多个生成器那么后边的生成器会被 *先* 遍历，如果用不到产生器的值则可以使用 =_= 代替； =x * y > 10= 这种结构被称为限制条件，如果限制条件有多个，则这些限制条件是 *逻辑与* 的关系
+    #+begin_src haskell
+my_length l = sum [1 | _ <- l]
+    #+end_src
+    有时我们需要生成器是并列关系，而不是嵌套关系，GHC为我们扩展了这一语法 (ParallelListComp)，不过如果并列的生成器产生的数量不匹配的话，就会提前终止
+    #+begin_src haskell
+:set -XParallelListComp
+-- [(1,4,7),(2,5,8),(3,6,9)]
+[(x,y,z) | x <- [1,2,3] | y <- [4,5,6] | z <- [7,8,9]]
+-- [(1,4,7),(1,5,8),(1,6,9)]
+[(x,y,z) | x <- [1,2,3], y <- [4,5,6] | z <- [7,8,9]]
+    #+end_src
+** 元组 (Tuple)
+    元组是多个元素的集合，每个元素称之为该元组的 *元件* (component)，对元素的类型不要求必须一致，但是元组一旦确定就不能在改变其大小与元素的类型。我们将长度为2的元组称为 *pair* ，长度为3的元组称为 *triple* ，长度为n的则称其为 =n-tuple= ，如果你使用GHC请牢记，元组最多拥有62个元素。
+    #+begin_src haskell
+(4 :: Int, pi :: Float) -- (4,3.1415927)
+:t (4 :: Int, pi :: Float) -- (Int，Float)
+    #+end_src
+    如果想将元件从pair中取出，可以使用 =fst= 和 =snd= 这两个函数分别取出pair的第一个元素和第二个元素。
+    #+begin_src haskell
+fst (1, "str") -- 1
+snd (1, "str") -- "str"
+-- fst (1, "str", 3.14) -- 错误
+    #+end_src
+    当然，元组与列表很相似，它也是可以嵌套的，并且你会感到比列表更自由。
+    #+begin_src haskell
+([0::Int,1,2], ("Hello", "World"), 'C') -- ([0,1,2],("Hello","World"),'C')
+:t ([0::Int,1,2], ("Hello", "World"), 'C') -- ([Int],([Char],[Char]),Char)
+    #+end_src
+
+** 类型别名
+以上基本类型介绍完毕，有时我们写一些程序时需要使用一些固定形式的类型，就比如一个RGB图片的像素我们一般定义为 =(Word8,Word8,Word8)= ，这样写很不方便，Haskell 为我们提供了定义类型别名的方法，允许我们将复杂的类型替换为其他名字，在定义时类型的名字一定要以大写字母开头。字符串类型就是字符列表的别名。
+#+begin_src haskell
+type RGB = (Word8,Word8,Word8)
+type Picture = [[RGB]]
+#+end_src
+
+** 函数类型
+函数可以理解为从参数到结果的映射，类似的 =T1 -> T2= ，参数和结果可以是任意类型的数据，如果 T1 或 T2 为函数的话，我们称 =T1 -> T2= 为 *高阶函数* ，不过无论什么类型它们都符合函数的定义。我们为函数传递多个参数时，以元组的形式向函数输入。如下我们定义一个add函数，我们可以使用 =let= 也可以不使用let定义一个函数，第一部分为函数名，接下来是这个函数接受的参数，这个函数接受一个元组，等号之后是这个函数的函数体，它返回 Int 类型。这个add函数必须一次性全部传入参数才可以，这种函数被称为 *非柯里化函数* (uncurried function)。
+#+begin_src haskell
+add (x, y) = (x + y) :: Int -- 函数定义
+:t add -- 函数类型: (Int, Int) -> Int
+add (1, 2) -- 函数调用，3
+#+end_src
+
+当函数有多个参数时，参数可以一个一个一次输入，参数不足时将返回一个函数作为结果，这样的函数就是 *柯里化函数* (curried function)。这里我们定义一个柯里化的add函数，当传递一个参数时，它将返回 =Int -> Int= 类型的函数。
+#+begin_src haskell
+add' x y = x + y ::Int -- 柯里化函数定义
+:t add' -- 函数类型: Int -> Int -> Int
+add5 = add' 5
+:t add5 -- Int -> Int
+add' 1 3 -- 4
+add5 7 -- 12
+#+end_src
+
+当然我们可以将一个非柯里化函数转换为柯里化函数，或者反过来转换，都是可以的。
+#+begin_src haskell
+curried_add = curry add -- 将 add 柯里化
+:t curried_add -- Int -> Int -> Int
+:t curry -- ((a, b) -> c) -> a -> b -> c
+curried_add 1 2 -- 3
+uncurried_add' = uncurry add' -- 将 add' 非柯里化
+:t uncurried_add' -- (Int, Int) -> Int
+:t uncurry -- (a -> b -> c) -> (a, b) -> c
+uncurried_add' (2,3) -- 5
+#+end_src
+
+  - *多态函数*:
+    很多函数的参数不一定要传入具体的类型，比如上面学习元组时使用的 fst 函数，不管pair是什么类型，fst总能正确返回第一个元件。
+    #+begin_src haskell
+fst (1 :: Int, pi :: Float) -- 1
+fst (pi :: Float, 1 :: Int) -- 3.1415927
+:t fst -- (a, b) -> a
+    #+end_src
+    一个函数的某个参数可以是任何类型的值，那么这个函数是一个多态函数，我们使用小写字母开头的单词表示任意类型，这些标识符被成为 =类型变量=，类型变量是多态的，它可以被替换为任意类型 (具体类型或多态类型)，我们之前学过的 curry 和 uncrry 也是多态函数。
+  - *重载类型函数* ：
+    我们在GHCi中查看5的类型会发现它返回的并不是Int或Word，返回的是 =Num a => a= ，这里的这个 Num 是一个类型类，5可以是任意的a类型 (当然a类型被限定在了Num类型类中)，而像5这种有着多种类型的字面量被称为重载字面量。Haskell中重载类型函数也被成为 *受限的多态类型函数* ，这个说法很贴切，我们把函数需要的参数的限制在了类型类之中，不是这个类型类的参数是无法作为参数传递给这个函数的。在声明时，需要将类型类限定放在类型签名 *=>* 的左侧，说明哪些类型变量是被类型类限定的， *=>* 右边则是对其类型的声明。
+    #+begin_src haskell
+:t 5 -- Num p => p
+:t 'C' -- Char
+add :: Num a => a -> a -> a; add x y = x + y -- 重载类型的curried add
+:t add -- Num a => a -> a -> a，接受两个Num类型类的参数，并返回一个Num类型类的变量
+add 1 2 -- 3
+add 3.0 4.0 -- 7.0
+add 32 64.0 -- 96.0
+    #+end_src
+    很多语言可以自由地根据参数的数量进行函数重载，但是Haskell中函数或运算符的定义是 *唯一的* ，重载的话需要借助类型类，并非根据参数数量进行重载。
+
+
+----------
+
+
+* 类型类
+Haskell将类型分成了类型类，归为一类的类型拥有着相同的属性，不同类型所归的类称为类型类。我们可以在GHCi中使用 =:i= 查看类型类的详情，不止可以看到类型类是在哪里定义的、如何定义的、有哪些类型实例。在其他语言中，类型类的概念与接口相似。
+
+** 相等类型类 (Eq)
+允许类型比较相等的类型类。Eq包含了两个函数，比较相等 (*==*) 和 比较不等 (*/=*)。
+#+begin_src haskell
+:t (==) -- Eq a => a -> a -> Bool
+:t (/=) -- Eq a => a -> a -> Bool
+5 == 4 -- False
+4 /= 4.0 -- False
+3.14 /= 3 -- True
+-- 'A' == 65 -- 错误，不能比较Num与Char
+#+end_src
+
+** 有序类型类 (Ord)
+允许类型比较大小的类型类，Haskell 规定一个有序类型一定是一个比较相等的类型，即Ord是基于Eq的。Ord包含了 比较大于 (*>*)、比较小于 (*<*)、比较大于等于 (*>=*) 以及比较小于等于 (*<=*)。
+#+begin_src haskell
+:t (<) -- Ord a => a -> a -> Bool
+"Hello" < "World" -- True
+3 < (pi :: Float) -- True
+gt3 = (3 <) -- 定义一个判断是否大于3的函数
+:t gt3 -- (Ord a, Num a) => a -> Bool
+gt3 (pi :: Float) -- True
+#+end_src
+
+** 枚举类型类 (Enum)
+一些类型允许我们可以按一定顺序枚举。给定一个枚举类型的非最后一个元素，那么我们可以使用 =succ= 获取它的后继，同样的我们对非首个元素可以使用 =pred= 来获取它的前驱。我们也可以使用语法 =[a..d]= 来生成一个列表有序列表 (浮点类型由于特殊性生成的列表间隔默认为1.0)，我们也可以让Haskell为我们推导生成列表时的间隔 =[a,b..d]= 。
+#+begin_src haskell
+:t succ -- Enum a => a -> a
+succ 6 -- 7
+pred 'X' -- 'W'
+['A'..'z'] -- "ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`a"
+[1..12] -- [1,2,3,4,5,6,7,8,9,10,11,12]
+[(pi::Float)..5.5] -- [3.1415927,4.141593,5.141593]
+[(-1::Word)..255] -- []，会报一个警告
+[1,5..36] -- [1,5,9,13,17,21,25,29,33]，自动推导间隔
+#+end_src
+
+** 有界类型类 (Bounded)
+可以枚举的数据往往是有界的，它们需要指出类型的最大值与最小值。
+#+begin_src haskell
+:m +Data.Int Data.Word
+maxBound :: Bool -- True
+minBound :: Int8 -- -128
+-- minBound :: Integer -- 错误，Integer 不是有界类型
+#+end_src
+
+** 可显示类型类 (Show)
+比如，我们在GHCi中可以输出一些数字、字符等等，正是因为它们都是Show类型类的成员，这类似于C++中一个类实现了重载 =ostream& operator<<(ostream& os，T t);= 或者Java中 =toString= 方法，不过函数可不是Show类型类的成员。
+
+** 数字类型类 (Num)
+Num是最复杂的类型类之一，下图展示了Num与其他类型类之间的关系，可以看到这是相当复杂的一个类型类，当然也足够强大。
+
+#+attr_html: :width 72%
+[[file:../images/haskell-num-typeclass.png]]
+
+----------
+
+
+* 表达式
+表达式是又运算符与运算数构成的，Haskell 中所有的运算符都是基于函数定义的。例如 =(+)= 的类型是 *Num a => a -> a -> a* ，运算符是规定了可以放在参数中间或末尾的函数，并且使用的特殊的符号进行表示。
+在GHCi中我们使用 =(+) 5 6= 与 =5 + 6= 是相同的，或者 =div 5 2= 与 =5 `div` 2= 。
+
+运算符有三种属性，​*优先级* (precedence)、 *结合性* (associativity) 与 *位置* (fixity)，优先级分为了0~9共10级，而结合性分为左结合、右结合、无结合，函数拥有 *最高优先级* 且是左结合的。
+
+#+attr_html: :width 64%
+[[file:../../_build/tikzgen/haskell-operator-precedence.svg]]
+
+** 条件表达式
+=if-then-else= 结构是最简单的条件表达式，并且是可以嵌套的，不过必须有else表达式返回不成立的结果
+#+begin_src haskell
+gt2 n = if n == 2 then True else if n < 2 then False else True
+#+end_src
+
+=case-of= 结构和其他编程语言中的 =switch-case= 类似，不过其他语言中的 default 关键字被替换为了 =_= ，当匹配到一个条件后可以自动退出结构而不再需要 break
+#+begin_src haskell
+week n = case n of 1 -> "Mon"; 2 -> "Tue"; 3 -> "Wed"; 4 -> "Thu"; 5 -> "Fri"; 6 -> "Sat"; 7 -> "Sun"; _ -> error "invalid"
+:t week -- (Eq a, Num a) => a -> [Char]
+week 5 -- "Fri"
+week 8 -- Exception: invalid
+#+end_src
+
+** 守卫表达式 (guarded expression)
+使用 =|= 将函数的参数按特定的条件分开，如果不能满足条件则不会让不符合条件的表达式运算，不过不同条件的守卫表达式的 | 需要对齐。守卫后跟的是一个布尔类型，当有多个条件满足时，Haskell 只会匹配第一个，默认的守卫使用 *otherwise* 表示。
+#+begin_src haskell
+my_abs n | n > 0 = n | otherwise = -n
+:t my_abs -- (Ord p, Num p) => p -> p
+my_abs 5  -- 5
+my_abs (-3.14) -- 3.14
+#+end_src
+
+** 模式匹配 (pattern match)
+模式指一个类型的值或定义成的形式，模式匹配与 =case-of= 结构类似，每个类型的数据都可以看作该类型的一个具体形式，如果有多个复合的匹配，则只有第一个匹配被执行。我们需要将所有的模式都定义好，否则的话在函数调用时将会出现 =exception of non-exhaustive patterns= 的错误
+#+begin_src haskell
+my_head [] = error "empty"; my_head (x:_) = x
+:t my_head -- [p] -> p
+my_head "String" -- 'S'
+my_head (1:2:3:[]) -- 1
+my_head [] -- Exception: empty
+#+end_src
+
+** 自定义运算符
+Haskell 虽然不能像C++那样重载运算符，但是可以定义自己的运算符，不过需要声明运算符的结合性与优先级，我们使用关键字定义新的运算符： =infix= (无结合)、 =infixl= (左结合)、 =infixr= (右结合)。
+#+begin_src haskell
+infixr 5 <->, <+>; (<->) x y = x - y; (<+>) x y = x + y
+:t (<->) -- Num a => a -> a -> a
+10 <-> 5 <+> 3 -- 2
+infixr 4 `foo`; foo a b = a + b
+:t foo -- Num a => a -> a -> a
+4 `foo` 6 -- 10
+foo 5 5 -- 10
+#+end_src

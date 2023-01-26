@@ -1,0 +1,32 @@
+\documentclass[border=10pt,margin=5pt,tikz,dvisvgm,rgb,utf8]{standalone}
+\usepackage{ctex,xeCJK}  % 中文环境
+\setCJKmainfont[BoldFont=Source Han Sans SC]{Source Han Serif SC}
+\usepackage{calc,fontawesome,forest,smartdiagram,xcolor}
+\usetikzlibrary{animations,arrows,automata,graphs,matrix,positioning,shadows,shapes}
+
+\begin{document}
+\renewcommand{\baselinestretch}{0.4}
+
+\begin{tikzpicture}
+  \node[text width=-3em](Start){};
+  \node[circle, draw=black, right= of Start](RI){\tiny i};
+  \node[circle, draw=black, above right=1.21em of RI](SI){};
+  \node[circle, draw=black, right= of SI](SF){};
+  \node[circle, draw=black, below right=1.21em of RI](TI){};
+  \node[circle, draw=black, right= of TI](TF){};
+  \node[circle, double, double distance=1pt, draw=black, right=1.21em of $(SF)!0.5!(TF)$](RF){\tiny f};
+
+  \path[->]
+  (Start) edge node[above=-2pt]{\tiny start} (RI)
+  (RI) edge node[above=-8pt]{\tiny $\varepsilon$} (SI)
+  (SI) edge[draw=none] node{\tiny N(s)} (SF)
+  (SF) edge node[above=-8pt]{\tiny $\varepsilon$} (RF)
+  (RI) edge node[below=-8pt]{\tiny $\varepsilon$} (TI)
+  (TI) edge[draw=none] node{\tiny N(t)} (TF)
+  (TF) edge node[below=-8pt]{\tiny $\varepsilon$} (RF);
+
+  \draw ($(SF)!0.5!(SI)$) ellipse (1 and 0.32);
+  \draw ($(TF)!0.5!(TI)$) ellipse (1 and 0.32);
+\end{tikzpicture}
+
+\end{document}

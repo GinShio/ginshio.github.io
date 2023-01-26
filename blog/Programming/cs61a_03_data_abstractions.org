@@ -1,0 +1,274 @@
+#+hugo_categories: Programming
+#+hugo_tags: Note CS61A SICP
+#+hugo_draft: true
+#+hugo_locale: zh
+#+hugo_lastmod: 2022-12-18T14:41:28+08:00
+#+hugo_auto_set_lastmod: nil
+#+hugo_front_matter_key_replace: author>authors
+#+hugo_custom_front_matter: :series ["CS61A Note"] :series_weight 3
+#+title: 数据抽象
+#+author: GinShio
+#+date: 2022-12-18T14:41:28+08:00
+#+email: ginshio78@gmail.com
+#+description: GinShio | CS61A Study Notes - Sequences and Containers
+#+keywords: Programming Note CS61A SICP
+#+export_file_name: cs61a_03_data_abstractions.zh-cn.txt
+
+
+* 容器
+
+** Lists
+
+在 scheme 中一类最基础的异构数据结构即 *list*
+#+begin_src scheme
+(list 1 2 3 "str")
+'(1 2 3 "str")
+#+end_src
+
+当然 list 可以看作是个二元组 *pair*​，也有称作 dotlist
+#+begin_src scheme
+(cons 1 2)            ;; '(1 . 2)
+(cons 1 '(2))         ;; '(1 2)
+(cons* 1 2 3 4)       ;; '(1 2 3 . 4)  '(1 . (2 . (3 . 4)))
+(cons* 1 2 '(3 4))    ;; '(1 2 3 4)
+'(1 . ())             ;; '(1)
+'(1 . (2 . (3 . ()))) ;; '(1 2 3)
+'(1 . (2 3))          ;; '(1 2 3)
+'((1 2) . (3 4))      ;; '((1 2) 3 4)
+#+end_src
+
+访问 list 的首个元素使用 *car*​，而获取尾元素使用 *cdr*
+#+begin_src scheme
+(car '(1 2 3)) ;; 1
+(cdr '(1 2 3)) ;; (2 3)
+(car '(1))     ;; 1
+(car '(1))     ;; ()
+#+end_src
+
+获取整个 list 的长度则是使用 *length* 方法
+#+begin_src scheme
+(length '())          ;; 0
+(length '(1 2))       ;; 2
+(length '(1 . (2 3))) ;; 3
+#+end_src
+
+随机访问 list 中的元素
+#+begin_src scheme
+(list-ref '(1 2 3 4 5) 3)    ;; 4
+(list-ref '(1 . (a . ())) 1) ;; a
+#+end_src
+
+更多 list 的操作可以翻阅 [[https://groups.csail.mit.edu/mac/ftpdir/scheme-7.4/doc-html/scheme_8.html][Lists]]
+
+** Mapping-Reduction
+
+Google 大名鼎鼎的 MapReduce 就是来源于此。Mapping / Reduction 是一类高阶函数，其
+作用是抽象针对 List 的不同操作。
+
+ + Map: 对容器中的每个元素进行一个相同的操作
+ + Reduce: 根据一个相同的规则对容器中的元素进行规约
+
+*** Mapping
+
+ + ~map~ 无副作用的对 lists 进行从左至右计算，但是对每个元素的操作顺序是未指定的
+   #+begin_src scheme
+(map (lambda (n) (expt n n)) '(1 2 3 4)) ;; (1 4 27 256)
+(map + '(1 2 3) '(4 5 6) '(7 8 9))   ;; (12 15 18)
+   #+end_src
+ + ~map*~ 将初值附加在结果之后的 map
+   #+begin_src scheme
+(map* '() + '(1 2 3) '(4 5 6)) ;; (5 7 9)
+(map* '(1 2 3) + '(4 5 6))     ;; (4 5 6 1 2 3)
+   #+end_src
+
+ + ~for-each~ 是可以带有副作用的 map，因为保证每个元素按顺序执行
+   #+begin_src scheme
+(let ((v '((1 2) (3 4) (5 6))))
+  (for-each (lambda (x)
+              (set-cdr! x (list (+ (car x) (cadr x))
+                                (* (car x) (cadr x)))))
+            v)
+  v) ;; ((1 3 2) (3 7 12) (5 11 30))
+   #+end_src
+
+*** Reduction
+
+规约通常有一个初始值，并将集合中的每个元素与初始值进行一定操作
+
+ + ~reduce~ 左结合地进行规约操作，仅在 list 为空时使用初始值
+   #+begin_src scheme
+(reduce + 0 '(1 2 3 4))      ;; 10
+(reduce + 0 '(foo))          ;; foo
+(reduce + 0 '())             ;; 0
+(reduce list '() '(1 2 3 4)) ;; (4 (3 (2 1)))
+   #+end_src
+
+ + ~reduce-right~ 右结合地进行规约操作，仅在 list 为空时使用初始值
+   #+begin_src scheme
+(reduce-right + 0 '(1 2 3 4))      ;; 10
+(reduce-right + 0 '(foo))          ;; foo
+(reduce-right + 0 '())             ;; 0
+(reduce-right list '() '(1 2 3 4)) ;; (1 (2 (3 4)))
+   #+end_src
+
+ + ~fold-left~ 左结合地进行规约操作，且总是使用初始值
+   #+begin_src scheme
+(fold-left + 0 '(1 2 3 4))      ;; 10
+;; (fold-left + 0 '(foo))          ;; Error: is not the correct type
+(fold-left + 0 '())             ;; 0
+(fold-left list '() '(1 2 3 4)) ;; ((((() 1) 2) 3) 4)
+   #+end_src
+
+ + ~fold-right~ 右结合地进行规约操作，且总是使用初始值
+   #+begin_src scheme
+(fold-right + 0 '(1 2 3 4))      ;; 10
+;; (fold-right + 0 '(foo))          ;; Error: is not the correct type
+(fold-right + 0 '())             ;; 0
+(fold-right list '() '(1 2 3 4)) ;; (1 (2 (3 (4 ()))))
+   #+end_src
+
+ + ~there-exists?~ 类似其他语言中的 *any?*
+   #+begin_src scheme
+(define (any? set predicate)
+  (fold-left (lambda (acc v) (or acc (predicate v))) #f set))
+(there-exists? '(1 2 3) (lambda (v) (= 0 (remainder v 2)))) ;; #t
+(there-exists? '(1 3 5) (lambda (v) (= 0 (remainder v 2)))) ;; #f
+   #+end_src
+
+ + ~for-all?~ 类似于其他语言中的 *all?*
+   #+begin_src scheme
+(define (all? set predicate)
+  (fold-left (lambda (acc v) (and acc (predicate v))) #t set))
+(for-all? '(1 2 3) (lambda (v) (= 1 (remainder v 2)))) ;; #f
+(for-all? '(1 3 5) (lambda (v) (= 1 (remainder v 2)))) ;; #t
+   #+end_src
+
+** Vector
+
+Vector 同样是异构结构
+#+begin_src scheme
+(vector 1 2 3 "str")                        ;; #(1 2 3 "str")
+(make-vector 3 1)                           ;; #(1 1 1)
+(make-vector 3 '(1 2))                      ;; #((1 2) (1 2) (1 2))
+'#(1 #\A "str")                             ;; #(1 #\A "str")
+(make-initialized-vector 5 -)               ;; #(0 -1 -2 -3 -4)
+(make-initialized-vector 5 (lambda (x) (* x x))) ;; #(0 1 4 9 16)
+#+end_src
+
+当然 list 和 vector 是可以互相转换的
+#+begin_src scheme
+(vector->list '#(1 2 3)) ;; (1 2 3)
+(list->vector '(1 2 3))  ;; #(1 2 3)
+#+end_src
+
+根据 MIT-scheme 的说法，vector 性能更好，且占用的内存更少。不过其[[https://groups.csail.mit.edu/mac/ftpdir/scheme-7.4/doc-html/scheme_9.html][操作方法]]也更少。
+
+** Bit Strings
+
+在某些语言中 BitStrings 也被称作 bitmap (位图)。
+#+begin_src scheme
+'#*11001100             ;; #*11001100
+(make-bit-string 7 #t)  ;; #*1111111
+(bit-string-allocate 7) ;; #*0000000
+#+end_src
+
+通常位图都支持按位运算
+#+begin_src scheme
+(bit-string-not  #*0011)        ;; #*1100
+(bit-string-and  #*0011 #*1010) ;; #*0010
+(bit-string-andc #*0011 #*1010) ;; #*0001 (and #*0011 (not #*1010))
+(bit-string-or   #*0011 #*1010) ;; #*1011
+(bit-string-xor  #*0011 #*1010) ;; #*1001
+#+end_src
+
+常见的修改操作也是支持的
+#+begin_src scheme
+(let ((x #*1010)) (bit-string-set! x 2) x)   ;; #*1110
+(let ((x #*1010)) (bit-string-clear! x 1) x) ;; #*1000
+(let ((x #*1010)) (bit-string-fill! x #f) x) ;; #*0000
+(let ((x #*1010)) (bit-string-move! x #*0011) x) ;; #*0000
+#+end_src
+
+由于 lisp 中整型是无上限的，因此可以将任意大的整型与位图进行互转换
+#+begin_src scheme
+(unsigned-integer->bit-string 16  10000) ;; #*0010011100010000
+(signed-integer->bit-string   16 -10000) ;; #*1101100011110000
+(bit-string->unsigned-integer #*0010011100010000) ;;  10000
+(bit-string->signed-integer   #*1101100011110000) ;; -10000
+#+end_src
+
+-----
+
+
+* 数据抽象
+
+有时我们需要对基本数据进行更高层次的抽象，处理与数据相关的各种问题。因此数据抽象
+就显得尤为重要了。
+
+** 示例：有理数表示
+
+比方说，要实现一个有理数的计算，首先要有对有理数这一数据的抽象。
+ + ~(make-rat n d)~​，构造一个分子为 n 分母为 d 的有理数
+ + ~(numer x)~ 获取有理数的分子
+ + ~(denom x)~ 获取有理数的分母
+
+现在我们可以轻松实现有理数的相关运算
+ + ~(add-rat x y)~ 两个有理数相加
+   \[\frac{n_{1}}{d_{1}}+\frac{n_{2}}{d_{2}}=\frac{n_{1}d_{2}+n_{2}d_{1}}{d_{1}d_{2}}\]
+
+   #+begin_src scheme
+(define (add-rat x y)
+  (make-rat (+ (* (numer x) (denom y))
+               (* (numer y) (denom x)))
+            (* (denom x) (denom y))))
+   #+end_src
+
+ + ~(sub-rat x y)~ 两个有理数相减
+   \[\frac{n_{1}}{d_{1}}-\frac{n_{2}}{d_{2}}=\frac{n_{1}d_{2}-n_{2}d_{1}}{d_{1}d_{2}}\]
+   #+begin_src scheme
+(define (sub-rat x y)
+  (make-rat (- (* (numer x) (denom y))
+               (* (numer y) (denom x)))
+            (* (denom x) (denom y))))
+   #+end_src
+
+ + ~(mul-rat x y)~ 两有理数相乘
+   \[\frac{n_{1}}{d_{1}}\cdot\frac{n_{2}}{d_{2}}=\frac{n_{1}n_{2}}{d_{1}d_{2}}\]
+   #+begin_src scheme
+(define (mul-rat x y)
+  (make-rat (* (numer x) (numer y))
+            (* (denom x) (denom y))))
+   #+end_src
+
+ + ~(div-rat x y)~ 两有理数相除
+   \[\frac{n_{1}}{d_{1}}\div\frac{n_{2}}{d_{2}}=\frac{n_{1}d_{2}}{d_{1}n_{2}}\]
+   #+begin_src scheme
+(define (div-rat x y)
+  (make-rat (* (numer x) (denom y))
+            (* (denom x) (numer y))))
+   #+end_src
+
+ + ~(eq-rat x y)~ 判断两有理数是否相等
+   \[\frac{n_{1}}{d_{1}}=\frac{n_{2}}{d_{2}},\ \texttt{if}\
+   n_{1}d_{2}=n_{2}d_{1}\]
+   #+begin_src scheme
+(define (eq-rat? x y)
+  (= (* (numer x) (denom y))
+     (* (numer y) (denom x))))
+   #+end_src
+
+现在只抽象了方法，甚至还没考虑如何实现有理数，但已经将各个有理数的使用方法完成了。
+
+构造有理数可以选用 pair 进行构建
+#+begin_src scheme
+(define make-rat cons)
+(define numer car)
+(define denom cdr)
+#+end_src
+
+** 抽象屏障
+
+比如示例中的有理数，使用了 ~make-rat~ 等方法对有理数进行构造，而使用 ~add-rat~ 等方
+法对有理数进行操作，而这些操作使用 ~make-rat~​ 进行构造。也就是说，从上层看没有任何
+与 pair 相关的操作，使用时并不需要关心这些有理数是如何构建、使用的，因此这种方式
+也被称作 *抽象屏障*​。

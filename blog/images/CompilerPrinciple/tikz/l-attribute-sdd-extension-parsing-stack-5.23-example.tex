@@ -1,0 +1,90 @@
+\documentclass[border=1pt,tikz,varwidth=\maxdimen]{standalone}
+
+\usetikzlibrary{positioning,calc,chains,shapes.multipart}
+
+\usepackage{amsmath,mathtools}
+\begin{document}
+
+\begin{tikzpicture}[
+  node distance = 1.5ex and 1.5ex,
+  simple node/.style={
+    draw,
+    inner sep=0pt,
+    minimum height = 3em,
+    text width=12ex,
+    text height=2.4ex,
+    text depth=1.2ex,
+    align=center,
+    font=\linespread{.9}\selectfont,
+  },
+  split node/.style={
+    simple node,
+    rectangle split,
+    rectangle split parts=#1,
+    rectangle split ignore empty parts,
+    rectangle split part align=base,
+    draw,
+    inner sep=0ex,
+  },
+  split horizon node/.style={
+    simple node,
+    rectangle split,
+    rectangle split horizontal,
+    rectangle split parts=#1,
+    rectangle split ignore empty parts,
+    draw,
+    inner sep=0ex,
+    rectangle split part align=base,
+  },
+  start chain=going mid right,
+  every on chain/.append style={
+  },
+  ]
+  {[start chain]
+    \coordinate[on chain]  (9e6ea3d9-07fb-4e0d-84da-a93eeea20562)  at (0,0);
+    \node[on chain,split node=2] (non-terminal) {S \nodepart{two} \(next=x\)};
+  }
+  {[start chain]
+    \node[on chain,split node=1,below=2 of non-terminal] (n1)
+    {\textbf{while}};
+    \node[on chain,split node=1] (n2)  {\((\)};
+    \node[on chain,split node=4] (n3)  {Action \nodepart{two} \(snext=x\)
+      \nodepart{three} \(L_{1}=?\) \nodepart{four} \(L_{2}=?\)};
+    \node[on chain,split node=3] (n4)  {C \nodepart{two} \(false=?\)
+      \nodepart{three} \(true=?\)};
+    \node[on chain,split node=1] (n5)  {\()\)};
+    \node[on chain,split node=3] (n6)  {Action \nodepart{two} \(al_{1}=?\)
+      \nodepart{three} \(al_{2}=?\)};
+    \node[on chain,split node=2] (n7)  {\(S_{1}\) \nodepart{two} \(next=?\)};
+  }
+
+  \node[draw,below=0.55 of n3.south east,anchor=north east] (a1) {
+    \(\begin{aligned}
+        L_{1} = new();\\
+        L_{2} = new();\\
+        stack[top - 1].false = snext;\\
+        stack[top - 1].true = L_{2};\\
+        stack[top - 3].al_{1} = L_{1};\\
+        stack[top - 3].al_{1} = L_{2};\\
+        print("label", L_{1});
+      \end{aligned}\)
+  };
+
+  \node[draw,below=0.75 of n6] (a2) {
+    \(\begin{aligned}
+        stack[top - 1].next = al_{1};\\
+        print("label", al_{2});
+      \end{aligned}\)
+    };
+
+    \path[dashed,draw] (n6) -- (a2);
+    \path (a1.north east) -- ++(-6ex,0) coordinate (a1p);
+    \path[dashed,draw] (n3) -- (a1p);
+
+    \node[above=0.45 of n1] (t2) {top};
+    \node[above=0.45 of non-terminal] (t1) {top};
+
+    \path[-latex,draw] (t1) -- (non-terminal);
+    \path[-latex,draw] (t2) -- (n1);
+\end{tikzpicture}
+\end{document}

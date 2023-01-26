@@ -1,0 +1,86 @@
+\documentclass[border=0.8ex,svgnames,varwidth]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{xparse}
+\usetikzlibrary{shapes.multipart}
+\captionsetup{
+  font=scriptsize,
+  labelfont=it,
+  textfont=rm,
+  labelformat=parens,
+  position=above,
+  labelsep=space,
+  justification=centering,
+}
+\NewDocumentCommand{\tikzgeninsubfig}{t*t+t-}{
+  \begin{tikzpicture}[
+    level distance=2.5em,
+    every node/.style={
+      draw,
+      align=center,
+      font=\tiny,
+      rectangle split,
+      rectangle split horizontal,
+      rectangle split parts=5,
+      rectangle split ignore empty parts,
+    },
+    level 1/.style={sibling distance=5em},
+    every path/.style={draw,>=latex},
+    every one node part/.style={text width=1ex},
+    every two node part/.style={text width=1ex},
+    every three node part/.style={text width=1ex},
+    every four node part/.style={text width=1ex},
+    every five node part/.style={text width=1ex},
+    ]
+    \node(root){
+      \IfBooleanTF{#3}
+      { \nodepart{one}3 \nodepart{two}7 \nodepart{three}16 }
+      { \nodepart{one}7 \nodepart{two}16 }
+    }
+    [->]
+    child{
+      \IfBooleanTF{#3}{
+        node{\nodepart{one}1 \nodepart{two}2}
+      }{
+        \IfBooleanTF{#2}{
+          node[draw=Red]{\nodepart{one}1 \nodepart{two}2
+            \nodepart{three}3 \nodepart{four}4 \nodepart{five}5}
+        }{
+          node{\nodepart{one}1 \nodepart{two}2 \nodepart{three}3
+            \nodepart{four}4}
+        }
+      }
+    }
+    child{
+      \IfBooleanTF{#3}
+      { node{\nodepart{one}4 \nodepart{two}6} }
+      { edge from parent[draw=none] }
+    }
+    child{ node{\nodepart{one}9 \nodepart{two}12} }
+    child{ node{\nodepart{one}18 \nodepart{two}20} };
+  \end{tikzpicture}
+}
+\begin{document}
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{.6\linewidth}
+    \centering\tikzgeninsubfig*%
+    \caption{before}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{.6\linewidth}
+    \centering\tikzgeninsubfig+%
+    \caption{insert}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{.6\linewidth}
+    \centering\tikzgeninsubfig-%
+    \caption{splitting}
+  \end{subfigure}
+\end{figure}
+\end{document}

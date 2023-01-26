@@ -1,0 +1,75 @@
+\documentclass[border=0.8ex,svgnames,varwidth]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{subcaption}
+\usepackage{tikz}
+\captionsetup{
+  font=scriptsize,
+  labelfont=it,
+  textfont=rm,
+  labelformat=parens,
+  position=above,
+  labelsep=space,
+  justification=centering,
+}
+\usetikzlibrary{positioning,chains}
+\begin{document}
+\begin{figure}
+  \centering
+  \begin{subfigure}[t]{.72\linewidth}
+    \centering
+    \begin{tikzpicture}[
+      level distance=2.4em,
+      every node/.style={draw,circle,inner sep=0.1ex,minimum
+        size=1.44em,font=\small},
+      level 1/.style={sibling distance=8.0em},
+      level 2/.style={sibling distance=4.0em},
+      level 3/.style={sibling distance=2.4em},
+      ]
+      \node{A}
+      child{
+        node{B}
+        child{ node{D} child{ node{H} } child{ node{i} } }
+        child{ node{E} child{ node{J} } child{ node{K} } }
+      }
+      child{
+        node{C}
+        child{ node{F} child{ node{L} } child[missing] }
+        child{ node{G} }
+      };
+    \end{tikzpicture}
+    \caption{Complete Binary Tree}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{.72\linewidth}
+    \centering
+    \begin{tikzpicture}[every node/.style={minimum width=1.5em,minimum
+        height=1.5em}]
+      \begin{scope}[
+        node distance=0,
+        xnode/.append style={draw,on chain},
+        inode/.append style={draw=none,inner sep=0ex,minimum
+          height=1.5ex,font=\scriptsize},
+        start chain=going right,
+        ]
+        \foreach \i/\ch in
+        {0/A,1/B,2/C,3/D,4/E,5/F,6/G,7/H,8/I,9/J,10/K,11/L}
+        {
+          \node[xnode](node\i){\ch};
+          \node[inode,below=of node\i](idx\i){\i};
+          \chainin(node\i);
+        }
+        \foreach \i in {12,...,15}{
+          \node[xnode](node\i){};
+          \node[inode,below=of node\i](idx\i){\i};
+          \chainin(node\i);
+        }
+      \end{scope}
+    \end{tikzpicture}
+    \caption{Binary Heap}
+  \end{subfigure}
+\end{figure}
+\end{document}

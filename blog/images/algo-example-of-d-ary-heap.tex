@@ -1,0 +1,41 @@
+\documentclass[border=0.8ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\begin{document}
+\begin{tikzpicture}[
+  level distance=5.5em,
+  every node/.style={draw,circle,minimum size=2.1em,font=\large},
+  level 1/.style={sibling distance=9.6em},
+  level 2/.style={sibling distance=5.0em},
+  level 3/.style={sibling distance=3.2em},
+  ]
+  \node{13}
+  child{
+    node{21}
+    child { node{76} }
+    child { node{42} }
+    child { node{45} }
+    child { node{31} }
+  }
+  child[missing]
+  child{
+    node{45}
+    child { node{53} }
+    child { node{48} }
+    child { node{50} }
+    child { node{49} }
+  }
+  child[missing]
+  child{
+    node{58}
+    child { node{60} }
+    child { node{70} }
+    child { node{72} }
+    child { node{66} }
+  }
+  child{ node{24} };
+\end{tikzpicture}
+\end{document}

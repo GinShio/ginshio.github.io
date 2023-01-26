@@ -1,0 +1,31 @@
+\documentclass[border=1em,varwidth=\maxdimen]{standalone}
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\usepackage{xeCJK}
+\setCJKmainfont{Source Han Serif SC}
+\setCJKsansfont{Source Han Sans SC}
+\setCJKmonofont{Source Han Mono SC}
+\begin{document}
+\begin{table}
+  \begin{tabular}{cccccc}
+    \toprule
+    \multirow{2}{*}{状态} & \multicolumn{3}{c}{\texttt{ACTION}} &
+                                                                  \multicolumn{2}{c}{\texttt{GOTO}}\\
+    \cline{2-6}
+                          & c & d & \(\$\) & \textit{S} & \textit{C} \\
+    \midrule
+    0 & s3 & s4 & & 1 & 2\\
+    1 & & & acc & & \\
+    2 & s6 & s7 & & & 5\\
+    3 & s3 & s4 & & & 8\\
+    4 & r3 & r3 & & & \\
+    5 & & & r1 & & \\
+    6 & s6 & s7 & & 9\\
+    7 & & & r3 & & \\
+    8 & r2 & r2 & & & \\
+    9 & & & r2 & & \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\end{document}

@@ -1,0 +1,64 @@
+\documentclass[border=0.8ex,svgnames,varwidth]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{xparse}
+\captionsetup{
+  font=scriptsize,
+  labelfont=it,
+  textfont=rm,
+  labelformat=parens,
+  position=above,
+  labelsep=space,
+  justification=centering,
+}
+\NewDocumentCommand{\tikzgeninsubfig}{s}{
+  \begin{tikzpicture}[
+    level distance=2.4em,
+    every node/.style={draw,circle,inner sep=0.1ex,minimum
+      size=1.44em,font=\small},
+    level 1/.style={sibling distance=8.0em},
+    level 2/.style={sibling distance=4.0em},
+    level 3/.style={sibling distance=2.4em},
+    ]
+    \node{A}
+    child{
+      node{B}
+      child{ node{D} child{ node{H} } child{ node{i} } }
+      child{ node{E} child{ node{J} } child{ node{K} } }
+    }
+    child{
+      node{C}
+      child{
+        node{F}
+        \IfBooleanTF{#1}
+        { child{ node{L} } child{ node{M} } }
+        { child{ node{L} } }
+      }
+      child{
+        node{G}
+        \IfBooleanTF{#1}
+        { child{ node{N} } child{ node{O} } }
+        {}
+      }
+    };
+  \end{tikzpicture}
+}
+\begin{document}
+\begin{figure}
+  \centering
+  \begin{subfigure}[t]{.48\linewidth}
+    \centering\tikzgeninsubfig*%
+    \caption{Full Binary Tree}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{.48\linewidth}
+    \centering\tikzgeninsubfig%
+    \caption{Complete Binary Tree}
+  \end{subfigure}
+\end{figure}
+\end{document}

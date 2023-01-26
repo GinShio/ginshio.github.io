@@ -1,0 +1,53 @@
+\documentclass[border=1pt,tikz,varwidth=\maxdimen]{standalone}
+
+\usetikzlibrary{positioning,calc}
+
+\usepackage{amsmath,mathtools}
+
+\begin{document}
+\begin{tikzpicture}[level/.style={sibling distance=13.7em/#1}]
+  \node{\(L.val=19\)}
+  child {
+    node {\(E.val=19\)}
+    child {
+      node {\(E.val=15\)}
+      child {
+        node {\(T.val=15\)}
+        child {
+          node {\(T.val=3\)}
+          child {
+            node {\(F.val=3\)}
+            child {
+              node {\(\textbf{digit}.lexval=3\)}
+            }
+          }
+        }
+        child {
+          node {\(*\)}
+        }
+        child {
+          node {\(F.val=5\)}
+          child {
+            node {\(\textbf{digit}.lexval=5\)}
+          }
+        }
+      }
+    }
+    child {
+      node {\(+\)}
+    }
+    child {
+      node {\(T.val=4\)}
+      child {
+        node {\(F.val=4\)}
+        child {
+          node {\(\textbf{digit}.lexval=4\)}
+        }
+      }
+    }
+  }
+  child {
+    node{\textbf{n}}
+  };
+\end{tikzpicture}
+\end{document}

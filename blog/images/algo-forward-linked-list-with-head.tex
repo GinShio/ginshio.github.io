@@ -1,0 +1,72 @@
+\documentclass[border=0.8ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usetikzlibrary{chains,shapes.multipart,calc}
+\makeatletter
+\let\widthof=\pgfmath@calc@widthof%
+\let\heightof=\pgfmath@calc@heightof%
+\let\depthof=\pgfmath@calc@depthof%
+\makeatother
+\begin{document}
+\begin{tikzpicture}
+  \begin{scope}[
+    every node/.style={
+      draw,
+      on chain,
+      text centered,
+      text width=2.8em,
+      rectangle split,
+      rectangle split parts=2,
+      rectangle split every empty part={},
+      rectangle split part align={center,center},
+      rectangle split empty part width=\widthof{null},
+      rectangle split empty part height=\heightof{null},
+      rectangle split empty part depth=\depthof{null},
+    },
+    node distance=4em,
+    start chain,
+    ]
+    \foreach \i in {0,...,3}{
+      \node(a\i){\nodepart{one} \(A_{\i}\)};
+    };
+    \node(a4) {\nodepart{one} \(A_{4}\) \nodepart{two} null};
+  \end{scope}
+  \begin{scope}[every path/.style={draw,thick,>=latex}]
+    \foreach \i in {0,...,3}{
+      \pgfmathtruncatemacro{\x}{\i+1};
+      \coordinate(a\i-center) at (a\i.two west-|a\i.two south);
+      \coordinate(a\i-next) at ($(a\i.two east)!0.5!(a\x.two west)$);
+      \path[->] (a\i-center) -- (a\i-next) |- (a\x.one west);
+      \fill (a\i-center) circle (0.2ex);
+    }
+  \end{scope}
+  \begin{scope}[
+    every node/.style={
+      draw,
+      rectangle split,
+      rectangle split parts=3,
+      rectangle split horizontal,
+      rectangle split ignore empty parts,
+      rectangle split part align={center,center,center},
+    },
+    ]
+    \node[above=2em of a2](head) {
+      \nodepart{one} size
+      \nodepart{two} start-ptr
+      \nodepart{three} end-ptr
+    } node[draw=none,left=1.6em of head]{head};
+    \path[draw,>=latex,->]
+    (head.two south) -- ($(head.two south)-(0,2ex)$) -| (a0.north);
+    \path[draw,>=latex,->]
+    (head.three south) -- ($(head.three south)-(0,2ex)$) -| (a4.north);
+    \coordinate(begin-ptrto) at
+    ($(a0.one north)!0.5!(a0.one north-|a0.one west)$);
+    \node[draw=none,above=1.6em of begin-ptrto,text=IndianRed](begin-node)
+    {\footnotesize begin};
+    \path[draw,>=latex,color=IndianRed] (begin-node) edge[->] (begin-ptrto);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

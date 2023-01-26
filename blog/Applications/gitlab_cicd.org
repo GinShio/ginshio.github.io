@@ -1,0 +1,494 @@
+#+hugo_categories: Applications
+#+hugo_tags: Server GitLab CI
+#+hugo_draft: true
+#+hugo_locale: zh
+#+hugo_lastmod: 2022-05-06T14:27:53+08:00
+#+hugo_auto_set_lastmod: nil
+#+hugo_front_matter_key_replace: author>authors
+#+hugo_custom_front_matter: :outdatedArticleReminder '((enable . true))
+#+title: Gitlab CI/CD
+#+author: GinShio
+#+date: 2022-05-06T14:27:53+08:00
+#+email: ginshio78@gmail.com
+#+description: GinShio | introduction to GitLab CI
+#+keywords: Applications Server GitLab CI
+#+export_file_name: git_bash_with_pacman_on_windows.zh-cn.txt
+
+GitLab 以及 GitLab CI 作为开源软件，简直不要太爽，你可以自己搭建自己的 workflow，
+或者使用 gitlab.com，亦或者你的公司或开源社区正在使用自建的 GitLab，但是所有的
+CI/CD 流程与配置文件是相同的。
+
+Jekins 请不要联系了，我怕 GitLab CI 误会。
+
+#+begin_comment
+# register
+sudo gitlab-runner register \
+  --non-interactive \
+  --url "https://git.ginshio.org" \
+  --registration-token "_enP21Kw5zsaSiYiys6k" \
+  --executor "shell" \
+  --shell "bash" \
+  --description "gitiris hkvps shell runner" \
+  --tag-list "shell,hkvps,amd64"
+
+sudo gitlab-runner register \
+  --non-interactive \
+  --url "https://git.ginshio.org/" \
+  --registration-token "_enP21Kw5zsaSiYiys6k" \
+  --executor "docker" \
+  --docker-image alpine:latest \
+  --docker-network-mode "host" \
+  --docker-volumes /var/lib/gitlab-runner/builds:/builds \
+  --docker-volumes /var/lib/gitlab-runner/cache:/cache \
+  --description "gitiris raspi docker runner $i" \
+  --tag-list "docker,raspi,armhf" \
+  --run-untagged="true" \
+  --locked="false" \
+  --access-level "not_protected" \
+  --cache-type "s3" \
+  --cache-shared="true" \
+  --cache-s3-server-address "cache.ginshio.org:6196" \
+  --cache-s3-access-key "eUu1prOD1J6Q1lQh" \
+  --cache-s3-secret-key "aLVeAMvA5nrOB8PXPeZUXyssd4sLtX2a" \
+  --cache-s3-bucket-name "gitiris-runner" \
+  --cache-s3-insecure="true"
+
+
+sudo gitlab-runner register \
+  --non-interactive \
+  --url "https://gitlab.com/" \
+  --registration-token "GR1348941nGv3a8oFtpbgtZiGFXx5" \
+  --executor "docker" \
+  --docker-image alpine:latest \
+  --docker-network-mode "host" \
+  --docker-volumes /var/lib/gitlab-runner/builds:/builds \
+  --docker-volumes /var/lib/gitlab-runner/cache:/cache \
+  --description "gitlab ginshio local docker runner $i" \
+  --tag-list "docker,ginshio,local,amd64" \
+  --run-untagged="true" \
+  --locked="false" \
+  --access-level "not_protected" \
+  --cache-type "s3" \
+  --cache-shared="true" \
+  --cache-s3-server-address "cache.ginshio.org:6196" \
+  --cache-s3-access-key "eUu1prOD1J6Q1lQh" \
+  --cache-s3-secret-key "aLVeAMvA5nrOB8PXPeZUXyssd4sLtX2a" \
+  --cache-s3-bucket-name "gitlab-runner" \
+  --cache-s3-insecure="true"
+
+pI11BXwWTG1LudY7
+yUWqSnWo7p8VrbFeUguMUBvqjX99I1za
+#+end_comment
+
+
+* 流水线 Pipelines
+Pipelines 是 CI / CD 的最高级组件，由 Jobs 和 Stages 组成。Jobs 定义了做哪些工作，
+而 Stage 定义了何时做这些 Jobs。
+
+Pipelines 有多种类型，来适配不同的使用情形。
+  - 基础流水线 Basic Pipelines :: 同时运行每个 Stage 的所有 Job，然后运行下一个
+    Stage
+  - 有向无环图流水线 Directed Acyclic Graph (DAG) Pipelines :: 基于 Job 之间的关
+    系，相比基础流水线运行得更快
+  - 合并请求流水线 Merge Requests Pipelines :: 仅针对合并请求而非每次提交的流水线
+  - 合并结果流水线 Merge Results Pipelines :: 仅针对合并成功的流水线
+  - 父子流水线 Parent-child Pipelines :: 将复杂流水线分解为可以触发多个子流水线的
+    父流水线，这些子流水线有着相同的 SHA。通常使用在单一仓库
+  - 多项目流水线 Multi-project Pipelines :: 组合不同项目的流水线
+
+最简单的流水线架构是基础流水线，同时运行当前 Stage 下的所有 Job，当前阶段没有
+Job 时运行下一阶段，直到所有阶段运行完毕。
+
+#+attr_html: :width 80%
+[[file:../../_build/tikzgen/gitlab-ci-basic-pipelines.svg]]
+
+简单且易懂，但随着步骤的增多，也会变得越来越复杂，但十分容易维护。
+
+#+begin_src yaml
+stages:
+  - build
+  - test
+  - deploy
+
+image: alpine
+
+build_a:
+  stage: build
+  script:
+    - echo "This job builds something."
+
+build_b:
+  stage: build
+  script:
+    - echo "This job builds something else."
+
+test_a:
+  stage: test
+  script:
+    - echo "This job tests something. It will only run when all jobs in the"
+    - echo "build stage are complete."
+
+test_b:
+  stage: test
+  script:
+    - echo "This job tests something else. It will only run when all jobs in the"
+    - echo "build stage are complete too. It will start at about the same time as test_a."
+
+deploy_a:
+  stage: deploy
+  script:
+    - echo "This job deploys something. It will only run when all jobs in the"
+    - echo "test stage complete."
+
+deploy_b:
+  stage: deploy
+  script:
+    - echo "This job deploys something else. It will only run when all jobs in the"
+    - echo "test stage complete. It will start at about the same time as deploy_a."
+#+end_src
+
+** 资源组 Resource group
+#+begin_info
+[[https://gitlab.com/gitlab-org/gitlab/-/issues/15536][Introduced]] in GitLab 12.7.
+#+end_info
+
+默认情况下 Pipelines 的执行是并行的，但有时你希望限制 deploy 阶段的并发性，希望
+可以安全的对应用进行部署。
+
+*** 添加 resource group
+首先从一份简单的基础流水线配置开始
+#+begin_src yaml
+build:
+  stage: build
+  script: echo "Your build script"
+
+deploy:
+  stage: deploy
+  script: echo "Your deployment script"
+  environment: production
+#+end_src
+
+如果你在一段时间内快速多次提交，将会触发多次流水线的并行作业，可以想象有一个有问
+题的版本将在修改了问题的版本之后部署，这是完全有可能，但会有严重问题的。为了确保
+部署可以一时间只运行一个作业，可以为这种并发敏感型作业指定 =resource_group= 关键
+字
+#+begin_src yaml
+deploy:
+  ...
+  resource_group: production
+#+end_src
+
+resource group 可以保证构建作业最大程度地使用 runner，也可以保证部署作业的安全。
+
+*** 流程模式 Process mode
+#+begin_info
+[[https://gitlab.com/gitlab-org/gitlab/-/issues/202186][Introduced]] in GitLab 14.3.
+[[https://gitlab.com/gitlab-org/gitlab/-/issues/202186][Generally available]] in GitLab 14.4.
+#+end_info
+
+你可以为资源组选择一种流程模式来控制并发性。
+  - Unordered ::
+    无序模式，不关心作业的执行顺序，只要作业准备好就运行
+  - Oldest first ::
+    限制按 pipeline ID 升序排序即将到来的作业 (已创建、已调度或等待资源)，并选取
+    第一个，即最开始创建的作业。相比与无序模式，Pipeline 效率稍弱，但更加安全
+  - Newest first :: 与升序排序相反的降序模式，即每次运行最新创建的作业。此模式主
+    要用于保留最新的作业从而跳过过时的作业。就效率而言这是最有效率的方式，但需要
+    保证作业的幂等性
+
+当然修改 Process mode 挺麻烦的，需要使用 [[https://docs.gitlab.com/ee/api/resource_groups.html][resource group API]]。
+
+** 有向无环图
+#+begin_info
+[[https://gitlab.com/gitlab-org/gitlab-foss/-/issues/47063][Introduced]] in GitLab 12.2.
+#+end_info
+
+DAG 的宗旨是不受 Stage 约束，尽可能快得构建整个 Pipeline。needs 关键字用来定义工
+作之间的依赖关系。
+
+#+attr_html: :width 45%
+[[file:../../_build/tikzgen/gitlab-ci-directed-acyclic-graph-pipelines.svg]]
+
+#+begin_src yaml
+stages:
+  - build
+  - test
+  - deploy
+
+image: alpine
+
+build_a:
+  stage: build
+  script:
+    - echo "This job builds something quickly."
+
+build_b:
+  stage: build
+  script:
+    - echo "This job builds something else slowly."
+
+test_a:
+  stage: test
+  needs: [build_a]
+  script:
+    - echo "This test job will start as soon as build_a finishes."
+    - echo "It will not wait for build_b, or other jobs in the build stage, to finish."
+
+test_b:
+  stage: test
+  needs: [build_b]
+  script:
+    - echo "This test job will start as soon as build_b finishes."
+    - echo "It will not wait for other jobs in the build stage to finish."
+
+deploy_a:
+  stage: deploy
+  needs: [test_a]
+  script:
+    - echo "Since build_a and test_a run quickly, this deploy job can run much earlier."
+    - echo "It does not need to wait for build_b or test_b."
+
+deploy_b:
+  stage: deploy
+  needs: [test_b]
+  script:
+    - echo "Since build_b and test_b run slowly, this deploy job will run much later."
+#+end_src
+
+假设你的仓库中有四个服务 a、b、c、d，整个 Pipeline 可能包含如下作业
+|---------+--------+----------|
+| build   | test   | deploy   |
+|---------+--------+----------|
+| build_a | test_a | deploy_a |
+| build_b | test_b | deploy_b |
+| build_c | test_c | deploy_c |
+| build_d | test_d | deploy_d |
+
+使用 DAG 你可以将服务 a、b 的作业分开关联，即使 a 需要很长时间来构建，服务 b 也
+不会进行等待从而快速完成构建。
+
+** 多项目流水线 Multi-project pipelines
+#+begin_info
+[[https://gitlab.com/gitlab-org/gitlab/-/issues/199224][Moved]] to GitLab Free in 12.8.
+#+end_info
+
+可以跨项目设置 GitLab CI，以便一个项目中的 Pipeline 可以触发另一个项目中的
+Pipeline。你可以在一处可视化整个 Pipeline，包括跨项目的依赖关系。
+
+指定下游项目和分支
+#+begin_src yaml
+# upstream
+rspec:
+  stage: test
+  script: bundle exec rspec
+
+staging:
+  stage: deploy
+  trigger:
+    project: my/deployment
+    branch: stable-11-2
+#+end_src
+
+如果你需要将某些 GitLab CI 变量传递给下游，可以使用 =variables= 关键字。如果想设
+置下游全局变量，只需要将关键字写在顶层。如果某一过程不想继承这些全局关键字，可以
+使用 =inherit:variables= 关键字。
+#+begin_src yaml
+# upstream
+variables:
+  MY_GLOBAL_VAR: value
+  UPSTREAM_BRANCH: $CI_COMMIT_REF_NAME
+
+staging:
+  inherit:
+    variables: false
+  variables:
+    MY_LOCAL_VAR: value
+  stage: deploy
+  trigger: my/deployment
+#+end_src
+
+另外需要注意，上游变量优先级高于下游变量，因此当上下游有同名变量时，采用上游变量。
+
+当然还可以用 dotfile 的方式继承变量，不过需要两个 CI 文件都更改
+  - 上游文件
+    #+begin_src yaml
+# upstream
+build_vars:
+  stage: build
+  script:
+    - echo "BUILD_VERSION=hello" >> build.env
+  artifacts:
+    reports:
+      dotenv: build.env
+
+deploy:
+  stage: deploy
+  trigger: my/downstream_project
+    #+end_src
+  - 下游文件
+    #+begin_src yaml
+test:
+  stage: test
+  script:
+    - echo $BUILD_VERSION
+  needs:
+    - project: my/upstream_project
+      job: build_vars
+      ref: master
+      artifacts: true
+    #+end_src
+
+** 父子流水线
+DAG 流水线上，我们可以明显的将其分为两个部分。因此父子流水线可以将其配置分为多个
+部分，使每个子流水线可以独自维护，也更简单实现。
+
+#+attr_html: :width 50%
+[[file:../../_build/tikzgen/gitlab-ci-parent-child-pipelines.svg]]
+
+先实现最基础的 ~.gitlab-ci.yml~
+#+begin_src yaml
+stages:
+  - triggers
+
+trigger_a:
+  stage: triggers
+  trigger:
+    include: a/.gitlab-ci.yml
+  rules:
+    - changes:
+        - a/*
+
+trigger_b:
+  stage: triggers
+  trigger:
+    include: b/.gitlab-ci.yml
+  rules:
+    - changes:
+        - b/*
+#+end_src
+
+分别在目录 a 和目录 b 下实现对应的子流水线。子流水线 a 的 CI 配置文件
+#+begin_src yaml
+stages:
+  - build
+  - test
+  - deploy
+
+image: alpine
+
+build_a:
+  stage: build
+  script:
+    - echo "This job builds something."
+
+test_a:
+  stage: test
+  needs: [build_a]
+  script:
+    - echo "This job tests something."
+
+deploy_a:
+  stage: deploy
+  needs: [test_a]
+  script:
+    - echo "This job deploys something."
+#+end_src
+
+子流水线 b 的 CI 配置文件
+#+begin_src yaml
+stages:
+  - build
+  - test
+  - deploy
+
+image: alpine
+
+build_b:
+  stage: build
+  script:
+    - echo "This job builds something else."
+
+test_b:
+  stage: test
+  needs: [build_b]
+  script:
+    - echo "This job tests something else."
+
+deploy_b:
+  stage: deploy
+  needs: [test_b]
+  script:
+    - echo "This job deploys something else."
+#+end_src
+
+* Docker build
+Docker 19.03 or newer
+
+#+begin_src fish
+set buildx_version 0.8.2
+#+end_src
+
++ download
+  #+begin_src fish
+cd /tmp
+wget https://github.com/docker/buildx/releases/download/v$buildx_version/buildx-v$buildx_version.linux-amd64
+  #+end_src
+
++ install
+  #+begin_src fish
+mkdir -p $HOME/.docker/cli-plugins
+cp buildx-v$buildx_version.linux-amd64 $HOME/.docker/cli-plugins/docker-buildx
+chmod +x $HOME/.docker/cli-plugins/docker-buildx
+  #+end_src
+
++ pull docker multiarch
+  #+begin_src fish
+docker pull docker:latest
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+docker buildx create --use
+docker buildx inspect --bootstrap
+  #+end_src
+
+
+* Caching
+Minio
+
+#+begin_src fish
+set minio_volumes /home/minio
+set minio_access_key YOUR_ACCESS_KEY
+set minio_secret_key YOUR_SECRET_KEY
+#+end_src
+
++ install
+  #+begin_src fish
+sudo apt update -y
+cd /tmp
+curl -O https://dl.minio.io/server/minio/release/linux-amd64/minio
+sudo cp minio /usr/local/bin
+sudo chmod +x /usr/local/bin/minio
+  #+end_src
+
++ require
+  #+begin_src fish
+sudo useradd -r minio -s /sbin/nologin --create-home
+sudo chown minio:minio /usr/local/bin/minio
+sudo mkdir -p /etc/minio
+sudo chown minio:minio -R /etc/minio
+bash -c "cat <<-EOF |tee -a /etc/default/minio
+MINIO_VOLUMES=\"$minio_volumes\"
+MINIO_OPTS=\"-C /etc/minio --address 0.0.0.0:9000\"
+MINIO_ACCESS_KEY=\"$minio_access_key\"
+MINIO_SECRET_KEY=\"$minio_secret_key\"
+EOF
+"
+sudo chown minio:minio /etc/default/minio
+  #+end_src
+
++ systemd
+  #+begin_src fish
+cd /tmp
+curl -O https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/minio.service
+sudo cp minio.service /etc/systemd/system
+sudo systemctl daemon-reload
+sudo systemctl enable minio --now
+  #+end_src

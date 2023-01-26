@@ -1,0 +1,64 @@
+\documentclass[border=0.8ex,svgnames,varwidth]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{xparse}
+\usetikzlibrary{shapes.multipart}
+\captionsetup{
+  font=scriptsize,
+  labelfont=it,
+  textfont=rm,
+  labelformat=parens,
+  position=above,
+  labelsep=space,
+  justification=centering,
+}
+\NewDocumentCommand{\tikzgeninsubfig}{s}{
+  \begin{tikzpicture}[
+    level distance=2.5em,
+    every node/.style={
+      draw,
+      align=center,
+      font=\tiny,
+      rectangle split,
+      rectangle split horizontal,
+      rectangle split ignore empty parts,
+    },
+    level 1/.style={sibling distance=5em},
+    every path/.style={draw,>=latex},
+    every one node part/.style={text width=1ex},
+    every two node part/.style={text width=1ex},
+    every three node part/.style={text width=1ex},
+    every four node part/.style={text width=1ex},
+    ]
+    \node{\nodepart{one}7 \nodepart{two}16}
+    [->]
+    child{
+      node{\nodepart{one}1 \nodepart{two}2 \nodepart{three}3 \nodepart{four}4}
+    }
+    child{
+      node{
+        \nodepart{one}9
+        \nodepart{two}\IfBooleanTF{#1}{12}{10 \nodepart{three}12}}
+    }
+    child{ node{\nodepart{one}18 \nodepart{two}20} };
+  \end{tikzpicture}
+}
+\begin{document}
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{0.45\linewidth}
+    \centering\tikzgeninsubfig*%
+    \caption{before insert}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.45\linewidth}
+    \centering\tikzgeninsubfig%
+    \caption{after insert}
+  \end{subfigure}
+\end{figure}
+\end{document}

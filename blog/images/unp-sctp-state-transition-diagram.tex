@@ -1,0 +1,87 @@
+\documentclass[border=0.8ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+
+\usetikzlibrary{positioning,calc,shapes.misc}
+
+\begin{document}
+\begin{tikzpicture}
+  \begin{scope}[
+    every node/.style={
+      draw,
+      minimum width=8em,
+      minimum height=2.5em,
+      rounded rectangle,
+      rounded rectangle arc length=180,
+      font=\normalsize,
+    },
+    ]
+    \node (closed) {CLOSED};
+    \path (closed) ++(5.0,0) coordinate(cookie-header);
+    \node[below=1.2 of cookie-header] (cookie-wait) {COOKIE\_WAIT};
+    \node[below=2.8 of cookie-wait] (cookie-echoed) {COOKIE\_ECHOED};
+    \node[below=5.5 of closed] (established) {ESTABLISHED};
+    \path (established) ++(-4.5,0) coordinate(shutdown-header1);
+    \node[below=3.0 of shutdown-header1] (shutdown-pending)
+    {SHUTDOWN\_PENDING};
+    \node[below=3.0 of shutdown-pending] (shutdown-sent)
+    {SHUTDOWN\_SENT};
+    \path (established) ++(+4.5,0) coordinate(shutdown-header2);
+    \node[below=3.0 of shutdown-header2] (shutdown-received)
+    {SHUTDOWN\_RECEIVED};
+    \node[below=3.0 of shutdown-received] (shutdown-ack-sent)
+    {SHUTDOWN\_ACK\_SENT};
+  \end{scope}
+  \coordinate (shutdown-end1) at ($(shutdown-sent)-(2.5,0)$);
+  \coordinate (shutdown-end2) at ($(shutdown-ack-sent)+(4.0,0)$);
+  \begin{scope}[
+    every path/.style={draw,dashed,>=latex},
+    every node/.style={
+      above,
+      sloped,
+      draw=none,
+      fill=none,
+      inner sep=1pt,
+      align=left,
+      font=\scriptsize,
+    },
+    ]
+    \path[->]
+    (closed) edge[loop above] node{recv: INIT\\send: INIT-ACK} ()
+    (closed) edge node{recv: valid COOKIE-ECHO\\send: COOKIE-ACK} (established)
+    (established) edge node{recv: SHUTDOWN\\send: DATA} (shutdown-received)
+    (shutdown-received) edge node{send: SHUTDOWN-ACK} (shutdown-ack-sent);
+  \end{scope}
+  \begin{scope}[
+    every path/.style={draw,>=latex},
+    every node/.style={
+      above,
+      sloped,
+      draw=none,
+      fill=none,
+      inner sep=1pt,
+      align=left,
+      font=\scriptsize,
+    },
+    ]
+    \path[->]
+    (closed) edge node{appl: active open\\send: INIT} (cookie-wait)
+    (cookie-wait) edge node{recv: INIT-ACK\\send: COOKIE-ECHO} (cookie-echoed)
+    (cookie-echoed) edge node{recv: COOKIE-ACK} (established)
+    (established) edge node{appl: close\\send: DATA} (shutdown-pending)
+    (shutdown-pending) edge node{send: SHUTDOWN} (shutdown-sent)
+    (shutdown-sent) edge node{recv: SHUTDOWN\\send: SHUTDOWN-ACK}
+    (shutdown-ack-sent);
+    \path[->] (shutdown-sent) -- (shutdown-end1) |- (closed);
+    \path (shutdown-end1) ++ (0,8) node[right]{recv: SHUTDOWN-ACK\\send:
+      SHUTDOWN-COMPLETE};
+    \path (shutdown-ack-sent) -- (shutdown-end2) |- (closed);
+    \path (shutdown-end2)
+    ++(0,1.0) node[left]{recv: SHUTDOWN-ACK\\send: SHUTDOWN-COMPLETE}
+    ++(0,5.5) node[left]{recv: SHUTDOWN-COMPLETE};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

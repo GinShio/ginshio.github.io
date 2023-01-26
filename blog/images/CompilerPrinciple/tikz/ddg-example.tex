@@ -1,0 +1,25 @@
+\documentclass[tikz,border=3.14mm]{standalone}
+\usetikzlibrary{positioning,calc,shapes.geometric}
+\begin{document}
+\begin{tikzpicture}[node distance = 9mm and 14mm,
+  nodes= {draw, minimum width=8em, minimum height=2em,
+    font=\ttfamily},
+  startstop/.style = {fill=red!30, rounded corners},
+  process/.style = {fill=orange!30},
+  io/.style = {fill=blue!30,
+    trapezium, trapezium stretches body,
+    trapezium left angle=70, trapezium right angle=110},
+  decision/.style = {fill=green!30, diamond, aspect=1.5},
+  exp/.style={draw=none,font=\sffamily,minimum width=1em},
+  arr/.style = {very thick,-latex}
+  ]
+  \node (var1) [process] {\%1 = load of c[i]};
+  \node (var2) [process, below=of var1] {\%2 = load of b[i - 1]};
+  \node (var3) [process, below=of var2] {\%3 = fadd \%1, \%2};
+  \node (var4) [process, below=of var3] {b[i] = \%3};
+
+  \draw [arr] (var1) -- ++(2.8, 0) |- (var3);
+  \draw [arr] (var2) -- (var3);
+  \draw [arr] (var3) -- (var4);
+\end{tikzpicture}
+\end{document}

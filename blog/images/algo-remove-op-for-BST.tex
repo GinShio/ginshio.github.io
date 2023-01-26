@@ -1,0 +1,72 @@
+\documentclass[border=0.8ex,svgnames,varwidth]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ifthen}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{xparse}
+\captionsetup{
+  font=scriptsize,
+  labelfont=it,
+  textfont=rm,
+  labelformat=parens,
+  position=above,
+  labelsep=space,
+  justification=centering,
+}
+\NewDocumentCommand{\tikzgeninsubfig}{sm}
+{
+  \begin{tikzpicture}[
+    level distance=10mm,
+    every node/.style={draw,circle,inner sep=1pt,minimum size=1.6em},
+    level 1/.style={sibling distance=24mm},
+    level 2/.style={sibling distance=16mm},
+    level 3/.style={sibling distance=8mm},
+    ]
+    \node{\ifthenelse{\equal{#2}{\string 0}}{6}{4}}
+    child{
+      node{2}
+      child{ node{1} }
+      child{
+        node{
+          \ifthenelse{\equal{#2}{\string 0}}
+          {4}
+          {\ifthenelse{\equal{#2}{\string 1}}{6}{3}}
+        }
+        \IfBooleanT{#1}{
+          child{ node{\ifthenelse{\equal{#2}{\string 2}}{6}{3}} }
+          child[missing]
+        }
+      }
+    }
+    child{ node{8} child{ node{7} } child{ node{9} }
+    };
+  \end{tikzpicture}
+}
+\begin{document}
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{0.48\linewidth}
+    \centering\tikzgeninsubfig*{0}%
+    \caption{before}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\linewidth}
+    \centering\tikzgeninsubfig*{1}%
+    \caption{swap 6,4}
+  \end{subfigure}
+  \bigskip
+  \begin{subfigure}[b]{0.48\linewidth}
+    \centering\tikzgeninsubfig*{2}%
+    \caption{swap 6,3}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\linewidth}
+    \centering\tikzgeninsubfig{3}%
+    \caption{remove 6}
+  \end{subfigure}
+\end{figure}
+\end{document}

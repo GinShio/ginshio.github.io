@@ -1,0 +1,75 @@
+\documentclass[border=0.8ex,svgnames,varwidth]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{xparse}
+\usetikzlibrary{positioning,shapes.geometric}
+\captionsetup{
+  font=scriptsize,
+  labelfont=it,
+  textfont=rm,
+  labelformat=parens,
+  position=above,
+  labelsep=space,
+  justification=centering,
+}
+\NewDocumentCommand{\tikzgeninsubfig}{s}{
+  \begin{tikzpicture}
+    \begin{scope}[
+      level distance=4em,
+      every node/.style={draw,circle,inner sep=0.1ex,minimum size=2em},
+      subtree node/.append style={regular polygon,regular polygon sides=3},
+      level 1/.style={sibling distance=8.0em},
+      level 2/.style={sibling distance=4.0em},
+      ]
+      \IfBooleanTF{#1}{\node[draw=Red](n){n}}{\node(s){s}}
+      child{
+        \IfBooleanTF{#1}{
+          node(s){s}
+          child{ node[subtree node](t1){\(T_{1}\)} }
+          child{ node[subtree node](t2){\(T_{2}\)} }
+        }{
+          node[subtree node](t1){\(T_{1}\)}
+        }
+      }
+      child{
+        \IfBooleanTF{#1}{
+          node[subtree node](t3){\(T_{3}\)}
+        }{
+          node(n){n}
+          child{ node[subtree node](t2){\(T_{2}\)} }
+          child{ node[subtree node](t3){\(T_{3}\)} }
+        }
+      };
+    \end{scope}
+    \begin{scope}[
+      node distance=0.25em,
+      every node/.style={font=\tiny,text=DarkTurquoise},
+      ]
+      \node[\IfBooleanTF{#1}{left}{right}=of t1]{n+1};
+      \node[\IfBooleanTF{#1}{right}{left}=of t2]{n};
+      \node[\IfBooleanTF{#1}{left}{right}=of t3]{n};
+      \IfBooleanTF{#1}
+      { \node[right=of s]{n+2}; }
+      { \node[left=of n]{n+1}; }
+    \end{scope}
+  \end{tikzpicture}
+}
+\begin{document}
+\begin{figure}
+  \centering
+  \begin{subfigure}[t]{.45\linewidth}
+    \centering\tikzgeninsubfig*%
+    \caption{before rotation}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{.45\linewidth}
+    \centering\tikzgeninsubfig%
+    \caption{after rotation}
+  \end{subfigure}
+\end{figure}
+\end{document}

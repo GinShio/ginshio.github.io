@@ -1,0 +1,991 @@
+
+* Periodic table :code:latex:tikz:
+:properties:
+:language: latex
+:end:
+
+#+begin_src latex
+%% Copyright 2009 Ivan Griffin
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is Ivan Griffin
+%
+% This work consists of the files periodic_table.tex
+
+%Description
+%-----------
+%periodic_table.tex - an example file illustrating the Periodic
+%                     Table of Chemical Elements using TikZ
+
+%Created 2009-12-08 by Ivan Griffin.  Last updated: 2010-01-11
+%
+%Thanks to Jerome
+%-------------------------------------------------------------
+
+\documentclass[border=10pt]{standalone}
+\usepackage{ifpdf}
+\usepackage{tikz}
+\usetikzlibrary{shapes,calc}
+
+\ifpdf
+  %
+\else
+  % Implement Outline text using pstricks if regular LaTeX->dvi->ps->pdf route
+  \usepackage{pst-all}
+\fi
+
+\begin{document}
+
+\newcommand{\CommonElementTextFormat}[4]
+{
+  \begin{minipage}{2.2cm}
+    \centering
+      {\textbf{#1} \hfill #2}%
+      \linebreak \linebreak
+      {\textbf{#3}}%
+      \linebreak \linebreak
+      {{#4}}
+  \end{minipage}
+}
+
+\newcommand{\NaturalElementTextFormat}[4]
+{
+  \CommonElementTextFormat{#1}{#2}{\LARGE {#3}}{#4}
+}
+
+\newcommand{\OutlineText}[1]
+{
+\ifpdf
+  % Couldn't find a nicer way of doing an outline font with TikZ
+  % other than using pdfliteral 1 Tr
+  %
+  \pdfliteral direct {0.5 w 1 Tr}{#1}%
+  \pdfliteral direct {1 w 0 Tr}%
+\else
+  % pstricks can do this with \pscharpath from pstricks
+  %
+  \pscharpath[shadow=false,
+    fillstyle=solid,
+    fillcolor=white,
+    linestyle=solid,
+    linecolor=black,
+    linewidth=.2pt]{#1}
+\fi
+}
+
+\newcommand{\SyntheticElementTextFormat}[4]
+{
+\ifpdf
+  \CommonElementTextFormat{#1}{#2}{\OutlineText{\LARGE #3}}{#4}
+\else
+  % pstricks approach results in slightly larger box
+  % that doesn't break, so fudge here
+  \CommonElementTextFormat{#1}{#2}{\OutlineText{\Large #3}}{#4}
+\fi
+}
+
+
+\begin{tikzpicture}[font=\sffamily, scale=0.45, transform shape]
+
+%% Fill Color Styles
+  \tikzstyle{ElementFill} = [fill=yellow!15]
+  \tikzstyle{AlkaliMetalFill} = [fill=blue!55]
+  \tikzstyle{AlkalineEarthMetalFill} = [fill=blue!40]
+  \tikzstyle{MetalFill} = [fill=blue!25]
+  \tikzstyle{MetalloidFill} = [fill=orange!25]
+  \tikzstyle{NonmetalFill} = [fill=green!25]
+  \tikzstyle{HalogenFill} = [fill=green!40]
+  \tikzstyle{NobleGasFill} = [fill=green!55]
+  \tikzstyle{LanthanideActinideFill} = [fill=purple!25]
+
+%% Element Styles
+  \tikzstyle{Element} = [draw=black, ElementFill,
+    minimum width=2.75cm, minimum height=2.75cm, node distance=2.75cm]
+  \tikzstyle{AlkaliMetal} = [Element, AlkaliMetalFill]
+  \tikzstyle{AlkalineEarthMetal} = [Element, AlkalineEarthMetalFill]
+  \tikzstyle{Metal} = [Element, MetalFill]
+  \tikzstyle{Metalloid} = [Element, MetalloidFill]
+  \tikzstyle{Nonmetal} = [Element, NonmetalFill]
+  \tikzstyle{Halogen} = [Element, HalogenFill]
+  \tikzstyle{NobleGas} = [Element, NobleGasFill]
+  \tikzstyle{LanthanideActinide} = [Element, LanthanideActinideFill]
+  \tikzstyle{PeriodLabel} = [font={\sffamily\LARGE}, node distance=2.0cm]
+  \tikzstyle{GroupLabel} = [font={\sffamily\LARGE}, minimum width=2.75cm, node distance=2.0cm]
+  \tikzstyle{TitleLabel} = [font={\sffamily\Huge\bfseries}]
+
+%% Group 1 - IA
+  \node[name=H, Element] {\NaturalElementTextFormat{1}{1.0079}{H}{Hydrogen}};
+  \node[name=Li, below of=H, AlkaliMetal] {\NaturalElementTextFormat{3}{6.941}{Li}{Lithium}};
+  \node[name=Na, below of=Li, AlkaliMetal] {\NaturalElementTextFormat{11}{22.990}{Na}{Sodium}};
+  \node[name=K, below of=Na, AlkaliMetal] {\NaturalElementTextFormat{19}{39.098}{K}{Potassium}};
+  \node[name=Rb, below of=K, AlkaliMetal] {\NaturalElementTextFormat{37}{85.468}{Rb}{Rubidium}};
+  \node[name=Cs, below of=Rb, AlkaliMetal] {\NaturalElementTextFormat{55}{132.91}{Cs}{Caesium}};
+  \node[name=Fr, below of=Cs, AlkaliMetal] {\NaturalElementTextFormat{87}{223}{Fr}{Francium}};
+
+%% Group 2 - IIA
+  \node[name=Be, right of=Li, AlkalineEarthMetal] {\NaturalElementTextFormat{4}{9.0122}{Be}{Beryllium}};
+  \node[name=Mg, below of=Be, AlkalineEarthMetal] {\NaturalElementTextFormat{12}{24.305}{Mg}{Magnesium}};
+  \node[name=Ca, below of=Mg, AlkalineEarthMetal] {\NaturalElementTextFormat{20}{40.078}{Ca}{Calcium}};
+  \node[name=Sr, below of=Ca, AlkalineEarthMetal] {\NaturalElementTextFormat{38}{87.62}{Sr}{Strontium}};
+  \node[name=Ba, below of=Sr, AlkalineEarthMetal] {\NaturalElementTextFormat{56}{137.33}{Ba}{Barium}};
+  \node[name=Ra, below of=Ba, AlkalineEarthMetal] {\NaturalElementTextFormat{88}{226}{Ra}{Radium}};
+
+%% Group 3 - IIIB
+  \node[name=Sc, right of=Ca, Metal] {\NaturalElementTextFormat{21}{44.956}{Sc}{Scandium}};
+  \node[name=Y, below of=Sc, Metal] {\NaturalElementTextFormat{39}{88.906}{Y}{Yttrium}};
+  \node[name=LaLu, below of=Y, LanthanideActinide] {\NaturalElementTextFormat{57-71}{}{La-Lu}{Lanthanide}};
+  \node[name=AcLr, below of=LaLu, LanthanideActinide] {\NaturalElementTextFormat{89-103}{}{Ac-Lr}{Actinide}};
+
+%% Group 4 - IVB
+  \node[name=Ti, right of=Sc, Metal] {\NaturalElementTextFormat{22}{47.867}{Ti}{Titanium}};
+  \node[name=Zr, below of=Ti, Metal] {\NaturalElementTextFormat{40}{91.224}{Zr}{Zirconium}};
+  \node[name=Hf, below of=Zr, Metal] {\NaturalElementTextFormat{72}{178.49}{Hf}{Halfnium}};
+  \node[name=Rf, below of=Hf, Metal] {\SyntheticElementTextFormat{104}{261}{Rf}{Rutherfordium}};
+
+%% Group 5 - VB
+  \node[name=V, right of=Ti, Metal] {\NaturalElementTextFormat{23}{50.942}{V}{Vanadium}};
+  \node[name=Nb, below of=V, Metal] {\NaturalElementTextFormat{41}{92.906}{Nb}{Niobium}};
+  \node[name=Ta, below of=Nb, Metal] {\NaturalElementTextFormat{73}{180.95}{Ta}{Tantalum}};
+  \node[name=Db, below of=Ta, Metal] {\SyntheticElementTextFormat{105}{262}{Db}{Dubnium}};
+
+%% Group 6 - VIB
+  \node[name=Cr, right of=V, Metal] {\NaturalElementTextFormat{24}{51.996}{Cr}{Chromium}};
+  \node[name=Mo, below of=Cr, Metal] {\NaturalElementTextFormat{42}{95.94}{Mo}{Molybdenum}};
+  \node[name=W, below of=Mo, Metal] {\NaturalElementTextFormat{74}{183.84}{W}{Tungsten}};
+  \node[name=Sg, below of=W, Metal] {\SyntheticElementTextFormat{106}{266}{Sg}{Seaborgium}};
+
+%% Group 7 - VIIB
+  \node[name=Mn, right of=Cr, Metal] {\NaturalElementTextFormat{25}{54.938}{Mn}{Manganese}};
+  \node[name=Tc, below of=Mn, Metal] {\NaturalElementTextFormat{43}{96}{Tc}{Technetium}};
+  \node[name=Re, below of=Tc, Metal] {\NaturalElementTextFormat{75}{186.21}{Re}{Rhenium}};
+  \node[name=Bh, below of=Re, Metal] {\SyntheticElementTextFormat{107}{264}{Bh}{Bohrium}};
+
+%% Group 8 - VIIIB
+  \node[name=Fe, right of=Mn, Metal] {\NaturalElementTextFormat{26}{55.845}{Fe}{Iron}};
+  \node[name=Ru, below of=Fe, Metal] {\NaturalElementTextFormat{44}{101.07}{Ru}{Ruthenium}};
+  \node[name=Os, below of=Ru, Metal] {\NaturalElementTextFormat{76}{190.23}{Os}{Osmium}};
+  \node[name=Hs, below of=Os, Metal] {\SyntheticElementTextFormat{108}{277}{Hs}{Hassium}};
+
+%% Group 9 - VIIIB
+  \node[name=Co, right of=Fe, Metal] {\NaturalElementTextFormat{27}{58.933}{Co}{Cobalt}};
+  \node[name=Rh, below of=Co, Metal] {\NaturalElementTextFormat{45}{102.91}{Rh}{Rhodium}};
+  \node[name=Ir, below of=Rh, Metal] {\NaturalElementTextFormat{77}{192.22}{Ir}{Iridium}};
+  \node[name=Mt, below of=Ir, Metal] {\SyntheticElementTextFormat{109}{268}{Mt}{Meitnerium}};
+
+%% Group 10 - VIIIB
+  \node[name=Ni, right of=Co, Metal] {\NaturalElementTextFormat{28}{58.693}{Ni}{Nickel}};
+  \node[name=Pd, below of=Ni, Metal] {\NaturalElementTextFormat{46}{106.42}{Pd}{Palladium}};
+  \node[name=Pt, below of=Pd, Metal] {\NaturalElementTextFormat{78}{195.08}{Pt}{Platinum}};
+  \node[name=Ds, below of=Pt, Metal] {\SyntheticElementTextFormat{110}{281}{Ds}{Darmstadtium}};
+
+%% Group 11 - IB
+  \node[name=Cu, right of=Ni, Metal] {\NaturalElementTextFormat{29}{63.546}{Cu}{Copper}};
+  \node[name=Ag, below of=Cu, Metal] {\NaturalElementTextFormat{47}{107.87}{Ag}{Silver}};
+  \node[name=Au, below of=Ag, Metal] {\NaturalElementTextFormat{79}{196.97}{Au}{Gold}};
+  \node[name=Rg, below of=Au, Metal] {\SyntheticElementTextFormat{111}{280}{Rg}{Roentgenium}};
+
+%% Group 12 - IIB
+  \node[name=Zn, right of=Cu, Metal] {\NaturalElementTextFormat{30}{65.39}{Zn}{Zinc}};
+  \node[name=Cd, below of=Zn, Metal] {\NaturalElementTextFormat{48}{112.41}{Cd}{Cadmium}};
+  \node[name=Hg, below of=Cd, Metal] {\NaturalElementTextFormat{80}{200.59}{Hg}{Mercury}};
+  \node[name=Cn, below of=Hg, Metal] {\SyntheticElementTextFormat{112}{285}{Cn}{Copernicium}};
+
+%% Group 13 - IIIA
+  \node[name=Ga, right of=Zn, Metal] {\NaturalElementTextFormat{31}{69.723}{Ga}{Gallium}};
+  \node[name=Al, above of=Ga, Metal] {\NaturalElementTextFormat{13}{26.982}{Al}{Aluminium}};
+  \node[name=B, above of=Al, Metalloid] {\NaturalElementTextFormat{5}{10.811}{B}{Boron}};
+  \node[name=In, below of=Ga, Metal] {\NaturalElementTextFormat{49}{114.82}{In}{Indium}};
+  \node[name=Tl, below of=In, Metal] {\NaturalElementTextFormat{81}{204.38}{Tl}{Thallium}};
+  \node[name=Nh, below of=Tl, Metal] {\SyntheticElementTextFormat{113}{284}{Nh}{Nihonium}};
+
+%% Group 14 - IVA
+  \node[name=C, right of=B, Nonmetal] {\NaturalElementTextFormat{6}{12.011}{C}{Carbon}};
+  \node[name=Si, below of=C, Metalloid] {\NaturalElementTextFormat{14}{28.086}{Si}{Silicon}};
+  \node[name=Ge, below of=Si, Metalloid] {\NaturalElementTextFormat{32}{72.64}{Ge}{Germanium}};
+  \node[name=Sn, below of=Ge, Metal] {\NaturalElementTextFormat{50}{118.71}{Sn}{Tin}};
+  \node[name=Pb, below of=Sn, Metal] {\NaturalElementTextFormat{82}{207.2}{Pb}{Lead}};
+  \node[name=Fl, below of=Pb, Metal] {\SyntheticElementTextFormat{114}{289}{Fl}{Flerovium}};
+
+%% Group 15 - VA
+  \node[name=N, right of=C, Nonmetal] {\NaturalElementTextFormat{7}{14.007}{N}{Nitrogen}};
+  \node[name=P, below of=N, Nonmetal] {\NaturalElementTextFormat{15}{30.974}{P}{Phosphorus}};
+  \node[name=As, below of=P, Metalloid] {\NaturalElementTextFormat{33}{74.922}{As}{Arsenic}};
+  \node[name=Sb, below of=As, Metalloid] {\NaturalElementTextFormat{51}{121.76}{Sb}{Antimony}};
+  \node[name=Bi, below of=Sb, Metal] {\NaturalElementTextFormat{83}{208.98}{Bi}{Bismuth}};
+  \node[name=Mc, below of=Bi, Metal] {\SyntheticElementTextFormat{115}{288}{Mc}{Moscovium}};
+
+%% Group 16 - VIA
+  \node[name=O, right of=N, Nonmetal] {\NaturalElementTextFormat{8}{15.999}{O}{Oxygen}};
+  \node[name=S, below of=O, Nonmetal] {\NaturalElementTextFormat{16}{32.065}{S}{Sulphur}};
+  \node[name=Se, below of=S, Nonmetal] {\NaturalElementTextFormat{34}{78.96}{Se}{Selenium}};
+  \node[name=Te, below of=Se, Metalloid] {\NaturalElementTextFormat{52}{127.6}{Te}{Tellurium}};
+  \node[name=Po, below of=Te, Metalloid] {\NaturalElementTextFormat{84}{209}{Po}{Polonium}};
+  \node[name=Lv, below of=Po, Metal] {\SyntheticElementTextFormat{116}{293}{Lv}{Livermorium}};
+
+%% Group 17 - VIIA
+  \node[name=F, right of=O, Halogen] {\NaturalElementTextFormat{9}{18.998}{F}{Flourine}};
+  \node[name=Cl, below of=F, Halogen] {\NaturalElementTextFormat{17}{35.453}{Cl}{Chlorine}};
+  \node[name=Br, below of=Cl, Halogen] {\NaturalElementTextFormat{35}{79.904}{Br}{Bromine}};
+  \node[name=I, below of=Br, Halogen] {\NaturalElementTextFormat{53}{126.9}{I}{Iodine}};
+  \node[name=At, below of=I, Halogen] {\NaturalElementTextFormat{85}{210}{At}{Astatine}};
+  \node[name=Ts, below of=At, Element] {\SyntheticElementTextFormat{117}{292}{Ts}{Tennessine}};
+
+%% Group 18 - VIIIA
+  \node[name=Ne, right of=F, NobleGas] {\NaturalElementTextFormat{10}{20.180}{Ne}{Neon}};
+  \node[name=He, above of=Ne, NobleGas] {\NaturalElementTextFormat{2}{4.0025}{He}{Helium}};
+  \node[name=Ar, below of=Ne, NobleGas] {\NaturalElementTextFormat{18}{39.948}{Ar}{Argon}};
+  \node[name=Kr, below of=Ar, NobleGas] {\NaturalElementTextFormat{36}{83.8}{Kr}{Krypton}};
+  \node[name=Xe, below of=Kr, NobleGas] {\NaturalElementTextFormat{54}{131.29}{Xe}{Xenon}};
+  \node[name=Rn, below of=Xe, NobleGas] {\NaturalElementTextFormat{86}{222}{Rn}{Radon}};
+  \node[name=Og, below of=Rn, Nonmetal] {\SyntheticElementTextFormat{118}{294}{Og}{Oganesson}};
+
+%% Period
+  \node[name=Period1, left of=H, PeriodLabel] {1};
+  \node[name=Period2, left of=Li, PeriodLabel] {2};
+  \node[name=Period3, left of=Na, PeriodLabel] {3};
+  \node[name=Period4, left of=K, PeriodLabel] {4};
+  \node[name=Period5, left of=Rb, PeriodLabel] {5};
+  \node[name=Period6, left of=Cs, PeriodLabel] {6};
+  \node[name=Period7, left of=Fr, PeriodLabel] {7};
+
+%% Group
+  \node[name=Group1, above of=H, GroupLabel] {1 \hfill IA};
+  \node[name=Group2, above of=Be, GroupLabel] {2 \hfill IIA};
+  \node[name=Group3, above of=Sc, GroupLabel] {3 \hfill IIIA};
+  \node[name=Group4, above of=Ti, GroupLabel] {4 \hfill IVB};
+  \node[name=Group5, above of=V, GroupLabel] {5 \hfill VB};
+  \node[name=Group6, above of=Cr, GroupLabel] {6 \hfill VIB};
+  \node[name=Group7, above of=Mn, GroupLabel] {7 \hfill VIIB};
+  \node[name=Group8, above of=Fe, GroupLabel] {8 \hfill VIIIB};
+  \node[name=Group9, above of=Co, GroupLabel] {9 \hfill VIIIB};
+  \node[name=Group10, above of=Ni, GroupLabel] {10 \hfill VIIIB};
+  \node[name=Group11, above of=Cu, GroupLabel] {11 \hfill IB};
+  \node[name=Group12, above of=Zn, GroupLabel] {12 \hfill IIB};
+  \node[name=Group13, above of=B, GroupLabel] {13 \hfill IIIA};
+  \node[name=Group14, above of=C, GroupLabel] {14 \hfill IVA};
+  \node[name=Group15, above of=N, GroupLabel] {15 \hfill VA};
+  \node[name=Group16, above of=O, GroupLabel] {16 \hfill VIA};
+  \node[name=Group17, above of=F, GroupLabel] {17 \hfill VIIA};
+  \node[name=Group18, above of=He, GroupLabel] {18 \hfill VIIIA};
+
+%% Lanthanide
+  \node[name=La, below of=Rf, LanthanideActinide, yshift=-1cm] {\NaturalElementTextFormat{57}{138.91}{La}{Lanthanum}};
+  \node[name=Ce, right of=La, LanthanideActinide] {\NaturalElementTextFormat{58}{140.12}{Ce}{Cerium}};
+  \node[name=Pr, right of=Ce, LanthanideActinide] {\NaturalElementTextFormat{59}{140.91}{Pr}{Praseodymium}};
+  \node[name=Nd, right of=Pr, LanthanideActinide] {\NaturalElementTextFormat{60}{144.24}{Nd}{Neodymium}};
+  \node[name=Pm, right of=Nd, LanthanideActinide] {\NaturalElementTextFormat{61}{145}{Pm}{Promethium}};
+  \node[name=Sm, right of=Pm, LanthanideActinide] {\NaturalElementTextFormat{62}{150.36}{Sm}{Samarium}};
+  \node[name=Eu, right of=Sm, LanthanideActinide] {\NaturalElementTextFormat{63}{151.96}{Eu}{Europium}};
+  \node[name=Gd, right of=Eu, LanthanideActinide] {\NaturalElementTextFormat{64}{157.25}{Gd}{Gadolinium}};
+  \node[name=Tb, right of=Gd, LanthanideActinide] {\NaturalElementTextFormat{65}{158.93}{Tb}{Terbium}};
+  \node[name=Dy, right of=Tb, LanthanideActinide] {\NaturalElementTextFormat{66}{162.50}{Dy}{Dysprosium}};
+  \node[name=Ho, right of=Dy, LanthanideActinide] {\NaturalElementTextFormat{67}{164.93}{Ho}{Holmium}};
+  \node[name=Er, right of=Ho, LanthanideActinide] {\NaturalElementTextFormat{68}{167.26}{Er}{Erbium}};
+  \node[name=Tm, right of=Er, LanthanideActinide] {\NaturalElementTextFormat{69}{168.93}{Tm}{Thulium}};
+  \node[name=Yb, right of=Tm, LanthanideActinide] {\NaturalElementTextFormat{70}{173.04}{Yb}{Ytterbium}};
+  \node[name=Lu, right of=Yb, LanthanideActinide] {\NaturalElementTextFormat{71}{174.97}{Lu}{Lutetium}};
+
+%% Actinide
+  \node[name=Ac, below of=La, LanthanideActinide, yshift=-1cm] {\NaturalElementTextFormat{89}{227}{Ac}{Actinium}};
+  \node[name=Th, right of=Ac, LanthanideActinide] {\NaturalElementTextFormat{90}{232.04}{Th}{Thorium}};
+  \node[name=Pa, right of=Th, LanthanideActinide] {\NaturalElementTextFormat{91}{231.04}{Pa}{Protactinium}};
+  \node[name=U, right of=Pa, LanthanideActinide] {\NaturalElementTextFormat{92}{238.03}{U}{Uranium}};
+  \node[name=Np, right of=U, LanthanideActinide] {\SyntheticElementTextFormat{93}{237}{Np}{Neptunium}};
+  \node[name=Pu, right of=Np, LanthanideActinide] {\SyntheticElementTextFormat{94}{244}{Pu}{Plutonium}};
+  \node[name=Am, right of=Pu, LanthanideActinide] {\SyntheticElementTextFormat{95}{243}{Am}{Americium}};
+  \node[name=Cm, right of=Am, LanthanideActinide] {\SyntheticElementTextFormat{96}{247}{Cm}{Curium}};
+  \node[name=Bk, right of=Cm, LanthanideActinide] {\SyntheticElementTextFormat{97}{247}{Bk}{Berkelium}};
+  \node[name=Cf, right of=Bk, LanthanideActinide] {\SyntheticElementTextFormat{98}{251}{Cf}{Californium}};
+  \node[name=Es, right of=Cf, LanthanideActinide] {\SyntheticElementTextFormat{99}{252}{Es}{Einsteinium}};
+  \node[name=Fm, right of=Es, LanthanideActinide] {\SyntheticElementTextFormat{100}{257}{Fm}{Fermium}};
+  \node[name=Md, right of=Fm, LanthanideActinide] {\SyntheticElementTextFormat{101}{258}{Md}{Mendelevium}};
+  \node[name=No, right of=Md, LanthanideActinide] {\SyntheticElementTextFormat{102}{259}{No}{Nobelium}};
+  \node[name=Lr, right of=No, LanthanideActinide] {\SyntheticElementTextFormat{103}{262}{Lr}{Lawrencium}};
+
+%% Draw dotted lines connecting Lanthanide breakout to main table
+  \draw (LaLu.north west) edge[dotted] (La.north west)
+        (LaLu.north east) edge[dotted] (Lu.north east)
+        (LaLu.south west) edge[dotted] (La.south west)
+        (LaLu.south east) edge[dotted] (Lu.south east);
+%% Draw dotted lines connecting Actinide breakout to main table
+  \draw (AcLr.north west) edge[dotted] (Ac.north west)
+        (AcLr.north east) edge[dotted] (Lr.north east)
+        (AcLr.south west) edge[dotted] (Ac.south west)
+        (AcLr.south east) edge[dotted] (Lr.south east);
+
+%% Legend
+  \draw[black, AlkaliMetalFill] ($(La.north -| Fr.west) + (1em,-0.0em)$)
+    rectangle +(1em, 1em) node[right, yshift=-1ex]{Alkali Metal};
+  \draw[black, AlkalineEarthMetalFill] ($(La.north -| Fr.west) + (1em,-1.5em)$)
+    rectangle +(1em, 1em) node[right, yshift=-1ex]{Alkaline Earth Metal};
+  \draw[black, MetalFill] ($(La.north -| Fr.west) + (1em,-3.0em)$)
+    rectangle +(1em, 1em) node[right, yshift=-1ex]{Metal};
+  \draw[black, MetalloidFill] ($(La.north -| Fr.west) + (1em,-4.5em)$)
+    rectangle +(1em, 1em) node[right, yshift=-1ex]{Metalloid};
+  \draw[black, NonmetalFill] ($(La.north -| Fr.west) + (1em,-6.0em)$)
+    rectangle +(1em, 1em) node[right, yshift=-1ex]{Non-metal};
+  \draw[black, HalogenFill] ($(La.north -| Fr.west) + (1em,-7.5em)$)
+    rectangle +(1em, 1em) node[right, yshift=-1ex]{Halogen};
+  \draw[black, NobleGasFill] ($(La.north -| Fr.west) + (1em,-9.0em)$)
+    rectangle +(1em, 1em) node[right, yshift=-1ex]{Noble Gas};
+  \draw[black, LanthanideActinideFill] ($(La.north -| Fr.west) + (1em,-10.5em)$)
+    rectangle +(1em, 1em) node[right, yshift=-1ex]{Lanthanide/Actinide};
+
+  \node at ($(La.north -| Fr.west) + (5em,-15em)$) [name=elementLegend, Element, fill=white]
+    {\NaturalElementTextFormat{Z}{mass}{Symbol}{Name}};
+  \node[Element, fill=white, right of=elementLegend, xshift=1em]
+    {\SyntheticElementTextFormat{}{}{man-made}{}} ;
+
+%% Diagram Title
+  \node at (H.west -| Fe.north) [name=diagramTitle, TitleLabel]
+    {(Mendeleev's) Periodic Table of Chemical Elements via Ti\emph{k}Z};
+
+\end{tikzpicture}
+
+\end{document}
+#+end_src
+
+* RNA codons table :code:latex:tikz:
+:properties:
+:language: latex
+:end:
+
+#+begin_src latex
+% RNA codons
+% Author: Florian Hollandt
+\documentclass[border=20pt,tikz]{standalone}
+
+\setlength\oddsidemargin{0in}
+
+
+\begin{document}
+
+\ttfamily
+\footnotesize
+
+\pagestyle{empty}
+
+\begin{tikzpicture}
+\tikzstyle{every node}=[inner sep=1.7pt,anchor=center]
+%	to_x and from_x styles denote bonds terminating or starting in labeled nodes. x denotes the number of letters in the node label.
+\tikzstyle{to_1}=[shorten >=5pt]
+\tikzstyle{to_1i}=[shorten >=6pt]
+\tikzstyle{to_2}=[shorten >=7pt]
+\tikzstyle{to_3}=[shorten >=8pt]
+\tikzstyle{from_1}=[shorten <=5pt]
+\tikzstyle{from_1i}=[shorten <=6pt]
+\tikzstyle{from_2}=[shorten <=8pt]
+\begin{scope}
+\draw [ultra thick] circle(1cm);
+\draw [ultra thick] (0:4)--(180:4) (90:4)--(270:4);
+\foreach \a/\l in {45/A,135/G,225/C,315/U}{
+	\node at (90-\a:0.5cm) {\l};
+}
+\draw [very thick] circle(2cm);
+\foreach \A in {90,0,270,180}{
+	\foreach \a/\l in {22.5/A,45/G,67.5/C,90/U}{
+		\draw [very thick] (\A+\a:1) -- (\A+\a:4);
+		\node at (\A-\a+11.25:1.5) {\l};
+	}
+}
+\draw circle(4cm) (0:4)--(180:4) (90:4)--(270:4);
+\foreach \A in {90,180,270,0}{
+	\foreach \a in {0,22.5,45,67.5}{
+		\foreach \i/\l in {5.625/A,11.25/G,16.875/C,22.5/U}{
+			\draw (\A+\a+\i:2) -- (\A+\a+\i:4);
+			\node at (\A-\a-\i+2.8125:3) {\l};
+		}
+	}
+}
+\end{scope}
+\begin{scope}[scale=0.5]	% Lysine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (90:8.2)
+				arc(90:90-2*5.625:8.2);
+\path (90-0.8*5.625:14.3) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center) 	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_3]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- ++(270:1) node (Cd) {}
+				-- ++(210:1) node (Ce) {}
+				-- ++(150:1) node (Cf) {NH$_{\mbox{2}}$};
+\end{scope}
+\begin{scope}[scale=0.5]	% Asparagine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (90-2*5.625:8.2)
+				arc(90-2*5.625:90-4*5.625:8.2);
+\path (90-3.5*3.625-3:13.3) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_2]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- +(30:1) node (Cd) {NH$_{\mbox{2}}$};
+\draw[to_1i] (Cc.center)	-- +(270:1) node (O) {};
+\draw[to_1]  (Cc.210)		-- (O.150);
+\path (O.center) node {O};
+\end{scope}
+\begin{scope}[scale=0.5]	% Arginine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (90-22.5:8.2)
+				arc(90-22.5:90-33.75:8.2);
+\path (90-3.7*5.625:16) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_2]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- ++(270:1) node (Cd) {}
+				-- ++(330:1) node (NH1) {NH};
+\draw[from_2,to_3]  (NH1.center)	-- ++(30:1) node (Ce) {}
+				-- ++(330:1) node {NH$_{\mbox{2}}$};
+\draw[to_1i] (Ce.center)	-- ++(90:1) node (N2) {};
+\draw[to_1]  (Ce.150)		-- (N2.210);
+\path (N2) node {N};
+\end{scope}
+\begin{scope}[scale=0.5]	% Serine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (90-22.5-2*5.625:8.2)
+				arc(90-33.75:90-33.75-11.25:8.2);
+\path (90-7*5.625:12.5) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_2]  (zero.center)	-- ++(270:1) node(Cb){} -- ++(210:1) node (Cc) {OH};
+\end{scope}
+\begin{scope}[scale=0.5]	% Threonine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (90-45:8.2)
+				arc(90-45:90-67.5:8.2);
+\path (90-45-0.8*11.25:12.5) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_2]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {} (Cb.center)
+				-- +(210:1) node {OH};
+\end{scope}
+\begin{scope}[scale=0.5]	% Methionine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (90-67.5:8.2)
+				arc(90-67.5:90-67.5-5.625:8.2);
+\path (90-67.5-0.5*5.625:14) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_1]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- ++(30:1) node (Cd) {S};
+\draw[from_1] (Cd.center)	-- +(330:1);
+\end{scope}
+\begin{scope}[scale=0.5]	% Isoleucine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (0:8.2)
+				arc(0:11.25:8.2);
+\path (1.0*5.625:12.4) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw	     (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- +(30:1) node (Cd) {} (Cb.center)
+				-- +(210:1) node (Ce) {};
+\end{scope}
+\begin{scope}[scale=0.5]	% Glutamic acid
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (0:8.2)
+				arc(0:-11.25:8.2);
+\path (-1.3*5.625:15) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)  	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)  		-- +(90:1);
+\draw[to_3]  (zero.center) 	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_1i] (zero.center) 	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- ++(270:1) node (Cd) {}
+				-- ++(330:1) node (NH) {OH};
+\draw[to_1]  (Cd.center) 	-- +(210:1) node (O) {};
+\draw[to_1i] (Cd.270) 		-- (O.300);
+\path (O.center) node {O};
+\end{scope}
+\begin{scope}[scale=0.5]	% Aspartic acid
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (-11.25:8.2)
+				arc(-11.25:-22.5:8.2);
+\path (-11.25-5.625:12) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center) 	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_2]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- +(30:1) node (Cd) {OH};
+\draw[to_1i] (Cc.center)	-- +(270:1) node (O) {};
+\draw[to_1]  (Cc.210)		-- (O.150);
+\path (O.center) node {O};
+\end{scope}
+\begin{scope}[scale=0.5]	% Glycine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (-22.5:8.2)
+				arc(-22.5:-45:8.2);
+\path (-33.75-1*5.625:12) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\end{scope}
+\begin{scope}[scale=0.5]	% Alanine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (-45:8.2)
+				arc(-45:-68.25:8.2);
+\path (-45-11.25:12) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw	     (zero.center)	-- ++(270:1) node(Cb){};
+\end{scope}
+\begin{scope}[scale=0.5]	% Valine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (-68.25:8.2)
+				arc(-68.25:-90:8.2);
+\path (-68.25-0.8*11.25:12) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw (zero.center)		-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {};
+\end{scope}
+\begin{scope}[scale=0.5]	% Glutamine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (-90:8.2)
+				arc(-90:-101.25:8.2);
+\path (-90.25-5.625:12.5) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_2]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_3]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- ++(270:1) node (Cd) {}
+				-- ++(330:1) node (NH) {NH$_{\mbox{2}}$};
+\draw[to_1]  (Cd.center)	-- +(210:1) node (O) {};
+\draw[to_1i] (Cd.270)		-- (O.300);
+\path (O.center) node {O};
+\end{scope}
+\begin{scope}[scale=0.5]	% Histidine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (-101.25:8.2)
+				arc(-101.25:-101.25-11.25:8.2);
+\path (-101.25-1.2*5.625:15.5) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw        (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node(Cc){};
+\draw[to_2]  (Cc.center)	-- ++(108-1*72:1) node (Cd) {}
+				-- ++(108-2*72:1) node (Ce) {NH};
+\draw[from_1,to_1] (Ce.center)	-- ++(108-3*72:1) node (Cf) {}
+				-- ++(108-4*72:1) node (Cg) {};
+\draw[from_1] (Cg.center)	-- (Cc.center);
+\draw         (Cc.198+2*72)	-- (Cd.198+1*72);
+\draw[from_1] (Cg.72)		-- (Cf.198+4*72);
+\draw (Cg.center) node {N};
+\end{scope}
+\begin{scope}[scale=0.5]	% Arginine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (-90-22.5:8.2)
+				arc(-90-22.5:-90-45:8.2);
+\path (-90-7.7*5.625:12.3) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_2]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- ++(270:1) node (Cd) {}
+				-- ++(330:1) node (NH1) {NH};
+\draw[from_1i,to_3] (NH1.center)-- ++(30:1) node (Ce) {}
+				-- ++(330:1) node {NH$_{\mbox{2}}$};
+\draw[to_1]  (Ce.center)	-- ++(90:1) node (N2) {};
+\draw[shorten >=4pt] (Ce.150)	-- (N2.210);
+\path (N2) node {N};
+\end{scope}
+\begin{scope}[scale=0.5]	% Proline
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (-90-45:8.2)
+				arc(-90-45:-90-45-22.25:8.2);
+\path (-90-10.5*5.625:12) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_2]  (zero.center)	-- ++(150:1) node (nh) {NH$_{\mbox{2}}^+$};
+\draw        (zero.center)	-- ++(270:1) node(Cb){};
+\path        (Cb.center)	-- +(150:1) node (x) {};
+\path        (x.center)  	+(170:1) node (Cd) {};
+\path        (x.center)  	+(250:1) node (Cc) {};
+\draw[to_3]  (Cb.center)	-- (Cc.center)
+				-- (Cd.center)
+				-- (nh.center);
+\end{scope}
+\begin{scope}[scale=0.5]	% Leucine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (180:8.2)
+				arc(180:180+22.25:8.2);
+\path (-90-14.5*5.625:13) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw (zero.center)		-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {}
+				-- +(30:1) node (Cd) {} (Cc.center)
+				-- +(270:1) node (Ce) {};
+\end{scope}
+\begin{scope}[scale=0.5]	% Tyrosine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (180-11.25:8.2)
+				arc(180-11.25:180-22.5:8.2);
+\path (180-3*5.625:16) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw 	     (zero.center)	-- ++(270:1) node(Cb){};
+\draw	     (Cb.center)	-- ++(330:1) node (Cc) {}
+				-- ++(30:1) node (Cd) {}
+				-- ++(330:1) node (Ce) {}
+				-- ++(270:1) node (Cf) {}
+				-- ++(210:1) node (Cg) {}
+				-- ++(150:1) node (Ch) {}
+				-- ++(90:1);
+\draw        (Cc.330)		-- (Cd.270);
+\draw        (Ce.210)		-- (Cf.150);
+\draw        (Cg.90)		-- (Ch.30);
+\draw[to_1i] (Cf.center)	-- +(330:1) node (OH) {OH};
+\end{scope}
+\begin{scope}[scale=0.5]	% Tryptophane
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (180-22.5-5.625:8.2)
+				arc(180-22.5-5.625:180-22.5-11.25:8.2);
+\path (180-22.5-1.8*5.625:16) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw 	     (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node(Cc){};
+\draw[to_2]  (Cc.center)	-- ++(108-1*72:1) node (Cd) {}
+				-- ++(108-2*72:1) node (Ce) {NH};
+\draw[from_1](Ce.center)	-- ++(108-3*72:1) node (Cf) {}
+				-- ++(108-4*72:1) node (Cg) {};
+\draw 	     (Cg.center)	-- (Cc.center);
+\draw        (Cc.198+2*72)	-- (Cd.198+1*72);
+\draw 	     (Cg.72)		-- (Cf.198+4*72);
+\draw	     (Cg.center)	-- ++(240:1) node (Ch) {}
+				-- ++(300:1) node (Ci) {}
+				-- ++(0:1) node (Cj) {}
+				-- ++(60:1) node (Ck) {}
+				-- ++(120:1) node (Cl) {};
+\draw	     (Ch.0)		-- (Ci.60);
+\draw	     (Cj.120)		-- (Ck.180);
+\end{scope}
+\begin{scope}[scale=0.5]	% Cysteine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (180-45+11.25:8.2)
+				arc(180-45+11.25:180-45:8.2);
+\path (180-45+11.25-1*7.625:12) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_2]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(210:1) node (Cc) {SH};
+\end{scope}
+\begin{scope}[scale=0.5]	% Serine
+\draw[ultra thick,shorten >=1pt,shorten <=2pt] (90+45:8.2)
+				arc(90+45:90+45-22.5:8.2);
+\path (90+45-11.25+0*5.625:14) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw[to_2]  (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(330:1) node (Cc) {OH};
+\end{scope}
+\begin{scope}[scale=0.5]	% Leucine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (90+22.5:8.2)
+				arc(90+22.5:90+11.25:8.2);
+\path (90+22.5-1.2*5.625:16) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw 	     (zero.center)	-- ++(270:1) node(Cb){}
+				-- ++(210:1) node (Cc) {}
+				-- +(150:1) node (Cd) {} (Cc.center)
+				-- +(270:1) node (Ce) {};
+\end{scope}
+\begin{scope}[scale=0.5]	% Phenylalanine
+\draw[ultra thick,shorten >=2pt,shorten <=2pt] (90+11.25:8.2)
+				arc(90+11.25:90:8.2);
+\path (90+1.5*5.625:13) node (zero) {};
+\draw[to_2]  (zero.center)	-- ++(30:1) node (CO) {}
+				-- +(330:1) node [anchor=base] {O$^{\mbox{-}}$};
+\draw[to_1]  (CO.center)	-- +(90:1) node (Od) {O};
+\draw[to_1i] (CO.30)		-- +(90:1);
+\draw[to_3]  (zero.center)	-- ++(150:1) node {NH$_{\mbox{3}}^{\mbox{+}}$};
+\draw	     (zero.center)	-- ++(270:1) node(Cb){};
+\draw	     (Cb.center)	-- ++(210:1) node (Cc) {}
+				-- ++(150:1) node (Cd) {}
+				-- ++(210:1) node (Ce) {}
+				-- ++(270:1) node (Cf) {}
+				-- ++(330:1) node (Cg) {}
+				-- ++(30:1) node (Ch) {}
+				-- ++(90:1);
+\draw	     (Cc.210)		-- (Cd.270);
+\draw	     (Ce.330)		-- (Cf.30);
+\draw	     (Cg.90)		-- (Ch.150);
+\end{scope}
+\node at (90-1*5.625:4.5) {K};
+\node at (90-3*5.625:4.5) {N};
+\node at (90-5*5.625:4.5) {R};
+\node at (90-7*5.625:4.5) {S};
+\node at (90-10*5.625:4.5) {T};
+\node at (90-12.5*5.625:4.5) {I};
+\node at (90-13.7*5.625:4.7) {M / $\star$};
+\node at (90-15*5.625:4.5) {I};
+\node at (90-17*5.625:4.5) {E};
+\node at (90-19*5.625:4.5) {D};
+\node at (90-22*5.625:4.5) {G};
+\node at (90-26*5.625:4.5) {A};
+\node at (90-30*5.625:4.5) {V};
+\node at (90-33*5.625:4.5) {Q};
+\node at (90-35*5.625:4.5) {H};
+\node at (90-38*5.625:4.5) {R};
+\node at (90-42*5.625:4.5) {P};
+\node at (90-46*5.625:4.5) {L};
+\node at (90-49*5.625:4.5) {$\dagger$};
+\node at (90-51*5.625:4.5) {Y};
+\node at (90-52.3*5.625:4.5) {$\dagger$};
+\node at (90-53.3*5.625:4.5) {W};
+\node at (90-55*5.625:4.5) {C};
+\node at (90-58*5.625:4.5) {S};
+\node at (90-61*5.625:4.5) {L};
+\node at (90-63*5.625:4.5) {F};
+\end{tikzpicture}
+
+\end{document}
+#+end_src
+
+* RGB Color Mixing :code:latex:tikz:
+:properties:
+:language: latex
+:end:
+
+#+begin_src latex
+% RGB color mixing
+% Author: Henrik Skov Midtiby <http://midtiby.blogspot.com/>
+\documentclass{standalone}
+% Set target color model to RGB
+\usepackage[rgb]{xcolor}
+\usepackage{tikz}
+\begin{document}
+
+\begin{tikzpicture}
+  % Create the background in the circle, by drawing several slices
+  % each with a constant color given by the angle (which is converted
+  % to a color usin the hue, saturation and brightness color space).
+  \foreach \x in {0,0.0111,...,1} {
+    \definecolor{currentcolor}{hsb}{\x, 1, 1}
+    \draw[draw=none, fill=currentcolor]
+    (-360*\x+88:2) -- (-360*\x+88:3.8)
+    -- (-360*\x+92:3.8) -- (-360*\x+92:2) -- cycle;
+  }
+
+  % On top of the background draw three spotlights of the primary colors
+  % red, green and blue (they are primary in an additive colorspace where
+  % light are mixed)
+  \draw [draw=none, fill=red] (90:1.5) circle (2cm);
+  \draw [draw=none, fill=green] (-30:1.5) circle (2cm);
+  \draw [draw=none, fill=blue] (210:1.5) circle (2cm);
+
+  % Draw areas where two of the three primary colors are overlapping.
+  % These areas are the secondary colors yellow, cyan and magenta.
+  \begin{scope} % red + green = yellow
+    \clip (90:1.5) circle(2cm);
+    \draw [draw=none, fill=yellow] (-30:1.5) circle (2cm);
+  \end{scope} % blue + red = magenta
+  \begin{scope}
+    \clip (210:1.5) circle(2cm);
+    \draw [draw=none, fill=magenta] (90:1.5) circle (2cm);
+  \end{scope}
+  \begin{scope} % green + blue = cyan
+    \clip (-30:1.5) circle(2cm);
+    \draw [draw=none, fill=cyan] (210:1.5) circle (2cm);
+  \end{scope}
+
+  % Draw the center area which consists of all the primary colors.
+  \begin{scope} % red + green + blue = white
+    \clip (90:1.5) circle(2cm);
+    \clip (210:1.5) circle(2cm);
+    \draw [draw=none, fill=white] (-30:1.5) circle (2cm);
+  \end{scope}
+
+  % Draw a circle with markings along the perimeter, indicating which angles
+  % the hue function connects to certain colors.
+  \draw (0, 0) circle (3.9cm);
+  \foreach \x  in {0, 30, ..., 330}
+  \draw (-\x+90:3.8) -- (-\x+90:4.0) (-\x+90:4.4) node {$\x^\circ$};
+
+  % Add labels with names of the primary and secondary colors.
+  \foreach \x/\text in {0/red, 60/yellow, 120/green, 180/cyan, 240/blue, 300/magenta}
+  \draw (-\x+90:5.5) node {\text};
+\end{tikzpicture}
+
+\end{document}
+#+end_src
+
+* tikz chain and tree :code:latex:tikz:
+:properties:
+:language: latex
+:end:
+
+#+begin_src latex
+\documentclass[tikz, margin=3mm]{standalone}
+\usetikzlibrary{chains, positioning, trees}
+\usepackage[utf8]{inputenc}
+\newcommand\ppbb{path picture bounding box}
+
+\begin{document}
+\begin{tikzpicture}[
+  node distance = 1.5ex and 1.5ex,
+  start chain = going below,
+  base/.style = {rectangle, draw,
+    fill=#1,
+    inner sep=0mm,
+    minimum height = 9mm, text width=25mm, align=center,
+    font=\linespread{.9}\selectfont
+  },
+  T/.style = {path picture={\fill[cyan!75]
+      (\ppbb.east) -- (\ppbb.north east) -- ++ (-4.5mm,0) -- cycle;
+    }% end of path picture
+  },
+  boxB/.style = {base=#1, text width=20mm},
+  % on chain
+  box/.style = {boxB=#1, on chain},
+  % tree's parameters
+  level distance = 18mm,
+  sibling distance = 32mm,
+  level 2/.style = {sibling distance = 25mm},
+  level 3/.style = {sibling distance = 22mm}
+  ]
+% first part of image
+% start of tree
+\node[base=teal!30] {SCR}
+    [edge from parent fork down]
+    child { node[base=teal!30]      {Ajustement}}
+    child { node[base=teal!30,T]    {BSCR}
+        child { node[boxB=teal!15,T]    (Rba)   {Marché}}
+        child { node[boxB=teal!15,T]    (Rbb)   {Santé}
+            child { node[boxB=teal!10,T](Rca)   {SLT}}
+            child { node[boxB=teal!10,T](Rcb)   {Catastrophe}}
+            child { node[boxB=teal!10]  (Rcc)   {NSLT}}
+                }
+        child { node[boxB=teal!15,T]    (Rbc)  {Contre-partie}}
+        child { node[boxB=teal!15,T]    (Rbd)  {Vie}}
+        child { node[boxB=teal!15]      (Rbe)  {Non-vie}}
+        child { node[boxB=teal!15]      (Rbf)  {Actifs incorporels}}
+            }
+    child { node[base=teal!30]  {Opérationnel}};
+% Noeud Marché
+{[start chain]
+\coordinate[on chain,below=of Rba.west |- Rca.south]   (a);
+\node[box=blue!10,T] (Rbaa) {Taux d'intérêt};
+\node[box=blue!10,T] (Rbab) {Action};
+\node[box=blue!10,T] (Rbac) {Immobilier};
+\node[box=blue!10,T] (Rbad) {Spread};
+\node[box=blue!10,T] (Rbae) {Change};
+\node[box=blue!10,T] (Rbaf) {Concen\-tration};
+\node[box=blue!10,T] (Rbag) {Illiquidité};
+}
+% Noeud Santé
+{[start chain]
+\coordinate[on chain,below=of Rcb.south west]   (b);
+\node[box=blue!10,T] (Rbbaa)  {Mortalité};
+\node[box=blue!10,T] (Rbbab)  {Longévité};
+\node[box=blue!10,T] (Rbbac)  {Incapacité Invalidité};
+\node[box=blue!10,T] (Rbbad)  {Rachat};
+\node[box=blue!10,T] (Rbbae)  {Dépenses};
+\node[box=blue!10,T] (Rbbaf)  {Révision};
+}
+% Noeud NSLT
+{[start chain]
+\coordinate[on chain,below=of Rcc.south east -| Rbc.east]   (c);
+\node[box=blue!10] (Rbbca)  {Prime et réserve};
+\node[box=blue!10] (Rbbcb)  {Rachat};
+}
+% Noeud Vie
+{[start chain]
+\coordinate[on chain,below left=of Rcc.south -| Rbe.west]    (d);
+\node[box=blue!10,T] (Rbda) {Mortalité};
+\node[box=blue!10,T] (Rbdb) {Longévité};
+\node[box=blue!10,T] (Rbdc) {Incapacité Invalidité};
+\node[box=blue!10,T] (Rbdd) {Rachat};
+\node[box=blue!10,T] (Rbde) {Dépenses};
+\node[box=blue!10,T] (Rbdf) {Révision};
+\node[box=blue!10,T] (Rbdg) {Catas\-trophe};
+}
+% Noeud Non Vie
+{[start chain]
+\coordinate[on chain,below left=of Rcc.south -| Rbf.west]    (e);
+\node[box=blue!10,T] (Rbea)   {Prime et réserve};
+\node[box=blue!10,T] (Rbeb)   {Rachat};
+\node[box=blue!10,T] (Rbec)   {Catas\-trophe};
+}
+% lines a
+\coordinate[left=of Rbaa.west] (aa);
+\draw   (Rba) -- ++ (0,-0.9) -| (aa);
+\foreach \i %[remember=\i as \ii (initially a)]
+in {a,b,c,...,g}
+    \draw (aa) |- (Rba\i);% |- (Rba\i);
+% lines b
+\draw   (Rca) |- (Rbbaa);
+\foreach \i [remember=\i as \ii (initially a)] in {b,c,...,f}
+    \draw (Rca |- Rbba\ii) |- (Rbba\i);
+% lines d
+\draw   (Rcc) |- (Rbbca);
+\draw   (Rcc) |- (Rbbcb);
+% lines e
+\draw   (Rbd) |- (Rbda);
+\foreach \i [remember=\i as \ii (initially a)] in {b,c,...,g}
+    \draw (Rbd |- Rbd\ii) |- (Rbd\i);
+% lines f
+\draw   (Rbe) |- (Rbea);
+\foreach \i [remember=\i as \ii (initially a)] in {b,c}
+    \draw (Rbe |- Rbe\ii) |- (Rbe\i);
+\end{tikzpicture}
+\end{document}
+#+end_src
