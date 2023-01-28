@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>UNP 简介 - iris</title><meta name="Description" content="GinShio | Unix 网络编程：卷一 (3rd) 第一部分第一章：介绍"><meta property="og:title" content="UNP 简介" />
+<meta property="og:description" content="GinShio | Unix 网络编程：卷一 (3rd) 第一部分第一章：介绍" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2022/unixnetworkprogramming_001/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-01-17T13:46:50+08:00" />
+<meta property="article:modified_time" content="2022-04-08T15:13:54+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+<meta property="og:see_also" content="https://blog.ginshio.org/2022/unixnetworkprogramming_002/" /><meta property="og:see_also" content="https://blog.ginshio.org/2022/unixnetworkprogramming_003/" /><meta property="og:see_also" content="https://blog.ginshio.org/2022/unixnetworkprogramming_004/" /><meta property="og:see_also" content="https://blog.ginshio.org/2022/unixnetworkprogramming_005/" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="UNP 简介"/>
+<meta name="twitter:description" content="GinShio | Unix 网络编程：卷一 (3rd) 第一部分第一章：介绍"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2022/unixnetworkprogramming_001/" /><link rel="prev" href="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/" /><link rel="next" href="https://blog.ginshio.org/2022/unixnetworkprogramming_002/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "UNP 简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2022\/unixnetworkprogramming_001\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Unix, Network, Posix","wordcount":  4391 ,
+        "url": "https:\/\/blog.ginshio.org\/2022\/unixnetworkprogramming_001\/","datePublished": "2022-01-17T13:46:50+08:00","dateModified": "2022-04-08T15:13:54+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | Unix 网络编程：卷一 (3rd) 第一部分第一章：介绍"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#从一个简单的时间获取客户端开始">从一个简单的时间获取客户端开始</a>
+      <ul>
+        <li><a href="#socket">socket</a></li>
+        <li><a href="#指定服务器-ip-地址与端口">指定服务器 IP 地址与端口</a></li>
+        <li><a href="#与服务器建立连接并读取数据">与服务器建立连接并读取数据</a></li>
+      </ul>
+    </li>
+    <li><a href="#简单的时间获取服务端">简单的时间获取服务端</a></li>
+    <li><a href="#unix-标准">Unix 标准</a></li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">UNP 简介</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="01-17">01-17</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4391 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - UNP Note</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul><li><span class="active">UNP 简介</span></li>
+                                                    <li><a href="/2022/unixnetworkprogramming_002/">传输层总述</a></li>
+                                                    <li><a href="/2022/unixnetworkprogramming_003/">Unix 套接字 API</a></li>
+                                                    <li><a href="/2022/unixnetworkprogramming_004/">基本 TCP 编程</a></li>
+                                                    <li><a href="/2022/unixnetworkprogramming_005/">I/O 复用</a></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#从一个简单的时间获取客户端开始">从一个简单的时间获取客户端开始</a>
+      <ul>
+        <li><a href="#socket">socket</a></li>
+        <li><a href="#指定服务器-ip-地址与端口">指定服务器 IP 地址与端口</a></li>
+        <li><a href="#与服务器建立连接并读取数据">与服务器建立连接并读取数据</a></li>
+      </ul>
+    </li>
+    <li><a href="#简单的时间获取服务端">简单的时间获取服务端</a></li>
+    <li><a href="#unix-标准">Unix 标准</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">关于 UNP 的所有代码可以在 <a href="https://github.com/unpbook/unpv13e" target="_blank" rel="noopener noreferrer">https://github.com/unpbook/unpv13e</a> 上找到</div>
+        </div>
+    </div>
+<h2 id="从一个简单的时间获取客户端开始" class="headerLink">
+    <a href="#%e4%bb%8e%e4%b8%80%e4%b8%aa%e7%ae%80%e5%8d%95%e7%9a%84%e6%97%b6%e9%97%b4%e8%8e%b7%e5%8f%96%e5%ae%a2%e6%88%b7%e7%ab%af%e5%bc%80%e5%a7%8b" class="header-mark"></a>从一个简单的时间获取客户端开始</h2><p>接下来，将从一个使用 TCP 连接的获取时间的客户端开始。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 以下代码与 UNP intro/daytimetcpcli.c 等价
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;stdarg.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// inet_pton/3, htons/1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// struct sockaddr_in
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;netinet/in.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// errno
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;errno.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// socket/3, connect/3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// read/3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#define MAXLINE 4096
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">err_sys</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_list</span> <span class="n">ap</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_start</span><span class="p">(</span><span class="n">ap</span><span class="p">,</span> <span class="n">fmt</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="n">vsnprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">ap</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">snprintf</span><span class="p">(</span><span class="n">buffer</span> <span class="o">+</span> <span class="n">n</span><span class="p">,</span> <span class="n">MAXLINE</span> <span class="o">-</span> <span class="n">n</span><span class="p">,</span> <span class="s">&#34;:%s&#34;</span><span class="p">,</span> <span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">strcat</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fflush</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fputs</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">stderr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fflush</span><span class="p">(</span><span class="n">stderr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_end</span><span class="p">(</span><span class="n">ap</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">err_quit</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_list</span> <span class="n">ap</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_start</span><span class="p">(</span><span class="n">ap</span><span class="p">,</span> <span class="n">fmt</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="n">vsnprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">ap</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">strcat</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fflush</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fputs</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">stderr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fflush</span><span class="p">(</span><span class="n">stderr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">va_end</span><span class="p">(</span><span class="n">ap</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;usage: a.out &lt;IPaddress&gt;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">sockfd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">((</span><span class="n">sockfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">13</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">inet_pton</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_quit</span><span class="p">(</span><span class="s">&#34;inet_pton error for %s&#34;</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">connect</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;connect error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">recvline</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">recvline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">recvline</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">fputs</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">stdout</span><span class="p">)</span> <span class="o">==</span> <span class="n">EOF</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;read error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;read error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当然需要自行编译一下 daytimetcpsrv 并启动它，然后就可以顺利启动 client 就可以看到获取的时间了。</p>
+<h3 id="socket" class="headerLink">
+    <a href="#socket" class="header-mark"></a>socket</h3><p>我们最先遇到的 API 是 <code>socket/3</code>​，这会帮助我们启动一个网络服务，我们可以自己指定 <strong>domain</strong>, <strong>type</strong> ，还有一个特殊的 <strong>protocol</strong> 参数用于指定 socket 一起使用的特定协议，但这个参数通常情况下为 0。下表展示了常用的 domain 与 type 值，摘自
+Linux Kernel 5.3.18。</p>
+<table>
+<thead>
+<tr>
+<th>domain</th>
+<th>释义</th>
+<th>Manual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AF_UNIX</code>, <code>AF_LOCAL</code></td>
+<td>Unix Domain Socket</td>
+<td>unix(7)</td>
+</tr>
+<tr>
+<td><code>AF_INET</code></td>
+<td>IPv4</td>
+<td>ip(7)</td>
+</tr>
+<tr>
+<td><code>AF_INET6</code></td>
+<td>IPv6</td>
+<td>ipv6(7)</td>
+</tr>
+<tr>
+<td><code>AF_IPX</code></td>
+<td>IPX - Novell Protocol</td>
+<td></td>
+</tr>
+<tr>
+<td><code>AF_NETLINK</code></td>
+<td>Kernel user interface device</td>
+<td>netlink(7)</td>
+</tr>
+<tr>
+<td><code>AF_X25</code></td>
+<td>ITU-T X.25 / ISO-8208 protocol</td>
+<td>x25(7)</td>
+</tr>
+<tr>
+<td><code>AF_AX25</code></td>
+<td>Amateur radio AX.25 protocol</td>
+<td></td>
+</tr>
+<tr>
+<td><code>AF_ATMPVC</code></td>
+<td>Access to raw ATM PVCs</td>
+<td></td>
+</tr>
+<tr>
+<td><code>AF_APPLETALK</code></td>
+<td>AppleTalk</td>
+<td>ddp(7)</td>
+</tr>
+<tr>
+<td><code>AF_PACKET</code></td>
+<td>Low level packet interface</td>
+<td>packet(7)</td>
+</tr>
+<tr>
+<td><code>AF_ALG</code></td>
+<td>Interface to kernel crypto API</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>释义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SOCK_STREAM</code></td>
+<td>提供基于连接的、顺序、可靠、双工的字节流</td>
+</tr>
+<tr>
+<td><code>SOCK_DGRAM</code></td>
+<td>提供无连接的、不可靠的数据报</td>
+</tr>
+<tr>
+<td><code>SOCK_SEQPACKET</code></td>
+<td>提供基于连接的、顺序、可靠、双工的数据报</td>
+</tr>
+<tr>
+<td><code>SOCK_RAW</code></td>
+<td>提供原生网络协议</td>
+</tr>
+<tr>
+<td><code>SOCK_RDM</code></td>
+<td>提供不保证顺序的可靠数据报</td>
+</tr>
+<tr>
+<td><code>SOCK_PACKET</code></td>
+<td>见 Manual packet(7)</td>
+</tr>
+<tr>
+<td><code>SOCK_NONBLOCK</code></td>
+<td>为新打开的 fd 设置 <code>O_NONBLOCK</code> 标志</td>
+</tr>
+<tr>
+<td><code>SOCK_CLOEXEC</code></td>
+<td>为新打开的 fd 设置 <code>O_ELOEXEC</code> 标志</td>
+</tr>
+</tbody>
+</table>
+<p>我们往往使用 <code>AF_INET</code> 与 <code>SOCK_STREAM</code> 来启动一个 TCP 连接。而该 API 会返回一个整数作为返回结果，成功时将返回新 socket 的文件描述符 (fd)，而失败时返回 \(-1\) 并设置 <strong>errno</strong>​，而 errno 可以让我们得知具体发生了什么错误。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 构建 IPv4 socket
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">tcp_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">udp_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_DGRAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">raw_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_RAW</span><span class="p">,</span> <span class="n">protocol</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 构建 IPv6 socket
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">tcp6_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET6</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">raw6_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET6</span><span class="p">,</span> <span class="n">SOCK_RAW</span><span class="p">,</span> <span class="n">protocol</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">udp6_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET6</span><span class="p">,</span> <span class="n">SOCK_DGRAM</span><span class="p">,</span> <span class="n">protocol</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="指定服务器-ip-地址与端口" class="headerLink">
+    <a href="#%e6%8c%87%e5%ae%9a%e6%9c%8d%e5%8a%a1%e5%99%a8-ip-%e5%9c%b0%e5%9d%80%e4%b8%8e%e7%ab%af%e5%8f%a3" class="header-mark"></a>指定服务器 IP 地址与端口</h3><p>使用 <code>sockaddr_in</code> 数据结构 (头文件 <strong>netinet/in.h</strong> 中) 保存服务器的 IPv4 信息，结构体如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// IPv4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sa_family_t</span>    <span class="n">sin_family</span><span class="p">;</span> <span class="cm">/* address family: AF_INET */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">in_port_t</span>      <span class="n">sin_port</span><span class="p">;</span>   <span class="cm">/* port in network byte order */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">in_addr</span> <span class="n">sin_addr</span><span class="p">;</span>   <span class="cm">/* internet address */</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* Internet address. */</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="kt">uint32_t</span> <span class="n">in_addr_t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">in_addr</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">in_addr_t</span>      <span class="n">s_addr</span><span class="p">;</span>     <span class="cm">/* address in network byte order */</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Ipv6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="n">sockaddr_in6</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sa_family_t</span>     <span class="n">sin6_family</span><span class="p">;</span>   <span class="cm">/* AF_INET6 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">in_port_t</span>       <span class="n">sin6_port</span><span class="p">;</span>     <span class="cm">/* port number */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span>        <span class="n">sin6_flowinfo</span><span class="p">;</span> <span class="cm">/* IPv6 flow information */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">in6_addr</span> <span class="n">sin6_addr</span><span class="p">;</span>     <span class="cm">/* IPv6 address */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span>        <span class="n">sin6_scope_id</span><span class="p">;</span> <span class="cm">/* Scope ID (new in 2.4) */</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">in6_addr</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span>   <span class="n">s6_addr</span><span class="p">[</span><span class="mi">16</span><span class="p">];</span>   <span class="cm">/* IPv6 address */</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>另外系统使用大端序或小端序，而网络编程中往往需要使用网络序，因此提供了一系列将系统序 (host byte order) 转换为网络序 (network byte order) 的函数 (头文件
+<strong>arpa/inet.h</strong>)，不过在有些系统中这些函数被包含在 <strong>netinet/in.h</strong> 中。使用这些函数就可以自由的定义端口值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">uint32_t</span> <span class="nf">htonl</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">hostlong</span><span class="p">);</span>   <span class="c1">// 将 unsigned int 类型 host to network
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">uint16_t</span> <span class="nf">htons</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">hostshort</span><span class="p">);</span>  <span class="c1">// 将 unsigned short 类型 host to network
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">uint32_t</span> <span class="nf">ntohl</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">netlong</span><span class="p">);</span>    <span class="c1">// 将 unsigned int 类型 network to host
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">uint16_t</span> <span class="nf">ntohs</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">netshort</span><span class="p">);</span>   <span class="c1">// 将 unsigned short 类型 network to host
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>最后一个与IP信息有关的函数就是 <code>inet_pton/3</code> (presentation to numeric，头文件
+<strong>arpa/inet.h</strong> 中)，这是一个伴随着 IPv6 诞生的 POSIX 函数，可以将 IPv4 的点分十进制字符串形式或 IPv6 的字符串行形式地址转换为 <code>in_addr</code> 或 <code>in6_addr</code> 的字节形式。这个函数会返回一个整数用来确定函数是否成功，\(1\) 代表了成功，而 \(0\) 代表没有包含有效的地址，\(-1\) 是最为严重的，表示不是有效的协议族，这还会将 errno 设置为
+<strong>EAFNOSUPPORT</strong>​。与这个函数相关的还有一个 <code>inet_ntop/4</code>​，它与前一个函数作用相反，最后一个参数 size 则指示了 buffer 可以接收的字节大小。下面一段程序是 Manual 中给出的示例，于此贴出。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">in6_addr</span><span class="p">)];</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">domain</span><span class="p">,</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="n">INET6_ADDRSTRLEN</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&#34;Usage: %s {i4|i6|&lt;num&gt;} string</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">domain</span> <span class="o">=</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&#34;i4&#34;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="nl">AF_INET</span> <span class="p">:</span>
+</span></span><span class="line"><span class="cl">	     <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&#34;i6&#34;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="nl">AF_INET6</span> <span class="p">:</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span> <span class="o">=</span> <span class="n">inet_pton</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">buf</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	    <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&#34;Not in presentation format&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	    <span class="n">perror</span><span class="p">(</span><span class="s">&#34;inet_pton&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">inet_ntop</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">INET6_ADDRSTRLEN</span><span class="p">)</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">perror</span><span class="p">(</span><span class="s">&#34;inet_ntop&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_SUCCESS</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// ./a.out i4 127.0.0.1
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 127.0.0.1
+</span></span></span><span class="line"><span class="cl"><span class="c1">// ./a.out i6 0:0:0:0:0:0:0:0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// ::
+</span></span></span><span class="line"><span class="cl"><span class="c1">// ./a.out i6 1:0:0:0:0:0:0:8
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 1::8
+</span></span></span><span class="line"><span class="cl"><span class="c1">// ./a.out i6 0:0:0:0:0:FFFF:204.152.189.116
+</span></span></span><span class="line"><span class="cl"><span class="c1">// ::ffff:204.152.189.116
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>以前常用的函数则是支持 IPv4 的 <code>inet_addr/1</code> 系列函数</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>使用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>inet_aton/2</code></td>
+<td>点分十进制地址转换为 <code>in_addr</code> 结构，成功时返回 \(1\)</td>
+</tr>
+<tr>
+<td><code>inet_addr/1</code></td>
+<td>点分十进制地址转换为 <code>in_addr</code> 结构，无效时返回 \(-1\)</td>
+</tr>
+<tr>
+<td><code>inet_network/1</code></td>
+<td>与上一个函数类似，但返回的是主机序而非网络序</td>
+</tr>
+<tr>
+<td><code>inet_ntoa/1</code></td>
+<td>将网络序的 <code>in_addr</code> 转换为点分十进制字符串</td>
+</tr>
+<tr>
+<td><code>inet_lnaof/1</code></td>
+<td>返回 <code>in_addr</code> 地址中的主机地址部分 (主机序)</td>
+</tr>
+<tr>
+<td><code>inet_netof/1</code></td>
+<td>返回 <code>in_addr</code> 地址中的网络号部分 (主机序)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="与服务器建立连接并读取数据" class="headerLink">
+    <a href="#%e4%b8%8e%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%bb%ba%e7%ab%8b%e8%bf%9e%e6%8e%a5%e5%b9%b6%e8%af%bb%e5%8f%96%e6%95%b0%e6%8d%ae" class="header-mark"></a>与服务器建立连接并读取数据</h3><p>建立连接使用 <code>connect/3</code> 完成，先看一下函数原型</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// #include &lt;sys/socket.h&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1">// #include &lt;sys/types.h&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">connect</span><span class="p">(</span><span class="kt">int</span> <span class="n">sockfd</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="n">socklen_t</span> <span class="n">addrlen</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该函数接收 sockfd 用于监听主机端口，并使用 addr 接收服务器的地址、端口等信息，最后一个参数则是 addr 的数据类型大小。</p>
+<p>当然 socket 类型会影响该函数的行为：​<code>SOCK_DGRAM</code> 类型的 socket，addr 是默认发送和接收数据报的地址；而 <code>SOCK_STREAM</code> 和 <code>SOCK_SEQPACKET</code> 类型的 socket，将会试图与指定地址建立连接。通常来说，基于连接的 socket 只允许调用成功一次该函数，而无连接的 socket 可以多次调用该函数来更改关联的地址，并且自 Linux Kernel 2.2 以后，可以通过连接到将 <strong>sa_family</strong> 设置为 <code>AF_UNSPEC</code> 来解除地址关联。</p>
+<p>读取一个文件的数据往往采用 POSIX 函数 <code>read/3</code> ，接收 fd、buffer、接收的字节长度
+size，最终会返回实际读取的字节长度，但是返回 -1 时代表发生错误并会设置
+<strong>errno</strong>​。</p>
+<p>往往在读取服务器数据时，采用循环的方式读取，直到读到的数据大小为 0 才认为此次读取完成。虽然这个程序中每次读取都会直接读完所有数据 (因为数据只有 26 byte，而一次可以接收 4096 byte)。</p>
+<p>在这个示例中，数据传输完成由服务器关闭连接表示，这与 <strong>HTTP/1.0</strong> 是类似的；而
+SMTP 采用两个字节序的 ASCII 回车符后跟 ASCII 换行符表示数据结束；Sun RPC 和 DNS
+则是用一个包含数据大小的字段来确定何时结束数据。这些结果的背后是 <strong>TCP 不提供数据标记</strong> ，你需要自己选择如何记录数据结束。</p>
+<h2 id="简单的时间获取服务端" class="headerLink">
+    <a href="#%e7%ae%80%e5%8d%95%e7%9a%84%e6%97%b6%e9%97%b4%e8%8e%b7%e5%8f%96%e6%9c%8d%e5%8a%a1%e7%ab%af" class="header-mark"></a>简单的时间获取服务端</h2><p>这里的服务端是对应上一节中的客户端，为客户端提供获取时间的服务。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 以下代码与 UNP intro/daytimetcpsrv.c 等价
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;stdbool.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;time.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;netinet/in.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#define LISTENQ 1024
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define MAXLINE 4096
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">listenfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">listenfd</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;listen error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">13</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">bind</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;bind error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">listen</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">LISTENQ</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err_sys</span><span class="p">(</span><span class="s">&#34;listen error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">connfd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">connfd</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">err_ret</span><span class="p">(</span><span class="s">&#34;connect error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">time_t</span> <span class="n">ticks</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="n">snprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buffer</span><span class="p">),</span> <span class="s">&#34;%.24s</span><span class="se">\r\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">ctime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ticks</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">write</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">err_ret</span><span class="p">(</span><span class="s">&#34;write error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">close</span><span class="p">(</span><span class="n">connfd</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">err_ret</span><span class="p">(</span><span class="s">&#34;close error&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以看到与客户端不同的是，服务器在申请 socket 时没什么变化，但接下来服务器填写了自己的 IP 与 Port 信息，Port 用于指示接下来监听的端口，而 IP 则是指定为了
+<code>INADDR_ANY</code>​，这是系统中预定的 IP 地址的值。</p>
+<table>
+<thead>
+<tr>
+<th>定义</th>
+<th>值</th>
+<th>释义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>INADDR_ANY</code></td>
+<td>0.0.0.0</td>
+<td>接受所有 IP 发来的请求</td>
+</tr>
+<tr>
+<td><code>INADDR_LOOPBACK</code></td>
+<td>127.0.0.1</td>
+<td>本地回环地址</td>
+</tr>
+<tr>
+<td><code>INADDR_BROADCAST</code></td>
+<td>255.255.255.255</td>
+<td>广播地址</td>
+</tr>
+</tbody>
+</table>
+<p>有趣的是，如果使用 <span class="underline">INADDR_ANY</span> 的话，客户端可以使用路由器、网线提供的 DHCP 地址访问服务器，而改为 <span class="underline">INADDR_LOOPBACK</span> 时仅可通过 127.0.0.1 进行访问。当然这些数值都需要通过 <code>htonl/1</code> 转换为网络序。</p>
+<p>可能初看时不是很理解 bind 的含义，而且这个函数和 <code>connect</code> 的参数几乎一致。不过不同的是，connect 用于客户端向服务器发起申请连接，而 DGRAM 类型则是将 fd 与 IP
+信息绑定。这里 bind 也是将 IP 信息与 fd 进行绑定，根据 Manual 的解释，sockfd 申请之后存在于地址族的名称空间之中，但没有绑定地址，因此需要此函数对 fd 与 addr 进行绑定。</p>
+<p>最后一个 <code>listen/2</code> 就是监听给出的 addr 及 port，这里的 sockfd 主要是
+<strong>SOCK_STREAM</strong> 与 <strong>SOCK_SEQPACKET</strong> 类型的 socket。(<code>SOCK_DGRAM</code> 又一次被排除在外了) listen 的第二个参数，根据 Manual 的 NOTE 章节，目前版本的 Linux 代表了成功
+accept 的 TCP 连接队列的长度。</p>
+<p>在与客户端通信时，往往使用 <code>accept/3</code> 接收来自客户端的连接所创建的 connfd，经过这一步后，TCP 完成连接从而状态改变为 <strong>ESTABLISHED</strong>​。当数据被准备好之后，服务器就可以通过 <code>write/3</code> 将数据写入 connfd 发送给客户端，这与平时向文件中写内容是类似的。最后我们只需要像关闭文件一样关闭 connfd 就可以了。</p>
+<p>但是这个程序存在一些问题， <code>while (true)</code> 可以让服务器一直循环等待客户端请求到来，但是一次只能接收一个请求并处理，这对大量请求情况下显然是不合适的。但在示例中，我们仅使用了标准库函数 time 和 ctim，运行速度很快。但现实中我们可能需要几十秒甚至一分钟处理一个请求，这时这样的服务器是不可接受的。</p>
+<p>示例中的服务器被称为 <strong>迭代服务器</strong> (iterative server)，对于每个请求都迭代执行一次；同时处理多个请求的服务器被称为 <strong>并发服务器</strong> (concurrent server)。而从 shell 终端启动一个服务器可能会一直运行，因此我们常常使用 Unix 守护进程 (daemon)，可以在后台运行，而不跟任何终端关联地运行。</p>
+<h2 id="unix-标准" class="headerLink">
+    <a href="#unix-%e6%a0%87%e5%87%86" class="header-mark"></a>Unix 标准</h2><p>Unix 标准通常被称作 POSIX，即 <strong>Portable Operating System Interface</strong> (可移植操作系统接口)。当然由于当时有多个机构进行标准化工作，因此 Unix 标准又有很多名字
+<code>ISO/IEC 9945</code>, <code>IEEE Std 1003.1</code> 和单一 Unix 规范 (Signle UNIX Specification)，当然经过发展，POSIX 也经历过版本更新，UNP 所介绍到了 POSIX.1-2001，如今最新标准为 <strong>POSIX.1-2017</strong>​。</p>
+<ul>
+<li>POSIX 第一版为 IEEE Std. 1003.1-1988，这一版规范了 Unix 内核的 C 语言接口，这些接口覆盖了进程原语 (fork，exec，signals 等)、进程环境 (user ID，程序组等)、文件与目录 (所有的 I/O 函数)、终端 I/O、系统数据库 (密码文件与组文件) 以及
+tar、cpio 等归档格式。不过当时 POSIX 被称为 <code>IEEE-IX</code> ，POSIX 这个名称是
+Richard Stallman 建议使用的。</li>
+<li>IEEE Std. 1003.1-1990 为第二版，这一版正式称为 ISO 标准 <strong>ISO/IEC 9945:1990</strong>
+。这一版的改动很小，添加了新的副标题 &ldquo;Part 1: System Application Program
+Interface (API) [C language]&rdquo;</li>
+<li>IEEE Std. 1003.2-1992 扩展到了两卷本，第二卷 &ldquo;Part 2: Shell and Utilities&rdquo;。这一卷定义了 shell (基于 System V Bourne Shell) 与大约 100 中命令行工具 (awk，
+vi，yacc等)，第二卷往往也被称为 <strong>POSIX.2</strong></li>
+<li>IEEE Std. 1003.1b-1993 升级自 1990 版，添加了 P1003.4 工作组开发的实时扩展部分，并新增了文件同步、异步 I/O、信号量、内存管理 (mmap 与共享内存)、进程调度、始终与定时器以及消息队列。</li>
+<li>IEEE Std. 1003.1c-1995 又被称为 <strong>ISO/IEC 9945-1:1996</strong> ，包含了之前的 API、事实扩展、pthreads (1003.1c-1995) 以及对 1003.1b 的技术性修订。增添了三章关于线程的内容以及关于线程同步 (mutexes 与 condition_variables)、线程调度、线程同步以及信号句柄。将 ISO/IEC 9945 分为三部分
+<ul>
+<li>Part 1: System API (C language) &mdash; 被称为 POSIX.1</li>
+<li>Part 2: Shell and utilities     &mdash; 被称为 POSIX.2</li>
+<li>Part 3: System administration (正在开发)</li>
+</ul>
+</li>
+<li>IEEE Std. 1003.1g: Protocol-independent interfaces (PII) (协议无关接口) 定义了两个 API，被称为 <strong>Detailed Network Interfaces</strong> (DNI，详尽网络接口)：
+<ul>
+<li>DNI/Socket，基于 4.4BSD socket API</li>
+<li>DNI/XTI，基于 X/Open XPG4 规范</li>
+</ul>
+</li>
+</ul>
+<p>X/Open 公司与开放软件基金会 (OSF) 合并成了 The Open Group，这是一个由厂商、工业界最终用户、政府以及学术机构共同参加的标准化组织。</p>
+<ul>
+<li>1989 年 X/Open 发布了 X/Open 可移植指南第三期 (XPG3)</li>
+<li>1992 年发布了 XPG4，而第二版于 1994 年发布。这个版本也被称作 <strong>Spec 1170</strong> (规范 1170)，1170 是 926 个系统 API、70 个头文件 以及 174 个命令的总和。最终被称为 X/Open Signle UNIX Specification，或 <strong>Unix 95</strong></li>
+<li>1997 年三月发布了 Signle Unix Specification 第二版，又称为 <strong>Unix 98</strong> 。这一版的魔数上升到了 1434，而工作站魔数直接到了 3030。这是因为该规范包含了
+Common Desktop Environment (CDE，公共桌面环境)，这导致必须依赖 X Window
+System 以及 Motif 用户接口。</li>
+</ul>
+<p>再之后，单一 UNIX 规范与 POSIX.1 逐渐统一起来，UNP 主要介绍 POSIX.1-2001 (即
+IEEE Std 1003.1-2001)。</p>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 04-08</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2022/unixnetworkprogramming_001/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20UNP+%E7%AE%80%E4%BB%8B&issue[description]=[POST](https://blog.ginshio.org/2022/unixnetworkprogramming_001/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2022/unixnetworkprogramming_001/" data-title="UNP 简介" data-hashtags="Note,Unix,Network,Posix"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2022/unixnetworkprogramming_001/" data-hashtag="Note"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2022/unixnetworkprogramming_001/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2022/unixnetworkprogramming_001/" data-title="UNP 简介" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2022/unixnetworkprogramming_001/" data-title="UNP 简介"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2022/unixnetworkprogramming_001/" data-title="UNP 简介"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2022/unixnetworkprogramming_001/" data-title="UNP 简介" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2022/unixnetworkprogramming_001/" data-title="UNP 简介" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2022/unixnetworkprogramming_001/" title="UNP 简介">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/unix/">Unix</a>,&nbsp;<a href="/tags/network/">Network</a>,&nbsp;<a href="/tags/posix/">Posix</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/" class="prev" rel="prev" title="排序算法"><i class="fas fa-angle-left fa-fw"></i>排序算法</a>
+            <a href="/2022/unixnetworkprogramming_002/" class="next" rel="next" title="传输层总述">传输层总述<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2022-01-17T13:46:50+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"UNP 简介"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>

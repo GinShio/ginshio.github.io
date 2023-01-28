@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>内存对齐 - iris</title><meta name="Description" content="GinShio | memory_alignment: CPU alignment and GPU alignment"><meta property="og:title" content="内存对齐" />
+<meta property="og:description" content="GinShio | memory_alignment: CPU alignment and GPU alignment" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2022/memory_alignment/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-09-03T17:41:38+08:00" />
+<meta property="article:modified_time" content="2022-09-05T04:51:57+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="内存对齐"/>
+<meta name="twitter:description" content="GinShio | memory_alignment: CPU alignment and GPU alignment"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2022/memory_alignment/" /><link rel="prev" href="https://blog.ginshio.org/2022/git_bash_with_pacman_on_windows/" /><link rel="next" href="https://blog.ginshio.org/2022/cs61a_01_getting_started/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "内存对齐",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2022\/memory_alignment\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "C\u002b\u002b, GLSLang, Memory","wordcount":  7887 ,
+        "url": "https:\/\/blog.ginshio.org\/2022\/memory_alignment\/","datePublished": "2022-09-03T17:41:38+08:00","dateModified": "2022-09-05T04:51:57+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | memory_alignment: CPU alignment and GPU alignment"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#为什么需要内存对齐">为什么需要内存对齐</a>
+      <ul>
+        <li><a href="#性能">性能</a></li>
+        <li><a href="#范围">范围</a></li>
+        <li><a href="#原子性">原子性</a></li>
+        <li><a href="#结论">结论</a></li>
+      </ul>
+    </li>
+    <li><a href="#数据模型">数据模型</a></li>
+    <li><a href="#c-plus-plus-的内存对齐">C++ 的内存对齐</a>
+      <ul>
+        <li><a href="#具名要求">具名要求</a>
+          <ul>
+            <li><a href="#平凡类">平凡类</a></li>
+            <li><a href="#标准布局类">标准布局类</a></li>
+            <li><a href="#平凡类与标准布局类总结">平凡类与标准布局类总结</a></li>
+          </ul>
+        </li>
+        <li><a href="#标准布局类的内存对齐">标准布局类的内存对齐</a>
+          <ul>
+            <li><a href="#普通的标准布局类">普通的标准布局类</a></li>
+            <li><a href="#带有位域的标准布局类">带有位域的标准布局类</a></li>
+            <li><a href="#手动指定对齐大小的标准布局类">手动指定对齐大小的标准布局类</a></li>
+          </ul>
+        </li>
+        <li><a href="#非标准布局类的内存对齐">非标准布局类的内存对齐</a></li>
+      </ul>
+    </li>
+    <li><a href="#glslang-的内存对齐">GLSLang 的内存对齐</a>
+      <ul>
+        <li><a href="#buffer-的布局修饰">buffer 的布局修饰</a></li>
+        <li><a href="#location">location</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用-glm-与-glslang-传递数据">使用 GLM 与 GLSLang 传递数据</a></li>
+    <li><a href="#useful-link">Useful link</a></li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">内存对齐</h1><h2 class="single-subtitle">从 CPU 到 GPU</h2><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programming/"><i class="far fa-folder fa-fw"></i>Programming</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="09-03">09-03</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="09-05">09-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7887 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 16 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#为什么需要内存对齐">为什么需要内存对齐</a>
+      <ul>
+        <li><a href="#性能">性能</a></li>
+        <li><a href="#范围">范围</a></li>
+        <li><a href="#原子性">原子性</a></li>
+        <li><a href="#结论">结论</a></li>
+      </ul>
+    </li>
+    <li><a href="#数据模型">数据模型</a></li>
+    <li><a href="#c-plus-plus-的内存对齐">C++ 的内存对齐</a>
+      <ul>
+        <li><a href="#具名要求">具名要求</a>
+          <ul>
+            <li><a href="#平凡类">平凡类</a></li>
+            <li><a href="#标准布局类">标准布局类</a></li>
+            <li><a href="#平凡类与标准布局类总结">平凡类与标准布局类总结</a></li>
+          </ul>
+        </li>
+        <li><a href="#标准布局类的内存对齐">标准布局类的内存对齐</a>
+          <ul>
+            <li><a href="#普通的标准布局类">普通的标准布局类</a></li>
+            <li><a href="#带有位域的标准布局类">带有位域的标准布局类</a></li>
+            <li><a href="#手动指定对齐大小的标准布局类">手动指定对齐大小的标准布局类</a></li>
+          </ul>
+        </li>
+        <li><a href="#非标准布局类的内存对齐">非标准布局类的内存对齐</a></li>
+      </ul>
+    </li>
+    <li><a href="#glslang-的内存对齐">GLSLang 的内存对齐</a>
+      <ul>
+        <li><a href="#buffer-的布局修饰">buffer 的布局修饰</a></li>
+        <li><a href="#location">location</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用-glm-与-glslang-传递数据">使用 GLM 与 GLSLang 传递数据</a></li>
+    <li><a href="#useful-link">Useful link</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>众所周知，运行的程序是需要内存占用的，在编码时假定栈上的空间是连续的，且定义的所有变量都连续分布在栈上。</p>
+<p>实际上，虽然变量是连续分布在栈上的，但编译器会根据不同类型与对齐方式，将变量重新排列，达到最优情况。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#define print_position(type, n)                 \
+</span></span></span><span class="line"><span class="cl"><span class="cp">    type n;                                     \
+</span></span></span><span class="line"><span class="cl"><span class="cp">    printf(#n &#34;: %p\n&#34;, &amp;n);
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">print_position</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="n">a</span><span class="p">);</span>    <span class="c1">// a: 0x7ffe84765408
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">print_position</span><span class="p">(</span><span class="kt">double</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span> <span class="c1">// b: 0x7ffe84765410
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">print_position</span><span class="p">(</span><span class="kt">char</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>   <span class="c1">// c: 0x7ffe84765407
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">print_position</span><span class="p">(</span><span class="kt">float</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>  <span class="c1">// d: 0x7ffe8476540c
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>本文主要集中在结构体的对齐。</p>
+<h2 id="为什么需要内存对齐" class="headerLink">
+    <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81%e5%86%85%e5%ad%98%e5%af%b9%e9%bd%90" class="header-mark"></a>为什么需要内存对齐</h2><h3 id="性能" class="headerLink">
+    <a href="#%e6%80%a7%e8%83%bd" class="header-mark"></a>性能</h3><p>现代处理器拥有多级缓存，而数据必须通过这些缓存；支持单字节读取会将内存吞吐量和执行执行单元吞吐量紧密绑定 (称为 cpu-bound，CPU 绑定)。这与 <a href="http://www.differencebetween.net/technology/difference-between-dma-and-pio/" target="_blank" rel="noopener noreferrer">PIO 被 DMA 超越</a> 在硬件驱动上有很多相似的原因。</p>
+<p>CPU 总是读取一个字长的大小 (32bit 处理器为 4 bytes)，当访问未对齐的地址时 &ndash; 如果 CPU 支持的话，处理器会读入多个字。CPU 将跨字读取程序请求的地址，这将产生 2 倍于请求数据大小的内存读写。因此很容易出现读取 2 字节比读取 4 字节慢的情况。</p>
+<p>如果一个两字节的数据在字内没有对齐，那处理器只需要读取一次，并执行一次偏移量计算，这通常只需要一个周期。</p>
+<p>另外对齐可以更好的确定是否在同一个 cache line 上，某些类型的应用会针对 cache
+line 进行优化，从而取得更好的性能。</p>
+<h3 id="范围" class="headerLink">
+    <a href="#%e8%8c%83%e5%9b%b4" class="header-mark"></a>范围</h3><p>给定任意的地址空间，如果架构认为 2 个最低有效位 (LSB) 总是 0 (如 32bit 机器)，那么它可以访问四倍大小的内存 (2 bit 可以表示 4 个不同的状态)，或者相同大小的内存但有额外两个标志位。2 个最低有效位意味着 4 字节对齐，地址在增加时只会从第 2 位开始变动，最低两位始终是 <code>00</code>​。</p>
+<p>这可以影响处理器的物理结构，这意味着地址总线可以少两位，或者 CPU 少两个针脚，亦或者电路板上少走 2 根线。</p>
+<h3 id="原子性" class="headerLink">
+    <a href="#%e5%8e%9f%e5%ad%90%e6%80%a7" class="header-mark"></a>原子性</h3><p>CPU 可以原子地操作对齐的字内存，这意味着没有指令可以中断这次操作。这对许多<a href="http://kukuruku.co/hub/cpp/lock-free-data-structures-basics-atomicity-and-atomic-primitives" target="_blank" rel="noopener noreferrer">无锁数据结构</a>和其他<a href="https://www.sciencedirect.com/science/article/pii/0304397588900965" target="_blank" rel="noopener noreferrer">并发</a>范式的正确操作有着至关重要的作用。</p>
+<h3 id="结论" class="headerLink">
+    <a href="#%e7%bb%93%e8%ae%ba" class="header-mark"></a>结论</h3><p>处理器的内存系统比这里描述的复杂得多，这里有一个关于 <a href="http://www.rcollins.org/articles/pmbasics/tspec_a1_doc.html" target="_blank" rel="noopener noreferrer">x86 处理器如何实际寻址</a> 的讨论，对这方面的理解会有些帮助 (许多处理器的工作方式差不多)。</p>
+<p>坚持内存对齐还有很多好处，可以在<a href="https://developer.ibm.com/technologies/systems/articles/pa-dalign/" target="_blank" rel="noopener noreferrer">这篇</a>文章中阅读。计算机的主要用途是传输数据，现代内存架构和技术经过数十年的优化，以一种高度可靠的方式促进在更多、更快的执行单元间处理更多数据的输入、输出。</p>
+<h2 id="数据模型" class="headerLink">
+    <a href="#%e6%95%b0%e6%8d%ae%e6%a8%a1%e5%9e%8b" class="header-mark"></a>数据模型</h2><p>C 与其派生语言在很多时候，类型的大小是和平台相关的，因此用数据模型来定义不同平台下的数据大小。</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>short</th>
+<th>int</th>
+<th>long</th>
+<th>long long</th>
+<th>ptr</th>
+<th>RunTime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LP32</td>
+<td>16</td>
+<td>16</td>
+<td>32</td>
+<td>64</td>
+<td>32</td>
+<td>MSVC (16bit)</td>
+</tr>
+<tr>
+<td>ILP32</td>
+<td>16</td>
+<td>32</td>
+<td>32</td>
+<td>64</td>
+<td>32</td>
+<td>MSVC (32bit), Linux (32bit)</td>
+</tr>
+<tr>
+<td>LLP64</td>
+<td>16</td>
+<td>32</td>
+<td>32</td>
+<td>64</td>
+<td>64</td>
+<td>MSVC, MinGW</td>
+</tr>
+<tr>
+<td>LP64</td>
+<td>16</td>
+<td>32</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>*nix, Cygwin, z/OS</td>
+</tr>
+<tr>
+<td>ILP64</td>
+<td>16</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>Solaris</td>
+</tr>
+<tr>
+<td>SILP64</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>UNICOS</td>
+</tr>
+</tbody>
+</table>
+<p>虽然数据模型定义很清楚，但在处理跨平台代码时，数据类型大小的处理是很头疼的。</p>
+<p>好在 C / C++ 在 <code>stdint.h</code> 中还提供了更多种类的定长整型，长度主要是 <code>8</code>​、​<code>16</code>​、​<code>32</code> 和
+<code>64</code> bit​，且提供了不同需求的定长整型 <code>fast</code> 和 <code>least</code>​。</p>
+<ul>
+<li>定长整型，e.g. <code>uint8_t</code>​、​<code>int16_t</code>​。定长整型是编译器可选项，因此可能不存在这个指定的类型。定长整型指定的位长度不可多也不可少，即强制要求位长度匹配。</li>
+<li>最接近的定长整型，e.g. <code>int_least16_t</code>​、​<code>uint_least16_t</code>​。最接近的定长整型指可以比指定的位长度可以多但不可以少。比如使用 <code>uint_least8_t</code>​，但平台不支持
+<code>uint16_t</code> 但支持 <code>uint32_t</code>​，因此该类型是 <code>uint32_t</code>​。</li>
+<li>最快的定长整型，e.g. <code>int_fast32_t</code>​、​<code>uint_fast32_t</code>​。最快的定长整型指可以比指定的位多但不能少，且在满足指定位长的情况下使用执行最快的整型。比如使用
+<code>uint_fast8_t</code>​，平台支持 <code>uint32_t</code> 和 <code>uint16_t</code>​，但最快的是 <code>uint32_t</code>​，因此该类型使用前者。</li>
+</ul>
+<p>最后再说一下，由于指针在不同平台上的大小是不一样的，因此在转换指针位整型时，为了跨平台性，可以选择标准库可选的 <code>intptr_t</code> 和 <code>uintptr_t</code>​。</p>
+<h2 id="c-plus-plus-的内存对齐" class="headerLink">
+    <a href="#c-plus-plus-%e7%9a%84%e5%86%85%e5%ad%98%e5%af%b9%e9%bd%90" class="header-mark"></a>C++ 的内存对齐</h2><div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">本章节数据模型为 LP64 data model</div>
+        </div>
+    </div>
+<h3 id="具名要求" class="headerLink">
+    <a href="#%e5%85%b7%e5%90%8d%e8%a6%81%e6%b1%82" class="header-mark"></a>具名要求</h3><h4 id="平凡类" class="headerLink">
+    <a href="#%e5%b9%b3%e5%87%a1%e7%b1%bb" class="header-mark"></a>平凡类</h4><p>首先，​<code>可平凡复制类型</code> 满足以下所有条件</p>
+<ul>
+<li>至少有一个未被弃置的​<code>复制构造函数</code>​、​<code>移动构造函数</code>​、​<code>复制赋值运算符</code>​或​<code>移动赋值运算符</code></li>
+<li>每个复制构造函数都是平凡的或被弃置的</li>
+<li>每个移动构造函数都是平凡的或被弃置的</li>
+<li>每个复制赋值运算符都是平凡的或被弃置的</li>
+<li>每个移动赋值运算符都是平凡的或被弃置的</li>
+<li>有一个未被弃置的平凡析构函数</li>
+</ul>
+<p>一个 <code>平凡类</code>​，满足以下所有条件</p>
+<ul>
+<li>是一个可平凡复制类型</li>
+<li>有一个或多个默认构造函数，它们全部都是平凡的或被弃置的，而且其中至少有一个未被弃置</li>
+</ul>
+<!--listend-->
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">A</span> <span class="p">{};</span>  <span class="c1">// is trivial
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">B</span> <span class="p">{</span> <span class="n">B</span><span class="p">(</span><span class="n">B</span> <span class="k">const</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span> <span class="p">};</span>  <span class="c1">// is trivial
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">C</span> <span class="p">{</span> <span class="n">C</span><span class="p">()</span> <span class="p">{}</span> <span class="p">};</span> <span class="c1">// is non-trivial
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">D</span> <span class="p">{</span> <span class="o">~</span><span class="n">D</span><span class="p">()</span> <span class="p">{}</span> <span class="p">};</span> <span class="c1">// is non-trivial
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">E</span> <span class="p">{</span> <span class="o">~</span><span class="n">E</span><span class="p">()</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span> <span class="p">};</span> <span class="c1">// is non-trivial
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">F</span> <span class="p">{</span> <span class="k">private</span><span class="o">:</span> <span class="o">~</span><span class="n">F</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span> <span class="p">}</span> <span class="c1">// is non-trivial
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">G</span> <span class="p">{</span> <span class="k">virtual</span> <span class="o">~</span><span class="n">G</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span> <span class="p">}</span> <span class="c1">// is non-trivial
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">H</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">H</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">H</span><span class="p">(</span><span class="k">const</span> <span class="n">H</span> <span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">H</span><span class="p">(</span><span class="n">H</span> <span class="o">&amp;&amp;</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">H</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">H</span> <span class="k">const</span> <span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">H</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">H</span> <span class="o">&amp;&amp;</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">~</span><span class="n">H</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span> <span class="c1">// is non-trivial
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">I</span> <span class="p">{</span> <span class="n">I</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span> <span class="n">I</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="p">{}</span> <span class="p">};</span> <span class="c1">// is trivial
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">J</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">J</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">J</span><span class="p">(</span><span class="k">const</span> <span class="n">J</span> <span class="o">&amp;</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span> <span class="c1">// is non-trivial
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">K</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span> <span class="c1">// is trivial
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">L</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">x</span><span class="p">{</span><span class="mi">0</span><span class="p">};</span> <span class="p">};</span> <span class="c1">// is non-trivial
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果你用 gcc 或 clang 编译，会发现编译器显示 <code>E</code>​、​<code>F</code>​ 和 <code>H</code> 是平凡类，按照标准，实际上应该不是平凡类，可以在 bugzilla 查看 <a href="https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96288" target="_blank" rel="noopener noreferrer">gcc</a> 和 <a href="https://bugs.llvm.org/show_bug.cgi?id=39050" target="_blank" rel="noopener noreferrer">clang</a> 的 bug 报告。</p>
+<p>另外，可平凡复制类可以用 <code>::memcpy</code> 或 <code>::memmove</code> 在两个不存在潜在重叠的对象之间互相拷贝。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">A</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="n">A</span> <span class="n">a</span> <span class="o">=</span> <span class="p">{</span> <span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">10</span> <span class="p">};</span> <span class="c1">// C++20
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">A</span> <span class="n">b</span> <span class="o">=</span> <span class="p">{</span> <span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">20</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">memcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">b</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">A</span><span class="p">));</span> <span class="c1">// b.x = 10
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>平凡类可以认为不持有资源，因此可以直接覆盖或丢弃对象，不会造成资源的泄漏。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">N</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">destroy_array_element</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="k">typename</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">enable_if</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">is_trivial</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">value</span><span class="o">&gt;::</span><span class="n">type</span> <span class="p">(</span><span class="o">&amp;</span><span class="cm">/* arr */</span><span class="p">)[</span><span class="n">N</span><span class="p">])</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">N</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="n">destroy_array_element</span><span class="p">(</span><span class="n">T</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">arr</span><span class="p">)[</span><span class="n">N</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="o">~</span><span class="n">T</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="标准布局类" class="headerLink">
+    <a href="#%e6%a0%87%e5%87%86%e5%b8%83%e5%b1%80%e7%b1%bb" class="header-mark"></a>标准布局类</h4><p>满足以下所有条件是标准布局类</p>
+<ul>
+<li>所有非静态数据成员都是标准布局类类型或它们的引用</li>
+<li>没有虚函数和虚基类</li>
+<li>所有非静态数据成员都具有相同的可访问性</li>
+<li>没有非标准布局的基类</li>
+<li>该类和它的所有基类中的非静态数据成员和位域都在相同的类中首次声明</li>
+<li>给定该类为 S，且作为基类时集合 <code>M(S)</code> 没有元素，其中 M(X) 对于类型 X 定义如下：
+<ul>
+<li>如果 X 是没有 (可能继承来的) 非静态数据成员的非联合体类类型，那么集合 M(X)
+为空。</li>
+<li>如果 X 是首个非静态数据成员 (可能是匿名联合体) 具有 X0 类型的非联合体类类型，那么集合 M(X) 包含 X0 和 M(X0) 中的元素。</li>
+<li>如果 X 是联合体类型，集合 M(X) 是包含所有 \(U_{i}\) 的集合与每个
+M(\(U_{i}\)) 集合的并集，其中每个 \(U_{i}\) 是 X 的第 i 个非静态数据成员的类型。</li>
+<li>如果 X 是元素类型是 \(X_{e}\) 的数组类型，集合 M(X) 包含 \(X_{e}\) 和
+M(\(Xe\)) 中的元素。</li>
+<li>如果 X 不是类类型或数组类型，那么集合 M(X) 为空。</li>
+</ul>
+</li>
+</ul>
+<!--listend-->
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">A</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">a</span><span class="p">;</span> <span class="p">};</span> <span class="c1">// is standard layout
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">B</span> <span class="o">:</span> <span class="k">public</span> <span class="n">A</span> <span class="p">{</span> <span class="kt">double</span> <span class="n">b</span><span class="p">;</span> <span class="p">};</span> <span class="c1">// isn&#39;t standard layout
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">C</span> <span class="p">{</span> <span class="n">A</span> <span class="n">a</span><span class="p">;</span> <span class="kt">double</span> <span class="n">b</span><span class="p">;</span> <span class="p">};</span> <span class="c1">// is standard layout
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">D</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span> <span class="c1">// is standard layout
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">E</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span><span class="o">:</span> <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span><span class="o">:</span> <span class="kt">double</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span> <span class="c1">// isn&#39;t standard layout
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">F</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span><span class="o">:</span> <span class="kt">int</span> <span class="n">fun</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span><span class="o">:</span> <span class="kt">double</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span> <span class="c1">// is standard layout
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>而标准布局拥有一些特性</p>
+<ul>
+<li>指向标准布局类类型的指针可以被 <code>reinterpret_cast</code> 成指向它的首个非静态非位域数据成员的指针，或指向它的任何基类子对象的指针，反之亦然。简单地说即不允许标准布局类型的首个数据成员前有填充</li>
+<li>宏 <code>offsetof</code> 可以用于确定任何成员距标准布局类起始的偏移量</li>
+</ul>
+<h4 id="平凡类与标准布局类总结" class="headerLink">
+    <a href="#%e5%b9%b3%e5%87%a1%e7%b1%bb%e4%b8%8e%e6%a0%87%e5%87%86%e5%b8%83%e5%b1%80%e7%b1%bb%e6%80%bb%e7%bb%93" class="header-mark"></a>平凡类与标准布局类总结</h4><p>很明显 C 语言中的所有类型都是标准布局的，但是 C++ 引入了 POD (plain old
+data) 的概念来表示 C 中这些类型 (C++20 移除了这一概念)，即满足以下所有条件的类：</p>
+<ul>
+<li>平凡类</li>
+<li>标准布局类</li>
+<li>所有非静态数据成员都是 POD 类类型</li>
+</ul>
+<p>可以这样理解，平凡类规定了一个类型无关心任何资源，即最基础的构造、析构方式；标准布局类规定了一个类型如何布局每个字段的。只要是标准布局类就可以和 C 程序无痛操作，但这个类型可能不是平凡类型，因此将 POD 拆分为两个概念。</p>
+<p>最好理解的就是 <code>::std::vector</code>​，它采用 RAII 的方式自己管理资源，有复杂的构造、析构函数，它不是一个平凡类，但它是一个​<strong>标准布局类</strong>​，因此完全其完全遵循内存对齐方式，也可以用 <code>memcpy</code> 将其内部的值拷贝下来。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="c1">// #include &lt;stdint.h&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1">// #include &lt;stdlib.h&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1">// #include &lt;string.h&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1">// #include &lt;iostream&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1">// #include &lt;vector&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">{</span><span class="sc">&#39;a&#39;</span><span class="p">,</span> <span class="sc">&#39;b&#39;</span><span class="p">,</span> <span class="sc">&#39;c&#39;</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="n">uintptr_t</span> <span class="o">*</span><span class="n">copy</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">uintptr_t</span> <span class="o">*&gt;</span><span class="p">(</span><span class="o">::</span><span class="n">alloca</span><span class="p">(</span><span class="k">sizeof</span> <span class="n">v</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">memcpy</span><span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">v</span><span class="p">,</span> <span class="k">sizeof</span> <span class="n">v</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">uintptr_t</span><span class="p">);</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">e</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">copy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// maybe output:
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 94066226852544
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 94066226852547
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 94066226852547
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="标准布局类的内存对齐" class="headerLink">
+    <a href="#%e6%a0%87%e5%87%86%e5%b8%83%e5%b1%80%e7%b1%bb%e7%9a%84%e5%86%85%e5%ad%98%e5%af%b9%e9%bd%90" class="header-mark"></a>标准布局类的内存对齐</h3><p>内存对齐有些规律可循：</p>
+<ol>
+<li>对象的起始地址能够被其对齐大小整除</li>
+<li>成员相对于起始地址的偏移量能够被自身的对齐大小整除，否则在前一个成员后面填充字节</li>
+<li>类的大小能够被其对齐大小整除，否则在最后填充字节</li>
+<li>如果是空类，按照标准该类的对象必须占有一个字节 (除非 <a href="https://zh.cppreference.com/w/cpp/language/ebo" target="_blank" rel="noopener noreferrer">空基类优化</a>)，在C中空类的大小是 <strong>0</strong> 字节</li>
+<li>默认条件下，类型的对齐大小与其所有字段的对齐大小最大值相同</li>
+</ol>
+<h4 id="普通的标准布局类" class="headerLink">
+    <a href="#%e6%99%ae%e9%80%9a%e7%9a%84%e6%a0%87%e5%87%86%e5%b8%83%e5%b1%80%e7%b1%bb" class="header-mark"></a>普通的标准布局类</h4><p>对于任何标准布局类，都可以轻松用上面的规律判断出类型的大小</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">S</span> <span class="p">{};</span> <span class="c1">// sizeof = 1, alignof = 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">T</span> <span class="o">:</span> <span class="k">public</span> <span class="n">S</span> <span class="p">{</span> <span class="kt">char</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span> <span class="c1">// sizeof = 1, alignof = 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">U</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>  <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">char</span> <span class="n">y</span><span class="p">;</span> <span class="c1">// offsetof = 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">char</span> <span class="n">z</span><span class="p">;</span> <span class="c1">// offsetof = 5
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 8, alignof = 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">V</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>    <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">T</span> <span class="n">b</span><span class="p">;</span>      <span class="c1">// offsetof = 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">U</span> <span class="n">c</span><span class="p">;</span>      <span class="c1">// offsetof = 8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">double</span> <span class="n">d</span><span class="p">;</span> <span class="c1">// offsetof = 16
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 24, alignof = 8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">W</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">val</span><span class="p">;</span>  <span class="c1">// offset = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">W</span> <span class="o">*</span><span class="n">left</span><span class="p">;</span>  <span class="c1">// offset = 8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">W</span> <span class="o">*</span><span class="n">right</span><span class="p">;</span> <span class="c1">// offset = 16
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 24, alignof = 8
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>最后要说明一下数组，数组就像是你在这个位置引入了数组长度个该类型的变量。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">S</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span> <span class="p">};</span> <span class="c1">// sizeof = 16, alignof = 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">T</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>      <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">char</span> <span class="n">b</span><span class="p">[</span><span class="mi">9</span><span class="p">];</span>  <span class="c1">// offsetof = 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">short</span> <span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span> <span class="c1">// offsetof = 14
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">double</span> <span class="o">*</span><span class="n">d</span><span class="p">;</span>  <span class="c1">// offsetof = 24
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 32, alignof = 8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">U</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">x</span><span class="p">;</span>    <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">char</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> <span class="c1">// offsetof = 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">short</span> <span class="n">z</span><span class="p">;</span>   <span class="c1">// offsetof = 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 4, alignof = 2
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>你以为这就完了吗？当然不是，C 语言中有个很有意思的用法，即 C99 中出现的 <a href="https://en.cppreference.com/w/c/language/struct" target="_blank" rel="noopener noreferrer">柔性数组声明</a>。将最后一个字段定义为数组，且长度为 0，此时数组底层数据类型将影响类型的对齐大小，但不会影响整个类型的大小。当然对于 C++ 标准并没有支持，全靠编译器自己去扩展。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">S</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>      <span class="c1">// offset = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">double</span> <span class="n">d</span><span class="p">[];</span> <span class="c1">// offset = 8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 8, alignof = 8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">T</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>     <span class="c1">// offset = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">char</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="c1">// offset = 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 4, alignof = 4
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>带有柔性数组成员的类，需要使用动态分配的方式，因为柔性数组成员无法被初始化。实际上编译器不能确定数组的长度，因此即使给定的额外的空间不足以存放底层类型数据，也由程序员保证访问的正确性，访问溢出的范围将是 UB。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="n">S</span> <span class="n">s1</span><span class="p">;</span> <span class="c1">// sizeof(s1) = 8, length(d) = 1, accessing d is a UB
+</span></span></span><span class="line"><span class="cl"><span class="c1">// S s2 = {1, {3.14}}; // error: initialization of flexible array member is not allowed
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">S</span><span class="o">*</span> <span class="n">s3</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">S</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">alloca</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">S</span><span class="p">)));</span> <span class="c1">// equivalent to s1
+</span></span></span><span class="line"><span class="cl"><span class="c1">// s4: sizeof(*s4) = 8, length(d) = 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">S</span> <span class="o">*</span><span class="n">s4</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">S</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">alloca</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">S</span><span class="p">)</span> <span class="o">+</span> <span class="mi">6</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">S</span><span class="o">::</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">])));</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// s5: sizeof(*s5) = 8, length(d) = 1, accessing d[1] is a UB
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">S</span> <span class="o">*</span><span class="n">s5</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">S</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">alloca</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">S</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">*</span><span class="n">s4</span> <span class="o">=</span> <span class="o">*</span><span class="n">s5</span><span class="p">;</span> <span class="c1">// copy size = sizeof(S)
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="带有位域的标准布局类" class="headerLink">
+    <a href="#%e5%b8%a6%e6%9c%89%e4%bd%8d%e5%9f%9f%e7%9a%84%e6%a0%87%e5%87%86%e5%b8%83%e5%b1%80%e7%b1%bb" class="header-mark"></a>带有位域的标准布局类</h4><p>对于带有位域的标准布局类，也很简单，位域不会跨底层数据存储，也就是说当剩余位不够时，下一个位域字段会存储在下一个底层数据中。而无名位域字段可以起到占位的作用。另外声明位域后，实际会用一个底层数据填充到类里，类的大小与对齐会收到该底层数据的影响。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">S</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">unsigned</span> <span class="kt">char</span> <span class="nl">b1</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="o">:</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// offsetof = 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">unsigned</span> <span class="kt">char</span> <span class="nl">b2</span> <span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="nl">b3</span> <span class="p">:</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span> <span class="c1">// sizeof = 2, alignof = 1
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>位域字段的大小可以指定为 0，意味着下一个位域将声明在下一个底层数据中。但实际 0
+长度的位域字段并不会为类引入一个底层数据。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">S</span> <span class="p">{</span> <span class="kt">int</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span> <span class="p">};</span> <span class="c1">// sizeof = 1, alignof = 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">T</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">uint64_t</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">uint32_t</span> <span class="n">x</span><span class="p">;</span> <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 4, alignof = 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">U</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">unsigned</span> <span class="kt">char</span> <span class="nl">b1</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// offsetof = 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">unsigned</span> <span class="kt">char</span> <span class="nl">b2</span> <span class="p">:</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span> <span class="c1">// sizeof = 2, alignof = 1
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="手动指定对齐大小的标准布局类" class="headerLink">
+    <a href="#%e6%89%8b%e5%8a%a8%e6%8c%87%e5%ae%9a%e5%af%b9%e9%bd%90%e5%a4%a7%e5%b0%8f%e7%9a%84%e6%a0%87%e5%87%86%e5%b8%83%e5%b1%80%e7%b1%bb" class="header-mark"></a>手动指定对齐大小的标准布局类</h4><p>回到本章开始的 5 条规律，实际上自己手动指定对齐时，也是适用的。</p>
+<p><code>#pragma pack(N)</code> 和 <code>gnu::packed</code> 指定排布字段时以打包方式进行，即每个字段都连续排布，字段与字段之间不会产生额外的内存空洞，这样可以减少不必要内存的浪费。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="na">[[gnu::packed]]</span> <span class="nc">S</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">uint8_t</span> <span class="n">x</span><span class="p">;</span>  <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">uint16_t</span> <span class="n">y</span><span class="p">;</span> <span class="c1">// offsetof = 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 3, alignof = 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="na">[[gnu::packed]]</span> <span class="nc">T</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">uint16_t</span> <span class="nl">x</span> <span class="p">:</span> <span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">uint8_t</span> <span class="n">y</span><span class="p">;</span> <span class="c1">// offsetof = 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 2, alignof = 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="na">[[gnu::packed]]</span> <span class="nc">alignas</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="n">U</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">uint8_t</span> <span class="n">x</span><span class="p">;</span>  <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">uint16_t</span> <span class="n">y</span><span class="p">;</span> <span class="c1">// offsetof = 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 4, alignof = 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="na">[[gnu::packed]]</span> <span class="nc">alignas</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="n">V</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">uint16_t</span> <span class="nl">x</span> <span class="p">:</span> <span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">uint8_t</span> <span class="n">y</span><span class="p">;</span> <span class="c1">// offsetof = 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 4, alignof = 4
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>但是今天的重点是 C++11 引入的 <code>alignas</code> 声明符。实际上它不止可以指定结构体时如何对齐的，还可以指定一个对象是怎么对齐的。指定的对齐大小都必须是 2 的正整数幂，如果指定的对齐方式弱于默认的对齐方式，编译器可能会忽略或报错。</p>
+<p>最简单的先从指定结构体的声明说起。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nf">alignas</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="n">S</span> <span class="p">{};</span> <span class="c1">// sizeof = 4, alignof = 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">SS</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">S</span> <span class="n">s</span><span class="p">;</span>  <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">S</span> <span class="o">*</span><span class="n">t</span><span class="p">;</span> <span class="c1">// offsetof = 8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 16, alignof = 8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nf">alignas</span><span class="p">(</span><span class="n">SS</span><span class="p">)</span> <span class="n">T</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">S</span> <span class="n">s</span><span class="p">;</span>     <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">char</span> <span class="n">t</span><span class="p">;</span>  <span class="c1">// offsetof = 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">short</span> <span class="n">u</span><span class="p">;</span> <span class="c1">// offsetof = 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">short</span> <span class="n">v</span><span class="p">;</span> <span class="c1">// offsetof = 8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 16, alignof = 8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nf">alignas</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="nl">U</span> <span class="p">:</span> <span class="k">public</span> <span class="n">S</span> <span class="p">{};</span> <span class="c1">// error or ignore
+</span></span></span><span class="line"><span class="cl"><span class="c1">// struct alignas(5) V : public S {}; // error
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nf">alignas</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="nl">W</span> <span class="p">:</span> <span class="k">public</span> <span class="n">S</span> <span class="p">{};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对于变量指定对齐大小，对齐大小并不意味着实际占用，下一个字段依然会根据自身对齐方式紧凑排列。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">S</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int16_t</span> <span class="n">i</span><span class="p">;</span>  <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">char</span> <span class="n">c1</span><span class="p">;</span>    <span class="c1">// offsetof = 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">char</span> <span class="n">a</span><span class="p">[</span><span class="mi">11</span><span class="p">];</span> <span class="c1">// offsetof = 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">char</span> <span class="n">c2</span><span class="p">;</span>    <span class="c1">// offsetof = 14
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 16, offsetof = 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">T</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">alignas</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="kt">int16_t</span> <span class="n">i</span><span class="p">;</span>  <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">char</span> <span class="n">c1</span><span class="p">;</span>               <span class="c1">// offsetof = 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">alignas</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="kt">char</span> <span class="n">a</span><span class="p">[</span><span class="mi">11</span><span class="p">];</span> <span class="c1">// offsetof = 8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">char</span> <span class="n">c2</span><span class="p">;</span>               <span class="c1">// offsetof = 19
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 24, offsetof = 8
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>alignas</code> 的应用主要为了获取更好的性能，或者匹配 SIMD 指令。</p>
+<h3 id="非标准布局类的内存对齐" class="headerLink">
+    <a href="#%e9%9d%9e%e6%a0%87%e5%87%86%e5%b8%83%e5%b1%80%e7%b1%bb%e7%9a%84%e5%86%85%e5%ad%98%e5%af%b9%e9%bd%90" class="header-mark"></a>非标准布局类的内存对齐</h3><p>对于访问限定造成的非标准布局类，我们不能假定其按照标准布局进行布局，其行为依赖于编译器。在 C++11 标准中，只保证了在同一访问性的变量按声明顺序排布，但不保证不同访问性的变量的排布顺序。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">S</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="k">public</span><span class="o">:</span>  <span class="kt">int</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	  <span class="kt">int</span> <span class="n">t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="k">private</span><span class="o">:</span> <span class="kt">int</span> <span class="n">u</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="k">public</span><span class="o">:</span>  <span class="kt">int</span> <span class="n">v</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>也就是说，上面这个示例中，只保证了 <code>&amp;S::s &lt; &amp;S::t &lt; &amp;S::v</code>​，但不会保证 <code>&amp;S::s &lt; &amp;S::u</code>​。或者说，在内存中，可能出现 <code>s, t, u, v</code> 的顺序，也可能出现 <code>u, s, t, v</code> 的顺序。</p>
+<p>当然不止访问性导致的顺序问题，在不同类中声明的字段也会造成顺序问题。也就是说，我们不能假定基类中声明的变量，其位置一定先于派生类中声明的变量。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">S</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">s</span><span class="p">;</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">T</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">t</span><span class="p">;</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">U</span> <span class="o">:</span> <span class="k">public</span> <span class="n">S</span><span class="p">,</span> <span class="n">T</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">u</span><span class="p">;</span> <span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>也就是说，上面这个示例中，不能保证 <code>&amp;U::s &lt; &amp;U::u</code>​。但是标准保证，在派生类指针转换到基类指针时，会自动计算基类字对象的偏移量。但不保证 U 的对象首地址就是 S 的字对象首地址。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="n">U</span> <span class="o">*</span><span class="n">up</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">U</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">alloca</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">U</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl"><span class="n">S</span> <span class="o">*</span><span class="n">ssp</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">S</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">up</span><span class="p">);</span> <span class="c1">// offset adjustment
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">T</span> <span class="o">*</span><span class="n">stp</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">up</span><span class="p">);</span> <span class="c1">// offset adjustment
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">S</span> <span class="o">*</span><span class="n">rsp</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">S</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">up</span><span class="p">);</span> <span class="c1">// no offset adjustment
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">T</span> <span class="o">*</span><span class="n">rtp</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">T</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">up</span><span class="p">);</span> <span class="c1">// no offset adjustment
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>最后再来说一下虚类的内存对齐，这是很有意思的一个问题。标准并没有规定如何实现虚函数，但大部分的编译器都采用虚表的方式实现，即在对象中插入一个虚函数表的指针。但是需要注意的是，虚表一个对象中仅存在，基类子对象中不会有虚表。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">S</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">bool</span> <span class="n">s</span><span class="p">;</span> <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 1, alignof = 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">T</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">virtual</span> <span class="o">~</span><span class="n">T</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">U</span> <span class="o">:</span> <span class="k">public</span> <span class="n">S</span><span class="p">,</span> <span class="n">T</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">virtual</span> <span class="o">~</span><span class="n">U</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">u</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在编译器的实现中，很可能先排布虚基类，再排布非虚基类，因此在不同的排布方式其类大小与布局是无法确定的。</p>
+<h2 id="glslang-的内存对齐" class="headerLink">
+    <a href="#glslang-%e7%9a%84%e5%86%85%e5%ad%98%e5%af%b9%e9%bd%90" class="header-mark"></a>GLSLang 的内存对齐</h2><div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">GLSL 4.60, Vulkan binding</div>
+        </div>
+    </div>
+<p>在 GLSLang 中，一个字长为 4 bytes。而 GLSLang 中的对齐，也和 C / C++ 中很相似，因此在<a href="#%e6%a0%87%e5%87%86%e5%b8%83%e5%b1%80%e7%b1%bb%e7%9a%84%e5%86%85%e5%ad%98%e5%af%b9%e9%bd%90" rel="">标准布局类的内存对齐</a>中介绍的对齐方式，和这里是基本一致的。另外 GLSLang 中基础类型的大小都是字长的倍数，因此之后 <code>sizeof</code> 的结果单位默认为 word。</p>
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>sizeof</th>
+<th>alignof</th>
+<th>type</th>
+<th>sizeof</th>
+<th>alignof</th>
+<th>type</th>
+<th>sizeof</th>
+<th>alignof</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void</td>
+<td></td>
+<td></td>
+<td>bool</td>
+<td>1</td>
+<td></td>
+<td>int</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>uint</td>
+<td>1</td>
+<td>1</td>
+<td>float</td>
+<td>1</td>
+<td>1</td>
+<td>double</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>vec2</td>
+<td>2</td>
+<td>2</td>
+<td>vec3</td>
+<td>3</td>
+<td>4</td>
+<td>vec4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>dvec2</td>
+<td>4</td>
+<td>4</td>
+<td>dvec3</td>
+<td>6</td>
+<td>8</td>
+<td>dvec4</td>
+<td>8</td>
+<td>8</td>
+</tr>
+<tr>
+<td>ivec2</td>
+<td>2</td>
+<td>2</td>
+<td>ivec3</td>
+<td>3</td>
+<td>4</td>
+<td>ivec4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>uvec2</td>
+<td>2</td>
+<td>2</td>
+<td>uvec3</td>
+<td>3</td>
+<td>4</td>
+<td>uvec4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<h3 id="buffer-的布局修饰" class="headerLink">
+    <a href="#buffer-%e7%9a%84%e5%b8%83%e5%b1%80%e4%bf%ae%e9%a5%b0" class="header-mark"></a>buffer 的布局修饰</h3><p>​<code>buffer</code> 作为可读可写的全局对象，其布局由实现定义，除非手动指定布局。​<code>uniform</code> 是一种特殊的全局 buffer，只可读，默认 std140 布局且无法修改；​<code>push_constant</code> 是一种特殊的 uniform，其存储在寄存器，大小约为 16 words，实现可以使用 uniform 代替实现，当超出大小时同样将超出部分存储在 uniform buffer 中，默认布局为 std430，可以修改布局。</p>
+<p>在 buffer 中，默认矩阵都是列主矩阵 (<strong>column_major</strong>)，可以在布局中对其进行修改</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">binding</span> <span class="o">=</span> <span class="mo">0</span><span class="p">,</span> <span class="n">column_major</span><span class="p">)</span> <span class="n">buffer</span> <span class="n">CMTest</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// matrix stride = 16</span>
+</span></span><span class="line"><span class="cl">  <span class="k">mat2x3</span> <span class="n">cm</span><span class="p">;</span> <span class="c1">// is equalent to 2-elements array of vec3</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">binding</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">row_major</span><span class="p">)</span> <span class="n">buffer</span> <span class="n">RMTest</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// matrix stride = 8</span>
+</span></span><span class="line"><span class="cl">  <span class="k">mat2x3</span> <span class="n">rm</span><span class="p">;</span> <span class="c1">// is equalent to 3-elements array of vec2</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>packed</code> 与 CPU 上的概念是一致的，尽可能紧凑的排布字段，节省内存，而不考虑对齐。但
+SPIRV 禁止使用 <code>packed</code> 与 <code>shared</code> 的布局方式。</p>
+<p>在 GLSLang 的布局中，其偏移量同样是对齐大小的整数倍。std140 布局有以下规律</p>
+<ol>
+<li>标量类型其对齐大小与自身大小相同</li>
+<li>二元或四元向量，其基础类型大小若为 N，则向量大小与对齐大小相同，对齐大小为
+\(2N\) 或 \(4N\)。特别地，三元向量的大小为 \(3N\)，但对齐大小为 \(4N\)</li>
+<li>数组中的每个元素填充到 4 words 的倍数</li>
+<li>结构体变量的对齐大小填充到 4 words 的倍数</li>
+<li>C 列 R 行的列主矩阵，等价于一个有 C 个 R 元向量的数组；类似的，有 N 个元素的列主矩阵的数组，等价于一个有 \(N \times C\) 个 R 元向量的数组</li>
+<li>C 列 R 行的行主矩阵，等价于一个有 R 个 C 元向量的数组；类似的，有 N 个元素的行主矩阵的数组，等价于一个有 \(N \times R\) 个 C 元向量的数组</li>
+</ol>
+<!--listend-->
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">S</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">vec2</span> <span class="n">v</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">binding</span> <span class="o">=</span> <span class="mo">0</span><span class="p">,</span> <span class="n">std140</span><span class="p">)</span> <span class="n">buffer</span> <span class="n">BufferObject</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">mat2x3</span> <span class="n">m</span><span class="p">;</span>  <span class="c1">// offsetof = 0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">bool</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span> <span class="c1">// offsetof = 8</span>
+</span></span><span class="line"><span class="cl">    <span class="k">vec3</span> <span class="n">v1</span><span class="p">;</span>   <span class="c1">// offsetof = 16</span>
+</span></span><span class="line"><span class="cl">    <span class="n">uint</span> <span class="n">u</span><span class="p">;</span>    <span class="c1">// offsetof = 19</span>
+</span></span><span class="line"><span class="cl">    <span class="n">S</span> <span class="n">s</span><span class="p">;</span>       <span class="c1">// offsetof = 20</span>
+</span></span><span class="line"><span class="cl">    <span class="k">float</span> <span class="n">f2</span><span class="p">;</span>  <span class="c1">// offsetof = 24</span>
+</span></span><span class="line"><span class="cl">    <span class="k">vec2</span> <span class="n">v2</span><span class="p">;</span>   <span class="c1">// offsetof = 26</span>
+</span></span><span class="line"><span class="cl">    <span class="k">dvec3</span> <span class="n">dv</span><span class="p">;</span>  <span class="c1">// offsetof = 32</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">bo</span><span class="p">;</span> <span class="c1">// sizeof = 40, alignof = 8</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对于 std430 布局，不再有 std140 中的将数组和结构体元素对齐填充到 4 words 的要求，也就是说，std430 更为紧凑，且更接近我们在 CPU 中的布局。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">S</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">vec2</span> <span class="n">v</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">binding</span> <span class="o">=</span> <span class="mo">0</span><span class="p">,</span> <span class="n">std430</span><span class="p">)</span> <span class="n">buffer</span> <span class="n">BufferObject</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">mat2x3</span> <span class="n">m</span><span class="p">;</span>  <span class="c1">// offsetof = 0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">bool</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span> <span class="c1">// offsetof = 8</span>
+</span></span><span class="line"><span class="cl">    <span class="k">vec3</span> <span class="n">v1</span><span class="p">;</span>   <span class="c1">// offsetof = 12</span>
+</span></span><span class="line"><span class="cl">    <span class="n">uint</span> <span class="n">u</span><span class="p">;</span>    <span class="c1">// offsetof = 15</span>
+</span></span><span class="line"><span class="cl">    <span class="n">S</span> <span class="n">s</span><span class="p">;</span>       <span class="c1">// offsetof = 16</span>
+</span></span><span class="line"><span class="cl">    <span class="k">float</span> <span class="n">f2</span><span class="p">;</span>  <span class="c1">// offsetof = 18</span>
+</span></span><span class="line"><span class="cl">    <span class="k">vec2</span> <span class="n">v2</span><span class="p">;</span>   <span class="c1">// offsetof = 20</span>
+</span></span><span class="line"><span class="cl">    <span class="k">dvec3</span> <span class="n">dv</span><span class="p">;</span>  <span class="c1">// offsetof = 24</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">bo</span><span class="p">;</span> <span class="c1">// sizeof = 32, alignof = 8</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>虽然默认的布局方式已经很好了，不过有时也可能会手动的修改以下字段的偏移量。这时候需要使用 <code>offset</code>​。但是编译器不会检查手动设置的偏移量是否与其他字段存在重叠。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">binding</span> <span class="o">=</span> <span class="mo">0</span><span class="p">,</span> <span class="n">std430</span><span class="p">)</span> <span class="n">buffer</span> <span class="n">BufferObject</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">mat2x3</span> <span class="n">m</span><span class="p">;</span>  <span class="c1">// offsetof = 0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">bool</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span> <span class="c1">// offsetof = 8</span>
+</span></span><span class="line"><span class="cl">    <span class="n">layout</span><span class="p">(</span><span class="n">offset</span> <span class="o">=</span> <span class="mi">48</span><span class="p">)</span> <span class="n">uint</span> <span class="n">u</span><span class="p">;</span> <span class="c1">// offsetof = 12</span>
+</span></span><span class="line"><span class="cl">    <span class="k">vec2</span> <span class="n">v</span><span class="p">;</span>    <span class="c1">// offsetof = 14</span>
+</span></span><span class="line"><span class="cl">    <span class="n">layout</span><span class="p">(</span><span class="n">offset</span> <span class="o">=</span> <span class="mo">0</span><span class="p">)</span> <span class="k">int</span> <span class="n">i</span><span class="p">;</span> <span class="c1">// offset = 0</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">bo</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>align</code> 的使用也和前面说的 CPU 上的用法差不多</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">binding</span> <span class="o">=</span> <span class="mo">0</span><span class="p">,</span> <span class="n">std430</span><span class="p">)</span> <span class="n">buffer</span> <span class="n">BufferObject</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">vec2</span> <span class="n">a</span><span class="p">;</span>                     <span class="c1">// offsetof = 0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">layout</span><span class="p">(</span><span class="n">align</span> <span class="o">=</span> <span class="mi">16</span><span class="p">)</span> <span class="k">float</span> <span class="n">b</span><span class="p">;</span> <span class="c1">// offsetof = 4</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">bo</span><span class="p">;</span> <span class="c1">// sizeof = 8, alignof = 4</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="location" class="headerLink">
+    <a href="#location" class="header-mark"></a>location</h3><p>location 相当于每个 shader 数据传输的一个存储点，location 根据编号进行匹配，其匹配上一个 shader 的 <code>in</code> 与下一个 shader 的 <code>out</code>​。同一个 location 不能在 shader 中声明多次，in 与 out 是完全不同的 location。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mo">0</span><span class="p">)</span> <span class="k">in</span> <span class="k">vec2</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// layout(location = 0) in vec2 i2; // error</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mo">0</span><span class="p">)</span> <span class="k">out</span> <span class="k">vec2</span> <span class="n">o</span><span class="p">;</span> <span class="c1">// okay</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>location 大小为 4 words。声明的每个变量占据一个 location，当变量大小大于 4 words
+时，将顺延占据下一个 location。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mo">0</span><span class="p">)</span> <span class="k">in</span> <span class="k">dvec4</span> <span class="n">dv</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// location = 1, occupied by dv</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// layout(location = 1) in vec4 v; // error</span>
+</span></span><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="k">in</span> <span class="k">vec4</span> <span class="n">v</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>而数组每个元素占据一个 location，并且元素占据的 location 值是依次递增的，因此</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mo">0</span><span class="p">)</span> <span class="k">in</span> <span class="k">float</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// location = 1, occupied by a[1]</span>
+</span></span><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="k">in</span> <span class="k">float</span> <span class="n">f1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="k">in</span> <span class="k">mat2</span> <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span> <span class="c1">// cxr matrix is equialent to c-elements array of r-vector</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// location = 4, occupied by m[0]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// location = 5, occupied by m[1]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// location = 6, occupied by m[1]</span>
+</span></span><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">7</span><span class="p">)</span> <span class="k">in</span> <span class="k">float</span> <span class="n">f2</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>一个一个指定 location 实在是太麻烦了，因此可以使用 <code>block</code> 来指定第一个变量的初始
+location 值，然后让其他变量的 location 值自动递增。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="k">in</span> <span class="n">block</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">float</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>                   <span class="c1">// location = 3</span>
+</span></span><span class="line"><span class="cl">  <span class="k">mat2</span> <span class="n">m</span><span class="p">;</span>                       <span class="c1">// location = 5</span>
+</span></span><span class="line"><span class="cl">  <span class="k">vec2</span> <span class="n">v</span><span class="p">;</span>                       <span class="c1">// location = 7</span>
+</span></span><span class="line"><span class="cl">  <span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mo">0</span><span class="p">)</span> <span class="k">mat2</span> <span class="n">m2</span><span class="p">;</span> <span class="c1">// location = 0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">bool</span> <span class="n">b</span><span class="p">;</span>                       <span class="c1">// location = 2</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// vec3 v3;                      // error</span>
+</span></span><span class="line"><span class="cl">  <span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span> <span class="k">vec3</span> <span class="n">v3</span><span class="p">;</span> <span class="c1">// location = 8</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>也可以用 struct 来递增 location，但区别是无法在 struct 中指定 location。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">locaton</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="k">in</span> <span class="k">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">vec3</span> <span class="n">a</span><span class="p">;</span>                      <span class="c1">// location = 3</span>
+</span></span><span class="line"><span class="cl">  <span class="k">mat2</span> <span class="n">b</span><span class="p">;</span>                      <span class="c1">// location = 4, 5</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// layout(location = 6) vec2 c; // error</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>之前说过 location 的大小是 4 words，如果一个 location 只用其中的一部分存储变量显然是低效的，​<code>component</code> 可以指定变量在 location 的偏移量。但是需要注意的是，
+component 偏移后剩余部分必须能存储该变量。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mo">0</span><span class="p">,</span> <span class="n">component</span> <span class="o">=</span> <span class="mo">0</span><span class="p">)</span> <span class="k">in</span> <span class="k">float</span> <span class="n">x</span><span class="p">;</span> <span class="c1">// l = 0, c = 0</span>
+</span></span><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mo">0</span><span class="p">,</span> <span class="n">component</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">in</span> <span class="k">float</span> <span class="n">y</span><span class="p">;</span> <span class="c1">// l = 0, c = 1</span>
+</span></span><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mo">0</span><span class="p">,</span> <span class="n">component</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="k">in</span> <span class="k">float</span> <span class="n">z</span><span class="p">;</span> <span class="c1">// l = 0, c = 2</span>
+</span></span><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">in</span> <span class="k">vec2</span> <span class="n">a</span><span class="p">;</span>                 <span class="c1">// l = 1, c = 0</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// layout(location = 1, component = 2) in dvec3 b; // error</span>
+</span></span><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">component</span> <span class="o">=</span> <span class="mo">0</span><span class="p">)</span> <span class="k">in</span> <span class="k">float</span> <span class="n">b</span><span class="p">;</span> <span class="c1">// l = 2, c = 0</span>
+</span></span><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">component</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">in</span> <span class="k">vec3</span> <span class="n">c</span><span class="p">;</span>  <span class="c1">// l = 2, c = 1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果指定了数组的 component，则数组的每个元素依然顺序递增占据每个 location，但每个 location 的起始位置都是指定的 component。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mo">0</span><span class="p">,</span> <span class="n">component</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="k">in</span> <span class="k">float</span> <span class="n">f</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span> <span class="c1">// every element c = 2</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// layout(location = 2, component = 0) in vec4 v;  // error</span>
+</span></span><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">component</span> <span class="o">=</span> <span class="mo">0</span><span class="p">)</span> <span class="k">in</span> <span class="k">vec2</span> <span class="n">v</span><span class="p">;</span>     <span class="c1">// l = 1, c = 0</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// f[1] at location 1, component 2</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="使用-glm-与-glslang-传递数据" class="headerLink">
+    <a href="#%e4%bd%bf%e7%94%a8-glm-%e4%b8%8e-glslang-%e4%bc%a0%e9%80%92%e6%95%b0%e6%8d%ae" class="header-mark"></a>使用 GLM 与 GLSLang 传递数据</h2><p>写这篇文章的起因完全是因为在 host 和 device 之间传递数据时，遇到了一个对齐相关的
+bug。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">PCO</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">time</span><span class="p">;</span>    <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">::</span><span class="n">glm</span><span class="o">::</span><span class="n">vec2</span> <span class="n">extent</span><span class="p">;</span> <span class="c1">// offsetof = 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 12, alignof = 4
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">push_constant</span><span class="p">)</span> <span class="k">uniform</span> <span class="n">PCO</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">int</span> <span class="n">time</span><span class="p">;</span>    <span class="c1">// offsetof = 0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">vec2</span> <span class="n">extent</span><span class="p">;</span> <span class="c1">// offsetof = 2</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span> <span class="c1">// sizeof = 4, alignof = 2</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在反复检查代码没有问题后，尝试交换 <code>time</code> 字段与 <code>extent</code> 字段，结果程序能正常运行。很明显 host 的对齐与 device 是不一致的。由于 SPIRV 无法使用 <code>packed</code> 来压缩内存大小，因此只能手动实现对齐。</p>
+<p>通过之前的学习，在此列出几种比较优雅的解决这个问题的方法。</p>
+<ul>
+<li>利用位域产生空洞，强迫结构体与 glsl 中布局一致
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">PCO</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">time</span><span class="p">;</span>    <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint32_t</span> <span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">glm</span><span class="o">::</span><span class="n">vec2</span> <span class="n">extent</span><span class="p">;</span> <span class="c1">// offsetof = 8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 16, alignof = 4
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>指定字段与 glsl 中的对齐大小一致
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">PCO</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">uint32_t</span> <span class="n">time</span><span class="p">;</span>                <span class="c1">// offsetof = 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">alignas</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="o">::</span><span class="n">glm</span><span class="o">::</span><span class="n">vec2</span> <span class="n">extent</span><span class="p">;</span> <span class="c1">// offsetof = 8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof = 16, alignof = 8
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h2 id="useful-link" class="headerLink">
+    <a href="#useful-link" class="header-mark"></a>Useful link</h2><ul>
+<li><a href="https://stackoverflow.com/questions/381244/purpose-of-memory-alignment" target="_blank" rel="noopener noreferrer">Purpose of memory alignment</a></li>
+<li><a href="https://www.zhihu.com/question/479773135/answer/2092380232" target="_blank" rel="noopener noreferrer">C++中 long long 和 int64_t 哪个应用场景更广？</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/29734547" target="_blank" rel="noopener noreferrer">整理一下 C++ POD 类型的细节（一）</a> 和 <a href="https://zhuanlan.zhihu.com/p/29746508" target="_blank" rel="noopener noreferrer">整理一下 C++ POD 类型的细节（二）</a></li>
+<li><a href="https://stackoverflow.com/questions/3318410/pragma-pack-effect" target="_blank" rel="noopener noreferrer">#pragma pack effect</a></li>
+<li><a href="https://en.algorithmica.org/hpc/cpu-cache/alignment/" target="_blank" rel="noopener noreferrer">Alignment and Packing</a></li>
+<li><a href="https://quuxplusone.github.io/blog/2022/03/04/non-standard-layout-guarantees/" target="_blank" rel="noopener noreferrer">History of non-standard-layout class layouts</a></li>
+<li><a href="https://stackoverflow.com/questions/18451683/c-disambiguation-subobject-and-subclass-object" target="_blank" rel="noopener noreferrer">C++ Disambiguation: subobject and subclass object</a></li>
+<li><a href="https://community.khronos.org/t/simple-features-im-missing-in-glsl-enums-and-sizeof/104947" target="_blank" rel="noopener noreferrer">Simple features I’m missing in GLSL: enums and sizeof</a></li>
+<li><a href="https://www.khronos.org/opengl/wiki/Main_Page" target="_blank" rel="noopener noreferrer">OpenGL Wiki</a></li>
+</ul>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 09-05</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2022/memory_alignment/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90&issue[description]=[POST](https://blog.ginshio.org/2022/memory_alignment/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2022/memory_alignment/" data-title="内存对齐" data-hashtags="C&#43;&#43;,GLSLang,Memory"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2022/memory_alignment/" data-hashtag="C&#43;&#43;"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2022/memory_alignment/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2022/memory_alignment/" data-title="内存对齐" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2022/memory_alignment/" data-title="内存对齐"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2022/memory_alignment/" data-title="内存对齐"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2022/memory_alignment/" data-title="内存对齐" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2022/memory_alignment/" data-title="内存对齐" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2022/memory_alignment/" title="内存对齐">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>,&nbsp;<a href="/tags/glslang/">GLSLang</a>,&nbsp;<a href="/tags/memory/">Memory</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2022/git_bash_with_pacman_on_windows/" class="prev" rel="prev" title="在 Windows 的 Git Bash 中使用包管理器"><i class="fas fa-angle-left fa-fw"></i>在 Windows 的 Git Bash 中使用包管理器</a>
+            <a href="/2022/cs61a_01_getting_started/" class="next" rel="next" title="CS61A 入门">CS61A 入门<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2022-09-03T17:41:38+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"内存对齐"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>

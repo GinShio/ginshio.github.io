@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>控制流、递归、高阶函数 - iris</title><meta name="Description" content="GinShio | CS61A Study Notes - Control, and Higher-Order Functions"><meta property="og:title" content="控制流、递归、高阶函数" />
+<meta property="og:description" content="GinShio | CS61A Study Notes - Control, and Higher-Order Functions" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-09-25T14:26:28+08:00" />
+<meta property="article:modified_time" content="2022-10-03T23:08:27+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+<meta property="og:see_also" content="https://blog.ginshio.org/2022/cs61a_01_getting_started/" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="控制流、递归、高阶函数"/>
+<meta name="twitter:description" content="GinShio | CS61A Study Notes - Control, and Higher-Order Functions"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/" /><link rel="prev" href="https://blog.ginshio.org/2022/introduction_to_optimization/" /><link rel="next" href="https://blog.ginshio.org/2022/data_strucures_and_algorithm_analysis_008_graph/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "控制流、递归、高阶函数",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2022\/cs61a_02_control_and_higher_order_functions\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, CS61A, SICP","wordcount":  3770 ,
+        "url": "https:\/\/blog.ginshio.org\/2022\/cs61a_02_control_and_higher_order_functions\/","datePublished": "2022-09-25T14:26:28+08:00","dateModified": "2022-10-03T23:08:27+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | CS61A Study Notes - Control, and Higher-Order Functions"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#控制流">控制流</a>
+      <ul>
+        <li><a href="#条件语句">条件语句</a></li>
+        <li><a href="#迭代语句">迭代语句</a></li>
+        <li><a href="#示例-质因数分解">示例：质因数分解</a></li>
+      </ul>
+    </li>
+    <li><a href="#递归">递归</a>
+      <ul>
+        <li><a href="#示例-阶乘">示例：阶乘</a></li>
+        <li><a href="#示例-斐波那契数列">示例：斐波那契数列</a></li>
+        <li><a href="#示例-判断奇偶数">示例：判断奇偶数</a></li>
+      </ul>
+    </li>
+    <li><a href="#高阶函数">高阶函数</a>
+      <ul>
+        <li><a href="#lambda-表达式">lambda 表达式</a></li>
+        <li><a href="#设计函数">设计函数</a></li>
+        <li><a href="#示例-累加计算">示例：累加计算</a></li>
+        <li><a href="#示例-柯里化">示例：柯里化</a></li>
+      </ul>
+    </li>
+    <li><a href="#lab-1-functions-control">Lab 1: Functions, Control</a></li>
+    <li><a href="#homework-2-higher-order-functions">Homework 2: Higher Order Functions</a></li>
+    <li><a href="#project-1-the-game-of-hog">Project 1: The Game of Hog</a></li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">控制流、递归、高阶函数</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programming/"><i class="far fa-folder fa-fw"></i>Programming</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/cs61a-note/"><i class="far fa-list-alt fa-fw"></i>CS61A Note</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="09-25">09-25</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="10-03">10-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3770 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - CS61A Note</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul>
+                                                    <li><a href="/2022/cs61a_01_getting_started/">CS61A 入门</a></li><li><span class="active">控制流、递归、高阶函数</span></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#控制流">控制流</a>
+      <ul>
+        <li><a href="#条件语句">条件语句</a></li>
+        <li><a href="#迭代语句">迭代语句</a></li>
+        <li><a href="#示例-质因数分解">示例：质因数分解</a></li>
+      </ul>
+    </li>
+    <li><a href="#递归">递归</a>
+      <ul>
+        <li><a href="#示例-阶乘">示例：阶乘</a></li>
+        <li><a href="#示例-斐波那契数列">示例：斐波那契数列</a></li>
+        <li><a href="#示例-判断奇偶数">示例：判断奇偶数</a></li>
+      </ul>
+    </li>
+    <li><a href="#高阶函数">高阶函数</a>
+      <ul>
+        <li><a href="#lambda-表达式">lambda 表达式</a></li>
+        <li><a href="#设计函数">设计函数</a></li>
+        <li><a href="#示例-累加计算">示例：累加计算</a></li>
+        <li><a href="#示例-柯里化">示例：柯里化</a></li>
+      </ul>
+    </li>
+    <li><a href="#lab-1-functions-control">Lab 1: Functions, Control</a></li>
+    <li><a href="#homework-2-higher-order-functions">Homework 2: Higher Order Functions</a></li>
+    <li><a href="#project-1-the-game-of-hog">Project 1: The Game of Hog</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="控制流" class="headerLink">
+    <a href="#%e6%8e%a7%e5%88%b6%e6%b5%81" class="header-mark"></a>控制流</h2><p>解释器所执行语句来执行某些操作。</p>
+<figure><img src="/images/cs61a-compound-statements.png" width="64%"/>
+</figure>
+
+<p>比如这整个复合语句 (compound statement)，在 Python 中由 <code>def</code> 声明；标头 <code>header</code> 确定了一个简易语句 (clause) 的类型，这个语句中跟随了一个语句序列 (suite)。解释器会按一定顺序执行这个语句序列。</p>
+<h3 id="条件语句" class="headerLink">
+    <a href="#%e6%9d%a1%e4%bb%b6%e8%af%ad%e5%8f%a5" class="header-mark"></a>条件语句</h3><p>条件语句在大部分语言中以 <code>if</code> 关键字呈现。</p>
+<p>在 Python 中 ​<code>True</code> 和 <code>False</code> 分别表示真或假，if 引导条件语句及其真分支，零或一个
+else 引导假分支，其中还可能会有零或多个 elif 进行嵌套。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">absolute_value</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="o">-</span><span class="n">n</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">n</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在 scheme 中 ​<code>#t</code> 和 <code>#f</code> 分别表示真或假，语法的话就不能 elif 进行嵌套了 <code>(if test consequent alternative)</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">absolute-value</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">positive? </span><span class="nv">n</span><span class="p">)</span> <span class="nv">n</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span><span class="p">)))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>FP 中一般都会提供一套类似 guard 的语法，即该条件语句可以接受任意多的条件判断，由上至下进行条件判断，在条件为真时执行语句块并退出条件语句，如果所有条件都不符合将有一个默认块进行兜底处理。其实这个语句更像是 <code>if-then-elif-else</code> 的变体。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&lt; </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">      <span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="k">else </span><span class="nv">n</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在 erlang 中，if 就是 cond。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="nf">absolute_value</span><span class="p">(</span><span class="nv">N</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">N</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">-&gt;</span> <span class="o">-</span><span class="nv">N</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">N</span> <span class="o">=:=</span> <span class="mi">0</span> <span class="o">-&gt;</span> <span class="nv">N</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">true</span> <span class="o">-&gt;</span> <span class="nv">N</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span><span class="p">.</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="迭代语句" class="headerLink">
+    <a href="#%e8%bf%ad%e4%bb%a3%e8%af%ad%e5%8f%a5" class="header-mark"></a>迭代语句</h3><p>迭代语句也称循环语句，在满足条件的情况下运行循环体，直到不满足的情况下退出。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="n">i</span>
+</span></span><span class="line"><span class="cl">    <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 0</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 1</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>scheme 中的循环与正常语言中的 while 差距有点大，虽然更像是 C 语言中的 for (也可能是 C 的 for 更像是 lisp 的 do)，无论怎么说，都是一种带变量变化的循环语句。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">do </span><span class="p">((</span><span class="nf">i</span> <span class="mi">0</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">i</span> <span class="mi">1</span><span class="p">))</span> <span class="p">(</span><span class="nf">total</span> <span class="mi">0</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">total</span> <span class="nv">i</span><span class="p">)))</span> <span class="c1">;; assignment</span>
+</span></span><span class="line"><span class="cl">    <span class="p">((</span><span class="nb">&gt; </span><span class="nv">i</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">total</span><span class="p">)</span> <span class="c1">;; exit</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nb">display </span><span class="nv">total</span><span class="p">)</span> <span class="c1">;; body</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nf">newline</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="c1">;; 0</span>
+</span></span><span class="line"><span class="cl"><span class="c1">;; 0</span>
+</span></span><span class="line"><span class="cl"><span class="c1">;; 1</span>
+</span></span><span class="line"><span class="cl"><span class="c1">;; 3 -- not print</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>erlang 作为一种 pure 的 FP 并没有可用的 while 语句，需要使用尾递归来模拟。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="nf">loop</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="nv">Total</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nv">Total</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">loop</span><span class="p">(</span><span class="nv">I</span><span class="p">,</span> <span class="nv">Total</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">loop</span><span class="p">(</span><span class="nv">I</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">Total</span> <span class="o">+</span> <span class="nv">I</span><span class="p">).</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="示例-质因数分解" class="headerLink">
+    <a href="#%e7%a4%ba%e4%be%8b-%e8%b4%a8%e5%9b%a0%e6%95%b0%e5%88%86%e8%a7%a3" class="header-mark"></a>示例：质因数分解</h3><p>质因数分解是一个典型的需要用循环、条件来查找出答案的问题。对于每个正整数 N，我们都可以分解出它的所有质因数集合：</p>
+<ul>
+<li>8 = 2 * 2 * 2</li>
+<li>9 = 3 * 3</li>
+<li>10 = 2 * 5</li>
+<li>11 = 11</li>
+<li>&hellip;</li>
+</ul>
+<p>比较好的一种方式是，寻找这个正整数的最小质因数，之后再继续分解剩余的部分，直到分解完成。
+\[858\ =\ 2 * 429\ =\ 2 * 3 * 143\ =\ 2 * 3 * 11 * 13.\]</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">get-primes</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">bits</span> <span class="p">(</span><span class="nb">make-vector </span><span class="p">(</span><span class="nb">+ </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="no">#t</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">let </span><span class="nv">loop</span> <span class="p">((</span><span class="nf">p</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">ps</span> <span class="o">&#39;</span><span class="p">()))</span>
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&lt; </span><span class="nv">n</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">reverse </span><span class="nv">ps</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	    <span class="p">((</span><span class="nb">vector-ref </span><span class="nv">bits</span> <span class="nv">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	     <span class="p">(</span><span class="k">do </span><span class="p">((</span><span class="nf">i</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">p</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">i</span> <span class="nv">p</span><span class="p">)))</span> <span class="p">((</span><span class="nb">&lt; </span><span class="nv">n</span> <span class="nv">i</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	       <span class="p">(</span><span class="nb">vector-set! </span><span class="nv">bits</span> <span class="nv">i</span> <span class="no">#f</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	     <span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">p</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">p</span> <span class="nv">ps</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">	    <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">p</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">ps</span><span class="p">))))))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">get-factorization</span> <span class="nv">n</span> <span class="nv">primes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">prime</span> <span class="p">(</span><span class="nb">car </span><span class="nv">primes</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">others</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">primes</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">n</span> <span class="nv">prime</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">prime</span>
+</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">get-factorization</span> <span class="nv">n</span> <span class="nv">others</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">prime-factorization</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&lt; </span><span class="nv">n</span> <span class="mi">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="nb">list </span><span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">primes</span> <span class="p">(</span><span class="nf">get-primes</span> <span class="nv">n</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="k">let </span><span class="nv">loop</span> <span class="p">((</span><span class="nf">num</span> <span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nf">ans</span> <span class="o">&#39;</span><span class="p">()))</span>
+</span></span><span class="line"><span class="cl">	  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">num</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">reverse </span><span class="nv">ans</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">		<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">prime</span> <span class="p">(</span><span class="nf">get-factorization</span> <span class="nv">num</span> <span class="nv">primes</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">			<span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nb">quotient </span><span class="nv">num</span> <span class="nv">prime</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">prime</span> <span class="nv">ans</span><span class="p">)))))))))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="递归" class="headerLink">
+    <a href="#%e9%80%92%e5%bd%92" class="header-mark"></a>递归</h2><p>递归 (Recursion) 在数学与计算机科学中，是指在函数的定义中使用函数自身的方法。递归一词还较常用于描述以自相似方法重复事物的过程。例如，当两面镜子相互之间近似平行时，镜中嵌套的图像是以无限递归的形式出现的。也可以理解为自我复制的过程。</p>
+<p>以下是一个可能更有利于理解递归过程的解释：</p>
+<ol>
+<li>我们已经完成了吗？如果完成了，返回结果。如果没有这样的终止条件，递归将会永远地继续下去。</li>
+<li>如果没有，则简化问题，解决较容易的问题，并将结果组装成原始问题的解决办法。然后返回该解决办法。</li>
+</ol>
+<h3 id="示例-阶乘" class="headerLink">
+    <a href="#%e7%a4%ba%e4%be%8b-%e9%98%b6%e4%b9%98" class="header-mark"></a>示例：阶乘</h3><p>\[\begin{aligned}
+Factorial(0) &amp;= 1,\\
+Factorial(1) &amp;= 1,\\
+Factorial(N) &amp;= N \times Factorial(N - 1).
+\end{aligned}\]</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">factorial</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">* </span><span class="nv">n</span> <span class="p">(</span><span class="nf">factorial</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个计算过程中，通过代换模型可以看出计算是一种先逐步展开而后收缩的形状，计算过程构造起一个​<code>推迟进行的操作</code>​所形成的链条，收缩阶段表现为这些运算的实际执行，这种计算过程被称为​<code>递归计算过程</code>​。如果要执行这个过程，解释器就必须维护好以后要执行的操作的轨迹，这个例子中推迟执行的乘法链条的长度也就是为保存其轨迹需要保存的信息量，这个长度随着 n 值的增加而线性增长，这个过程被称为​<strong>线性递归计算</strong>​。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">(factorial 5)
+</span></span><span class="line"><span class="cl">(* 5 (factorial 4))
+</span></span><span class="line"><span class="cl">(* 5 (* 4 (factorial 3)))
+</span></span><span class="line"><span class="cl">(* 5 (* 4 (* 3 (factorial 2))))
+</span></span><span class="line"><span class="cl">(* 5 (* 4 (* 3 (* 2 (factorial 1)))))
+</span></span><span class="line"><span class="cl">(* 5 (* 4 (* 3 (* 2 (* 1 (factorial 0))))))
+</span></span><span class="line"><span class="cl">(* 5 (* 4 (* 3 (* 2 (* 1 1)))))
+</span></span><span class="line"><span class="cl">(* 5 (* 4 (* 3 (* 2 1))))
+</span></span><span class="line"><span class="cl">(* 5 (* 4 (* 3 2)))
+</span></span><span class="line"><span class="cl">(* 5 (* 4 6))
+</span></span><span class="line"><span class="cl">(* 5 24)
+</span></span><span class="line"><span class="cl">120
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>来看另一种实现</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">factorial</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="nv">factorial-iter</span> <span class="p">((</span><span class="nf">product</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">counter</span> <span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">counter</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">product</span>
+</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">factorial-iter</span> <span class="p">(</span><span class="nb">* </span><span class="nv">counter</span> <span class="nv">product</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="p">(</span><span class="mi">1</span><span class="nv">+</span> <span class="nv">counter</span><span class="p">)))))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个计算过程中没有任何增长或收缩，计算过程的每一步，需要保存的轨迹就是变量
+<code>product</code> 和 <code>counter</code> 的当前值，我们称这个过程为​<strong>迭代计算过程</strong>​。迭代计算过程就是那种其状态可以用固定数目的状态变量描述的计算过程，同时又存在一套固定的规则描述了计算过程从一个状态到另一个状态转换时状态变量的更新方式，还有一个结束状态的检测用以描述计算过程如何终止。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">(factorial-iter   1 1 5)
+</span></span><span class="line"><span class="cl">(factorial-iter   1 2 5)
+</span></span><span class="line"><span class="cl">(factorial-iter   2 3 5)
+</span></span><span class="line"><span class="cl">(factorial-iter   6 4 5)
+</span></span><span class="line"><span class="cl">(factorial-iter  24 5 5)
+</span></span><span class="line"><span class="cl">(factorial-iter 120 6 5)
+</span></span><span class="line"><span class="cl">120
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="示例-斐波那契数列" class="headerLink">
+    <a href="#%e7%a4%ba%e4%be%8b-%e6%96%90%e6%b3%a2%e9%82%a3%e5%a5%91%e6%95%b0%e5%88%97" class="header-mark"></a>示例：斐波那契数列</h3><p>\[\begin{aligned}
+Fibonacci(0) &amp;= 0,\\
+Fibonacci(1) &amp;= 1,\\
+Fibonacci(N) &amp;= Fibonacci(N - 1) + Fibonacci(N - 2).
+\end{aligned}\]</p>
+<p>可以看出斐波那契数列是一个天然递归的函数，函数递归在之前的代码中已经遇到了，直接看代码实现。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fibonacci</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">fibonacci</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">		 <span class="p">(</span><span class="nf">fibonacci</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">2</span><span class="p">))))))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果将 fibonacci 函数的调用图画出来，可以看到它就像一棵树一样，这样的递归被称为
+<strong>树形递归</strong>​。但是其中有大量的重复计算，会导致无意义的计算从而浪费 CPU 的性能。</p>
+<figure><img src="/images/sicp-fibonacci-recursion.png" width="55%"/>
+</figure>
+
+<p>由于这种计算斐波那契数列的方法很糟糕，做了很多冗余计算，其递归次数跟随 n 的大小指数增加，因此我们需要使用迭代的方法来优化这个求解过程。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fibonacci</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="nv">fibonacci-iter</span> <span class="p">((</span><span class="nf">a</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">b</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">counter</span> <span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">counter</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">b</span>
+</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">fibonacci-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="nv">a</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">counter</span> <span class="mi">1</span><span class="p">)))))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>树形递归计算过程并不是无用的，当考虑在层次结构性的数据上操作，而不是对数操作时，树形递归计算过程是一种自然、威力强大的工具，可以帮助我们理解与设计程序。</p>
+<h3 id="示例-判断奇偶数" class="headerLink">
+    <a href="#%e7%a4%ba%e4%be%8b-%e5%88%a4%e6%96%ad%e5%a5%87%e5%81%b6%e6%95%b0" class="header-mark"></a>示例：判断奇偶数</h3><p>如果不能直接使用取模的方法判断奇偶数，那么有一个简单且明了的方式 &ndash; 询问前一个数是否是奇 / 偶数。显然这是个递归问题，我们需要不断向前询问，直到得到答案。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">odd? </span><span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="no">#f</span>
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="nb">even? </span><span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">even? </span><span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="no">#t</span>
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="nb">odd? </span><span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这种有多个函数互相递归调用的方式，称其为间接递归。</p>
+<hr>
+<h2 id="高阶函数" class="headerLink">
+    <a href="#%e9%ab%98%e9%98%b6%e5%87%bd%e6%95%b0" class="header-mark"></a>高阶函数</h2><p><strong>高阶函数</strong> (Higher-Order Functions) 是一类将函数作为参数、返回值进行传递的函数，这种特性多发生在具有 FP 特性的语言中，往往这些语言还会同时提供 lambda。</p>
+<h3 id="lambda-表达式" class="headerLink">
+    <a href="#lambda-%e8%a1%a8%e8%be%be%e5%bc%8f" class="header-mark"></a>lambda 表达式</h3><p><strong>lambda 表达式</strong> 是一种简化的定义函数的方式，可以捕获当前环境中的一些变量，也被称为闭包 (clause)。lambda 往往伴随着高阶函数出现，通常是传递条件谓词时，创建一个对应的 lambda 对象，而不是创建一个函数传递。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="mi">0</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>lambda 与正常函数无异，由三部分组成 &ndash; <strong>标头</strong> (lambda 关键字)、​<strong>参数列表</strong>​和​<strong>函数体</strong>​组成。另外一点，lambda 无法递归，如果想要递归 lambda 需要使用 Y 组合子。<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup>, </sup><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>lambda 中捕获的环境变量是可以直接使用的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">zero? </span><span class="nv">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">((</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="mi">0</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">zero? </span><span class="mi">0</span><span class="p">)</span> <span class="c1">;; #t</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">zero? </span><span class="mi">1</span><span class="p">)</span> <span class="c1">;; #f</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="设计函数" class="headerLink">
+    <a href="#%e8%ae%be%e8%ae%a1%e5%87%bd%e6%95%b0" class="header-mark"></a>设计函数</h3><p>对于一个函数，在设计一个函数时，需要注意三个方面：</p>
+<ol>
+<li>每个函数应该只有一个精确的任务，执行多个任务的函数应该被拆分为多个函数</li>
+<li><strong>不要重复自己</strong> (DRY, Don&rsquo;t repeat yourself)，如果你发现自己在复制粘贴一段代码，你可能已经发现了一个机会用函数抽象</li>
+<li>函数应该被设计的更通用，比如不提供 <strong>square</strong> 和 <strong>cube</strong>​，而是提供 <strong>pow</strong>​，指定幂来分别实现 square 和 cube</li>
+</ol>
+<h3 id="示例-累加计算" class="headerLink">
+    <a href="#%e7%a4%ba%e4%be%8b-%e7%b4%af%e5%8a%a0%e8%ae%a1%e7%ae%97" class="header-mark"></a>示例：累加计算</h3><p>比如你现在需要计算累和，包括但不限于 \(\sum_{i=1}^{n}{i}\)、\(\sum_{i=1}^{n}{i^{2}}\)
+等，根据设计函数的 3 个方面，我们需要设计一个用于累加的函数！另外，这个函数需要有足够的抽象，来提供泛用性。</p>
+<p>那么我可以定义两个参数 <code>start</code> 和 <code>end</code> 用于标识累加函数的上下限，那么最重要的如何累加应该怎么告诉这个函数呢？将这个函数设计为高阶函数！</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">summation</span> <span class="nv">start</span> <span class="nv">end</span> <span class="nv">term</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="nv">summation-iter</span> <span class="p">((</span><span class="nf">counter</span> <span class="nv">start</span><span class="p">)</span> <span class="p">(</span><span class="nf">value</span> <span class="mi">0</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">counter</span> <span class="nv">end</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">value</span>
+</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">summation-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">counter</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">value</span> <span class="p">(</span><span class="nf">term</span> <span class="nv">counter</span><span class="p">))))))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">summation</span> <span class="mi">0</span> <span class="mi">10</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">))</span>  <span class="c1">;; sum (i), 55</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">summation</span> <span class="mi">0</span> <span class="mi">10</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span><span class="p">)))</span> <span class="c1">;; sum (i^2), 385</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">summation</span> <span class="mi">0</span> <span class="mi">10</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">sqrt </span><span class="nv">x</span><span class="p">)))</span> <span class="c1">;; sum (sqrt(i)), 22.4682</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="示例-柯里化" class="headerLink">
+    <a href="#%e7%a4%ba%e4%be%8b-%e6%9f%af%e9%87%8c%e5%8c%96" class="header-mark"></a>示例：柯里化</h3><p>柯里化 (currying) 是数学和 FP 的重要特性，将接收多个参数的函数转换为接收一个参数的函数，并且返回接收余下的参数而且返回结果的新函数的技术。所以这三个表达式是等价的。</p>
+\[
+\begin{align}
+x &= f(a, b, c)\\
+  &  \left\{\begin{aligned}
+             h &= g(a)\\
+             i &= h(b)\\
+             x &= i(c)
+           \end{aligned}\right.\\
+x &= g(a)(b)(c)
+\end{align}\]
+
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sum</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sum-curry</span> <span class="nv">a</span><span class="p">)</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">b</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="nv">add10</span> <span class="p">(</span><span class="nf">sum-curry</span> <span class="mi">10</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">add10</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1">;; 15</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">sum</span> <span class="mi">10</span> <span class="mi">5</span><span class="p">)</span> <span class="c1">;; 15</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="lab-1-functions-control" class="headerLink">
+    <a href="#lab-1-functions-control" class="header-mark"></a>Lab 1: Functions, Control</h2><ul>
+<li>
+<p>计算排列</p>
+<p>数学概念排列 \(P_{k}^{n} = \frac{n!}{(n-k)!}\)，数学概念组合 \(C_{k}^{n} =
+\binom{n}{k} = \frac{P_{k}^{n}}{k!} = \frac{n!}{k!(n-k)!}\)。实现一个计算排列的函数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">falling</span> <span class="nv">n</span> <span class="nv">k</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;Compute the falling factorial of n to depth k.&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">define </span><span class="nv">factorial</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	    <span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	    <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">* </span><span class="nv">n</span> <span class="p">(</span><span class="nf">factorial</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))))))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">factorial</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     <span class="p">(</span><span class="nf">factorial</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="nv">k</span><span class="p">))))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>计算整数 n 的每位数字之和</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sum-digits</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;Sum all the digits of y.&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="nv">sum-digits-iter</span> <span class="p">((</span><span class="nf">num</span> <span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nf">val</span> <span class="mi">0</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">num</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">val</span>
+</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">sum-digits-iter</span> <span class="p">(</span><span class="nb">quotient </span><span class="nv">num</span> <span class="mi">10</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">val</span> <span class="p">(</span><span class="nb">remainder </span><span class="nv">num</span> <span class="mi">10</span><span class="p">))))))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>查询整数 n 是否有两个连续的 8</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">double-eights</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;Return true if n has two eights in a row.&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="nv">double-eights-iter</span> <span class="p">((</span><span class="nf">num</span> <span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nf">prev</span> <span class="no">#f</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">num</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="no">#f</span>
+</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">curr</span> <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">num</span> <span class="mi">10</span><span class="p">)</span> <span class="mi">8</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">	  <span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="k">and </span><span class="nv">curr</span> <span class="nv">prev</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	      <span class="p">(</span><span class="nf">double-eights-iter</span> <span class="p">(</span><span class="nb">quotient </span><span class="nv">num</span> <span class="mi">10</span><span class="p">)</span> <span class="nv">curr</span><span class="p">))))))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<hr>
+<h2 id="homework-2-higher-order-functions" class="headerLink">
+    <a href="#homework-2-higher-order-functions" class="header-mark"></a>Homework 2: Higher Order Functions</h2><dl>
+<dt>product</dt>
+<dd>计算 \(term(1) \times term(2) \times \cdots \times term(n)\)
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">product</span> <span class="nv">n</span> <span class="nv">term</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;Return the product of the first n terms in a sequence.&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="nv">product-iter</span> <span class="p">((</span><span class="nf">counter</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">init</span> <span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">counter</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">init</span>
+</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">product-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">counter</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">init</span> <span class="p">(</span><span class="nf">term</span> <span class="nv">counter</span><span class="p">))))))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></dd>
+<dt>accumulate</dt>
+<dd>累加函数
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">accumulate</span> <span class="nv">merger</span> <span class="nv">init</span> <span class="nv">n</span> <span class="nv">term</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;Return the result of merging the first n terms in a sequence and start.
+</span></span></span><span class="line"><span class="cl"><span class="s">    The terms to be merged are term(1), term(2), ..., term(n). merger is a
+</span></span></span><span class="line"><span class="cl"><span class="s">    two-argument commutative function.&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="nv">accumulate-iter</span> <span class="p">((</span><span class="nf">counter</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">value</span> <span class="nv">init</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">counter</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">value</span>
+</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">accumulate-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">counter</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">merger</span> <span class="nv">value</span> <span class="p">(</span><span class="nf">term</span> <span class="nv">counter</span><span class="p">))))))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></dd>
+</dl>
+<hr>
+<h2 id="project-1-the-game-of-hog" class="headerLink">
+    <a href="#project-1-the-game-of-hog" class="header-mark"></a>Project 1: The Game of Hog</h2><blockquote>
+<p>I know! I&rsquo;ll use my Higher-order functions to Order higher rolls.</p>
+</blockquote>
+<p>在 Hog 中，两个玩家轮流尝试接近目标，成为第一个总分至少到达目标的玩家胜利，默认目标为 100 分。每次尝试，玩家选择至多十个色子进行投掷。玩家的得分是本轮所有骰子点数之和。一名玩家如果投掷太多骰子将会面临一定风险：</p>
+<ul>
+<li><strong>Sow Sad</strong>​，如果任何骰子的结果为 1，则当前玩家的回合得分为 1。</li>
+</ul>
+<p>在一局正常的 Hog 游戏中，这就是所有的规则了。为了增加一些游戏特色，我们将添加一些特殊规则：</p>
+<ul>
+<li>
+<p><strong>Pig Tail</strong>​，一名玩家如果选择投掷 0 个骰子，他将得 \(2 \times \lvert{tens -
+ones}\rvert + 1\) 分。其中 <code>tens</code> 和 <code>ones</code> 指对手分数的的十位数字和个位数字。</p>
+</li>
+<li>
+<p><strong>Square Swine</strong>​，当一名玩家在他的回合获得了分数，且最终结果是一个完全平方数，那么将他的分数设置为下一个完全平方数。</p>
+</li>
+</ul>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="http://goodmath.blogspot.com/2006/05/why-oh-why-y.html" target="_blank" rel="noopener noreferrer">Why oh why Y?</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p><a href="http://cgnail.github.io/academic/lambda-4/" target="_blank" rel="noopener noreferrer">为什么是Y?</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 10-03</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2022/cs61a_02_control_and_higher_order_functions/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20%E6%8E%A7%E5%88%B6%E6%B5%81%E3%80%81%E9%80%92%E5%BD%92%E3%80%81%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0&issue[description]=[POST](https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/" data-title="控制流、递归、高阶函数" data-hashtags="Note,CS61A,SICP"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/" data-hashtag="Note"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/" data-title="控制流、递归、高阶函数" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/" data-title="控制流、递归、高阶函数"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/" data-title="控制流、递归、高阶函数"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/" data-title="控制流、递归、高阶函数" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/" data-title="控制流、递归、高阶函数" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/" title="控制流、递归、高阶函数">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/cs61a/">CS61A</a>,&nbsp;<a href="/tags/sicp/">SICP</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2022/introduction_to_optimization/" class="prev" rel="prev" title="优化简介"><i class="fas fa-angle-left fa-fw"></i>优化简介</a>
+            <a href="/2022/data_strucures_and_algorithm_analysis_008_graph/" class="next" rel="next" title="图结构">图结构<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2022-09-25T14:26:28+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"控制流、递归、高阶函数"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>词法分析 2 - iris</title><meta name="Description" content="GinShio | 编译原理第三章读书笔记"><meta property="og:title" content="词法分析 2" />
+<meta property="og:description" content="GinShio | 编译原理第三章读书笔记" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2020/compilerprinciple_003/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-17T22:33:04+08:00" />
+<meta property="article:modified_time" content="2022-04-12T21:23:18+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="词法分析 2"/>
+<meta name="twitter:description" content="GinShio | 编译原理第三章读书笔记"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2020/compilerprinciple_003/" /><link rel="prev" href="https://blog.ginshio.org/2020/service/" /><link rel="next" href="https://blog.ginshio.org/2020/compilerprinciple_004/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "词法分析 2",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_003\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, LexicalAnalysis","wordcount":  3607 ,
+        "url": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_003\/","datePublished": "2020-10-17T22:33:04+08:00","dateModified": "2022-04-12T21:23:18+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | 编译原理第三章读书笔记"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#nfa的重要状态">NFA的重要状态</a></li>
+    <li><a href="#抽象语法树">抽象语法树</a></li>
+    <li><a href="#计算函数">计算函数</a></li>
+    <li><a href="#从正则表达式构造dfa">从正则表达式构造DFA</a></li>
+    <li><a href="#最小化dfa">最小化DFA</a></li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">词法分析 2</h1><h2 class="single-subtitle">基于DFA的模式匹配器的优化</h2><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="10-17">10-17</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-12">04-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3607 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - 龙书学习笔记</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul>
+                                                    <li><a href="/2020/compilerprinciple_001/">编译器与程序设计语言</a></li>
+                                                    <li><a href="/2020/compilerprinciple_002/">词法分析 1</a></li><li><span class="active">词法分析 2</span></li>
+                                                    <li><a href="/2020/compilerprinciple_004/">语法分析 1</a></li>
+                                                    <li><a href="/2022/compilerprinciple_005/">语法分析 2</a></li>
+                                                    <li><a href="/2022/compilerprinciple_006/">语法分析 3</a></li>
+                                                    <li><a href="/2022/compilerprinciple_007/">语法制导翻译</a></li>
+                                                    <li><a href="/2022/compilerprinciple_008/">中间代码生成</a></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#nfa的重要状态">NFA的重要状态</a></li>
+    <li><a href="#抽象语法树">抽象语法树</a></li>
+    <li><a href="#计算函数">计算函数</a></li>
+    <li><a href="#从正则表达式构造dfa">从正则表达式构造DFA</a></li>
+    <li><a href="#最小化dfa">最小化DFA</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="nfa的重要状态" class="headerLink">
+    <a href="#nfa%e7%9a%84%e9%87%8d%e8%a6%81%e7%8a%b6%e6%80%81" class="header-mark"></a>NFA的重要状态</h2><p>如果一个 NFA 状态有一个标号非 \(\varepsilon\) 的离开转换，那么我们称这个状态为 <strong>重要状态</strong>
+(important state)。子集构造法在计算 \(\varepsilon-closure(move(T，a))\) 的时候，它只使用了集合T中的重要状态，也就是说只有当状态s是重要的，状态集合 \(move(s,a)\) 才可能是非空的。在子集构造法的应用过程中，两个NFA状态集合可以被认为是一致的条件是</p>
+<ol>
+<li>具有相同的重要状态，且</li>
+<li>要么都包含接受状态，要么都不包含接受状态</li>
+</ol>
+<p>如果 NFA 是使用 <code>McMaughton-Yamada-Thompson</code> 算法根据一个正则表达式生成的，那么我们可以获得更多重要状态的性质</p>
+<ul>
+<li>重要状态只包括在基础规则部分为正则表达式中某个特定符号位置引入的初始状态，即每个重要状态对应于正则表达式中的某个运算分量</li>
+<li>NFA 只有一个接受状态，但该接受状态不是重要状态。我们可以在正则表达式r的右端连接一个独特的结束标记符 <code>#</code>​，使得r的接收状态增加一个在 <code>#</code> 上的转换，使其成为
+<code>(r)#</code> 的NFA的重要状态</li>
+<li>NFA 的重要状态直接对应于正则表达式中存放了字母表中符号的位置，使用抽象语法树来表示扩展的正则表达式是非常有用的</li>
+</ul>
+<h2 id="抽象语法树" class="headerLink">
+    <a href="#%e6%8a%bd%e8%b1%a1%e8%af%ad%e6%b3%95%e6%a0%91" class="header-mark"></a>抽象语法树</h2><p>抽象语法树的叶子结点对应于运算分量，内部结点表示运算符。标号为 <code>连接运算符</code>
+(\(\circ\)) 的内部结点被称为 <strong>cat结点</strong>​，​<code>并运算符</code> (\(|\)) 的内部结点被称为 <strong>or结点</strong>​，​=
+星号运算符= (\(*\)) 的内部结点被称为 <strong>star结点</strong>​，我们构建正则表达式
+\((a|b)^{*}abb\#\) 的抽象语法树。</p>
+<figure><img src="/images/ast-example.svg"/>
+</figure>
+
+<p>抽象语法树的叶子结点可以标号为 \(\varepsilon\)​，也可以用字母表中的符号作为标号，对于每个标号不为 \(\varepsilon\) 的叶子结点，我们赋予一个独立的整数，我们将这个整数称作叶子结点的 <strong>位置</strong>​，同时也表示和它对应的符号的位置，当然一个符号可以有多个位置。抽象语法树中的这些位置对应构造出的 NFA 中的重要状态。</p>
+<figure><img src="/images/NFA-with-ast-example.svg"/>
+</figure>
+
+<h2 id="计算函数" class="headerLink">
+    <a href="#%e8%ae%a1%e7%ae%97%e5%87%bd%e6%95%b0" class="header-mark"></a>计算函数</h2><p>要从一个正则表达式直接构造出 DFA，我们要先构造出它的抽象语法树，然后计算如下四个函数：​<code>nullable</code>​、​<code>firstpos</code>​、​<code>lastpos</code> 和 <code>followpos</code>​，且这四个函数都用到了扩展正则表达式 <code>(r)#</code> 的抽象语法树。</p>
+<dl>
+<dt>nullable(n)</dt>
+<dd>当且仅当此结点代表的子表达式的语言中包含空串 \(\varepsilon\) 时抽象语法树结点n为真，即：这个子表达式可以生成空串或本身就是空串，即使它也可能表示其他串</dd>
+<dt>firstpos(n)</dt>
+<dd>定义了以结点n为根的子树中的位置集合，这些位置对应于以n为根的子表达式的语言中某个串的 <strong>第一个符号</strong></dd>
+<dt>lastpos(n)</dt>
+<dd>定义了以结点n为根的子树中的位置集合，这些位置对应于以n为根的子表达式的语言中某个串的 <strong>最后一个符号</strong></dd>
+<dt>followpos(p)</dt>
+<dd>定义了一个和位置p相关的、抽象语法树中的某些位置的集合。当且仅当存在 L((r)#)
+中的某个串 \(x=a_{1}a_{2}\cdots a_{n}\)​，使得我们在解释为什么x属于 L((r)#) 时，可以将x中的某个 \(a_{i}\) 和抽象语法树中的位置p匹配，且将位置 \(a_{i+1}\) 和位置q
+匹配，那么位置q在 \(followpos(p)\) 中。简单地说，该函数计算出位置n之后可以跟随的其他位置</dd>
+</dl>
+<p>在计算函数时，我们先给出较为简单的 nullable 、 firstpos 和 lastpos 的计算方式，可以使用一个对树的高度直接进行递归的过程来计算它们，计算方式如下。</p>
+<ul>
+<li>一个标号为 \(\varepsilon\) 的叶子结点
+<ul>
+<li><code>nullable(n)</code>: true</li>
+<li><code>firstpos(n)</code>: \(\emptyset\)</li>
+<li><code>lastpos(n)</code>: \(\emptyset\)</li>
+</ul>
+</li>
+<li>一个位置为 i 的叶子结点
+<ul>
+<li><code>nullable(n)</code>: false</li>
+<li><code>firstpos(n)</code>: <code>{i}</code></li>
+<li><code>lastpos(n)</code>: <code>{i}</code></li>
+</ul>
+</li>
+<li>一个 or 结点 (\(n = c_{1}\mid c_{2}\))
+<ul>
+<li><code>nullable(n)</code>: \(nullable(c_{1})\) <strong>or</strong> \(nullable(c_{2})\)</li>
+<li><code>firstpos(n)</code>: \(firstpos(c_{1}) \cup firstpos(c_{2})\)</li>
+<li><code>lastpos(n)</code>: \(lastpos(c_{1}) \cup lastpos(c_{2})\)</li>
+</ul>
+</li>
+<li>一个 cat 结点 (\(n = c_{1}c_{2}\))
+<ul>
+<li><code>nullable(n)</code>: \(nullable(c_{1})\) <strong>and</strong> \(nullable(c_{2})\)</li>
+<li><code>firstpos(n)</code>: <strong>if</strong> \(nullable(c_{1})\) <strong>then</strong> \(firstpos(c_{1}) \cup firstpos(c_{2})\) <strong>else</strong> \(firstpos(c_{1})\)</li>
+<li><code>lastpos(n)</code>: <strong>if</strong> \(nullable(c_{2})\) <strong>then</strong> \(lastpos(c_{1}) \cup lastpos(c_{2})\) <strong>else</strong> \(lastpos(c_{2})\)</li>
+</ul>
+</li>
+<li>一个 star 结点 (\(n=(c_{1})^{*}\))
+<ul>
+<li><code>nullable(n)</code>: true</li>
+<li><code>firstpos(n)</code>: \(firstpos(c_{1})\)</li>
+<li><code>lastpos(n)</code>: \(lastpos(c_{1})\)</li>
+</ul>
+</li>
+</ul>
+<p>followpos 的概念有些复杂，我们先来了解如何计算 followpos，只有两种情况会使得正则表达式的某个位置跟在另一个位置之后</p>
+<ol>
+<li>如果 n 是 cat 结点，且其左右子结点分别是 \(c_{1}\) 和 \(c_{2}\)​，那么对于
+\(lastpos(c_{1})\) 中的每个位置 i， \(firstpos(c_{2})\) 中的所有位置都在
+\(followpos(i)\) 中</li>
+<li>如果 n 是 star 结点，且 i 是 \(lastpos(n)\) 中的一个位置，那么 \(firstpos(n)\)
+中的所有位置都在 \(followpos(i)\) 中</li>
+</ol>
+<p>四个函数如何计算都已经给出，现在我们用正则表达式 \((a|b)^{*}abb\#\) 练练手，下图给出构建出的语法分析树，结点左边给出其 <strong>firstpos</strong>​，结点右边给出其 <strong>lastpos</strong></p>
+<figure><img src="/images/ast-with-firstpos-and-lastpos.svg"/>
+</figure>
+
+<p>followpos 的计算规则1要求我们查看每个cat结点，并将它的右子结点的firstpos中的每个位置放到它的左子结点的lastpos中各个位置的followpos中；计算规则2要求我们查看每个
+star 结点，并将它的firstpos中的所有位置放到它的lastpos中各个位置的followpos中。例如上图中最下面的一个 cat 结点，根据规则1，将位置3加入到 <code>followpos(1)</code> 和
+<code>followpos(2)</code> 中。</p>
+<table>
+<thead>
+<tr>
+<th>位置n</th>
+<th>followpos(n)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>{1,2,3}</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>{1,2,3}</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>{4}</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>{5}</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>{6}</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>\(\emptyset\)</td>
+</tr>
+</tbody>
+</table>
+<p>我们可以创建有向图来表示函数 followpos，其中每个位置有一个对应的结点，当且仅当j
+在followpos(i)中时从位置i到位置j有一条有向边。那么这个表示followpos函数的有向图几乎就是相应正则表达式的不含 \(\varepsilon\) 转换的NFA，我们经过以下处理即可由有向图得到NFA</p>
+<ol>
+<li>将根结点的firstpos中的所有位置设置为开始状态</li>
+<li>在每条从i到j的有向边上添加位置i上的符号作为标号</li>
+<li>把和结尾 <code>#</code> 相关的位置当作唯一的接收状态</li>
+</ol>
+<figure><img src="/images/followpos-directed-graph.svg"/>
+</figure>
+
+<h2 id="从正则表达式构造dfa" class="headerLink">
+    <a href="#%e4%bb%8e%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f%e6%9e%84%e9%80%a0dfa" class="header-mark"></a>从正则表达式构造DFA</h2><p>接下来我们给出算法，直接从正则表达式构造DFA</p>
+<div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>输入：一个正则表达式 r</p>
+<p>输出：一个识别 L(r) 的 DFA D</p>
+</div>
+        </div>
+    </div>
+<p>方法：</p>
+<ol>
+<li>根据扩展的正则表达式 <code>(r)#</code> 构造出一颗抽象语法树 T</li>
+<li>计算T的函数 nullable，firstpos，lastpos 和 followpos</li>
+<li>构造出 D 的 <strong>状态集</strong> \(D_{states}\) 和 D 的 <strong>转换函数</strong> \(D_{tran}\)​，D的状态就是T中的位置集合，开始状态是 \(firstpos(n_{0})\) (\(n_{0}\) 是T的根节点)，接受状态集合是那些包含了和结束标记#对应的位置的状态。每个状态最初都是 <code>未标记的</code>​，当我们开始考虑某个状态的离开转换时，该状态就变为 <strong>已标记的</strong></li>
+</ol>
+<p>构造的伪代码如下:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">while Dstates 中存在未标记的状态S:
+</span></span><span class="line"><span class="cl">    标记 S
+</span></span><span class="line"><span class="cl">    for 每个输入符号a:
+</span></span><span class="line"><span class="cl">        令 U 为 S 中和 a 对应的所有位置p的 followpos(p) 的并集
+</span></span><span class="line"><span class="cl">        if U 不在 Dstates 中:
+</span></span><span class="line"><span class="cl">            将 U 作为未标记的状态加入 Dstates 中
+</span></span><span class="line"><span class="cl">        Dtran[S，a] = U
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>依然以 \((a|b)^{*}abb\) 为例构造 DFA，正则表达式所构造出的语法分析树上面已有，分析语法分析树可知只有 star 结点的 nullable 为真。</p>
+<p>这颗树的根结点的 firstpos 集为 <code>{1,2,3}</code> ，即 DFA 的开始状态集合，我们称这个集合为 A。计算 \(D_{tran}[A，a]\) 和 \(D_{tran}[A，b]\) ，A中1和3对应于a，2对应于b，所有
+\(D_{tran}[A，a] = followpos(1) \cup followpos(3) = {1，2，3，4}\)​，​\(D_{tran}[A，b]
+= followpos(2) = {1,2,3}\) ​以此类推，构造出该正则表达式的 DFA。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>集合</th>
+<th>a</th>
+<th>b</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td><code>{1,2,3}</code></td>
+<td>B</td>
+<td>A</td>
+</tr>
+<tr>
+<td>B</td>
+<td><code>{1,2,3,4}</code></td>
+<td>B</td>
+<td>C</td>
+</tr>
+<tr>
+<td>C</td>
+<td><code>{1,2,3,5}</code></td>
+<td>B</td>
+<td>D</td>
+</tr>
+<tr>
+<td>D</td>
+<td><code>{1,2,3,6}</code></td>
+<td>B</td>
+<td>A</td>
+</tr>
+</tbody>
+</table>
+<figure><img src="/images/reg2DFA.svg"/>
+</figure>
+
+<h2 id="最小化dfa" class="headerLink">
+    <a href="#%e6%9c%80%e5%b0%8f%e5%8c%96dfa" class="header-mark"></a>最小化DFA</h2><p>对于同一个语言，可以存在多个识别此语言的DFA。对于不同的DFA，各个状态的的名字可能不同，状态的个数也可能不一样，如果我们使用DFA实现词法分析器，则希望DFA的状态数尽可能的少，因为词法分析器的转换表需要为每个状态分配条目。</p>
+<p>状态名如果不同，但只改变状态名就可以将一个自动机转换为另一个自动机，那么这两个自动机是​<strong>同构的</strong>​，反之则不是。有一个重要结论：任何正则语言都有一个​<strong>唯一的</strong>​且​<strong>状态数目最少</strong>​的DFA，而且从任意接受相同正则语言的DFA出发，通过分组合并等价状态，我们总可以构造出状态数最少的 DFA。</p>
+<p>我们以正则表达式 \((a|b)^{*}abb\) 的两个已经构造出的DFA来讲解最小化，其中最小化的
+DFA是本篇中由正则表达式直接构造出的DFA，另一个非同构DFA是上一篇中由NFA转换来的
+DFA。</p>
+<figure><img src="/images/DFA-minimization-example.svg"/>
+</figure>
+
+<p>在最小化DFA之前，先说明输入串是如何区分各个状态的，如果分别从状态s和t出发，沿着标号为x的路径到达的两个状态只有一个是接受状态，则串x <code>区分状态</code> s 和 t；如果状态
+s 和 t 存在能够区分它们的串，那么它们就是 <strong>可区分的</strong>​。空串 \(\varepsilon\) 可以区分如何一个接受状态和非接受状态。串 <code>bb</code> 区分状态 A 和 B，因为从 A 出发经过标号 bb 的路径会到达非接受状态 C，而从B出发可以到达接受状态。</p>
+<p>DFA状态最小化的工作原理是将一个DFA的状态集合划分为多个组，每个组中的各个状态相互不可区分，但不同组的状态是可区分的，每个组中的状态合并为最小DFA的一个状态，当任意一个组都不能再被分解为更小的组时这个划分结束，此时我们就得到了状态最少的DFA。具体方法如下</p>
+<ol>
+<li>首先构造包含两个组 <code>F</code> 和 <code>S-F</code> 的初始划分 \(\Pi\)​，这两个组分别是D的接受状态组和非接受状态组</li>
+<li>应用以下方法构造新的分划 \(\Pi_{new}\)
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Pi_new = Pi
+</span></span><span class="line"><span class="cl">for Pi 中的每个组 G:
+</span></span><span class="line"><span class="cl">    将 G 划分为更小的组，当且仅当对于所有的输入符号a，使得两个状态s和t在同一小组中，状态s和t在a上的转换都到达 Pi 中的同一组
+</span></span><span class="line"><span class="cl">    在 Pi_new 中将 G 替换为对 G 进行划分得到的那些小组
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>如果 \(\Pi_{new} = \Pi\)​，令 \(\Pi_{final} = \Pi\) 并执行步骤4，否则用 \(\Pi_{new}\) 替换
+\(\Pi\) 并重复步骤2</li>
+<li>在划分 \(\Pi_{final}\) 的每个组中选取一个状态作为该组的代表，这些代表构成了状态最少 DFA 的状态。最小状态DFA \(D&rsquo;\) 的其他部分按如下步骤构造
+a. \(D&rsquo;\) 的开始状态是包含了 D 的开始状态的组的代表
+b. \(D&rsquo;\) 的接受状态是那些包含了 D 的接受状态的组的代表。每个组要么只包含了接受状态，要么只包含了非接受状态，因为我们一开始将这两类状态分开了
+c. 令 s 是 \(\Pi_{final}\) 中某个组 G 的代表，并令 DFA 中正在输入 a 上离开 s 的转换到达状态 t，令 r 为 t 所在组 H 的代表，那么在 \(D&rsquo;\) 中存在一个从 s 到
+r 在输入 a 上的转换</li>
+</ol>
+<p>上述算法可能会产生一个带有 <strong>死状态</strong> 的DFA，所谓死状态是在所有输入符号上都转向自己的非接受状态。我们可以消除掉死状态，使这个DFA可能会变为缺少某些转换的自动机。</p>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 04-12</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2020/compilerprinciple_003/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90+2&issue[description]=[POST](https://blog.ginshio.org/2020/compilerprinciple_003/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2020/compilerprinciple_003/" data-title="词法分析 2" data-hashtags="Note,DragonBook,LexicalAnalysis"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2020/compilerprinciple_003/" data-hashtag="Note"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2020/compilerprinciple_003/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2020/compilerprinciple_003/" data-title="词法分析 2" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2020/compilerprinciple_003/" data-title="词法分析 2"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2020/compilerprinciple_003/" data-title="词法分析 2"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2020/compilerprinciple_003/" data-title="词法分析 2" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2020/compilerprinciple_003/" data-title="词法分析 2" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2020/compilerprinciple_003/" title="词法分析 2">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/dragonbook/">DragonBook</a>,&nbsp;<a href="/tags/lexicalanalysis/">LexicalAnalysis</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/service/" class="prev" rel="prev" title="在服务器上部署一些服务"><i class="fas fa-angle-left fa-fw"></i>在服务器上部署一些服务</a>
+            <a href="/2020/compilerprinciple_004/" class="next" rel="next" title="语法分析 1">语法分析 1<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2020-10-17T22:33:04+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"词法分析 2"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>

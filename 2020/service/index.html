@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>在服务器上部署一些服务 - iris</title><meta name="Description" content="GinShio | 在服务器上搭建一些自己用的到的服务"><meta property="og:title" content="在服务器上部署一些服务" />
+<meta property="og:description" content="GinShio | 在服务器上搭建一些自己用的到的服务" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2020/service/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-13T20:16:45+08:00" />
+<meta property="article:modified_time" content="2022-05-28T18:18:36+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="在服务器上部署一些服务"/>
+<meta name="twitter:description" content="GinShio | 在服务器上搭建一些自己用的到的服务"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2020/service/" /><link rel="prev" href="https://blog.ginshio.org/2020/compilerprinciple_002/" /><link rel="next" href="https://blog.ginshio.org/2020/compilerprinciple_003/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "在服务器上部署一些服务",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2020\/service\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Server, NextCloud, GitLab, Lychee","wordcount":  4563 ,
+        "url": "https:\/\/blog.ginshio.org\/2020\/service\/","datePublished": "2020-10-13T20:16:45+08:00","dateModified": "2022-05-28T18:18:36+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | 在服务器上搭建一些自己用的到的服务"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#nextcloud">Nextcloud</a>
+      <ul>
+        <li><a href="#nextcloud-依赖">Nextcloud 依赖</a></li>
+        <li><a href="#nextcloud-安装">Nextcloud 安装</a></li>
+        <li><a href="#nextcloud-开启邮件服务">Nextcloud 开启邮件服务</a></li>
+        <li><a href="#nextcloud-优化">Nextcloud 优化</a></li>
+        <li><a href="#nextcloud-插件">Nextcloud 插件</a></li>
+      </ul>
+    </li>
+    <li><a href="#gitlab">GitLab</a>
+      <ul>
+        <li><a href="#gitlab-组件">Gitlab 组件</a></li>
+        <li><a href="#gitlab-依赖">Gitlab 依赖</a></li>
+        <li><a href="#gitlab-安装">Gitlab 安装</a></li>
+        <li><a href="#更新">更新</a></li>
+        <li><a href="#gitlab-ci-cd">GitLab CI/CD</a></li>
+        <li><a href="#gitlab-开启邮件服务">GitLab 开启邮件服务</a></li>
+      </ul>
+    </li>
+    <li><a href="#lychee">Lychee</a>
+      <ul>
+        <li><a href="#lychee-依赖">Lychee 依赖</a></li>
+        <li><a href="#lychee-安装">Lychee 安装</a></li>
+        <li><a href="#lychee-配置">Lychee 配置</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">在服务器上部署一些服务</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="10-13">10-13</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="05-28">05-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4563 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 10 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#nextcloud">Nextcloud</a>
+      <ul>
+        <li><a href="#nextcloud-依赖">Nextcloud 依赖</a></li>
+        <li><a href="#nextcloud-安装">Nextcloud 安装</a></li>
+        <li><a href="#nextcloud-开启邮件服务">Nextcloud 开启邮件服务</a></li>
+        <li><a href="#nextcloud-优化">Nextcloud 优化</a></li>
+        <li><a href="#nextcloud-插件">Nextcloud 插件</a></li>
+      </ul>
+    </li>
+    <li><a href="#gitlab">GitLab</a>
+      <ul>
+        <li><a href="#gitlab-组件">Gitlab 组件</a></li>
+        <li><a href="#gitlab-依赖">Gitlab 依赖</a></li>
+        <li><a href="#gitlab-安装">Gitlab 安装</a></li>
+        <li><a href="#更新">更新</a></li>
+        <li><a href="#gitlab-ci-cd">GitLab CI/CD</a></li>
+        <li><a href="#gitlab-开启邮件服务">GitLab 开启邮件服务</a></li>
+      </ul>
+    </li>
+    <li><a href="#lychee">Lychee</a>
+      <ul>
+        <li><a href="#lychee-依赖">Lychee 依赖</a></li>
+        <li><a href="#lychee-安装">Lychee 安装</a></li>
+        <li><a href="#lychee-配置">Lychee 配置</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><div class="details admonition warning open">
+                <div class="details-summary admonition-title">
+                    <i class="icon fas fa-exclamation-triangle fa-fwwarning"></i>警告<i class="details-icon fas fa-angle-right fa-fw"></i>
+                </div>
+                <div class="details-content">
+                    <div class="admonition-content">
+                        本文最后更新于 <span class="timeago" datetime="2022-05-28T18:18:36" title="May 28, 2022">05-28</span>，文中内容可能已过时。</div>
+                </div>
+            </div><p>个人使用的是腾讯云的轻量服务器，系统镜像选择的是 Debian 11，搭建的服务有 博客
+<a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">HUGO</a> 、私有网盘 <a href="https://nextcloud.com/" target="_blank" rel="noopener noreferrer">Nextcloud</a> 以及 Git服务器 <a href="https://about.gitlab.com/" target="_blank" rel="noopener noreferrer">GitLab</a></p>
+<p>目前使用的是 Debian GNU/Linux 11 (bullseye) 搭建服务器，当然用的是 fish 作为
+shell</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">bash</span> <span class="na">-c</span> <span class="s2">&#34;cat &lt;&lt;- EOF | sudo tee /etc/apt/sources.list
+</span></span></span><span class="line"><span class="cl"><span class="s2">deb https://mirrors.ustc.edu.cn/debian/ bullseye main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2">deb https://mirrors.ustc.edu.cn/debian/ bullseye-updates main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2">deb https://mirrors.ustc.edu.cn/debian/ bullseye-backports main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2">deb https://mirrors.ustc.edu.cn/debian-security bullseye-security main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2"># deb-src https://mirrors.ustc.edu.cn/debian/ bullseye main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2"># deb-src https://mirrors.ustc.edu.cn/debian/ bullseye-updates main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2"># deb-src https://mirrors.ustc.edu.cn/debian/ bullseye-backports main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2"># deb-src https://mirrors.ustc.edu.cn/debian-security bullseye-security main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2">EOF&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">apt</span> update <span class="na">-y</span> <span class="o">&amp;&amp;</span> <span class="nf">sudo</span> <span class="nf">apt</span> upgrade <span class="na">-y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>一下服务搭建时，域名统一使用 example.com，请根据自己的情况修改对应的配置，用到一些基础依赖请自行安装</p>
+<ul>
+<li>Nginx</li>
+<li>Git</li>
+<li>PHP</li>
+<li>PostgreSQL</li>
+<li>Redis</li>
+</ul>
+<h2 id="nextcloud" class="headerLink">
+    <a href="#nextcloud" class="header-mark"></a>Nextcloud</h2><p>Nextcloud 是 <a href="https://owncloud.com/" target="_blank" rel="noopener noreferrer">ownCloud</a> 项目的一个分支，一个开源的私有云盘应用，官方提供了包括 桌面以及移动系统的客户端。</p>
+<p>定义一些变量</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">fpm_path</span> /etc/php/<span class="m">7</span>.<span class="m">4</span>/fpm
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">nextcloud_version</span> <span class="m">23</span>.<span class="m">0</span>.<span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">nextcloud_path</span> /path/to/nextcloud
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">nextcloud_host</span> example.com
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">nextcloud_db_user</span> nextcloud
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">nextcloud_db_passwd</span> YourPassword
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">nextcloud_db_name</span> nextcloud
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="nextcloud-依赖" class="headerLink">
+    <a href="#nextcloud-%e4%be%9d%e8%b5%96" class="header-mark"></a>Nextcloud 依赖</h3><p>Nextcloud 依赖 PHP 运行时以及数据库 (MySQL 5.7+ / MariaDB 10.2+ 或 PostgreSQL)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">apt</span> install <span class="na">-y</span> nginx postgresql <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">php</span> php-fpm php-cli php-mysql php-pgsql php-sqlite3 php-redis <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">php-apcu</span> php-memcached php-bcmath php-intl php-mbstring php-json php-xml <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">php-curl</span> php-imagick php-gd php-zip php-gmp php-ctype php-dom php-iconv
+</span></span></code></pre></td></tr></table>
+</div>
+</div><dl>
+<dt>PHP</dt>
+<dd>修改 php-fpm 的配置文件
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">cd</span> <span class="nv">$fpm_path</span>
+</span></span><span class="line"><span class="cl"><span class="c"># php config
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/memory_limit = .*/memory_limit = 512M/&#34;</span> php.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/;date.timezone.*/date.timezone = UTC/&#34;</span> php.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=1/&#34;</span> <span class="nf">php</span>.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/upload_max_filesize = .*/upload_max_filesize = 4096M/&#34;</span> php.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/post_max_size = .*/post_max_size = 4096M/&#34;</span> php.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/max_input_time = .*/max_input_time = 480/&#34;</span> php.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/max_execution_time = .*/max_execution_time = 360/&#34;</span> php.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/pm.max_children = .*/pm.max_children = 32/&#34;</span> pool.d/www.conf
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/pm.min_spare_servers = .*/pm.min_spare_servers = 1/&#34;</span> pool.d/www.conf
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/pm.max_spare_servers = .*/pm.max_spare_servers = 8/&#34;</span> pool.d/www.conf
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/pm.start_servers = .*/pm.start_servers = 4/&#34;</span> pool.d/www.conf
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/;clear_env = no/clear_env = no/&#34;</span> pool.d/www.conf
+</span></span><span class="line"><span class="cl"><span class="c"># opcache config
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/;opcache.enable=1/opcache.enable=1/&#34;</span> <span class="nf">php</span>.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/;opcache.memory_consumption=128/opcache.memory_consumption=128/&#34;</span> <span class="nf">php</span>.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/;opcache.interned_strings_buffer=8/opcache.interned_strings_buffer=8/&#34;</span> <span class="nf">php</span>.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/;opcache.max_accelerated_files=10000/opcache.max_accelerated_files=10000/&#34;</span> <span class="nf">php</span>.ini
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/;opcache.revalidate_freq=2/opcache.revalidate_freq=1/&#34;</span> <span class="nf">php</span>.ini
+</span></span><span class="line"><span class="cl"><span class="c"># apc config
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">bash</span> <span class="na">-c</span> <span class="s2">&#34;cat &lt;&lt;-EOF | sudo tee -a php.ini
+</span></span></span><span class="line"><span class="cl"><span class="s2">[apc]
+</span></span></span><span class="line"><span class="cl"><span class="s2">apc.cache_by_default = on
+</span></span></span><span class="line"><span class="cl"><span class="s2">apc.enable_cli = on
+</span></span></span><span class="line"><span class="cl"><span class="s2">apc.enable = on
+</span></span></span><span class="line"><span class="cl"><span class="s2">apc.file_update_protection = 2
+</span></span></span><span class="line"><span class="cl"><span class="s2">EOF&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;apc.enable_cli=on&#34;</span> <span class="o">|</span><span class="nf">sudo</span> <span class="nf">tee</span> <span class="na">-a</span> /etc/php/<span class="m">7</span>.<span class="m">4</span>/cli/conf.d/<span class="m">20</span>-apcu.ini
+</span></span><span class="line"><span class="cl"><span class="c"># restart
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">systemctl</span> restart php7.<span class="m">4</span>-fpm
+</span></span></code></pre></td></tr></table>
+</div>
+</div></dd>
+<dt>PostgreSQL</dt>
+<dd>创建用户 <strong>nextcloud</strong> 和数据库 <strong>nextcloud_db</strong>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">useradd</span> <span class="nv">$nextcloud_db_user</span> <span class="na">--create-home</span> <span class="na">--shell</span> /sbin/nologin
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> postgres <span class="na">-H</span> psql <span class="na">-c</span> <span class="s2">&#34;CREATE USER </span><span class="nv">$nextcloud_db_user</span><span class="s2"> WITH PASSWORD &#39;</span><span class="nv">$nextcloud_db_passwd</span><span class="s2">&#39;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> postgres <span class="na">-H</span> psql <span class="na">-c</span> <span class="s2">&#34;CREATE DATABASE </span><span class="nv">$nextcloud_db_name</span><span class="s2"> OWNER </span><span class="nv">$nextcloud_db_user</span><span class="s2">&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></dd>
+<dt>Nginxm</dt>
+<dd>配置网站，修改 <a href="https://docs.nextcloud.com/server/20/admin_manual/installation/nginx.html#nextcloud-in-the-webroot-of-nginx" target="_blank" rel="noopener noreferrer">官方示例配置文件</a> 并保存在
+<code>/etc/nginx/sites-available/nextcloud</code>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">ln</span> <span class="na">-sf</span> /etc/nginx/sites-available/nextcloud /etc/nginx/sites-enabled/
+</span></span><span class="line"><span class="cl"><span class="nf">systemctl</span> restart nginx
+</span></span></code></pre></td></tr></table>
+</div>
+</div></dd>
+</dl>
+<h3 id="nextcloud-安装" class="headerLink">
+    <a href="#nextcloud-%e5%ae%89%e8%a3%85" class="header-mark"></a>Nextcloud 安装</h3><p><a href="https://download.nextcloud.com/server/releases" target="_blank" rel="noopener noreferrer">下载</a> 你需要的版本并解压到目录中</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-E</span> wget https://download.nextcloud.com/server/releases/nextcloud-<span class="s2">&#34;</span><span class="nv">$nextcloud_version</span><span class="s2">&#34;</span>.tar.bz2
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">mkdir</span> <span class="na">-p</span> <span class="nv">$nextcloud_path</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">tar</span> <span class="na">-jxvf</span> nextcloud-<span class="s2">&#34;</span><span class="nv">$nextcloud_version</span><span class="s2">&#34;</span>.tar.bz2 <span class="na">-C</span> <span class="nv">$nextcloud_path</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chown</span> <span class="na">-R</span> www-data:www-data <span class="nv">$nextcloud_path</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>准备工作完成后，进入网页，设置管理员帐号和数据库。</p>
+<h3 id="nextcloud-开启邮件服务" class="headerLink">
+    <a href="#nextcloud-%e5%bc%80%e5%90%af%e9%82%ae%e4%bb%b6%e6%9c%8d%e5%8a%a1" class="header-mark"></a>Nextcloud 开启邮件服务</h3><p>配置邮箱服务器前需要先修改nextcloud的代码，如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">cd</span> /path/to/nextcloud
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="s2">&#34;s/\$streamContext = .*;/\$streamContext = stream_context_create(array(&#39;ssl&#39;=&gt;[&#39;verify_peer&#39;=&gt;false, &#39;verify_peer_name&#39;=&gt;false, &#39;allow_self_signed&#39;=&gt;true]));/&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">3rdparty</span>/swiftmailer/swiftmailer/lib/classes/Swift/Transport/StreamBuffer.php
+</span></span><span class="line"><span class="cl"><span class="nf">systemctl</span> restart php7.<span class="m">4</span>-fpm
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>登录管理员帐号进行邮箱服务器配置即可</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>发送模式</td>
+<td>SMTP</td>
+</tr>
+<tr>
+<td>加密</td>
+<td>SSL/TLS</td>
+</tr>
+<tr>
+<td>来自地址</td>
+<td><a href="mailto:noreply@example.com" rel="">noreply@example.com</a></td>
+</tr>
+<tr>
+<td>认证方式</td>
+<td>登录</td>
+</tr>
+<tr>
+<td>需要认证</td>
+<td>true</td>
+</tr>
+<tr>
+<td>服务器地址</td>
+<td>mail.example.com:465</td>
+</tr>
+<tr>
+<td>证书</td>
+<td><a href="mailto:noreply@example.com" rel="">noreply@example.com</a></td>
+</tr>
+<tr>
+<td>密码</td>
+<td>YourPassword</td>
+</tr>
+</tbody>
+</table>
+<h3 id="nextcloud-优化" class="headerLink">
+    <a href="#nextcloud-%e4%bc%98%e5%8c%96" class="header-mark"></a>Nextcloud 优化</h3><p>优化最常见的手段是添加缓存，这里是在配置文件中添加 Redis (uds) 和 APCu 支持</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="s1">&#39;memcache.local&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;\OC\Memcache\APCu&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;memcache.distributed&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;\OC\Memcache\Redis&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;memcache.locking&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;\OC\Memcache\Redis&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;redis&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="s1">&#39;host&#39;</span>     <span class="o">=&gt;</span> <span class="s1">&#39;/var/run/redis/redis.sock&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s1">&#39;port&#39;</span>     <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s1">&#39;dbindex&#39;</span>  <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s1">&#39;timeout&#39;</span>  <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">],</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>还有就是开启缩略图，比如最大只有 <code>512x512</code> 的缩略图，可以提高访问速度，但是访问可能体验极差，毕竟点开图片你就给我看这个</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="s1">&#39;enable_previews&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;preview_max_x&#39;</span> <span class="o">=&gt;</span> <span class="mi">512</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;preview_max_y&#39;</span> <span class="o">=&gt;</span> <span class="mi">512</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;preview_max_scale_factor&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>至于默认的 JPEG 质量是 90，有点高的话，你可以用以下命令调低 (比如到 60)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">occ</span> config:app:set <span class="nv">preview</span> jpeg_quality <span class="na">--value</span><span class="o">=</span><span class="s2">&#34;60&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上传大文件的话，可以看看官方的<a href="https://docs.nextcloud.com/server/stable/admin_manual/configuration_files/big_file_upload_configuration.html" target="_blank" rel="noopener noreferrer">相关文档</a></p>
+<h3 id="nextcloud-插件" class="headerLink">
+    <a href="#nextcloud-%e6%8f%92%e4%bb%b6" class="header-mark"></a>Nextcloud 插件</h3><p>Nextcloud 不仅自带了很多功能，也提供了插件用于扩展功能，官方称作 Apps，以下个人推荐一些插件，欢迎补充</p>
+<dl>
+<dt>Announcement center</dt>
+<dd>公告发布</dd>
+<dt>Registration</dt>
+<dd>注册功能</dd>
+<dt>File access control</dt>
+<dd>文件访问控制，可以添加规则来控制管理用户对文件的操作，参见 <a href="https://nextcloud.com/workflow" target="_blank" rel="noopener noreferrer">工作流</a></dd>
+<dt>Music</dt>
+<dd>音乐播放器</dd>
+<dt>Full text search</dt>
+<dd>全文搜索</dd>
+</dl>
+<h2 id="gitlab" class="headerLink">
+    <a href="#gitlab" class="header-mark"></a>GitLab</h2><p>GitLab 是开源的基于git的 web <strong>DevOps生命周期工具</strong>​，提供了​<span class="underline">Git仓库</span>​、​<span class="underline">问题追踪</span>​和​<span class="underline">CI/CD</span>​等功能。分为社区版和企业版，使用相同内核，部分功能社区版没有提供。
+Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong> 可以最多支持500用户， <strong>8C8G</strong> 最多支持1000用户，具体的使用受到​<span class="underline">用户的活跃程度</span>​、​<span class="underline">CI/CD</span>​、​<span class="underline">修改大小</span>​等因素影响。</p>
+<p>由于暂时不需要，没有安装 Gitlab Pages，Gitlab的安装依赖 git 用户，以下是目录结构</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/home/git
+</span></span><span class="line"><span class="cl">├── gitaly
+</span></span><span class="line"><span class="cl">├── gitlab
+</span></span><span class="line"><span class="cl">├── gitlab-shell
+</span></span><span class="line"><span class="cl">├── gitlab-workhorse
+</span></span><span class="line"><span class="cl">├── go
+</span></span><span class="line"><span class="cl">└── repositories
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="gitlab-组件" class="headerLink">
+    <a href="#gitlab-%e7%bb%84%e4%bb%b6" class="header-mark"></a>Gitlab 组件</h3><figure><img src="https://docs.gitlab.com/ee/development/img/architecture_simplified_v14_9.png" width="36%"/>
+</figure>
+
+<dl>
+<dt>Gitaly</dt>
+<dd>处理所有的 git 操作</dd>
+<dt>GitLab Shell</dt>
+<dd>处理基于 SSH 的 git 会话 与 SSH密钥</dd>
+<dt>GitLab Workhorse</dt>
+<dd>反向代理服务器，处理与Rails无关的请求，Git Pull/Push 请求 和 到Rails的连接，减轻Web服务的压力，帮助整体加快Gitlab的速度</dd>
+<dt>Unicorn / Puma</dt>
+<dd>Gitlab 自身的 Web 服务器，提供面向用户的功能，Gitlab 13.0 起默认使用 Puma</dd>
+<dt>Sidekiq</dt>
+<dd>后台任务服务器，从Redis队列中提取任务并进行处理</dd>
+<dt>GitLab Pages</dt>
+<dd>允许直接从仓库发布静态网站</dd>
+<dt>Gitlab Runner</dt>
+<dd>Gitlab CI/CD 所关联的任务处理器</dd>
+<dt>Nginx</dt>
+<dd>Web 服务器</dd>
+<dt>PostgreSQL</dt>
+<dd>数据库</dd>
+</dl>
+<h3 id="gitlab-依赖" class="headerLink">
+    <a href="#gitlab-%e4%be%9d%e8%b5%96" class="header-mark"></a>Gitlab 依赖</h3><p>目前Gitlab最新版本为 <strong>v14.8</strong> ，下列表是部分依赖，细明详见 <a href="https://docs.gitlab.com/14.8/ee/install/requirements.html" target="_blank" rel="noopener noreferrer">安装最低要求</a></p>
+<table>
+<thead>
+<tr>
+<th>Software</th>
+<th>Minimum Version</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ruby</td>
+<td>2.7</td>
+<td>自 GitLab 13.6 起最低要求 v2.7，暂不支持 Ruby 3.0</td>
+</tr>
+<tr>
+<td>GoLang</td>
+<td>1.16</td>
+<td></td>
+</tr>
+<tr>
+<td>Node.js</td>
+<td>12.22.1</td>
+<td>GitLab 使用 webpack 编译前端资源，推荐使用 Node.js 14.x</td>
+</tr>
+<tr>
+<td>yarn</td>
+<td>1.22.x</td>
+<td>GitLab 使用 Yarn 管理 Js 依赖，暂不支持 Yarn 2</td>
+</tr>
+<tr>
+<td>Redis</td>
+<td>4.0</td>
+<td>GitLab 13.0 起最低要求 4.0，推荐使用 Redis 6.0</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>13</td>
+<td>GitLab 13.0 最低要求 pgsql 12，14.0 最低要求 pgsql 13</td>
+</tr>
+<tr>
+<td>Git</td>
+<td>2.33.x</td>
+<td></td>
+</tr>
+<tr>
+<td>Nginx</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>另外需要注意，GitLab 支持的 pgsql 扩展主要有三个，在不同版本有所支持</p>
+<ul>
+<li><code>pg_trgm</code> 最低要求 GitLab 版本为 8.6</li>
+<li><code>plpgsql</code> 最低要求 GitLab 版本为 11.7</li>
+<li><code>btree_gist</code> 最低要求 GitLab 版本为 13.1</li>
+</ul>
+<p>安装相关依赖，建立数据库，将 Redis 设置为 Unix Domain Socket (UDS) 连接</p>
+<ul>
+<li>
+<p>定义变量</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">gitlab_version</span> <span class="m">14</span>-<span class="m">10</span>-stable
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">gitlab_path</span> /home/git/gitlab
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">gitaly_path</span> /home/git/gitaly
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">gitlab_host</span> example.com
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">gitlab_db_passwd</span> YourPassword
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>安装相关依赖</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># install dependencies
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="nf">apt</span> install <span class="na">-y</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">build-essential</span> zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libre2-dev <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">libreadline-dev</span> libncurses5-dev libffi-dev curl openssh-server libxml2-dev <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">libxslt1-dev</span> libcurl4-openssl-dev libicu-dev logrotate rsync python3-docutils <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">pkg-config</span> cmake runit-systemd libkrb5-dev graphicsmagick libimage-exiftool-perl
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>安装 Git</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># install git
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="nf">apt</span> install <span class="na">-y</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">libcurl4-openssl-dev</span> libexpat1-dev gettext libz-dev <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nf">libssl-dev</span> libpcre2-dev build-essential git-core
+</span></span><span class="line"><span class="cl"><span class="nf">git</span> clone https://gitlab.com/gitlab-org/gitaly.git <span class="na">-b</span> <span class="nv">$gitlab_version</span> /tmp/gitaly
+</span></span><span class="line"><span class="cl"><span class="k">cd</span> /tmp/gitaly
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">make</span> git <span class="nv">GIT_PREFIX</span><span class="o">=</span>/usr/local
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">apt</span> remove <span class="na">-y</span> git-core
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">apt</span> autoremove
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>需要注意，这种方法安装的 Git 需要修改配置文件 <code>config/gitlab.yml</code> 中的 git 路径</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">git</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">bin_path</span><span class="p">:</span><span class="w"> </span><span class="l">/usr/local/bin/git</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>安装 Ruby</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">mkdir</span> /tmp/ruby <span class="o">&amp;&amp;</span> <span class="k">cd</span> /tmp/ruby
+</span></span><span class="line"><span class="cl"><span class="nf">curl</span> <span class="na">--remote-name</span> <span class="na">--location</span> <span class="na">--progress-bar</span> <span class="s2">&#34;https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.4.tar.gz&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s1">&#39;3043099089608859fc8cce7f9fdccaa1f53a462457e3838ec3b25a7d609fbc5b ruby-2.7.4.tar.gz&#39;</span> <span class="o">|</span> <span class="nf">sha256sum</span> <span class="na">-c</span> <span class="na">- </span><span class="o">&amp;&amp;</span> <span class="nf">tar</span> xzf ruby-<span class="m">2</span>.<span class="m">7</span>.<span class="m">4</span>.tar.gz
+</span></span><span class="line"><span class="cl"><span class="k">cd</span> ruby-<span class="m">2</span>.<span class="m">7</span>.<span class="m">4</span>
+</span></span><span class="line"><span class="cl">./configure <span class="na">--disable-install-rdoc</span> <span class="na">--enable-shared</span>
+</span></span><span class="line"><span class="cl"><span class="nf">make</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">make</span> install
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>安装 GoLang</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">rm</span> <span class="na">-rf</span> /usr/local/go
+</span></span><span class="line"><span class="cl"><span class="nf">curl</span> <span class="na">--remote-name</span> <span class="na">--location</span> <span class="na">--progress-bar</span> <span class="s2">&#34;https://go.dev/dl/go1.16.10.linux-amd64.tar.gz&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s1">&#39;414cd18ce1d193769b9e97d2401ad718755ab47816e13b2a1cde203d263b55cf  go1.16.10.linux-amd64.tar.gz&#39;</span> <span class="o">|</span> <span class="nf">shasum</span> <span class="na">-a256</span> <span class="na">-c</span> <span class="na">- </span><span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="nf">sudo</span> <span class="nf">tar</span> <span class="na">-C</span> /usr/local <span class="na">-xzf</span> go1.<span class="m">16</span>.<span class="m">10</span>.linux-amd64.tar.gz
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">ln</span> <span class="na">-sf</span> /usr/local/go/bin/<span class="o">{</span>go,gofmt<span class="o">}</span> /usr/local/bin/
+</span></span><span class="line"><span class="cl"><span class="nf">rm</span> go1.<span class="m">16</span>.<span class="m">10</span>.linux-amd64.tar.gz
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>安装 Node</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># install node v16.x
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">curl</span> <span class="na">--location</span> <span class="s2">&#34;https://deb.nodesource.com/setup_16.x&#34;</span> <span class="o">|</span> <span class="nf">sudo</span> <span class="nf">bash</span> <span class="na">-
+</span></span></span><span class="line"><span class="cl"><span class="na">sudo</span> <span class="nf">apt-get</span> install <span class="na">-y</span> nodejs
+</span></span><span class="line"><span class="cl"><span class="nf">npm</span> install <span class="na">--global</span> yarn
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>安装并配置数据库</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">useradd</span> git <span class="na">--create-home</span> <span class="na">--shell</span> /sbin/nologin
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">apt</span> install <span class="na">-y</span> postgresql postgresql-client libpq-dev postgresql-contrib
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> postgres psql <span class="na">-d</span> template1 <span class="na">-c</span> <span class="s2">&#34;CREATE USER git WITH PASSWORD &#39;</span><span class="nv">$gitlab_db_passwd</span><span class="s2">&#39; CREATEDB;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> postgres psql <span class="na">-d</span> template1 <span class="na">-c</span> <span class="s2">&#34;CREATE EXTENSION IF NOT EXISTS pg_trgm;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> postgres psql <span class="na">-d</span> template1 <span class="na">-c</span> <span class="s2">&#34;CREATE EXTENSION IF NOT EXISTS btree_gist&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> postgres psql <span class="na">-d</span> template1 <span class="na">-c</span> <span class="s2">&#34;CREATE DATABASE gitlabhq_production OWNER git;&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>检查 <code>pg_trgm</code> 扩展是否启用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">enabled</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_available_extensions</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;pg_trgm&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">AND</span><span class="w"> </span><span class="n">installed_version</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>检查 <code>btree_gist</code> 扩展是否启用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">enabled</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_available_extensions</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;btree_gist&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">AND</span><span class="w"> </span><span class="n">installed_version</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>安装并配置 Redis</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">apt</span> install redis-server
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">cp</span> /etc/redis/redis.conf /etc/redis/redis.conf.orig
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">sed</span> <span class="s1">&#39;s/^port .*/port 0/&#39;</span> /etc/redis/redis.conf.orig <span class="o">|</span> <span class="nf">sudo</span> <span class="nf">tee</span> /etc/redis/redis.conf
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s1">&#39;unixsocket /var/run/redis/redis.sock&#39;</span> <span class="o">|</span> <span class="nf">sudo</span> <span class="nf">tee</span> <span class="na">-a</span> /etc/redis/redis.conf
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s1">&#39;unixsocketperm 770&#39;</span> <span class="o">|</span> <span class="nf">sudo</span> <span class="nf">tee</span> <span class="na">-a</span> /etc/redis/redis.conf
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">mkdir</span> <span class="na">-p</span> /var/run/redis
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chown</span> redis:redis /var/run/redis
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="m">755</span> /var/run/redis
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="k">test</span> <span class="na">-d</span> /etc/tmpfiles.d
+</span></span><span class="line"><span class="cl">  <span class="k">echo</span> <span class="s1">&#39;d  /var/run/redis  0755  redis  redis  10d  -&#39;</span> <span class="o">|</span> <span class="nf">sudo</span> <span class="nf">tee</span> <span class="na">-a</span> /etc/tmpfiles.d/redis.conf
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">systemctl</span> restart redis
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">usermod</span> <span class="na">-aG</span> redis git
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h3 id="gitlab-安装" class="headerLink">
+    <a href="#gitlab-%e5%ae%89%e8%a3%85" class="header-mark"></a>Gitlab 安装</h3><ul>
+<li>
+<p>克隆 GitLab 并配置相关文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># clone gitlab src
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">cd</span> ~git
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> <span class="na">-E</span> git clone https://gitlab.com/gitlab-org/gitlab-foss.git <span class="na">-b</span> <span class="nv">$gitlab_version</span> gitlab
+</span></span><span class="line"><span class="cl"><span class="k">cd</span> <span class="nv">$gitlab_path</span>
+</span></span><span class="line"><span class="cl"><span class="c"># config gitlab.yml
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> cp config/gitlab.yml.example config/gitlab.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> editor config/gitlab.yml
+</span></span><span class="line"><span class="cl"><span class="c"># config permissions
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> cp config/secrets.yml.example config/secrets.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> chmod <span class="m">0600</span> config/secrets.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chown</span> <span class="na">-R</span> git log/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chown</span> <span class="na">-R</span> git tmp/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="na">-R</span> u+rwX,go-w log/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="na">-R</span> u+rwX tmp/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="na">-R</span> u+rwX tmp/pids/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="na">-R</span> u+rwX tmp/sockets/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> mkdir <span class="na">-p</span> public/uploads/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="m">0700</span> public/uploads
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="na">-R</span> u+rwX builds/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="na">-R</span> u+rwX shared/artifacts/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="na">-R</span> ug+rwX shared/pages/
+</span></span><span class="line"><span class="cl"><span class="c"># config puma
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> cp config/puma.rb.example config/puma.rb
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> editor config/puma.rb
+</span></span><span class="line"><span class="cl"><span class="c"># config git
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> git config <span class="na">--global</span> core.autocrlf input
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> git config <span class="na">--global</span> gc.auto <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> git config <span class="na">--global</span> repack.writeBitmaps true
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> git config <span class="na">--global</span> receive.advertisePushOptions true
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> git config <span class="na">--global</span> core.fsyncObjectFiles true
+</span></span><span class="line"><span class="cl"><span class="c"># config Redis
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> cp config/resque.yml.example config/resque.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> cp config/cable.yml.example config/cable.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> editor config/resque.yml config/cable.yml
+</span></span><span class="line"><span class="cl"><span class="c"># config database
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git cp config/database.yml.postgresql config/database.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> editor config/database.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> chmod o-rwx config/database.yml
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>安装 GitLab 相关程序</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># install gems
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle config set <span class="na">--local</span> <span class="nv">deployment</span> <span class="s1">&#39;true&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle config set <span class="na">--local</span> <span class="nv">without</span> <span class="s1">&#39;development test mysql aws kerberos&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> <span class="na">-E</span> bundle install
+</span></span><span class="line"><span class="cl"><span class="c"># install gitlab-shell
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> <span class="na">-E</span> bundle <span class="nb">exec </span>rake gitlab🐚install <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> editor ~git/gitlab-shell/config.yml
+</span></span><span class="line"><span class="cl"><span class="c"># install gitlab-workhorse
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> <span class="na">-E</span> bundle <span class="nb">exec </span>rake <span class="s2">&#34;gitlab:workhorse:install[/home/git/gitlab-workhorse]&#34;</span> <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span><span class="line"><span class="cl"><span class="c"># install gitaly
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="k">cd</span> /home/git/gitlab
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> <span class="na">-E</span> bundle <span class="nb">exec </span>rake <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="s2">&#34;gitlab:gitaly:install[/home/git/gitaly,/home/git/repositories]&#34;</span> <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chmod</span> <span class="m">0700</span> <span class="nv">$gitlab_path</span>/tmp/sockets/private
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">chown</span> git <span class="nv">$gitlab_path</span>/tmp/sockets/private
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> editor <span class="nv">$gitaly_path</span>/config.toml
+</span></span><span class="line"><span class="cl"><span class="c"># install service
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="nf">mkdir</span> <span class="na">-p</span> /usr/local/lib/systemd/system
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">cp</span> lib/support/systemd/* /usr/local/lib/systemd/system/
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">systemctl</span> daemon-reload
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">systemctl</span> enable gitlab.target
+</span></span><span class="line"><span class="cl"><span class="c"># setup logrotate
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="nf">cp</span> lib/support/logrotate/gitlab /etc/logrotate.d/gitlab
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果主机上还有 PostgreSQL 以及 Redis，可以在 <code>gitlab-*.service</code> 文件 Unit 单元的 <strong>Wants</strong> 与 <strong>After</strong> 两个字段追加下面两个服务</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">[Unit]
+</span></span><span class="line"><span class="cl">Wants=redis-server.service postgresql.service
+</span></span><span class="line"><span class="cl">After=redis-server.service postgresql.service
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>启动相关项目</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># start gitaly
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="nf">systemctl</span> start gitlab-gitaly.service
+</span></span><span class="line"><span class="cl"><span class="c"># init database and activate advanced features
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake gitlab:setup <span class="nv">RAILS_ENV</span><span class="o">=</span>production <span class="nv">force</span><span class="o">=</span>yes
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>检测应用状态</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake gitlab:env:info <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>编译前端文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="c"># GetText PO files
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake gettext:compile <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span><span class="line"><span class="cl"><span class="c"># Assets
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> yarn install <span class="na">--production</span> <span class="na">--pure-lockfile</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake gitlab:assets:compile <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">RAILS_ENV</span><span class="o">=</span>production <span class="nv">NODE_ENV</span><span class="o">=</span>production <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">NODE_OPTIONS</span><span class="o">=</span><span class="s2">&#34;--max_old_space_size=8192&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="k">test</span> <span class="m">0</span> <span class="na">-ne</span> <span class="nv">$status</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;\033[31m compile assets error. desc &#39;--max_old_space_size&#39; \033[0m&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">exit</span> <span class="m">64</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>设置 Nginx</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">cp</span> lib/support/nginx/gitlab-ssl /etc/nginx/sites-available/gitlab
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">ln</span> <span class="na">-sf</span> /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/gitlab
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">editor</span> /etc/nginx/sites-available/gitlab
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">nginx</span> <span class="na">-t</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="k">test</span> <span class="m">0</span> <span class="na">-ne</span> <span class="nv">$status</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;nginx config error. editor /etc/nginx/sites-available/gitlab&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">exit</span> <span class="m">64</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>二次检查程序状态</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">systemctl</span> restart nginx.service gitlab.target
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake gitlab:check <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<p>Gitlab基本配置完成，登录网站设置默认管理员密码即可登录，默认管理员帐号为 <strong>root</strong></p>
+<h3 id="更新" class="headerLink">
+    <a href="#%e6%9b%b4%e6%96%b0" class="header-mark"></a>更新</h3><p>之后每次更新与安装类似，因此可以写一个小脚本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span><span class="lnt">95
+</span><span class="lnt">96
+</span><span class="lnt">97
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">check_and_print_command_status</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="k">test</span> <span class="m">0</span> <span class="na">-eq</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">1</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">	<span class="k">echo</span> <span class="s2">&#34;</span><span class="nv">$argv</span><span class="s2">[2]: &#34;</span><span class="o">(</span><span class="nb">set_color </span>green<span class="o">)</span><span class="s2">&#34;consistency&#34;</span><span class="o">(</span><span class="nb">set_color </span>normal<span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">	<span class="k">echo</span> <span class="s2">&#34;</span><span class="nv">$argv</span><span class="s2">[2]: &#34;</span><span class="o">(</span><span class="nb">set_color </span>red<span class="o">)</span><span class="s2">&#34;difference&#34;</span><span class="o">(</span><span class="nb">set_color </span>normal<span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">get_next_branch</span>
+</span></span><span class="line"><span class="cl">    <span class="k">cd</span> <span class="nv">$gitlab_path</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake gitlab:backup:create <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span><span class="line"><span class="cl">    <span class="nf">systemctl</span> stop gitlab.target
+</span></span><span class="line"><span class="cl">    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> <span class="na">-E</span> git fetch <span class="na">--all</span> <span class="na">--prune</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> git checkout <span class="na">-- Gemfile</span>.lock db/structure.sql locale
+</span></span><span class="line"><span class="cl">    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> git checkout <span class="nv">$next_branch</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">check_configuration_files</span>
+</span></span><span class="line"><span class="cl">    <span class="k">cd</span> <span class="nv">$gitlab_path</span>
+</span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="nv">files</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="s2">&#34;config/gitlab.yml.example&#34;</span> <span class="s2">&#34;lib/support/nginx/gitlab-ssl&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="s2">&#34;lib/support/systemd/gitlab-gitaly.service&#34;</span> <span class="s2">&#34;lib/support/systemd/gitlab-pages.service&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="s2">&#34;lib/support/systemd/gitlab-sidekiq.service&#34;</span> <span class="s2">&#34;lib/support/systemd/gitlab-mailroom.service&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="s2">&#34;lib/support/systemd/gitlab-puma.service&#34;</span> <span class="s2">&#34;lib/support/systemd/gitlab-workhorse.service&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="s2">&#34;lib/support/systemd/gitlab.target&#34;</span> <span class="s2">&#34;lib/support/systemd/gitlab.slice&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="nv">f</span> <span class="k">in</span> <span class="nv">$files</span>
+</span></span><span class="line"><span class="cl">	git diff <span class="na">--exit-code</span> origin/<span class="nv">$curr_branch</span>:<span class="nv">$f</span> origin/<span class="nv">$next_branch</span>:<span class="nv">$f</span>
+</span></span><span class="line"><span class="cl">	check_and_print_command_status <span class="nv">$status</span> <span class="s2">&#34;</span><span class="nv">$f</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">install_and_migration</span>
+</span></span><span class="line"><span class="cl">    <span class="k">cd</span> <span class="nv">$gitlab_path</span>
+</span></span><span class="line"><span class="cl">    <span class="c"># If you haven&#39;t done so during installation or a previous upgrade already
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle config set <span class="na">--local</span> <span class="nv">deployment</span> <span class="s1">&#39;true&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle config set <span class="na">--local</span> <span class="nv">without</span> <span class="s1">&#39;development test mysql aws kerberos&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="c"># Update gems
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> <span class="na">-E</span> bundle install
+</span></span><span class="line"><span class="cl">    <span class="c"># Optional: clean up old gems
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle clean
+</span></span><span class="line"><span class="cl">    <span class="c"># Run database migrations
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake db:migrate <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span><span class="line"><span class="cl">    <span class="c"># Compile GetText PO files
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake gettext:compile <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span><span class="line"><span class="cl">    <span class="c"># Update node dependencies and recompile assets
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> <span class="na">-E</span> bundle <span class="nb">exec </span>rake yarn:install gitlab:assets:clean gitlab:assets:compile <span class="nv">RAILS_ENV</span><span class="o">=</span>production <span class="nv">NODE_ENV</span><span class="o">=</span>production <span class="nv">NODE_OPTIONS</span><span class="o">=</span><span class="s2">&#34;--max_old_space_size=6144&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c"># Clean up cache
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake cache:clear <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">upgrade_shell</span>
+</span></span><span class="line"><span class="cl">    <span class="k">cd</span> <span class="nv">$shell_path</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> git fetch <span class="na">--all</span> <span class="na">--tags</span> <span class="na">--prune</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> git checkout v<span class="o">(</span><span class="nf">cat</span> <span class="nv">$gitlab_path</span>/GITLAB_SHELL_VERSION<span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> make build
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">upgrade_workhorse</span>
+</span></span><span class="line"><span class="cl">    <span class="k">cd</span> <span class="nv">$gitlab_path</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake <span class="s2">&#34;gitlab:workhorse:install[</span><span class="nv">$work_path</span><span class="s2">]&#34;</span> <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">upgrade_gitaly</span>
+</span></span><span class="line"><span class="cl">    <span class="k">cd</span> <span class="nv">$gitlab_path</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake <span class="s2">&#34;gitlab:gitaly:install[</span><span class="nv">$gitaly_path</span><span class="s2">,</span><span class="nv">$repos_path</span><span class="s2">]&#34;</span> <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">check_status</span>
+</span></span><span class="line"><span class="cl">    <span class="k">cd</span> <span class="nv">$gitlab_path</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake gitlab:env:info <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span><span class="line"><span class="cl">    <span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rake gitlab:check <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-g</span> <span class="nv">base_path</span>    /home/git
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-g</span> <span class="nv">gitlab_path</span>  <span class="nv">$base_path</span>/gitlab
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-g</span> <span class="nv">gitaly_path</span>  <span class="nv">$base_path</span>/gitaly
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-g</span> <span class="nv">shell_path</span>   <span class="nv">$base_path</span>/gitlab-shell
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-g</span> <span class="nv">work_path</span>    <span class="nv">$base_path</span>/gitlab-workhorse
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-g</span> <span class="nv">repos_path</span>   <span class="nv">$base_path</span>/repositories
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-g</span> <span class="nv">curr_branch</span>  <span class="o">(</span><span class="nf">git</span> <span class="na">--git-dir</span><span class="o">=</span><span class="nv">$gitlab_path</span>/.git <span class="nf">symbolic-ref</span> <span class="na">--short</span> <span class="na">-q</span> HEAD<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="na">-g</span> <span class="nv">next_branch</span>  <span class="s2">&#34;15-0-stable&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">argparse</span> <span class="s1">&#39;c/check&#39;</span> <span class="s1">&#39;u/update&#39;</span> <span class="na">-- </span><span class="nv">$argv</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="k">set</span> <span class="na">--query</span> <span class="nv">_flag_update</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">get_next_branch</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">install_and_migration</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">upgrade_shell</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">upgrade_workhorse</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">upgrade_gitaly</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="k">set</span> <span class="na">--query</span> <span class="nv">_flag_check</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check_configuration_files</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check_status</span>
+</span></span><span class="line"><span class="cl">    <span class="k">exit</span> <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="gitlab-ci-cd" class="headerLink">
+    <a href="#gitlab-ci-cd" class="header-mark"></a>GitLab CI/CD</h3><p>接下来安装 <code>Gitlab Runner</code> 最新版，使 CI/CD 可用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">cd</span> /tmp
+</span></span><span class="line"><span class="cl"><span class="nf">curl</span> <span class="na">-L</span> <span class="s2">&#34;https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh&#34;</span> <span class="o">|</span> <span class="nf">sudo</span> <span class="nf">bash</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-E</span> apt install docker docker-compose gitlab-runner
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Gitlab Runner 提供了几种模式，分别是</p>
+<ul>
+<li>shell</li>
+<li>docker</li>
+<li>docker-ssh</li>
+<li>ssh</li>
+<li>parallels</li>
+<li>virtualbox</li>
+<li>docker+machine</li>
+<li>docker-ssh+machine</li>
+<li>kubernetes</li>
+</ul>
+<p>virtualbox、parallels、docker-ssh 都是使用 SSH 的方式连接到镜像。而通常采用
+docker 执行器就可以轻量化的实现各种环境的构建；如果你需要执行 CI 任务时多时少则可以选用 docker+machine；shell 就很暴力了，直接在主机上执行，但是需要自行搭建环境，这不如 container 来的灵活自在。</p>
+<p>在管理员面板的 <strong>Overview &gt; Runners</strong> 中获取到注册 runner 要用的 token。注册
+docker 执行器的 runner</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">gitlab-runner</span> register <span class="na">--executor</span> docker <span class="na">--docker-image</span> alpine:latest
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>或许以后会改为 k8s 搭建 runner。先将 docker build 映射到 <code>/tmp</code>​，只需要修改配置文件中的 volumes 为</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">volumes</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;/cache&#34;</span><span class="p">,</span> <span class="s2">&#34;/tmp:/builds:rw&#34;</span><span class="p">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果对 GitLab Runner 的配置感兴趣，可以参考<a href="https://docs.gitlab.com/runner/configuration/" target="_blank" rel="noopener noreferrer">官方文档</a>。</p>
+<h3 id="gitlab-开启邮件服务" class="headerLink">
+    <a href="#gitlab-%e5%bc%80%e5%90%af%e9%82%ae%e4%bb%b6%e6%9c%8d%e5%8a%a1" class="header-mark"></a>GitLab 开启邮件服务</h3><p>我们的GitLab使用的是源码安装，需要修改 <code>config/gitlab.yml</code> 开启 emil</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nv">gitlab_email_from</span><span class="o">=</span><span class="s2">&#34;noreply@example.com&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">gitlab_email_reply</span><span class="o">=</span><span class="s2">&#34;noreply@example.com&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">cd</span> /home/git/gitlab
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;s/email_enabled:.*/email_enabled: true/&#34;</span> config/gitlab.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-ie</span> <span class="s2">&#34;s/email_from:.*/email_from: </span><span class="nv">${</span><span class="s2">gitlab_email_from}&#34;</span> config/gitlab.yml
+</span></span><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-ie</span> <span class="s2">&#34;s/email_reply_to:.*/email_reply_to: </span><span class="nv">${</span><span class="s2">gitlab_email_reply}&#34;</span> config/gitlab.yml
+</span></span><span class="line"><span class="cl"><span class="nf">cp</span> config/initializers/smtp_settings.rb.sample config/initializers/smtp_settings.rb
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>将email启用后，还需要配置smtp，可以参考 <a href="https://docs.gitlab.com/omnibus/settings/smtp.html#mailcow" target="_blank" rel="noopener noreferrer">官方教程</a>，修改配置文件
+<strong>config/initializers/smtp_settings.rb</strong>​，将 <code>ActionMailer::Base.smtp_settings</code> 修改为以下内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="ss">enable</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="ss">address</span><span class="p">:</span> <span class="s2">&#34;mail.example.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="ss">port</span><span class="p">:</span> <span class="mi">465</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="ss">user_name</span><span class="p">:</span> <span class="s2">&#34;noreply@example.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="ss">password</span><span class="p">:</span> <span class="s2">&#34;YourPassword&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="ss">domain</span><span class="p">:</span> <span class="s2">&#34;mail.example.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="ss">authentication</span><span class="p">:</span> <span class="ss">:login</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="ss">enable_starttls_auto</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="ss">tls</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="ss">openssl_verify_mode</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>开启对邮件的 S/MIME 签名服务，将你的S/MIME私钥保存到
+<code>$gitlab_path/.gitlab_smime_key</code>​，公钥保存到
+<code>$gitlab_path/.gitlab_smime_cert</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sed</span> <span class="na">-i</span> <span class="s2">&#34;103s/# enabled:.*/enabled: true/&#34;</span> config/gitlab.yml
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>配置完成后重启服务即可，如果需要验证SMTP是否工作，可以使用以下命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;Notify.test_email(&#39;</span><span class="nv">$gitlab_email_reply</span><span class="s2">&#39;, &#39;Message Subject&#39;, &#39;Message Body&#39;).deliver_now&#34;</span> <span class="o">|</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="nf">sudo</span> <span class="na">-u</span> git <span class="na">-H</span> bundle <span class="nb">exec </span>rails console <span class="na">-e</span> production
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="lychee" class="headerLink">
+    <a href="#lychee" class="header-mark"></a>Lychee</h2><p>Lychee 现在是由 LycheeOrg 维护的开源项目，旨在实现一个简单易用的照片管理系统，我们搭建服务将使用 4.x 版本作为示例</p>
+<p>Lychee 是目前为数不多的支持 PostgreSQL 的图床</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">lychee_path</span> /path/to/lychee
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">lychee_version</span> v4.<span class="m">0</span>.<span class="m">8</span>
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">lychee_host</span> example.com
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">lychee_db_user</span> lychee
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">lychee_db_passwd</span> YourPassword
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">lychee_db_name</span> lychee
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="lychee-依赖" class="headerLink">
+    <a href="#lychee-%e4%be%9d%e8%b5%96" class="header-mark"></a>Lychee 依赖</h3><p>由于 Lychee 同样也是 PHP 开发的服务，所以已经安装 Nextcloud 的情况下，并不需要再安装 PHP 相关的其他 package (当然除了 PHP 的依赖管理器 composer)</p>
+<p>PHP &gt;= 7.4，依赖的扩展 (可以使用命令 <code>php -m</code> 查看已安装的扩展)</p>
+<ul>
+<li>BCMath</li>
+<li>Ctype</li>
+<li>Exif</li>
+<li>Ffmpeg (optional — to generate video thumbnails)</li>
+<li>Fileinfo</li>
+<li>GD</li>
+<li>Imagick (optional — to generate better thumbnails)</li>
+<li>JSON</li>
+<li>Mbstring</li>
+<li>OpenSSL</li>
+<li>PDO</li>
+<li>Tokenizer</li>
+<li>XML</li>
+<li>ZIP</li>
+</ul>
+<h3 id="lychee-安装" class="headerLink">
+    <a href="#lychee-%e5%ae%89%e8%a3%85" class="header-mark"></a>Lychee 安装</h3><p>我们先创建数据库用户，Lychee 支持 MySQL (&gt; 5.7.8) / MariaDB (&gt; 10.2) /
+PostgreSQL (&gt; 9.2)，我们继续使用 PostgreSQL 就好</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">useradd</span> <span class="nv">$lychee_db_user</span> <span class="na">--create-home</span> <span class="na">--shell</span> /sbin/nologin
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> postgres <span class="na">-H</span> psql <span class="na">-c</span> <span class="s2">&#34;CREATE USER </span><span class="nv">$lychee_db_user</span><span class="s2"> WITH PASSWORD &#39;</span><span class="nv">$lychee_db_passwd</span><span class="s2">&#39;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> postgres <span class="na">-H</span> psql <span class="na">-c</span> <span class="s2">&#34;CREATE DATABASE </span><span class="nv">$lychee_db_name</span><span class="s2"> OWNER </span><span class="nv">$lychee_db_user</span><span class="s2">&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们将安装 v4.0.8，更多详细版本信息请浏览 <a href="https://lycheeorg.github.io/docs/releases.html" target="_blank" rel="noopener noreferrer">更新日志</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git clone https://www.github.com/LycheeOrg/Lychee -b <span class="nv">$lychee_version</span> <span class="nv">$lychee_path</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> <span class="nv">$lychee_path</span>
+</span></span><span class="line"><span class="cl">composer install --no-dev
+</span></span><span class="line"><span class="cl">chown -R www-data:www-data <span class="nv">$lychee_path</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>关于 Web 服务器的配置官方已经给出了 <a href="https://lycheeorg.github.io/docs/#nginx" target="_blank" rel="noopener noreferrer">Nginx</a> 和 <a href="https://lycheeorg.github.io/docs/#apache" target="_blank" rel="noopener noreferrer">Apache</a> 的相关配置</p>
+<h3 id="lychee-配置" class="headerLink">
+    <a href="#lychee-%e9%85%8d%e7%bd%ae" class="header-mark"></a>Lychee 配置</h3><p>Lychee 相关的环境配置在 <code>.env</code> 中</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">bash</span> <span class="na">-c</span> <span class="s2">&#34;cat &lt;&lt;- EOF &gt; </span><span class="nv">$lychee_path</span><span class="s2">/.env
+</span></span></span><span class="line"><span class="cl"><span class="s2">APP_NAME=Lychee
+</span></span></span><span class="line"><span class="cl"><span class="s2">APP_ENV=production
+</span></span></span><span class="line"><span class="cl"><span class="s2">APP_DEBUG=false
+</span></span></span><span class="line"><span class="cl"><span class="s2">APP_URL=http://</span><span class="nv">$lychee_host</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">APP_KEY=
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">DEBUGBAR_ENABLED=false
+</span></span></span><span class="line"><span class="cl"><span class="s2">LOG_CHANNEL=stack
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">DB_CONNECTION=pgsql
+</span></span></span><span class="line"><span class="cl"><span class="s2">DB_HOST=localhost
+</span></span></span><span class="line"><span class="cl"><span class="s2">DB_PORT=5432
+</span></span></span><span class="line"><span class="cl"><span class="s2">DB_DATABASE=</span><span class="nv">$lychee_db_name</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">DB_USERNAME=</span><span class="nv">$lychee_db_user</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">DB_PASSWORD=</span><span class="nv">$lychee_db_passwd</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">DB_LOG_SQL=false
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">TIMEZONE=Asia/Shanghai
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">BROADCAST_DRIVER=log
+</span></span></span><span class="line"><span class="cl"><span class="s2">CACHE_DRIVER=file
+</span></span></span><span class="line"><span class="cl"><span class="s2">SESSION_DRIVER=file
+</span></span></span><span class="line"><span class="cl"><span class="s2">SESSION_LIFETIME=120
+</span></span></span><span class="line"><span class="cl"><span class="s2">QUEUE_DRIVER=sync
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">REDIS_HOST=/var/run/redis/redis.sock
+</span></span></span><span class="line"><span class="cl"><span class="s2">REDIS_PASSWORD=null
+</span></span></span><span class="line"><span class="cl"><span class="s2">REDIS_PORT=0
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">MAIL_DRIVER=smtp
+</span></span></span><span class="line"><span class="cl"><span class="s2">MAIL_HOST=
+</span></span></span><span class="line"><span class="cl"><span class="s2">MAIL_PORT=
+</span></span></span><span class="line"><span class="cl"><span class="s2">MAIL_USERNAME=
+</span></span></span><span class="line"><span class="cl"><span class="s2">MAIL_PASSWORD=
+</span></span></span><span class="line"><span class="cl"><span class="s2">MAIL_ENCRYPTION=
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">PUSHER_APP_ID=
+</span></span></span><span class="line"><span class="cl"><span class="s2">PUSHER_APP_KEY=
+</span></span></span><span class="line"><span class="cl"><span class="s2">PUSHER_APP_SECRET=
+</span></span></span><span class="line"><span class="cl"><span class="s2">PUSHER_APP_CLUSTER=mt1
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">MIX_PUSHER_APP_KEY=\&#34;\${PUSHER_APP_KEY}\&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">MIX_PUSHER_APP_CLUSTER=\&#34;\${PUSHER_APP_CLUSTER}\&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">EOF&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">chown</span> www-data:www-data <span class="nv">$lychee_path</span>/.env
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="na">-u</span> www-data php artisan key:generate
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最后只需要配置 Nginx 相关内容即可</p>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 05-28</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2020/service/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E9%83%A8%E7%BD%B2%E4%B8%80%E4%BA%9B%E6%9C%8D%E5%8A%A1&issue[description]=[POST](https://blog.ginshio.org/2020/service/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2020/service/" data-title="在服务器上部署一些服务" data-hashtags="Server,NextCloud,GitLab,Lychee"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2020/service/" data-hashtag="Server"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2020/service/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2020/service/" data-title="在服务器上部署一些服务" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2020/service/" data-title="在服务器上部署一些服务"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2020/service/" data-title="在服务器上部署一些服务"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2020/service/" data-title="在服务器上部署一些服务" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2020/service/" data-title="在服务器上部署一些服务" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2020/service/" title="在服务器上部署一些服务">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/server/">Server</a>,&nbsp;<a href="/tags/nextcloud/">NextCloud</a>,&nbsp;<a href="/tags/gitlab/">GitLab</a>,&nbsp;<a href="/tags/lychee/">Lychee</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/compilerprinciple_002/" class="prev" rel="prev" title="词法分析 1"><i class="fas fa-angle-left fa-fw"></i>词法分析 1</a>
+            <a href="/2020/compilerprinciple_003/" class="next" rel="next" title="词法分析 2">词法分析 2<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2020-10-13T20:16:45+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"在服务器上部署一些服务"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>

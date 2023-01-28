@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>文件系统 - iris</title><meta name="Description" content="GinShio | 现代操作系统第四章读书笔记"><meta property="og:title" content="文件系统" />
+<meta property="og:description" content="GinShio | 现代操作系统第四章读书笔记" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2021/operatingsystem_003/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-07-19T21:01:19+08:00" />
+<meta property="article:modified_time" content="2022-04-08T15:13:39+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+<meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_001/" /><meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_002/" /><meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_004/" /><meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_005/" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="文件系统"/>
+<meta name="twitter:description" content="GinShio | 现代操作系统第四章读书笔记"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2021/operatingsystem_003/" /><link rel="prev" href="https://blog.ginshio.org/2021/operatingsystem_002/" /><link rel="next" href="https://blog.ginshio.org/2021/operatingsystem_004/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "文件系统",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_003\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, FileSystem","wordcount":  9964 ,
+        "url": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_003\/","datePublished": "2021-07-19T21:01:19+08:00","dateModified": "2022-04-08T15:13:39+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | 现代操作系统第四章读书笔记"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#文件">文件</a>
+      <ul>
+        <li><a href="#文件结构">文件结构</a></li>
+        <li><a href="#文件属性">文件属性</a></li>
+        <li><a href="#文件操作">文件操作</a></li>
+        <li><a href="#目录">目录</a></li>
+      </ul>
+    </li>
+    <li><a href="#文件系统的实现">文件系统的实现</a>
+      <ul>
+        <li><a href="#文件系统的布局">文件系统的布局</a></li>
+        <li><a href="#文件的实现">文件的实现</a></li>
+        <li><a href="#目录的实现">目录的实现</a></li>
+        <li><a href="#共享文件">共享文件</a></li>
+        <li><a href="#日志结构文件系统">日志结构文件系统</a></li>
+        <li><a href="#虚拟文件系统">虚拟文件系统</a></li>
+      </ul>
+    </li>
+    <li><a href="#文件系统管理和优化">文件系统管理和优化</a>
+      <ul>
+        <li><a href="#磁盘管理">磁盘管理</a>
+          <ul>
+            <li><a href="#块大小">块大小</a></li>
+            <li><a href="#记录空闲块">记录空闲块</a></li>
+            <li><a href="#磁盘配额">磁盘配额</a></li>
+          </ul>
+        </li>
+        <li><a href="#文件系统备份">文件系统备份</a></li>
+        <li><a href="#文件系统的一致性">文件系统的一致性</a></li>
+        <li><a href="#文件系统性能">文件系统性能</a>
+          <ul>
+            <li><a href="#高速缓存">高速缓存</a></li>
+            <li><a href="#块提前读">块提前读</a></li>
+            <li><a href="#减少磁盘臂运动">减少磁盘臂运动</a></li>
+          </ul>
+        </li>
+        <li><a href="#磁盘碎片整理">磁盘碎片整理</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">文件系统</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/operatingsystem/"><i class="far fa-folder fa-fw"></i>OperatingSystem</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/operating-system-note/"><i class="far fa-list-alt fa-fw"></i>Operating System Note</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-19">07-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 9964 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 20 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - Operating System Note</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul>
+                                                    <li><a href="/2021/operatingsystem_001/">进程与线程</a></li>
+                                                    <li><a href="/2021/operatingsystem_002/">内存管理</a></li><li><span class="active">文件系统</span></li>
+                                                    <li><a href="/2021/operatingsystem_004/">输入输出</a></li>
+                                                    <li><a href="/2021/operatingsystem_005/">死锁</a></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#文件">文件</a>
+      <ul>
+        <li><a href="#文件结构">文件结构</a></li>
+        <li><a href="#文件属性">文件属性</a></li>
+        <li><a href="#文件操作">文件操作</a></li>
+        <li><a href="#目录">目录</a></li>
+      </ul>
+    </li>
+    <li><a href="#文件系统的实现">文件系统的实现</a>
+      <ul>
+        <li><a href="#文件系统的布局">文件系统的布局</a></li>
+        <li><a href="#文件的实现">文件的实现</a></li>
+        <li><a href="#目录的实现">目录的实现</a></li>
+        <li><a href="#共享文件">共享文件</a></li>
+        <li><a href="#日志结构文件系统">日志结构文件系统</a></li>
+        <li><a href="#虚拟文件系统">虚拟文件系统</a></li>
+      </ul>
+    </li>
+    <li><a href="#文件系统管理和优化">文件系统管理和优化</a>
+      <ul>
+        <li><a href="#磁盘管理">磁盘管理</a>
+          <ul>
+            <li><a href="#块大小">块大小</a></li>
+            <li><a href="#记录空闲块">记录空闲块</a></li>
+            <li><a href="#磁盘配额">磁盘配额</a></li>
+          </ul>
+        </li>
+        <li><a href="#文件系统备份">文件系统备份</a></li>
+        <li><a href="#文件系统的一致性">文件系统的一致性</a></li>
+        <li><a href="#文件系统性能">文件系统性能</a>
+          <ul>
+            <li><a href="#高速缓存">高速缓存</a></li>
+            <li><a href="#块提前读">块提前读</a></li>
+            <li><a href="#减少磁盘臂运动">减少磁盘臂运动</a></li>
+          </ul>
+        </li>
+        <li><a href="#磁盘碎片整理">磁盘碎片整理</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>对于长期存储的信息有三个基本要求：</p>
+<ol>
+<li>能够存储大量信息</li>
+<li>使用信息的进程终止时，信息依旧存在</li>
+<li>必须能使多个进程并发访问相关信息</li>
+</ol>
+<p>磁盘由于其长期存储的性质，已有多年的使用历史。今年固态硬盘因其没有易损坏的移动部件、可以提供高速的随即访问，而流行起来。但磁盘和光盘虽然性能较差但也广泛用于备份。磁盘可以看做一种大小固定的块的线性序列，且支持：</p>
+<ol>
+<li>读块 k</li>
+<li>写块 k</li>
+</ol>
+<p>磁盘一般支持更多操作，但只要存在这两个操作，原则上就可以解决长期存储问题。当然这还远远不够，一些操作不便于实现，在思考时往往还产生一些问题：</p>
+<ol>
+<li>如何找到信息</li>
+<li>如何防止一个用户读取另一个用户的数据</li>
+<li>如何知道哪些块是空闲的</li>
+</ol>
+<p>就像 OS 提取处理器的概念来创建进程的抽象，以及提取 RAM 的概念来创建进程虚拟地址空间的抽象一样，使用 <strong>文件</strong> (File) 来解决磁盘的问题。File 是 <strong>进程创建的信息逻辑单元</strong>​，文件是对磁盘的建模而非 RAM，因此将文件看做地址空间就能理解了。</p>
+<p>进程可以读取已存在的 File，并在需要时建立新 File，存储的文件必须是持久的，因此不会受到进程的创建与终止而受到影响，只有在其所有者明确删除它的情况下才会消失。File
+受操作系统管理，有关的构造、命名、访问、使用、保护、实现和管理方法都是 OS 设计的主要内容。从总体上看，OS 处理文件的部分被称为 <strong>文件系统</strong> (file system)，这才是
+OS 的核心问题之一。从用户的角度看，File System 中最重要的就是其表现形式，即文件由什么组成的，如何命名、修改等操作。至于如何实现，和我这个用户有什么关系呢。</p>
+<h2 id="文件" class="headerLink">
+    <a href="#%e6%96%87%e4%bb%b6" class="header-mark"></a>文件</h2><p>首先先从用户的角度观察文件，文件是对磁盘上保存信息的一种抽象，用户不必关心磁盘如何存储、存储到哪里、实际的工作方式等细节。</p>
+<p>文件系统是实现这些细节的程序，在 MS-DOS 中使用的是 <code>FAT-16</code> 文件系统，Windows98
+对其进行了扩展，从而成为今天耳熟能详的 <code>FAT-32</code> 文件系统，Windows 如今是用一种更为先进的 <code>NTFS</code> 文件系统。微软还根据 FAT 文件系统开发出了 <code>exFAT</code> ，这是针对于闪存和大文件开发的系统，并且也是唯一能满足 OS X 读写操作的微软开发的文件系统。UNIX
+的文件系统也有很多，目前主流的是 Linux 的 <code>ext4</code> (其是 ext2 和 ext3 的升级版本)、
+Solaris 的 <code>ZFS</code> 、Unix 传统的 <code>FFS</code> 以及 OS X 的 <code>HFS+</code> 等，还有一些著名公司如
+SGI 开发的 <code>XFS</code> 、RedHat 主导的 <code>BtrFS</code> 等。这些文件系统可能底层实现、适用环境不同，但大部分都遵循 POSIX 实现，对用户操作来说是透明的。</p>
+<p>文件系统限制着文件的命名，但是我们可以在进程结束后并且文件依然存在时，根据名称访问文件。文件名一般用圆点隔开分文两部分，圆点后的部分被称为 <strong>文件扩展名</strong> (file
+extension)，extension 往往是约定俗成的，表明了当前文件的内容。在 FAT-16 中限制文件名由 1 到 8 个字符以及 1 到 3 个字符的 extension 组成，而 UNIX 中则以约定而非强制使用 extension。比如 FAT-16 是不区分大小写的文件系统，但是 UNIX 会严格区分文件的大小写，所以一个 C++ 文件 <code>a.C</code> ，在 FAT-16 中被认为是一个 C 语言文件，而
+UNIX 中则是一个 C++ 文件。虽然 UNIX 并不关心 extension，但是现代图形界面往往支持程序与 extension 注册绑定，方便用户使用。</p>
+<p>文件系统支持多种文件类型，比如 UNIX 与 Windows 中都支持的 <strong>普通文件</strong> (regular
+file) 与 <strong>目录</strong> (directory)，UNIX 还支持 <strong>字符文件</strong> (character file) 与 <strong>块文件</strong>
+(block file)。regular 包含有用户信息的文件，有二进制文件或 ASCII 文件，ASCII 文件在每行结束有一个换行符 <strong>LF</strong> (有的操作系统采用回车 <strong>CR</strong>​，或混合 <strong>CRLF</strong>)，ASCII
+文件方便显示、打印并可以编辑。二进制文件人们往往无法理解，其打印也是一堆无意义数据，但二进制文件其格式正确，执行的程序才能精准的将其展示或打印为人类可懂的内容。</p>
+<h3 id="文件结构" class="headerLink">
+    <a href="#%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84" class="header-mark"></a>文件结构</h3><p>文件可以有多种构造方式，最常用的是三种方式：</p>
+<ol>
+<li><strong>字节</strong>​，即文件是由多个字节组成的，OS 并不关心文件的内容是什么，其内容的含义交由处理其的软件解释。这是 OS 中最主流的实现方式，有极大的灵活性，允许用户写入任何内容，OS 不提供帮助也不构成障碍。</li>
+<li><strong>记录</strong>​，即文件是具有固定长度记录的序列，每个记录都有其内部结构。读操作将返回一个记录，写操作重写或追加一个记录。</li>
+<li><strong>树</strong>​，即文件由一颗记录树构成，每个记录不必具有相同的长度，记录的固定位置上有一个 key 字段，树按照 key 进行排序并可以快速查找。采用这种方式时，用户可以为文件添加新的记录，并无需关心记录的存储位置，但用户不能决定记录添加在什么位置，这是 OS 的工作范围。这种方法主要被用语一些大型计算机中。</li>
+</ol>
+<figure><img src="/images/file-structure.svg"/>
+</figure>
+
+<div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">当 80 列穿孔卡片还是主流的时候，很多大型机 OS 将文件系统建立在由 80 个字符的记录组成的文件基础上。这些 OS 也支持 132 个字符的记录组成文件，因为为了适应行式打印机。程序以 80 个字符读数据、以 132 个字符为单位写数据 (最后 52 个字符为空格)。因此这种方式流行于 80 列穿孔卡片的时代。</div>
+        </div>
+    </div>
+<h3 id="文件属性" class="headerLink">
+    <a href="#%e6%96%87%e4%bb%b6%e5%b1%9e%e6%80%a7" class="header-mark"></a>文件属性</h3><p>文件除了文件名与数据，还有保存其他与文件相关的信息，如创建日期与时间、大小等，这些附加信息被称为 <strong>属性</strong> (attribute) 或 <strong>元数据</strong> (metadata)。但是 attribute 在不同 OS 中差别很大，这里列出其中一些作为举例。</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>创建者</td>
+<td>创建文件者的 ID</td>
+</tr>
+<tr>
+<td>所有者</td>
+<td>文件当前的所有者</td>
+</tr>
+<tr>
+<td>只读标志</td>
+<td>文件处于只读、读写状态</td>
+</tr>
+<tr>
+<td>隐藏标志</td>
+<td>文件是否在列表中显示</td>
+</tr>
+<tr>
+<td>系统标志</td>
+<td>这是一个系统文件或普通文件</td>
+</tr>
+<tr>
+<td>存档标志</td>
+<td>该文件是否备份</td>
+</tr>
+<tr>
+<td>临时标志</td>
+<td>该文件在进程退出时是否删除</td>
+</tr>
+<tr>
+<td>创建时间</td>
+<td>创建文件的日期与时间</td>
+</tr>
+<tr>
+<td>访问时间</td>
+<td>上一次访问文件的日期与时间</td>
+</tr>
+<tr>
+<td>修改时间</td>
+<td>上一次修改文件的日期与时间</td>
+</tr>
+<tr>
+<td>当前大小</td>
+<td>文件的字节数</td>
+</tr>
+<tr>
+<td>占用大小</td>
+<td>文件实际占用的字节数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="文件操作" class="headerLink">
+    <a href="#%e6%96%87%e4%bb%b6%e6%93%8d%e4%bd%9c" class="header-mark"></a>文件操作</h3><p>早期操作系统仅支持 <strong>顺序访问</strong> (sequential access)，进程在这些系统中从头按顺序读取文件的全部字节或记录，不能跳过或随机读取内容，可以返回起点并根据需求多次读取文件，这是磁带的访问方式。当我们使用磁盘时，可以不按顺序读取文件，这种访问方式被称为 <strong>随机访问</strong> (random access)。</p>
+<p>使用文件的目的是储存信息并未了之后的检索，因此这里介绍一些常见的与文件相关的系统调用</p>
+<ol>
+<li><code>create</code>​，创建不包含任何数据的文件，表明文件即将建立并设置一些属性</li>
+<li><code>delete</code>​，当文件不再需要时，以删除文件并释放磁盘空间</li>
+<li><code>open</code>​，将文件属性与磁盘地址装入内存，以供以后的使用</li>
+<li><code>close</code>​，关闭文件并释放内部表空间</li>
+<li><code>read</code>​，在文件中读取数据，读取的数据来自文件的当前位置</li>
+<li><code>write</code>​，向文件的当前位置写入数据</li>
+<li><code>append</code>​，向文件的末尾写入数据</li>
+<li><code>seek</code>​，指定文件的位置，方便对文件进行随机访问</li>
+</ol>
+<h3 id="目录" class="headerLink">
+    <a href="#%e7%9b%ae%e5%bd%95" class="header-mark"></a>目录</h3><p>文件系统通常提供 <strong>目录</strong> 或 <strong>文件夹</strong> 来记录文件的位置，当然很多系统中目录也是文件。目录是层级结构的，最顶层的目录被称为 <strong>根</strong> (root)，在 UNIX 系统中也被称为 <code>/</code> ，目录将文件自然而然的进行分组。</p>
+<p>当要访问一个文件时，最简单的方法就是从 root 开始，将所有目录与该文件组成一个路径，这被称为 <strong>绝对路径</strong> (absolute path)。由于可能有多个路径，因此系统会使用一种符号作为路径的分隔符，在有些系统是不同的，对于一个路径 \(usr \rightarrow GinShio \rightarrow mailbox\)，它的绝对路径有以下表示：</p>
+<ul>
+<li>Windows (<code>\</code>): \usr\GinShio\mailbox</li>
+<li>UNIX (<code>/</code>): /usr/GinShio/mailbox</li>
+<li>MULTICS (<code>&gt;</code>): &gt;usr&gt;GinShio&gt;mailbox</li>
+</ul>
+<p>另一种方式就是 <strong>相对路径</strong> (relative path)，它与 <strong>工作目录</strong> / <strong>当前目录</strong> (working
+/ current directory) 一起使用，用户不再需要从 root 开始指定，在没有任何前置分隔符时系统会将其解释为 current 下的文件。这使得 relative 更加方便，且与 absolute
+功能相同。如果需要声明 current 一般使用 <code>.</code> (dot) 表示，而需要声明当前目录的上一级目录则使用 <code>..</code> 表示。</p>
+<figure><img src="/images/unix-directory-tree.svg"/>
+</figure>
+
+<p>以上图为例，假设我们现在工作目录位于 <code>init.d</code> 中，则有以下表示</p>
+<ul>
+<li>绝对路径表示当前路径：/etc/init.d</li>
+<li>相对路径表示 X11 的路径：../X11</li>
+<li>相对路径表示 boot.d 的路径：./boot.d</li>
+</ul>
+<h2 id="文件系统的实现" class="headerLink">
+    <a href="#%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e7%9a%84%e5%ae%9e%e7%8e%b0" class="header-mark"></a>文件系统的实现</h2><h3 id="文件系统的布局" class="headerLink">
+    <a href="#%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e7%9a%84%e5%b8%83%e5%b1%80" class="header-mark"></a>文件系统的布局</h3><p>文件系统存放于磁盘上，多数磁盘划分为一个或多个分区，每个分区是一个独立的文件系统。在传统的 BIOS 中需要将磁盘格式化为 <strong>主引导记录</strong> (Master Boot Record, MBR) 格式，而 UEFI 则会将磁盘格式化为 <strong>全局唯一标识磁盘分区表</strong> (GUID Partition Table, GPT)
+格式，GPT 的最开始部分有一段兼容 MBR 的引导，不论是 MBR 还是 GPT 都为了引导计算机系统的启动。</p>
+<p>引导记录结尾有一段分区表，该表给出了每个分区的起始和结束地址，表中的一个分区被标记为活动分区。在引导时 BIOS 会读入并执行 MBR，MBR 做的第一件事即确定活动分区并读入其第一个块，这个块被称为 <strong>引导块</strong> (boot block)，并执行。boot block 中的程序将装载该分区中的操作系统。为了统一，每个分区都有从 boot block 开始，无论是否包含操作系统。磁盘的分区的布局是根据文件系统的不同而变化的。一般情况下第一个是 <strong>超级块</strong> (superblock)，其中包含文件系统的所有关键参数，在计算机启动时或该文件系统首次使用时，superblock 被读入内存。其中的典型信息包括：确定文件系统类型用的魔数、文件系统中的块数量以及其他重要的管理信息。空闲空间管理是针对空闲块的信息，可以使用位图或指针列表的形式给出。index 组是记录文件信息的数组，说明了文件的方方面面。根目录存储着目录树的根部，之后则是其他所有文件和目录。</p>
+<figure><img src="/images/file-system-layout-example.svg"/>
+</figure>
+
+<h3 id="文件的实现" class="headerLink">
+    <a href="#%e6%96%87%e4%bb%b6%e7%9a%84%e5%ae%9e%e7%8e%b0" class="header-mark"></a>文件的实现</h3><p>文件存储实现的关键是记录各个文件分别用到哪些磁盘块。</p>
+<ol>
+<li>
+<p><strong>连续分配</strong></p>
+<p>最简单的方案是将每个文件作为一串连续数据块存储到磁盘上，根据块大小的不同文件占用的块数量也不同。每个文件都从一个新的块开始存储，因此当最后一个块不被占满的时候，将造成一定的内部浪费，这与内存分页的内部浪费类似。这样的文件分配方式有两大优点：</p>
+<ol>
+<li>实现简单，仅需记住磁盘地址与文件块数即可</li>
+<li>读操作性能好</li>
+</ol>
+<figure><img src="/images/disk-sequential-allocation-example.svg"/>
+    </figure>
+
+<p>当删除文件时，文件所占用的块被释放，这时会出现外部的碎片化的空闲块。这与
+RAM 的外部碎片相似，当文件无法找到足够容纳自己的空闲区时，这个文件将不能被写入磁盘。对于已满的磁盘来说，我们可以进行压缩操作，将磁盘中的空闲区合并。</p>
+</li>
+<li>
+<p><strong>链表分配</strong></p>
+<p>可以与链表的实现类似，将每个块的第一个字作为指向下一块的指针，块的其他部分存放数据。这样可以充分利用磁盘的每一个块，不会造成磁盘碎片进而浪费存储空间。并且 index 中只需要存储文件第一个块的地址即可，实现并不复杂。但是这个实现中，顺序读写并不是什么问题，当需要随机读写时该实现将造成很大困扰，链表并不能进行随即访问 (或者是十分缓慢)。</p>
+<figure><img src="/images/disk-list-allocation-example.svg"/>
+    </figure>
+
+<p>为了增强读效率，可以将链表存放于内存当中，使用表来记录文件使用的块，这个表被称为 <strong>文件分配表</strong> (File Allocation Table, FAT)。按 FAT 的组织方式整个块都可以存放数据，但内存消耗极大，并不实用。</p>
+</li>
+<li>
+<p><strong>index 节点</strong></p>
+<p>i 节点 (index node) 中可以列出文件属性和文件块的地址，这样只需要 index 即可获取到文件需要哪些块，并且在打开文件的时候将 index node 读入 RAM 即可，不再需要 FAT 对文件进行常驻记录。但是问题也随之接踵而至，index node 只能固定存储一定量的磁盘地址，需要使用文件中一些特殊的块来存储额外的地址空间。</p>
+</li>
+</ol>
+<h3 id="目录的实现" class="headerLink">
+    <a href="#%e7%9b%ae%e5%bd%95%e7%9a%84%e5%ae%9e%e7%8e%b0" class="header-mark"></a>目录的实现</h3><p>用户利用路径名来寻找对应的文件，因此目录项提供了查找文件磁盘块所需的信息，因系统差异这些信息可能是指向整个文件的磁盘地址 (sequential allocation)、第一个块编号
+(list allocation) 或 index node 编号。无论如何目录系统对会将路径名映射为定位文件数据所需的信息。另一个问题是文件的属性如何存放。显而易见的答案是，将属性与磁盘地址都存储于目录项之中。而采用 index node 的文件系统，则可以把属性存放于 index
+node 中，这样目录项的信息只需要包含文件名与 index 地址即可。</p>
+<p>对于可变长的文件名，存储在目录项将会有一个问题，定长的目录项可能无法容纳足够长的文件名，或对目录项的空间造成浪费，而可变长的目录项也可能操作空间的浪费与碎片化。一个比较好的方法是定长的目录项，但是将文件名存储在一个 heap 数据结构中，如此需要额外对其进行管理。</p>
+<h3 id="共享文件" class="headerLink">
+    <a href="#%e5%85%b1%e4%ba%ab%e6%96%87%e4%bb%b6" class="header-mark"></a>共享文件</h3><p>共享文件对使用是十分方便的，文件 A 可以共享给目录 B，而不需要占用额外的空间，并且 A 与副本 A 是完全相同的，当 A 发生修改时副本 A 也被修改，这被称为 <strong>链接</strong>
+(link)。文件系统本身是一个 <strong>有向无环图</strong> (Directed Acyclic Graph, DAG) 而非树状，因此维护变得复杂。</p>
+<p>共享文件带来了一个问题，如果目录中包含磁盘地址，链接文件时必须把目标目录的磁盘地址复制到源目录中，如果目录添加新文件时，只会修改当前添加文件的目录，其他共享的目录无法被修改，这与共享文件的目录相悖。这里提出两个解决方法：</p>
+<ol>
+<li>磁盘块不列入目录，而是列入一个与文件本身相关的小型数据结构中，目录将指向这个数据结构，即 Index Node 方式 (也是 UNIX 所采用的方式)</li>
+<li>让系统建立一个类型为 LINK 的新文件，并将其放入目标目录下，新的文件只包含它所链接文件的路径名。当读该共享文件时，操作系统发现其是链接文件，则根据记录的路径名找到原始文件。这个方法被称为 <strong>符号链接</strong> (symbolic linking)</li>
+</ol>
+<p>在共享文件时 index 记录文件的所有者，建立链接时并不会修改所有者，但将 index 的链接计数加 1，所以系统知道有多少目录项指向该文件。在决定删除文件时，只有当链接计数变为 0 时系统才会真正删除该文件。对于符号链接，当原始文件被删除时，链接文件将会访问错误，但是每个符号链接需要额外的 index 节点，并且额外的开销寻找真正的文件地址。但是符号链接也会带来一个好处：只要提供机器的网络地址与文件在该机器上的路径，就可以链接任意机器上的文件。</p>
+<h3 id="日志结构文件系统" class="headerLink">
+    <a href="#%e6%97%a5%e5%bf%97%e7%bb%93%e6%9e%84%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f" class="header-mark"></a>日志结构文件系统</h3><p>在 CPU 性能快速提升、磁盘容量越来越大的背景下，磁盘的性能却没有太大提升。随着缓存的增大，越来越多的操作可以不需要访问操作，就有可能满足来自文件系统高速缓存的很大一部分读请求。在有些系统中采取的提前读机制并不能获取很好的性能，并且大多数写操作是零碎的 (必须写文件、文件的 index、目录块、目录的 index)，磁盘利用率很低。因此 Berkeley 设计了一种全新的文件系统 &mdash; <strong>日志结构文件系统</strong> (Log-structured File
+System, LFS)。</p>
+<p>LFS 希望在面对一个大部分由零碎的随机写操作组成的任务，同样能够充分利用磁盘的带宽。其基本思路是将整个磁盘结构转化为一个日志，每隔一段时间或有特殊需要时，被缓冲在内存中的所有未决的写操作都被放到一个单独的段中，作为在日志末尾的一个邻接段写入磁盘。这个单独的段可能包含 index、目录块、数据块或全都有，每个段开始都是该段的摘要，说明该段都包含哪些内容。若所有的段平均在 1 MB 左右，那么几乎可以利用磁盘的完整带宽。</p>
+<p>LFS 的设计中同样存在 index node，但 index node 分散在整个日志中而不是磁盘的某一固定位置。当 index node 被定位后，定位一个块就与通常的方式相同。但是这种设计中
+index node 的寻找将变得困难，因为 index node 不再通过简单的计算得到。为了能够找到 index 节点，必须维护一个由 index node 编号索引组成的节点图，这个图中的表项 i
+指向磁盘中第 i 个 index，这个图保存在磁盘上、高速缓存中，因此大多数情况下最常用的部分也在内存中。</p>
+<p>由于磁盘并不是无限大的，日志可能会占满整个磁盘，但是幸运的是，有些块虽然被前面的日志使用着，但实际已经不再需要。因此 LFS 有一个清理线程，周期性地扫描日志进行磁盘压缩。该线程首先读入日志的第一个段的摘要，检查有哪些 index 节点与文件，并与当前 index 节点图进行对比，查看文件、index 是否有效，无效时信息将被丢弃，反之
+index 与块将进入内存等待写回到下一个段中，原先的段将被标记为空闲以便存放新的日志。</p>
+<p>日志结构文件系统的大量零碎写操作性能强于 UNIX 一个数量级，并且其读操作与大块写操作的性能并不比 UNIX 文件系统差，甚至更好。</p>
+<p>由于 LFS 并不于现有文件系统匹配，但其面对出错的健壮性，及其思想 (保存系统下一步将要做什么的日志)，被其他文件系统所借鉴。这样系统即将完成一些任务时崩溃，重启后通过查看日志即可获取崩溃前的任务并完成。这样的文件系统被称为 <strong>日志文件系统</strong>​，
+NTFS、ext3、ReiserFS 等都是这种系统的应用。</p>
+<p>日志文件系统先写入一个日志项，列出将要完成的任务，当日志项被写入后将开始执行任务，所有的任务都完成后将擦除日志项。如果系统这时候崩溃，可以在系统恢复后通过检查日志项，确定是否有未完成的操作西药继续完成。为了让系统工作，被写入日志的操作必须是
+<strong>幂等的</strong>​，意味着只要有必要操作就可以执行多次，并且不会带来破坏。为了可靠性，系统可以添加 <strong>原子事务</strong> 的概念。</p>
+<h3 id="虚拟文件系统" class="headerLink">
+    <a href="#%e8%99%9a%e6%8b%9f%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f" class="header-mark"></a>虚拟文件系统</h3><p>在计算机的不同分区可能使用不同的文件系统，这在现实中很常用，因此操作系统使用 <strong>虚拟文件系统</strong> (Virtual File System, VFS) 的概念将不同文件系统统一成一种有序的结构。关键思路是抽象出所有文件系统的共同部分，并将这部分代码放在单独的一层，VFS 调用底层实际的文件系统来管理数据。</p>
+<figure><img src="/images/vfs-example.svg"/>
+</figure>
+
+<p>VFS 并不关心底层如何存储数据或数据被存储到哪里，正如 Sun 建立 VFS 最初的目的是使用 <code>网络文件系统</code> (Network File System, NFS) 协议的远程文件系统，因此 VFS 只关心实际的文件系统提供的功能。通常支持一些必要的对象类型，包括超块 (描述文件系统)、v
+节点 (描述文件) 和目录，这些中的每一个都有实际文件系统必须支持的相关操作。VFS 也会有一些供自己使用的内部数据结构，包括用于跟踪用户进程中所打开文件的装载表和文件描述符的数组。</p>
+<p>在实际运行时，文件系统需要先向 VFS 进行注册，将 VFS 所支持的功能，通过提交对应的功能函数表，告知 VFS 相关的真实操作。当用户通过调用 POSIX 接口进行文件操作时，由
+VFS 管理用户打开的文件，并将 POSIX 接口转换为真正的文件系统调用。</p>
+<h2 id="文件系统管理和优化" class="headerLink">
+    <a href="#%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e7%ae%a1%e7%90%86%e5%92%8c%e4%bc%98%e5%8c%96" class="header-mark"></a>文件系统管理和优化</h2><h3 id="磁盘管理" class="headerLink">
+    <a href="#%e7%a3%81%e7%9b%98%e7%ae%a1%e7%90%86" class="header-mark"></a>磁盘管理</h3><p>文件通常存放在磁盘上，所以对磁盘空间的管理是设计者要考虑的一个主要问题。存储一个有 n 个字节的文件可以有两种策略，分配 n 个字节的连续空间，或把文件分成很多连续的块。在存储管理系统中，分段处理和分页处理也需要进行权衡。由于分段需要移动文件，但磁盘相对内存操作慢得多，因此文件系统经常采用分页的方式。</p>
+<h4 id="块大小" class="headerLink">
+    <a href="#%e5%9d%97%e5%a4%a7%e5%b0%8f" class="header-mark"></a>块大小</h4><p>一旦决定分页，最直观的问题即页大小。大的块尺寸意味着小文件将浪费大量磁盘空间，而小的块尺寸则会有大量文件跨越多个块，因此需要多次寻道与旋转延迟才能找到它们，从而降低性能。</p>
+<p>一项关于 VU 计算机系研究数据表明，VU \(59.13\%\) 的文件都小于等于 4 KB，而
+\(90.84\%\) 的文件都小于等于 64 KB，其中文件大小的中位数是 2474 字节。假设磁盘每道 1 MB，其旋转时间 8.33 ms，平均寻道时间 5 ms，那么读取一个 k 字节的块需要：
+\[5 + 4.165 + \frac{k}{1000000} * 8.33\]</p>
+<p>由于对一个块的访问主要由寻道时间与旋转延迟决定，因此在访问磁盘块时，取到的数据越多越好，因此数据率随着磁盘块的增大而线性增大。对于空间利用率来说，随着磁盘块的增大而降低。性能与利用率是天生矛盾的。在历史上文件系统的块大小设置在 <code>1 ~ 4</code> KB 之间，随着磁盘的容量增加，块大小也可以考虑提升到 64 KB 以增加性能而接受空间浪费。</p>
+<h4 id="记录空闲块" class="headerLink">
+    <a href="#%e8%ae%b0%e5%bd%95%e7%a9%ba%e9%97%b2%e5%9d%97" class="header-mark"></a>记录空闲块</h4><p>对于如何记录空闲块的方式，主要有两种：</p>
+<ol>
+<li><strong>磁盘块链表</strong>​，每个块中包含尽可能多的空闲磁盘号，并采用空闲块存放空闲列表</li>
+<li><strong>位图</strong></li>
+</ol>
+<p>使用记录连续块的方式优化链表存储，但磁盘碎片严重时，这种方式将比单独记录的方法效率低。并且指针块可以存储在内存中，但在指针块快满时对文件的删除操作，可能使指针块溢出，从而交换新的指针块，导致大量的磁盘 IO。避免过多的磁盘 IO 可以将内存中始终保持半满的指针块，在释放与写入时都可以减少频繁的 IO。</p>
+<p>对于位图的实现，内存中只保留一个块是可能的，在块满了或空了的情况下再进行磁盘 IO。另外通过位图在单一块上进行分配操作，磁盘块会较为紧密地聚集在一起，从而减少了磁盘臂的移动。并且如果内核是分页的，可以将固定大小的块读入虚拟内存，在需要时将位图页面调入。</p>
+<h4 id="磁盘配额" class="headerLink">
+    <a href="#%e7%a3%81%e7%9b%98%e9%85%8d%e9%a2%9d" class="header-mark"></a>磁盘配额</h4><p>多用户操作系统往往会为不同用户分配一定大小的空间，防止用户占用太多的磁盘空间。当用户修改文件时，文件属性中的所有者可以记录该文件属于谁，关于文件大小的变动都会记录到所有者的配额上。此外还会有一个指向所有者的配额指针，用以记录所有者配额的详细信息，并在文件变动时检查配额是否超出。配额中存在软配额与硬配额，前者可以超过但会发生警告，后者不可超出。</p>
+<h3 id="文件系统备份" class="headerLink">
+    <a href="#%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e5%a4%87%e4%bb%bd" class="header-mark"></a>文件系统备份</h3><p>文件系统的损坏将造成数据的大量丢失，最直接的方法就是备份。备份有两个好处，从 <strong>意外的灾难</strong> 或 <strong>错误的操作</strong> 中恢复数据，但备份可能耗时又浪费空间，因此快又好的备份是十分必要的。</p>
+<ol>
+<li>对于临时文件与设备文件是不需要备份的，大部分的可执行文件可以再获取也是不需要备份的，因此只备份特定目录与其下的文件即可。</li>
+<li>对从没有修改过的文件进行多次备份也是一种浪费，因此我们需要用到增量备份的思想。在一次全量备份上只记录最新修改的部分，这样加快了备份的时间、减少了空间的浪费，但对恢复来说是一种挑战，恢复时必须从全量备份开始逐次进行恢复。</li>
+<li>备份是否需要压缩算法，也是需要考量的。因为备份设备上的一个坏点即可破坏整个文件，导致数据无法读取。</li>
+<li>对活动的文件系统进行备份是很难的，极有可能发生文件的不一致性。因此人们修改了转储算法，记录下文件系统的瞬时快照 (复制关键的数据结构)，然后需要把将来对文件和目录所做的修改复制到块中，而非处处更新。</li>
+</ol>
+<p>转储分为 <strong>物理转储</strong> 与 <strong>逻辑转储</strong>​。前者从磁盘的第 0 块开始，将全部的磁盘块按序输出到磁带，直到最后一块。这种方案很简单，可以确保万无一失。但是物理转储无法跳过选定目录，也无法增量转储。后者从一个或多个指定的目录开始，递归地转储其给定的基准日期后所更改的全部文件和目录。</p>
+<h3 id="文件系统的一致性" class="headerLink">
+    <a href="#%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e7%9a%84%e4%b8%80%e8%87%b4%e6%80%a7" class="header-mark"></a>文件系统的一致性</h3><p>如果在修改过的磁盘块全部写回之前系统崩溃，则文件系统将处于不一致状态，如果未被写回的块是 index、目录块或含有空闲表的块时，这个问题尤为严重。因此在解决不一致性的问题上，很多系统都带有检验系统一致性的程序。在系统启动 (或因崩溃重启) 时可以运行该程序。一致性检测一般分为两种：块的一致性检测与文件的一致性检测。</p>
+<p>在检测块的一致性时，程序构造两张表，每张表中为每个块设立一个计数器，都初始化为 0。接着程序使用原始设备读取全部的 index 节点，忽略文件结构，只返回从零开始的所有磁盘块。以下展示了块一致性检测中可能出现的问题。b 情况 <strong>块丢失</strong>​，即块没有出现在任意一张表中，虽然没有危害，但是造成了资源的浪费，解决方案也很简单，将其加入到空闲表中即可。c 情况出现了重复的空闲块，此时只要重新建立空闲表即可。d 情况最为复杂，在两个或多个数据中都出现一同一个块，如果删除其中一个文件则会出现块处于一种使用与空闲的状态，而删除所有相关文件则会让其在空闲表中重复多次。一种解决方案是复制该块，并让引用这个块的文件得到相同的一份副本，消除文件系统的不一致性，并将错误报告给用户。</p>
+<figure><img src="/images/file-system-block-check-status.svg"/>
+</figure>
+
+<p>除了文件外目录也需要检查，同样使用计数器记录文件 (并非块) 的使用次数。在检测完成后得到一张由 index 节点号索引的表，说明每个文件被多少个目录包含，并与 index node
+中的链接数目比较。index 中链接数目大于计数器的数目，则会导致释放完所有文件后
+index 依然不能释放相关磁盘块，造成磁盘空间浪费。而小于计数器数目时，index 为 0
+后会立即释放磁盘块，index 可能被很快用作其他文件，导致原先的文件内容错误。这两种方法都可以通过设置正确的 index node 链接数目解决。</p>
+<h3 id="文件系统性能" class="headerLink">
+    <a href="#%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e6%80%a7%e8%83%bd" class="header-mark"></a>文件系统性能</h3><h4 id="高速缓存" class="headerLink">
+    <a href="#%e9%ab%98%e9%80%9f%e7%bc%93%e5%ad%98" class="header-mark"></a>高速缓存</h4><p>最常用的减少磁盘直接访问的方案即 <strong>块高速缓存</strong> (block cache)，block cache 逻辑上属于磁盘，但实际被存储于内存中。在读请求中首先检测是否在 cache 中，命中 cache 时将不需要进行磁盘访问，从而提升性能。</p>
+<p>cache 的使用，需要与磁盘对块进行交换，因此在内存所涉及的页面置换算法都可以使用，与分页相比 cache 的引用很不频繁，因此 LRU 顺序链表是可行的。但关键问题是，一个关键块被修改并保存在 cache 中没有写回，当系统崩溃时将造成数据不一致性。为解决这一问题，可以将块分类为 index、目录项、数据等不同的类型，将最近不再使用的块放在 LRU
+链表的头部，对于很快将要再次使用的块 (如正在写入的「部分满数据块」) 放入链表的尾部，让其在高速缓存中保存更长的时间。除了数据块外的其他类型块，都应在修改后立即写回磁盘，保证文件系统的一致性。数据的一致性，可以通过定时的强制将修改的块写回磁盘，保证一定时间间隔内的数据不会丢失。而立即将所有修改的块写回磁盘被称为 <strong>通写高速缓存</strong> (write-through cache)，这种技术相比非通写需要更多的磁盘 IO。</p>
+<h4 id="块提前读" class="headerLink">
+    <a href="#%e5%9d%97%e6%8f%90%e5%89%8d%e8%af%bb" class="header-mark"></a>块提前读</h4><p>将要使用到的块提前读入 cache，从而提高 cache 命中率。特别地，很多文件是顺序读取的，因此系统提前读取到数据，以便提高 cache 命中率，从而减少磁盘 IO。但是对于随机访问的文件，提前读并不能优化性能，甚至可能降低性能。</p>
+<h4 id="减少磁盘臂运动" class="headerLink">
+    <a href="#%e5%87%8f%e5%b0%91%e7%a3%81%e7%9b%98%e8%87%82%e8%bf%90%e5%8a%a8" class="header-mark"></a>减少磁盘臂运动</h4><p>另一项提升文件系统性能的重要技术是将有可能顺序读取的块放在一起，最好是同一柱面上，减少磁盘臂移动次数。</p>
+<h3 id="磁盘碎片整理" class="headerLink">
+    <a href="#%e7%a3%81%e7%9b%98%e7%a2%8e%e7%89%87%e6%95%b4%e7%90%86" class="header-mark"></a>磁盘碎片整理</h3><p>最初安装操作系统时，从磁盘开始位置，一个接一个的安装程序与文件，所有的空闲磁盘空间都被存放在一个大的空闲区域内。随着系统的使用，文件的删除与创建，磁盘上会产生很多碎片，此时创建一个新文件可能会使其块散布在整个磁盘上，造成性能下降。不过可以通过一种方式恢复：移动文件使他们相邻，并把大部分空闲块放到一个或多个大的连续区域中。</p>
+<p>不过碎片整理的过程中，有些文件并不能被移动，包含页文件、休眠文件和日志，移动这些文件所需的管理成本大于移动他们所获得的收益。这些文件使用固定大小的连续区域，因此不需要进行碎片整理。如果这些文件在分区的末尾，此时用户想缩小分区的时候，将会把它们删除，改变分区大小后再进行重建。</p>
+<p>由于 ext2 与 ext3 的选择磁盘块的方式，在磁盘碎片整理上一般不会遭受像 Windows 那样的困难，因此很少需要手动进行碎片整理。此外，SSD 并不受磁盘碎片的影响，并且频繁的碎片整理可能影响其寿命。</p>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 04-08</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2021/operatingsystem_003/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F&issue[description]=[POST](https://blog.ginshio.org/2021/operatingsystem_003/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2021/operatingsystem_003/" data-title="文件系统" data-hashtags="Note,FileSystem"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2021/operatingsystem_003/" data-hashtag="Note"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2021/operatingsystem_003/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2021/operatingsystem_003/" data-title="文件系统" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2021/operatingsystem_003/" data-title="文件系统"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2021/operatingsystem_003/" data-title="文件系统"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2021/operatingsystem_003/" data-title="文件系统" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2021/operatingsystem_003/" data-title="文件系统" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2021/operatingsystem_003/" title="文件系统">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/filesystem/">FileSystem</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021/operatingsystem_002/" class="prev" rel="prev" title="内存管理"><i class="fas fa-angle-left fa-fw"></i>内存管理</a>
+            <a href="/2021/operatingsystem_004/" class="next" rel="next" title="输入输出">输入输出<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2021-07-19T21:01:19+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"文件系统"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>

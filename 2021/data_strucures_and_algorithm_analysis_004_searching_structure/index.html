@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>查找结构 - iris</title><meta name="Description" content="GinShio | 数据结构与算法分析第四章后半部分、高级数据结构笔记"><meta property="og:title" content="查找结构" />
+<meta property="og:description" content="GinShio | 数据结构与算法分析第四章后半部分、高级数据结构笔记" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-08-23T22:26:23+08:00" />
+<meta property="article:modified_time" content="2022-04-07T18:16:27+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="查找结构"/>
+<meta name="twitter:description" content="GinShio | 数据结构与算法分析第四章后半部分、高级数据结构笔记"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/" /><link rel="prev" href="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_003_tree_structure/" /><link rel="next" href="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_005_hash_table/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "查找结构",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_004_searching_structure\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, BinaryTree","wordcount":  7935 ,
+        "url": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_004_searching_structure\/","datePublished": "2021-08-23T22:26:23+08:00","dateModified": "2022-04-07T18:16:27+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | 数据结构与算法分析第四章后半部分、高级数据结构笔记"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#二分查找">二分查找</a></li>
+    <li><a href="#avl-树">AVL 树</a>
+      <ul>
+        <li><a href="#avl-的平衡因子">AVL 的平衡因子</a></li>
+        <li><a href="#avl-的插入操作">AVL 的插入操作</a>
+          <ul>
+            <li><a href="#单旋转">单旋转</a></li>
+            <li><a href="#双旋转">双旋转</a></li>
+            <li><a href="#对-avl-树插入的总结">对 AVL 树插入的总结</a></li>
+          </ul>
+        </li>
+        <li><a href="#avl-的移除操作">AVL 的移除操作</a></li>
+      </ul>
+    </li>
+    <li><a href="#伸展树">伸展树</a>
+      <ul>
+        <li><a href="#简单的旋转">简单的旋转</a></li>
+        <li><a href="#伸展">伸展</a></li>
+      </ul>
+    </li>
+    <li><a href="#b树">B树</a>
+      <ul>
+        <li><a href="#b树的相关术语与定义">B树的相关术语与定义</a></li>
+        <li><a href="#b树的插入操作">B树的插入操作</a></li>
+        <li><a href="#b树的移除操作">B树的移除操作</a></li>
+        <li><a href="#b-plus-树">B+树</a></li>
+      </ul>
+    </li>
+    <li><a href="#红黑树">红黑树</a>
+      <ul>
+        <li><a href="#红黑树的自底向上插入">红黑树的自底向上插入</a></li>
+        <li><a href="#红黑树的自顶向下插入">红黑树的自顶向下插入</a></li>
+        <li><a href="#红黑树的自顶向下删除">红黑树的自顶向下删除</a></li>
+      </ul>
+    </li>
+    <li><a href="#aa-树">AA 树</a>
+      <ul>
+        <li><a href="#aa树的插入操作">AA树的插入操作</a></li>
+        <li><a href="#aa树的删除操作">AA树的删除操作</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">查找结构</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/algorithmdatastructure/"><i class="far fa-folder fa-fw"></i>Algorithm⁄DataStructure</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/"><i class="far fa-list-alt fa-fw"></i>数据结构与算法分析</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-23">08-23</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7935 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 16 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - 数据结构与算法分析</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_001_introduction/">数据结构与算法分析引论</a></li>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_002_linear_data_structure/">线性数据结构</a></li>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_003_tree_structure/">树结构</a></li><li><span class="active">查找结构</span></li>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_005_hash_table/">散列表</a></li>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_006_heap_structure/">堆结构</a></li>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/">排序算法</a></li>
+                                                    <li><a href="/2022/data_strucures_and_algorithm_analysis_008_graph/">图结构</a></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#二分查找">二分查找</a></li>
+    <li><a href="#avl-树">AVL 树</a>
+      <ul>
+        <li><a href="#avl-的平衡因子">AVL 的平衡因子</a></li>
+        <li><a href="#avl-的插入操作">AVL 的插入操作</a>
+          <ul>
+            <li><a href="#单旋转">单旋转</a></li>
+            <li><a href="#双旋转">双旋转</a></li>
+            <li><a href="#对-avl-树插入的总结">对 AVL 树插入的总结</a></li>
+          </ul>
+        </li>
+        <li><a href="#avl-的移除操作">AVL 的移除操作</a></li>
+      </ul>
+    </li>
+    <li><a href="#伸展树">伸展树</a>
+      <ul>
+        <li><a href="#简单的旋转">简单的旋转</a></li>
+        <li><a href="#伸展">伸展</a></li>
+      </ul>
+    </li>
+    <li><a href="#b树">B树</a>
+      <ul>
+        <li><a href="#b树的相关术语与定义">B树的相关术语与定义</a></li>
+        <li><a href="#b树的插入操作">B树的插入操作</a></li>
+        <li><a href="#b树的移除操作">B树的移除操作</a></li>
+        <li><a href="#b-plus-树">B+树</a></li>
+      </ul>
+    </li>
+    <li><a href="#红黑树">红黑树</a>
+      <ul>
+        <li><a href="#红黑树的自底向上插入">红黑树的自底向上插入</a></li>
+        <li><a href="#红黑树的自顶向下插入">红黑树的自顶向下插入</a></li>
+        <li><a href="#红黑树的自顶向下删除">红黑树的自顶向下删除</a></li>
+      </ul>
+    </li>
+    <li><a href="#aa-树">AA 树</a>
+      <ul>
+        <li><a href="#aa树的插入操作">AA树的插入操作</a></li>
+        <li><a href="#aa树的删除操作">AA树的删除操作</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>如果给定一个序列，你将如何在这个序列中查找一个给定元素 target，当找到时返回该元素的迭代器，否则返回末尾迭代器。首先排除时间复杂度 \(\mathcal{O}(N)\) 的朴素算法，这不是本文的重点。</p>
+<h2 id="二分查找" class="headerLink">
+    <a href="#%e4%ba%8c%e5%88%86%e6%9f%a5%e6%89%be" class="header-mark"></a>二分查找</h2><p><strong>二分法</strong> (Dichotomy) 是一种思想，将一个整体事物分割成两部分，这两部分必须是互补事件，即所有事物必须属于双方中的一方且互斥。如此我们就可以在 \(\mathcal{O}(1)\) 的时间内将问题大小减半。</p>
+<p><strong>二分查找</strong> (binary search)，又称折半查找，这是一种可以在
+\(\mathcal{O}(\log_{}{N})\) 时间复杂度下完成查找的算法。二分查找要求序列必须是有序的，才能正确执行：将序列划分为两部分，如果中间值大于 target，意味着这之后的值都大于 target，需要继续向前找；如果中间值小于 target，意味着这之前的所有值都小于
+target，需要继续向后找。</p>
+<h2 id="avl-树" class="headerLink">
+    <a href="#avl-%e6%a0%91" class="header-mark"></a>AVL 树</h2><p>上一篇介绍树时分析了 BST 中为什么很容易发生不平衡现象。在极端情况下，只有一个
+leaf 的树，在查找元素时其时间复杂度退化为 \(\mathcal{O}(N)\) 。</p>
+<p>为了防止 BST 退化为链表，必须保证其可以维持树的平衡，一次需要有一个 <strong>平衡条件</strong>
+(balanced condition)。如果每个结点都要求其左右子树具有相同的高度，显然是不可能的，因为这样实在是太难了。在 1962 年，由苏联计算机科学家 G.M.Adelson-Velsky 和
+Evgenii Landis 在其论文 <strong>An algorithm for the organization of information</strong> 中公开了数据结构 AVL (Adelson-Velsky and Landis) 树，这是计算机科学中 <code>最早被发现的</code>
+自平衡二叉树。</p>
+<h3 id="avl-的平衡因子" class="headerLink">
+    <a href="#avl-%e7%9a%84%e5%b9%b3%e8%a1%a1%e5%9b%a0%e5%ad%90" class="header-mark"></a>AVL 的平衡因子</h3><p>AVL 树将子树的高度限制在差为 1，即一个结点，如果其左子树与由子树的高度差
+\(|D_{h}| \leq 1\) ，则认为这棵树是平衡的。因此带有平衡因子 \(-1\) 、 \(0\) 或 \(1\) 的结点被认为是平衡的，而 \(-2\) 或 \(2\) 的平衡因子被认为是需要调整的。平衡因子可以直接存储于结点之中，也可以利用存储在结点中的子树高度计算得出。</p>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/AVL-tree-wBalance_K.svg" width="64%"/>
+</figure>
+
+<p>简单地计算，一棵 AVL 树的高度最多为 \(1.44 \log_{}{(N + 2)} - 1.328\) ，实际上的高度只比 \(\log_{}{N}\) 稍微多一些。一棵高度为 \(h\) 的 AVL 树，其最少结点数 \(S(h) =
+S(h - 1) + S(h - 2) + 1\) ，\(S(0)=1, S(1) = 2\) 。而 AVL 的所有操作均可以在
+\(\mathcal{O}(\log_{}{N})\) 复杂度下完成。</p>
+<h3 id="avl-的插入操作" class="headerLink">
+    <a href="#avl-%e7%9a%84%e6%8f%92%e5%85%a5%e6%93%8d%e4%bd%9c" class="header-mark"></a>AVL 的插入操作</h3><p>在进行插入操作时，和普通的 BST 类似，但是不一样的是需要更新路径上所有结点的平衡信息，并插入完成后有可能破坏 AVL 的特性。如果特性被破坏后，需要恢复平衡才能算插入结束。实际上，总可以通过简单的操作进行修正，这种操作被称为 <strong>旋转</strong> (rotation)。</p>
+<p>将必须重新平衡的结点叫作 \(\alpha\) ，由于任意结点最多有两个孩子，因此高度不平衡时，
+\(\alpha\) 点的两棵子树的高度差 2。这种不平衡可能出现在下面 4 中情况中：</p>
+<ol>
+<li>对 \(\alpha\) 的左孩子的左子树进行插入</li>
+<li>对 \(\alpha\) 的左孩子的右子树进行插入</li>
+<li>对 \(\alpha\) 的右孩子的左子树进行插入</li>
+<li>对 \(\alpha\) 的右孩子的右子树进行插入</li>
+</ol>
+<p>情况 1 和 4 关于结点 \(\alpha\) 镜像对称，情况 2 和 3 关于结点 \(\alpha\) 镜像对称。因此从逻辑上来讲，我们只需要考虑两种情况，而编程时需要考虑上面介绍到的所有 4 种情况。</p>
+<h4 id="单旋转" class="headerLink">
+    <a href="#%e5%8d%95%e6%97%8b%e8%bd%ac" class="header-mark"></a>单旋转</h4><p>情况 1 是插入发生在「外边」的情形，我们称之为 <strong>一字形</strong> (zig-zig)，可以用 <strong>单旋转</strong> (single rotation) 解决。假设结点 \(n\) 不满足 AVL 平衡性质，因为其左子树比右子树深 2 层，可以对其进行单旋转修正。修正的过程是：将左子树的根 \(l\) 向上移动一层，而将 \(n\) 向下移动一层， \(n\) 作为 \(l\) 的孩子出现在树中。下图展示了插入后出现不平衡的结点 (红色) 、如何旋转、多余子树如何处理以及子树的层数 (蓝字)。</p>
+<figure><img src="/images/algo-zigzig-rotation-example-of-avl-tree.svg" width="64%"/>
+</figure>
+
+<p>对应的情况 4 也是 zig-zig，只需要旋转的方向与操作相镜像即可处理。</p>
+<h4 id="双旋转" class="headerLink">
+    <a href="#%e5%8f%8c%e6%97%8b%e8%bd%ac" class="header-mark"></a>双旋转</h4><p>对于情况 2 、 3 来说，插入在「树内」从而导致 AVL 树无效，这种情况被称为 <strong>之字形</strong>
+(zig-zag)，而子树太深通过 single rotation 无法让树平衡，解决这种内部的情形需要 *
+双旋转* (double rotation) 解决。</p>
+<figure><img src="/images/algo-zigzag-rotation-example-of-avl-tree.svg" width="64%"/>
+</figure>
+
+<p>对应的情况 3 也是 zig-zag，只需要旋转的方向与操作相镜像即可处理。</p>
+<h4 id="对-avl-树插入的总结" class="headerLink">
+    <a href="#%e5%af%b9-avl-%e6%a0%91%e6%8f%92%e5%85%a5%e7%9a%84%e6%80%bb%e7%bb%93" class="header-mark"></a>对 AVL 树插入的总结</h4><p>可以发现，无论单旋转与双旋转，它都由两个最基本的操作组成：将结点进行左旋 (left
+rotation) 或右旋 (right rotation)，并将多余的一棵子树挂载到下降结点上。Wikipedia
+用以下这幅图概括了 4 种情况。</p>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Tree_Rebalancing.png"/>
+</figure>
+
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="c1">// 左旋
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">rotate_left</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Node</span><span class="o">*</span> <span class="n">child</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">child</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">child</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">child</span><span class="o">-&gt;</span><span class="n">left</span><span class="o">-&gt;</span><span class="n">parent</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">child</span><span class="o">-&gt;</span><span class="n">parent</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">parent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">child</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">node</span><span class="o">-&gt;</span><span class="n">parent</span> <span class="o">=</span> <span class="n">child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 右旋
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">rotate_right</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Node</span><span class="o">*</span> <span class="n">child</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">child</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">child</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">child</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">-&gt;</span><span class="n">parent</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">child</span><span class="o">-&gt;</span><span class="n">parent</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">parent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">child</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">node</span><span class="o">-&gt;</span><span class="n">parent</span> <span class="o">=</span> <span class="n">child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在进行编程时，可以首先定义左右旋这两种基本操作，在根据情况判断如何组合。对于编程细节，远比理论多得多，编写正确的 loop 算法相对于 recursion 并不是一件容易的事，因此更多的会使用 recursion 进行实现。</p>
+<p>还有一个重要问题是如何高效的对高度信息进行存储，可以采用平衡因子作为存储而不是一个 int 类型的高度，或者更近一步，利用 2 bit 存储平衡因子 (毕竟只有 3 个状态)。如果你希望将其隐藏到指针中，也是个不错的选择。存储平衡因子将得到些许速度优势，但丧失了简明性，如果你使用隐藏于指针的方法，更加剧的这一问题，不过好消息是你能为此剩下不少内存空间。最后，以 Wikipedia 上一副构建 AVL 树的动图作为本小节的结束吧。</p>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/AVL_Tree_Example.gif" width="50%"/>
+</figure>
+
+<h3 id="avl-的移除操作" class="headerLink">
+    <a href="#avl-%e7%9a%84%e7%a7%bb%e9%99%a4%e6%93%8d%e4%bd%9c" class="header-mark"></a>AVL 的移除操作</h3><p>AVL 树的移除与 BST 相当，同样地，移除操作可能会破坏 AVL 特性，因此我们在移除元素后，同样需要对树进行平衡才能算操作完成。</p>
+<h2 id="伸展树" class="headerLink">
+    <a href="#%e4%bc%b8%e5%b1%95%e6%a0%91" class="header-mark"></a>伸展树</h2><p>或许你没有听过这种数据结构，但是它确实存在且就在这里。 <strong>伸展树</strong> (splay tree) 是一种相对简单的数据结构，它保证从空树开始任意连续 M 次对树的操作最多花费
+\(\mathcal{O}(M \log_{}{N})\) 的时间。这种保证并不排除单次花费 \(\mathcal{O}(N)\) 时间的可能，并且也不保证每次操作的最坏情况都是 \(\mathcal{O}(\log_{}{N})\) 的，不过好在实际上是一样的。当 M 次操作的序列总的最坏情况花费 \(\mathcal{O}(Mf(N))\) 时间，我们就说它的 <strong>摊还</strong> (amortized) 运行时间为 \(\mathcal{O}(f(N))\) 的。因此 splay
+tree 的每次操作的摊还时间复杂度为 \(\mathcal{O}(\log_{}{N})\) 。</p>
+<p>当然 splay tree 有着一个事实基础：对于 BST 来说，每次操作最坏情形花费
+\(\mathcal{O}(N)\) 并非不好，只要它相对不常发生就行。为了保证 amortized，splay
+tree 进行一个结点访问就会发生移动操作，它要经过一系列旋转操作被推到 root 上。但是当这个结点过深时，重新将这棵树构造为平衡树可能会花费比旋转更少的时间。</p>
+<p>实际上，从 splay tree 中也可以看出局部性思想，当一个结点被访问时，它与其附近的结点可能会被频繁的访问，而远端的结点可能很难被访问到。当抖动发生时，splay tree 将会面临非常巨大的开销，因为它总是需要调整较深层的结点。</p>
+<h3 id="简单的旋转" class="headerLink">
+    <a href="#%e7%ae%80%e5%8d%95%e7%9a%84%e6%97%8b%e8%bd%ac" class="header-mark"></a>简单的旋转</h3><p>在实现 splay tree 时，访问一个结点并将其推向 root 时，最简单的方法就是 <code>单旋转</code>
+，即该结点与其父结点实施旋转操作。很明显这可以将一个很深的叶结点推向 root，但其父结点也被推向了与其差不多的深度。</p>
+<h3 id="伸展" class="headerLink">
+    <a href="#%e4%bc%b8%e5%b1%95" class="header-mark"></a>伸展</h3><p>伸展 (splaying) 的方法类似于旋转，不过在从底向上的旋转上，有些其他操作。</p>
+<p>令 X 是访问路径上的非根结点，在这个路径上实现旋转。如果 X 的 parent 是树根只需要旋转 X 与其 parent 即可；否则需要考虑如下情况：</p>
+<ol>
+<li>之字形 (zig-zag)：只需要像 AVL 一样执行双旋转</li>
+<li>一字形 (zig-zig)：将 X 作为根，父结点和祖父结点分别是其孩子的结点，多余子结点向上过继</li>
+</ol>
+<figure><img src="/images/algo-splaying-op-for-splay-tree.svg"/>
+</figure>
+
+<h2 id="b树" class="headerLink">
+    <a href="#b%e6%a0%91" class="header-mark"></a>B树</h2><p>我们一直认为始终将数据存储于 RAM 中，而不是磁盘中，但如果数据太大以至于不得不放在磁盘时，大 \(\mathcal{O}\) 模型将不再适用。因为 \(\mathcal{O}\) 认为所有操作是相等的，但是涉及磁盘 IO 时，它的代价实在太高了。绝大多数情况下控制运行时间的是磁盘访问次数，因此我们更愿意一次从磁盘中取出大量数据并进行大量计算。</p>
+<p>假设你现在将一棵 1000 万个结点的 BST 存储于磁盘之上，显然一棵不平衡的 BST 可能让你访问磁盘 1000 万次；如果你的存储结构是 AVL 树，那会好很多，绝大多数情况下你只需要 \(\log_{}{N}\) 而非 \(1.44 \log_{}{N}\) 次磁盘访问，这大概是 25 次磁盘访问。如果可以将这 1000 万结点的树，压缩到一个非常小的常数，哪怕是一个非常复杂的数据结构，对于 CPU 来说也是不成问题的。显然二叉树并不是一个好的选择，存储层数最低的完全二叉树的高度是 \(\log_{}{N}\) 。如果我们增加树的 degree，那么树的分支会极大增加，而深度却会急剧减少。这样的 M 路分支树被称为 <strong>M叉查找树</strong> (M-ary search tree)，可以明确的是 compelete M-ary tree 的高度是 \(\log_{M}{N}\) 。</p>
+<p>为了防止 M-ary tree 退化，我们会为其加入更加严格的平衡条件，以保证其它的平衡。
+1970 年 Rudolf Bayer 与 Edward M. McCreight 在波音研究实验室 (Boeing Research
+Labs) 发现了自平衡的 <strong>B树</strong> (B-tree)。不过不像其他结构那样，两位作者都没有给出这里 B 的含义，你可以认为是 <strong>Balanced</strong>​、​<strong>Bayer</strong> 甚至是 <strong>Boeing</strong>​，不过 Knuth 在
+1980 年发表的论文 <strong>CS144C classroom lecture about disk storage and B-trees</strong> 中推测其中的含义可能是后两种。</p>
+<h3 id="b树的相关术语与定义" class="headerLink">
+    <a href="#b%e6%a0%91%e7%9a%84%e7%9b%b8%e5%85%b3%e6%9c%af%e8%af%ad%e4%b8%8e%e5%ae%9a%e4%b9%89" class="header-mark"></a>B树的相关术语与定义</h3><p>实际上对于 B 树的相关定义与术语并不统一，阶 (order) 被 Knuth 定义为最大数量的子节点 (即最大数量的键加一)。Bayer 认为叶子层是最下面一层的键，而 Knuth 认为叶子层是最下面一层键之下的一层。而在实现上，叶子可能保留了完整的数据记录，也可能只保留了指向完整数据记录的指针。</p>
+<p>根据 Knuth 的定义，一个 m 阶 B 树具有以下属性：</p>
+<ol>
+<li>每个结点最多有 m 个子结点</li>
+<li>除根外的所有内部结点最少有 \(\lceil\frac{m}{2}\rceil\) 个子结点</li>
+<li>如果根结点不是叶结点，那么它至少有两个子结点</li>
+<li>有 k 个子结点的非叶子结点拥有 \(k - 1\) 个键</li>
+<li>所有的叶子结点都在同一层</li>
+</ol>
+<figure><img src="/images/algo-example-of-b-tree.svg" width="90%"/>
+</figure>
+
+<p>我们定义一个结点最少拥有的子结点数 \(L = \lceil\frac{m}{2}\rceil\) ，而最多拥有的子结点数 \(U
+= m\) ；而包含的元素的个数最少 \(\lfloor\frac{m}{2}\rfloor\) 个，最多 \(m - 1\) 个。</p>
+<dl>
+<dt>根结点</dt>
+<dd>拥有子结点数量的上限与内部结点相同，但没有下限。当树的元素数量小于
+\(L - 1\) 时，根结点是唯一结点且没有任何子结点</dd>
+<dt>叶子结点</dt>
+<dd>没有子结点或指向子结点的指针，当然能存储的最大元素数依然是 \(m-1\)</dd>
+<dt>内部结点</dt>
+<dd>除叶结点与根结点外的所有结点，它们通常被表示为一组有序的元素和指向子结点的指针。每一个内部结点含有的子结点范围为 \([L, U]\) ，含有元素的数量在
+\([L - 1, U - 1]\) ，而 \(U = 2L\) 或 \(U = 2L - 1\) ，因此所有内部结点至少是半满的</dd>
+</dl>
+<p>一个深度为 \(n+1\) 的B树可以容纳的元素数量大约是深度为 n 的B树的 U 倍，但是搜索、插入和删除操作的开销也会增加，当然开销的增加速度是极为缓慢的。B树在每一个节点中都存储值，所有的节点有着相同的结构。然而，因为叶子节点没有子节点，所以可以通过使用专门的结构来提高B树的性能。</p>
+<h3 id="b树的插入操作" class="headerLink">
+    <a href="#b%e6%a0%91%e7%9a%84%e6%8f%92%e5%85%a5%e6%93%8d%e4%bd%9c" class="header-mark"></a>B树的插入操作</h3><p>对于所有平衡树来说，其都是建立在 BST 的基础之上，因此插入一个元素时都需要从根结点开始，找到新元素应该被添加的位置。当找到要插入的结点时，将会有以下情况：</p>
+<ol>
+<li>
+<p>如果结点拥有元素数量小于最大值，那么有空间容纳新元素，将元素插入到这一结点，并保持结点中的元素有序</p>
+<figure><img src="/images/algo-insert-example1-of-b-tree.svg" width="72%"/>
+    </figure>
+
+</li>
+<li>
+<p>否则这个结点已满，将它平均分裂成两个结点：</p>
+<ol>
+<li>从该结点的原有元素和新元素中选择出中位数</li>
+<li>小于这一中位数的元素放入左边结点，大于的元素放入右边结点</li>
+<li>中位数元素将会被插入到父结点中，插入过程以同样的方法递归向上进行，直到元素被插入到树中。如果最终插入根结点但其已满，选出中位数作为新的根，将根结点分裂为两个结点作为新根的子结点</li>
+</ol>
+<figure><img src="/images/algo-insert-example1-of-b-tree.svg" width="72%"/>
+    </figure>
+
+</li>
+</ol>
+<h3 id="b树的移除操作" class="headerLink">
+    <a href="#b%e6%a0%91%e7%9a%84%e7%a7%bb%e9%99%a4%e6%93%8d%e4%bd%9c" class="header-mark"></a>B树的移除操作</h3><p>由于 B 树也是一种 BST，因此移除非叶结点时，也先将其交换到叶结点之后再进行移除操作。因此重点是将移除叶结点，然后调整树的约束条件使其满足。</p>
+<ul>
+<li>移除B树叶子结点中的元素，发生下溢出不满足B树约束时，进行再平衡</li>
+<li>由于内部结点的元素是左右两个子树的中间值，因此需要合并这两个子树，但可以肯定的是，左子树的所有元素依然小于右子树中的所有元素。
+<ol>
+<li>选择一个新的中间值 (左子树的最大值或右子树的最小值)，将其替换掉被移除的元素，需要注意的是贡献新中间值的结点为叶子结点</li>
+<li>判断贡献中间值的叶结点是否满足约束，如果不满足则从该叶子开始再平衡</li>
+</ol>
+</li>
+</ul>
+<p>可以发现，所有需要再平衡的结点都是从叶结点开始的，并向根结点进行，直到树重新平衡</p>
+<ul>
+<li>如果缺少元素结点的右兄弟存在且拥有多余的元素，那么进行左旋
+<ol>
+<li>将中间值复制到左子结点的最后</li>
+<li>将中间值替换为右子结点的最小元素，并从右子结点中移除该元素</li>
+<li>树已再次平衡，结束操作</li>
+</ol>
+</li>
+<li>否则，如果缺少元素结点的左兄弟存在且拥有多余的元素，那么进行右旋
+<ol>
+<li>将中间值复制到右子结点的开始</li>
+<li>将中间值替换为左子结点的最小元素，并从左子结点中移除该元素</li>
+<li>树已再次平衡，结束操作</li>
+</ol>
+</li>
+<li>否则，将其与一个直接兄弟结点以及中间值进行合并
+<ol>
+<li>将中间值、左子结点、右子结点都合并到一个结点上 (假设为左子结点)，并将中间值和右子结点从父结点中移除</li>
+<li>判断当前父结点的情况
+<ol>
+<li>如果父结点是根且父结点中没有其他元素，则将合并之后的结点作为新的根</li>
+<li>如果父结点不是根，且父结点满足约束，则树已再次平衡，结束操作</li>
+<li>如果父结点不满足内部结点的要求，对父结点进行再平衡操作。如果有多余的子树，则将这棵子树旋转给不平衡结点即可</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<figure><img src="/images/algo-remove-example-of-b-tree.svg" width="90%"/>
+</figure>
+
+<h3 id="b-plus-树" class="headerLink">
+    <a href="#b-plus-%e6%a0%91" class="header-mark"></a>B+树</h3><p>B+树 (B Plus Tree) 是 B Tree 的一个变种。有人将 B-Tree 读作 <code>B减树</code> 是不正确的，
+B-Tree 中的 <code>-</code> 是一个连字符。既然是变种，那就有差异：</p>
+<ol>
+<li>内部结点不再存储数据，只对其键进行存储，用以查找叶结点，数据全部由叶子结点存储</li>
+<li>叶结点之间采用指针相连，你可以顺序从叶结点的头部遍历到尾部，而不需要其他额外的操作</li>
+</ol>
+<p>如何选取键作为父结点的元素可以快速查找子结点，最简单的方法就是选取左子结点的最大值或右子结点的最小值，一般根据实现进行选择。</p>
+<figure><img src="/images/algo-example-of-bplus-tree.svg" width="64%"/>
+</figure>
+
+<p>对 B+ 树操作时，与 B 树几乎一致，但区别是 B+ 树需要从叶结点开始递归向上，且 B+
+树需要修改父结点的分割值，而 B 树不用。</p>
+<h2 id="红黑树" class="headerLink">
+    <a href="#%e7%ba%a2%e9%bb%91%e6%a0%91" class="header-mark"></a>红黑树</h2><p>红黑树 (red-black tree) 是一种自平衡二叉树，于 1972 年由 Rudolf Bayer 发明，发明时被称为 <strong>对称二叉 B 树</strong>​，现代名称红黑树来自 Knuth 的博士生 Robert Sedgewick 于
+1978 年发表的论文。红黑树的结构复杂，但操作有着良好的最坏情况运行时间：它可以在
+\(\mathcal{O}(\log_{}{N})\) 时间内完成查找、插入和删除操作。</p>
+<p>红黑树是具有下列着色性质的 BST：</p>
+<ol>
+<li>每个结点要么是黑色要么是红色</li>
+<li>根是黑色的</li>
+<li>如果一个结点是红色的，那么它的子结点必须是黑色的</li>
+<li>从一个结点到一个 NULL 指针的每一条路径都必须包含相同数目的黑色结点</li>
+</ol>
+<p>根据着色规则，red-black tree 高度最多是 \(2\log_{}(N+1)\) ，因此查找保证是一种对数的操作。当然还有一条约定，空结点 nullptr 我们假设其为黑色，这样我们可以在不违反约定的情况下，方便操作。</p>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Red-black_tree_example_with_NIL.svg"/>
+</figure>
+
+<p>通常困难在于将一个插入一个新结点后，如果将结点涂为黑色将违反性质 4，因为这会让路径上的黑色结点数量加一，但其他路径上黑色结点数量不变。</p>
+<p>因此在插入结点时，默认结点为红色，父结点为黑色时，直接插入。在以下的情况中不再讨论这种情况。父结点是红色则会违反规则 3，在这种情况下必须修改树以满足所有性质。</p>
+<h3 id="红黑树的自底向上插入" class="headerLink">
+    <a href="#%e7%ba%a2%e9%bb%91%e6%a0%91%e7%9a%84%e8%87%aa%e5%ba%95%e5%90%91%e4%b8%8a%e6%8f%92%e5%85%a5" class="header-mark"></a>红黑树的自底向上插入</h3><p>如果新插入的结点 X 是红色的，它有父结点 P，兄弟结点 S，叔父结点 U，以及祖父结点
+G。那么需要考虑几种情况：</p>
+<ol>
+<li>如果 P、U 都是红色的，意味着 G 是黑色的，可以将 P、U 重绘为黑色将 G 重绘为红色，这样既不会违反规则 3 也不会违反规则 4。但是 G 之上的情况我们不知道，G
+也可能是根，因此需要对 G 进行递归地向上进行重绘操作</li>
+<li>如果 P 与 U 只有一个是红色的，意味着 G 是黑色的，而插入的 X 虽然不违反规则
+4 但是违反了规则 3，迫使 X 或 P 变为黑色，而这样又会违反规则 4。为了让树再次符合要求，我们对其需要进行旋转操作并重绘结点颜色，其实这里的旋转操作与
+AVL 树中是一致的，只是将结点的平衡因子转换为了颜色信息。
+a. 当 X、P、G 形成 zig-zig 时，我们采用 single rotation
+b. 当 X、P、G 形成 zig-zag 时，我们采用 double rotation</li>
+</ol>
+<!--listend-->
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="c1">// 该函数仅处理父结点是红色的情况，黑色情况则直接插入即可
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 使用头结点方便处理，头结点的 parent 指向 root，root 的 parent 指向 head
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">insert_help</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">node</span><span class="p">,</span> <span class="n">Node</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 当结点不是树的根或父结点是红色时，进行循环
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">while</span> <span class="p">(</span><span class="n">node</span> <span class="o">!=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">parent</span> <span class="o">&amp;&amp;</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">parent</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">==</span> <span class="n">RED</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span><span class="o">*</span> <span class="n">uncle</span> <span class="o">=</span> <span class="n">get_uncle</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span><span class="o">*</span> <span class="n">grandparent</span> <span class="o">=</span> <span class="n">get_grandparent</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span><span class="o">*</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">parent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 如果叔父结点不为空且为红色，符合情况 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">uncle</span> <span class="o">!=</span> <span class="k">nullptr</span> <span class="o">&amp;&amp;</span> <span class="n">uncle</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">==</span> <span class="n">RED</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">parent</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">=</span> <span class="n">uncle</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">=</span> <span class="n">BLACK</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">grandparent</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">=</span> <span class="n">RED</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">node</span> <span class="o">=</span> <span class="n">grandparent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 判断 zig-zig 或 zig-zag 类型，进行相应的旋转
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">parent</span> <span class="o">==</span> <span class="n">grandparent</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">node</span> <span class="o">==</span> <span class="n">parent</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// l-r 的 zig-zag
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">node</span> <span class="o">=</span> <span class="n">parent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">parent</span> <span class="o">=</span> <span class="n">rotate_left</span><span class="p">(</span><span class="n">parent</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">rotate_right</span><span class="p">(</span><span class="n">grandparent</span><span class="p">);</span> <span class="c1">// l-l 的 zig-zig
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">node</span> <span class="o">==</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">parent</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// r-l 的 zig-zag
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">node</span> <span class="o">=</span> <span class="n">parent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">parent</span> <span class="o">=</span> <span class="n">rotate_right</span><span class="p">(</span><span class="n">parent</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">ratate_left</span><span class="p">(</span><span class="n">grandparent</span><span class="p">);</span> <span class="c1">// r-r 的 zig-zig
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">grandparent</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">=</span> <span class="n">RED</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parent</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">=</span> <span class="n">BLACK</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">head</span><span class="o">-&gt;</span><span class="n">parent</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">=</span> <span class="n">BLACK</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="红黑树的自顶向下插入" class="headerLink">
+    <a href="#%e7%ba%a2%e9%bb%91%e6%a0%91%e7%9a%84%e8%87%aa%e9%a1%b6%e5%90%91%e4%b8%8b%e6%8f%92%e5%85%a5" class="header-mark"></a>红黑树的自顶向下插入</h3><p>自底向上的操作需要父指针或栈保存路径，而自顶向下时实际是对红黑树应用自顶向下保证
+S 不会时红色的过程。</p>
+<p>在向下的过程中，如果结点 N 有两个红色的孩子时，将孩子重绘为黑色，结点 N 重绘为红色。结点 N 与其父结点 P 都为红色时，将违反红黑树的着色性质，此时对其进行 zig-zig
+或 zig-zag 旋转即可。至于叔父结点 U 在自顶向下的过程中排除了红色的可能。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="c1">// 自顶向下插入，value 是待插入的值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">insert</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">node</span><span class="p">,</span> <span class="n">Node</span><span class="o">*</span> <span class="n">head</span><span class="p">,</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">value</span><span class="p">,</span> <span class="n">Node</span><span class="o">**</span> <span class="n">pos</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">bool</span> <span class="n">inserted</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">node</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 插入结点，默认为红色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">node</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="n">pos</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">inserted</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">!=</span> <span class="k">nullptr</span> <span class="o">&amp;&amp;</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">==</span> <span class="n">RED</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">!=</span> <span class="k">nullptr</span> <span class="o">&amp;&amp;</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">==</span> <span class="n">RED</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">=</span> <span class="n">BLACK</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">node</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">=</span> <span class="n">RED</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">head</span><span class="o">-&gt;</span><span class="n">parent</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">=</span> <span class="n">BLACK</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Node</span><span class="o">*</span> <span class="n">gp</span> <span class="o">=</span> <span class="n">get_grandparent</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Node</span><span class="o">*</span> <span class="n">parent</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">parent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">==</span> <span class="n">RED</span> <span class="o">&amp;&amp;</span> <span class="n">parent</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">==</span> <span class="n">RED</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 判断 zig-zig 或 zig-zag 类型，进行相应的旋转
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">parent</span> <span class="o">==</span> <span class="n">gp</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">node</span> <span class="o">==</span> <span class="n">parent</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// l-r 的 zig-zag
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">parent</span> <span class="o">=</span> <span class="n">rotate_left</span><span class="p">(</span><span class="n">parent</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">rotate_right</span><span class="p">(</span><span class="n">gp</span><span class="p">);</span> <span class="c1">// l-l 的 zig-zig
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">node</span> <span class="o">==</span> <span class="n">parent</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// r-l 的 zig-zag
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">parent</span> <span class="o">=</span> <span class="n">rotate_right</span><span class="p">(</span><span class="n">parent</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">ratate_left</span><span class="p">(</span><span class="n">gp</span><span class="p">);</span> <span class="c1">// r-r 的 zig-zig
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gp</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">=</span> <span class="n">RED</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parent</span><span class="o">-&gt;</span><span class="n">tag</span> <span class="o">=</span> <span class="n">BLACK</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">inserted</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&lt;</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">insert</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">insert</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="红黑树的自顶向下删除" class="headerLink">
+    <a href="#%e7%ba%a2%e9%bb%91%e6%a0%91%e7%9a%84%e8%87%aa%e9%a1%b6%e5%90%91%e4%b8%8b%e5%88%a0%e9%99%a4" class="header-mark"></a>红黑树的自顶向下删除</h3><p>删除结点时，所有情况都可以归结于删除一个叶结点，因为删除带有两个孩子的结点，都可以与其左子树最大结点或右子树最小结点的值进行交换，这只改变了值没有改变颜色，并不影响红黑树的性质。之后删除交换后的叶结点即可。对于红色叶结点，我们可以将其直接删除，这不影响红黑树的结构，如果有孩子我们只需要用其孩子代替它即可。如此我们需要保证在自顶向下过程中保证叶结点是红色的。</p>
+<p>假设当前结点是 N，其兄弟结点 S、父结点 P、叔父结点 U 和祖父结点 G。开始时需要将树根重涂为红色，沿树向下遍历，当到达一个结点时，确保 P 是红色、N 和 S 是黑色。在此过程中会遇到一些情况：</p>
+<ol>
+<li>N 有两个黑色的孩子，此时
+a. S 也有两个黑色的孩子，那么重涂反转 N、S、P 的颜色，树结构不变
+b. S 有红色的孩子，根据红色的孩子进行 signal rotate 或 double rotate。如果两个孩子都是红色，任选一个进行旋转即可</li>
+<li>N 有红色的孩子，此时向下递归
+a. 新的 N 是红色，继续递归
+b. 新的 N 是黑色，对 S 和 P 进行旋转，S 成为 P 的父结点，重绘 P 与 S 的颜色，即可得到红色的父结点 P。对于 P 来说，回到情况 1</li>
+</ol>
+<h2 id="aa-树" class="headerLink">
+    <a href="#aa-%e6%a0%91" class="header-mark"></a>AA 树</h2><p>二叉B树 (Binary B-tree) 是一种简单但颇有竞争力的实现，被称为 BB 树，可以理解为带有附加条件的红黑树：​<strong>一个结点最多有一个红色的孩子</strong>​。</p>
+<figure><img src="/images/algo-example-of-aa-tree.svg" width="64%"/>
+</figure>
+
+<p>当然还有一些法则：</p>
+<ol>
+<li>只有右孩子可以是红色的，这样总可以使用内部结点的右子树的最小结点代替该结点</li>
+<li>递归地编写过程</li>
+<li>信息存储在整数中，而不是 bit 与每个结点一起存储。这个信息主要是结点的层次信息
+a. 若是 1，则该结点是叶结点
+b. 是父结点的层次，则该结点是红色的
+c. 比父结点的层次少 1，该结点是黑色的</li>
+</ol>
+<p>简单地，我们就可以得到一颗 AA 树。并且左孩子必然比其父结点低一个层次，右孩子可能比父结点低 0 或 1 个层次，但不会更多。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">AANode</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Comparable</span> <span class="n">element</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">AANode</span><span class="o">*</span> <span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">AANode</span><span class="o">*</span> <span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">level</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">AANode</span><span class="p">()</span> <span class="o">:</span> <span class="n">left</span><span class="p">(</span><span class="k">nullptr</span><span class="p">),</span> <span class="n">right</span><span class="p">(</span><span class="k">nullptr</span><span class="p">),</span> <span class="n">level</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">AANode</span><span class="p">(</span><span class="k">const</span> <span class="n">Comparable</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">:</span> <span class="n">element</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">left</span><span class="p">(</span><span class="k">nullptr</span><span class="p">),</span> <span class="n">right</span><span class="p">(</span><span class="k">nullptr</span><span class="p">),</span> <span class="n">level</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="aa树的插入操作" class="headerLink">
+    <a href="#aa%e6%a0%91%e7%9a%84%e6%8f%92%e5%85%a5%e6%93%8d%e4%bd%9c" class="header-mark"></a>AA树的插入操作</h3><p>水平链接 (horizontal link) 是一个结点与同层次上的孩子所建立的链接，这种水平链接都是右链接，并且不含有两个连续的水平链接。</p>
+<figure><img src="/images/algo-horizontal-link-for-aa-tree.svg" width="72%"/>
+</figure>
+
+<p>不过这有一些情况需要注意，插入新结点时，可能导致左水平链 (插入 2) 或连续两个右水平链 (插入 45)。通过右旋可以消除掉左水平链，而左旋则可以消除多余的右水平链，这两个过程分别称为 skew 和 split。</p>
+<p>由于新建了一个左水平结点或连续右水平结点，会引起结点 N 的原始父结点 P 的一些问题，这些问题可以通过上滤 <code>skew/split</code> 的方法解决。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">skew</span><span class="p">(</span><span class="n">AANode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="o">-&gt;</span><span class="n">level</span> <span class="o">==</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">level</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rotate_right</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">split</span><span class="p">(</span><span class="n">AANode</span><span class="o">*</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">-&gt;</span><span class="n">level</span> <span class="o">==</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">level</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rotate_left</span><span class="p">(</span><span class="n">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">++</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">level</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>有了上述基础，AA 树的插入操作可以说是相当简单，和非平衡 BST 的插入实现基本一致。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">insert</span><span class="p">(</span><span class="k">const</span> <span class="n">Comparable</span><span class="o">&amp;</span> <span class="n">val</span><span class="p">,</span> <span class="n">AANode</span><span class="o">*&amp;</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">?</span>
+</span></span><span class="line"><span class="cl">      <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">(</span><span class="n">root</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AANode</span><span class="p">(</span><span class="n">val</span><span class="p">))</span> <span class="o">:</span>
+</span></span><span class="line"><span class="cl">      <span class="n">insert</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">element</span> <span class="o">?</span> <span class="n">root</span><span class="o">-&gt;</span><span class="nl">left</span> <span class="p">:</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">skew</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">split</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="aa树的删除操作" class="headerLink">
+    <a href="#aa%e6%a0%91%e7%9a%84%e5%88%a0%e9%99%a4%e6%93%8d%e4%bd%9c" class="header-mark"></a>AA树的删除操作</h3><p>删除操作对比插入操作就会复杂许多。但是值得注意的是，我们为了编程更加容易增添了一些法则，这些法则为我们去除了一些特殊情况。可以肯定，若结点不是叶结点，那么它一定有右结点，那么在删除操作时，总可以使用右子树上最小的孩子替代这个结点，保证它是在第一层。在递归过程中，非叶结点的层次可能会被破坏，实际上只有递归路径上的子结点可能受到影响，我们依然需要处理这些情况。</p>
+<p>实际上，只需要三次 skew 与两次 split 就可以完全重新安排这些水平的边。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">remove</span><span class="p">(</span><span class="k">const</span> <span class="n">Comparable</span><span class="o">&amp;</span> <span class="n">val</span><span class="p">,</span> <span class="n">AANode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">static</span> <span class="n">AANode</span><span class="o">*</span> <span class="n">last_node</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>       <span class="c1">// 寻找替换结点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">static</span> <span class="n">AANode</span><span class="o">*</span> <span class="n">deleted_node</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span> <span class="c1">// 待删除结点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">&lt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">remove</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">deleted_node</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">remove</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="n">last_node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 如果 val 结点是叶结点，直接删除
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">deleted_node</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">||</span> <span class="n">val</span> <span class="o">!=</span> <span class="n">deleted_node</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">deleted_node</span><span class="o">-&gt;</span><span class="n">element</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">deleted_node</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">delete</span> <span class="n">last_node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 不是树的底部，需要对其进行平衡
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="o">-&gt;</span><span class="n">level</span> <span class="o">&lt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">level</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">||</span>
+</span></span><span class="line"><span class="cl">	<span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">-&gt;</span><span class="n">level</span> <span class="o">&lt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">level</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">-&gt;</span><span class="n">level</span> <span class="o">&gt;</span> <span class="o">--</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">level</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">-&gt;</span><span class="n">level</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">level</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">skew</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">skew</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">skew</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">split</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">split</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 04-07</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2021/data_strucures_and_algorithm_analysis_004_searching_structure/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20%E6%9F%A5%E6%89%BE%E7%BB%93%E6%9E%84&issue[description]=[POST](https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/" data-title="查找结构" data-hashtags="Note,BinaryTree"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/" data-hashtag="Note"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/" data-title="查找结构" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/" data-title="查找结构"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/" data-title="查找结构"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/" data-title="查找结构" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/" data-title="查找结构" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/" title="查找结构">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/binarytree/">BinaryTree</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021/data_strucures_and_algorithm_analysis_003_tree_structure/" class="prev" rel="prev" title="树结构"><i class="fas fa-angle-left fa-fw"></i>树结构</a>
+            <a href="/2021/data_strucures_and_algorithm_analysis_005_hash_table/" class="next" rel="next" title="散列表">散列表<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2021-08-23T22:26:23+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"查找结构"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>

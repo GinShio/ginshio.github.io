@@ -1,0 +1,918 @@
+# 线性数据结构
+
+
+> Should array indices start at 0 or 1? My compromise of 0.5 was rejected without,
+> I thought, proper consideration.
+>
+> --- Stan Kelly-Bootle
+
+
+## 表 (List) {#表--list}
+
+我们将形如 \\(a\_0, a\_1, a\_2, \cdots, a\_{N-1}\\) 组成的有限序列称为 list，这个 list 的大小是 \\(N (N \in \mathbb{N})\\) ，我们将大小为 0 的表称之为 **空表** (empty list)。
+
+除空表外的任何表，我们从 `0` 开始标记元素，最后一个元素的下标为 \\(N - 1\\) ，那么第
+\\(i (i \in \mathbb{N}^{\*})\\) 个元素是 \\(a\_{i-1}\\) ，称 \\(a\_{i}\\) 是 \\(a\_{i + 1}\\) 的 **前驱** ，
+\\(a\_{i}\\) 是 \\(a\_{i - 1}\\) 的 **后继** 。
+
+{{< admonition type="warning" >}}
+严蔚敏老师的数据结构中，第 \\(i (i \in \mathbb{N}^{\*})\\) 个元素是 \\(a\_{i}\\) 。
+{{< /admonition >}}
+
+
+### List ADT {#list-adt}
+
+```cpp
+template <class T, class Iter>
+concept sequence_container =
+    requires(T a, const T& b, typename T::const_iterator pos,
+	     Iter first, Iter last,
+	     typename T::iterator self_first, typename T::iterator self_last,
+	     size_type count, const typename T::value_type& value) {
+    requires container<T>;
+    requires input_iterator<Iter>;
+    // iterator
+    { a.rbegin() } -> typename T::reverse_iterator;
+    { a.rend() } -> typename T::reverse_iterator;
+    { b.rbegin() } -> typename T::const_reverse_iterator;
+    { b.rend() } -> typename T::const_reverse_iterator;
+    { a.crbegin() } -> typename T::const_reverse_iterator;
+    { a.crend() } -> typename T::const_reverse_iterator;
+    // access
+    { a.front() } -> typename T::reference;
+    { b.front() } -> typename T::const_reference;
+    { a.back() } -> typename T::reference;
+    { b.back() } -> typename T::const_reference;
+    // capacity
+    a.resize(count, value);
+    // modifier
+    { a.insert(pos, value) } -> typename T::iterator;
+    { a.insert(pos, count, value) } -> typename T::iterator;
+    { a.insert(pos, first, last) } -> typename T::iterator;
+    { a.erase(pos) } -> typename T::iterator;
+    { a.erase(self_first, self_last) } -> typename T::iterator;
+    a.push_front(value);
+    a.pop_front();
+    a.push_back(value);
+    a.pop_back();
+};
+```
+
+| 函数名称                       | 操作说明                                                    |
+|----------------------------|---------------------------------------------------------|
+| `rbegin()`                     | 获取指向逆向起始位置的 `iterator` -- **reverse_iterator**   |
+| `rend()`                       | 获取指向逆向末尾位置的 `iterator` -- **reverse_iterator**   |
+| `crbegin()`                    | 获取指向起始位置的 `const_iterator` -- **const_reverse_iterator** |
+| `crend()`                      | 获取指向末尾位置的 `const_iterator` -- **const_reverse_iterator** |
+| `front()`                      | 获取 container 第一个元素的引用                             |
+| `back()`                       | 获取 container 最后一个元素的引用                           |
+| `resize(count, value)`         | 将 container 中元素数量限制到 count 个，若旧 size 不足 count 则使用 value 补齐 |
+| `insert(pos, value)`           | 在 pos 前插入一个 value，返回指向被插入 value 的迭代器      |
+| `insert(pos, count, value)`    | 在 pos 前插入 count 个 value，返回指向首个被插入元素的迭代器 |
+| `insert(pos, first, last)`     | 在 pos 前插入来自范围 \\([first, last)\\) 的元素，返回指向首个被插入元素的迭代器 |
+| `erase(pos)`                   | 移除位于 pos 的元素，返回指向 pos 的后随迭代器              |
+| `erase(self_first, self_last)` | 移除范围 \\([self\\\_first, self\\\_last)\\) 的元素，返回最后移除元素的后随迭代器 |
+| `push_front(value)`            | 将给定元素 value 添加到 container 开始                      |
+| `pop_front()`                  | 将第一个元素从 container 中删除                             |
+| `push_back(value)`             | 将给定元素 value 添加到 container 末尾                      |
+| `pop_back()`                   | 将最后一个元素从 container 中删除                           |
+
+
+### 线性表的实现 {#线性表的实现}
+
+
+#### 顺序实现 {#顺序实现}
+
+对表的所有操作都可以使用数组实现。数组是静态分配的，无法扩容，常常使用动态分配一段数组，当容量不够时进行生长。可以生长意味着不需要对表的大小的最大值进行估计。
+
+在生长过程中，需要线性表分配一个全新的数组，并将之前的所有元素复制进新的数组中，复制完毕后将原数组释放。因此如果你的线性表频繁要求生长，那么会导致严重的性能开销，因为每次都需要 \\(\Theta(N)\\) 来复制每个元素。如果生长系数过大，比如说 100 倍，但是无法使用那么多时，将造成存储空间的大量浪费。因此生长一般选取 **2 倍** 或 **1.5 倍** 比例，保证不会过于频繁生长，并使存储空间由不会浪费太多。
+
+下图就是我们根据数组对线性表的实现：
+
+{{< figure src="/images/algo-linear-list-of-sequence-implement.svg" width="90%" >}}
+
+现在思考一个问题，在使用 ADT `*_back` 与 `*_front` 时，它们两个有没有差别。
+
+1.  `*_back` 操作时直接将元素在尾端加入或移除，时间复杂度 \\(\Theta(1)\\)
+2.  `*_front` 操作时，由于 push 操作导致前端没有位置可以存储元素，而 pop 操作将导致前端产生一个空缺，因此它们都需要将之后的元素集体后移或前移，时间复杂度
+    \\(\Theta(N)\\)
+
+我们尝试给出一个存储结构，如下。这里并没有采用传统的使用整型变量记录当前长度和分配的容量，而是采用三个指针。其中 `start` 是该 container 的基址， `finish` 是后随最后一个元素的指针， `end` 则是后随数组空间的指针。因此在计算当前长度时只需要
+\\(finish - start\\) 即可，当 \\(finish = start\\) 意味着当前线性表为空，当 \\(finish =
+end\\) 时意味着当前线性边需要生长。
+
+```cpp
+template <class Element>
+struct SequenceList {
+  Element* start;
+  Element* finish;
+  Element* end;
+};
+```
+
+这里存储结构中并没有给出迭代器，这是因为这是一个数组结构，我们可以将指针当作迭代器使用，这个迭代器是符合 **contiguous_iterator** 的。因此在实现该结构时，我们可以为其提供随即访问的接口 -- `operator[]` 和 `at` ，它们接收一个 `size_type` 类型参数 n 用以 \\(\Theta(1)\\) 时间复杂度访问 \\(start + n\\) 的元素。
+
+{{< admonition type="info" >}}
+在使用顺序实现时，应该注意其支持快速的随机访问能力，在尾部具有高效操作，但中间或头部操作很低效。
+{{< /admonition >}}
+
+
+#### 单链表实现 {#单链表实现}
+
+为了避免插入和删除的线性开销，我们允许线性表可以不连续存储，以避免修改时的整体移动。这种方式被称之为 **链表** (linked list)，linked list 由一系列在内存中不必连续的结点组成，每个结点均含有元素域和到指向后继结点的链域。该链的最后一个结点置空
+(nullptr 或 NULL) 以避免不必要的麻烦。
+
+{{< figure src="/images/algo-linear-list-of-forward-linked-implement.svg" width="75%" >}}
+
+由于这样的 linked list 是单向的，因此我们也称其为单链表。由于结点是单向 Traverse
+的，我们无法向前 Traverse，因此单链表 iterator 是一个 `forward_iterator` 。但这也造成了一点点麻烦，我们失去了随机访问元素的能力，只能以 \\(\mathcal{O}(N)\\) 的复杂度进行结点的访问，除非你已经拥有了该结点的迭代器。当你拥有一个结点的迭代器时，可以以 \\(\mathcal{O}(1)\\) 的时间复杂度对其进行操作，删除或插入一个结点。
+
+{{< figure src="/images/algo-del-ins-ops-for-forward-linked-list.svg" width="75%" >}}
+
+如何获取到单链表的长度呢？如果增加一个额外的长度域，对于这些结点来说是不必要的，我们只需要一个记录长度的域就好；而在结点中增加域不止造成了内存的浪费，如果用此记录长度，在对结点操作时，我们将丢失正确的长度信息，除非以 \\(\mathcal{O}(N)\\) 的代价修改所有结点上的长度域。我们引入一个特殊的头结点，每个线性表实例只需要一个 head
+即可。为了快速在尾部进行插入，我们也需要一个指向尾部的域，方便插入操作，移除操作只能由缓慢的 Traverse 找到前驱结点
+
+{{< figure src="/images/algo-forward-linked-list-with-head.svg" width="75%" >}}
+
+最后说明一下 end 迭代器指向 `nullptr` 的原因，由于我们在遍历时，认为区间是
+\\([first, last)\\) ，因此如果是有 finish field 作为 end 迭代器，那么我们将丢失最后一个结点。
+
+<!--list-separator-->
+
+-  单链表的存储结构
+
+    这里的实现使用了 `BaseNode` ，并在实现 Head 和 Node 时分别继承 BaseNode。由于
+    BaseNode 只实现关于链表链域的操作，虽然 Head 和 Node 有着不同的操作，但共享其
+    base class 所提供的链域操作。
+
+    ```cpp
+    struct ForwardListBaseNode { // 单链表基础结点，用于存储并处理链域
+      ForwardListBaseNode* next;
+    };
+    struct ForwardListHead : ForwardListBaseNode { // 单链表的头结点，用于存储长度与尾结点
+      size_t size;
+      ForwardListBaseNode* finish;
+    };
+    template <class Element>
+    struct ForwardListNode : ForwardListBaseNode { // 单链表的结点，用于存储真正的数据
+      Element value;
+    };
+    ```
+
+<!--list-separator-->
+
+-  单链表 BaseNode 的实现
+
+    刚刚说了 BaseNode 主要实现对链域的操作，对一个结点，主要有插入、移除结点两种操作。受限于 `forward_iterator` ，为了运行效率，我们对 ADT 的插入删除进行一些修改。
+
+    | 函数                           | 修改前                                       | 修改后                                       |
+    |------------------------------|-------------------------------------------|-------------------------------------------|
+    | `insert(pos, value)`           | 在 pos 前插入一个 value                      | 在 pos 之后插入一个 value                    |
+    | `insert(pos, first, last)`     | 在 pos 之前插入范围 \\([first, last)\\) 的元素 | 在 pos 之后插入该区间元素                    |
+    | `erase(pos)`                   | 移除位于 pos 的元素                          | 移除 pos 之后一个元素                        |
+    | `erase(self_first, self_last)` | 移除范围 \\([self\\\_first, self\\\_last)\\) 的元素 | 移除范围 \\((self\\\_first, self\\\_last)\\) 的元素 |
+    | `pop_back()`                   | 移除最后一个元素                             | 删除该方法，不再提供                         |
+
+    可以看到修改后，函数主要将该位置 pos 之后的元素进行删除，因此我们可以实现以下四个函数，用以对 insert 与 erase 的支持。但是 erase 与 insert 中都没有实现对边界条件的判定，这应该由具体实现 ForwardList 时完成。
+
+    ```cpp
+    // 将 node 插入到 pos 之后
+    void insert(ForwardListBaseNode* pos, ForwardListBaseNode* node) {
+      node->next = pos->next;
+      pos->next = node;
+    }
+    // 由实现范围 [first, last) 上迭代器到单链表的构造，接收单链表 [first, last) 并插入
+    void insert(ForwardListBaseNode* pos,
+    	    ForwardListBaseNode* first, ForwardListBaseNode* last) {
+      last->next = pos->next;
+      pos->next = first;
+    }
+    // 移除 pos 之后一个的元素，并将其返回
+    ForwardListBaseNode* erase(ForwardListBaseNode* pos) {
+      ForwardListBaseNode* erase = pos->next;
+      pos->next = erase->next;
+      return erase;
+    }
+    // 移除 [first + 1, last) 的所有元素，并将其 first + 1 返回
+    ForwardListBaseNode* erase(ForwardListBaseNode* first, ForwardListBaseNode* last) {
+      ForwardListBaseNode* erase = first->next;
+      first->next = last;
+      return erase;
+    }
+    ```
+
+    对于以上的代码进行分析，我们可以得知，一旦位置、端结点确定，从 linked list 中添加或移除任意多的连续结点，其时间复杂度是 \\(\mathcal{O}(1)\\) 的。至于构造和析构
+    \\([first, last)\\) 上的元素，不再 BaseNode 的讨论范围内，它们不是针对链域的操作。
+
+    需要注意的是，我们在实现 erase 的过程中并没有删除 erase 结点指向的 next，也就是说虽然它已经不在链表中，但是通过访问其 next field 依然可以访问曾经的后继。这一操作主要是为了释放结点，erase 移除 \\((first, last)\\) 后将返回 first 结点的后继，即第一个被移除的结点，我们可以依次对这些结点进行释放，直到准备释放的结点变为 `last`
+    为止。当然我们也可以将其设置为 nullptr，只不过判断条件变为了 \\(node != nullptr\\)
+    ，不过不修改也能完成这样的操作且开销更小。
+
+
+#### 双链表 {#双链表}
+
+单链表如果要删除当前结点，则必须遍历寻找该结点的前驱，才能将其删除。这种方法时间复杂度变成了线性，有什么方法可以让我们更快的查找该结点的前驱吗？既然链表可以指向其后继，那么在其中添加一个前驱域即可，在结点添加进链表时，只需要分别设置结点的前驱与后继即可。这种有两个指针域，一个指向前驱一个指向后继的 linked list 被称之为
+**双链表**​。
+
+{{< figure src="/images/algo-linear-list-of-bidirectional-linked-implement.svg" width="75%" >}}
+
+对于增加元素与删除元素，与单链表类似。不过需要注意的是，在修改时需要将目标结点的前驱、后继的指针域都加以处理，不然就会出现很多问题。
+
+{{< admonition type="info" >}}
+无论使用单链表还是双链表，我们都可以高效的在序列中进行插入和删除操作，不再需要这些不必要的拷贝，且不存在生长问题。但随之而来的是对数据访问的限制，我们失去了随机访问能力。
+{{< /admonition >}}
+
+<!--list-separator-->
+
+-  边界条件
+
+    在双链表的实现过程中需要小心处理边界条件， **请小心** 代码 `node->next->prev =
+    node->prev` 和 `node->prev->next = node->next` ，如果你释放的是最后一个结点或第一个结点，那么 `node->next` 或 `node->prev` 将等于 nullptr，而 nullptr 没有 prev
+    和 next 域供你使用，更不能被修改！这将直接导致程序发生错误。
+
+    这个问题同样可以在单链表中出现。但我们的单链表实现将删除 pos 的后继，实现中我们可以首先判断 pos 是不是最后一个结点，如果是的话将不进入 BaseNode 处理。那双链表可以吗？好像并不可以，因为它删除的是当前结点，如果当前结点为最后一个结点，那我们需要在 BaseNode 中添加额外的代码处理这种情况。
+
+    没有办法处理了吗？当然是有的，我们的链表实现中还有 head 供第一个结点缓冲；因此只有最后一个结点有问题，那我们为最后一个结点添加一个后随结点就好了！后随结点永远不会被删除，且可以为最后一个结点提供缓冲，防止其修改 nullptr 引发程序错误。那这个后随结点从那里产生呢，还记得我们的 Head 结点吗？它继承了 BaseNode，完全可以当作一个结点使用，这时候 Head 就不再需要其中的 finish 域了。
+
+    {{< figure src="/images/algo-bidirectional-linked-list-with-head.svg" width="75%" >}}
+
+    这样首尾相接的链表被称为之 **循环链表** 。左边是一个 \\(size = 7\\) 的循环链表；右边是一个 \\(size = 0\\) 时的循环链表，这个空表所有迭代器都指向 haed，当 traverse 时循环条件 \\(begin \neq end\\) 或 \\(rbegin \neq rend\\) 都不会成功，traverse 直接结束，因此对循环链表的遍历并不会产生任何问题。
+
+<!--list-separator-->
+
+-  双链表的存储结构
+
+    双链表的存储结构相比于单链表，只需要给 BaseNode 中添加另一个指针域，并删除 Head
+    中的无用 finish 即可。
+
+    ```cpp
+    struct BidirectionalListBaseNode {
+      BidirectionalListBaseNode* prev;
+      BidirectionalListBaseNode* next;
+    };
+    struct ForwardListHead : BidirectionalListBaseNode { size_t size; };
+    template <class Element>
+    struct BidirectionalListNode : BidirectionalListBaseNode { Element value; };
+    ```
+
+<!--list-separator-->
+
+-  双链表的 BaseNode 实现
+
+    我们可以 \\(\mathcal{O}(1)\\) 的访问结点的前驱，因此按照 ADT 的要求来实现相关的插入与移除。同样地，我们在 BaseNode 中仅处理最核心的链域的修改。
+
+    ```cpp
+    // 将 node 插入到 pos 之前
+    void insert(BidirectionalListBaseNode* pos, BidirectionalListBaseNode* node) {
+      node->prev = pos->prev;
+      node->next = pos;
+      node->prev->next = node->next->prev = node;
+    }
+    // 将 [first, last) 插入到 pos 之前，并将 first - 1 与 last 重新连接
+    void insert(BidirectionalListBaseNode* pos,
+    	    BidirectionalListBaseNode* first, BidirectionalListBaseNode* last) {
+      BidirectionalListBaseNode* first_prev = first->prev;
+      first->prev->next = last;
+      last->prev->next = pos;
+      pos->prev->next = first;
+      first->prev = pos->prev;
+      pos->prev = last->prev;
+      last->prev = first_prev;
+    }
+    // 移除 pos 并将 pos 的后继返回
+    BidirectionalListBaseNode* erase(BidirectionalListBaseNode* pos) {
+      pos->next->prev = pos->prev;
+      pos->prev->next = pos->next;
+      return pos->next;
+    }
+    // 移除 [first, last) 的所有元素
+    void erase(ForwardListBaseNode* first, ForwardListBaseNode* last) {
+      first->prev->next = last;
+      last->prev = first->prev;
+    }
+    ```
+
+
+### 一些关于表的算法 {#一些关于表的算法}
+
+为了屏蔽一些不必要的实现细节，因此我们约定，使用 iterator 进行 traverse，且
+iterator 可以通过 `handle` 取得底层的链表结点。而函数参数中的引用类型 `T&` 则表示着对该形式参数的修改将会修改实际参数。
+
+
+#### 合并两个已排序链表 {#合并两个已排序链表}
+
+现在假设两个链表都已按照从小到大排列，将两个链表 a 与 b 合并到 c，且合并后的链表也按照从小到大进行排列。
+
+```cpp
+void __transfer(iterator& pos, iterator& c) {
+  iterator it = pos++;
+  insert(c.handle(), it.handle(), pos.handle());
+}
+void merge(iterator a_begin, iterator a_end, iterator b_begin, iterator b_end, iterator& c) {
+  while (a_begin != a_end && b_begin != b_end) {
+    __transfer(*a_begin < *b_begin ? a_begin : b_begin, c);
+  }
+  if (a_begin != a_end) {
+    insert(c.handle(), a_begin.handle(), a_end.handle());
+  }
+  if (b_begin != b_end) {
+    insert(c.handle(), b_begin.handle(), b_end.handle());
+  }
+}
+```
+
+引入了 `__transfer` 函数将找到的 a、b 当前最小的元素插入 c 中，并使其迭代器向前步进一。在 a 或 b 结束之后，我们将 a 或 b 剩余的元素全部添加到 c 的后面，这些元素是最大的一批。分析该算法的时间复杂度得 \\(\mathcal{O}(size\_{a}+size\_{b}-1)\\) 。
+
+
+#### 反转 {#反转}
+
+反转链表是一个很有意思的操作，尤其是针对没有前驱结点的单链表来说。
+
+```cpp
+void reverse(ForwardListBaseNode* head) {
+  ForwardListBaseNode* curr = head->next;
+  head = nullptr;
+  while (curr != nullptr) {
+    ListNode* next = curr->next;
+    curr->next = head;
+    head = curr;
+    curr = next;
+  }
+}
+```
+
+这个方法直接使用到了 `ForwardListHead` ，利用 head 指向当前结点的前驱，当
+traverse 完成后，head 也顺利指向最终结果。其时间复杂度 \\(\mathcal{O}(N)\\) 。我们可以将其改为递归方式，时间复杂度不变：
+
+```cpp
+ForwardListBaseNode* __recursion(ForwardListBaseNode* node, ForwardListBaseNode* head) {
+  if (!node) {
+    return nullptr;
+  }
+  if (node->next == nullptr) {
+    head->next = node;
+    return nullptr;
+  }
+  ForwardListBaseNode* tmp = __recursion(node->next);
+  node->next->next = node;
+  node->next = nullptr;
+  return tmp;
+}
+void reverse(ForwardListBaseNode* head) {
+  __recursion(head->next, head);
+}
+```
+
+双链表的操作也很精彩！由于实现是循环的，因此我们只需要将每个结点的前驱后继按顺序调换位置即可。其时间复杂度同样是 \\(\mathcal{O}(N)\\) 。
+
+```cpp
+void reverse(BidirectionalListBaseNode* head) {
+  BidirectionalListBaseNode* curr = head->next,* temp;
+  while (curr != head) {
+    temp = curr->next;
+    curr->next = curr->prev;
+    curr = curr->prev = temp;
+  }
+  temp = head->next;
+  head->next = head->prev;
+  head->prev = temp;
+}
+```
+
+
+## 栈 (Stack) {#栈--stack}
+
+Stack 是一种受限的线性结构，其末尾称之为 **栈顶** (top)，元素进入栈称为 **入栈**
+(push)，从栈中移除称为 **出栈** (pop)。push 只能从 top 进行，元素加入结构的末尾；
+pop 也只能从 top 进行，移除的元素总是 top 的元素。由于其受限的特性，导致了数据只能以 **先进后出** (First-In Last-Out, FILO) 的方式操作。整个栈中仅有 top 元素可见。
+
+{{< figure src="/images/algo-stack-model.svg" width="64%" >}}
+
+
+### Stack ADT {#stack-adt}
+
+```cpp
+template <class T>
+concept stack =
+    requires(T a, const T& b, const typename T::value_type& value) {
+    requires swappable<T>;
+    requires erasable<typename T::value_type>;
+    requires same<typename T::reference, typename T::value_type&>;
+    requires same<typename T::const_reference, const typename T::value_type&>;
+    requires unsigned<typename T::size_type>;
+    { a.empty() } -> boolean;
+    { a.size() } -> typename T::size_type;
+    { a.top() } -> typename T::reference;
+    { b.top() } -> typename T::const_reference;
+    a.push(value);
+    a.pop();
+};
+```
+
+| 函数名称    | 操作说明     |
+|---------|----------|
+| top()       | 获取栈顶元素的引用 |
+| push(value) | 将元素 value 入栈 |
+| pop()       | 将栈顶元素出栈 |
+
+
+### stack 的实现 {#stack-的实现}
+
+无论实现的效率如何，线性结构一般都支持从尾部插入、移除元素，因此 stack 的实现可以直接使用已经实现的线性容器，并对这些容器的接口进行包装，以实现对操作的限制。
+
+因此这样对 container 进行包装的方式，被称为 **适配器** (adaptor)。adaptor 可以根据自己的需求，选择合适的 container 进行包装。比如使用顺序实现的线性表或双链表进行包装，这里的具体实现就不再展开，栈的思想比其实现更为重要。
+
+
+### stack 的应用 {#stack-的应用}
+
+也许你会想，这限制了线性表的操作，这还有什么用呢，那么接下来我们将看到几个例子。
+
+
+#### 平衡符号 {#平衡符号}
+
+我们有时候需要检测符号是否符合要求，比如说只有方括号与圆括号组成的一个序列，如果这个序列的括号可以正确匹配则序列符合要求，否则不符合要求。如 `[()[]]` 是一个符合要求的需要，而 `[(])` 不符合要求。
+
+```cpp
+stack s;
+for (auto bracket : sequence) {
+  if (bracket == '[' || bracket == '(') {
+    s.push(bracket);
+  } else {
+    if (s.empty()) {
+      return ERROR;
+    }
+    auto top = s.top();
+    s.pop();
+    if ((top == '[' && bracket == ')') || (top == '(' && bracket == ']')) {
+      return ERROR;
+    }
+  }
+}
+```
+
+
+#### 后缀表达式 {#后缀表达式}
+
+当你在计算器上输入 `a + b * c + d` ，有没有好奇为什么计算器可以理解正确的优先级，而不是将其理解 `(a + b) * c` 。或许因为它遵循优先级，才显得这是很理所应当的，而后者是不可理喻的。那么我们需要探寻的是计算器如何遵循优先级。
+
+在上述示例中，我们先计算 `b * c` ，之后计算 `+ a` 和 `+ d` ，这个顺序你觉得像什么？是不是一个序列入栈并出栈的一个可能的序列 `b -> c -> a -> d` 。那么问题来了，数据在入栈之后，什么时候出栈呢。数据 b、c 的出栈是因为相乘，而 a 是因为与前面的结果相加，出栈是因为遇到了符号。为了方便起见，将一次计算结果也放入栈中，那么在每次遇到符号时，我们将从栈中弹出两个数字，经过运算将结果压入栈中。那我们可以把这个表达式写为 \\[a \quad b \quad c \quad \* \quad + \quad d \quad +.\\] 而这种写法就是 **后缀** (postfix) 或者说​**逆波兰** (revwerse Polish)，我们平常使用的被称为 **中缀** (infix) 表达式。另外 postfix
+expression 有个好处，那就是并不需要括号的支持，在序列中的顺序决定了运算顺序，而不需要再为某个子表达式添加括号来提升运算顺序。
+
+{{< figure src="https://upload.wikimedia.org/wikipedia/commons/5/53/CPT-RPN-example1.svg" width="75%" >}}
+
+<!--list-separator-->
+
+-  计算逆波兰表达式
+
+    我们写出这个计算过程，其时间复杂度为 \\(\mathcal{O}(N)\\)​，最终栈中唯一的元素就是表达式的结果。
+
+    ```cpp
+    stack s;
+    for (auto symbol : sequence) {
+      if (is_op(symbol)) {
+        auto b = s.top(); s.pop();
+        auto a = s.top(); s.pop();
+        // 假设存在 eval 函数，且 eval 可以执行操作 a op b，并返回相应的结果
+        s.push(eval(a, symbol, b));
+      } else {
+        s.push(symbol);
+      }
+    }
+    ```
+
+<!--list-separator-->
+
+-  中缀表达式转后缀表达式
+
+    那既然会计算 postfix 了，那如何将一个 infix expression 转换为 postfix expression。
+
+    我们需要一个用以存储运算符的栈 operation，以及一个用以存储后缀表达式的线性表
+    sequence。算法的基本思路是：依次读入表达式的符号，如果是操作数则入栈 sequence，否则和 operation 栈顶进行比较。如果 op 优先级高于栈顶元素则入栈，反之将
+    operation 中的元素依次弹出到 sequence 中，直到出现一个比 op 优先级小的运算符，弹出操作完成后将 op 压入 operation。最终表达式结束时，将栈中剩余符号全部弹出到
+    sequence 即可。
+
+    你会发现这个算法并没有处理括号，括号带来了复杂性，我们现在单独的说一下括号。当遇到左括号时，我们将其压入 operation，除右括号外任何运算符的优先级都低于左括号，因此只有右括号到来时，我们将栈中元素弹出，直到弹出一个左括号。我们在处理过程中并不将右括号入栈，并在左括号弹出栈后也不将其压入 sequence。这里我们给出表格来表示运算符的优先级，并根据表格实现一个优先级比较的函数，其中列符号表示 **待弹出/压入**
+    的运算符，行符号表示受比较的运算符。
+
+    | 符号         | \\(+\\) | \\(-\\) | \\(\times\\) | \\(\div\\) | \\((\\) |
+    |------------|---------|---------|--------------|------------|---------|
+    | \\(+\\)      | \\(>\\) | \\(>\\) | \\(<\\)      | \\(<\\)    | \\(<\\) |
+    | \\(-\\)      | \\(>\\) | \\(>\\) | \\(<\\)      | \\(<\\)    | \\(<\\) |
+    | \\(\times\\) | \\(>\\) | \\(>\\) | \\(>\\)      | \\(>\\)    | \\(<\\) |
+    | \\(\div\\)   | \\(>\\) | \\(>\\) | \\(>\\)      | \\(>\\)    | \\(<\\) |
+    | \\((\\)      | \\(<\\) | \\(<\\) | \\(<\\)      | \\(<\\)    | \\(<\\) |
+    | \\()\\)      | \\(>\\) | \\(>\\) | \\(>\\)      | \\(>\\)    |         |
+
+    ```cpp
+    // 比较运算符 o 和 p，如果 o 大于 p 则返回 true，否则返回 false
+    bool compare(operation o, operation p) {
+      switch (o) {
+        case PLUS: case MINUS: return is_plus(p) || is_minus(p); // o 是加号或减号
+        case TIMES: case DIVISION: return !is_left_bracket(p); // o 是乘号或除号
+        case LEFT_BRACKET: return false; // o 是左括号
+        case RIGHT_BRACKET: return true; // o 是右括号
+        defalut: return ERROR;
+      }
+    }
+    ```
+
+    在上述比较操作的基础上，我们可以轻松的实现一个中缀表达式转后缀表达式的过程。分析该算法的时间复杂度，该算法需要遍历整个 infix expression，并会额外遍历一遍
+    operation，因此复杂度为 \\(\Theta(N)\\) 。
+
+    ```cpp
+    // 接收一个中缀表达式序列，返回一个后缀表达式序列
+    sequence_container infix2postfix(sequence_container infix) {
+      stack s;
+      sequence_container postfix;
+      for (auto symbol : infix) {
+        // 当前元素是一个操作数
+        if (!is_operation(symbol)) {
+          postfix.push_back(symbol);
+          continue;
+        }
+        // 当前元素是右括号且栈不为空，弹出运算符
+        if (!s.empty() && is_right_bracket(symbol)) {
+          // 将运算符弹出到 postfix 序列中，直到运算符为左括号或空栈为止
+          while (!s.empty() && !is_left_bracket(s.top())) {
+    	postfix.push_back(s.top());
+    	s.pop();
+          }
+          // 将左括号移除
+          if (!s.empty() && is_left_bracket(s.top())) {
+    	s.pop();
+          }
+          continue;
+        }
+        // 当前元素优先级小于栈顶元素，弹出运算符，直到元素优先级大于栈顶或空栈为止
+        if (!s.empty() && !compare(symbol, s.top())) {
+          while (!s.empty() && compare(s.top(), symbol)) {
+    	postfix.push_back(s.top());
+    	s.pop();
+          }
+        }
+        s.push(symbol);
+      }
+      while (!s.empty()) {
+        postfix.push_back(s.top());
+        s.pop();
+      }
+      return postfix;
+    }
+    ```
+
+<!--list-separator-->
+
+-  前缀表达式
+
+    既然有 infix 与 postfix，怎么会没有前缀表达式 (prefix) 呢。就如其字面意思，运算符在操作数之前。因此我们需要表示 \\(5 + 2\\) 时就可以写成 `+ 5 2` ，好像还不错，但感觉并没有什么用。
+
+    如果我们允许，在同一个运算符下的参数，都遵循该运算，那么我们就可以将 \\(1 + 2 +
+    3 + 4 + 5 + 6\\) 这一大长串写为 `+ 1 2 3 4 5 6` ，这样感觉还不错吧！
+
+    实际上，有编程语言采用前缀表达式作为基础的书写格式。其实你已经见过了，在 [第一篇](https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_001_introduction#%E4%B8%80%E8%88%AC%E6%B3%95%E5%88%99) 中实现 Fibonacci 时就使用的这种语言，实际上是 **Scheme** (Lisp 的一种方言)，或者说这就是最基本的 Lisp 代码。
+
+    Lisp 代码其实是相当简单的！Lisp 使用括号作为分界符 (我想你已经想起 NASA 与 Lisp
+    的笑话了，我先笑为敬 xD 。其使用前缀表达式，因此括号中的第一个标识符就是运算符，因此引论中的 factorial (阶乘) 写为了 `(* n (factorial (- n 1)))` ，即 \\(n \* (n -
+    1)!\\) 。
+
+    很简单吧！最后感受一下 Lisp 与前缀表达式的魅力吧，用 lisp 实现表达式
+    \\[\frac{5+4+(2-(3-(6+\frac{4}{5})))}{3(6-2)(2-7)}.\\]
+
+    ```scheme
+    (/ (+ 5 4 (- 2 3) 6 (/ 4 5)) ;; 这里进行了去括号操作
+       (* 3 (- 6 2) (- 2 7)))
+    ```
+
+<!--list-separator-->
+
+-  运算符的结合性
+
+    大部分时刻我们都会忽略运算符的结合性问题，因为绝大多数运算符都是 **左折叠** (fold
+    left)，只有一小部分运算符采用 **右折叠** (fold right)。
+
+    在 C++ 中所有的​`赋值运算符`​、​`自增`​、​`自减`​、​`取地址`​、​`解引用`​、​`逻辑非`​、​`按位取反`​等是 fold right。C++ 中可以重载运算符，但不能添加新的运算符，重载之后的运算符优先级与结合性保持不变。而 Haskell 中我们不仅可以重载运算符，还可以添加新的运算符，因此 Haskell 中我们定义运算符也可以定义它的优先级与结合性。
+
+    假设我们有运算符 `**` 代表幂运算，幂运算显然是右结合的，\\(2^{2^{3}} = 2^{8} =
+    256\\) 而不是 \\(4^{3} = 64\\) 。但我们现在将中缀表达式转换成后缀表达式的过程，将所有运算符都当作左结合，这就会造成严重的问题。限于篇幅原因，这里只引出该问题，并不给出实现右结合的代码。
+
+
+#### 函数调用 {#函数调用}
+
+我们在使用一个函数时，运行时会将所有局部变量存储起来，防止在调用新函数时将这些局部变量覆盖。当前指令的位置也会被存储，当新函数完成时，就可以回到原来的位置继续向下运行。当函数调用时，存储所有的重要信息 (如寄存器的值、返回地址等)，都要以抽象的方式存在与 `一张纸上` 并被置于堆 (pile) 的顶部。然后控制转移到心函数，该函数自由地用它的值替代寄存器。当函数返回时，需要对 pile 顶部的 `纸` 进行复原工作，以便返回继续执行。
+
+所有存储的信息被称为 **活动记录** (activation record) 或 **栈帧** (stack frame)。在操作系统中，当前环境是栈顶描述的，因此栈从内存分区的高端向下增长，因此同时有太多函数运行会将栈空间用尽，被称作 **栈溢出** (stack overflow)。当然正常情况下栈是不会被用尽的，一般 stack overflow 发生时，意味着有失控递归 (即忘记基准情况)。有时正常的程序也会用尽栈空间，比如递归过深的情况。
+
+当然我们有一种方法可以减轻递归对栈空间的消耗，那就是将递归变为 **迭代** 。等等，不是说使用递归，怎么能用迭代呢！当然这里说的是迭代 (iterate) 而不是循环 (loop)，毕竟在不可变的 pure functional programming 中是无法实现 loop 的。
+
+这里抛出一个问题：现在有方法 `inc` 和 `dec` 分别是将一个参数 `加一` 和 `减一`​，如何用这两个方法实现两个正整数相加。这里依然使用 **scheme** 进行代码演示，请仔细阅读代码并思考其中的差别。
+
+```scheme
+(define (+ a b)
+  (if (= a 0)
+      b
+      (inc (+ (dec a) b))))
+(define (+ a b)
+  (if (= a 0)
+      b
+      (+ (dec a) (inc b))))
+```
+
+代码并不复杂，我们将这种递归实现的迭代又称之为 **尾递归** (tail recursion)。如果编译器有针对递归的优化，往往会将 tail recursion 消除，或者将局部变量的值直接转移到函数的顶部，依次来消除递归带来的栈空间损耗。另外可以说明一点，tail recusion 总是可以机械地改写为 loop，而有些 recursion 需要 stack 的帮助就能改写为 loop。
+
+在编程语言的实现中，tail recursion 比一般的递归效率更高，且不会有 stack overflow
+风险，因此将递归转换为尾递归是可行的。不过 Weiss 在书中也说明了 tail recursion
+相比 loop 并不是一个好的选择。但是 recursion 相比于 loop 其更加简洁、逻辑更为清晰。
+
+<div class="warn">
+
+Python、Java 并不会进行尾递归优化
+
+</div>
+
+
+## 队列 (Queue) {#队列--queue}
+
+Queue 也是一种受限的线性结构，其末尾被称为队尾 (rear)，而头部被称为队首 (front)。向队列中添加元素被称为 **入队** (enqueue)，enqueue 只能在队尾操作；从队列中移除元素被称为 **出队** (dequeue)，dequeue 只能在队首操作。因此这种数据结构也被称为 **先进先出** (First-In First-Out, FIFO)。
+
+{{< figure src="/images/algo-queue-model.svg" width="80%" >}}
+
+
+### Queue ADT {#queue-adt}
+
+```cpp
+template <class T>
+concept queue =
+    requires(T a, const T& b, const typename T::value_type& value) {
+    requires swappable<T>;
+    requires erasable<typename T::value_type>;
+    requires same<typename T::reference, typename T::value_type&>;
+    requires same<typename T::const_reference, const typename T::value_type&>;
+    requires unsigned<typename T::size_type>;
+    { a.empty() } -> boolean;
+    { a.size() } -> typename T::size_type;
+    { a.front() } -> typename T::reference;
+    { b.front() } -> typename T::const_reference;
+    { a.back() } -> typename T::reference;
+    { b.back() } -> typename T::const_reference;
+    a.push(value);
+    a.pop();
+};
+```
+
+| 函数名称    | 操作说明     |
+|---------|----------|
+| fron()      | 获取队首元素的引用 |
+| top()       | 获取队尾元素的引用 |
+| push(value) | 将元素 value 入队 |
+| pop()       | 将队首元素出队 |
+
+
+### 队列的顺序实现 {#队列的顺序实现}
+
+队列本质上是受限的线性表，因此其与 stack 一样可以直接在线性表上做 adaptor，方便快速的实现。但是对于顺序实现的线性表来说，在队首操作时间复杂度为
+\\(\mathcal{O}(N)\\) ，其代价太高。我们需要优化现有结构，让其操作时间复杂度降为
+\\(\mathcal{O}(1)\\) 。
+
+
+#### 循环队列 {#循环队列}
+
+对线性表的顺序实现进行简单的改进，使用两个指针 `start` 与 `finish` 指向队首元素与队尾元素，而数组边界使用 `begin` 与 `end` 指示。插入元素时使 \\(finish + 1\\) ，删除时使 \\(start + 1\\) 。但是当 finish 到达数组边界时，就会发生问题，无论 start 前是否剩余空位，都不能再添加元素，因为 finish 已到达边界。这种情况被称为 **假溢出** 。
+
+显然这个小改进并不能满足需求，为了正常使用，我们假设这个数组是头尾相接的循环数组。因此逻辑上的循环数组不用担心假溢出问题，但也需要每次插入、移除元素时需要检查指针是否到达数组边界，如果已在边界则移动到数组的另一边。
+
+{{< figure src="/images/algo-queue-of-sequece-implement.svg" width="80%" >}}
+
+现在思考一下真溢出问题，数组被完完全全的填满了，没有可以容纳元素的方法。这样我们不得不申请更大的一块数组，并将其中元素完整复制进去。当生长时需要
+\\(\mathcal{O}(N)\\) 的时间复杂度完成迁移，并且需要完全按照从 front 到 rear 的顺序进行。
+
+
+#### 分块的双端队列 {#分块的双端队列}
+
+对于循环队列的缺点进行改进，我们将使用一个全新的方式实现顺序存储。具体思路是：将多个相同大小的块数组组合起来，元素可以被存放在多个不连续的块上，但其连续存储。使用两个指针 `start` 与 `finish` 分别指向队首元素与队尾元素，对于每个块有单独的指针指向其头结点。
+
+{{< figure src="/images/algo-queue-of-chunk-sequence-implement.svg" width="80%" >}}
+
+可以看到，由多个相同大小的块组成了整个存储结构，并且元素在其中顺序存储。可以发现有些块指针并没有引用块，在我们需要的时候，我们可以为其请求一个块，这样我们的数据可以持续的向两边生长，而不需要在生长重新拷贝整个结构。
+
+由于其是多个块数组实现的，且元素顺序、连续排列，因此其可以实现 **随机访问** ，其迭代器类型为 `radom_access_iterator` 。至于跨块访问，应该由实现者对其处理，对使用者透明，使用时可以将其逻辑上作为一个大的块。
+
+{{< admonition type="info" >}}
+可以高效的在两端进行插入、移除元素，但由于分块的特性，需要由实现隐藏其底层块。
+{{< /admonition >}}
+
+
+### 分块双端队列的实现 {#分块双端队列的实现}
+
+由于分块双端队列的复杂性，我们将详细说明一下其实现细节。
+
+
+#### 分块双端队列的迭代器 {#分块双端队列的迭代器}
+
+由于迭代器肩负着隐藏底层块结构的作用，并且还要支持随机访问数据。因此迭代器的实现很重要。
+
+```cpp
+template <class Element>
+struct iterator {
+  Element* cur;    // 迭代器指向的元素
+  Element* first;  // 当前元素所在块数组的起始指针
+  Element* last;   // 当前元素所在块数组的末尾指针
+  Element** node;  // 当前元素所在的块
+};
+```
+
+为了进行随机访问，必须确定当前元素所在的块，才能在不同块之间进行随机访问。在进行随机访问的示例中， `chunk_capacity` 是一个获取每个块数组可以容纳有多少元素的函数，因此确认每个块的末尾边界。而 `__set_node` 根据 it 当前指向的元素与将步进的块数量，来设置随机访问的目标结点正确的块信息。
+
+```cpp
+template <class Element>
+void __set_node(iterator<Element>& it, const difference_type& n) {
+  it.node += n;
+  it.first = *it.node;
+  it.last = *it.node + chunk_capacity<Element>();
+}
+template <class Element>
+iterator<Element>& operator+=(iterator<Element>& it, const difference_type& n) {
+  difference_type cap = chunk_capacity<Element>();
+  const difference_type offset = n + (it.cur - it.first);
+  if (0 <= offset && offset < chunk_cap) {
+    it.cur += n;
+  } else {
+    const difference_type tmp = offset < 0 ? -((-offset - 1) / cap) - 1 : offset / cap;
+    __set_node(it, tmp);
+    it.cur = it.first + (offset - tmp * cap);
+  }
+  return it;
+}
+```
+
+视线放在 `operator+=` 这个函数，offset 用于判断当前结点需要向前或后步进多少个元素，加 \\(it.cur - it.first\\) 是为了将相对起点从 cur 移动到当前所在块的开始位置
+first。如果 \\(0 \leq offset \leq capacity\\) 则意味着这次随机访问并不会变更所在块，否则需要计算变更到哪一块。仔细判断步进方向与步进大小，向前步进时将移动
+\\(\frac{-offset - 1}{cap} - 1\\) 个块，而向后步进时则需要移动 \\(\frac{offset}{cap}\\)
+个块。最终元素的位置将相对新的起始指针 \\(offset - tmp \* cap\\) 个元素。
+
+这是相对复杂的步进，而其他步进与此差不了多少，就不再举例说明。
+
+
+#### 分块双端队列的存储结构 {#分块双端队列的存储结构}
+
+在其存储结构中，需要有一个指针指向块指针的数组的首元素，简单的说就是指向指针的指针，没有使用的块指针应该置空 (nullptr 或 NULL)。其中还需要两个 iterator 分别指向队首元素与队尾元素。
+
+```cpp
+template <class Element>
+struct Base {
+  using iterator = iterator<Element>;
+  size_t size;
+  Element** chunks;
+  iterator begin;
+  iterator end;
+};
+```
+
+
+## 串 (string) {#串--string}
+
+串是一种特殊的线性结构，它的内部元素只存储字符，因此又称为字符串。其特殊性主要来源于我们对字符序列的依赖程度很高，而特化一个线性结构并为其增加一些针对于字符的常用算法，可以方便我们的使用，提高编码效率。
+
+在大部分的实现中，string 都有一个标志结尾的字符 `\0` ，其 ASCII 值为 0，因此在遇到 `\0` 时就认为这个字符串结束。但是有一些实现使用单独的变量来标记，因此这种字符串中即使存在 `\0` 也可能并不是串的结尾。因此串的长度为真实的长度减一 (因为 `\0`
+将占用一个位置)。长度为 0 的字符串被称为空串，一般使用 \\(\varnothing\\) 表示，其中只有一个 `\0` 。
+
+
+### 串的匹配 {#串的匹配}
+
+在一个串中寻找指定子串是一个最常用的算法，解决方法也有多种。我们将指定的串称之为匹配串，并假设原串长度为 m，匹配串长度为 n。
+
+
+#### 朴素算法 {#朴素算法}
+
+从下标为 0 开始比较原串与匹配串，若不相同，则移位到下标为 1，直到找完原串的所有子字符串。这个算法很简单，也很好理解，其时间复杂度为 \\(\mathcal{O}(mn)\\) 。
+
+```cpp
+int strstr(const string& source, const string& pattern) {
+  int m = source.size(), n = pattern.size();
+  for (int i = 0; i + n <= m; i++) {
+    bool flag = true;
+    for (int j = 0; j < n; j++) {
+      if (source[i + j] != pattern[j]) {
+	flag = false;
+	break;
+      }
+    }
+    if (flag) {
+      return i;
+    }
+  }
+  return -1;
+}
+```
+
+
+#### KMP 算法 {#kmp-算法}
+
+KMP 实际上是三位计算机科学家的名字缩写，Knuth、Morris 和 Pratt，有意思的是，之后你还会见到 Morris 的名字，而 Pratt 的博士生导师就是 Knuth。
+
+Knuth 1938 年生，1977 年访问中国时姚期智的夫人储枫为其取的中文名高德纳。老爷子的成就实在太多了， **计算机程序设计艺术**​、​\\(\TeX\\)​、
+**METAFONT**​、​**文学式编程**​、​**LR解析理论** 等等，还获得过冯诺伊曼奖与图灵奖。而老爷子是个十分有趣的人，\\(\TeX\\) 的版本号趋近于 \\(\pi\\) 而
+**METAFONT** 的版本号趋近于 \\(e\\)；为了他的著作他还开了家银行，为在他的著作中找的任何错误的人奖励 2.56 美元 (`256 pennies is one hexadecimal dollar`)，并对每个有价值的建议提供 0.32 美元的奖金。如今他还在十二月份安排了讲座。如果你想了解老爷子可以访问他的 [个人主页](https://www-cs-faculty.stanford.edu/~knuth/index.html)。
+
+KMP 的主要思想是：一个词在不匹配时本身就包含足够的信息来确定下一个匹配可能的开始位置。此算法利用这一特性以避免重新检查先前匹配的字符，因此 KMP 的核心算法即求解本身包含的信息。这一信息被称为前缀函数，记作 \\(\pi(i)\\) 。对于区间 \\([0:i] (0 \leq i <
+n)\\) ，\\(\pi(i)\\) 是最长的一对相等的真前缀与真后缀的长度，如果没有符合条件的真前缀/真后缀则 \\(\pi(i) = 0\\) 。真前缀、真后缀即与串本身不相等的前缀 / 后缀子串。
+
+假设有匹配串 **aabaab** ，则有前缀函数
+
+-   \\(\pi(0) = 0\\) ，串 \\(s[0:0]\\) 没有真前缀
+-   \\(\pi(1) = 1\\) ，一对最长相等真前缀、真后缀为 `s[0]` 和 `s[1]` ，长度为 1
+-   \\(\pi(2) = 0\\) ，串 \\(s[0:2]\\) 没有相等的真前缀与真后缀
+-   \\(\pi(3) = 1\\) ，一对最长相等真前缀、真后缀为 `s[0]` 和 `s[3]` ，长度为 1
+-   \\(\pi(4) = 2\\) ，一对最长相等真前缀、真后缀为 `s[0:1]` 和 `s[3:4]` ，长度为 2
+-   \\(\pi(5) = 0\\) ，一对最长相等真前缀、真后缀为 `s[0:2]` 和 `s[3:5]` ，长度为 3
+
+接下来就是 KMP 如何使用前缀函数，前缀函数代表了当前如果匹配失败了，在 `已匹配的串` 中，有多少真后缀是与真前缀相同的，那么在接下来的匹配中我们可以直接忽略这些相同的真前缀 / 真后缀，从而接着匹配字符串，跳过这些不必要的匹配。
+
+{{< figure src="/images/algo-kmp-pattern-match.svg" width="75%" >}}
+
+<!--list-separator-->
+
+-  前缀函数的实现
+
+    观察前缀函数，我们可以观察到：
+
+    -   如果 \\(s[i] = s[\pi(i - 1)]\\) ，那么 \\(\pi(i) = \pi(i - 1) + 1\\)
+    -   如果 \\(s[i] \neq s[\pi(i - 1)]\\) ，那么需要递归地向前寻找
+        -   当满足 \\(s[i] = s[j], j = \pi(\pi(\pi(\dots)) - 1)\\) 时， \\(\pi(i) = \pi(j) + 1\\)
+        -   当全部不满足时，则 \\(\pi(i) = 0\\)
+
+    <!--listend-->
+
+    ```cpp
+    void get_prefix_array(const string& pattern, const int len, int pi[]) {
+      pi[0] = 0;
+      for (int i = 1, j = 0; i < len; i++) {
+        while (j > 0 && pattern[i] != pattern[j]) {
+          j = pi[j - 1];
+        }
+        j += pattern[i] == pattern[j];
+        pi[i] = j;
+      }
+    }
+    ```
+
+<!--list-separator-->
+
+-  KMP 的实现
+
+    我们需要利用先生成前缀数组，再对原串进行遍历匹配模式串，因此总的时间复杂度需要
+    \\(\mathcal{O}(m + n)\\)​。
+
+    ```cpp
+    int strstr(const string& source, const string& pattern) {
+      int n = source.size(), m = pattern.size();
+      int pi[m];
+      get_prefix_array(pattern, n, pi);
+      for (int i = 0, j = 0; i < n; i++) {
+        while (j > 0 && source[i] != pattern[j]) {
+          j = pi[j - 1];
+        }
+        if (source[i] == pattern[j]) {
+          j++;
+        }
+        if (j == m) {
+          return i - m + 1;
+        }
+      }
+      return -1;
+    }
+    ```
+
+
+#### Sunday 算法 {#sunday-算法}
+
+Sunday 算法是 BM 算法的变种，与 KMP 的核心思路一样，利用 pattern 已给出的信息，最大程度的跳过不匹配的字符。
+
+Sunday 的思想较为简单，处理一个 pattern 偏移表，该表主要映射了 pattern 串中存在的每个字符到末尾的距离，如果有多个相同字符，则用更靠近末尾的映射替换之前的值。
+Sunday 算法如果发现无法匹配，则观察这个坏字符的下一个位置的字符 c 来决定步进的长度：
+
+1.  如果 c 不存在于 pattern 中，直接将 pattern 的起始位置与 c 的下一个字符对齐
+2.  如果 c 存在于 pattern 中，则将最靠近末尾的该字符与 c 对齐
+
+<!--listend-->
+
+```cpp
+// 为实现的简便，假设 source 中只包含 ASCII 字符
+int strstr(const string& source, const string& pattern) {
+  int n = source.size(), m = pattern.size();
+  int shift[128] = {0};
+  for (int i = 0; i < m; i++) {
+    shift[pattern[i]] = m - i;
+  }
+  for (int i = 0, end = n - m + 1; i < end;) {
+    int j = 0;
+    while (source[i + j] == pattern[j]) {
+      ++j;
+      if (j == m) {
+	return i;
+      }
+    }
+    i += shift[source[i + m]] == 0 ? m + 1 : shift[source[i + m]];
+  }
+  return -1;
+}
+```

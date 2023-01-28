@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>中间代码生成 - iris</title><meta name="Description" content="GinShio | 编译原理第六章读书笔记"><meta property="og:title" content="中间代码生成" />
+<meta property="og:description" content="GinShio | 编译原理第六章读书笔记" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2022/compilerprinciple_008/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-28T18:18:47+08:00" />
+<meta property="article:modified_time" content="2022-06-02T11:19:22+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="中间代码生成"/>
+<meta name="twitter:description" content="GinShio | 编译原理第六章读书笔记"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2022/compilerprinciple_008/" /><link rel="prev" href="https://blog.ginshio.org/2022/compilerprinciple_007/" /><link rel="next" href="https://blog.ginshio.org/2022/git_bash_with_pacman_on_windows/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "中间代码生成",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2022\/compilerprinciple_008\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, IR","wordcount":  8106 ,
+        "url": "https:\/\/blog.ginshio.org\/2022\/compilerprinciple_008\/","datePublished": "2022-05-28T18:18:47+08:00","dateModified": "2022-06-02T11:19:22+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | 编译原理第六章读书笔记"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#语法树的变体">语法树的变体</a></li>
+    <li><a href="#三地址码">三地址码</a>
+      <ul>
+        <li><a href="#地址和指令">地址和指令</a></li>
+        <li><a href="#四元式表示">四元式表示</a></li>
+        <li><a href="#三元式表示">三元式表示</a></li>
+        <li><a href="#静态单赋值形式">静态单赋值形式</a></li>
+      </ul>
+    </li>
+    <li><a href="#类型和声明">类型和声明</a>
+      <ul>
+        <li><a href="#类型表达式">类型表达式</a></li>
+        <li><a href="#类型等价">类型等价</a></li>
+        <li><a href="#声明">声明</a></li>
+        <li><a href="#局部变量名的存储布局">局部变量名的存储布局</a></li>
+        <li><a href="#声明的序列">声明的序列</a></li>
+        <li><a href="#记录和类中的字段">记录和类中的字段</a></li>
+      </ul>
+    </li>
+    <li><a href="#表达式的翻译">表达式的翻译</a>
+      <ul>
+        <li><a href="#表达式中的运算">表达式中的运算</a></li>
+        <li><a href="#数组元素的寻址">数组元素的寻址</a></li>
+        <li><a href="#数组引用的翻译">数组引用的翻译</a></li>
+      </ul>
+    </li>
+    <li><a href="#类型检查">类型检查</a>
+      <ul>
+        <li><a href="#类型检查规则">类型检查规则</a></li>
+        <li><a href="#类型转换">类型转换</a></li>
+      </ul>
+    </li>
+    <li><a href="#控制流">控制流</a>
+      <ul>
+        <li><a href="#布尔表达式与短路代码">布尔表达式与短路代码</a></li>
+        <li><a href="#控制流语句">控制流语句</a></li>
+        <li><a href="#布尔表达式的控制流翻译">布尔表达式的控制流翻译</a></li>
+        <li><a href="#避免生成冗余的-goto-指令">避免生成冗余的 goto 指令</a></li>
+        <li><a href="#布尔值与转跳代码">布尔值与转跳代码</a></li>
+      </ul>
+    </li>
+    <li><a href="#回填">回填</a></li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">中间代码生成</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="05-28">05-28</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="06-02">06-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 8106 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 17 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - 龙书学习笔记</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul>
+                                                    <li><a href="/2020/compilerprinciple_001/">编译器与程序设计语言</a></li>
+                                                    <li><a href="/2020/compilerprinciple_002/">词法分析 1</a></li>
+                                                    <li><a href="/2020/compilerprinciple_003/">词法分析 2</a></li>
+                                                    <li><a href="/2020/compilerprinciple_004/">语法分析 1</a></li>
+                                                    <li><a href="/2022/compilerprinciple_005/">语法分析 2</a></li>
+                                                    <li><a href="/2022/compilerprinciple_006/">语法分析 3</a></li>
+                                                    <li><a href="/2022/compilerprinciple_007/">语法制导翻译</a></li><li><span class="active">中间代码生成</span></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#语法树的变体">语法树的变体</a></li>
+    <li><a href="#三地址码">三地址码</a>
+      <ul>
+        <li><a href="#地址和指令">地址和指令</a></li>
+        <li><a href="#四元式表示">四元式表示</a></li>
+        <li><a href="#三元式表示">三元式表示</a></li>
+        <li><a href="#静态单赋值形式">静态单赋值形式</a></li>
+      </ul>
+    </li>
+    <li><a href="#类型和声明">类型和声明</a>
+      <ul>
+        <li><a href="#类型表达式">类型表达式</a></li>
+        <li><a href="#类型等价">类型等价</a></li>
+        <li><a href="#声明">声明</a></li>
+        <li><a href="#局部变量名的存储布局">局部变量名的存储布局</a></li>
+        <li><a href="#声明的序列">声明的序列</a></li>
+        <li><a href="#记录和类中的字段">记录和类中的字段</a></li>
+      </ul>
+    </li>
+    <li><a href="#表达式的翻译">表达式的翻译</a>
+      <ul>
+        <li><a href="#表达式中的运算">表达式中的运算</a></li>
+        <li><a href="#数组元素的寻址">数组元素的寻址</a></li>
+        <li><a href="#数组引用的翻译">数组引用的翻译</a></li>
+      </ul>
+    </li>
+    <li><a href="#类型检查">类型检查</a>
+      <ul>
+        <li><a href="#类型检查规则">类型检查规则</a></li>
+        <li><a href="#类型转换">类型转换</a></li>
+      </ul>
+    </li>
+    <li><a href="#控制流">控制流</a>
+      <ul>
+        <li><a href="#布尔表达式与短路代码">布尔表达式与短路代码</a></li>
+        <li><a href="#控制流语句">控制流语句</a></li>
+        <li><a href="#布尔表达式的控制流翻译">布尔表达式的控制流翻译</a></li>
+        <li><a href="#避免生成冗余的-goto-指令">避免生成冗余的 goto 指令</a></li>
+        <li><a href="#布尔值与转跳代码">布尔值与转跳代码</a></li>
+      </ul>
+    </li>
+    <li><a href="#回填">回填</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>在将给定源语言的一个程序翻译成特定机器代码的过程中，一个编译器可能构造出一系列中间表示。高层的中间表示接近源语言，而底层的表示接近目标语言。语法树是高层表示，它刻画了源程序的自然层次性结构，且适用于静态类型检查。低层表示适用于机器相关处理，如寄存器分配、指令选择等。</p>
+<h2 id="语法树的变体" class="headerLink">
+    <a href="#%e8%af%ad%e6%b3%95%e6%a0%91%e7%9a%84%e5%8f%98%e4%bd%93" class="header-mark"></a>语法树的变体</h2><p>语法树中的各个结点代表了源程序的构造，一个结点的所有子结点反映了该结点对应构造的有意义的组成成分。为表达式构建的有向无环图 (Directed Acyclic Graph, DAG) 指出了表达式中的公共子表达式。</p>
+<p>与语法分析树有些不同的是，DAG 的结点可能有多个父结点，也就是说这个结点是个公共子结点。比如表达式 \(a + a * (b - c) + (b - c) * d\)</p>
+<figure><img src="/images/DAG-for-6.1-example.svg"/>
+</figure>
+
+<p>SDD 既可以构造语法树，也可以构造 DAG，在构造 DAG 结点时每次构造之前都会检查是否已存在这样的结点。如果已存在结点，就返回已有结点，否则构建新结点。</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>产生式</th>
+<th>语义规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>\(E\rightarrow{}E_{1}+T\)</td>
+<td>\(E.node=\textbf{new}\ Node(&rsquo;+&rsquo;,E_{1}.node,T.node)\)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>\(E\rightarrow{}E_{1}-T\)</td>
+<td>\(E.node=\textbf{new}\ Node(&rsquo;-&rsquo;,E_{1}.node,T.node)\)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>\(\begin{aligned}E&amp;\rightarrow{}T\\T&amp;\rightarrow{}T_{1}*F\end{aligned}\)</td>
+<td>\(\begin{aligned}E.node&amp;=T.node\\T.node&amp;=\textbf{new}\ Node(&rsquo;*&rsquo;,T_{1}.node,F.node)\end{aligned}\)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>\(T\rightarrow{}(E)\)</td>
+<td>\(T.node=E.node\)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>\(T\rightarrow{}\textbf{id}\)</td>
+<td>\(T.node=\textbf{new}\ Leaf(\textbf{id},\textbf{id}.entry)\)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>\(T\rightarrow{}\textbf{num}\)</td>
+<td>\(T.node=\textbf{new}\ Leaf(\textbf{num},\textbf{num}.entry)\)</td>
+</tr>
+</tbody>
+</table>
+<p>通常语法树或 DAG 的结点存放在记录数组中，每个记录第一个字段是运算符代码，也是该结点的标号；叶结点可能有一个存放词法值的字段，而内部结点可能有两个指向其左右运算数的字段。</p>
+<p>在这样的一个数组中，我们只需要给定结点对应的整数下标就可以引用该结点了。而这个下标被称为表达式的​<strong>值编码</strong> (value number)。通常为了防止结点太多所造成的巨大的搜索开销，可以用 Hash 的方法实现，加快创建结点时的搜索。</p>
+<h2 id="三地址码" class="headerLink">
+    <a href="#%e4%b8%89%e5%9c%b0%e5%9d%80%e7%a0%81" class="header-mark"></a>三地址码</h2><p>三地址码中一条指令的右侧最多有一个运算符，因此 \(x+y*z\) 这样的代码可能被翻译成
+\[\begin{aligned}
+t_{1} &amp;= y * z\\
+t_{2} &amp;= x + t_{1}
+\end{aligned}\]</p>
+<h3 id="地址和指令" class="headerLink">
+    <a href="#%e5%9c%b0%e5%9d%80%e5%92%8c%e6%8c%87%e4%bb%a4" class="header-mark"></a>地址和指令</h3><p>三地址码基于两个基本概念：地址和指令。地址通常具有以下形式之一：</p>
+<ul>
+<li>名字，为方便起见，允许源程序名字作为三地址码的地址。实现中通常是指向符号表的指针</li>
+<li>常量</li>
+<li>编译器生成的临时变量</li>
+</ul>
+<p>还有其他一些三地址指令的形式：</p>
+<ul>
+<li>形如 <code>x = y op z</code> 的赋值指令，其中 op 是双目运算符，x/y/z 是地址</li>
+<li>形如 <code>x = op y</code> 的赋值指令，其中 op 是单目运算符，x/y 是地址</li>
+<li>形如 <code>x = y</code> 的复制指令，将 y 的值赋给 x</li>
+<li>无条件转移指令 <code>goto L</code>​，下一步执行的指令为标号为 L 的三地址码</li>
+<li>形如 <code>if x goto L</code> 或 <code>if False x goto L</code> 的条件转移指令，当条件 x 为假时转移到标号为 L 的三地址码，否则顺序执行下一指令</li>
+<li>形如 <code>if x relop y goto L</code> 条件转移指令，如果 x 和 y 满足 relop 关系则跳转，否则顺序执行</li>
+<li>过程调用 <code>call p,n</code>​，​参数传递 <code>param x</code>​，返回指令 <code>return y</code></li>
+<li>带下标的指令 <code>x[i] = y</code> 和 <code>x = y[i]</code></li>
+<li>形如 <code>x = &amp;y</code>​、​<code>x = *y</code> 或 <code>*x = y</code> 的地址及指针赋值指令</li>
+</ul>
+<p>比方说语句 <code>do i = i + 1; while (a[i] &lt; v);</code> 可以翻译为三地址码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">L:  t1 = i + 1
+</span></span><span class="line"><span class="cl">    i = t1
+</span></span><span class="line"><span class="cl">    t2 = i * 8
+</span></span><span class="line"><span class="cl">    t3 = a [ t2 ]
+</span></span><span class="line"><span class="cl">    if t3 &lt; v goto L
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当然也可以</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">100:  t1 = i + 1
+</span></span><span class="line"><span class="cl">101:  i = t1
+</span></span><span class="line"><span class="cl">102:  t2 = i * 8
+</span></span><span class="line"><span class="cl">103:  t3 = a [ t2 ]
+</span></span><span class="line"><span class="cl">104:  if t3 &lt; v goto 100
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="四元式表示" class="headerLink">
+    <a href="#%e5%9b%9b%e5%85%83%e5%bc%8f%e8%a1%a8%e7%a4%ba" class="header-mark"></a>四元式表示</h3><p><a href="#%e5%9c%b0%e5%9d%80%e5%92%8c%e6%8c%87%e4%bb%a4" rel="">地址和指令</a> 一节中介绍了三地址码的具体组成，但在数据结构上的表示方法，常用四元式、三元式和间接三元式这三种描述方式。</p>
+<p>四元式 (quadruple) 有四个字段，分别是 op、arg1、arg2 和 result，其中 op 是运算符的内部编码。比如三地址码 <code>x​=​y+z</code> 可以用四元式 <code>(​=​, y, z, x)</code> 表示。但有一些特例：</p>
+<ol>
+<li>形如 <code>x = -y</code> 这样的单目运算符和赋值运算符 <code>x = y</code>​，不使用 arg2</li>
+<li>形如 <code>param</code> 这样的运算既不使用 arg2 也不使用 result</li>
+<li>条件或非条件转移指令将目标标号存入 result 字段</li>
+</ol>
+<p>比如说语句 <code>a = b * -c + b * -c</code>​，可以得到三地址码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">t1 = minus c
+</span></span><span class="line"><span class="cl">t2 = b * t1
+</span></span><span class="line"><span class="cl">t3 = minus c
+</span></span><span class="line"><span class="cl">t4 = b * t3
+</span></span><span class="line"><span class="cl">t5 = t2 + t4
+</span></span><span class="line"><span class="cl">a = t5
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>得到的四元式</p>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>op</th>
+<th>arg1</th>
+<th>arg2</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>minus</td>
+<td>c</td>
+<td></td>
+<td>t1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>*</td>
+<td>b</td>
+<td>t1</td>
+<td>t2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>minus</td>
+<td>c</td>
+<td></td>
+<td>t3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>*</td>
+<td>b</td>
+<td>t3</td>
+<td>t4</td>
+</tr>
+<tr>
+<td>5</td>
+<td>+</td>
+<td>t2</td>
+<td>t4</td>
+<td>t5</td>
+</tr>
+<tr>
+<td>6</td>
+<td>=</td>
+<td>t5</td>
+<td></td>
+<td>a</td>
+</tr>
+</tbody>
+</table>
+<h3 id="三元式表示" class="headerLink">
+    <a href="#%e4%b8%89%e5%85%83%e5%bc%8f%e8%a1%a8%e7%a4%ba" class="header-mark"></a>三元式表示</h3><p>三元式 (triple) 只有 op、arg1、arg2 三个字段，四元式中 result 字段主要保留的是临时变量，因此三元式中用运算的位置表示其结果。但是像 <code>x[i] = y</code> 这样的三元式，需要两个条目，我们可以把 x 和 i 置于同一个三元式，y 置于另一个三元式。</p>
+<p>作为语句 <code>a = b * -c + b * -c</code>​，可以得到三元式</p>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>op</th>
+<th>arg1</th>
+<th>arg2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>minus</td>
+<td>c</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>*</td>
+<td>b</td>
+<td>(1)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>minus</td>
+<td>c</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>*</td>
+<td>b</td>
+<td>(2)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>+</td>
+<td>(1)</td>
+<td>(3)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>=</td>
+<td>a</td>
+<td>(4)</td>
+</tr>
+</tbody>
+</table>
+<p>对于优化器来说，指令的位置会经常发生变化，此时四元式用临时变量引用结果，不会有任何变化，但三元式中使用位置引用结果的，这将导致需要频繁修改指令。</p>
+<p>间接三元式 (indirect triple) 包含了一个指向三元式的指针列表，而不是指向序列本身。在优化重排三元式时，可以直接对间接的指针列表进行重排，不会影响三元式本身。</p>
+<p>当然间接引用列表和三元式表不在一起，只是为了方便展示，才放在一起。</p>
+<table>
+<thead>
+<tr>
+<th>instruction</th>
+<th>No</th>
+<th>op</th>
+<th>arg1</th>
+<th>arg2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(1)</td>
+<td>1</td>
+<td>minus</td>
+<td>c</td>
+<td></td>
+</tr>
+<tr>
+<td>(2)</td>
+<td>2</td>
+<td>*</td>
+<td>b</td>
+<td>(1)</td>
+</tr>
+<tr>
+<td>(3)</td>
+<td>3</td>
+<td>minus</td>
+<td>c</td>
+<td></td>
+</tr>
+<tr>
+<td>(4)</td>
+<td>4</td>
+<td>*</td>
+<td>b</td>
+<td>(2)</td>
+</tr>
+<tr>
+<td>(5)</td>
+<td>5</td>
+<td>+</td>
+<td>(1)</td>
+<td>(3)</td>
+</tr>
+<tr>
+<td>(6)</td>
+<td>6</td>
+<td>=</td>
+<td>a</td>
+<td>(4)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="静态单赋值形式" class="headerLink">
+    <a href="#%e9%9d%99%e6%80%81%e5%8d%95%e8%b5%8b%e5%80%bc%e5%bd%a2%e5%bc%8f" class="header-mark"></a>静态单赋值形式</h3><p>静态单赋值形式 (static single assignment, SSA) 是另一种中间表示，它有利于实现某种类型的代码优化。SSA 中所有的赋值都是针对具有不同名字的变量。</p>
+<table>
+<thead>
+<tr>
+<th>三地址码</th>
+<th>静态单赋值形式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>p = a + b</td>
+<td>p1 = a + b</td>
+</tr>
+<tr>
+<td>q = p - c</td>
+<td>q1 = p1 - c</td>
+</tr>
+<tr>
+<td>p = q * d</td>
+<td>p2 = q1 * d</td>
+</tr>
+<tr>
+<td>p = e - p</td>
+<td>p3 = e - p2</td>
+</tr>
+<tr>
+<td>q = p + q</td>
+<td>q2 = p3 + q1</td>
+</tr>
+</tbody>
+</table>
+<p>在一个程序中，同一个变量可能在两个不同的控制流中被赋值，比如
+\[\begin{aligned}
+&amp; \textbf{if}\ (flag)\ x\,=\,-1;\ \textbf{else}\ x\,=\,1;\\
+&amp; y\,=\,x\,*\,a;
+\end{aligned}\]</p>
+<p>但是最终 y 的取值，应该由哪个 x 变量决定。SSA 给出的解决方案是 \(\phi\) 函数，将 x
+的两处赋值合并起来，最终得到的是
+\[\begin{aligned}
+&amp; \textbf{if}\ (flag)\ x_{1}\,=\,-1;\ \textbf{else}\ x_{2}\,=\,1;\\
+&amp; x_{3}\,=\,\phi(x_{1},\,x_{2});
+\end{aligned}\]</p>
+<p>如果控制流经过这个条件语句为真，那么 \(\phi(x_{1},x_{2})\) 的值为 \(x_{1}\)，否则值为 \(x_{2}\)。也就是说，根据到达包含\(\phi\)函数的赋值语句的不同控制流路经，\(\phi\)函数返回不同的数值。</p>
+<h2 id="类型和声明" class="headerLink">
+    <a href="#%e7%b1%bb%e5%9e%8b%e5%92%8c%e5%a3%b0%e6%98%8e" class="header-mark"></a>类型和声明</h2><p>可以将类型的应用划为类型检查和翻译：</p>
+<dl>
+<dt>类型检查 (type checking)</dt>
+<dd>用一组逻辑规则来推理一个程序在运行时的行为。保证运算分量的类型和运算符的预期相匹配。</dd>
+<dt>翻译时的应用 (translation application)</dt>
+<dd>根据一个名字的类型，编译器可以确定这个名字在运行时需要多大的存储空间，或者其他需要类型信息的地方。</dd>
+</dl>
+<h3 id="类型表达式" class="headerLink">
+    <a href="#%e7%b1%bb%e5%9e%8b%e8%a1%a8%e8%be%be%e5%bc%8f" class="header-mark"></a>类型表达式</h3><p>类型也有自己的结构，也就是我们说的类型表达式 (type expression)。类型表达式可能是基本类型，也可能通过将类型构造算子 (运算符) 作用于类型表达式。基本类型的集合和类型构造算子根据被检查的具体语言而定。就像 <code>int[2][3]</code> 被解释为
+<code>array(2, array(2, integer))</code></p>
+<ul>
+<li>基本类型是一个类型表达式</li>
+<li>类名是一个类型表达式</li>
+<li>将类型构造算子 <code>array</code> 作用一个数字和一个类型表达式，可以得到一个类型表达式</li>
+<li>一个记录是包含有名字段的数据结构，将 <code>record</code> 类型构造算子应用于字段名和相应的类型可以构造得到一个类型表达式</li>
+<li>使用类型构造算子 \(\rightarrow\) 可以构造得到函数类型的类型表达式</li>
+<li>如果 s 和 t 是类型表达式，那么可以使用笛卡尔积 \(s \times t\) 描述类型的列表或元组，且假定 \(\times\) 是左结合的，且享有最高优先级</li>
+<li>类型表达式的值可以为该类型的变量</li>
+</ul>
+<p>图是表示类型表达式的方便方法，内部结点表示类型构造算子，而叶结点可以是基本类型、类型名或类型变量。这与构造 DAG 的结点的值编码方式类似。</p>
+<h3 id="类型等价" class="headerLink">
+    <a href="#%e7%b1%bb%e5%9e%8b%e7%ad%89%e4%bb%b7" class="header-mark"></a>类型等价</h3><p>如果两个类型表达式相等，那么这两个类型等价。不过在给一个类型表达式起别名时，在类型表达式中的别名代表一个类型，还是另一个类型表达式的缩写。</p>
+<p>当用图表示类型表达式时，只有以下的某个条件成立时，两种类型之间​<strong>结构等价</strong>
+(structurally equivalent)。如果类型名仅表示自身，那么前两个定义了类型表达式的​<strong>名等价</strong> (name equivalence) 关系</p>
+<ul>
+<li>它们是相同的基本类型</li>
+<li>它们是将相同的类型构造算子应用于结构等价的类型而构造得到</li>
+<li>一个类型是另一个类型表达式的别名</li>
+</ul>
+<p>如果使用与 DAG 结点的编码方式，那么名等价表达式将被赋予相同的值编码。</p>
+<h3 id="声明" class="headerLink">
+    <a href="#%e5%a3%b0%e6%98%8e" class="header-mark"></a>声明</h3><p>在研究类型及其声明时，将使用一个经过化简的文法，一次只声明一个名字。
+\[\begin{aligned}
+D &amp;\rightarrow{} T \, \textbf{id};\ D\ |\ \varepsilon\\
+T &amp;\rightarrow{} B C \ |\ \textbf{record}\, &lsquo;\{&rsquo; \, D \, &lsquo;\}&rsquo;\\
+B &amp;\rightarrow{} \textbf{int}\ |\ \textbf{float}\\
+C &amp;\rightarrow{} \varepsilon\ |\ [ \, \textbf{num} \, ] \, C
+\end{aligned}\]</p>
+<h3 id="局部变量名的存储布局" class="headerLink">
+    <a href="#%e5%b1%80%e9%83%a8%e5%8f%98%e9%87%8f%e5%90%8d%e7%9a%84%e5%ad%98%e5%82%a8%e5%b8%83%e5%b1%80" class="header-mark"></a>局部变量名的存储布局</h3><p>从变量的类型可以得知类型信息或所需的内存占用。在编译时，可以使用这些数量为每个名字分配一个相对地址。名字的类型和相对地址信息保存在相应的符号表条目中。对于字符串这样的变长数据，以及动态数组这样的只有运行时才能确定大小的数据，处理方法是为这些数据的指针保留一个已知的固定大小的存储区域。</p>
+<p>假设存储区域是连续的字节块，其中字节是可寻址的最小内存单位。一个字节通常有 8 bit，若干字节组成一个机器字。多字节数据对像往往被存储在一段连续的字节中，并以初始字节的地址作为该数据对象的地址。</p>
+<p>类型的​<strong>宽度</strong> (width) 是指该类型的每个对象需要多少存储单元。一个基本类型需要整数个字节，为方便访问，数组和类这样的组合类型数据分配的内存是一个连续存储的字节块。</p>
+<p>因此我们可以给出<a href="#%e5%a3%b0%e6%98%8e" rel="">声明</a>中给出的示例的 SDT，在这个 SDT 中，每个非终结符使用综合属性
+type 和 width 记录类型信息，并有继承属性 t 和 w 传递类型信息。
+\[\begin{array}{lllll}
+T &amp;\rightarrow &amp;B                           &amp;\{&amp;t=B.type;\,w=B.width;\ \}\\
+&amp;  &amp;C                           &amp;\{&amp;T.type=C.type;\,T.width=C.width;\ \}\\
+B &amp;\rightarrow &amp;\textbf{int}                &amp;\{&amp;B.type=integer;\,B.width=4;\ \}\\
+B &amp;\rightarrow &amp;\textbf{float}              &amp;\{&amp;B.type=float;\,B.width=8;\ \}\\
+C &amp;\rightarrow &amp;\varepsilon                 &amp;\{&amp;C.type=t;\,C.width=w;\ \}\\
+C &amp;\rightarrow &amp;[\,\textbf{num}\,]\,C_{1}   &amp;\{&amp;C.type=array(\textbf{num}.value,C_{1}.type);\\
+&amp;  &amp;                            &amp;  &amp;C.width=\textbf{num}.value*C_{1}.width;\ \}
+\end{array}\]</p>
+<p>现在还不足以支持我们为及其相关的特性进行优化，比如地址与机器字对齐。</p>
+<h3 id="声明的序列" class="headerLink">
+    <a href="#%e5%a3%b0%e6%98%8e%e7%9a%84%e5%ba%8f%e5%88%97" class="header-mark"></a>声明的序列</h3><p>像 C 和 Java 这样的语言支持将单个过程中的所有声明作为一个组进行处理。这些声明可能分布在一个 Java 过程中，但仍然能够在分析过程处理它们。比如使用 offset 作为跟踪下一个可用的相对地址的变量。</p>
+<p>在声明序列之前，将 offset 设置为 0，每处理一个变量时，将其加入符号表，并将相对地址设置为当前的 offset，并为 offset 累加上当前变量的 width。</p>
+<p>\[\begin{array}{lllll}
+P &amp;\rightarrow{} &amp;                  &amp; \{ &amp; offset=0;\ \ \}\\
+&amp;    &amp; D                &amp;    &amp; \\
+D &amp;\rightarrow{} &amp; T\ \textbf{id};  &amp; \{ &amp; top.put(\textbf{id}.lexeme, T.type, offset);\\
+&amp;    &amp;                  &amp;    &amp; offset=offset + T.width;\ \ \}\\
+&amp;    &amp; D_{1}            &amp;    &amp; \\
+D &amp;\rightarrow{} &amp; \varepsilon                &amp;    &amp; \\
+\end{array}\]</p>
+<h3 id="记录和类中的字段" class="headerLink">
+    <a href="#%e8%ae%b0%e5%bd%95%e5%92%8c%e7%b1%bb%e4%b8%ad%e7%9a%84%e5%ad%97%e6%ae%b5" class="header-mark"></a>记录和类中的字段</h3><p><a href="#%e5%a3%b0%e6%98%8e%e7%9a%84%e5%ba%8f%e5%88%97" rel="">声明的序列</a>中介绍的方案还可以用于记录和类中的字段。但需要注意</p>
+<ul>
+<li>记录或类中的各个字段名称必须不同</li>
+<li>字段的偏移量 (相对地址) 是相对于该记录或类的数据区地址而言的</li>
+</ul>
+<p>由于外部可能和内部名称相同，但它们属于不同的作用域，其地址也各不相同。因此方便起见，记录或类类型可以使用一个专有的符号表，对它们的各个字段的类型和相对地址进行编码。
+\[\begin{array}{llll}
+T \ \rightarrow &amp; \textbf{record} &lsquo;\{&rsquo; &amp; \{ &amp; Env.push(top);\ top=\textbf{new}\,Env();\\
+&amp;                      &amp;    &amp; Stack.push(offset);\ offset=0;\ \ \}\\
+&amp; D\ &lsquo;\}&rsquo;              &amp; \{ &amp; T.type=recode(top);\ T.width=offset;\\
+&amp;                      &amp;    &amp; top=Env.top();\ offset=Stack.pop();\ \ \}
+\end{array}\]</p>
+<p>关于记录类型的存储方式还可以推广到类中，因为无需为类中的方法保留存储空间。</p>
+<h2 id="表达式的翻译" class="headerLink">
+    <a href="#%e8%a1%a8%e8%be%be%e5%bc%8f%e7%9a%84%e7%bf%bb%e8%af%91" class="header-mark"></a>表达式的翻译</h2><h3 id="表达式中的运算" class="headerLink">
+    <a href="#%e8%a1%a8%e8%be%be%e5%bc%8f%e4%b8%ad%e7%9a%84%e8%bf%90%e7%ae%97" class="header-mark"></a>表达式中的运算</h3><p>考虑一个赋值语句，用 SDD 为其生成三地址码。属性 S.code 和 E.code 分别表示语句和表达式的三地址码，属性 E.addr 存放 E 的值的地址。</p>
+<p>\[\begin{array}{llllll}
+S &amp;\rightarrow{} &amp; \textbf{id} = E\ ; &amp; \{ &amp; S.code = &amp;E.code\ ||\\
+&amp;    &amp;                    &amp;    &amp;          &amp;gen(top.get(\textbf{id}.lexeme)\ &lsquo;=&rsquo;\ E.addr);\ \ \}\\
+E &amp;\rightarrow{} &amp; E_{1} + E_{2}      &amp; \{ &amp; E.addr = &amp;\textbf{new}\,Temp();\\
+&amp;    &amp;                    &amp;    &amp; E.code = &amp;E_{1}.code\ ||\ E_{2}.code\ ||\\
+&amp;    &amp;                    &amp;    &amp;          &amp;gen(E.addr\ &lsquo;=&rsquo;\ E_{1}.addr\ &lsquo;+&rsquo;\ E_{2}.addr);\ \ \}\\
+&amp;|{} &amp; -\,E_{1}           &amp; \{ &amp; E.addr = &amp;\textbf{new}\,Temp();\\
+&amp;    &amp;                    &amp;    &amp; E.code = &amp;E_{1}.code\ ||\\
+&amp;    &amp;                    &amp;    &amp;          &amp;gen(E.addr\ &lsquo;=&rsquo;\ &lsquo;\textbf{minus}&rsquo;\ E_{1}.addr);\ \ \}\\
+&amp;|{} &amp; (\,E_{1}\,)        &amp; \{ &amp; E.addr = &amp;E_{1}.addr;\\
+&amp;    &amp;                    &amp;    &amp; E.code = &amp;E_{1}.code\ \ \}\\
+&amp;|{} &amp; \textbf{id}        &amp; \{ &amp; E.addr = &amp;top.get(\textbf{id}.lexeme);\\
+&amp;    &amp;                    &amp;    &amp; E.code = &amp;&rsquo;&rsquo;\ \ \}
+\end{array}\]</p>
+<p>可以将 <code>new Temp()</code> 理解为产生一个完全不同的临时变量，对应三地址码中的一个临时变量。而 <code>gen()</code> 可以理解为产生一个三地址码。</p>
+<p>因此根据上面这个 SDD，可以将表达式 <code>a = b + -c</code> 表示为三地址码序列
+\[\begin{aligned}
+t_{1} &amp;= \texttt{minus}\ c\\
+t_{2} &amp;= b + t_{1}\\
+a &amp;= t_{2}
+\end{aligned}\]</p>
+<h3 id="数组元素的寻址" class="headerLink">
+    <a href="#%e6%95%b0%e7%bb%84%e5%85%83%e7%b4%a0%e7%9a%84%e5%af%bb%e5%9d%80" class="header-mark"></a>数组元素的寻址</h3><p>将数组元素存储在一块连续的空间里就可以快速地访问它们。假设数组元素的宽度为 w，那么数组的第 i 个元素的开始地址为 \(base + i * w\)，base 是数组的内存开始的相对地址，也就是 <code>array[0]</code> 的相对地址。对于二维数组，假设一行的宽度是 \(w_{1}\)，同一行中每个元素的宽度是 \(w_{2}\)，那么 \(array[i_{1}][i_{2}]\) 的相对地址的计算公式为
+\[base + i_{1} * w_{1} + i_{2} * w_{2}\]</p>
+<p>对 k 维数组，根据 \(w_{1}\) 和 \(w_{2}\) 的推广，可以得到
+\[base + i_{1} * w_{1} + i_{2} * w_{2} + \cdots + i_{k} * w_{k}\]</p>
+<p>如果数组第 j 维上有 \(n_{j}\) 个元素，该数组的每个元素的宽度 \(w=w_{k}\)，在二维数组中 (即 \(k=2,\,w=w_{2}\)) \(array[i_{1}][i_{2}]\) 的相对地址为
+\[base + (i_{1} * n_{2} + i_{2}) * w\]</p>
+<p>推广的 k 维数组，可以得到
+\[base + ((\cdots ((i_{1} * n_{2} + i_{2}) * n_{3} + i_{3}) \cdots) * n_{k} + i_{k}) * w\]</p>
+<h3 id="数组引用的翻译" class="headerLink">
+    <a href="#%e6%95%b0%e7%bb%84%e5%bc%95%e7%94%a8%e7%9a%84%e7%bf%bb%e8%af%91" class="header-mark"></a>数组引用的翻译</h3><p>为数组引用生成代码时要解决的首要问题是将地址计算公式与引用文法关联起来，首先文法可以由 \(L\ \rightarrow\ {}L\,[\,E\,]\ |\ \textbf{id}\,[\,E\,]\) 给出。</p>
+<p>\[\begin{array}{lllll}
+S &amp;\rightarrow{} &amp;\textbf{id}\,=\,E\ ; &amp; \{ &amp; gen(top.get(\textbf{id}.lexeme)\,&rsquo;=&rsquo;\,E.addr);\ \ \}\\
+&amp;|{} &amp;L\,=\,E\ ;           &amp;    &amp; gen(L.array.base\,&rsquo;[&rsquo;\,L.addr\,&rsquo;]&rsquo;\,&rsquo;=&rsquo;\,E.addr);\ \ \}\\
+E &amp;\rightarrow{} &amp;E_{1}\,+\,E_{2}      &amp; \{ &amp; E.addr\,=\,\textbf{new}\ Temp();\\
+&amp;    &amp;                     &amp;    &amp; gen(E.addr\,&rsquo;=&rsquo;\,E_{1}.addr\,&rsquo;+&rsquo;\,E_{2}.addr);\ \ \}\\
+&amp;|{} &amp;\textbf{id}          &amp; \{ &amp; E.addr\,=\,top.get(\textbf{id}.lexeme);\ \ \}\\
+&amp;|{} &amp;L                    &amp; \{ &amp; E.addr\,=\,\textbf{new}\ Temp();\\
+&amp;    &amp;                     &amp;    &amp; gen(E.addr\,&rsquo;=&rsquo;\,L.array.base\,&rsquo;[&rsquo;\,L.addr\,&rsquo;]&rsquo;);\ \ \}\\
+L &amp;\rightarrow{} &amp;\textbf{id}\,[\,E\,] &amp; \{ &amp; L.array\,=\,top.get(\textbf{id}.lexeme);\\
+&amp;    &amp;                     &amp;    &amp; L.type\,=\,L.array.type.elem;\\
+&amp;    &amp;                     &amp;    &amp; L.addr\,=\,\textbf{new}\ Temp();\\
+&amp;    &amp;                     &amp;    &amp; gen(E.addr\,&rsquo;=&rsquo;\,E.addr\,&rsquo;*&rsquo;\,L.type.width);\ \ \}\\
+&amp;|{} &amp;L_{1}\,[\,E\,]       &amp; \{ &amp; L.array\,=\,L_{1}.array\\
+&amp;    &amp;                     &amp;    &amp; L.type\,=\,L_{1}.type.elem\\
+&amp;    &amp;                     &amp;    &amp; t\,=\,\textbf{new}\ Temp();\\
+&amp;    &amp;                     &amp;    &amp; L.addr\,=\,\textbf{new}\ Temp();\\
+&amp;    &amp;                     &amp;    &amp; gen(t\,&rsquo;=&rsquo;\,E.addr\,&rsquo;*&rsquo;\,L.type.width);\\
+&amp;    &amp;                     &amp;    &amp; gen(L.addr\,&rsquo;=&rsquo;\,L_{1}.addr\,&rsquo;+&rsquo;\,t);\ \ \}
+\end{array}\]</p>
+<p>非终结符 L 有三个综合属性</p>
+<ol>
+<li>L.addr 表示一个临时变量，被用于累加计算地址的 \(i_{j} * w_{j}\) 项，计算数组的偏移量</li>
+<li>L.array 指向数组名称对应的符号表指针，L.array.base 是分析完所有下标后，数组的起始地址</li>
+<li>L.type 是 L 生成的子数组类型，其宽度为 t.width，数组的元素类型由 t.elem 给出</li>
+</ol>
+<p>如果 a 表示一个 \(2\times3\) 的整数数组，c、i、j 都是整数，那么 a 的类型是
+\(array(2, array(3, integer))\)。假设整数宽度为 4，那么 a 的宽度为 24。​<code>a[i]</code> 的类型为 \(array(3, integer)\)，宽度 \(w_{1}\) 为 12。</p>
+<p>表达式 \(c+a[i][j]\) 的三地址码可以表示为：
+\[\begin{aligned}
+t_{1} &amp;= i*12\\
+t_{2} &amp;= j*4\\
+t_{3} &amp;= t_{1}+t_{2}\\
+t_{4} &amp;= a\,[\,t_{3}\,]\\
+t_{5} &amp;= c + t_{4}
+\end{aligned}\]</p>
+<figure><img src="/images/annotated-parse-tree-for-6.12-example.svg"/>
+</figure>
+
+<h2 id="类型检查" class="headerLink">
+    <a href="#%e7%b1%bb%e5%9e%8b%e6%a3%80%e6%9f%a5" class="header-mark"></a>类型检查</h2><p>为了进行类型检查，编译器需要给源程序的每个组成部分赋予一个类型表达式，编译器确定这些类型表达式是否满足一组逻辑规则，这些规则称为源语言的​<strong>类型系统</strong> (type system)。</p>
+<p>如果目标代码在保存元素值的同时保存了类型信息，那么任何检查都可以动态地进行。一个
+<code>健全</code> (sound) 的类型系统可以消除对动态类型错误检查的需要，因为它可以静态地确定这些错误不会在目标程序运行时发生。如果编译器可以保证它接受的程序在运行时不会发生类型错误，那么该语言的实现被称为​<code>强类型的</code>​。</p>
+<h3 id="类型检查规则" class="headerLink">
+    <a href="#%e7%b1%bb%e5%9e%8b%e6%a3%80%e6%9f%a5%e8%a7%84%e5%88%99" class="header-mark"></a>类型检查规则</h3><p>类型检查由两种形式，​<code>综合</code>​和​<code>推导</code>​。类型综合 (type synthesis) 根据子表达式的类型构造该表达式的类型。它要求名字先声明再使用。表达式 \(E_{1}+E_{2}\) 的类型是根据
+\(E_{1}\) 和 \(E_{2}\) 定义的。还有一个经典例子：如果 f 的类型是 \(s\rightarrow{}t\) 且 x
+的类型是 s，那么 <code>f(x)</code> 的类型是 t。</p>
+<p>类型推导 (type inference) 根据一个语言结构的使用方式来确定该结构的类型，比如说
+<code>null(x)</code> 检测一个列表是否为空，x 必须是列表类型，但内部元素类型是未知的 (往往用
+\(\alpha\)、\(\beta\) 等希腊字母作为类型变量)。</p>
+<p>同样地，对于语句我们也可以由类似的检查，比如条件语句 \(\textbf{if}\,(E)\,S\)，可以看作接收 E 为布尔类型，而语句结果为 void 类型。</p>
+<h3 id="类型转换" class="headerLink">
+    <a href="#%e7%b1%bb%e5%9e%8b%e8%bd%ac%e6%8d%a2" class="header-mark"></a>类型转换</h3><p>考虑类似于 \(x+i\) 的表达式，如果 x 是浮点类型且 i 是整型，它们需要不同的指令来完成运算。编译器需要把 \(+\) 的某个运算分量进行转换，以保证进行运算时，两个运算分量具有相同的类型。</p>
+<p>大概可以用近似实现</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">E1</span><span class="p">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">integer</span> <span class="o">&amp;&amp;</span> <span class="n">E2</span><span class="p">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">integer</span><span class="p">)</span> <span class="n">E</span><span class="p">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">integer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">E1</span><span class="p">.</span><span class="n">type</span> <span class="o">==</span> <span class="kt">float</span> <span class="o">&amp;&amp;</span> <span class="n">E2</span><span class="p">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">integer</span><span class="p">)</span> <span class="n">E</span><span class="p">.</span><span class="n">type</span> <span class="o">=</span> <span class="kt">float</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>但是类型的增多将需要处理的工作量也急剧增长。因此，在处理大量类型时，精心组织用于类型转换的语义动作就变得十分重要。</p>
+<p>不过不同语言的类型转换规则是不同的，Java 的转换规则分为​<code>拓宽</code> (widening) 和​<code>窄化</code>
+(narrowing)，前者可以保持原有信息，而后者则可能丢失信息。</p>
+<figure><img src="/images/java-type-conversion-example.svg"/>
+</figure>
+
+<p>如果类型转换由编译器完成，那么称作隐式类型转换，或者自动类型转换 (conversion)，有些语言中只允许拓宽进行隐式转换。如果由程序员写出代码完成的类型转换称为显示类型转换，或者说强制类型转换 (cast)。</p>
+<p>检查 \(E\rightarrow{}E_{1}+E_{2}\) 的语义动作可以使用两个函数</p>
+<ul>
+<li><code>max(t1, t2)</code> 接受两个类型参数，并返回扩展层次结构中的较大者。如果两个类型不在这个层次结构中，返回错误</li>
+<li>如果需要类型 t 的地址 a 中的内容转换成 w 类型的值，则函数 <code>widen(a, t, w)</code>
+将生成转换代码。如果 t 和 w 相同，则返回 a 本身；否则生成一条指令来进行转换，并返回临时结果对象。</li>
+</ul>
+<p>现在我们可以很轻松地处理加法
+\[\begin{array}{llll}
+E &amp;\rightarrow{} E_{1} + E_{2} &amp; \{ &amp; E.type = max(E_{1}.type, E_{2}.type);\\
+&amp;                  &amp;    &amp; a_{1} = widen(E_{1}.addr, E_{1}.type, E.type);\\
+&amp;                  &amp;    &amp; a_{2} = widen(E_{2}.addr, E_{2}.type, E.type);\\
+&amp;                  &amp;    &amp; E.addr = \textbf{new}\ Temp();\\
+&amp;                  &amp;    &amp; gen(E.addr\,&rsquo;=&rsquo;\,a_{1}\,&rsquo;+&rsquo;\,a_{2});\ \ \}
+\end{array}\]</p>
+<h2 id="控制流" class="headerLink">
+    <a href="#%e6%8e%a7%e5%88%b6%e6%b5%81" class="header-mark"></a>控制流</h2><p>布尔表达式通常被用来：</p>
+<ul>
+<li><strong>改变控制流</strong></li>
+<li><strong>计算逻辑值</strong></li>
+</ul>
+<h3 id="布尔表达式与短路代码" class="headerLink">
+    <a href="#%e5%b8%83%e5%b0%94%e8%a1%a8%e8%be%be%e5%bc%8f%e4%b8%8e%e7%9f%ad%e8%b7%af%e4%bb%a3%e7%a0%81" class="header-mark"></a>布尔表达式与短路代码</h3><p>布尔表达式由作用于布尔变量或关系表达式的布尔运算符构成，文法通常如 (其中 comp 是比较运算符)：
+\[\begin{array}{lll}
+B &amp; \rightarrow{} &amp; B\ ||\ B \\
+&amp; |{} &amp; B\ \&amp;\&amp;\ B \\
+&amp; |{} &amp; !B \\
+&amp; |{} &amp; (\,B\,) \\
+&amp; |{} &amp; E\ \textbf{comp}\ E \\
+&amp; |{} &amp; \textbf{true}\\
+&amp; |{} &amp; \textbf{false}
+\end{array}\]</p>
+<p>程序设计语言的语义决定了是否需要对一个布尔表达式进行完整求值，如果允许部分求值足以确定整个表达式的值时不再执行完全求值，这被称为短路运算。</p>
+<h3 id="控制流语句" class="headerLink">
+    <a href="#%e6%8e%a7%e5%88%b6%e6%b5%81%e8%af%ad%e5%8f%a5" class="header-mark"></a>控制流语句</h3><p>常见的控制流语句如下
+\[\begin{array}{lll}
+S &amp;\rightarrow{} &amp; \textbf{if}\ (\,B\,)\ S_{1}\\
+&amp;|{} &amp; \textbf{if}\ (\,B\,)\ S_{1}\ \textbf{else}\ S_{2}\\
+&amp;|{} &amp; \textbf{while}\ (\,B\,)\ S_{1}\\
+&amp;|{} &amp; S_{1}\ S_{2}
+\end{array}\]</p>
+<p>控制流会出现类似以下的效果
+<a class="lightgallery" href="/images/control-flow-code.svg" title="/images/control-flow-code.svg" data-thumbnail="/images/control-flow-code.svg">
+        <img
+            
+            loading="lazy"
+            src="/images/control-flow-code.svg"
+            srcset="/images/control-flow-code.svg, /images/control-flow-code.svg 1.5x, /images/control-flow-code.svg 2x"
+            sizes="auto"
+            alt="/images/control-flow-code.svg">
+    </a></p>
+<p>以这种结构实现控制流语句的 SDD
+\[\begin{array}{llll}
+P &amp;\rightarrow{} S                                                 &amp; S.next     &amp;= newlabel()\\
+&amp;                                                      &amp; P.code     &amp;= S.code\ ||\ label(S.next)\\
+S &amp;\rightarrow{} \textbf{assign}                                   &amp; S.code     &amp;= \textbf{assign}.code\\
+S &amp;\rightarrow{} \textbf{if}\ (\,B\,)\ S_{1}                       &amp; B.true     &amp;= newlabel()\\
+&amp;                                                      &amp; B.false    &amp;= S_{1}.next = S.next\\
+&amp;                                                      &amp; S.code     &amp;= B.code\ ||\ label(B.true)\ ||\ S_{1}.code\\
+S &amp;\rightarrow{} \textbf{if}\ (\,B\,)\ S_{1}\ \textbf{else}\ S_{2} &amp; B.true     &amp;= newlabel()\\
+&amp;                                                      &amp; B.false    &amp;= newlabel()\\
+&amp;                                                      &amp; S_{1}.next &amp;= S_{2}.next = S.next\\
+&amp;                                                      &amp; S.code     &amp;= B.code\\
+&amp;                                                      &amp;            &amp;||\ label(B.true)\ ||\ S_{1}.code\\
+&amp;                                                      &amp;            &amp;||\ gen(&lsquo;goto&rsquo;\ S.next)\\
+&amp;                                                      &amp;            &amp;||\ label(B.false)\ ||\ S_{2}.code\\
+S &amp;\rightarrow{} \textbf{while}\ (\,B\,)\ S_{1}                    &amp; begin      &amp;= newlabel()\\
+&amp;                                                      &amp; B.true     &amp;= newlabel()\\
+&amp;                                                      &amp; B.false    &amp;= S.next\\
+&amp;                                                      &amp; S_{1}.next &amp;= begin\\
+&amp;                                                      &amp; S.code     &amp;= label(begin)\ ||\ B.code\\
+&amp;                                                      &amp;            &amp;||\ label(B.true)\ ||\ S_{1}.code\\
+&amp;                                                      &amp;            &amp;||\ gen(&lsquo;goto&rsquo;\ begin)\\
+S &amp;\rightarrow{} S_{1}\ S_{2}                                      &amp; S_{1}.next &amp;= newlabel()\\
+&amp;                                                      &amp; S_{2}.next &amp;= S.next\\
+&amp;                                                      &amp; S.code     &amp;= S_{1}.code\ ||\ label(S_{1}.next)\ ||\ S_{2}.code
+\end{array}\]</p>
+<h3 id="布尔表达式的控制流翻译" class="headerLink">
+    <a href="#%e5%b8%83%e5%b0%94%e8%a1%a8%e8%be%be%e5%bc%8f%e7%9a%84%e6%8e%a7%e5%88%b6%e6%b5%81%e7%bf%bb%e8%af%91" class="header-mark"></a>布尔表达式的控制流翻译</h3><p>我们需要针对布尔表达式生成相应的 SDD，将其翻译为三地址码，
+\[\begin{array}{llll}
+B &amp;\rightarrow{} B_{1}\ ||\ B_{2}          &amp; B_{1}.true  &amp;= B.true\\
+&amp;                              &amp; B_{1}.false &amp;= newlabel()\\
+&amp;                              &amp; B_{2}.true  &amp;= B.true\\
+&amp;                              &amp; B_{2}.false &amp;= B_{1}.false\\
+&amp;                              &amp; B.code      &amp;= B_{1}.code\ ||\ label(B_{1}.false)\ ||\ B_{2}.code\\
+B &amp;\rightarrow{} B_{1}\ \&amp;\&amp;\ B_{2}        &amp; B_{1}.true  &amp;= newlabel()\\
+&amp;                              &amp; B_{1}.false &amp;= B.false\\
+&amp;                              &amp; B_{2}.true  &amp;= B.true\\
+&amp;                              &amp; B_{2}.false &amp;= B.false\\
+&amp;                              &amp; B.code      &amp;= B_{1}.code\ ||\ label(B_{1}.true)\ ||\ B_{2}.code\\
+B &amp;\rightarrow{} !\,B_{1}                  &amp; B_{1}.true  &amp;= B.false\\
+&amp;                              &amp; B_{1}.false &amp;= B.true\\
+&amp;                              &amp; B.code      &amp;= B_{1}.code\\
+B &amp;\rightarrow{} E_{1} \textbf{comp} E_{2} &amp; B.code      &amp;= E_{1}.code\ ||\ E_{2}.code\\
+&amp;                              &amp;             &amp;||\ gen(&lsquo;if&rsquo;\ E_{1}.addr\ \textbf{comp}.op\ E_{2}.addr\ &lsquo;goto&rsquo;\ B.true)\\
+&amp;                              &amp;             &amp;||\ gen(&lsquo;goto&rsquo;\ B.false)\\
+B &amp;\rightarrow{} \textbf{true}             &amp; B.code      &amp;= gen(&lsquo;goto&rsquo;\ B.true)\\
+B &amp;\rightarrow{} \textbf{false}            &amp; B.code      &amp;= gen(&lsquo;goto&rsquo;\ B.false)
+\end{array}\]</p>
+<p>B 的其余产生式按照下面的方法翻译：</p>
+<ul>
+<li>假定 B 形如 \(B_{1}\ ||\ B_{2}\)，如果 \(B_{1}\) 为真，那么 B 本身为真，因此
+\(B_{1}.true\) 和 \(B.true\) 相同；如果 \(B_{1}\) 为假，那么就要对 \(B_{2}\)
+求值，因此将 \(B_{1}.false\) 设置为 \(B_{2}\) 的代码标号。此时 \(B_{2}\) 的出口等于 B 的出口</li>
+<li>\(B_{1}\ \&amp;\&amp;\ B_{2}\) 类似于上一项</li>
+<li>不需要为 \(B\rightarrow{}!\,B_{1}\) 产生新代码，只需要将 B 的真假出口对换</li>
+<li>将常量 <strong>true</strong> 和 <strong>false</strong> 分别翻译为 \(B.true\) 和 \(B.false\) 的跳转指令</li>
+</ul>
+<p>考虑以下语句 <code>if (x&lt;100 || x&gt;200 &amp;&amp; x != y) x=0;</code>​，可以生成得到如下语法
+\[\begin{aligned}
+&amp; if\ x\ &lt;\ 100\ \texttt{goto}\ L_{2}\\
+&amp; \textbf{goto}\ L_{3}\\
+L_{3}:\quad &amp; if\ x\ &gt;\ 200\ \texttt{goto}\ L_{4}\\
+&amp; \textbf{goto}\ L_{1}\\
+L_{4}:\quad &amp; if\ x\ !=\ y\ \texttt{goto}\ L_{2}\\
+&amp; \textbf{goto}\ L_{1}\\
+L_{2}:\quad &amp; x\ =\ 0\\
+L_{1}:\quad &amp;
+\end{aligned}\]</p>
+<p>但是在这个生成的语句中，​<code>goto L3</code> 是冗余的，下一条语句的标号就是 L3。另外，如果将 L3 和 L4 的 <code>if</code> 换为 <code>ifFalse</code>​，那么还可以省去两条 <code>goto</code>​，因此生成的最佳代码为
+\[\begin{aligned}
+&amp; if\ x\ &lt;\ 100\ \texttt{goto}\ L_{2}\\
+&amp; ifFalse\ x\ &gt;\ 200\ \texttt{goto}\ L_{1}\\
+&amp; ifFalse\ x\ !=\ y\ \texttt{goto}\ L_{1}\\
+L_{2}:\quad &amp; x\ =\ 0\\
+L_{1}:\quad &amp;
+\end{aligned}\]</p>
+<p>有点 lisp 里 <strong>when</strong> (ifTrue) 和 <strong>unless</strong> (ifFalse) 那味了。</p>
+<h3 id="避免生成冗余的-goto-指令" class="headerLink">
+    <a href="#%e9%81%bf%e5%85%8d%e7%94%9f%e6%88%90%e5%86%97%e4%bd%99%e7%9a%84-goto-%e6%8c%87%e4%bb%a4" class="header-mark"></a>避免生成冗余的 goto 指令</h3><p>在<a href="#%e5%b8%83%e5%b0%94%e8%a1%a8%e8%be%be%e5%bc%8f%e7%9a%84%e6%8e%a7%e5%88%b6%e6%b5%81%e7%bf%bb%e8%af%91" rel="">布尔表达式的控制流翻译</a>中，展示了用 ifFalse 之后，指令自然流向下一个指令，从而减少了一个跳转指令。</p>
+<p>通常代码表达式紧跟在布尔表达式之后，通过使用一个特殊标志 <code>fallthrough</code> (直落)，修改<a href="#%e6%8e%a7%e5%88%b6%e6%b5%81%e8%af%ad%e5%8f%a5" rel="">控制流语句</a>和<a href="#%e5%b8%83%e5%b0%94%e8%a1%a8%e8%be%be%e5%bc%8f%e7%9a%84%e6%8e%a7%e5%88%b6%e6%b5%81%e7%bf%bb%e8%af%91" rel="">布尔表达式的控制流翻译</a>中介绍的 SDD，就可以使控制流从 B 直接流向
+S，而不需要跳转。比如将 \(S\rightarrow{}\textbf{if}\ (\,B\,)\ S_{1}\) 新的语义规则：
+\[\begin{aligned}
+B.true &amp;= \texttt{fallthrough}\\
+B.false &amp;= S_{1}.next\ =\ S.next\\
+S.code &amp;= B.code\ ||\ S_{1}.code
+\end{aligned}\]</p>
+<p>现在尝试修改布尔表达式的语义规则，使其尽可能允许控制流直落。在 B.true 和 B.false
+都是显示的标号时，也就是说都不是 <code>fallthrough</code> 时，\(B\rightarrow{}E_{1}\ \textbf{comp}\
+E_{2}\) 将产生新的语义规则。如果 B.true 是显示的标号而 B.false 是 <code>fallthrough</code>​，将产生一条 <code>if</code> 指令确保条件为假时控制流可以直落；反之产生一条 <code>ifFalse</code> 指令。如果都是 <code>fallthrough</code> 将不产生任何跳转指令。新语义规则如下：</p>
+<div class="verse">
+<p>test   = E1.addr <strong>comp</strong>.op E2.addr<br />
+s      = <strong>if</strong> B.true != fallthrough <strong>and</strong> B.false != fallthrough <strong>then</strong><br />
+             gen(&lsquo;if&rsquo; test &lsquo;goto&rsquo; B.true) || gen(&lsquo;goto&rsquo; B.false)<br />
+         <strong>else if</strong> B.true != fallthrough <strong>then</strong> gen(&lsquo;if&rsquo; test &lsquo;goto&rsquo; B.true)<br />
+         <strong>else if</strong> B.false != fallthrough <strong>then</strong> gen(&lsquo;ifFalse&rsquo; test &lsquo;goto&rsquo; B.false)<br />
+         <strong>else</strong> &lsquo;&rsquo;<br />
+B.code = E1.code || E2.code || s<br /></p>
+</div>
+<p>但是在短路运算中，会稍微不同。比如 \(B\rightarrow{}B_{1}\ ||\ B_{2}\)，如果 \(B.true\) 为
+<code>fallthrough</code> 那么 B 为真是会直落到之后的语句。但是 \(B_{1}\) 为真时会短路该表达式，必须进行转跳而跳过 \(B_{2}\)，直接到达 B 的下一条指令。而 \(B_{1}\) 为假时，需要由 \(B_{2}\) 来决定表达式的值，因此需要保证 \(B_{1}.false\) 可以正确由
+\(B_{1}\) 直落到 \(B_{2}\)。新的语义规则如下</p>
+<div class="verse">
+<p>B1.true = <strong>if</strong> B.true != fallthrough <strong>then</strong> B.true <strong>else</strong> newlabel()<br />
+B1.false = fallthrough<br />
+B2.true = B.true<br />
+B2.false = B.false<br />
+B.code = <strong>if</strong> B.true != fallthrough <strong>then</strong> B1.code || B2.code<br />
+         <strong>else</strong> B1.code || B2.code || label(B1.true)<br /></p>
+</div>
+<h3 id="布尔值与转跳代码" class="headerLink">
+    <a href="#%e5%b8%83%e5%b0%94%e5%80%bc%e4%b8%8e%e8%bd%ac%e8%b7%b3%e4%bb%a3%e7%a0%81" class="header-mark"></a>布尔值与转跳代码</h3><p>对于一个只是求值布尔表达式，而非控制流中的布尔表达式，就不能像控制流中如此实现。因此可以</p>
+<ul>
+<li>使用两趟处理法。在构造出完整的抽象语法树后，进行深度优先遍历，依据语义计算得到相应的翻译结果</li>
+<li>对语句进行一趟处理，对表达式进行两趟处理。</li>
+</ul>
+<p>在布尔表达式上，可以为它们生成转跳代码，并在出口处将 true 和 false 赋值给临时变量。比如 \(x = a &lt; b \&amp;\&amp; c &lt; d\) 可以实现为
+\[\begin{aligned}
+&amp; ifFalse\ a\ &lt;\ b\ \texttt{goto}\ L_{1}\\
+&amp; ifFalse\ c\ &lt;\ d\ \texttt{goto}\ L_{1}\\
+&amp; t\ =\ true\\
+&amp; \texttt{goto}\ L_{2}\\
+L_{1}:\quad &amp; t\ =\ false\\
+L_{2}:\quad &amp; x\ =\ t
+\end{aligned}\]</p>
+<h2 id="回填" class="headerLink">
+    <a href="#%e5%9b%9e%e5%a1%ab" class="header-mark"></a>回填</h2><p>回填 (backpatching) 使用转跳指令组成的列表作为综合属性，在生成转跳指令时暂时不指定转跳指令的目标，而是在确定目标标号时填充这些目标标号。同一个列表中的所有转跳指令具有相同的标号。</p>
+<p>回填技术可以用在一趟式扫描中完成对布尔表达式或控制流语句的目标代码生成。虽然目标代码的形式与前文介绍的相同，但处理标号的方式不同。回填可以使用 B.truelist 和
+B.falselist 来管理布尔表达式的转跳代码的标号。控制语句中的 S.nextlist 是用来管理下一跳的代码标号。在生成这些代码时，标号字段是尚未填写的，将这些不完整的转跳指令保存在指令列表中。</p>
+<p>在实现上，主要由三个函数完成</p>
+<ul>
+<li><code>makelist(label)</code> 生成只包含转跳到 label 的指令列表</li>
+<li><code>merge(l1, l2)</code> 将两个列表合并</li>
+<li><code>backpatch(l, label)</code> 将 label 作为目标标号插入列表中的各个指令中</li>
+</ul>
+<p>为布尔表达式构造自底向上分析的文法。
+\[\begin{aligned}
+B &amp;\rightarrow{} B_{1}\,||\,M\,B_{2}\ |\ B_{1}\,\&amp;\&amp;\,M\,B_{2}\ |\ !\,B_{1}\ |\ (\,B_{1}\,)\ |\ E_{1}\,\textbf{comp}\,E_{2}\ |\ \textbf{true}\ |\ \textbf{false}\\
+M &amp;\rightarrow{} \varepsilon
+\end{aligned}\]</p>
+<p>针对该文法，重新设计 SDT。
+\[\begin{array}{llll}
+B &amp;\rightarrow{} B_{1}\ ||\ M\,B_{2}          &amp; \{ &amp; backpatch(B_{1}.falselist,\,M.instr);\\
+&amp;                                 &amp;    &amp; B.truelist\ =\ merge(B_{1}.truelist,\,B_{2}.truelist);\\
+&amp;                                 &amp;    &amp; B.falselist\ =\ B_{2}.falselist;\ \ \}\\
+B &amp;\rightarrow{} B_{1}\ \&amp;\&amp;\ M\,B_{2}        &amp; \{ &amp; backpatch(B_{1}.truelist,\,M.instr);\\
+&amp;                                 &amp;    &amp; B.truelist\ =\ B_{2}.truelist;\\
+&amp;                                 &amp;    &amp; B.falselist\ =\ merge(B_{1}.falselist,\,B_{2}.falselist);\ \ \}\\
+B &amp;\rightarrow{} !\,B_{1}                     &amp; \{ &amp; B.truelist\ =\ B_{1}.falselist;\\
+&amp;                                 &amp;    &amp; B.falselist\ =\ B_{1}.truelist;\ \ \}\\
+B &amp;\rightarrow{} (\,B_{1}\,)                  &amp; \{ &amp; B.truelist\ =\ B_{1}.truelist;\\
+&amp;                                 &amp;    &amp; B.falselist\ =\ B_{1}.falselist;\ \ \}\\
+B &amp;\rightarrow{} E_{1}\ \textbf{comp}\ E_{2}  &amp; \{ &amp; B.truelist\ =\ makelist(nextinstr);\\
+&amp;                                 &amp;    &amp; B.falselist\ =\ makelist(nextinstr + 1);\\
+&amp;                                 &amp;    &amp; gen(&lsquo;if&rsquo;\ E_{1}.addr\ \textbf{comp}.op\ E_{2}.addr\ &lsquo;goto\ \_&rsquo;);\\
+&amp;                                 &amp;    &amp; gen(&lsquo;goto\ \_&rsquo;);\ \ \}\\
+B &amp;\rightarrow{} \textbf{true}                &amp; \{ &amp; B.truelist\ =\ makelist(nextinstr);\\
+&amp;                                 &amp;    &amp; gen(&lsquo;goto\ \_&rsquo;);\ \ \}\\
+B &amp;\rightarrow{} \textbf{false}               &amp; \{ &amp; B.falselist\ =\ makelist(nextinstr);\\
+&amp;                                 &amp;    &amp; gen(&lsquo;goto\ \_&rsquo;);\ \ \}\\
+M &amp;\rightarrow{} \varepsilon                            &amp; \{ &amp; M.instr\ =\ nextinstr;\ \ \}
+\end{array}\]</p>
+<p>控制转移语句也可以用类似的方法实现。</p>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 06-02</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2022/compilerprinciple_008/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20%E4%B8%AD%E9%97%B4%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90&issue[description]=[POST](https://blog.ginshio.org/2022/compilerprinciple_008/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2022/compilerprinciple_008/" data-title="中间代码生成" data-hashtags="Note,DragonBook,IR"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2022/compilerprinciple_008/" data-hashtag="Note"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2022/compilerprinciple_008/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2022/compilerprinciple_008/" data-title="中间代码生成" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2022/compilerprinciple_008/" data-title="中间代码生成"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2022/compilerprinciple_008/" data-title="中间代码生成"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2022/compilerprinciple_008/" data-title="中间代码生成" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2022/compilerprinciple_008/" data-title="中间代码生成" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2022/compilerprinciple_008/" title="中间代码生成">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/dragonbook/">DragonBook</a>,&nbsp;<a href="/tags/ir/">IR</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2022/compilerprinciple_007/" class="prev" rel="prev" title="语法制导翻译"><i class="fas fa-angle-left fa-fw"></i>语法制导翻译</a>
+            <a href="/2022/git_bash_with_pacman_on_windows/" class="next" rel="next" title="在 Windows 的 Git Bash 中使用包管理器">在 Windows 的 Git Bash 中使用包管理器<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2022-05-28T18:18:47+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"中间代码生成"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>

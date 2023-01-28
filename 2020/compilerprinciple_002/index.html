@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>词法分析 1 - iris</title><meta name="Description" content="GinShio | 编译原理第三章读书笔记"><meta property="og:title" content="词法分析 1" />
+<meta property="og:description" content="GinShio | 编译原理第三章读书笔记" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2020/compilerprinciple_002/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-07-16T16:47:49+08:00" />
+<meta property="article:modified_time" content="2022-04-12T19:20:04+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="词法分析 1"/>
+<meta name="twitter:description" content="GinShio | 编译原理第三章读书笔记"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2020/compilerprinciple_002/" /><link rel="prev" href="https://blog.ginshio.org/2020/compilerprinciple_001/" /><link rel="next" href="https://blog.ginshio.org/2020/service/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "词法分析 1",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_002\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, LexicalAnalysis","wordcount":  5329 ,
+        "url": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_002\/","datePublished": "2020-07-16T16:47:49+08:00","dateModified": "2022-04-12T19:20:04+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | 编译原理第三章读书笔记"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#词法单元的规约">词法单元的规约</a>
+      <ul>
+        <li><a href="#串和语言">串和语言</a></li>
+        <li><a href="#正则表达式">正则表达式</a></li>
+        <li><a href="#正则定义">正则定义</a></li>
+      </ul>
+    </li>
+    <li><a href="#状态转换图">状态转换图</a></li>
+    <li><a href="#有穷自动机">有穷自动机</a>
+      <ul>
+        <li><a href="#不确定的有穷状态机">不确定的有穷状态机</a></li>
+        <li><a href="#确定的有穷状态机">确定的有穷状态机</a></li>
+        <li><a href="#从正则表达式构造nfa">从正则表达式构造NFA</a></li>
+        <li><a href="#nfa-到-dfa">NFA 到 DFA</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">词法分析 1</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-16">07-16</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-12">04-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5329 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 11 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - 龙书学习笔记</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul>
+                                                    <li><a href="/2020/compilerprinciple_001/">编译器与程序设计语言</a></li><li><span class="active">词法分析 1</span></li>
+                                                    <li><a href="/2020/compilerprinciple_003/">词法分析 2</a></li>
+                                                    <li><a href="/2020/compilerprinciple_004/">语法分析 1</a></li>
+                                                    <li><a href="/2022/compilerprinciple_005/">语法分析 2</a></li>
+                                                    <li><a href="/2022/compilerprinciple_006/">语法分析 3</a></li>
+                                                    <li><a href="/2022/compilerprinciple_007/">语法制导翻译</a></li>
+                                                    <li><a href="/2022/compilerprinciple_008/">中间代码生成</a></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#词法单元的规约">词法单元的规约</a>
+      <ul>
+        <li><a href="#串和语言">串和语言</a></li>
+        <li><a href="#正则表达式">正则表达式</a></li>
+        <li><a href="#正则定义">正则定义</a></li>
+      </ul>
+    </li>
+    <li><a href="#状态转换图">状态转换图</a></li>
+    <li><a href="#有穷自动机">有穷自动机</a>
+      <ul>
+        <li><a href="#不确定的有穷状态机">不确定的有穷状态机</a></li>
+        <li><a href="#确定的有穷状态机">确定的有穷状态机</a></li>
+        <li><a href="#从正则表达式构造nfa">从正则表达式构造NFA</a></li>
+        <li><a href="#nfa-到-dfa">NFA 到 DFA</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>词法分析是编译器的第一阶段，主要负责读取源程序的输入字符，将它们组成 <strong>词素</strong>​，生成并输出一个词法单元序列，每个词法单元对应一个词素，这个词法单元序列将被语法分析器进行语法分析。除此之外，词法分析器还会过滤源程序中的注释和空白，生成错误信息与源程序的位置关联起来，有时还会进行宏扩展。</p>
+<figure><img src="/images/lexical-analyzer-and-syntax-analyzer.svg"/>
+</figure>
+
+<p>学习词法分析时，需要分清以下三个相关但有区别的术语</p>
+<dl>
+<dt>词法单元</dt>
+<dd>由一个词法单元名和一个可选的属性值组成，词法单元名是一个表示某种词法单位的抽象符号，比如关键字，或标识符的输入字符序列</dd>
+<dt>词素</dt>
+<dd>源程序中的字符序列，它和某一词法单元的模式匹配，并被词法分析器识别为该词法单元的一个实例</dd>
+<dt>模式</dt>
+<dd>描述了一个词法单元的词素可能具有的形式。对于关键词它是组成关键字的字符序列；对于标识符和其他词法单元，模式是一个更加复杂的结构，可以和很多符号串匹配</dd>
+</dl>
+<p>比如 <code>printf(&quot;Total=%d\n&quot;，source);</code> 中，printf 和 source 都是和词法单元 id 的模式匹配的词素，而字符串则是一个和 literal 匹配的词素，以下表格为词法单元的示例</p>
+<table>
+<thead>
+<tr>
+<th>词法单元</th>
+<th>非正式描述</th>
+<th>词素示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>if</td>
+<td>关键字，字符 i/f</td>
+<td>if</td>
+</tr>
+<tr>
+<td>else</td>
+<td>关键字，字符 e/l/s/e</td>
+<td>else</td>
+</tr>
+<tr>
+<td>comparison</td>
+<td>比较运算符</td>
+<td>&lt;，&lt;=</td>
+</tr>
+<tr>
+<td>id</td>
+<td>普通标识符</td>
+<td>pi，D2，source</td>
+</tr>
+<tr>
+<td>number</td>
+<td>数字常量</td>
+<td>3.1415926，1024</td>
+</tr>
+<tr>
+<td>literal</td>
+<td>字符串常量</td>
+<td>&ldquo;hello world!&rdquo;</td>
+</tr>
+</tbody>
+</table>
+<h2 id="词法单元的规约" class="headerLink">
+    <a href="#%e8%af%8d%e6%b3%95%e5%8d%95%e5%85%83%e7%9a%84%e8%a7%84%e7%ba%a6" class="header-mark"></a>词法单元的规约</h2><h3 id="串和语言" class="headerLink">
+    <a href="#%e4%b8%b2%e5%92%8c%e8%af%ad%e8%a8%80" class="header-mark"></a>串和语言</h3><p><strong>字母表</strong> (alphabet) 是一个有限的符号集合，符号的典型示例是包括字母、数字和标点符号，常见的字母表如 <em>ASCII</em> 和 _Unicode_​。</p>
+<p><strong>串</strong> (string) 是某个字母表中符号的一个有穷序列，串 s 的长度，表示 s 中符号出现的次数，记作 \(|s|\)​，长度为 0 的串被称为空串，记作 \(\varepsilon\)​。</p>
+<p><strong>语言</strong> (language) 是某个给定字母表上一个任意的可数的串的集合，此外空集
+\(\varnothing\) 和 仅包含空串的集合都是语言。</p>
+<p>词法分析中，最重要的语言上的运算是 <code>并</code>​、​<code>连接</code> 和 <code>闭包</code>​。连接是将一个串附加到另一个串的后面形成新串，例如 \(x=dog, y=house\)​，那么 x、y 的连接 \(xy=doghouse\)
+；空串是连接运算的 <strong>单位元</strong>​，即对于任意串 \(s\varepsilon = \varepsilon s = s\)​。两个串的连接可以被看作乘积，那么可以定义串的指数运算： \(s^0=\varepsilon，s^i = s^{i-1}s(i &gt; 0)\) 。Kleene <strong>闭包</strong> (closure)，记作 \(L^{*}\)​，即将 L 连接 0 次或多次后得到的串集；​<strong>正闭包</strong> 与闭包基本相同，但不包括 \(L^0\)​，也就是说，除非 \(\varepsilon\) 属于 L，否则 \(\varepsilon \notin L\)​。</p>
+<table>
+<thead>
+<tr>
+<th>运算</th>
+<th>定义和表示</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L 和 M 的并</td>
+<td>\(L \cup M = \{s \mid  s \in L \ or\  s \in M\}\)</td>
+</tr>
+<tr>
+<td>L 和 M 的连接</td>
+<td>\(LM = \{st \mid s \in L \ and\  t \in M\}\)</td>
+</tr>
+<tr>
+<td>L 的 Kleene 闭包</td>
+<td>\(L^{*} = \cup_{i=0}^{\infty} L^i\)</td>
+</tr>
+<tr>
+<td>L 的正闭包</td>
+<td>\(L^{+} = \cup_{i=1}^{\infty} L^i\)</td>
+</tr>
+</tbody>
+</table>
+<div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>令 L = {A, B, \(\ldots\), Z, a, b, \(\ldots\), z}，令 D = {0, 1, \(\ldots\), 9}，这是两个字母表，也可以认为是两个串长都为 1 的语言，对他们进行上述 4 种运算</p>
+<ol>
+<li>\(L \cup D\) 是字母和数字的集合，结果是 62 个长度为 1 的串</li>
+<li>\(LD\) 是包含 520 个长度为 2 的集合，每个串都是一个字母跟一个数字</li>
+<li>\(L^4\) 是由四个字母构成的串的集合</li>
+<li>\(L^{*}\) 是由字母构成的串的集合，包含空串 \(\varepsilon\)</li>
+<li>\(D^{+}\) 是由一个或多个数字构成的串的集合，不包含空串</li>
+</ol>
+</div>
+        </div>
+    </div>
+<h3 id="正则表达式" class="headerLink">
+    <a href="#%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f" class="header-mark"></a>正则表达式</h3><p>正则表达式由常量和运算构成，它们分别是字符串的集合和在这些集合上的运算，正则表达式可以由较小的正则表达式按照一定规则递归地构建。</p>
+<ol>
+<li><strong>归纳基础</strong>
+a. \(\varepsilon\) 是一个正则表达式， \(L(\varepsilon) = \{\varepsilon\}\)​，即该语言仅包含空串
+b. 如果 a 是 \(\Sigma\) 上的一个符号，那么 <strong>a</strong> 是一个正则表达式，并且
+\(L(\textbf{a}) = \{a\}\) ，即该语言仅包含一个长度为 1 的字符串 a</li>
+<li><strong>归纳步骤</strong>​：假定 r 和 s 都是正则表达式，分别表示语言 \(L( r)\) 和 \(L(s)\) ，那么
+a. \(( r)|(s)\) 是一个正则表达式，表示语言 \(L( r) \cup L(s)\)
+b. \(( r)(s)\) 是一个正则表达式，表示语言 \(L( r)L(s)\)
+c. \(( r)^{*}\) 是一个正则表达式，表示语言 \((L( r))^{*}\)
+d. \(( r)\) 是一个正则表达式，表示语言 \(L( r)\)</li>
+</ol>
+<p>按照以上定义，正则表达式经常会包含一些不必要的括号，一般正则表达式有如下优先级</p>
+<ol>
+<li>一元运算符 \(*\) 具有最高优先级，是左结合的</li>
+<li>连接具有次高优先级，是左结合的</li>
+<li>\(|\) 优先级最低，是左结合的</li>
+</ol>
+<p>以下表格列出正则表达式中常用定律</p>
+<table>
+<thead>
+<tr>
+<th>定律</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\(r\mid s = s\mid r\)</td>
+<td>\(\mid\) 满足交换律</td>
+</tr>
+<tr>
+<td>\(r\mid(s \mid t) = (r \mid s) \mid t\)</td>
+<td>\(\mid\) 满足结合律</td>
+</tr>
+<tr>
+<td>\(r(st) = (rs)t\)</td>
+<td>连接满足结合律</td>
+</tr>
+<tr>
+<td>\(r(s \mid t) = rs \mid rt; (s \mid t)r = sr \mid tr\)</td>
+<td>连接对 \(\mid\) 满足分配率</td>
+</tr>
+<tr>
+<td>\(\varepsilon r = r\varepsilon = r\)</td>
+<td>\(\varepsilon\) 是连接的单位元</td>
+</tr>
+<tr>
+<td>\(r^{*} = (r\mid\varepsilon)^{*}\)</td>
+<td>Kleene 闭包中一定包含 ε</td>
+</tr>
+<tr>
+<td>\(r^{**} = r^{*}\)</td>
+<td>\(*\) 具有幂等性</td>
+</tr>
+</tbody>
+</table>
+<h3 id="正则定义" class="headerLink">
+    <a href="#%e6%ad%a3%e5%88%99%e5%ae%9a%e4%b9%89" class="header-mark"></a>正则定义</h3><p>如果 \(\Sigma\) 是 <code>基本符号集</code>​，那么一个 <strong>正则定义</strong> (regular definition) 是具有如下形式的定义序列</p>
+<p>\[ \begin{aligned} d_1 \rightarrow r_1 \\ d_2 \rightarrow r_2 \\ \dots \\ d_n \rightarrow r_n \end{aligned} \]</p>
+<ul>
+<li>每个 \(d_i\) 都是一个新符号，它们都不在 \(\Sigma\) 中，并且各不相同</li>
+<li>每个 \(r_i\) 是字母表 \(\Sigma \cup \{d_1，d_2，\ldots，d_n\}\) 上的正则表达式</li>
+</ul>
+<p>C 语言的标识符是由字母或下划线开头，字母、数字和下划线组成的串，正则定义如下
+\[ \begin{aligned}
+\textit{letter}\_ &amp; \rightarrow A | B | \ldots | Z | a | b | \ldots | z | \_ \\ \textit{digit} &amp; \rightarrow 0 | 1 | \ldots | 9 \\ \textit{id} &amp; \rightarrow \textit{letter\_}(\textit{letter\_}|dight)^{*}
+\end{aligned} \]</p>
+<p>在进行词法分析器的规约时，现有的正则定义太过于麻烦，于是对其做了一些扩展，当然除了以下介绍的 <em>GNU_​、​_Perl</em> 等都有互不兼容的正则表达式扩展</p>
+<ul>
+<li>一个或多个实例 (+)，表示一个正则表达式及其语言的正闭包，​_+_ 与 <em>*</em> 具有相同的优先级与结合性</li>
+<li>零个或一个实例 (?)，表示一个正则表达式及其语言出现零或一次，​\(r? = r|\varepsilon\)​，​_?_
+与 <em>*</em> 具有相同的优先级与结合性</li>
+<li>字符类，一个正则表达式 \(a_1 | a_2 | \ldots | a_n\) 可以缩写为 \([a_1a_2\ldots a_n]\)​，如果 \(a_1\) 到 \(a_n\) 是连接的序列时可以缩写为 \([a_1-a_n]\)</li>
+</ul>
+<p>C 语言的数字字面量可以分为 <a href="https://zh.cppreference.com/w/cpp/language/integer_literal" target="_blank" rel="noopener noreferrer">整型字面量</a> 与 <a href="https://zh.cppreference.com/w/cpp/language/floating_literal" target="_blank" rel="noopener noreferrer">浮点型字面量</a>，以下给出它们的正则定义
+\[ \begin{aligned}
+\textit{digit}&amp;\rightarrow [0-9] \\ \textit{digits}&amp;\rightarrow digit^{+} \\ \textit{number}&amp;\rightarrow [+-](\textit{digits}.?\textit{digit}^{*}|.\textit{digits})([eE][+-]?\textit{digits})?
+\end{aligned} \]</p>
+<h2 id="状态转换图" class="headerLink">
+    <a href="#%e7%8a%b6%e6%80%81%e8%bd%ac%e6%8d%a2%e5%9b%be" class="header-mark"></a>状态转换图</h2><p>将模式首先需要转换为具有特定风格的流图，我们称为 <strong>状态转化图</strong> (transition
+diagram)，它有一组被称为 <code>状态</code> (state) 的结点，词法分析器扫描输入串的过程中寻找和某个模式匹配的词素，状态图上的每个状态代表一个可能在过程中出现的情况，结点包含了我们在进行词法分析时需要的全部信息。状态图的 <code>边</code> (edge) 从图的一个状态指向另一个状态，每条边的标号包含了一个或多个符号。例如我们现在处于状态 s 下，下一个输入的符号为 a，那么我们就会在状态图中寻找一条从 s 离开且符号为 a 的边，并进入这条边所指向的下一个状态。关于状态转移图的重要约定如下</p>
+<ol>
+<li>某些状态被称为 <strong>接受状态</strong> 或 <strong>最终状态</strong>​，在图中用双层圈表示，如果该状态要执行一个动作，通常是向语法分析器返回一个词法单元和相关属性值</li>
+<li>如果要回退一个位置，我们一般在该状态上加一个 <code>*</code>​，如果要回退多个位置则需要加相应数量的 <code>*</code></li>
+<li>一个状态被称为 <strong>开始状态</strong> 或 <strong>初始状态</strong>​，该状态由一条没有出发结点的、标号为
+<em>start</em> 的边指明，在读入任何符号之前，状态图总是位于它的起始状态</li>
+</ol>
+<p>我们用 SQL 中的关系运算符来举个例子</p>
+<table>
+<thead>
+<tr>
+<th>词素</th>
+<th>词法单元名</th>
+<th>属性值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;</td>
+<td>relop</td>
+<td>LT</td>
+</tr>
+<tr>
+<td>&lt;=</td>
+<td>relop</td>
+<td>LE</td>
+</tr>
+<tr>
+<td>=</td>
+<td>relop</td>
+<td>EQ</td>
+</tr>
+<tr>
+<td>&lt;&gt;</td>
+<td>relop</td>
+<td>NE</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>relop</td>
+<td>GT</td>
+</tr>
+<tr>
+<td>&gt;=</td>
+<td>relop</td>
+<td>GE</td>
+</tr>
+</tbody>
+</table>
+<figure><img src="/images/relop-transition-diagram.svg"/>
+</figure>
+
+<p>对于符号来说很简单，但对于关键字来说，它们是被保留的，但它们看起来很像标识符，因此我们常常使用两种方法来处理长的很像标识符的关键字</p>
+<ol>
+<li>初始化时将各个保留字填入符号表，符号表中的某个字段会指明这些串并非普通的标识符，并指出它们所代表的词法单元</li>
+<li>为每个保留字建立单独的状态转换图，并设立词法单元的优先级，当同时匹配关键字模式与 id 模式时优先识别保留字的词法单元</li>
+</ol>
+<h2 id="有穷自动机" class="headerLink">
+    <a href="#%e6%9c%89%e7%a9%b7%e8%87%aa%e5%8a%a8%e6%9c%ba" class="header-mark"></a>有穷自动机</h2><p>一些词法分析其生成程序使用了 <strong>有穷自动机</strong> (finite automata) 这种表示方式，其在本质上是与状态转换图类似的图，但有如下不同</p>
+<ul>
+<li>有穷自动机不是识别器，它们只能对每个可能输入的串进行简单的回答是或否</li>
+<li>分为两类
+<ol>
+<li><strong>不确定有穷自动机</strong> (Nondeterministic Finite Automata，NFA)，它们对其边上的标号没有任何限制，一个符号标记离开同一状态的多条边，并且空串也可以作为标记</li>
+<li><strong>确定有穷自动机</strong> (Deterministic Finite Automata，DFA)，对于每个状态及自动机输入字母表的每个符号，有且只有一条离开的状态、以该符号为标点的边</li>
+</ol>
+</li>
+</ul>
+<p>确定与不确定的有穷自动机能识别的语言的集合是相同的，这些语言集合正好是能够用正则表达式描述的语言的集合，这个集合中的语言被称为 <strong>正则语言</strong> (regular language)。</p>
+<h3 id="不确定的有穷状态机" class="headerLink">
+    <a href="#%e4%b8%8d%e7%a1%ae%e5%ae%9a%e7%9a%84%e6%9c%89%e7%a9%b7%e7%8a%b6%e6%80%81%e6%9c%ba" class="header-mark"></a>不确定的有穷状态机</h3><p>首先，一个 NFA 由以下几部分组成</p>
+<ol>
+<li>一个有穷的状态集合 \(S\)</li>
+<li>一个输入符号集 \(\Sigma\) ，即输入字母表，我们假设 \(\varepsilon \notin \Sigma\)</li>
+<li>一个 <code>转换函数</code> (transition function)，它为每个状态和 \(\Sigma \cup \{\varepsilon\}\) 中的每个符号都给出了相应的 <code>后续状态</code> (next state) 的集合</li>
+<li>\(S\) 中一个状态 \(s_0\) 被指定为初始状态</li>
+<li>\(S\) 中一个子集 \(F\) 被指定为接受状态集合</li>
+</ol>
+<p>我们可以将 NFA 表示为一个转换图，图中的结点是状态，带有标号的边表示自动机的转换函数，这个图与转台转换图十分相似，但还是有一些区别的</p>
+<ul>
+<li>同一个符号可以标记从同一状态出发到达多个目标状态的多条边</li>
+<li>一条边的符号不仅可以是输入字母表中的符号，也可以是空串</li>
+</ul>
+<figure><img src="/images/NFA-example.svg"/>
+</figure>
+
+<p>除了转换图，我们也可以将 NFA 表示为一张转换表，表的各行对应与状态，各列对应于输入符号和 \(\varepsilon\) 。对应于一个给定状态和给定输出的条目是将 NFA 的转换函数应用于这些参数后得到的值，如果转换函数没有没有相关信息，那么我们就将 \(\emptyset\) 填入相应的位置。如下表就是上图的转换表形式</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>a</th>
+<th>b</th>
+<th>\(\varepsilon\)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>{0, 1}</td>
+<td>{0}</td>
+<td>\(\emptyset\)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>\(\emptyset\)</td>
+<td>{2}</td>
+<td>\(\emptyset\)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>\(\emptyset\)</td>
+<td>{3}</td>
+<td>\(\emptyset\)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>\(\emptyset\)</td>
+<td>\(\emptyset\)</td>
+<td>\(\emptyset\)</td>
+</tr>
+</tbody>
+</table>
+<p>在转换表上，我们可以很容易确定，一个给定状态和一个输入符号相对应的转换；但是如果输入字母表很大，且大多数状态在大多数输入字符上没有转换时，转换表需要占用大量的空间</p>
+<h3 id="确定的有穷状态机" class="headerLink">
+    <a href="#%e7%a1%ae%e5%ae%9a%e7%9a%84%e6%9c%89%e7%a9%b7%e7%8a%b6%e6%80%81%e6%9c%ba" class="header-mark"></a>确定的有穷状态机</h3><p>DFA 是 NFA 的一个特例，主要体现在</p>
+<ol>
+<li>没有输入 \(\varepsilon\) 之上的转换动作</li>
+<li>对每个状态 s 和每个输入符号 a，有且只有一条标号为 a 的边离开 s</li>
+</ol>
+<p>NFA 抽象地表示了用来识别某个语言中的串的算法，DFA 则是一个简单具体的识别串的算法，在构造词法分析器的时候我们使用的是 DFA。</p>
+<h3 id="从正则表达式构造nfa" class="headerLink">
+    <a href="#%e4%bb%8e%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f%e6%9e%84%e9%80%a0nfa" class="header-mark"></a>从正则表达式构造NFA</h3><p>现在我们给出一个算法，将任何正则表达式转换为接受相同语言的NFA，这个算法是 <strong>语法制导</strong> 的，对于每个子表达式该算法构造一个只有一个接受状态的NFA。</p>
+<div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>输入：字母表 \(\Sigma\) 上的一个正则表达式 r</p>
+<p>输出：一个接受 L(r) 的 NFA N</p>
+<p>方法：首先对r进行语法分析，分解出组成它的子表达式。构造一个NFA的规则分为 <strong>基本规则</strong> 和 <strong>归纳规则</strong> 。基本规则处理不包含运算符的子表达式，而归纳规则根据一个给定的表达式的直接子表达式的NFA构造出这个表达式的NFA</p>
+</div>
+        </div>
+    </div>
+<dl>
+<dt>基本规则</dt>
+<dd>构造NFA，其中 i 是一个新状态，也是这个NFA的开始状态；f 是另一个新状态，也是这个NFA的接受状态。对于表达式 \(\varepsilon\) 以及字母表 \(\Sigma\) 中的子表达式 a，构造以下 NFA
+<figure><img src="/images/reg2NFA-basicrules.svg"/>
+    </figure>
+
+</dd>
+<dt>归纳规则</dt>
+<dd>假设正则表达式 s 和 t 的 NFA 分别为 N(s) 和 N(t)，表达式 r 的 NFA 为 N(r)
+<ol>
+<li>假设 <code>r = s|t</code>​，构造 N(r)，可以得到从 i 到 N(s) 或 N(t) 的开始状态各有一个
+\(\varepsilon\) 转换，从 N(s) 和 N(t) 的接受状态到 f 也各有一个 \(\varepsilon\) 转换。因为从 i 到 f
+的任何路径要么只通过 N(s)，要么只通过 N(t)，且离开 i 或进入 f 的 \(\varepsilon\) 转换都不会改变路径上的标号，因此我们可以判定 N(r) 识别 \(L(s) \cup L(t)\)​，即 \(L( r)\)
+<a class="lightgallery" href="/images/reg2NFA-inductiverules-or.svg" title="/images/reg2NFA-inductiverules-or.svg" data-thumbnail="/images/reg2NFA-inductiverules-or.svg">
+        <img
+            
+            loading="lazy"
+            src="/images/reg2NFA-inductiverules-or.svg"
+            srcset="/images/reg2NFA-inductiverules-or.svg, /images/reg2NFA-inductiverules-or.svg 1.5x, /images/reg2NFA-inductiverules-or.svg 2x"
+            sizes="auto"
+            alt="/images/reg2NFA-inductiverules-or.svg">
+    </a></li>
+<li>假设 <code>r = st</code> ，构造 N(r)，N(s) 的开始状态变为了 N(r) 的开始状态，N(t) 的接受状态变成了 N(r) 唯一接受状态，N(s) 的接受状态和 N(t) 的开始状态合并为一个状态，合并后的状态拥有原来进入和离开合并前的两个状态的全部转换。
+<a class="lightgallery" href="/images/reg2NFA-inductiverules-and.svg" title="/images/reg2NFA-inductiverules-and.svg" data-thumbnail="/images/reg2NFA-inductiverules-and.svg">
+        <img
+            
+            loading="lazy"
+            src="/images/reg2NFA-inductiverules-and.svg"
+            srcset="/images/reg2NFA-inductiverules-and.svg, /images/reg2NFA-inductiverules-and.svg 1.5x, /images/reg2NFA-inductiverules-and.svg 2x"
+            sizes="auto"
+            alt="/images/reg2NFA-inductiverules-and.svg">
+    </a></li>
+<li>假设 r = \(s^{*}\)​，构造 N(r)，i 和 f 是两个新状态，分别为 N(r) 的开始状态和唯一的接受状态。要从i到达f我们需要沿着新引入的标号为 \(\varepsilon\) 的路径前进，这个路径对应 \(L(s)^{0}\) 中的一个串。我们也可以到达 N(s) 的开始状态，然后经过该
+NFA，在零次或多次从它的接受状态回到它的开始状态并重复上述过程。
+<a class="lightgallery" href="/images/reg2NFA-inductiverules-closure.svg" title="/images/reg2NFA-inductiverules-closure.svg" data-thumbnail="/images/reg2NFA-inductiverules-closure.svg">
+        <img
+            
+            loading="lazy"
+            src="/images/reg2NFA-inductiverules-closure.svg"
+            srcset="/images/reg2NFA-inductiverules-closure.svg, /images/reg2NFA-inductiverules-closure.svg 1.5x, /images/reg2NFA-inductiverules-closure.svg 2x"
+            sizes="auto"
+            alt="/images/reg2NFA-inductiverules-closure.svg">
+    </a></li>
+<li><code>r = (s)</code> ，那么 L(r) = L(s)，我们可以直接把 N(s) 当作 N(r)。</li>
+</ol>
+</dd>
+</dl>
+<p>N(r) 接受语言 L(r) 之外，构造得到的 NFA 还具有以下性质:</p>
+<ul>
+<li>N(r) 的状态数最多为 r 中出现的 <code>运算符</code> 和 <code>运算分量</code> 的总数的 <strong>2倍</strong>​，因为算法的每一个构造步骤最多只引入两个新状态</li>
+<li>N(r) 有且只有一个开始状态和一个接受状态</li>
+<li>N(r) 中除接受状态之外的每个状态要么有一条其标号为 \(\Sigma\) 中符号的出边，要么有两条标号为 \(\varepsilon\) 的出边</li>
+</ul>
+<h3 id="nfa-到-dfa" class="headerLink">
+    <a href="#nfa-%e5%88%b0-dfa" class="header-mark"></a>NFA 到 DFA</h3><p>我们需要将 NFA 转换为 DFA，一般采用 <strong>子集构造法</strong> 直接模拟 NFA。子集构造法的基本思想是让构造得到的 DFA 的每个状态对应于 NFA 的一个状态集合。DFA 的状态数有可能是
+NFA 状态数的指数，不过对于真实的语言，NFA 与 DFA 的状态数量大致相同。</p>
+<div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>输入：一个 NFA N</p>
+<p>输出：一个接受同样语言的 DFA D</p>
+<p>方法：我们为 D 构造一个转换表 <code>Dtran</code>​。D的每个状态是一个 NFA 的状态集，我们构造 Dtran 使得 D 并行的模拟 N 在遇到一个给定输入串时可能执行的所有动作。在读入第一个输入符号之前，N 位于 \(\varepsilon-closure(s_0)\) 中的任何状态上。假定 N 在读入字符串 x 后位于集合 T 的状态上，那么下一个输入符号 a，N 可以移动到集合 \(move(T，
+a)\) 中的任何状态。</p>
+</div>
+        </div>
+    </div>
+<dl>
+<dt>\(\scriptsize \varepsilon-closure(s)\)</dt>
+<dd>从 NFA 的状态 s 开始只通过 \(\varepsilon\) 转换到达的 NFA 状态集合</dd>
+<dt>\(\scriptsize \varepsilon-closure(T)\)</dt>
+<dd>从 T 中某个 NFA 状态 s 开始只通过 \(\varepsilon\) 转换到达的 NFA 状态集合，即 \(\cup_{s \in T}
+\varepsilon-closure(s)\)</dd>
+<dt>\(move(T,a)\)</dt>
+<dd>从 T 中某个状态 s 出发通过标号 a 的转换到达的 NFA 状态的集合</dd>
+</dl>
+<p>简单的说，NFA 中起始状态与起始状态经过 \(\varepsilon\) 转换后所到达的所有状态，这些状态所组成的集合就是转换成 DFA 的起始状态，而这个集合中的所有状态分别经过某一路径转换和转换后再经过 \(\varepsilon\) 转换的状态组成了另一个 DFA 状态，以此下去构成了所有 DFA 中的所有状态</p>
+<figure><img src="/images/NFA2DFA.svg"/>
+</figure>
+
+<p>我们继续以上图 \((a|b)^{*}abb\) 为例进行从 NFA 到 DFA 的装换，起始状态 A 为
+\(\varepsilon-closure(0)\)​，即 \(A=\{0，1，2，4，7\}\)​，而输入字母表为 \(\{a，b\}\)​，那么接下来分别计算 \(Dtran[A，a] = \varepsilon-closure(move(A,a))\) 以及 \(Dtran[A，b] =
+\varepsilon-closure(move(A,b))\) 分别得到 DFA 的状态 B 与状态 C，最终依次计算，我们会得到一张 NFA 与 DFA 对应关系表 (下表)，这样就可能很轻松的完成 NFA 向 DFA 的转换</p>
+<table>
+<thead>
+<tr>
+<th>DFA 状态</th>
+<th>NFA 状态集</th>
+<th>经过 a 转换得到的状态</th>
+<th>经过 b 转换得到的状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>{0,1,2,4,7}</td>
+<td>B</td>
+<td>C</td>
+</tr>
+<tr>
+<td>B</td>
+<td>{1,2,3,4,6,7,8}</td>
+<td>B</td>
+<td>D</td>
+</tr>
+<tr>
+<td>C</td>
+<td>{1,2,4,5,6,7}</td>
+<td>B</td>
+<td>C</td>
+</tr>
+<tr>
+<td>D</td>
+<td>{1,2,4,5,6,7,9}</td>
+<td>B</td>
+<td>E</td>
+</tr>
+<tr>
+<td>E</td>
+<td>{1,2,4,5,6,7,10}</td>
+<td>B</td>
+<td>C</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 04-12</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2020/compilerprinciple_002/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90+1&issue[description]=[POST](https://blog.ginshio.org/2020/compilerprinciple_002/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2020/compilerprinciple_002/" data-title="词法分析 1" data-hashtags="Note,DragonBook,LexicalAnalysis"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2020/compilerprinciple_002/" data-hashtag="Note"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2020/compilerprinciple_002/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2020/compilerprinciple_002/" data-title="词法分析 1" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2020/compilerprinciple_002/" data-title="词法分析 1"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2020/compilerprinciple_002/" data-title="词法分析 1"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2020/compilerprinciple_002/" data-title="词法分析 1" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2020/compilerprinciple_002/" data-title="词法分析 1" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2020/compilerprinciple_002/" title="词法分析 1">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/dragonbook/">DragonBook</a>,&nbsp;<a href="/tags/lexicalanalysis/">LexicalAnalysis</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/compilerprinciple_001/" class="prev" rel="prev" title="编译器与程序设计语言"><i class="fas fa-angle-left fa-fw"></i>编译器与程序设计语言</a>
+            <a href="/2020/service/" class="next" rel="next" title="在服务器上部署一些服务">在服务器上部署一些服务<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2020-07-16T16:47:49+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"词法分析 1"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>

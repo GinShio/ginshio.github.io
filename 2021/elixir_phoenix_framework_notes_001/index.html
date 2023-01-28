@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>初识 Phoenix Framework - iris</title><meta name="Description" content="GinShio | Elixir Phoenix Framework - Introduction"><meta property="og:title" content="初识 Phoenix Framework" />
+<meta property="og:description" content="GinShio | Elixir Phoenix Framework - Introduction" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2021/elixir_phoenix_framework_notes_001/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-02-23T19:52:05+08:00" />
+<meta property="article:modified_time" content="2021-07-04T19:57:42+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="初识 Phoenix Framework"/>
+<meta name="twitter:description" content="GinShio | Elixir Phoenix Framework - Introduction"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2021/elixir_phoenix_framework_notes_001/" /><link rel="prev" href="https://blog.ginshio.org/2021/steam_apps/" /><link rel="next" href="https://blog.ginshio.org/2021/kms/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "初识 Phoenix Framework",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2021\/elixir_phoenix_framework_notes_001\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Elixir, Network, Web, Phoenix, Framework","wordcount":  2766 ,
+        "url": "https:\/\/blog.ginshio.org\/2021\/elixir_phoenix_framework_notes_001\/","datePublished": "2021-02-23T19:52:05+08:00","dateModified": "2021-07-04T19:57:42+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | Elixir Phoenix Framework - Introduction"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装">安装</a></li>
+    <li><a href="#创建新项目">创建新项目</a>
+      <ul>
+        <li><a href="#仿照一个页面">仿照一个页面</a></li>
+        <li><a href="#限制字段">限制字段</a></li>
+      </ul>
+    </li>
+    <li><a href="#基础">基础</a>
+      <ul>
+        <li><a href="#plug">Plug</a>
+          <ul>
+            <li><a href="#function-plug">function plug</a></li>
+            <li><a href="#module-plug">module plug</a></li>
+          </ul>
+        </li>
+        <li><a href="#路由">路由</a></li>
+        <li><a href="#控制器">控制器</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">初识 Phoenix Framework</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/elixir-phoenix-framework/"><i class="far fa-list-alt fa-fw"></i>Elixir Phoenix Framework</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="02-23">02-23</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="07-04">07-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2766 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - Elixir Phoenix Framework</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul><li><span class="active">初识 Phoenix Framework</span></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装">安装</a></li>
+    <li><a href="#创建新项目">创建新项目</a>
+      <ul>
+        <li><a href="#仿照一个页面">仿照一个页面</a></li>
+        <li><a href="#限制字段">限制字段</a></li>
+      </ul>
+    </li>
+    <li><a href="#基础">基础</a>
+      <ul>
+        <li><a href="#plug">Plug</a>
+          <ul>
+            <li><a href="#function-plug">function plug</a></li>
+            <li><a href="#module-plug">module plug</a></li>
+          </ul>
+        </li>
+        <li><a href="#路由">路由</a></li>
+        <li><a href="#控制器">控制器</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Phoenix Framework 是一个 MVC web 框架，与 Ruby 的 Rails 和 Python 的 Django 类似，是整个 Elixir 社区的核心项目之一，推荐阅读 <a href="https://hexdocs.pm/phoenix/" target="_blank" rel="noopener noreferrer">Phoenix 文档</a></p>
+<h2 id="安装" class="headerLink">
+    <a href="#%e5%ae%89%e8%a3%85" class="header-mark"></a>安装</h2><p>我们使用 Phoenix (<strong>v1.5.7</strong>) 前，需要安装相关依赖与 mix</p>
+<ul>
+<li><strong>Elixir</strong> (&gt;= v1.6)</li>
+<li><strong>Erlang</strong> (&gt;= 20)</li>
+<li>node.js [optional] (&gt;= 5.0.0)</li>
+<li>Database [default=PostgreSQL]</li>
+<li><strong>inotify-tools</strong> [linux]</li>
+</ul>
+<p>erlang 与 elixir 是运行时环境，数据库方面使用同为社区维护的 Ecto 来操作，Phoenix
+使用 node.js 的原因是使用 webpack 编译静态资源，当然你可以只开发 API 不使用静态资源</p>
+<p>Phoenix 提供了非常有用的实时重新加载功能，不过 Linux 用户需要安装 inotify-tools
+才能使用</p>
+<h2 id="创建新项目" class="headerLink">
+    <a href="#%e5%88%9b%e5%bb%ba%e6%96%b0%e9%a1%b9%e7%9b%ae" class="header-mark"></a>创建新项目</h2><p>我们使用 mix 来创建一个 Phoenix 项目</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mix phx.new awesome
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果你没有 <code>phx.new</code> 这个命令，你需要先使用 mix 安装一下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mix archive.install hex phx_new
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>项目创建完成之后，我们可以看到终端中有提示，在 config/dev.exs 中配置程序并执行
+<code>mix ecto.create</code>​，配置文件中的 <code>Repo</code> 是数据库设置，​<code>Endpoint</code> 配置的是网站相关的内容</p>
+<p>这时 mix 会为我们创建一个 Phoenix 项目，默认的数据库是 PostgreSQL，如果应用不使用数据库则加上tag <code>--no-ecto</code> 即可，如果要使用其他数据库只需要加上 tag
+<code>--database db</code></p>
+<p>webpack 用于管理静态资源，添加 tag <code>--no-webpack</code> 即可禁止使用 webpack，
+<code>--no-html</code> 则会不生成HTML视图层，我们在完成 Rest API 程序时可以使用到这两个参数</p>
+<p>配置完成之后，使用 <code>mix phx.server</code> 即可运行服务器了！</p>
+<figure><img src="/images/elixir-phoenix-framework-welcome.png"/>
+</figure>
+
+<p>我们要写这个网站，首先要搞清楚目录关系，有关这个网站的所有的代码将在
+<code>lib/awesome_web</code> 中实现，简单的做一个了解</p>
+<ul>
+<li><code>endpoint.ex</code> 是 <strong>HTTP</strong> 请求的入口</li>
+<li><code>router.ex</code> 是 <strong>路由</strong> 定义</li>
+<li><code>gettext.ex</code> 通过 Gettext 提供了国际化支持</li>
+<li><code>telemeter.ex</code> 是一个 Supervisor 相关的程序</li>
+<li><code>controllers</code> 是 <strong>控制器</strong> 实现，请求将通过路由分派到控制器上</li>
+<li><code>views</code> 是 <strong>视图</strong> 实现</li>
+<li><code>templates</code> 是 <strong>模板</strong> 实现</li>
+</ul>
+<p>我们来看看路由情况，可以看到 <code>scope &quot;/&quot;</code> 这个空间下有一个 API，绑定的函数是
+<strong>PageController.index</strong>​，即浏览器发送请求 <code>GET /</code> 时将会执行绑定的函数。那看看控制器吧，就一句 <code>render(conn, &quot;index.html&quot;)</code> 渲染页面，渲染的是哪里的 index.html，还得看视图层 <code>page_view.ex</code>​，这会默认去找 <code>templates/page</code> 下的文件进行渲染，整个最简单的流程就是这样</p>
+<h3 id="仿照一个页面" class="headerLink">
+    <a href="#%e4%bb%bf%e7%85%a7%e4%b8%80%e4%b8%aa%e9%a1%b5%e9%9d%a2" class="header-mark"></a>仿照一个页面</h3><p>我们实现一个页面，通过请求 <code>GET /hello</code> 展示 <strong>Hello, Phoenix!</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="c1"># router.ex</span>
+</span></span><span class="line"><span class="cl"><span class="n">get</span><span class="p">(</span><span class="s2">&#34;/hello&#34;</span><span class="p">,</span> <span class="nc">HelloController</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># controllers/hello_controller.ex</span>
+</span></span><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">AwesomeWeb.HelloController</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">use</span> <span class="nc">AwesomeWeb</span><span class="p">,</span> <span class="ss">:controller</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">index</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">render</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s2">&#34;index.html&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># views/hello_view.ex</span>
+</span></span><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">AwesomeWeb.HelloView</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">use</span> <span class="nc">AwesomeWeb</span><span class="p">,</span> <span class="ss">:view</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># templates/hello/index.html.eex</span>
+</span></span><span class="line"><span class="cl"><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&#34;phx-hero&#34;</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">&lt;</span><span class="n">h2</span><span class="o">&gt;</span><span class="nc">Hello</span><span class="p">,</span> <span class="nc">Phoenix</span><span class="o">!&lt;/</span><span class="n">h2</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><figure><img src="/images/elixir-phoenix-framework-hello.png"/>
+</figure>
+
+<p>效果还不错，不过太麻烦了，写页面岂不是要累死！好消息！Phoenix 提供了一些
+<code>phx.gen.*</code> 的工具可以生成相关代码，减少重复的工作</p>
+<p>我们先简单的生成一个 HTML 页面，然后按照提示添加路由并迁移数据库</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mix phx.gen.html User User users username:string:unique email:string:unique password:string
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>之后访问 <code>/users</code> 就好，就完成了，简直暴力！！！最暴力的就是，后台开启的服务可以不需要关闭！！！你就能直接访问新加的页面了！！！</p>
+<p>稍微说一说 <code>resources(&quot;/users&quot;, UserController)</code> 的作用，这其实是实现了一堆 CRUD
+API，然后用一条命令路由所有 CRUD 方法，也可以将它等价替换为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="n">get</span><span class="p">(</span><span class="s2">&#34;/users&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">get</span><span class="p">(</span><span class="s2">&#34;/users/:id/edit&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:edit</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">get</span><span class="p">(</span><span class="s2">&#34;/users/new&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:new</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">get</span><span class="p">(</span><span class="s2">&#34;/users/:id&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:show</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">post</span><span class="p">(</span><span class="s2">&#34;/users&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:create</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">patch</span><span class="p">(</span><span class="s2">&#34;/users/:id&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:update</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">put</span><span class="p">(</span><span class="s2">&#34;/users/:id&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:update</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">delete</span><span class="p">(</span><span class="s2">&#34;/users/:id&#34;</span><span class="p">,</span> <span class="nc">UserController</span><span class="p">,</span> <span class="ss">:delete</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="限制字段" class="headerLink">
+    <a href="#%e9%99%90%e5%88%b6%e5%ad%97%e6%ae%b5" class="header-mark"></a>限制字段</h3><p>刚刚那个用户界面，我们只限制了所有字段必填，显然这种限制是不够的，我们应该清楚都需要哪些限制，如果添加这些限制，接下来我们以 username 为例</p>
+<ul>
+<li>必填与唯一</li>
+<li>英文字母、数字及下划线</li>
+<li>长度 3 ~ 15</li>
+<li>保留 <code>admin</code>, <code>administrator</code> 和 <code>root</code></li>
+</ul>
+<p>需求搞定了，我们知道这些需求第一个已经完成了，是 Phoenix 帮我们完成的，那看看源代码是怎么完成的吧。请打开 <code>lib/awesome/account/user.ex</code> 并查看源码，这是一个
+Etco 所定义的模型，可以直接与数据库交互，而查文档的话也应该查 Ecto 的文档</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="na">@doc</span> <span class="no">false</span>
+</span></span><span class="line"><span class="cl"><span class="kd">def</span> <span class="n">changeset</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="n">user</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|&gt;</span> <span class="n">cast</span><span class="p">(</span><span class="n">attrs</span><span class="p">,</span> <span class="p">[</span><span class="ss">:username</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:password</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|&gt;</span> <span class="n">validate_required</span><span class="p">([</span><span class="ss">:username</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:password</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|&gt;</span> <span class="n">unique_constraint</span><span class="p">(</span><span class="ss">:username</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|&gt;</span> <span class="n">unique_constraint</span><span class="p">(</span><span class="ss">:email</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>changeset/2 是 Ecto 的回调函数，一般对数据进行 <strong>过滤</strong>​、​<strong>验证</strong> 与 <strong>约束</strong> 操作，调用方式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="n">changeset</span> <span class="o">=</span> <span class="nc">User</span><span class="o">.</span><span class="n">changeset</span><span class="p">(%</span><span class="nc">User</span><span class="p">{},</span> <span class="p">%{</span><span class="ss">username</span><span class="p">:</span> <span class="s2">&#34;Example&#34;</span><span class="p">,</span> <span class="ss">email</span><span class="p">:</span> <span class="s2">&#34;i@example.com&#34;</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:error</span><span class="p">,</span> <span class="n">changeset</span><span class="p">}</span> <span class="o">=</span> <span class="nc">Repo</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">changeset</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">changeset</span><span class="o">.</span><span class="n">errors</span> <span class="c1">#=&gt; [password: {&#34;can&#39;t be blank&#34;, []}]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>OK，下来我们就开始仔细解读下这个函数，​<code>validate_required</code> 是指明哪些字段必填，而 <code>unique_constraint</code> 则是约束字段唯一，那现在我们需要再添加一些代码来实现需求</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">validate_exclusion</span><span class="p">(</span><span class="ss">:username</span><span class="p">,</span> <span class="sx">~w(admin administrator root)</span><span class="p">)</span> <span class="c1"># 保留用户名</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">validate_format</span><span class="p">(</span><span class="ss">:username</span><span class="p">,</span> <span class="sx">~r/^[a-zA-Z0-9_]+$/</span><span class="p">)</span> <span class="c1"># 对格式进行要求</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">validate_length</span><span class="p">(</span><span class="ss">:username</span><span class="p">,</span> <span class="p">[</span><span class="ss">min</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="ss">max</span><span class="p">:</span> <span class="mi">15</span><span class="p">])</span> <span class="c1"># 限制长度</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="基础" class="headerLink">
+    <a href="#%e5%9f%ba%e7%a1%80" class="header-mark"></a>基础</h2><h3 id="plug" class="headerLink">
+    <a href="#plug" class="header-mark"></a>Plug</h3><p>Plug 运行在 Phoenix 的 HTTP 层，所有链接都与 Plug 打交道，并且 Endpoint 、
+Router 、 Controller 都属于 Plug</p>
+<h4 id="function-plug" class="headerLink">
+    <a href="#function-plug" class="header-mark"></a>function plug</h4><p>一个符合 plug 的函数需要接受一个连接，和相关的选项作为参数，并且最终返回这个连接</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">def</span> <span class="n">put_headers</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">kvs</span><span class="p">)</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="nc">Enum</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">kvs</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="k">fn</span> <span class="p">({</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">},</span> <span class="n">conn</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nc">Plug.Conn</span><span class="o">.</span><span class="n">put_resp_header</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">end</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们可以用 plug 将操作流式串联起来，将一个请求所需要的操作流水式的串联起来</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">AwesomeWeb.HelloController</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">use</span> <span class="nc">AwesomeWeb</span><span class="p">,</span> <span class="ss">:controller</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">plug</span> <span class="ss">:put_haeders</span><span class="p">,</span> <span class="p">%{</span><span class="ss">content_encoding</span><span class="p">:</span> <span class="s2">&#34;gzip&#34;</span><span class="p">,</span> <span class="ss">cache_control</span><span class="p">:</span> <span class="s2">&#34;max-age=3600&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">plug</span> <span class="ss">:put_layout</span><span class="p">,</span> <span class="s2">&#34;bare.html&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Other Operators</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="module-plug" class="headerLink">
+    <a href="#module-plug" class="header-mark"></a>module plug</h4><p>Plug 的另一种类型是 module plug，它被定义在 module 中，可以将整个 module 当作一个 plug 放入处理流程中，因此这个 module 需要符合一定的规范</p>
+<ul>
+<li><strong>init/1</strong>​：初始化传递给 call/2 的参数或选项</li>
+<li><strong>call/2</strong>​：处理链接，与 function plug 差不多</li>
+</ul>
+<p>我们可以试一试写一个模块 plug，功能是把 <code>:locale</code> 键值对放到连接流里，以便让后面的其他 plugs 控制器和页面等也能使用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">HelloPhoenixWeb.Plugs.Locale</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">import</span> <span class="nc">Plug.Conn</span>
+</span></span><span class="line"><span class="cl">  <span class="na">@locales</span> <span class="p">[</span><span class="s2">&#34;en&#34;</span><span class="p">,</span> <span class="s2">&#34;fr&#34;</span><span class="p">,</span> <span class="s2">&#34;de&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">init</span><span class="p">(</span><span class="n">default</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">default</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">call</span><span class="p">(%</span><span class="nc">Plug.Conn</span><span class="p">{</span><span class="ss">params</span><span class="p">:</span> <span class="p">%{</span><span class="s2">&#34;locale&#34;</span> <span class="o">=&gt;</span> <span class="n">loc</span><span class="p">}}</span> <span class="o">=</span> <span class="n">conn</span><span class="p">,</span> <span class="n">_default</span><span class="p">)</span> <span class="ow">when</span> <span class="n">loc</span> <span class="ow">in</span> <span class="na">@locales</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assign</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:locale</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">call</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">default</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">assign</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="ss">:locale</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们将 Locale Plug 串入 router 中即可</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">HelloPhoenixWeb.Router</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">use</span> <span class="nc">HelloPhoenixWeb</span><span class="p">,</span> <span class="ss">:router</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pipeline</span> <span class="ss">:browser</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="n">...</span>
+</span></span><span class="line"><span class="cl">    <span class="n">plug</span> <span class="nc">HelloPhoenixWeb.Plugs.Locale</span> <span class="s2">&#34;en&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl">  <span class="n">...</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="路由" class="headerLink">
+    <a href="#%e8%b7%af%e7%94%b1" class="header-mark"></a>路由</h3><p>路由是 Phoenix 应用的重要组成部分，可以将对应的 HTTP 请求映射到
+controller/action, 处理实时 channel，还为路由之前的中间件定义了一系列的转换功能</p>
+<p><strong>pipeline</strong> 可以定义一种类型的操作，这种操作可以定义一系列 plug 为以后定义的 API
+使用。​<strong>scope</strong> 操作可以定义一组 API 的作用域，并且可以指定 pipe 类型来获取 plug
+操作</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="n">pipeline</span> <span class="ss">:browser</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="n">plug</span> <span class="ss">:accepts</span><span class="p">,</span> <span class="p">[</span><span class="s2">&#34;html&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="n">plug</span> <span class="ss">:fetch_session</span>
+</span></span><span class="line"><span class="cl">  <span class="n">plug</span> <span class="ss">:fetch_flash</span>
+</span></span><span class="line"><span class="cl">  <span class="n">plug</span> <span class="ss">:protect_from_forgery</span>
+</span></span><span class="line"><span class="cl">  <span class="n">plug</span> <span class="ss">:put_secure_browser_headers</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="n">scope</span> <span class="s2">&#34;/&#34;</span><span class="p">,</span> <span class="nc">HelloPhoenixWeb</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pipe_through</span> <span class="ss">:browser</span>
+</span></span><span class="line"><span class="cl">  <span class="n">get</span><span class="p">(</span><span class="s2">&#34;/&#34;</span><span class="p">,</span> <span class="nc">PageController</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Phoenix 可以使用命令 <code>mix phx.routes</code> 查看所有已定义的 API</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl"> page_path  GET     /         HelloPhoenixWeb.PageController :index
+</span></span><span class="line"><span class="cl">hello_path  GET     /hello    HelloPhoenixWeb.HelloController :index
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Path helpers 是 Router.Helpers 模块动态产生的函数，命名规则根据 Controller 生成，我们可以执行命令 <code>iex -S mix</code> 运行项目并中查看 Helps</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="nc">HelloPhoenixWeb.Router.Helpers</span><span class="o">.</span><span class="n">page_path</span><span class="p">(</span><span class="nc">HelloPhoenixWeb.Endpoint</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span> <span class="c1"># &#34;/&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nc">HelloPhoenixWeb.Router.Helpers</span><span class="o">.</span><span class="n">hello_path</span><span class="p">(</span><span class="nc">HelloPhoenixWeb.Endpoint</span><span class="p">,</span> <span class="ss">:index</span><span class="p">)</span> <span class="c1"># &#34;/hello&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Helps 也可以用在 eex 中，示例 <code>page_path(@conn, :index)</code> 的输出即为 <code>&quot;/&quot;</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&#34;&lt;%= page_path(@conn, :index) %&gt;&#34;</span><span class="o">&gt;</span><span class="nc">To</span> <span class="n">the</span> <span class="nc">Welcome</span> <span class="nc">Page</span><span class="o">!&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们添加一系列 <code>/</code> 与 <code>/admin</code> 下的 API，phx.routes 查看 API，可以发现 uri、
+Controller、function 都是没问题的，但是 helps 都是 <strong>review_path</strong>​，这会引起
+helps 函数调用错误</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">review_path  GET     /reviews HelloPhoenixWeb.ReviewController :index
+</span></span><span class="line"><span class="cl">review_path  GET     /reviews/:id/edit HelloPhoenixWeb.ReviewController :edit
+</span></span><span class="line"><span class="cl">review_path  GET     /reviews/new HelloPhoenixWeb.ReviewController :new
+</span></span><span class="line"><span class="cl">review_path  GET     /reviews/:id HelloPhoenixWeb.ReviewController :show
+</span></span><span class="line"><span class="cl">review_path  POST    /reviews HelloPhoenixWeb.ReviewController :create
+</span></span><span class="line"><span class="cl">review_path  PATCH   /reviews/:id HelloPhoenixWeb.ReviewController :update
+</span></span><span class="line"><span class="cl">             PUT     /reviews/:id HelloPhoenixWeb.ReviewController :update
+</span></span><span class="line"><span class="cl">review_path  DELETE  /reviews/:id HelloPhoenixWeb.ReviewController :delete
+</span></span><span class="line"><span class="cl">review_path  GET     /admin/reviews HelloPhoenixWeb.Admin.ReviewController :index
+</span></span><span class="line"><span class="cl">review_path  GET     /admin/reviews/:id/edit HelloPhoenixWeb.Admin.ReviewController :edit
+</span></span><span class="line"><span class="cl">review_path  GET     /admin/reviews/new HelloPhoenixWeb.Admin.ReviewController :new
+</span></span><span class="line"><span class="cl">review_path  GET     /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :show
+</span></span><span class="line"><span class="cl">review_path  POST    /admin/reviews HelloPhoenixWeb.Admin.ReviewController :create
+</span></span><span class="line"><span class="cl">review_path  PATCH   /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :update
+</span></span><span class="line"><span class="cl">             PUT     /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :update
+</span></span><span class="line"><span class="cl">review_path  DELETE  /admin/reviews/:id HelloPhoenixWeb.Admin.ReviewController :delete
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们需要添加 <code>as: :admin</code> 来解决 helps 冲突</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="n">scope</span> <span class="s2">&#34;/&#34;</span><span class="p">,</span> <span class="nc">HelloPhoenixWeb</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="n">pipe_through</span> <span class="ss">:browser</span>
+</span></span><span class="line"><span class="cl">  <span class="n">resources</span> <span class="s2">&#34;/reviews&#34;</span><span class="p">,</span> <span class="nc">ReviewController</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">scope</span> <span class="s2">&#34;/admin&#34;</span><span class="p">,</span> <span class="nc">HelloPhoenixWeb.Admin</span><span class="p">,</span> <span class="ss">as</span><span class="p">:</span> <span class="ss">:admin</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="n">resources</span> <span class="s2">&#34;/reviews&#34;</span><span class="p">,</span> <span class="nc">ReviewController</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="控制器" class="headerLink">
+    <a href="#%e6%8e%a7%e5%88%b6%e5%99%a8" class="header-mark"></a>控制器</h3><p>Phoenix 控制器是一个类似中间人的角色，里面的函数称为 atcion，它响应路由的 HTTP
+请求。action 可以命名为任意名称，但我们一般遵循一些约定</p>
+<ul>
+<li><strong>index</strong>​：按照给定的数据渲染一组条目</li>
+<li><strong>show</strong>​：渲染一个给定的 id 的独立条目</li>
+<li><strong>new</strong>​：渲染一个创建新条目所需的表单</li>
+<li><strong>create</strong>​：接收创建的新条并将其存储</li>
+<li><strong>edit</strong>​：接收给定 id 的条目，并将其显示在 form 中用以编辑</li>
+<li><strong>update</strong>​：接收修改过的 item 并存储</li>
+<li><strong>delete</strong>​：接收给定 id 的条目并将其删除</li>
+</ul>
+<p>控制器有一些方法渲染内容，最简单的一种是使用 Phoenix 提供的 <code>text/2</code> 方法渲染纯文本，当然也可以有一些其他方法来渲染 <code>json/2</code> 或 <code>html/2</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">def</span> <span class="n">show</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="p">%{</span><span class="s2">&#34;id&#34;</span> <span class="o">=&gt;</span> <span class="n">id</span><span class="p">})</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="n">text</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s2">&#34;Showing id ${id}&#34;</span><span class="p">)</span> <span class="c1"># text: Showing id 15</span>
+</span></span><span class="line"><span class="cl">  <span class="n">json</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="p">%{</span><span class="n">id</span><span class="p">,</span> <span class="n">id</span><span class="p">})</span> <span class="c1"># json: {&#34;id&#34;: &#34;15&#34;}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">html</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="sh">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sh">  &lt;html&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sh">      &lt;head&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sh">	  &lt;title&gt;Passing an Id&lt;/title&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sh">      &lt;/head&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sh">      &lt;body&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sh">	  &lt;p&gt;You sent in id </span><span class="si">#{</span><span class="n">id</span><span class="si">}</span><span class="sh">&lt;/p&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sh">      &lt;/body&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sh">  &lt;/html&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sh">  &#34;&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>render/3</code> 是 Phoenix 提供的渲染 View 的方法，View 与 Controller 需要使用相同的名称，且在 Templates 下有对应的模板目录，目录下对应着 Elixir 模板 HTML 文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">HelloPhoenixWeb.HelloConttoller</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kn">use</span> <span class="nc">HelloPhoenixWeb</span><span class="p">,</span> <span class="ss">:controller</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">show</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="p">%{</span><span class="s2">&#34;messenger&#34;</span> <span class="o">=&gt;</span> <span class="n">messenger</span><span class="p">}),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">render</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s2">&#34;show.html&#34;</span><span class="p">,</span> <span class="ss">messenger</span><span class="p">:</span> <span class="n">messenger</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>控制器还可以直接返回响应状态</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">def</span> <span class="n">index</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">_params</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">conn</span> <span class="o">|&gt;</span> <span class="n">send_resp</span><span class="p">(</span><span class="mi">201</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 07-04</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2021/elixir_phoenix_framework_notes_001/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20%E5%88%9D%E8%AF%86+Phoenix+Framework&issue[description]=[POST](https://blog.ginshio.org/2021/elixir_phoenix_framework_notes_001/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2021/elixir_phoenix_framework_notes_001/" data-title="初识 Phoenix Framework" data-hashtags="Elixir,Network,Web,Phoenix,Framework"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2021/elixir_phoenix_framework_notes_001/" data-hashtag="Elixir"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2021/elixir_phoenix_framework_notes_001/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2021/elixir_phoenix_framework_notes_001/" data-title="初识 Phoenix Framework" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2021/elixir_phoenix_framework_notes_001/" data-title="初识 Phoenix Framework"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2021/elixir_phoenix_framework_notes_001/" data-title="初识 Phoenix Framework"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2021/elixir_phoenix_framework_notes_001/" data-title="初识 Phoenix Framework" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2021/elixir_phoenix_framework_notes_001/" data-title="初识 Phoenix Framework" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2021/elixir_phoenix_framework_notes_001/" title="初识 Phoenix Framework">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/elixir/">Elixir</a>,&nbsp;<a href="/tags/network/">Network</a>,&nbsp;<a href="/tags/web/">Web</a>,&nbsp;<a href="/tags/phoenix/">Phoenix</a>,&nbsp;<a href="/tags/framework/">Framework</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021/steam_apps/" class="prev" rel="prev" title="使用 steamcmd 搭建游戏服务器"><i class="fas fa-angle-left fa-fw"></i>使用 steamcmd 搭建游戏服务器</a>
+            <a href="/2021/kms/" class="next" rel="next" title="使用 KMS 激活 Microsoft 软件">使用 KMS 激活 Microsoft 软件<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2021-02-23T19:52:05+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"初识 Phoenix Framework"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>CS61A 入门 - iris</title><meta name="Description" content="GinShio | CS61A Study Notes - Getting started"><meta property="og:title" content="CS61A 入门" />
+<meta property="og:description" content="GinShio | CS61A Study Notes - Getting started" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2022/cs61a_01_getting_started/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-09-18T22:03:30+08:00" />
+<meta property="article:modified_time" content="2022-10-03T01:24:00+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+<meta property="og:see_also" content="https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="CS61A 入门"/>
+<meta name="twitter:description" content="GinShio | CS61A Study Notes - Getting started"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2022/cs61a_01_getting_started/" /><link rel="prev" href="https://blog.ginshio.org/2022/memory_alignment/" /><link rel="next" href="https://blog.ginshio.org/2022/intermediate_representation/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "CS61A 入门",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2022\/cs61a_01_getting_started\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, CS61A, SICP","wordcount":  2781 ,
+        "url": "https:\/\/blog.ginshio.org\/2022\/cs61a_01_getting_started\/","datePublished": "2022-09-18T22:03:30+08:00","dateModified": "2022-10-03T01:24:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | CS61A Study Notes - Getting started"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#lab00-getting-startted--入门">Lab00: Getting Startted (入门)</a>
+      <ul>
+        <li><a href="#安装">安装</a>
+          <ul>
+            <li><a href="#安装终端">安装终端</a></li>
+            <li><a href="#安装语言环境">安装语言环境</a></li>
+            <li><a href="#安装文本编辑器">安装文本编辑器</a></li>
+          </ul>
+        </li>
+        <li><a href="#编程语言基础">编程语言基础</a>
+          <ul>
+            <li><a href="#算术运算符">算术运算符</a></li>
+            <li><a href="#字符串">字符串</a></li>
+            <li><a href="#赋值运算">赋值运算</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#lec02-functions--函数">Lec02: Functions (函数)</a>
+      <ul>
+        <li><a href="#表达式">表达式</a></li>
+        <li><a href="#函数">函数</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">CS61A 入门</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programming/"><i class="far fa-folder fa-fw"></i>Programming</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/cs61a-note/"><i class="far fa-list-alt fa-fw"></i>CS61A Note</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="09-18">09-18</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="10-03">10-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2781 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - CS61A Note</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul><li><span class="active">CS61A 入门</span></li>
+                                                    <li><a href="/2022/cs61a_02_control_and_higher_order_functions/">控制流、递归、高阶函数</a></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#lab00-getting-startted--入门">Lab00: Getting Startted (入门)</a>
+      <ul>
+        <li><a href="#安装">安装</a>
+          <ul>
+            <li><a href="#安装终端">安装终端</a></li>
+            <li><a href="#安装语言环境">安装语言环境</a></li>
+            <li><a href="#安装文本编辑器">安装文本编辑器</a></li>
+          </ul>
+        </li>
+        <li><a href="#编程语言基础">编程语言基础</a>
+          <ul>
+            <li><a href="#算术运算符">算术运算符</a></li>
+            <li><a href="#字符串">字符串</a></li>
+            <li><a href="#赋值运算">赋值运算</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#lec02-functions--函数">Lec02: Functions (函数)</a>
+      <ul>
+        <li><a href="#表达式">表达式</a></li>
+        <li><a href="#函数">函数</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>虽然 CS61A 使用 Python 进行教学，但我希望好好学一下 Erlang 和 Scheme。如果想查看更多关于 CS61A 的信息，请访问 <a href="https://cs61a.org/" target="_blank" rel="noopener noreferrer">课程主页</a>，当然我也会将一部分内容和实现放在自己的
+<a href="https://gitlab.com/GinShio/sicp-learn.git" target="_blank" rel="noopener noreferrer">repo</a> 中。</p>
+<p>scheme 有很多不同的实现，而大多实现不兼容。因此我使用的是 <a href="https://www.gnu.org/software/mit-scheme/" target="_blank" rel="noopener noreferrer">MIT/GNU Scheme</a>。</p>
+<h2 id="lab00-getting-startted--入门" class="headerLink">
+    <a href="#lab00-getting-startted--%e5%85%a5%e9%97%a8" class="header-mark"></a>Lab00: Getting Startted (入门)</h2><p>首先搭建一个环境，CS61A 中指 Python3 环境。</p>
+<ul>
+<li>Setup: 以下是本课程所用到的基础软件，也是重要的组件。
+<ul>
+<li>终端 (Terminal)：安装一个终端可以让你运行本课程的 OK 命令</li>
+<li>编程环境 (Environment)：编程环境是必须的，当然课程需要的是 Python3.7，这样你才可以运行 OK 命令</li>
+<li>文本编辑器 (Text Editor)：VSCode、Atom 什么都行，只要能用来写代码</li>
+</ul>
+</li>
+<li>练习使用终端，并组织你的项目文件</li>
+<li>学习 Python 基础</li>
+<li>做一个练习</li>
+</ul>
+<h3 id="安装" class="headerLink">
+    <a href="#%e5%ae%89%e8%a3%85" class="header-mark"></a>安装</h3><h4 id="安装终端" class="headerLink">
+    <a href="#%e5%ae%89%e8%a3%85%e7%bb%88%e7%ab%af" class="header-mark"></a>安装终端</h4><p>在 MacOS 和 Linux 中本身就自带了终端软件 (Terminal)，如果是 KDE，终端软件被称作
+Konsole。而 Windows 中，直接在 Store 中下载 Windows Terminal 即可。当然 Windows
+下推荐使用 WSL，但是系统不是关注的重点。</p>
+<h4 id="安装语言环境" class="headerLink">
+    <a href="#%e5%ae%89%e8%a3%85%e8%af%ad%e8%a8%80%e7%8e%af%e5%a2%83" class="header-mark"></a>安装语言环境</h4><p>最低要求 Python3.7，因为这是运行 OK 命令的必要条件。当然你也可以使用别的编程语言。</p>
+<p>Windows 下，你可以在这里下载 <a href="https://www.python.org/" target="_blank" rel="noopener noreferrer">Python3</a> 或 <a href="https://www.erlang.org/" target="_blank" rel="noopener noreferrer">erlang</a>。安装之后将路径添加到 PATH 系统环境变量中。如果你用 WSL 那和 Linux 下没什么区别。</p>
+<p>对于 Linux 用户，就很方便了。使用包管理器进行安装，​<code>apt install erlang python3</code>
+(Debian / Ubuntu)，或者 <code>zypper in erlang python3</code> (openSUSE)，有或者 <code>pacman -S erlang python3</code> (Arch)，当然其他发行版也可以用相关的命令进行安装。</p>
+<h4 id="安装文本编辑器" class="headerLink">
+    <a href="#%e5%ae%89%e8%a3%85%e6%96%87%e6%9c%ac%e7%bc%96%e8%be%91%e5%99%a8" class="header-mark"></a>安装文本编辑器</h4><p>说实话，文本编辑器的选择很自由。当然 CS61A 还是推荐了一些流行的文本编辑器</p>
+<ul>
+<li><a href="https://cs61a.org/articles/vscode" target="_blank" rel="noopener noreferrer">Visual Studio Code</a> (VSCode)：一个全功能桌面编辑器，有很多支持不同语言的扩展可用</li>
+<li><a href="https://cs61a.org/articles/atom" target="_blank" rel="noopener noreferrer">Atom</a>：轻量级桌面编辑器。不过我不建议，MS 接手 GitHub 后，Atom 就死了</li>
+<li><a href="https://cs61a.org/articles/vim" target="_blank" rel="noopener noreferrer">Vim</a>、<a href="https://cs61a.org/articles/emacs" target="_blank" rel="noopener noreferrer">Emacs</a>：命令行编辑器</li>
+<li><a href="https://www.jetbrains.com/pycharm/" target="_blank" rel="noopener noreferrer">PyCharm</a>： JetBrains 推出的 Python IDE</li>
+<li><a href="https://www.sublimetext.com/" target="_blank" rel="noopener noreferrer">Sublime Text</a></li>
+</ul>
+<p>CS61A 贴心的提供了在线编辑器 <a href="https://code.cs61a.org/" target="_blank" rel="noopener noreferrer">https://code.cs61a.org/</a></p>
+<h3 id="编程语言基础" class="headerLink">
+    <a href="#%e7%bc%96%e7%a8%8b%e8%af%ad%e8%a8%80%e5%9f%ba%e7%a1%80" class="header-mark"></a>编程语言基础</h3><h4 id="算术运算符" class="headerLink">
+    <a href="#%e7%ae%97%e6%9c%af%e8%bf%90%e7%ae%97%e7%ac%a6" class="header-mark"></a>算术运算符</h4><p>在大部分编程语言中，算术运算所包含的东西都差不多。比如 <code>+</code> (加)、​<code>-</code> (减)、​<code>*</code> (乘)、​<code>/</code> (除) 等，erlang 和 python 都不例外</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="mi">3</span> <span class="o">+</span> <span class="mi">4</span><span class="p">.</span>  <span class="c">% 7
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="mi">3</span> <span class="o">-</span> <span class="mi">4</span><span class="p">.</span>  <span class="c">% -1
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="mi">3</span> <span class="o">*</span> <span class="mi">4</span><span class="p">.</span>  <span class="c">% 12
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">.</span>  <span class="c">% 0.75
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="mi">3</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">6</span><span class="p">.</span>  <span class="c">% 18
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="mi">3</span> <span class="o">+</span> <span class="mi">4</span>  <span class="c1"># 7</span>
+</span></span><span class="line"><span class="cl"><span class="mi">3</span> <span class="o">-</span> <span class="mi">4</span>  <span class="c1"># -1</span>
+</span></span><span class="line"><span class="cl"><span class="mi">3</span> <span class="o">*</span> <span class="mi">4</span>  <span class="c1"># 12</span>
+</span></span><span class="line"><span class="cl"><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span>  <span class="c1"># 0.75</span>
+</span></span><span class="line"><span class="cl"><span class="mi">3</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">6</span>  <span class="c1"># 18</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>scheme 是 Lisp 的方言，因此和 Lisp 一样，使用前缀运算，即表达式的第一个为方法调用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="nb">+ </span><span class="mi">3</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1">; 7</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">- </span><span class="mi">3</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1">; -1</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">* </span><span class="mi">3</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1">; 12</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">/ </span><span class="mi">3</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1">; 7.5e-1</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">+ </span><span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span><span class="p">)</span> <span class="c1">; 18</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">+</span><span class="p">)</span>      <span class="c1">; 0</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">*</span><span class="p">)</span>      <span class="c1">; 1</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">/ </span><span class="mi">3</span><span class="p">)</span>    <span class="c1">; 1/3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当然还有一些额外的运算，比如 python 不止提供了 <code>//</code> (整数除法) 和 <code>%</code> (取模)，还提供了 <code>**</code> (幂运算)；erlang 提供了 <code>div</code> (整数除法) 和 <code>rem</code> (余数)；scheme 则是有
+<code>quotient</code> (整数除法)、​<code>remainder</code> (余数运算) 和 <code>modulo</code> (模运算)。很遗憾的就是
+erlang 中并没有取模运算。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="mi">3</span> <span class="ow">div</span> <span class="mi">4</span><span class="p">.</span>   <span class="c">% 0
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="mi">5</span> <span class="ow">div</span> <span class="mi">2</span><span class="p">.</span>   <span class="c">% 2
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="mi">3</span> <span class="ow">rem</span> <span class="mi">4</span><span class="p">.</span>   <span class="c">% 3
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="p">-</span><span class="err">3 </span><span class="ni">rem</span> <span class="mi">4</span><span class="p">.</span>  <span class="c">% -3
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="mi">3</span> <span class="o">//</span> <span class="mi">4</span>  <span class="c1"># 0</span>
+</span></span><span class="line"><span class="cl"><span class="mi">5</span> <span class="o">//</span> <span class="mi">2</span>  <span class="c1"># 2</span>
+</span></span><span class="line"><span class="cl"><span class="mi">3</span> <span class="o">%</span> <span class="mi">4</span>   <span class="c1"># 3</span>
+</span></span><span class="line"><span class="cl"><span class="o">-</span><span class="mi">3</span> <span class="o">%</span> <span class="mi">4</span>  <span class="c1"># 1</span>
+</span></span><span class="line"><span class="cl"><span class="mi">3</span> <span class="o">**</span> <span class="mi">4</span>  <span class="c1"># 81</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="nb">quotient </span><span class="mi">3</span> <span class="mi">4</span><span class="p">)</span>    <span class="c1">; 0</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">quotient </span><span class="mi">5</span> <span class="mi">2</span><span class="p">)</span>    <span class="c1">; 2</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">remainder </span><span class="mi">3</span> <span class="mi">4</span><span class="p">)</span>   <span class="c1">; 3</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">remainder </span><span class="mi">-3</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1">; -3</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">modulo </span><span class="mi">3</span> <span class="mi">4</span><span class="p">)</span>      <span class="c1">; 3</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">modulo </span><span class="mi">-3</span> <span class="mi">4</span><span class="p">)</span>     <span class="c1">; 1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="字符串" class="headerLink">
+    <a href="#%e5%ad%97%e7%ac%a6%e4%b8%b2" class="header-mark"></a>字符串</h4><p>在 Python 中字符串还是比较友好的，默认以 UTF-8 编码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="s2">&#34;this is a string.&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;this also is a string&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">STRING!
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;string&#34;</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>    <span class="c1"># &#39;i&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">len</span><span class="p">(</span><span class="s2">&#34;string&#34;</span><span class="p">)</span>  <span class="c1"># 6</span>
+</span></span><span class="line"><span class="cl"><span class="nb">len</span><span class="p">(</span><span class="s2">&#34;中文&#34;</span><span class="p">)</span>    <span class="c1"># 2</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>scheme 中字符串也是很正常的样子，不过并不是 UTF-8 编码的字符串，有点类似 C 语言的字符数组。关于 scheme 的 string 更多详情请查阅<a href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-ref/Strings.html" target="_blank" rel="noopener noreferrer">文档</a>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="nb">string? </span><span class="s">&#34;str&#34;</span><span class="p">)</span>         <span class="c1">;; #t</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">make-string </span><span class="mi">5</span> <span class="sc">#\x30</span><span class="p">)</span>   <span class="c1">;; &#34;00000&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">string-length </span><span class="s">&#34;str&#34;</span><span class="p">)</span>   <span class="c1">;; 3</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">string-length </span><span class="s">&#34;中文&#34;</span><span class="p">)</span>  <span class="c1">;; 6</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>与 Python 一样，erlang 的字符串也是 UTF-8 编码的字符数组。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="nb">length</span><span class="p">(</span><span class="s">&#34;teste&#34;</span><span class="p">).</span>  <span class="c">% 5
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">length</span><span class="p">(</span><span class="s">&#34;中文&#34;</span><span class="p">).</span>   <span class="c">% 2, [20013,25991]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>不过 erlang 中还有一种常用的字符串，即字节序列形式的字符串，这就与 C 语言中的字符串有点像了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="o">&lt;&lt;</span><span class="s">&#34;中文&#34;</span><span class="o">/</span><span class="n">utf8</span><span class="o">&gt;&gt;</span><span class="p">.</span>  <span class="c">% valid string
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="o">&lt;&lt;</span><span class="s">&#34;中文&#34;</span><span class="o">&gt;&gt;</span><span class="p">.</span>       <span class="c">% not valid string
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">is_bitstring</span><span class="p">(</span><span class="s">&#34;test&#34;</span><span class="p">).</span>     <span class="c">% false
+</span></span></span><span class="line"><span class="cl"><span class="c">% byte_size(&#34;test&#34;).      % exception error: bad argument
+</span></span></span><span class="line"><span class="cl"><span class="c">% bit_size(&#34;test&#34;).       % exception error: bad argument
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">is_bitstring</span><span class="p">(</span><span class="o">&lt;&lt;</span><span class="s">&#34;test&#34;</span><span class="o">&gt;&gt;</span><span class="p">).</span>  <span class="c">% true
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">byte_size</span><span class="p">(</span><span class="o">&lt;&lt;</span><span class="s">&#34;test&#34;</span><span class="o">&gt;&gt;</span><span class="p">).</span>     <span class="c">% 4
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nb">bit_size</span><span class="p">(</span><span class="o">&lt;&lt;</span><span class="s">&#34;test&#34;</span><span class="o">&gt;&gt;</span><span class="p">).</span>      <span class="c">% 32
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="赋值运算" class="headerLink">
+    <a href="#%e8%b5%8b%e5%80%bc%e8%bf%90%e7%ae%97" class="header-mark"></a>赋值运算</h4><p>如果学过 C 语言或者 Python，一定对赋值不陌生，即将一个值与一个名字进行绑定。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100</span> <span class="o">+</span> <span class="mi">50</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span>  <span class="c1"># 75</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="s2">&#34;str&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span>  <span class="c1"># &#34;str&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当然 scheme 中可以使用 <code>let</code> 定义一个有作用域的变量，用 <code>define</code> 则会定义一个全局的变量。而赋值语句则是 <code>set!</code>​，与 Python 一样，scheme 也是一门动态强类型语言。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">x</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="nf">y</span> <span class="mi">4</span><span class="p">))</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>  <span class="c1">;; 12</span>
+</span></span><span class="line"><span class="cl"><span class="c1">;; (* x y)  ;ERROR: unbound variable:  y</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="nv">x</span> <span class="mi">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">+ </span><span class="nv">x</span><span class="p">)</span>  <span class="c1">;; 3</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="s">&#34;str&#34;</span><span class="p">)</span>  <span class="c1">; &#34;str&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">x</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">y</span> <span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let* </span><span class="p">((</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">y</span> <span class="nv">x</span><span class="p">))</span> <span class="p">(</span><span class="nb">list </span><span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>   <span class="c1">;; (1 1)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span> <span class="p">((</span><span class="nf">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">y</span> <span class="nv">x</span><span class="p">))</span> <span class="p">(</span><span class="nb">list </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span>  <span class="c1">;; (1 0)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>不过对于 erlang 情况就有点特殊了。在 erlang 中 <code>=</code> 表示将值与名字进行匹配，如果是没有定义的名字，也会进行绑定。这是由于 erlang 是​<strong>纯</strong> (pure) 函数式语言，等号的语义和 Python / C 中是不一样的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="nv">X</span> <span class="o">=</span> <span class="mi">10</span><span class="p">.</span>  <span class="c">% 10
+</span></span></span><span class="line"><span class="cl"><span class="c">% X = 5. % exception error: no match of right hand side value 5
+</span></span></span><span class="line"><span class="cl"><span class="c">% 6 = X. % exception error: no match of right hand side value 10
+</span></span></span><span class="line"><span class="cl"><span class="c">% 6 = Y. % variable &#39;Y&#39; is unbound
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="nv">X</span> <span class="o">=</span> <span class="mi">10</span><span class="p">.</span>  <span class="c">% 10
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="mi">10</span> <span class="o">=</span> <span class="nv">X</span><span class="p">.</span>  <span class="c">% 10
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="lec02-functions--函数" class="headerLink">
+    <a href="#lec02-functions--%e5%87%bd%e6%95%b0" class="header-mark"></a>Lec02: Functions (函数)</h2><h3 id="表达式" class="headerLink">
+    <a href="#%e8%a1%a8%e8%be%be%e5%bc%8f" class="header-mark"></a>表达式</h3><p>表达式表述了一个计算或过程，并会产生一个值。比如 \(2^{100}\)、\(\sin \pi\) 等。在表达式中存在运算符 (operator) 和运算数 (operand)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1">;; 15</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当然名字也可以作为一个表达式使用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">x</span> <span class="mi">3</span><span class="p">))</span> <span class="nv">x</span><span class="p">)</span> <span class="c1">;; 3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>但是表达式有一定的执行顺序，简单说先执行子表达式，将子表达式的值代入表达式中继续执行。直到计算出整个表达式的值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="c1">;; 3 + 5 * 3 - 6 / 3 * 4 - 7</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nb">+ </span><span class="mi">3</span> <span class="p">(</span><span class="nb">* </span><span class="mi">5</span> <span class="mi">3</span><span class="p">))</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nb">/ </span><span class="mi">6</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">4</span><span class="p">)</span> <span class="mi">7</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>有时候这种嵌套的表达式表示实在让人不爽，反正先计算子表达式，再用子表达式的值计算随后的表达式。因此有些编程语言中引入了管道运算符，将嵌套表达式简单化。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="c1"># 3 + 5 * 3 - 6 / 3 * 4 - 7</span>
+</span></span><span class="line"><span class="cl"><span class="mi">5</span> <span class="o">|&gt;</span> <span class="nc">Kernel</span><span class="o">.*</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="nc">Kernel</span><span class="o">.+</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|&gt;</span> <span class="nc">Kernel</span><span class="o">.-</span><span class="p">(</span><span class="mi">6</span> <span class="o">|&gt;</span> <span class="nc">Kernel</span><span class="o">./</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="nc">Kernel</span><span class="o">.*</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|&gt;</span> <span class="nc">Kernel</span><span class="o">.-</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>  <span class="c1"># 3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="函数" class="headerLink">
+    <a href="#%e5%87%bd%e6%95%b0" class="header-mark"></a>函数</h3><p>赋值可以理解为一个名称绑定了一个值，而很多语言中将函数也作为一个值。因此函数也可以被绑定在名称之上。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">add</span> <span class="nv">+</span><span class="p">))</span> <span class="p">(</span><span class="nf">add</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1">;; 3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在编程中，有时会说 <strong>纯函数</strong> (pure function)，也就是没有 <strong>副作用</strong> (side effect) 的函数。即在面对相同的输入时，函数无论如何调用，其输出是相同的。也就是说，纯函数并不会依赖外部状态，也不会对外部状态进行改变。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="nb">expt </span><span class="mi">10</span> <span class="mi">3</span><span class="p">)</span>            <span class="c1">;; pure function</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">print</span> <span class="s">&#34;Hello world&#34;</span><span class="p">)</span>  <span class="c1">;; non-pure function</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>定义一个自己的函数，当然也可以定义一个匿名函数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># function body</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">param</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">name_lambda</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">param</span><span class="p">:</span> <span class="n">param</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">name</span> <span class="nv">param</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">;; function body</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">param</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="nv">name-lambda</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">param</span><span class="p">)</span> <span class="nv">param</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="nf">name</span><span class="p">(</span><span class="nv">Param</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nv">Param</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl"><span class="nv">NameLambda</span> <span class="o">=</span> <span class="k">fun</span> <span class="p">(</span><span class="nv">Param</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nv">Param</span> <span class="k">end</span><span class="p">.</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>函数既然作为一等公民，自然而然的可以开始在函数的返回值或参数中出现，这样返回函数或参数是函数的函数被称为高等函数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="nn">lists</span><span class="p">:</span><span class="nf">foldl</span><span class="p">(</span><span class="k">fun</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Sum</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nv">X</span> <span class="o">+</span> <span class="nv">Sum</span> <span class="k">end</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]).</span> <span class="c">% 15
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>当函数调用时，会进行以下操作：</p>
+<ol>
+<li>添加函数栈帧，初始化新的环境</li>
+<li>在栈帧中绑定实际参数 (arguments) 和形式参数 (parameters)</li>
+<li>在新环境中执行函数体</li>
+</ol>
+<p>在 Python 中函数如果不返回，则将默认直接返回 <code>None</code>​，而很多函数式编程语言中默认都会返回块的最后一个表达式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">square_not_return</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># return None</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">square</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span><span class="p">))</span> <span class="c1">;; return x * x</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="k">fun</span> <span class="p">(</span><span class="nv">X</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nv">X</span> <span class="o">*</span> <span class="nv">X</span> <span class="k">end</span><span class="p">.</span>  <span class="c">% return x * x
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>当定义函数时，就会将一个名字与该函数绑定在当前的环境中。调用相当于在当前环境中查找并调用该函数。</p>
+<p>在新的环境中，各个函数是从全局作用域中派生出来的，因此新环境中除了访问自己环境内的变量，还可以访问父作用域的变量。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="nv">x</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1">;; global x: 10</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="nv">y</span> <span class="mi">20</span><span class="p">)</span>  <span class="c1">;; global y: 20</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">multi</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">y</span><span class="p">))</span> <span class="c1">;; global x * local y</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">multi</span> <span class="mi">5</span><span class="p">)</span> <span class="c1">;; 50</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">multi</span> <span class="nv">y</span><span class="p">)</span> <span class="c1">;; 200</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 10-03</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2022/cs61a_01_getting_started/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20CS61A+%E5%85%A5%E9%97%A8&issue[description]=[POST](https://blog.ginshio.org/2022/cs61a_01_getting_started/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2022/cs61a_01_getting_started/" data-title="CS61A 入门" data-hashtags="Note,CS61A,SICP"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2022/cs61a_01_getting_started/" data-hashtag="Note"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2022/cs61a_01_getting_started/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2022/cs61a_01_getting_started/" data-title="CS61A 入门" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2022/cs61a_01_getting_started/" data-title="CS61A 入门"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2022/cs61a_01_getting_started/" data-title="CS61A 入门"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2022/cs61a_01_getting_started/" data-title="CS61A 入门" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2022/cs61a_01_getting_started/" data-title="CS61A 入门" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2022/cs61a_01_getting_started/" title="CS61A 入门">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/cs61a/">CS61A</a>,&nbsp;<a href="/tags/sicp/">SICP</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2022/memory_alignment/" class="prev" rel="prev" title="内存对齐"><i class="fas fa-angle-left fa-fw"></i>内存对齐</a>
+            <a href="/2022/intermediate_representation/" class="next" rel="next" title="中间表示">中间表示<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2022-09-18T22:03:30+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"CS61A 入门"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>

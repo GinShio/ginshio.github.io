@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>优化简介 - iris</title><meta name="Description" content="GinShio | 橡书第 8 章：优化简介"><meta property="og:title" content="优化简介" />
+<meta property="og:description" content="GinShio | 橡书第 8 章：优化简介" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2022/introduction_to_optimization/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-09-23T17:06:56+08:00" />
+<meta property="article:modified_time" content="2022-10-07T14:52:51+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="优化简介"/>
+<meta name="twitter:description" content="GinShio | 橡书第 8 章：优化简介"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2022/introduction_to_optimization/" /><link rel="prev" href="https://blog.ginshio.org/2022/intermediate_representation/" /><link rel="next" href="https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "优化简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2022\/introduction_to_optimization\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Optimization","wordcount":  11330 ,
+        "url": "https:\/\/blog.ginshio.org\/2022\/introduction_to_optimization\/","datePublished": "2022-09-23T17:06:56+08:00","dateModified": "2022-10-07T14:52:51+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | 橡书第 8 章：优化简介"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#优化背景">优化背景</a>
+      <ul>
+        <li><a href="#示例-改进数组的地址计算">示例：改进数组的地址计算</a></li>
+        <li><a href="#示例-改进循环嵌套">示例：改进循环嵌套</a></li>
+        <li><a href="#对优化的考虑">对优化的考虑</a></li>
+      </ul>
+    </li>
+    <li><a href="#优化的范围">优化的范围</a></li>
+    <li><a href="#局部优化">局部优化</a>
+      <ul>
+        <li><a href="#局部值编号">局部值编号</a>
+          <ul>
+            <li><a href="#lvn-算法">LVN 算法</a></li>
+            <li><a href="#扩展-lvn-算法">扩展 LVN 算法</a></li>
+          </ul>
+        </li>
+        <li><a href="#树高平衡">树高平衡</a>
+          <ul>
+            <li><a href="#寻找候选树">寻找候选树</a></li>
+            <li><a href="#重构程序块使之平衡">重构程序块使之平衡</a></li>
+            <li><a href="#树高平衡算法的例子">树高平衡算法的例子</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#区域优化">区域优化</a>
+      <ul>
+        <li><a href="#超局部值编号">超局部值编号</a></li>
+        <li><a href="#循环展开">循环展开</a></li>
+      </ul>
+    </li>
+    <li><a href="#全局优化">全局优化</a>
+      <ul>
+        <li><a href="#利用活动信息查找未初始化变量">利用活动信息查找未初始化变量</a>
+          <ul>
+            <li><a href="#定义数据流问题">定义数据流问题</a></li>
+            <li><a href="#解决这个数据流问题">解决这个数据流问题</a></li>
+            <li><a href="#查找未初始化的变量">查找未初始化的变量</a></li>
+            <li><a href="#对活动变量的其他使用">对活动变量的其他使用</a></li>
+          </ul>
+        </li>
+        <li><a href="#全局代码置放">全局代码置放</a></li>
+      </ul>
+    </li>
+    <li><a href="#过程间优化">过程间优化</a>
+      <ul>
+        <li><a href="#内联替换">内联替换</a></li>
+        <li><a href="#过程置放">过程置放</a></li>
+        <li><a href="#针对过程间优化的编译器组织结构">针对过程间优化的编译器组织结构</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">优化简介</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="09-23">09-23</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="10-07">10-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 11330 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 23 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#优化背景">优化背景</a>
+      <ul>
+        <li><a href="#示例-改进数组的地址计算">示例：改进数组的地址计算</a></li>
+        <li><a href="#示例-改进循环嵌套">示例：改进循环嵌套</a></li>
+        <li><a href="#对优化的考虑">对优化的考虑</a></li>
+      </ul>
+    </li>
+    <li><a href="#优化的范围">优化的范围</a></li>
+    <li><a href="#局部优化">局部优化</a>
+      <ul>
+        <li><a href="#局部值编号">局部值编号</a>
+          <ul>
+            <li><a href="#lvn-算法">LVN 算法</a></li>
+            <li><a href="#扩展-lvn-算法">扩展 LVN 算法</a></li>
+          </ul>
+        </li>
+        <li><a href="#树高平衡">树高平衡</a>
+          <ul>
+            <li><a href="#寻找候选树">寻找候选树</a></li>
+            <li><a href="#重构程序块使之平衡">重构程序块使之平衡</a></li>
+            <li><a href="#树高平衡算法的例子">树高平衡算法的例子</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#区域优化">区域优化</a>
+      <ul>
+        <li><a href="#超局部值编号">超局部值编号</a></li>
+        <li><a href="#循环展开">循环展开</a></li>
+      </ul>
+    </li>
+    <li><a href="#全局优化">全局优化</a>
+      <ul>
+        <li><a href="#利用活动信息查找未初始化变量">利用活动信息查找未初始化变量</a>
+          <ul>
+            <li><a href="#定义数据流问题">定义数据流问题</a></li>
+            <li><a href="#解决这个数据流问题">解决这个数据流问题</a></li>
+            <li><a href="#查找未初始化的变量">查找未初始化的变量</a></li>
+            <li><a href="#对活动变量的其他使用">对活动变量的其他使用</a></li>
+          </ul>
+        </li>
+        <li><a href="#全局代码置放">全局代码置放</a></li>
+      </ul>
+    </li>
+    <li><a href="#过程间优化">过程间优化</a>
+      <ul>
+        <li><a href="#内联替换">内联替换</a></li>
+        <li><a href="#过程置放">过程置放</a></li>
+        <li><a href="#针对过程间优化的编译器组织结构">针对过程间优化的编译器组织结构</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="优化背景" class="headerLink">
+    <a href="#%e4%bc%98%e5%8c%96%e8%83%8c%e6%99%af" class="header-mark"></a>优化背景</h2><p>上世纪 80 年代早期优化在编译器开发中还是一个可选特性，一般在其他部分都完成后才会添加到编译器中。因此出现了​<strong>调试编译器</strong>​和​<strong>优化编译器</strong>​的区别，即前者强调编译速度，因此可执行代码与源码之间存在较强的对应关系；后者强调最小化或最大化可执行程序的某些属性。因此优化编译器会花费更多时间来编译，生成质量更好的代码，通常这个过程伴随着大量移动操作，使调试变得困难。</p>
+<p>从 RISC 开始流行，运行时性能开始需要编译器的优化。分支指令的延迟槽、非阻塞内存操作、流水线使用的增多以及功能单元数目的增加等，这些特性使得处理器性能不仅收程序布局和结构方面的制约，还受到指令调度和资源分配等底层细节的限制。</p>
+<p>优化编译器现在变得司空见惯 (反而 go 是异类)，进而使编译器改变成了前端、后端的架构，优化将前端与性能问题分割开来。优化假定后端会处理资源分配的问题，因而假定针对具有无限寄存器、内存和功能单元的理想机器进行优化。这也对编译器后端产生了更大压力。</p>
+<h3 id="示例-改进数组的地址计算" class="headerLink">
+    <a href="#%e7%a4%ba%e4%be%8b-%e6%94%b9%e8%bf%9b%e6%95%b0%e7%bb%84%e7%9a%84%e5%9c%b0%e5%9d%80%e8%ae%a1%e7%ae%97" class="header-mark"></a>示例：改进数组的地址计算</h3><p>如果编译器前端对数组的引用 <code>m[i, j]</code>​ 生成的 IR 没有关于 m、i、j 的信息或不了解外围的上下文，编译器如果按照默认的行主序处理地址。生成的表达式类似</p>
+<p>\[m + (i - low_{1}(m)) \times (high_{2}(m) - low_{2}(m) + 1) \times w + (j - low_{2}(m)) \times
+w.\]</p>
+<p>m 是数组的首地址，\(low_{i}(m)\) 和 \(high_{i}(m)\) 分别表示 m 的第 i 维的下界和上界，w 是 m 中一个元素的字节长度。如何降低该计算的代价，直接取决于对该数组变量极其上下文的分析。如果数组 m 是局部变量并各维度下界均从 1 开始，且上界已知，那么就可以将计算简化为
+\[m + (i - 1) \times high_{2}(m) \times w + (j - 1) \times w.\]</p>
+<p>如果引用出现在循环内部，且循环中 i 从 1 变动到 I，那么编译器可以使用​<strong>运算符强度折减</strong> (OSR, Operator Strength Reduction) 将 \((i - 1) \times high_{2}(m) \times
+w\) 替换为 \(i^{&rsquo;}_{x} = i^{&rsquo;}_{x - 1} + high_{2}(m) \times w\) (其中 \(i^{&rsquo;}_{1} =
+0\))。同样地，如果 j 也是个循环的归纳变量 (IV, Induction Variable)，且 j 从 1 变动到 J，那么经过 OSR 后就有了 \(j^{&rsquo;}_{y} = j^{&rsquo;}_{y - 1} + w\) (其中
+\(j^{&rsquo;}_{1} = 0\))。经过两次 OSR 后，只需要计算此式
+\[m + i^{&rsquo;} + j^{&rsquo;}.\]</p>
+<h3 id="示例-改进循环嵌套" class="headerLink">
+    <a href="#%e7%a4%ba%e4%be%8b-%e6%94%b9%e8%bf%9b%e5%be%aa%e7%8e%af%e5%b5%8c%e5%a5%97" class="header-mark"></a>示例：改进循环嵌套</h3><p>LINPACK 是一个线性代数库的数值计算库，当然现在也是一个不错的性能测试库。其中的
+dmxpy 是一个经典的能够说明上下文作用的例子。源码可以在<a href="https://github.com/llvm/llvm-test-suite/blob/main/SingleSource/Benchmarks/Linpack/linpack-pc.c#L1125" target="_blank" rel="noopener noreferrer">这里</a>找到。</p>
+<p>代码主要是 dmxpy 的主循环部分 (这个小括号，它是 lisp!)。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @prototype
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * void dmxpy(n1, y, n2, ldm, x, m)
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * REAL y[], x[], m[];
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * int n1, n2, ldm;
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @purpose
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * multiply matrix m times vector x and add the result to vector y.
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @parameters
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * n1   integer, number of elements in vector y, and number of rows in
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *      matrix m
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * y    double [n1], vector of length n1 to which is added
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *      the product m*x
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * n2   integer, number of elements in vector x, and number of columns
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *      in matrix m
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * ldm  integer, leading dimension of array m
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * x    double [n2], vector of length n2
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * m    double [ldm][n2], matrix of n1 rows and n2 columns
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @note
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * We would like to declare m[][ldm], but c does not allow it.  In this
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * function, references to m[i][j] are written m[ldm*i+j].
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* main loop - groups of sixteen vectors */</span>
+</span></span><span class="line"><span class="cl"><span class="n">jmin</span> <span class="o">=</span> <span class="p">(</span><span class="n">n2</span> <span class="o">%</span> <span class="mi">16</span><span class="p">)</span> <span class="o">+</span> <span class="mi">16</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="n">jmin</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n2</span><span class="p">;</span> <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">16</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">((((((((((((((((</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">15</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">15</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">])</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">			     <span class="n">x</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">14</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">14</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">])</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">			    <span class="n">x</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">13</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">13</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">])</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">			   <span class="n">x</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">12</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">12</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">])</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">			  <span class="n">x</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">11</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">11</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">])</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">			 <span class="n">x</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">10</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">])</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">			<span class="n">x</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">9</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">9</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">])</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">		       <span class="n">x</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">8</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">8</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">])</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">		      <span class="n">x</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">7</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">7</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">])</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">		     <span class="n">x</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">6</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">])</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">		    <span class="n">x</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">])</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">		   <span class="n">x</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">])</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">		  <span class="n">x</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">])</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">		 <span class="n">x</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">])</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">		<span class="n">x</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">])</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">	    <span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="n">j</span> <span class="o">+</span> <span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>作者为提高性能将外层的循环展开了 16 次，这消除了 15 次额外的加法与绝大多数 load
+/ store 操作。为了应对其他情况，在主循环之上，还分别处理了 1、2、4、8 列的情况，保证最终待处理的列为 16 的倍数。</p>
+<p>当然，可以将其简化为我们常写的样子。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n2</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">ldm</span> <span class="o">*</span> <span class="n">j</span> <span class="o">+</span> <span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>理想情况下编译器可以将普通的循环变换为这种高效的版本，或某种适用于目标机的形式。但是，编译器不能保证有目标机所需的所有优化。进行手工循环展开可以为多种目标机提供良好的性能。但从编译器的角度看，循环展开有 16 个关于 m 的表达式、15 个关于 x 的表达式，以及一个关于 y 的表达式。如果编译器不能简化地址计算，将产生大量的整数计算。</p>
+<p>由于循环中并不会改变 x 的值，因此可以将 x 的地址计算与 load 移出内循环。另外就是将 x 的基址保存在寄存器中，也能节省很大一部分开销。对引用 x 中的元素 \(x[j -
+k]\)，地址计算就是 \(x + (j - k) * w\)，进一步化简 \(x + jw - kw\)，也就是说循环展开后，每次 x 的基址为 \(x + jw\)，load 操作将有相同的基址和不同的偏移量。</p>
+<p>虽然 m 的元素也不会被改变，但是每次内循环都会改变引用的元素，因此无法将 load 运算外提来削减 load 带来的开销。但是同理可以使用相同基址的方法减少计算的消耗。</p>
+<h3 id="对优化的考虑" class="headerLink">
+    <a href="#%e5%af%b9%e4%bc%98%e5%8c%96%e7%9a%84%e8%80%83%e8%99%91" class="header-mark"></a>对优化的考虑</h3><p>优化变换的核心就是两个问题 &ndash; <strong>安全性</strong> 和 <strong>可获利性</strong>​。安全性就是保证变换将保持程序原有的语义，而可获利性就是保证变换是有利可图的。如果不能同时满足时，那么编译器就不应该采用该变换。</p>
+<p>一般来说可供优化编译器利用的时机有几种不同的来源</p>
+<ul>
+<li><strong>减少抽象开销</strong>​，程序设计语言引入的数据结构和类型需要运行时支持，优化器可以通过分析和变换来减少这种开销。</li>
+<li><strong>利用特性</strong>​，通常编译器可以利用操作执行时所处上下文的相关信息，来特化该操作。</li>
+<li><strong>将代码与系统资源匹配</strong></li>
+</ul>
+<hr>
+<h2 id="优化的范围" class="headerLink">
+    <a href="#%e4%bc%98%e5%8c%96%e7%9a%84%e8%8c%83%e5%9b%b4" class="header-mark"></a>优化的范围</h2><p>优化可以在不同粒度或范围上运行。主要有四种范围：局部的、区域性的、全局的和整个程序。</p>
+<ul>
+<li>
+<p><strong>局部方法</strong></p>
+<p>局部方法作用于单个 BB，在不考虑异常的情况下，BB 有两个重要性质：语句是顺序执行的；如果任一语句执行，那么整个块必将执行。因此编译器可以在局部获得更有利于优化的信息。</p>
+</li>
+<li>
+<p><strong>区域性方法</strong></p>
+<p>区域性方法的作用范围大于单个 BB，但小于一个完整的过程。编译器通常采用 <strong>扩展基本程序块</strong> (EBB, Extended Basic Block) 的 BB 集合来考察一个区域，从而得出一些有利于优化的信息。</p>
+<p>区域性方法将变换的范围限制到小于整个过程的区域上，使得编译器将工作重点集中在频繁执行的语句上。并且可以针对不同的区域采用不同的优化策略。</p>
+</li>
+<li>
+<p><strong>全局方法</strong> (过程内方法)</p>
+<p>局部最优解在全局范围下不一定是全局最优解，过程为编译器提供了一个自然的边界，封装和隔离了运行时环境，并且有些系统中过程也充当了编译的单位。通常过程内方法构建过程的表示 (如 CFG)，并分析该表示，在分析之后根据信息来完成具体的变换。借助过程内视图，可以发现一些局部方法和区域性方法都无发发现的优化时机。</p>
+</li>
+<li>
+<p><strong>全程序方法</strong> (过程间方法)</p>
+<p>通常过程间分析和优化作用于调用图，经典的例子是 <span class="underline">内联替换</span> (inline
+substitution) 和 <span class="underline">过程间常数传递</span> (interprocedural constant propagation)。</p>
+</li>
+</ul>
+<div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>扩展基本程序块 (EBB, Extended Basic Block) 是一组基本程序块的最大集合：</p>
+<ul>
+<li>只有第一个 BB 可以拥有多个前驱结点</li>
+<li>集合中的其余结点只能拥有一个前驱结点</li>
+</ul>
+</div>
+        </div>
+    </div>
+<p>如图，可以将这个 CFG 划分为 3 个 EBB：​\(\{B_{0}, B_{1}, B_{2}, B_{3}, B_{4}\}\)、
+\(\{B_{5}\}\) 和 \(\{B_{6}\}\)。</p>
+<figure><img src="/images/cfg-example.svg"/>
+</figure>
+
+<hr>
+<h2 id="局部优化" class="headerLink">
+    <a href="#%e5%b1%80%e9%83%a8%e4%bc%98%e5%8c%96" class="header-mark"></a>局部优化</h2><p>局部优化是编译器能够使用的最简单且非常有效的优化方法。常用的手法是</p>
+<ul>
+<li>局部值编号 (local value numbering)，通过重用此前计算过的值来替换冗余的求值</li>
+<li>树高平衡 (tree-height balancing)，用于重新组织表达式树，揭示更多指令层级的并行性</li>
+</ul>
+<h3 id="局部值编号" class="headerLink">
+    <a href="#%e5%b1%80%e9%83%a8%e5%80%bc%e7%bc%96%e5%8f%b7" class="header-mark"></a>局部值编号</h3><p>就像之前提到的名字对编译器的影响，消除冗余计算的同时，也会扩展或缩短相关变量的生命周期。假定所有冗余消除是有利可图的，最古老且强大的方法就是局部值编号 (LVN,
+Local Value Numbering)。</p>
+<p>另外需要主要的是，LVN 旨在消除冗余计算，因此每次对相应值的使用都会对生命周期进行延长或缩短。如将 \(d\leftarrow{}a-d\) 替换为 \(d\leftarrow{}b\) 会增长 b 的生命周期，但会减少 a 或
+d 的生命周期。</p>
+<h4 id="lvn-算法" class="headerLink">
+    <a href="#lvn-%e7%ae%97%e6%b3%95" class="header-mark"></a>LVN 算法</h4><p>算法遍历 BB，并为程序块计算的每个值分配一个不同的编号。算法会为值选择编号，使得给定两个表达式 \(e_{i}\) 和 \(e_{j}\)，当且仅当表达式的所有可能的运算对象，都可以验证 \(e_{i}\) 和 \(e_{j}\) 具有相等的值时，二者具有相同的值编号。</p>
+<p>LVN 算法的输入是一个具有 n 个二元运算的基本程序块，每个运算形如 \(T_{i} \leftarrow{}
+L_{i}\ [Op_{i}]\ [R_{i}]\)，算法按顺序考察每个运算。通常使用散列表将名字、常数和表达式映射到不同的值编号。为处理第 i 个运算，LVN 在散列表中查找 \(L_{i}\) 和
+\(R_{i}\)，并获取二者对应的值编号。如果找到对应的表项就使用该值编号；否则，创建一个新的表项并分配一个新的值编号。</p>
+<p>\(L_{i}\) 和 \(R_{i}\) 的值编号分别记作 \(VN(L_{i})\) 和 \(VN(R_{i})\)，LVN 基于表达式 \(&lt;VN(L_{i}),\ Op_{i},\ VN(R_{i})&gt;\) 构造散列键，并查找该键。如果存在对应的表项则说明该表达式是冗余的；否则认为是第一次计算该表达式，算法为对应的表达式键创建对应的表项，并分配一个新的值编号。</p>
+<div class="verse">
+<p>for <code>expr</code> in BasicBlock do<br />
+    get the value number \(VN(L_{i})\) and \(VN(R_{i})\)<br />
+    construct a hash key <code>h</code> from <code>expr</code> (using \(Op_{i}\), \(VN(L_{i})\) and \(VN(R_{i})\))<br />
+    if <code>h</code> is already present in the table then<br />
+        replace operation value into \(T_{i}\)<br />
+        associate the value number with \(T_{i}\)<br />
+    else<br />
+        insert a new value number into table at the hash key location<br />
+        record the new value for \(T_{i}\)<br />
+    end<br />
+end<br /></p>
+</div>
+<h4 id="扩展-lvn-算法" class="headerLink">
+    <a href="#%e6%89%a9%e5%b1%95-lvn-%e7%ae%97%e6%b3%95" class="header-mark"></a>扩展 LVN 算法</h4><p>LVN 还可以进行其他几种局部优化</p>
+<ul>
+<li><strong>交换运算</strong>​，对于可交换的运算来说，如果仅运算操作数的顺序不同，它们将分配相同的值编号</li>
+<li><strong>常量合并</strong>​，如果一个运算的所有运算对象都是已知的常数项，那么 LVN 可以在编译时计算并将结果进行合并。</li>
+<li><strong>代数恒等式</strong>​，LVN 可以用代数恒等式来简化代码。如 \(x+0\) 和 \(x\) 应该分配相同的编号。</li>
+</ul>
+<div class="verse">
+<p>for <code>expr</code> in BasicBlock, do<br />
+    get the value number \(VN(L_{i})\) and \(VN(R_{i})\)<br />
+    if \(L_{i}\) and \(R_{i}\) are both constant then<br />
+        evaluate \(L_{i}\) and \(R_{i}\)<br />
+        assign the result to \(T_{i}\)适当的特定邮寄气得方法进行编码<br />
+    if <code>h</code> is already present in the table, then<br />
+        replace operation value into \(T_{i}\)<br />
+        associate the value number with \(T_{i}\)<br />
+    else<br />
+        insert a new value number into table at the hash key location<br />
+        record the new value for \(T_{i}\)<br />
+    end<br />
+end<br /></p>
+</div>
+<h3 id="树高平衡" class="headerLink">
+    <a href="#%e6%a0%91%e9%ab%98%e5%b9%b3%e8%a1%a1" class="header-mark"></a>树高平衡</h3><p>编译器对一个计算进行编码的具体细节会影响到编译器优化该计算的能力，许多现代处理器有多个功能单元，因而可以在每个周期中执行多个独立的操作。如果编译器可以通过对指令流的编排使之包含独立的多个操作，并适合于特定机器，那么应用程序会运行得更快。</p>
+<p>如代码 <code>a + b + c + d + e + f + g + h</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="c1">;; LLVM IR</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%1</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%a,</span> <span class="nv">%b</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%2</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%1,</span> <span class="nv">%c</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%3</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%2,</span> <span class="nv">%d</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%4</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%3,</span> <span class="nv">%e</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%5</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%4,</span> <span class="nv">%f</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%6</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%5,</span> <span class="nv">%g</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%7</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%6,</span> <span class="nv">%h</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对于该代码，可以左递归求值生成一棵左结合树，亦或右递归语法建立右结合树。但是建立一棵平衡树可以减少递归求值的约束，比如左结合树中 \(a+b\) 必须在涉及 g  或 h 的加法之前执行。</p>
+<figure><img src="/images/tree-height-balance-example.svg"/>
+</figure>
+
+<p>如果处理器每次可执行多个加法，左、右结合的树只能依次调度，而平衡树代码可以并行调度。这种优化利用了结合律和交换律，揭示表达式求值中的指令级并行，从而改进执行时间。</p>
+<p>如果将树高平衡转换为算法，算法分为 <strong>分析</strong> 和 <strong>转换</strong> 两个步骤：</p>
+<ol>
+<li>识别程序块中的候选表达式树。候选表达式树的运算符必须是相同的，且必须是可交换的和可结合的。同样，候选表达式树内部结点的每个名字都必须刚好是用一次。</li>
+<li>对于每个候选树，算法将找到所有的运算对象，并将所有运算对象输入到一个优先队列，按等级递增的次序排列。</li>
+</ol>
+<h4 id="寻找候选树" class="headerLink">
+    <a href="#%e5%af%bb%e6%89%be%e5%80%99%e9%80%89%e6%a0%91" class="header-mark"></a>寻找候选树</h4><p>一个基本程序块由一个或多个混合计算组成，编译器可以将其中的 IR 解释成一个 DDG，该图记录了值的流动和对各个操作的执行顺序约束。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="c1">;; LLVM IR</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%t</span> <span class="nf">=</span> <span class="nv">mul</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%a,</span> <span class="nv">%b</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%u</span> <span class="nf">=</span> <span class="nv">sub</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%c,</span> <span class="nv">%d</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%v</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%t,</span> <span class="nv">%u</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%w</span> <span class="nf">=</span> <span class="nv">mul</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%t,</span> <span class="nv">%u</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>一般地，DDG 不会形成一棵树，而是由多棵树交织组成。平衡算法所需的各种候选表达式树都是 DDG 中的不同子集。</p>
+<figure><img src="/images/tree-height-balance-ddg-and-trees.svg"/>
+</figure>
+
+<p>在算法重排各个运算对象时，规模较大的候选树能够提供更多的重排机会。因此，算法试图构造最大规模的候选树。概念上算法找到每个候选树都可以看作是一个 n 元运算符 (n 尽可能大)。因此某些因素会限制候选树的规模</p>
+<ol>
+<li>树不可能大过它表示的程序块</li>
+<li>重写无法改变程序程序块的 <code>可观察量</code>​，即程序块以外使用的任何值都必须像原来的代码中那样计算，且保留其值。类似地，任何在程序块中使用多次的值都必须保留</li>
+<li>树反向扩展时不能超过程序块的起始位置</li>
+</ol>
+<div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">如果一个值在某个代码片段之外是可读取的，那么该值相对于该代码片段是可观察的。</div>
+        </div>
+    </div>
+<p>在查找树阶段，对程序中定义的名字 \(T_{i}\) 都需要知道何处引用了 \(T_{i}\)，因此算法包括一个 \(Uses(T_{i})\) 的集合，即使用了 \(T_{i}\) 的操作、指令的索引。</p>
+<p>算法首先遍历程序块中的各个操作，判断每一个操作是否一定要将该操作作为其自身所属树的根结点。找到根节点时，会将该操作定义的名字添加到一个由名字组成的优先队列中，该队列按根结点运算符的优先级排序。假定操作 i 形如 \(T_{i}\leftarrow{}L_{i}\,Op_{i}\,R_{i}\)，且 \(Op_{i}\) 是可交换和可结合的。那么下列条件之一成立时，将 \(Op_{i}\) 标记的为根结点，并将其加入优先队列。</p>
+<ol>
+<li>如果 \(T_{i}\) 使用多次，那么操作 i 必须被标记为根结点，以确保对所有使用
+\(T_{i}\) 的操作，\(T_{i}\) 都是可用的，对 \(T_{i}\) 的多次使用使之成为一个可观察量。</li>
+<li>如果 \(T_{i}\) 只在操作 j 中使用一次，但 \(Op_{i}\,\ne\,Op_{j}\)，那么操作 i
+必是根结点，因为它不可能是包含 \(Op_{j}\) 的树的一部分。</li>
+</ol>
+<div class="verse">
+<p>roots = priority queue of names<br />
+for i in range(0, n - 1), rank(\(T_{i}\)) = -1 do<br />
+    if \(Op_{i}\) is <em>commutative</em> and <em>associative</em> and<br />
+       (\(\lvert{Uses(T_{i})}\rvert\) &gt; 1 or (\(\lvert{Uses(T_{i})}\rvert\) = 1 and \(Op_{Uses(T_{i})} \ne Op_{i}\))) then<br />
+        mark \(T_{i}\) as a root<br />
+        Enqueue(roots, \(T_{i}\), precedence of \(Op_{i}\))<br />
+    end<br />
+end<br /></p>
+</div>
+<h4 id="重构程序块使之平衡" class="headerLink">
+    <a href="#%e9%87%8d%e6%9e%84%e7%a8%8b%e5%ba%8f%e5%9d%97%e4%bd%bf%e4%b9%8b%e5%b9%b3%e8%a1%a1" class="header-mark"></a>重构程序块使之平衡</h4><p>接下来算法以候选树根结点的队列作为输入，并根据每个根结点建立一个大体的平衡树。这个阶段使用三个模块：Balance、Flatten、Rebuild。</p>
+<div class="verse">
+<p>while Roots is not empty do<br />
+    var = Dequeue(Roots)<br />
+    Balance(var)<br />
+end<br /></p>
+</div>
+<p>Balance 对根结点进行操作，分配一个新的优先队列来容纳当前树的所有操作数，使用
+Flatten 递归遍历树，为每个操作数指派等级并将其添加到队列中。</p>
+<div class="verse">
+<p>Balance(root)<br />
+    if Rank(root) &gt;= 0 then<br />
+        return<br />
+    end<br />
+<br />
+    q = new queue of names<br />
+    Rank(root) = Flatten(\(L_{i}\), q) + Flatten(\(R_{i}\), q)<br />
+    Rebuild(q, \(Op_{i}\))<br />
+end<br />
+<br />
+Flatten(var, q)<br />
+    if var is a constant then<br />
+        Rank(var) = 0<br />
+        Enqueue(q, var, Rank(var))<br />
+    else if var \(\in\) UEVar(b) then<br />
+        Rank(var) = 1<br />
+        Enqueue(q, var, Rank(var))<br />
+    else if var is a root then<br />
+        Balance(var)<br />
+        Enqueue(q, var, Rank(var))<br />
+    else<br />
+        Flatten(\(L_{j}\), q)<br />
+        Flatten(\(R_{j}\), q)<br />
+    end<br />
+    return Rank(var)<br />
+end<br /></p>
+</div>
+<p>Rebuild 使用了一个简单的算法来构造新的代码序列，它重复从树中移除两个等级最低的项。该函数将输出一个操作来合并这两项。它会为结果分配一个等级，然后将结果插回到优先队列中，直到队列为空。</p>
+<div class="verse">
+<p>Rebuild(q, op)<br />
+    while q is not empty do<br />
+        NL = Dequeue(q)<br />
+        NR = Dequeue(q)<br />
+        if NL and NR are both constants then<br />
+            NT = Fold(op, NL, NR)<br />
+            if q is empty then<br />
+                # root = NT<br />
+                Rank(root) = 0<br />
+            else<br />
+                Enqueue(q, NT, 0)<br />
+                Rank(NT) = 0<br />
+            end<br />
+        else<br />
+            if q is empty then<br />
+                NT = root<br />
+            else<br />
+                NT = new name<br />
+            end<br />
+            # NT = NL op NR<br />
+            Rank(NT) = Rank(NL) + Rank(NR)<br />
+            if q is not empty then<br />
+                Enqueue(q, NT, Rank(NT))<br />
+            end<br />
+        end<br />
+    end<br />
+end<br /></p>
+</div>
+<p>在该算法中，有些细节：</p>
+<ol>
+<li>在遍历候选树时，Flatten 可能会遇到另一棵树的根结点。它会递归调用 Balance 而非 Flatten，一边为候选子树的根结点创建一个新的优先队列，并确保编译器在输出引用子树值的代码之前，先对优先级较高的子树输出代码。</li>
+<li>程序块由三种引用：常数、本程序块中先定义后使用的名字、向上展现的名字。
+Flatten 例程分别处理每种情形。</li>
+<li>算法设计常数等级为零，因此常数可以移动到队列前端，用 Fold 进行编译期对常数进行计算，并到新的名字加入到树中。叶结点的等级为 1，内部结点的等级等于其所在子树所有结点等级之和。这种指派等级的方法将生成一种近似于平衡二叉树的树状结构。</li>
+</ol>
+<h4 id="树高平衡算法的例子" class="headerLink">
+    <a href="#%e6%a0%91%e9%ab%98%e5%b9%b3%e8%a1%a1%e7%ae%97%e6%b3%95%e7%9a%84%e4%be%8b%e5%ad%90" class="header-mark"></a>树高平衡算法的例子</h4><p>回到表达式 \(a + b + c + d + e + f + g + h\)，重新看看 IR</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="c1">;; LLVM IR</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%1</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%a,</span> <span class="nv">%b</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%2</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%1,</span> <span class="nv">%c</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%3</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%2,</span> <span class="nv">%d</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%4</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%3,</span> <span class="nv">%e</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%5</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%4,</span> <span class="nv">%f</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%6</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%5,</span> <span class="nv">%g</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%7</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%6,</span> <span class="nv">%h</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>假设只有 <code>%7</code> 在程序块之外使用，那么只有 <code>Uses(%7) &gt; 1</code>​，因此只有 <code>%7</code> 被作为候选树的根。平衡时扁平化树将会得到以下队列
+\[&lt;h, 1&gt;, &lt;g, 1&gt;, &lt;f, 1&gt;, &lt;e, 1&gt;, &lt;d, 1&gt;, &lt;c, 1&gt;, &lt;b, 1&gt;, &lt;a, 1&gt;.\]</p>
+<p>Rebuild 会从队列中取出 \(&lt;h, 1&gt;\) 和 \(&lt;g, 1&gt;\) 然后将 \(&lt;n_{0}, 2&gt;\) 加入队列。
+\[&lt;f, 1&gt;, &lt;e, 1&gt;, &lt;d, 1&gt;, &lt;c, 1&gt;, &lt;b, 1&gt;, &lt;a, 1&gt;, &lt;n_{0}, 2&gt;.\]</p>
+<p>Rebuild 构建四次后，队列将成为以下
+\[&lt;n_{0}, 2&gt;, &lt;n_{1}, 2&gt;, &lt;n_{3}, 2&gt;, &lt;n_{4}, 2&gt;.\]</p>
+<p>接下来一直构建，直到队列为空。最终可以生成一个树平衡的 IR。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="c1">;; LLVM IR</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%1</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%a,</span> <span class="nv">%b</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%2</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%c,</span> <span class="nv">%d</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%3</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%e,</span> <span class="nv">%f</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%4</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%g,</span> <span class="nv">%h</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%5</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%1,</span> <span class="nv">%2</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%6</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%3,</span> <span class="nv">%4</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%7</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%5,</span> <span class="nv">%6</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>现在看另一个例子，表达式即
+\[\begin{aligned}
+t1 &amp;= 13 + a + b + 4\\
+t2 &amp;= t1 * c * 3 * d\\
+t3 &amp;= e + f + g + h\\
+t4 &amp;= t1 * (e + f)\\
+t5 &amp;= t1 + t3
+\end{aligned}\]</p>
+<p>转化为 IR</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="c1">;; LLVM IR</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">%1</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%a,</span> <span class="mi">13</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">%2</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%1,</span> <span class="nv">%b</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">%3</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%2,</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">%4</span> <span class="nf">=</span> <span class="nv">mul</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%3,</span> <span class="nv">%c</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">%5</span> <span class="nf">=</span> <span class="nv">mul</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%4,</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">%6</span> <span class="nf">=</span> <span class="nv">mul</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%5,</span> <span class="nv">%d</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">%7</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%e,</span> <span class="nv">%f</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">%8</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%7,</span> <span class="nv">%g</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">%9</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%8,</span> <span class="nv">%h</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%10</span> <span class="nf">=</span> <span class="nv">mul</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%3,</span> <span class="nv">%7</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%11</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%3,</span> <span class="nv">%9</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>依然第一步寻找候选树的根。算法会选出 5 个根：​<code>%3</code>​、​<code>%6</code>​、​<code>%7</code>​、​<code>%10</code> 以及 <code>%11</code></p>
+<figure><img src="/images/tree-height-balance-second-example.svg"/>
+</figure>
+
+<p>开始从根结点平衡候选树。需要注意的是，在平衡 <code>%11</code> 的候选树时，其中 <code>%3</code> 和 <code>%7</code> 是各自候选树的根，因此会对它们调用 Balance 分别平衡。\(Balance(\%3)\) 所构造的队列
+\[&lt;4, 0&gt;, &lt;13, 0&gt;, &lt;b, 1&gt;, &lt;a, 1&gt;.\]</p>
+<p>因此可以根据 Rebuild 可以构造出 <code>%3</code> 的 IR 类似</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="c1">;; LLVM IR</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">%1</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%b,</span> <span class="mi">17</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%t3</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%1,</span> <span class="nv">%a</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最终可以得到平衡后的树</p>
+<figure><img src="/images/tree-height-balance-second-balanced-example.svg"/>
+</figure>
+
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="c1">;; LLVM IR</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">%1</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%b,</span> <span class="mi">17</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">%t3</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%1,</span> <span class="nv">%a</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">%t7</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%e,</span> <span class="nv">%f</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">%2</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%h,</span> <span class="nv">%g</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">%3</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%2,</span> <span class="nv">%t7</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%t11</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%3,</span> <span class="nv">%t3</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%t10</span> <span class="nf">=</span> <span class="nv">mul</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%t7,</span> <span class="nv">%t3</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">%4</span> <span class="nf">=</span> <span class="nv">mul</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%c,</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">%5</span> <span class="nf">=</span> <span class="nv">mul</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%4,</span> <span class="nv">%d</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">%t6</span> <span class="nf">=</span> <span class="nv">mul</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%5,</span> <span class="nv">%t3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="区域优化" class="headerLink">
+    <a href="#%e5%8c%ba%e5%9f%9f%e4%bc%98%e5%8c%96" class="header-mark"></a>区域优化</h2><p>低效性不止出现在单个 BB 中，一个 BB 可能为改进另一个 BB 提供上下文环境。因此大多数优化也会考察多个 BB 的上下文，这也就是区域优化。</p>
+<h3 id="超局部值编号" class="headerLink">
+    <a href="#%e8%b6%85%e5%b1%80%e9%83%a8%e5%80%bc%e7%bc%96%e5%8f%b7" class="header-mark"></a>超局部值编号</h3><p>命名一直是编译器中的一个重点项目，LVN 是在单个 BB 内的命名方法，超局部值编号
+(SVN, Superlocal Value Numbering) 则是扩展到 EBB 中进行命名的方法。</p>
+<p>回到<a href="#%e4%bc%98%e5%8c%96%e7%9a%84%e8%8c%83%e5%9b%b4" rel="">优化的范围</a>所提到的 EBB 示例，先聚焦到第一个 EBB ​\(\{B_{0}, B_{1}, B_{2},
+B_{3}, B_{4}\}\) 上，SVN 可以将 3 条路径中的每一条路径都当作一个单个 BB 进行处理，也就是说，在处理时 \(\{B_{0}, B_{1}\}\)、\(\{B_{0}, B_{2}, B_{3}\}\) 和
+\(\{B_{0}, B_{2}, B_{4}\}\) 都被当作线性代码。比如在处理 \(\{B_{0}, B_{1}\}\) 时，编译器先将 LVN 算法应用到 \(B_{0}\) 上，然后将生成的散列表按 BB 顺序用 LVN 算法应用到 \(B_{1}\) 上。</p>
+<div class="details admonition warning open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-exclamation-triangle fa-fw"></i>警告<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">因此考虑，为何 EBB 只允许第一个 BB 可以有多个前驱，而其他 BB 只允许有一个前驱。</div>
+        </div>
+    </div>
+<p>SVN 可以发现 LVN 可能错过的冗余和常量表达式。但对于分支上的 BB 来说，SVN 算法可能会将一个 BB 分析多次，例如 EBB \(\{B_{0}, B_{1}, B_{2}, B_{3}, B_{4}\}\) 的 3
+个分支，会将 \(B_{0}\) 分析 3 次，将 \(B_{2}\) 分析 2 次。</p>
+<p>为了 SVN 的高效运行，算法必须有一种重用分析结果的方法，比如处理分支 \(\{B_{0},
+B_{2}, B_{4}\}\) 时，需要重用 \(\{B_{0}, B_{2}\}\) 结束时的状态来处理 \(B_{4}\)。而在重用之前，必须撤销 \(\{B_{0}, B_{2}, B_{3}\}\) 所带来的影响。为了高效的撤销，使用作用域化散列表可以有效解决这个问题。在处理每个 BB 时为其分配一个值表，将其连接到前驱程序块的值表 (将前驱块的值表当作外层作用域)，并用这个新的值表与程序块 b
+作为参数使用 LVN 算法。</p>
+<div class="verse">
+<p>WorkList = { entry block }<br />
+Empty = new table<br />
+<br />
+while WorkList is not empty do<br />
+    remove b from WorkList<br />
+    SVN(b, Empty)<br />
+end<br />
+<br />
+SVN(BB, Table)<br />
+    t = new table for BB<br />
+    link Table as the surrounding scope for t<br />
+    LVN(BB, t)<br />
+    for each successor s of BB do<br />
+        if s has only 1 predecessor then<br />
+            SVN(s, t)<br />
+        else if s has not been processed then<br />
+            add s to WorkList<br />
+        end<br />
+    end<br />
+end<br /></p>
+</div>
+<p>还有一个问题，就是名字的值编号是由 EBB 中定义该名字的第一个操作相关联的值表记录的，那么在<a href="#%e4%bc%98%e5%8c%96%e7%9a%84%e8%8c%83%e5%9b%b4" rel="">优化的范围</a>示例中的 CFG，如果 \(B_{0}\)、\(B_{3}\) 和 \(B_{4}\) 中都定义了名字 x，那么其值编号将记录在 \(B_{0}\) 中的作用域化值表中。在处理 \(B_{3}\)
+时，会将它的 x 的新的值编号记录到对应于 \(B_{0}\) 的表中，删除对应于 \(B_{3}\)
+的表并开始处理 \(B_{4}\) 时，由 \(B_{3}\) 定义的值编号依然保留在 \(B_{0}\) 的表中。为了避免这种复杂的情况，编译器可以使用只定义每个名字一次的表示法，也就是 SSA
+所具有的性质。使用 SSA 时可以撤销一个程序块值表的所有影响，恢复到前驱程序块退出时的状态，并且 SSA 还可以使 LVN 更加高效。</p>
+<p>需要注意的是，SVN 虽然可以发现 EBB 中的冗余，但也有局限，例如当一个 BB 有多个前驱时，SVN 无法将上下文信息传入其中。</p>
+<h3 id="循环展开" class="headerLink">
+    <a href="#%e5%be%aa%e7%8e%af%e5%b1%95%e5%bc%80" class="header-mark"></a>循环展开</h3><p>循环展开时最古老、最著名的循环变换，展开一个循环，复制循环体并调整迭代执行数目的逻辑。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kr">for</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="mi">1</span> <span class="kr">do</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="mi">1</span> <span class="kr">do</span>
+</span></span><span class="line"><span class="cl">	<span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">end</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>编译器可以展开内层循环或外层循环，例如展开内层循环会复制循环体，而展开外层循环时会复制多次内层循环。如果编译器之后合并这些内层循环 (循环融合，loop fusion)，先展开外层循环再融合内层循环的变换组合被称为 <strong>展开-轧挤</strong> (unroll-and-jam)。</p>
+<p>循环展开对编译器为给定循环生成的代码有着直接或间接的影响。展开循环可以减少完成循环所需操作的数目，控制流的改变减少了判断和分支代码序列的总数。展开还可以在循环体内部产生重用，减少内存访问。最后，如果循环包含一个复制操作的有环链，那么展开可以消除这些复制。但展开会增大程序的长度，这样可能会增加编译时间，但展开的循环体内部可能影响 Cache，从而导致性能降低。</p>
+<p>循环展开的关键副效应时增加了循环内部的操作数目，一些优化可以利用这些</p>
+<ul>
+<li>增加循环体中独立操作的数目，可以生成更好的指令调度。在操作更多的情况下，指令调度器有更高的几率使多个功能单元保持忙碌，并隐藏长耗时操作 (如分支和访存) 的延迟。</li>
+<li>循环展开可以将连续的内存访问移动到同一迭代中，编译器可以调度这些操作一同执行。这可以提高内存访问的局部性，或利用多字操作进行内存访问。</li>
+<li>展开可以暴露跨迭代的冗余，而这在原来的代码中可能是难以发现的。展开循环后 LVN
+算法可以找到这些冗余并消除。</li>
+<li>与原来的循环相比，展开后的循环能以不同的方式进行优化。如增加一个变量在循环内部出现的次数，可以改变寄存器分配器内部逐出代码选择中使用的权重。改变寄存器逐出的模式，可能在根本上影响到为循环生成的最终代码的速度。</li>
+<li>与原来的循环体相比，展开后的循环体可能会对寄存器有更大的需求。如果对寄存器增加的需求会导致额外的寄存器逐出 (存储到内存和从内存重新加载)，那么由此导致的内存访问代价可能会超出循环展开带来的收益。</li>
+</ul>
+<hr>
+<h2 id="全局优化" class="headerLink">
+    <a href="#%e5%85%a8%e5%b1%80%e4%bc%98%e5%8c%96" class="header-mark"></a>全局优化</h2><p>全局优化处理整个过程或方法，其作用域包括有环的控制流结构 (如循环)，全局优化在修改代码前通常会有一个分析阶段。</p>
+<h3 id="利用活动信息查找未初始化变量" class="headerLink">
+    <a href="#%e5%88%a9%e7%94%a8%e6%b4%bb%e5%8a%a8%e4%bf%a1%e6%81%af%e6%9f%a5%e6%89%be%e6%9c%aa%e5%88%9d%e5%a7%8b%e5%8c%96%e5%8f%98%e9%87%8f" class="header-mark"></a>利用活动信息查找未初始化变量</h3><p>如果过程 p 在为某个变量 v 分配一个值之前能够使用 v 的值，那么就说 v 在这次使用时是为初始化的。通过计算​<strong>活动情况</strong>​的信息，可以找到对未初始化变量的潜在使用。当且仅当
+CFG 中存在一条从 p 到使用 v 的某个位置之间的路径，且 v 在该路径中没有被重新定义，变量 v 在位置 p 处是活动的。通过计算将过程中的每个 BB 对应的活动信息编码到集合
+<code>LiveOut(bb)</code> 中，该集合包含在 BB 退出时的所有活动的变量。</p>
+<p>给定 CFG 入口结点 \(n_{0}\) 的 LiveOut 集合，\(LiveOut(n_{0})\) 中的每个变量都有一次潜在的未初始化使用。</p>
+<h4 id="定义数据流问题" class="headerLink">
+    <a href="#%e5%ae%9a%e4%b9%89%e6%95%b0%e6%8d%ae%e6%b5%81%e9%97%ae%e9%a2%98" class="header-mark"></a>定义数据流问题</h4><p>为了计算 CFG 中结点 n 的 LiveOut，需要使用其后继结点的 LiveOut，以及另外两个集合
+<code>UEVar</code> 和 <code>VarKill</code>​。定义 LiveOut 的方程如下：
+\[LiveOut(n) = \cup_{m\in{}succ(n)} \left( UEVar(m) \cup \left( LiveOut(m) \cap
+\overline{VarKill(m)} \right) \right).\]</p>
+<p><code>UEVar(m)</code> 包含了 m 中向上展现的变量，即那些在 m 中重新定义之前就开始使用的变量。​<code>VarKill(m)</code> 包含了 m 中定义的所有变量，\(\overline{VarKill(m)}\) 则是其补集，即未在 m 中定义的变量的集合。由于 <code>LiveOut(n)</code> 是利用 n 的后继结点来定义的，因此该方程描述了一个​<strong>反向数据流问题</strong>​。</p>
+<h4 id="解决这个数据流问题" class="headerLink">
+    <a href="#%e8%a7%a3%e5%86%b3%e8%bf%99%e4%b8%aa%e6%95%b0%e6%8d%ae%e6%b5%81%e9%97%ae%e9%a2%98" class="header-mark"></a>解决这个数据流问题</h4><p>对一个过程及其 CFG 计算各个结点的 LiveOut 集合，编译器可以使用一个三步算法</p>
+<ol>
+<li>
+<p><strong>构建 CFG</strong>​，这个步骤在概念上很简单</p>
+</li>
+<li>
+<p><strong>收集初始信息</strong>​，分析程序在一趟简单的遍历中分别为每个程序块 b 计算一个 <code>UEVar</code>
+和 <code>VarKill</code> 集合</p>
+<p>为了计算 LiveOut 集合，分析程序需要每个程序块的 UEVar 和 VarKill 集合。一趟处理即可计算出这两个集合。对于每个程序块，分析程序将两个集合都初始化为
+\(\emptyset\)。接下来按从上到下顺序遍历，并适当地更新 UEVar 和 VarKill 集合，以反映程序块的每个操作的影响。</p>
+<div class="verse">
+<p>// x = y op z<br />
+for each block b do<br />
+    Init(b)<br />
+end<br />
+<br />
+Init(b)<br />
+    UEVar(b) = \(\emptyset\)<br />
+    VarKill(b) = \(\emptyset\)<br />
+    for i in range(1, k) do<br />
+        if y \(\notin\) VarKill(b) then<br />
+            add y to UEVar(b)<br />
+        end<br />
+        if z \(\notin\) VarKill(b) then<br />
+            add z to UEVar(b)<br />
+        end<br />
+        add x to VarKill(b)<br />
+    end<br />
+end<br /></p>
+</div>
+</li>
+<li>
+<p><strong>求解方程式，为每个程序块生成 LiveOut 集合</strong></p>
+<p>求解过程需要反复进行，直到所有 LiveOut 集合不再改变为止</p>
+<div class="verse">
+<p>for i in range(0, N - 1), LiveOut(i) = \(\emptyset\) do<br />
+    changed = true<br />
+    while changed do<br />
+        changed = false<br />
+        for i in range(0, N - 1) do<br />
+            recompute LiveOut(i)<br />
+            if LiveOut(i) changed then<br />
+                changed = true<br />
+            end<br />
+        end<br />
+    end<br />
+end<br /></p>
+</div>
+</li>
+</ol>
+<p>比如对于一个控制流图</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="c1">;; IR</span>
+</span></span><span class="line"><span class="cl"><span class="nv">b0:</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">%i</span> <span class="nf">=</span> <span class="nv">i32</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">b1:</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">br</span> <span class="nv">i32</span> <span class="nv">%i,</span> <span class="nv">label</span> <span class="nv">%b3,</span> <span class="nv">label</span> <span class="nv">%b2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">b2:</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">%s</span> <span class="nf">=</span> <span class="nv">i32</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">b3:</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">%s</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%s,</span> <span class="nv">%i</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">%i</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%i,</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">br</span> <span class="nv">i32</span> <span class="nv">%i,</span> <span class="nv">label</span> <span class="nv">%b1,</span> <span class="nv">label</span> <span class="nv">%b4</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">b4:</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">print</span> <span class="nv">i32</span> <span class="nv">%s</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>根据控制流信息可以轻松计算出 VarKill 和 UEVar</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>UEVar</th>
+<th>VarKill</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>b0</td>
+<td>\(\emptyset\)</td>
+<td>{i}</td>
+</tr>
+<tr>
+<td>b1</td>
+<td>{i}</td>
+<td>\(\emptyset\)</td>
+</tr>
+<tr>
+<td>b2</td>
+<td>\(\emptyset\)</td>
+<td>{s}</td>
+</tr>
+<tr>
+<td>b3</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+</tr>
+<tr>
+<td>b4</td>
+<td>{s}</td>
+<td>\(\emptyset\)</td>
+</tr>
+</tbody>
+</table>
+<p>在这个例子中，开始计算每个程序块的 LiveOut。</p>
+<table>
+<thead>
+<tr>
+<th>迭代次数</th>
+<th>LiveOut(b0)</th>
+<th>LiveOut(b1)</th>
+<th>LiveOut(b2)</th>
+<th>LiveOut(b3)</th>
+<th>LiveOut(b4)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>初始</td>
+<td>\(\emptyset\)</td>
+<td>\(\emptyset\)</td>
+<td>\(\emptyset\)</td>
+<td>\(\emptyset\)</td>
+<td>\(\emptyset\)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>{i}</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+<td>\(\emptyset\)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+<td>\(\emptyset\)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+<td>\(\emptyset\)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="查找未初始化的变量" class="headerLink">
+    <a href="#%e6%9f%a5%e6%89%be%e6%9c%aa%e5%88%9d%e5%a7%8b%e5%8c%96%e7%9a%84%e5%8f%98%e9%87%8f" class="header-mark"></a>查找未初始化的变量</h4><p>计算出 CFG 的每个结点的 LiveOut 集合后，查找未初始化变量的使用就变得简单了。如果有一个变量 v，且 \(v \in LiveOut(n_{0})\)，\(n_{0}\) 为 CFG 的入口结点，那么一定存在一条从 \(n_{0}\) 到 v 的某个使用之处的路径，v 在该路径上未被定义。因此编译器可以识别处其中未被初始化的变量。但也有几种可能导致编译器错误的识别。</p>
+<ul>
+<li>v 通过另一个名字初始化</li>
+<li>v 在当前过程被调用之前就已存在</li>
+<li>v 在路径上没有被初始化，但实际上该路径总是不会出现</li>
+</ul>
+<p>如果过程包含对另一过程的调用，且 v 通过允许修改的方式传递给后者，那么分析程序必须考虑调用可能带来的副效应。在缺少被调用者的具体信息时，就需要假定其总是被修改。</p>
+<h4 id="对活动变量的其他使用" class="headerLink">
+    <a href="#%e5%af%b9%e6%b4%bb%e5%8a%a8%e5%8f%98%e9%87%8f%e7%9a%84%e5%85%b6%e4%bb%96%e4%bd%bf%e7%94%a8" class="header-mark"></a>对活动变量的其他使用</h4><p>除了查找未初始化变量外，编译器还可以在许多上下文中使用活动变量</p>
+<ul>
+<li>全局寄存器分配中，活动变量会发挥关键作用，除非值是活动的，否则寄存器分配器不必将其保持在寄存器中；当值从活动转变为不活动时，分配器可以因其他用途重用该寄存器。</li>
+<li>活动变量可以用于改进 SSA 构建：对一个值来说，它不活动的任何程序块中都不需要
+\(\phi\) 函数。用活动变量信息可以显著减少编译器构建程序 SSA 时必须插入 \(\phi\) 函数的数目。</li>
+<li>编译器可以使用活动变量信息发现无用的 store 操作。如果一个操作将 v 存在内从中，如果 v 是不活动的，那么该 store 操作是无用的。</li>
+</ul>
+<h3 id="全局代码置放" class="headerLink">
+    <a href="#%e5%85%a8%e5%b1%80%e4%bb%a3%e7%a0%81%e7%bd%ae%e6%94%be" class="header-mark"></a>全局代码置放</h3><p>很多处理器对分支处理的代价是不对称的：落空分支 (fall-through branch) 的代价要小于采纳分支 (taken branch)。比如一个条件跳转语句，其真条件分支执行频率比假条件分支高得多，那将真条件分支设置为落空分支性能更高。</p>
+<p>为了全局代码置放优化，编译器应该将可能性最高的执行路径置放在落空分支上。其次编译器应该将执行得较不频繁的代码移动到过程末尾。这样可以尽可能生成更长的代码序列。</p>
+<ol>
+<li>
+<p>获取路径剖析数据</p>
+<p>对于全局代码置放优化，编译器需要预估 CFG 中各条边的相对执行频度。从代码的剖析运行 (profiling run) 获取所需的信息。简单地说，就是统计 CFG 中各条边的执行次数，从而获得剖析数据。</p>
+</li>
+<li>
+<p>以链的形式在 CFG 中构建热路径</p>
+<p>编译器为判断如何设置代码布局而构建一个执行最频繁的边的集合，即热路径 (hot
+path)。编译器可以使用贪心算法查找热路径。</p>
+<p>首先为每个程序块创建一条退化的链，其中只包含块本身。接下来遍历 CFG 的各个边，按执行频度的顺序采用各边，使得最频繁的边优先。对于边 \(&lt;x, y&gt;\)，只有当 x 是所在链的最后一个结点，而 y 是所在链的第一个结点时，才会合并这两条链。</p>
+<div class="verse">
+<p>E = edges<br />
+for each block b do<br />
+    make a degenerate chain, d, for b<br />
+    priority(d) = E<br />
+end<br />
+p = 0<br />
+for each CFG edge &lt;x, y&gt;, x != y, in decreasing frequency order do<br />
+    if x is the tail of chain a and y is the head of chain b then<br />
+        t = priority(a)<br />
+        append b onto a<br />
+        priority(a) = min(t, priority(b), p++)<br />
+    end<br />
+end<br /></p>
+</div>
+</li>
+<li>
+<p>进行代码布局</p>
+<p>为生成最终的汇编代码，编译器必须将所有 BB 按一个固定的线性顺序置放。可以根据链集合计算出一个线性布局：</p>
+<ol>
+<li>一个链内部的各 BB 按顺序置放，使链中的边能够通过落空分支实现</li>
+<li>在多个链之间，根据链的优先级选择</li>
+</ol>
+<div class="verse">
+<p>t = chain headed by the CFG entry node<br />
+WorkList = {(t, priority(t))}<br />
+while WorkList != \(\emptyset\) do<br />
+    remove a chain c of lowest priority from WorkList<br />
+    for each block x in c in chain order do<br />
+        place x at the end of the executable code<br />
+    end<br />
+    for each block x in c do<br />
+        for each edge &lt;x, y&gt; where y is unplaced do<br />
+            t = chain containing &lt;x, y&gt;<br />
+            if (t, priority(t)) \(\notin\) WorkList then<br />
+                WorkList = WorkList \(\cup\) { (t, priority(t)) }<br />
+            end<br />
+        end<br />
+    end<br />
+end<br /></p>
+</div>
+</li>
+</ol>
+<hr>
+<h2 id="过程间优化" class="headerLink">
+    <a href="#%e8%bf%87%e7%a8%8b%e9%97%b4%e4%bc%98%e5%8c%96" class="header-mark"></a>过程间优化</h2><p>将一个程序划分为多个过程，可以有效抽象出基础功能的代码，得以复用和抽象功能。但是从负面来看，程序划分限制了编译器理解调用过程内部行为的能力，比如编译器不能假定一个引用传递不会产生副作用。而另一点，过程调用需要转存当前上下文，这是代价巨大的。</p>
+<h3 id="内联替换" class="headerLink">
+    <a href="#%e5%86%85%e8%81%94%e6%9b%bf%e6%8d%a2" class="header-mark"></a>内联替换</h3><p>那编译器可以通过将被调用过程的副本替换到调用位置上，并根据调用位置的上下文调整代码，这种变换称为内联替换 (inline subsitution)。</p>
+<p>在每个调用位置上，编译器必须决定是否内联该调用。一个调用位置上所做的决策可能会影响到其他调用位置上的决策。如 a 调用 b、b 调用 c 的过程，如果内联过程 c，可能会改变内联到 a 中的特征。因此在内联替换时需要一些准则来考察。</p>
+<ul>
+<li><strong>被调用者的规模</strong>​，如果被调用者的代码长度小于进行上下文保存、恢复的长度，那么内联替换可以减少代码长度</li>
+<li><strong>调用者的规模</strong>​，如果希望生成的代码足够的小</li>
+<li><strong>动态调用计数</strong>​，对频繁调用位置上的改进可以提供更大的收益</li>
+<li><strong>常数值实参</strong>​，调用时使用常数值实参，可能产生潜在的代码改进</li>
+<li><strong>静态调用计数</strong>​，编译器跟踪一个过程在不同位置的调用次数</li>
+<li><strong>参数计数</strong>​，参数的数目可以充当过程链接代价的一种表示</li>
+<li><strong>过程中的调用</strong>​，检查调用图的叶结点，通常这是良好的候选内联对象</li>
+</ul>
+<p>编译器会根据一些准则，然后应用一条或一组相应的启发式规则，来决定一个调用是否被内联替换。</p>
+<h3 id="过程置放" class="headerLink">
+    <a href="#%e8%bf%87%e7%a8%8b%e7%bd%ae%e6%94%be" class="header-mark"></a>过程置放</h3><p>与<a href="#%e5%85%a8%e5%b1%80%e4%bb%a3%e7%a0%81%e7%bd%ae%e6%94%be" rel="">全局代码置放</a>类似，根据调用图试图将有调用关系的过程尽可能置放在相邻的位置。</p>
+<h3 id="针对过程间优化的编译器组织结构" class="headerLink">
+    <a href="#%e9%92%88%e5%af%b9%e8%bf%87%e7%a8%8b%e9%97%b4%e4%bc%98%e5%8c%96%e7%9a%84%e7%bc%96%e8%af%91%e5%99%a8%e7%bb%84%e7%bb%87%e7%bb%93%e6%9e%84" class="header-mark"></a>针对过程间优化的编译器组织结构</h3><p>对于传统编译器来说，编译单元可能是单个过程、单个类或单个代码文件，编译器生成的目标代码完全取决于编译单元的内容。到达编译单元边界时，编译器无法链接另一个编译单元中的行为，通常只能使用最坏的结果进行假设优化。</p>
+<p>人们提出了针对过程间优化的不同编译器组织结构：</p>
+<ul>
+<li><strong>扩大编译单元</strong>​，这是最简单的一种解决方法</li>
+<li><strong>链接时优化</strong>​ (Link-Time Optimization)，直接地将过程间优化移动到链接器中，其中可以访问所有的静态链接代码。</li>
+</ul>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 10-07</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2022/introduction_to_optimization/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20%E4%BC%98%E5%8C%96%E7%AE%80%E4%BB%8B&issue[description]=[POST](https://blog.ginshio.org/2022/introduction_to_optimization/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2022/introduction_to_optimization/" data-title="优化简介" data-hashtags="Note,Optimization"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2022/introduction_to_optimization/" data-hashtag="Note"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2022/introduction_to_optimization/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2022/introduction_to_optimization/" data-title="优化简介" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2022/introduction_to_optimization/" data-title="优化简介"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2022/introduction_to_optimization/" data-title="优化简介"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2022/introduction_to_optimization/" data-title="优化简介" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2022/introduction_to_optimization/" data-title="优化简介" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2022/introduction_to_optimization/" title="优化简介">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/optimization/">Optimization</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2022/intermediate_representation/" class="prev" rel="prev" title="中间表示"><i class="fas fa-angle-left fa-fw"></i>中间表示</a>
+            <a href="/2022/cs61a_02_control_and_higher_order_functions/" class="next" rel="next" title="控制流、递归、高阶函数">控制流、递归、高阶函数<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2022-09-23T17:06:56+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"优化简介"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>

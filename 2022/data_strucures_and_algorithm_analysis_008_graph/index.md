@@ -1,0 +1,306 @@
+# 图结构
+
+
+> Graphs stand or fall by their choice of nodes and edges.
+>
+> --- Watts &amp; Strogatz
+
+{{< admonition type="info" >}}
+对于图的学习推荐使用 [Rocs](https://apps.kde.org/rocs)。什么？你说你是 Windows？那也不知道用什么啊，欢迎推荐其他工具。另外，KDE 天下第一！
+{{< /admonition >}}
+
+
+## 图的定义与表示 {#图的定义与表示}
+
+图 (graph) 是有序对 \\(G = (V, E)\\)，其中 V 是点集 (Vertex)，点的个数用
+\\(\lvert{V}\rvert\\) 表示；\\(E \subseteq \\{ \\{ x, y \\}: (x, y) \in V^{2}, x \ne y \\}\\) 是边集
+(Edge)，边的个数用 \\(\lvert{E}\rvert\\) 表示。如果点对是有序的，那么这个图称为有向图 (directed graph / digraph)。当然有向图的边，如果去掉方向限制所对应的无向图，称为该有向图的基础图 (underlying graph)。有时边还有一个属性称为权重 (weight)，表示使用这条边的代价 (cost)。如果任意两个顶点之间都有一条边的话，那么这个图被称作完全图 (complete graph)。
+
+图中的一条路径 (path) 是一个顶点序列 \\(v\_{1}, v\_{2}, \cdots, v\_{n}\\) (其中 \\(v\_{i},
+v\_{i+1} \in E, i \le i < n\\))，一条路径的长 (length) 是这条路径上的边的数量。如果图中含有一个顶点到它自身的路径，则这个路径称为环 (loop)，另外环上所有顶点是互异的。有向图中的环通常被称为回路 (cycle)，没有回路的有向图是无环的 (acyclic)，也被称为​**有向无环图** (DAG, Directed Acyclic Graph)。
+
+如果无向图中从任意顶点到其他顶点都存在一条路径，那么该图是连通的 (connected)；如果是具有这样性质的有向图，则被称为强连通的 (strongly connected)；如果没有这样性质的有向图，但其基础图具有这种性质，那么该图被称为弱连通的 (weakly connected)。
+
+根据图的邻接表表示，可以轻松的实现出图的结点
+
+```C++
+class Node {
+public:
+  int val;
+  ::std::vector<Node *> neighbors;
+  Node() : val{0}, neighbors{} {}
+  Node(int _val) : val{_val}, neighbors{} {}
+  Node(int _val, ::std::vector<Node *> _neighbors)
+      : val{_val}, neighbors{::std::move(_neighbors)} {}
+};
+```
+
+---
+
+
+## 深度优先搜索 {#深度优先搜索}
+
+深度优先搜索 (DFS, depth-first search) 是前序遍历的推广，从任一顶点 v 开始处理，然后遍历与 v 相接的所有顶点。如果对于树进行 DFS，可以在总时间
+\\(\Theta(\lvert{V}\rvert)\\) 内遍历完成。但图的遍历需要小心其中的环，因此需要一个
+`visited` 标记来表明该结点是否已被遍历过，防止进入无限的循环中。
+
+```C++
+void dfs(Vertex const &v) {
+  v.visited = true;
+  for (Vertex const &w : v.neighbors) {
+    if (!w.visited) {
+      dfs(w);
+    }
+  }
+}
+```
+
+如果想克隆图，则以 DFS 为模板就可以轻易实现
+
+```C++
+::std::unordered_map<Vertex const, Vertex> vertices;
+Vertex clone_graph(Vertex const v) {
+  if (auto it = vertices.find(v); it != vertices.end()) {
+    return it->second;
+  }
+  auto clone = get_from_source(v);
+  vertices.emplace(v, clone);
+  for (auto& other : v.neighbors) {
+    clone.adjacent.emplace_back(clone_graph(other));
+  }
+  return clone;
+}
+```
+
+深度优先生成树 (depth-first spanning tree) 可以描述 DFS 的过程。如果一条边
+(v, w) 发现没有被遍历，那就用树上的一条边表示；否则在树上用虚线表示，这条边称之为后向边 (back edge)，实际上这并不是树的一部分。
+
+{{< figure src="/images/algo-example-of-depth-first-spanning-tree.svg" width="36%" >}}
+
+如果无向图是不连通的或有向图是非强连通的，那么需要遍历整个图，查找该图还有哪些结点没有被遍历。对于不连通的图，每次 DFS 生成的树的集合，就是一个深度优先生成森林。
+
+
+### 双连通性 {#双连通性}
+
+一个连通的无向图中删除任一顶点后，剩下的图如果依然连通，那么这样的无向连通图就是双连通的 (biconnected)，即点双连通。如果图不是双连通的，那删除后图不再连通的顶点称之为割点 (articulation point)。如图顶点 C 和 D 是割点，删除顶点 C 使顶点 G 不连通；删除顶点 D 使顶点 E、F 不和图其余部分连通。
+
+{{< figure src="/images/algo-non-biconnected-graph-with-articulation-point.svg" width="40%" >}}
+
+深度优先遍历提供了寻找割点的线性时间复杂度的方法 -- Tarjan。首先从任一顶点开始
+DFS，并按照被访问的顺序对其进行编号，记作 \\(Num(v)\\)。对每个顶点计算能到达的最低的顶点编号，记作 \\(Low(v)\\)，其值由以下情况中的最小值定义
+
+-   \\(Num(v)\\)
+-   所有后向边 \\((v, w)\\) 中的最低的 \\(Num(w)\\)
+-   生成树的边 \\((v, w)\\) 中的最低的 \\(Low(w)\\)
+
+{{< figure src="/images/algo-example-of-Tarjan.svg" width="36%" >}}
+
+当且仅当根有多个儿子时，此时根是割点；当且仅当生成树中的一个结点有某个儿子 w，且
+\\(Low(w) \ge Num(v)\\)，此时这个结点为割点。
+
+```C++
+int num{0};
+::std::set<Vertex> ans;
+int tarjan(Vertex &v) {
+  v.visit(++num);
+  int child{0};
+  for (auto const &w : v.neighbors) {
+    bool flag{!w.visited};
+    v.low = ::std::min(v.low, flag ? (++child, tarjan(w)) : w.num);
+    if (flag && w.low >= v.num && (v.num != 1 || child > 1)) {
+      static_cast<void>(ans.emplace(v));
+    }
+  }
+  return v.low;
+}
+```
+
+一个连通的无向图中删除任一边后，剩下的图如果依然连通，那么这样的无向连通图就是边双连通的。如果图不是双连通的，那删除后图不再连通的边称为割边，通常称为桥
+(bridge)。
+
+{{< figure src="/images/algo-non-biconnected-graph-with-bridge.svg" width="45%" >}}
+
+相比于割点，桥的计算更为简单，不需要在考虑生成树根结点的问题。如果顶点 w 不能回到祖先也没有另外一条回到父亲的路，那么 \\(v-w\\) 这条边就是割边。
+
+
+### 欧拉回路 {#欧拉回路}
+
+哥尼斯堡的七桥问题引出了图论和几何拓扑学，欧拉解决了该问题 (符合条件的走法不存在)
+并解决了一笔画问题：对于一个给定的图，怎样判断是否存在着一个恰好包含了所有的边，并且没有重复的路径？
+
+{{< figure src="/images/algo-euler-circuit-graph.svg" width="72%" >}}
+
+这样的图现称为欧拉图。这时遍历的路径称作欧拉路径，如果路径闭合则称为欧拉回路。欧拉给出了一笔画问题的两个判定准则：
+
+1.  欧拉图的必要条件是 G 中奇顶点 (度为奇数的顶点) 的数目必须是 0 或 2
+    -   形成欧拉回路的充要条件是 G 中的所有顶点度是偶数
+2.  如果无向图 G 有 2k 个奇顶点，那么可以用 `k` 笔画成，并且至少要用 k 笔画成
+
+现在问题是，如何在线性时间复杂度内寻找出这条欧拉回路。​~~这都在 DFS 下了，还用想，
+DFS 就完了！~~
+
+选择一个起点出发，可能遍历之后提前回到了起点，此时如果起点的所有边都已访问，那图的其他部分就不会被访问到了。此时可以在已经访问的路径上，查找还有路径没有访问的顶点，从这个新顶点开始重复刚刚的操作。直到新的路径也回到起点并没有可以继续访问的边，就将这个新的路径插入到之前的路径中。直到所有边都被访问，这样得到的路径就是一个欧拉回路。这种算法被称为 **Hierholzer**​。
+
+{{< figure src="/images/algo-example-of-Hierholzer.svg" width="72%" >}}
+
+正常来说算法的时间复杂度约 \\(\mathcal{O}(\lvert{V}\rvert+\lvert{E}\rvert)\\)，但是需要特别注意使用适当的数据结构。比如路径作为一个链表保留，这样方便后续路径的插入于替换。
+
+```C++
+::std::list<Vertex *> circuit;
+using Iter = decltype(circuit)::iterator;
+Iter hierholzer(Vertex &v, Iter it = circuit.end()) {
+  Iter next = circuit.emplace(it, &v);
+  Iter curr = next++;
+  while (!v.edges.empty()) {
+    auto wit = v.edges.begin();
+    auto& w = **wit;
+    w.edges.erase(&v);
+    v.edges.erase(wit);
+    next = hierholzer(w, next);
+  }
+  return curr;
+}
+```
+
+与欧拉回路相似的是哈密顿回路，即仅通过图中所有顶点一次的回路。但是这个问题并没有已知的有效算法。
+
+
+### 有向图 {#有向图}
+
+深度优先遍历可以与遍历无向图类似的方法遍历有向图。如果图不是强连通的，那么从某个结点开始的 DFS 可能不能访问所有结点。
+
+给定任意一个有向图，根据深度优先遍历得到一棵生成树，与无向图得到的生成树不同的是，这棵树上有一些后向边 (back edge)，即访问祖先结点，如图中的 `(A,B)`​；一些前向边
+(forward edge)，这些边从树的一个结点通向其后裔，如图中的 `(C,D)`​；还可能有一些交叉边 (cross edge)，即将两棵直接不相关的树连接起来的边，如图中的 `(F, C)`​、​`(H, F)`​ 等。
+
+{{< figure src="/images/algo-dfs-for-digraph.svg" width="80%" >}}
+
+深度优先生成森林会将遍历的先后顺序反映在森林中，左边的树总比右边的树先访问到。因此交叉边总是右边的树指向左边的树；从右向左依次遍历也就是在后续遍历这幅图。
+
+
+### 查找强连通分量 {#查找强连通分量}
+
+强连通分量 (SCC, Strongly Connected Component) 一个极大的强连通子图。通过执行两次 DFS 可以检测一个图是否是强连通的，如果不是强连通的，实际上得到的是顶点的子集，因为顶点到其自身是强连通的。该算法即 Kosaraju 算法，时间复杂度为 \\(\mathcal{O}(\lvert{E}\rvert+\lvert{V}\rvert)\\)。
+
+1.  第一次 DFS，选取任意点为起点遍历所有未访问过的顶点，并在回溯之前给顶点编号，即后序遍历。
+2.  第二次 DFS，对于反向后的图，以编号最大的顶点开始进行 DFS。这样遍历得到的顶点集合就是一个 SCC。对所有没有访问的结点，重复此过程。
+
+<!--listend-->
+
+```C++
+::std::stack<Vertex *> s;
+void dfs1(Vertex &v) {
+  v.visited = true;
+  for (auto &w : v.neighbors) {
+    if (!w.visited) {
+      dfs1(w);
+    }
+  }
+  s.push(&v);
+}
+void dfs2(Vertex &v, ::std::list<Vertex *> &ans) {
+  ans.emplace_front(&v);
+  v.trans_visited = true;
+  for (auto &w : v.trans_neighbors) {
+    if (!w.trans_visited) {
+      dfs2(w);
+    }
+  }
+}
+::std::vector<::std::list<Vertex *>> kosaraju() {
+  for (auto &v : graph) {
+    if (!v.visited) {
+      dfs1(v);
+    }
+  }
+  ::std::vector<::std::list<Vertex *>> ans;
+  while (!s.empty()) {
+    auto &v = *s.top();
+    s.pop();
+    if (!v.trans_visited) {
+      ::std::list<Vertex *> scc;
+      dfs2(v, scc);
+      ans.emplace_back(scc);
+    }
+  }
+  return ans;
+}
+```
+
+Garbow 算法是 Tarjan 算法在 SCC 问题上的实现，其维护两个栈，一个是生成树结点栈，另一个是确定何时弹出第一个栈中同属于同一 SCC 的结点的栈。
+
+```C++
+int num{0};
+::std::stack<Vertex *> s1, s2;
+::std::vector<::std::list<Vertex *>> ans;
+void garbow(Vertex &v) {
+  s1.push(&v);
+  s2.push(&v);
+  v.visit(++num);
+  for (auto const &w : v.neighbors) {
+    if (!w.visited) {
+      garbow(w);
+    } else if (!w.in_scc) {
+      while (s2.top()->low > w.low) {
+	s2.pop();
+      }
+    }
+  }
+  if (s2.top() == &v) {
+    s2.pop();
+    ::std::list<Vertex *> scc;
+    Vertex *top;
+    do {
+      top = s1.top();
+      s1.pop();
+      scc.emplace_front(top);
+    } while (top != &v);
+    ans.emplace_back(scc);
+  }
+}
+```
+
+---
+
+
+## 拓扑排序 {#拓扑排序}
+
+拓扑排序 (topological sorting) 是对 DAG 顶点的一种排序，如果存在一条从 \\(v\_{i}\\)
+到 \\(v\_{j}\\) 的路径，那么在排序中 \\(v\_{j}\\) 一定出现在 \\(v\_{i}\\) 之后。排序不必是唯一的，任何满足要求的排序都被认为是正确的解。
+
+另外，存在回路的图是无法进行拓扑排序的，如果有边 \\(<v\_{i}, v\_{j}>\\) 和 \\(<v\_{j},
+v\_{i}>\\)，无法同时满足 \\(v\_{i}\\) 在 \\(v\_{j}\\) 之前且 \\(v\_{j}\\) 在 \\(v\_{i}\\) 之前。
+
+拓扑排序经典的示例是，在一系列课程的学习中，根据前置课程的关系，给出这一系列课程的正确学习顺序。
+
+{{< figure src="/images/algo-courses-example-for-topological-sorting.svg" width="55%" >}}
+
+显然这是一个 DAG，对其进行拓扑排序就可以找出一条合理的学习路线，在学习某一课程之前会先学习完所有前置课程。
+
+拓扑排序用 Kahn 算法实现，这是一个很容易理解的算法：
+
+1.  寻找一个度为 0 的结点
+2.  删除该结点的所有边，并将其加入到已排序队列中
+3.  重复步骤 1、2，直到没有度为 0 的结点
+    -   如果此时所有结点都已被排序，那么该图是一个 DAG，且已排序队列就是拓扑排序的结果
+    -   如果此时还有结点没有被排序，那么剩余的子图中必然存在回路
+
+为了方便实现，这里使用了一个入度为 0 的结点的集合 `starts`
+
+```C++
+::std::vector<Vertex> topological_sorting(::std::set<Vertex *> &starts) {
+  ::std::vector<Vertex> ans;
+  while (!starts.empty()) {
+    auto &v = **starts.begin();
+    for (auto &w : v.neighbors) {
+      --w.indegree;
+      if (w.indegree == 0) {
+	starts.emplace(&w);
+      }
+    }
+    v.neighbors.clear();
+    ans.emplace_back(v);
+    starts.erase(&v);
+  }
+  return ans;
+}
+```

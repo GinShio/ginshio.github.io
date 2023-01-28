@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>堆结构 - iris</title><meta name="Description" content="GinShio | 数据结构与算法分析第六章笔记"><meta property="og:title" content="堆结构" />
+<meta property="og:description" content="GinShio | 数据结构与算法分析第六章笔记" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-08-25T13:26:23+08:00" />
+<meta property="article:modified_time" content="2022-04-07T18:16:33+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="堆结构"/>
+<meta name="twitter:description" content="GinShio | 数据结构与算法分析第六章笔记"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/" /><link rel="prev" href="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_005_hash_table/" /><link rel="next" href="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "堆结构",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_006_heap_structure\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Heap","wordcount":  4149 ,
+        "url": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_006_heap_structure\/","datePublished": "2021-08-25T13:26:23+08:00","dateModified": "2022-04-07T18:16:33+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | 数据结构与算法分析第六章笔记"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#模型">模型</a></li>
+    <li><a href="#二叉堆">二叉堆</a>
+      <ul>
+        <li><a href="#结构性质">结构性质</a></li>
+        <li><a href="#堆序性质">堆序性质</a></li>
+        <li><a href="#堆的操作">堆的操作</a>
+          <ul>
+            <li><a href="#binary-heap-的插入操作">binary heap 的插入操作</a></li>
+            <li><a href="#binary-heap-的移除操作">binary heap 的移除操作</a></li>
+            <li><a href="#binary-heap-的其他操作">binary heap 的其他操作</a></li>
+          </ul>
+        </li>
+        <li><a href="#d-堆">d 堆</a></li>
+      </ul>
+    </li>
+    <li><a href="#左式堆">左式堆</a>
+      <ul>
+        <li><a href="#左式堆的性质">左式堆的性质</a></li>
+        <li><a href="#左式堆的操作">左式堆的操作</a></li>
+        <li><a href="#斜堆">斜堆</a></li>
+      </ul>
+    </li>
+    <li><a href="#二项队列">二项队列</a>
+      <ul>
+        <li><a href="#二项队列操作">二项队列操作</a></li>
+        <li><a href="#二项队列的实现">二项队列的实现</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">堆结构</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/algorithmdatastructure/"><i class="far fa-folder fa-fw"></i>Algorithm⁄DataStructure</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/"><i class="far fa-list-alt fa-fw"></i>数据结构与算法分析</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-25">08-25</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4149 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - 数据结构与算法分析</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_001_introduction/">数据结构与算法分析引论</a></li>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_002_linear_data_structure/">线性数据结构</a></li>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_003_tree_structure/">树结构</a></li>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_004_searching_structure/">查找结构</a></li>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_005_hash_table/">散列表</a></li><li><span class="active">堆结构</span></li>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/">排序算法</a></li>
+                                                    <li><a href="/2022/data_strucures_and_algorithm_analysis_008_graph/">图结构</a></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#模型">模型</a></li>
+    <li><a href="#二叉堆">二叉堆</a>
+      <ul>
+        <li><a href="#结构性质">结构性质</a></li>
+        <li><a href="#堆序性质">堆序性质</a></li>
+        <li><a href="#堆的操作">堆的操作</a>
+          <ul>
+            <li><a href="#binary-heap-的插入操作">binary heap 的插入操作</a></li>
+            <li><a href="#binary-heap-的移除操作">binary heap 的移除操作</a></li>
+            <li><a href="#binary-heap-的其他操作">binary heap 的其他操作</a></li>
+          </ul>
+        </li>
+        <li><a href="#d-堆">d 堆</a></li>
+      </ul>
+    </li>
+    <li><a href="#左式堆">左式堆</a>
+      <ul>
+        <li><a href="#左式堆的性质">左式堆的性质</a></li>
+        <li><a href="#左式堆的操作">左式堆的操作</a></li>
+        <li><a href="#斜堆">斜堆</a></li>
+      </ul>
+    </li>
+    <li><a href="#二项队列">二项队列</a>
+      <ul>
+        <li><a href="#二项队列操作">二项队列操作</a></li>
+        <li><a href="#二项队列的实现">二项队列的实现</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="模型" class="headerLink">
+    <a href="#%e6%a8%a1%e5%9e%8b" class="header-mark"></a>模型</h2><p>优先队列 (priority queue) 的 ADT 与 queue 类似，它们都提供了基本的 <code>enqueue</code> 与
+<code>dequeue</code> 操作。但是 priority queue 可以在 dequeue 时将数据按照一定顺序弹出队列，而不是 FIFO。我们这里主要讨论每次出队最小的元素 (即 <code>delete_min</code>)，如果你希望进行其他一些有规范的操作，方法与这类似。</p>
+<p>显然 priority queue 有一个朴素解，那就是在每次 <code>delete_min</code> 时遍历整个存储单元，找到最小的元素并删除，其时间复杂度 \(\mathcal{O}(N)\) ，当然插入元素的时间复杂度会好很多，只需要 \(\mathcal{O}(1)\) 。当然你也可以将其反过来，在插入时就找到最小的元素。</p>
+<p>显然这是无法接受的，即使是利用前几篇中介绍过的 AVL 树都可以将其时间复杂度压缩到
+\(\mathcal{O}(\log_{}{N})\) 。不过这有点太过分了，平衡 BST 的很多操作可能是用不上的，而且为了优先队列再实现一个平衡树实在是太难为人了。</p>
+<p>我们将要介绍的工具叫做 <strong>二叉堆</strong> (binary heap)，用以实现有限队列。但是需要注意的是， <code>堆</code> (heap) 这里指的是一种数据结构，而非操作系统中用以分配动态内存的地方。</p>
+<h2 id="二叉堆" class="headerLink">
+    <a href="#%e4%ba%8c%e5%8f%89%e5%a0%86" class="header-mark"></a>二叉堆</h2><h3 id="结构性质" class="headerLink">
+    <a href="#%e7%bb%93%e6%9e%84%e6%80%a7%e8%b4%a8" class="header-mark"></a>结构性质</h3><p>binary heap 是一棵被完全填满的二叉树，或者说是一棵 complete binary tree。由于
+complete binary tree 的排列十分有规律，因此我们可以将其转化为数组，不再需要链来链接它。</p>
+<figure><img src="/images/algo-array-implement-for-complete-binary-tree.svg" width="64%"/>
+</figure>
+
+<p>对于数组任一位置 \(i\) 上的元素，其左右儿子分别在在位置 \(2i + 1\) 和 \(2i +2\) 上，而它的父亲则在位置 \(\lfloor(i - 1)/2\rfloor\) 上。当然如果根从 \(1\) 开始，那么位置 \(i\) 上元素的左右儿子的位置分别为 \(2i\) 和 \(2i + 1\) ，而父亲的位置是 \(\lfloor i/2 \rfloor\) 。以下未说明的情况，我们将 1 作为 root 的下标。</p>
+<h3 id="堆序性质" class="headerLink">
+    <a href="#%e5%a0%86%e5%ba%8f%e6%80%a7%e8%b4%a8" class="header-mark"></a>堆序性质</h3><p>保证 heap 可以快速执行的是 <strong>堆序性质</strong> (heap-order property)。我们希望找到的是最小的元素，因此最小的元素在根上，而它的任一子树也是 heap，那么可以得出任一结点小于其所有后裔，这种结构被称为 <strong>小顶堆</strong> (min heap)；而相反的，任一结点大于其所有后裔，则被称为 <strong>大顶堆</strong> (max heap)。</p>
+<figure><img src="/images/algo-example-of-heap.svg" width="85%"/>
+</figure>
+
+<p>heap-order 保证我们可以在 \(\mathcal{O}(1)\) 的时间复杂度内找到想要的元素。</p>
+<h3 id="堆的操作" class="headerLink">
+    <a href="#%e5%a0%86%e7%9a%84%e6%93%8d%e4%bd%9c" class="header-mark"></a>堆的操作</h3><p>如果我们希望对 heap 做一些操作，可能会破坏 heap-order property，所以我们应该保证无论如何操作，都可以恢复其性质。</p>
+<h4 id="binary-heap-的插入操作" class="headerLink">
+    <a href="#binary-heap-%e7%9a%84%e6%8f%92%e5%85%a5%e6%93%8d%e4%bd%9c" class="header-mark"></a>binary heap 的插入操作</h4><p>要在堆中插入一个元素，我们首先需要在尾部建立一个空穴，用以存放元素。为了不破坏
+heap-order，我们比较插入元素与其父结点元素：如果元素可以放入空穴则插入完成，否则将父结点放入空穴，空穴转变为了父结点，自底向上递归直到元素插入。</p>
+<figure><img src="/images/algo-insert-op-for-binary-heap.svg" width="95%"/>
+</figure>
+
+<p>这个过程被称为 <strong>上滤</strong> (percolate up)。percolate up 的最坏时间复杂度是
+\(\mathcal{O}(\log_{}{N})\) ，这是需要 percolate up 到 root。但是平均来看，
+percolate up 的结束要早得多，平均需要 <code>2.607</code> 次比较，因此元素平均上移 <code>1.607</code>
+层，平均时间复杂度 \(\mathcal{O}(1)\) 。</p>
+<p>这里给出向堆中插入的元素的代码。有一个小技巧，交换元素需要三条赋值语句，如果
+percolate up n，则需要 \(3n\) 条赋值语句，采用直接赋值覆盖的方法，则只需要 \(n + 1\)
+次赋值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Comparable</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">insert</span><span class="p">(</span><span class="n">heap</span><span class="o">&amp;</span> <span class="n">h</span><span class="p">,</span> <span class="n">Comparable</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">hole</span> <span class="o">=</span> <span class="o">++</span><span class="n">h</span><span class="p">.</span><span class="n">cur_size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">hole</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">h</span><span class="p">[</span><span class="n">hole</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">h</span><span class="p">[</span><span class="n">hole</span><span class="p">]</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="n">hole</span> <span class="o">/</span> <span class="mi">2</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hole</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">h</span><span class="p">[</span><span class="n">hole</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="binary-heap-的移除操作" class="headerLink">
+    <a href="#binary-heap-%e7%9a%84%e7%a7%bb%e9%99%a4%e6%93%8d%e4%bd%9c" class="header-mark"></a>binary heap 的移除操作</h4><p>找出目标元素显然简单的多，因为 root 就是目标，但是如何将其从 heap 中移除。我们依然采取建立空穴的方法，只不过这次空穴建立在了 root。</p>
+<p>我们进行与 percolate up 类似的操作，只不过这次从上向下进行，这被称为 <strong>下滤</strong>
+(percolate down)。我们从 root 出发，将孩子中的较小元素移动到空穴，并继续向下找去，直到空穴成为 leaf。到达 leaf 后，我们将最后一个结点值赋值给空穴，并删除最后一个结点，这样就能让 heap 的长度减一。</p>
+<figure><img src="/images/algo-remove-op-for-binary-heap.svg" width="95%"/>
+</figure>
+
+<p>在实现时我们需要注意一个细节，当 heap 中元素的数量为偶数时，有的结点可能只有一个孩子。有一个小技巧，可以将一个大于任何 heap 元素的标识放在末尾，这样我们可以假设所有结点都有两个孩子，当然请小心处理。percolate down 的最坏与平均复杂度都是
+\(\mathcal{O}(\log_{}{N})\) 的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">erase</span><span class="p">(</span><span class="n">heap</span><span class="o">&amp;</span> <span class="n">h</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">auto</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="n">h</span><span class="p">.</span><span class="n">cur_size</span><span class="o">--</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">hole</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">hole</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">h</span><span class="p">.</span><span class="n">cur_size</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">child</span> <span class="o">=</span> <span class="n">hole</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">child</span> <span class="o">!=</span> <span class="n">h</span><span class="p">.</span><span class="n">cur_size</span> <span class="o">&amp;&amp;</span> <span class="n">h</span><span class="p">[</span><span class="n">child</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">h</span><span class="p">[</span><span class="n">child</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="o">++</span><span class="n">child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="n">child</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">tmp</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">h</span><span class="p">[</span><span class="n">hole</span><span class="p">]</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="n">child</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">h</span><span class="p">[</span><span class="n">hole</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="binary-heap-的其他操作" class="headerLink">
+    <a href="#binary-heap-%e7%9a%84%e5%85%b6%e4%bb%96%e6%93%8d%e4%bd%9c" class="header-mark"></a>binary heap 的其他操作</h4><p>可以明确，min heap 中对查找最大元素并没有帮助，最大的元素在 leaf 上，但有半数的元素都是 leaf。在 heap 中我们不得不进行线性查找才能获取到特定元素。</p>
+<p>当然我们还可以在 heap 上进行其他操作。</p>
+<ol>
+<li><code>decrease_key(p, delta)</code> ：将位置 p 的元素减小 \(\delta\) 。这有可能破坏
+heap-order，因此需要对其进行 percolate up。</li>
+<li><code>increase_key(p, delta)</code> ：将位置 p 的元素增加 \(\delta\) 。这有可能破坏
+heap-order，因此需要对其进行 percolate down。</li>
+<li><code>remove(p)</code> ：将位置 p 的元素移除。</li>
+<li><code>build_heap</code> ：通过原始集合构建一个堆，这个过程也被称为 <strong>堆化</strong> (heapify)。这个过程的平均运行时间是 \(\mathcal{O}(N)\) 的，最坏时间复杂度是
+\(\mathcal{O}(N\log_{}{N})\) 的。</li>
+</ol>
+<h3 id="d-堆" class="headerLink">
+    <a href="#d-%e5%a0%86" class="header-mark"></a>d 堆</h3><p>binary heap 的实现简单，因此大部分时候 priority queue 优先使用其作为实现。d 堆
+(d-ary heap) 是 binary heap 的简单推广，其每个结点总有 d 个孩子。所以简单的说，
+binary heap 就是一种 2-堆。</p>
+<p>当然我们可以继续使用一个数组表示 d-ary heap，但是找出 node 和 parent 的乘法和除法都有个因子 d，因此更好的做法是使用 \(d = 2^{x}\) ，这样可以使用位运算加速除法过程。</p>
+<p>一个显而易见的结论，当 d 增大时，其深度也将减少，因此 insert 时间复杂度是
+\(\mathcal{O}(\log_{d}{N})\) ，但 erase 操作就会费时很多，erase 的时间复杂度是
+\(\mathcal{O}(d\log_{d}{N})\) 。当然在 insert 远多于 erase 的算法中，d-ary heap 可以有效降低时间复杂度。不过实践证明，4-ary heap 可以胜过 binary heap。</p>
+<figure><img src="/images/algo-example-of-d-ary-heap.svg" width="72%"/>
+</figure>
+
+<h2 id="左式堆" class="headerLink">
+    <a href="#%e5%b7%a6%e5%bc%8f%e5%a0%86" class="header-mark"></a>左式堆</h2><p>设计一种像 binary heap 又能以 \(\mathcal{O}(N)\) 的时间复杂度处理 merge，并且只使用一个数组的堆结构是困难的。因此大部分需要有效合并的数据结构都是链式的，但这可能导致其他操作变慢。</p>
+<p><strong>左式堆</strong> (leftist heap) 像 binary heap 那样既有结构性质又有 heap-order property，不过所有的堆其 heap-order property 都是一样的，所以我们只需要关注它的结构性质。
+leftist heap 也是二叉树，但区别是：leftist heap 并不是理想平衡的，而是趋于非常不平衡的。</p>
+<h3 id="左式堆的性质" class="headerLink">
+    <a href="#%e5%b7%a6%e5%bc%8f%e5%a0%86%e7%9a%84%e6%80%a7%e8%b4%a8" class="header-mark"></a>左式堆的性质</h3><p>将任一结点 X 的 <strong>零路径长</strong> (null path length) \(npl(X)\) 或 \(s(X)\) 定义为从 X 到一个布局有两个孩子的结点的最短路径长。因此具有 \(degree = 0 \lor 1\) 的结点 \(npl =
+1\) ，而 \(npl(null) = 0\) ，任意结点的 NPL 比其所有孩子的 NPL 的最小值加 1。对于
+heap 中的每一个结点 X，左孩子的 NPL 至少与右孩子的 NPL 相等，这样树的结构更偏向于向左子树添加深度，因此称之为 leftist heap。</p>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Leftist-trees-S-value.svg" width="36%"/>
+</figure>
+
+<p>在右路径上有 r 个结点的左式树必然至少有 \(2^{r} - 1\) 个结点，而 N 个结点的左式树有一条右路径最多含有 \(\lfloor\log_{}{(N+1)}\rfloor\) 个结点。在左式堆上的操作，将所有工作都放在右路径上进行，以保证树不会过深。</p>
+<h3 id="左式堆的操作" class="headerLink">
+    <a href="#%e5%b7%a6%e5%bc%8f%e5%a0%86%e7%9a%84%e6%93%8d%e4%bd%9c" class="header-mark"></a>左式堆的操作</h3><p>leftist heap 中的基本操作是合并，而插入、移除是合并的特殊情形。插入元素可以看作是一个大堆和一个只有根结点的堆进行合并；移除元素时我们将会得到两个堆，将这两个堆进行合并即可得到新的 heap。</p>
+<p>在合并时，递归地将 <code>具有大的根值的堆</code> 与 <code>具有小的根值的堆</code> 的 <strong>右子树</strong> 合并，如果右子树的 NPL 大于左子树的 NPL，则将两棵子树交互，以满足 leftist heap 的性质要求。</p>
+<p>执行合并的时间与右路径的长度成正比，而递归调用时，每一个被访问的结点执行常数工作量，因此合并 leftist heap 的时间界为 \(\mathcal{O}(\log_{}{N})\) 。以下代码展示了合并操作的递归实现，如果你希望使用 loop 进行实现可能会有些困难，但可以肯定的是无论如何实现其结果等价。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="nf">merge_impl</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">merge</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">);</span> <span class="c1">// 声明 merge 函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">h1</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">h2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">h1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">h2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">get_npl</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">get_npl</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">swap</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">set_npl</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">get_npl</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">h1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="nf">merge</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">h1</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">h2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">h2</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">h1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">h1</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">&lt;</span> <span class="n">h2</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">?</span> <span class="n">merge_impl</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">)</span> <span class="o">:</span> <span class="n">merge_impl</span><span class="p">(</span><span class="n">h2</span><span class="p">,</span> <span class="n">h1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="斜堆" class="headerLink">
+    <a href="#%e6%96%9c%e5%a0%86" class="header-mark"></a>斜堆</h3><p>斜堆 (skew heap) 是 leftist heap 的自调节形式，skew heap 与 leftist heap 的关系类似于 AVL tree 与 splay tree 之间的关系。skew heap 不对树的结构进行限制，右路径可以任意长，因此所有操作的最坏运行时间为 \(\mathcal{O}(N)\) 。但是正如 splay tree，它的 amortized 运行时间为 \(\mathcal{O}(\log_{}{N})\) 。skew heap 的基本操作也是合并，且操作与 leftist heap 是类似的，唯一的不同是 skew heap 不再存储 NPL，交换孩子是无条件的。</p>
+<figure><img src="https://userpages.umbc.edu/~cmarron/cs341.f19/projects/proj4files/merge.png" width="60%"/>
+</figure>
+
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="nf">merge_impl</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">merge</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">);</span> <span class="c1">// 声明 merge 函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">h2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">swap</span><span class="p">(</span><span class="n">h1</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">h1</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">h1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="nf">merge</span><span class="p">(</span><span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h1</span><span class="p">,</span> <span class="n">BinaryTreeNode</span><span class="o">*</span> <span class="n">h2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">h1</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">h2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">h2</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">h1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">h1</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">&lt;</span> <span class="n">h2</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">?</span> <span class="n">merge_impl</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">)</span> <span class="o">:</span> <span class="n">merge_impl</span><span class="p">(</span><span class="n">h2</span><span class="p">,</span> <span class="n">h1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="二项队列" class="headerLink">
+    <a href="#%e4%ba%8c%e9%a1%b9%e9%98%9f%e5%88%97" class="header-mark"></a>二项队列</h2><p>二项队列不同于前面介绍的所有优先队列的实现，其是堆序的树的集合，称为森林。森林中的每一棵 <strong>二项树</strong> (binomial tree) 都是有约束的堆序树，每一个高度上至多存在一棵二项树，高度为 0 的二项树是一颗单结点树；高度为 k 的二项树 \(B_k\) 通过将一棵二项树
+\(B_{k-1}\) 附接到另一棵二项树 \(B_{k-1}\) 的根上构成。</p>
+<p>高度为 k 的二项树恰好有 \(2^k\) 个结点，而深度 d 处的结点树是二项系数
+\[\left(\begin{aligned} k \\ d \end{aligned}\right).\]</p>
+<p>如果将堆序施加于二项树上，并允许任意高度上最多一棵二项树，那么能够用二项树的集合唯一地表示任意大小的优先队列。例如，大小为 13 的优先队列可以用森林 \(B_3\) 、\(B_2\)
+、​\(B_0\) 表示，将这种二项队列写作 \(1101\)​。</p>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/6/61/Binomial-heap-13.svg" width="50%"/>
+</figure>
+
+<h3 id="二项队列操作" class="headerLink">
+    <a href="#%e4%ba%8c%e9%a1%b9%e9%98%9f%e5%88%97%e6%93%8d%e4%bd%9c" class="header-mark"></a>二项队列操作</h3><p>最小元可以通过搜索所有树的根找出，最多有 \(\log_{}N\) 棵不同的树，因此最小元可以以
+\(\mathcal{O}(\log N)\) 时间找出。若记住当最小元在其他操作期间变化时更新它，那么可以保留最小元的信息并以 \(\mathcal{O}(1)\) 时间执行操作。</p>
+<p>合并两个二项队列在概念上很容易，对于两个同高度的二项树可以合并为更高的树，让值大的根成为值小的根的子树。有时合并后，可能出现三棵高度相同的树，在两个队列中各取一棵继续合并即可。直到没有高度相同的树为止，合并结束。</p>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Binomial_heap_merge2.svg" width="70%"/>
+</figure>
+
+<p>插入可以看作合并的特殊情况，创建一棵单结点树，然后执行合并即可。删除操作由找到具有最小根的二项树来完成，将该树先从森林中移除，删除掉根后，拆解为新的二项队列，最后合并这两个队列即可。</p>
+<h3 id="二项队列的实现" class="headerLink">
+    <a href="#%e4%ba%8c%e9%a1%b9%e9%98%9f%e5%88%97%e7%9a%84%e5%ae%9e%e7%8e%b0" class="header-mark"></a>二项队列的实现</h3><p>为了保证快速合并，可以按高度大小递减的顺序保存这些二项树的根。而二项树的结点，可以像树一样存储，一个儿子指针域，一个兄弟指针域，和一个元素域。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">BinomialNode</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Comparable</span> <span class="n">element</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">sibling</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinomialNode</span><span class="p">(</span><span class="k">const</span> <span class="n">Comparable</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">,</span> <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">c</span><span class="p">,</span> <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">:</span> <span class="n">element</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">child</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">sibling</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">BinomialQueue</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="k">private</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">vector</span><span class="o">&lt;</span><span class="n">BinomialNode</span><span class="o">*&gt;</span> <span class="n">forest</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinomialQueue</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>合并两个二项队列的实现，首先需要确定如何合并两棵同高度的树。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">BinomialNode</span><span class="o">*</span> <span class="nf">merge_tree</span><span class="p">(</span><span class="n">BinomialNode</span><span class="o">*</span> <span class="n">t1</span><span class="p">,</span> <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">t2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">t2</span><span class="o">-&gt;</span><span class="n">element</span> <span class="o">&lt;</span> <span class="n">t1</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">merge</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">t1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">t2</span><span class="o">-&gt;</span><span class="n">sibling</span> <span class="o">=</span> <span class="n">t1</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">t1</span><span class="o">-&gt;</span><span class="n">child</span> <span class="o">=</span> <span class="n">t2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">t1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对于实现合并操作，在任意时刻，仅处理高度为 i 的那些树，并且始终从高度最低的树开始像最高的树合并。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="c1">// 将二项队列 B 合并到 A，并清空 B
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">merge</span><span class="p">(</span><span class="n">BinomialQueue</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="n">BinomialQueue</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">a</span><span class="p">.</span><span class="n">size</span> <span class="o">+=</span> <span class="n">b</span><span class="p">.</span><span class="n">size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">.</span><span class="n">capacity</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">old_forest_size</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">new_forest_size</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">old_forest_size</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">new_forest_size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">old_forest_size</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">new_forest_size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">carry</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">BinomialNode</span><span class="o">*</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">?</span> <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">:</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">which_case</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">which_case</span> <span class="o">+=</span> <span class="n">t2</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">which_case</span> <span class="o">+=</span> <span class="n">carry</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">switch</span> <span class="p">(</span><span class="n">which_case</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">0</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// no tree
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="na">[[fallthrough]]</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">1</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// only t1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">2</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// only t2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">t2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">3</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// t1 and t2 exist
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">4</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// Only carry
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">carry</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">carry</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">5</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// t1 and carry exist
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">carry</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">6</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// t2 and carry exist
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">carry</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">7</span><span class="o">:</span> <span class="p">{</span> <span class="c1">// all exist
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">carry</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">.</span><span class="n">clean</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="n">b</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 04-07</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2021/data_strucures_and_algorithm_analysis_006_heap_structure/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20%E5%A0%86%E7%BB%93%E6%9E%84&issue[description]=[POST](https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/" data-title="堆结构" data-hashtags="Note,Heap"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/" data-hashtag="Note"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/" data-title="堆结构" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/" data-title="堆结构"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/" data-title="堆结构"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/" data-title="堆结构" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/" data-title="堆结构" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/" title="堆结构">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/heap/">Heap</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021/data_strucures_and_algorithm_analysis_005_hash_table/" class="prev" rel="prev" title="散列表"><i class="fas fa-angle-left fa-fw"></i>散列表</a>
+            <a href="/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/" class="next" rel="next" title="排序算法">排序算法<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2021-08-25T13:26:23+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"堆结构"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>

@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>输入输出 - iris</title><meta name="Description" content="GinShio | 现代操作系统第五章读书笔记"><meta property="og:title" content="输入输出" />
+<meta property="og:description" content="GinShio | 现代操作系统第五章读书笔记" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2021/operatingsystem_004/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-07-25T14:01:08+08:00" />
+<meta property="article:modified_time" content="2022-04-07T19:33:33+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+<meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_001/" /><meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_002/" /><meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_003/" /><meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_005/" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="输入输出"/>
+<meta name="twitter:description" content="GinShio | 现代操作系统第五章读书笔记"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2021/operatingsystem_004/" /><link rel="prev" href="https://blog.ginshio.org/2021/operatingsystem_003/" /><link rel="next" href="https://blog.ginshio.org/2021/operatingsystem_005/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "输入输出",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_004\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, IuputOutput","wordcount":  20394 ,
+        "url": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_004\/","datePublished": "2021-07-25T14:01:08+08:00","dateModified": "2022-04-07T19:33:33+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | 现代操作系统第五章读书笔记"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#单位">单位</a></li>
+    <li><a href="#io-硬件原理">IO 硬件原理</a>
+      <ul>
+        <li><a href="#io-设备">IO 设备</a></li>
+        <li><a href="#设备控制器">设备控制器</a></li>
+        <li><a href="#内存映射-io">内存映射 IO</a></li>
+        <li><a href="#直接存储器存取">直接存储器存取</a></li>
+        <li><a href="#中断">中断</a></li>
+      </ul>
+    </li>
+    <li><a href="#io-软件原理">IO 软件原理</a></li>
+    <li><a href="#io-软件层次">IO 软件层次</a>
+      <ul>
+        <li><a href="#中断处理程序">中断处理程序</a></li>
+        <li><a href="#设备驱动程序">设备驱动程序</a></li>
+        <li><a href="#设备无关的-io-软件">设备无关的 IO 软件</a></li>
+        <li><a href="#用户空间的-io-软件">用户空间的 IO 软件</a></li>
+        <li><a href="#io-系统的总结">IO 系统的总结</a></li>
+      </ul>
+    </li>
+    <li><a href="#盘">盘</a>
+      <ul>
+        <li><a href="#磁盘">磁盘</a></li>
+        <li><a href="#raid">RAID</a></li>
+        <li><a href="#磁盘格式化">磁盘格式化</a></li>
+        <li><a href="#磁盘臂调度算法">磁盘臂调度算法</a></li>
+        <li><a href="#错误处理">错误处理</a></li>
+        <li><a href="#稳定存储器">稳定存储器</a></li>
+      </ul>
+    </li>
+    <li><a href="#时钟">时钟</a>
+      <ul>
+        <li><a href="#时钟硬件">时钟硬件</a></li>
+        <li><a href="#时钟软件">时钟软件</a></li>
+        <li><a href="#软定时器">软定时器</a></li>
+      </ul>
+    </li>
+    <li><a href="#用户界面-键盘-鼠标和监视器">用户界面：键盘、鼠标和监视器</a>
+      <ul>
+        <li><a href="#输入设备">输入设备</a>
+          <ul>
+            <li><a href="#键盘软件">键盘软件</a></li>
+            <li><a href="#鼠标软件">鼠标软件</a></li>
+          </ul>
+        </li>
+        <li><a href="#输出软件">输出软件</a>
+          <ul>
+            <li><a href="#文本窗口">文本窗口</a></li>
+            <li><a href="#x-window-system">X Window System</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">输入输出</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/operatingsystem/"><i class="far fa-folder fa-fw"></i>OperatingSystem</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/operating-system-note/"><i class="far fa-list-alt fa-fw"></i>Operating System Note</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-25">07-25</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 20394 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 41 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - Operating System Note</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul>
+                                                    <li><a href="/2021/operatingsystem_001/">进程与线程</a></li>
+                                                    <li><a href="/2021/operatingsystem_002/">内存管理</a></li>
+                                                    <li><a href="/2021/operatingsystem_003/">文件系统</a></li><li><span class="active">输入输出</span></li>
+                                                    <li><a href="/2021/operatingsystem_005/">死锁</a></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#单位">单位</a></li>
+    <li><a href="#io-硬件原理">IO 硬件原理</a>
+      <ul>
+        <li><a href="#io-设备">IO 设备</a></li>
+        <li><a href="#设备控制器">设备控制器</a></li>
+        <li><a href="#内存映射-io">内存映射 IO</a></li>
+        <li><a href="#直接存储器存取">直接存储器存取</a></li>
+        <li><a href="#中断">中断</a></li>
+      </ul>
+    </li>
+    <li><a href="#io-软件原理">IO 软件原理</a></li>
+    <li><a href="#io-软件层次">IO 软件层次</a>
+      <ul>
+        <li><a href="#中断处理程序">中断处理程序</a></li>
+        <li><a href="#设备驱动程序">设备驱动程序</a></li>
+        <li><a href="#设备无关的-io-软件">设备无关的 IO 软件</a></li>
+        <li><a href="#用户空间的-io-软件">用户空间的 IO 软件</a></li>
+        <li><a href="#io-系统的总结">IO 系统的总结</a></li>
+      </ul>
+    </li>
+    <li><a href="#盘">盘</a>
+      <ul>
+        <li><a href="#磁盘">磁盘</a></li>
+        <li><a href="#raid">RAID</a></li>
+        <li><a href="#磁盘格式化">磁盘格式化</a></li>
+        <li><a href="#磁盘臂调度算法">磁盘臂调度算法</a></li>
+        <li><a href="#错误处理">错误处理</a></li>
+        <li><a href="#稳定存储器">稳定存储器</a></li>
+      </ul>
+    </li>
+    <li><a href="#时钟">时钟</a>
+      <ul>
+        <li><a href="#时钟硬件">时钟硬件</a></li>
+        <li><a href="#时钟软件">时钟软件</a></li>
+        <li><a href="#软定时器">软定时器</a></li>
+      </ul>
+    </li>
+    <li><a href="#用户界面-键盘-鼠标和监视器">用户界面：键盘、鼠标和监视器</a>
+      <ul>
+        <li><a href="#输入设备">输入设备</a>
+          <ul>
+            <li><a href="#键盘软件">键盘软件</a></li>
+            <li><a href="#鼠标软件">鼠标软件</a></li>
+          </ul>
+        </li>
+        <li><a href="#输出软件">输出软件</a>
+          <ul>
+            <li><a href="#文本窗口">文本窗口</a></li>
+            <li><a href="#x-window-system">X Window System</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>除了提供抽象外，操作系统还要控制计算机的所有 IO (输入/输出) 设备，必须向设备发送命令、捕获中断并处理设备的各种错误。它还应该在设备和其他部分之间提供简单且易于使用的接口，且这些接口应该尽可能的对所有设备都相同，即设备无关。</p>
+<h2 id="单位" class="headerLink">
+    <a href="#%e5%8d%95%e4%bd%8d" class="header-mark"></a>单位</h2><p>在进行本篇之前，需要明确一下计算机领域常用单位，只有统一了单位，我们才能更好的交流。</p>
+<p>计算机领域以 bit (b，位) 和 byte (B，字节) 作为基本单位，bit 是只能表示 1 或 0
+的单位数据，\(1 \texttt{Byte} = 8 \texttt{bit}\)​，即 1 Byte 可以表示 256 种不同的状态。另外在 IO 传输数据时，最常用的单位即 <strong>比特率</strong> (单位：bit/s 或 bps)，即每秒传输的 bit 数量，当然也可以对其进行除以 8 运算转变为 <code>Byte/s</code>​。</p>
+<p>传统单位以 <a href="https://en.wikipedia.org/wiki/Metric_prefix" target="_blank" rel="noopener noreferrer">SI</a> (10 进制) 前缀为词头，而计算机领域多以 <a href="https://en.wikipedia.org/wiki/Binary_prefix" target="_blank" rel="noopener noreferrer">IEC 60027</a> (2 进制) 前缀为词头。一般内存与 CD 使用 IEC-60027 词头，而磁盘、闪存、DVD 常用 SI 词头表示容量。至于 Windows 系统对于容量的显示问题，内部转换为 IEC-60027 但显示的词头却是 SI，这也是历史原因所造成的。</p>
+<table>
+<thead>
+<tr>
+<th>词头</th>
+<th>prefix</th>
+<th>符号</th>
+<th>\(10^{n}\)</th>
+<th>prefix</th>
+<th>符号</th>
+<th>\(2^{n}\)</th>
+<th>\(16^{n}\)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>尧</td>
+<td>yotta</td>
+<td>Y</td>
+<td>\(10^{24}\)</td>
+<td>yobi</td>
+<td>Yi</td>
+<td>\(2^{80}\)</td>
+<td>\(16^{20}\)</td>
+</tr>
+<tr>
+<td>泽</td>
+<td>zetta</td>
+<td>Z</td>
+<td>\(10^{21}\)</td>
+<td>zebi</td>
+<td>Zi</td>
+<td>\(2^{70}\)</td>
+<td>\(16^{17.5}\)</td>
+</tr>
+<tr>
+<td>艾</td>
+<td>exa</td>
+<td>E</td>
+<td>\(10^{18}\)</td>
+<td>exbi</td>
+<td>Ei</td>
+<td>\(2^{60}\)</td>
+<td>\(16^{15}\)</td>
+</tr>
+<tr>
+<td>拍</td>
+<td>peta</td>
+<td>P</td>
+<td>\(10^{15}\)</td>
+<td>pebi</td>
+<td>Pi</td>
+<td>\(2^{50}\)</td>
+<td>\(16^{12.5}\)</td>
+</tr>
+<tr>
+<td>太</td>
+<td>tera</td>
+<td>T</td>
+<td>\(10^{12}\)</td>
+<td>tebi</td>
+<td>Ti</td>
+<td>\(2^{40}\)</td>
+<td>\(16^{10}\)</td>
+</tr>
+<tr>
+<td>吉</td>
+<td>giga</td>
+<td>G</td>
+<td>\(10^{9}\)</td>
+<td>gibi</td>
+<td>Gi</td>
+<td>\(2^{30}\)</td>
+<td>\(16^{7.5}\)</td>
+</tr>
+<tr>
+<td>兆</td>
+<td>mega</td>
+<td>M</td>
+<td>\(10^{6}\)</td>
+<td>mebi</td>
+<td>Mi</td>
+<td>\(2^{20}\)</td>
+<td>\(16^{5}\)</td>
+</tr>
+<tr>
+<td>千</td>
+<td>kilo</td>
+<td>k</td>
+<td>\(10^{3}\)</td>
+<td>kibi</td>
+<td>Ki</td>
+<td>\(2^{10}\)</td>
+<td>\(16^{2.5}\)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="io-硬件原理" class="headerLink">
+    <a href="#io-%e7%a1%ac%e4%bb%b6%e5%8e%9f%e7%90%86" class="header-mark"></a>IO 硬件原理</h2><p>对于不同角度观察的人，IO 硬件的理解是不同的。对于电子工程师而言，IO 硬件就是芯片、导线、电源、电机和其他组成硬件的物理部件。对程序员而言，则只注意 IO 硬件提供给软件的接口，如硬件能够接收的命令、实现的功能以及能够报告的错误。因此这里所描述的
+IO 设备仅限于对硬件的编程，而非其内部工作原理。</p>
+<h3 id="io-设备" class="headerLink">
+    <a href="#io-%e8%ae%be%e5%a4%87" class="header-mark"></a>IO 设备</h3><p>IO 设备大致可以分为两类 <strong>块设备</strong> (block device) 与 <strong>字符设备</strong> (character device)。
+block device 将信息存储在固定大小的块中，每个块有自己的地址，通常块的大小在 512
+字节到 65536 字节之间，所有传输以一个或多个完整的块为单位，其基本特征是每个块都能独立于其他块读写。硬盘、蓝光光盘、USB 盘等都是常见的 block device。character
+device 以字符为单位发送或接收一个字符流，而不考虑任何块结构，其是不可寻址的，也没有任何寻道操作。键鼠、打印机、网络接口都是常见的 character device。</p>
+<p>时钟是相对特殊的一类 IO 设备，既不是 character 也不是 block，其工作就是按照预先设置好的时间间隔产生中断。但是 block 与 character 的分类具有足够的一般性，可以用作使处理 IO 设备的某些 OS 软件具有设备无关性的基础。另外在速度上 IO 设备有巨大的差异，虽然大部分设备变得越来越快，但软件在跨越如此多的数量级的数据率下保证性能优良，有十分大的压力。</p>
+<table>
+<thead>
+<tr>
+<th>设备</th>
+<th>数据率</th>
+<th>设备</th>
+<th>数据率</th>
+<th>设备</th>
+<th>数据率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PS/2 Port</td>
+<td>7~12 kbps</td>
+<td>IEEE 802.11n</td>
+<td>600 Mbps</td>
+<td>IEEE 802.11ax</td>
+<td>9.6 Gbps</td>
+</tr>
+<tr>
+<td>2G (GSM)</td>
+<td>14.4 kbps</td>
+<td>FireWire 800</td>
+<td>786.432 Mbps</td>
+<td>USB 3.1</td>
+<td>10 Gbps</td>
+</tr>
+<tr>
+<td>Modem</td>
+<td>56 kbps</td>
+<td>ATA/100</td>
+<td>800 Mbps</td>
+<td>HDMI 1.3</td>
+<td>10.2 Gbps</td>
+</tr>
+<tr>
+<td>3G (W-CDMA)</td>
+<td>384 kbps</td>
+<td>1GEthernet</td>
+<td>1 Gbps</td>
+<td>SAS-3</td>
+<td>12 Gbps</td>
+</tr>
+<tr>
+<td>CD 1x</td>
+<td>1.2288 Mbps</td>
+<td>SATA 2.0</td>
+<td>3 Gbps</td>
+<td>PCIe 4.0 1x</td>
+<td>15.752 Gbps</td>
+</tr>
+<tr>
+<td>MD (PCM)</td>
+<td>1.4112 Mbps</td>
+<td>DVI 1x</td>
+<td>3.96 Gbps</td>
+<td>USB 3.2</td>
+<td>20 Gbps</td>
+</tr>
+<tr>
+<td>DVD 1x</td>
+<td>11 Mbps</td>
+<td>USB 3.0</td>
+<td>5 Gbps</td>
+<td>PCIe 5.0 1x</td>
+<td>31.504 Gbps</td>
+</tr>
+<tr>
+<td>Blu-ray 1x</td>
+<td>36 Mbps</td>
+<td>SATA 3.0</td>
+<td>6 Gbps</td>
+<td>DP 1.3</td>
+<td>32.4 Gbps</td>
+</tr>
+<tr>
+<td>3G (HSPA+)</td>
+<td>42.2 Mbps</td>
+<td>SAS-2</td>
+<td>6 Gbps</td>
+<td>USB 4.0</td>
+<td>40 Gbps</td>
+</tr>
+<tr>
+<td>4G (LTE-FDD)</td>
+<td>150 Mbps</td>
+<td>IEEE 802.11ac</td>
+<td>6.93 Gbps</td>
+<td>HDMI 2.0</td>
+<td>48 Gbps</td>
+</tr>
+<tr>
+<td>USB 2.0</td>
+<td>480 Mbps</td>
+<td>PCIe 3.0 1x</td>
+<td>7.88 Gbps</td>
+<td>DP 2.0</td>
+<td>80 Gbps</td>
+</tr>
+</tbody>
+</table>
+<h3 id="设备控制器" class="headerLink">
+    <a href="#%e8%ae%be%e5%a4%87%e6%8e%a7%e5%88%b6%e5%99%a8" class="header-mark"></a>设备控制器</h3><p>IO 设备一般由机械部件与电子部件两部分组成，通常可以将两部分分开处理，以提供更加模块化、通用的设计。电子部分称为 <strong>设备控制器</strong> (device controller) 或 <strong>适配器</strong>
+(adapter)，在个人计算机中，通常以主板上的芯片或插入 PCI 总线扩展槽的电路板的形式出现。机械部分则是其设备本身。</p>
+<p>Controller 通常有一个连接器，通向设备本身的电缆可以插入连接器中，很多控制器可以操作多个相同的设备。controller 与 device 的接口通常是更低层次的接口，例如磁盘以每个磁道 2000000 个扇区、每个扇区 512 字节进行格式化，但是从驱动器出来的却是一个串行的比特流，它以前导符开始，接着是扇区中的数据，最后则是一个 <strong>错误校正码</strong>
+(Error-Correcting Code, ECC)。前导符是对磁盘格式化时写入的，其中包括柱面数、扇区号、扇区大小以及类似数据，此外还包含同步信息。Controller 的任务是将串行的比特流转换为字节块并进行校验工作。字节块在 Controller 内按 bit 组装，进行校验保证没有错误，之后再将其复制到内存中。</p>
+<h3 id="内存映射-io" class="headerLink">
+    <a href="#%e5%86%85%e5%ad%98%e6%98%a0%e5%b0%84-io" class="header-mark"></a>内存映射 IO</h3><p>每个 Controller 有几个寄存器用来与 CPU 通信，通过写入寄存器，OS 可以命令设备发送数据、接收数据、开启或关闭，或执行其他某些操作。通过读取这些寄存器，OS 可以了解设备的状态、是否准备好接收新的命令等。除了这些寄存器外，许多设备还有一个 OS 可以读写的数据缓冲区，那么首先要解决的问题即如何与设备的控制器寄存器和缓冲区通信。</p>
+<p>可以为控制器寄存器分配 IO 端口 (port) 号，形成 IO 端口空间，并且受到保护使得普通的用户程序不能对其进行访问。另一种方法是 PDP-11 引入的，将所有控制寄存器映射到内存空间中，这些内存空间是唯一且不会被其他程序分配到的，这样的系统称为 <strong>内存映射
+IO</strong> (memory mapped IO)。在大部分系统中，分配给控制寄存器的地址位于或靠近地址空间的顶端。当 CPU 读取一个字的时候，不论从内存还是 IO port 读取，都需要将地址放入总线的地址线上，然后总线的控制线置为 READ，第二条信号线表明需要的是 IO 空间或内存空间。如果只有内存空间，那么每个内存模块和和每个 IO 设备都会将地址线和它所服务的地址范围进行比较，地址落入该范围才会响应请求。</p>
+<p>对于 memory mapped IO 的 <strong>优点</strong>​：</p>
+<ol>
+<li>若需要特殊的 IO 指令读写设备控制寄存器，那么访问这些寄存器需要汇编代码，而使用 memory mapped 则可以完全使用 C 语言编写驱动</li>
+<li>不需要特殊的保护机制阻止用户进程执行 IO 操作，OS 只需要避免将内存分配给其他进程即可。在用户需要控制特定的设备时，只需要将其页面添加进页表</li>
+<li>可以引用内存的每一条指令也可以引用控制寄存器</li>
+</ol>
+<p>但其也有相应的 <strong>缺点</strong></p>
+<ol>
+<li>需要为其选择性禁用高速缓存，但会为硬件与 OS 增添额外的复杂性</li>
+<li>所有的内存模块与 IO 设备都必须检查所有的内存引用，以便了解哪个设备做出了响应。但这是复杂的，因为现代计算机更多的使用 CPU 与 内存之间的专用告诉总线，有的架构中甚至包含更多条总线。为此有一些解决方法：
+<ol>
+<li>先将全部内存引用发送到内存，若内存响应失败，再尝试其他总线</li>
+<li>内存总线上放置一个探查设备，放过所有潜在地指向所关注的 IO 设备的地址，但是设备可能无法以内存所能达到的速度处理请求</li>
+<li>内存控制器芯片中包含引导时预装载的范围寄存器，落在标记为非内存范围内的地址将被转发到设备</li>
+</ol>
+</li>
+</ol>
+<h3 id="直接存储器存取" class="headerLink">
+    <a href="#%e7%9b%b4%e6%8e%a5%e5%ad%98%e5%82%a8%e5%99%a8%e5%ad%98%e5%8f%96" class="header-mark"></a>直接存储器存取</h3><p>无论是否具有 memory-mapped IO，有时都需要寻址设备控制器以便与它们交换数据，但每次请求读取一字节的数据将浪费 CPU 资源，因此经常用到 <strong>直接存储器存取</strong> (Direct
+Memory Access, DMA) 这种方案。只有硬件存在 DMA 时 OS 才能使用它，有时 DMA 被集成到设备的控制器中，无论 DMA 控制器出于什么位置，其都能够独立于 CPU 访问系统总线。其包括若干可直接被 CPU 读写的寄存器，包含一个内存地址寄存器、一个字节计数寄存器和一到多个控制寄存器，控制寄存器指定要使用的 IO port、传输方向、传送单位以及传送大小。</p>
+<p>假设 CPU 通过单一总线连接所有设备与内存，系统中拥有一个 DMA 控制器。以下图为传输数据操作为例，简单说明。</p>
+<ol>
+<li>CPU 通过设置 DMA 控制器的寄存器对其编程</li>
+<li>DMA Controller 根据 CPU 的编程，在总线上对设备发起请求</li>
+<li>设备将请求的数据写入内存</li>
+<li>写操作完成时，设备将在总线上发出一个应答信号给 DMA</li>
+<li>DMA 完成任务后将中断 CPU，以便告知其请求内容已存在于内存中</li>
+</ol>
+<figure><img src="/images/dma-operation-example.svg"/>
+</figure>
+
+<p>许多总线能够进行两种操作：字模式与块模式。DMA Controller 进行字模式操作时，请求传送一个字并得到这个字，如果 CPU 需要使用总线则这时必须等待，这被称为 <strong>周期窃取</strong>
+(cycle stealing)，轻微地延迟 CPU。当 DMA 通知设备获得总线并发送一连串的传送，之后释放总线，这被称为 <strong>突发模式</strong> (burst mode)。burst mode 相比 cycle stealing 总是效率更高，但需要阻塞更长时间的 CPU 与其他设备。之前所说的 &ndash; DMA 通知设备直接将数据写入 RAM，这种模式被称为 <strong>飞跃模式</strong> (fly-by mode)。前两种相对灵活，因为可以将数据写到任何地方，但相应地需要更多的总线周期。</p>
+<p>DMA 一般使用物理内存地址进行传输，这就需要 OS 将内存缓冲区的物理地址直接写入 DMA。有些使用虚拟地址的 DMA，需要使用 MMU 配合完成地址转换，MMU 是内存的组成部分才能完成这部分工作，但 MMU 往往存在于 CPU 中。</p>
+<h3 id="中断" class="headerLink">
+    <a href="#%e4%b8%ad%e6%96%ad" class="header-mark"></a>中断</h3><p>当一个 IO 设备完成交给它的工作时，它就产生一个中断 (假设 OS 已开放中断)，它通过在分配给它的一条总线信号线上置起信号而产生中断，该信号被主板上的中断控制器芯片检测到，由中断控制芯片决定做什么。</p>
+<p>当用中断到来时，中断控制器将立刻对中断进行处理。当有另一个中断处理到来时，可能会被忽略，或者运行具有更高的优先级的中断。被忽略的中断请求会继续设置请求，直到 CPU
+处理。
+<a class="lightgallery" href="/images/how-to-interrupt.svg" title="/images/how-to-interrupt.svg" data-thumbnail="/images/how-to-interrupt.svg">
+        <img
+            
+            loading="lazy"
+            src="/images/how-to-interrupt.svg"
+            srcset="/images/how-to-interrupt.svg, /images/how-to-interrupt.svg 1.5x, /images/how-to-interrupt.svg 2x"
+            sizes="auto"
+            alt="/images/how-to-interrupt.svg">
+    </a></p>
+<p>为了处理中断，中断控制器在地址线上放置一个数字表明哪个设备需要关注，并置起一个中断 CPU 的信号。中断信号导致 CPU 停止当前工作并开始新的工作。地址线上的数字被用作指向 <strong>中断向量</strong> (interrupt vector)，以便读取新的程序计数器，新的 counter 指向相应服务过程的开始。interrupt vector 的位置可以硬布线到机器中，或在内存中的任何地方通过 OS 装载到 CPU 寄存器。</p>
+<p>中断服务开始运行后，它立刻通过一个确定的值写入中断控制器的某个 IO port 来对中断做出应答，这一应答告诉中断控制器可以自由地发出另一中断。通过让 CPU 延迟应答直到它准备好处理下一中断，就可以避免与多个几乎同时发生的中断相牵扯的竞争状态。</p>
+<p>在开始运行中断服务前，需要硬件保存一定信息，这样可以保证被中断的程序在中断结束后可以继续运行。而中断中需要保存哪些内容，各个 CPU 之间差别巨大，其中最少必须保存程序计数器，此外还可能保存寄存器的状态。将数据保存到内部寄存器中，在需要时由 OS
+读出，但这样会导致中断控制器被延迟，直到所有相关数据被 OS 读出内部寄存器，防止中断重写内部寄存器。</p>
+<p>大多数 CPU 在 <code>堆栈</code> 中保存信息，可以使用内核集中管理或保存在用户空间中。保存在用户空间时，可能造成堆栈指针不合法，也可能在指向末端的页面写入数据后造成越界。使用内核空间保存堆栈没有以上的缺点，但是会造成 MMU 切换上下文，导致 cache 与 TLB
+失效，从而浪费 CPU 时间。</p>
+<p>现代计算机使用 <strong>流水线</strong> 与 <strong>超标量</strong> 技术，可能导致在一条指令没有执行完毕时，发生未处理的中断，而之前的假设都是在指令完成时处理中断。而超标量技术带来了乱序执行，导致可能之前的指令还没有执行但最近的指令已经快要完成了。</p>
+<p>将机器留在一个明确状态的中断称为 <strong>精确中断</strong> (precise interrupr)，其具有以下特征：</p>
+<ol>
+<li>PC 保存在一个已知的地方</li>
+<li>PC 所指向的指令之前的所有指令已经完成执行</li>
+<li>PC 所指向的指令之后的所有指令都没有执行</li>
+<li>PC 所指向的指令的执行状态是已知的</li>
+</ol>
+<p>PC 所指向的指令之后的指令，并不会被禁止执行，而是要求在中断发生之前必须撤销它们对寄存器或内存做出的任何修改。PC 所指向的指令有可能已经执行了，也可能还没执行，必须清楚适用的是哪种情况。</p>
+<figure><img src="/images/precise-and-imprecise-interrupt.svg"/>
+</figure>
+
+<p>不满足要求的中断被称为 <strong>不精确中断</strong> (imprecise interrupt)，这种机器通常将大量的内部状态吐出到堆栈中，从而使 OS 可以判断出正在发出什么事情。重新启动机器所必需的代码通常极其复杂，在每次中断发生时将大量的信息保存在内存中使得中断响应十分缓慢，而恢复则更加糟糕。因此这样的系统，缓慢的中断使得非常快速的超标量 CPU 有时并不适合实时工作。</p>
+<p>有些计算机设计成某些种类的中断和陷阱是 precise (如 IO 中断)，而其他的不是 (如除零中断)。计算机有一个位可以设置精确中断，它强迫所有中断都是精确的，这将强迫 CPU
+仔细地将正在做的一切事情记入日志并维护寄存器的影子副本，但这样对开销都对性能具有较大的影响。</p>
+<h2 id="io-软件原理" class="headerLink">
+    <a href="#io-%e8%bd%af%e4%bb%b6%e5%8e%9f%e7%90%86" class="header-mark"></a>IO 软件原理</h2><p>IO 软件设计的关键概念即 <strong>设备独立性</strong> (Device Independence)，编写的程序无需事先指定设备且可以访问任意 IO 设备。与 Device Independence 息息相关的是 <strong>统一命名</strong>
+(uniform naming)，即文件或设备的名称应该是一个简单的字符串或整数，不应依赖于设备。例如 UNIX 下 mount 一个 USB 设备到一个 path，那么访问并修改这个 path 就可以将数据写入 USB 设备中，这样文件和设备都采用统一的 <code>路径名寻址</code>​。</p>
+<p><strong>错误处理</strong> (Error Handling) 是 IO 软件的重要组成，Error 应该尽可能地接近硬件层面处理，只有在底层软件处理不了的情况再交由高层处理。</p>
+<p><strong>同步</strong> (Synchronous) 与 <strong>异步</strong> (Asynchronous) 传输是 IO 软件需要关心的，大多数物理 IO 是 Asynchronous，CPU 请求 IO 之后就去完成其他任务，直到 IO 中断的发生。如果是 Synchronous IO 那么用户程序将变得容易编写，只需要调用 read 后程序就会挂起，直到缓冲区准备完毕。但是相应的，一些高性能的程序需要自己控制 IO 细节，所以需要
+Asynchronous IO。</p>
+<p><strong>缓冲</strong> (buffering) 是 IO 软件的一个重要问题，数据离开设备后通常并不能直接存放到最终目的地。但是缓冲区需要大量的复制，经常对 IO 性能有着重大影响。</p>
+<p>IO 可以由三种完全不同的方式实现</p>
+<dl>
+<dt><code>程序控制 IO</code> (programmed IO)</dt>
+<dd>OS 将数据复制到内核，然后进入密闭的循环，每次输出一个字符，在每次输出之后
+CPU 会查询设备状态以了解其是否准备就绪接受下一个字符。这一行为被成为 <strong>轮询</strong>
+(polling) 或 <strong>忙等待</strong> (busy waiting)。programmed IO 十分简单，但直到 IO 完成之前都需要占用 CPU 的全部时间。</dd>
+<dt><code>中断驱动 IO</code></dt>
+<dd>polling 会浪费 CPU 的时间，因此在每次提交 IO 请求后，CPU 将调用其他进程并阻塞当前进程，当设备完成 IO 后将为 OS 发送中断信号，OS 得以处理接下来的情况 &mdash;
+继续打印还是完成 IO 就绪刚刚进行 IO 请求的进程。</dd>
+<dt><code>DMA IO</code></dt>
+<dd>中断需要浪费时间，因此可以使用 DMA 替代 CPU 处理中断，CPU 向 DMA Controller
+请求一次 IO，DMA 将完成这次 IO 并在完成之前不会打扰 CPU，从而减少调度进程所消耗的 CPU 资源。但是当 DMA 无法全速调度设备或 CPU 需要等待 DMA 中断，则可能使用 programmed IO 或中断驱动 IO 会更好一些。</dd>
+</dl>
+<h2 id="io-软件层次" class="headerLink">
+    <a href="#io-%e8%bd%af%e4%bb%b6%e5%b1%82%e6%ac%a1" class="header-mark"></a>IO 软件层次</h2><h3 id="中断处理程序" class="headerLink">
+    <a href="#%e4%b8%ad%e6%96%ad%e5%a4%84%e7%90%86%e7%a8%8b%e5%ba%8f" class="header-mark"></a>中断处理程序</h3><p>中断是令人不愉快且无法避免的，应当隐藏于 OS 内部，以便系统其他部分尽量不与其发生联系。隐藏的最好办法就是将启动一个 IO 操作的驱动程序阻塞，直到 IO 操作完成并产生中断信号。当中断发生时，中断处理程序将做它必须要做的全部工作以便对中断进行处理。然后它可以将启动中断的驱动程序解除阻塞。</p>
+<p>真正的实现并不简单，对 OS 而言还涉及更多的工作。以下列出了通用的中断步骤，这是在硬件中断完成后必须在软件上执行的，由于中断处理依赖于不同平台，因此有些机器上并不需要某些步骤，或者顺序不同</p>
+<ol>
+<li>保存没有被中断硬件保存的所有寄存器 (包含 PSW)</li>
+<li>为中断服务过程设置上下文，可能包含 TLB、MMU 和页表</li>
+<li>为中断服务过程设置堆栈</li>
+<li>应答中断控制器，若不存在集中的中断控制器则再次开放中断</li>
+<li>将寄存器从它们被保存的地方 (某个堆栈) 复制到进程表中</li>
+<li>运行中断服务过程，从发出中断的设备控制器的寄存器中提取信息</li>
+<li>选择下次运行的进程，若中断导致某个被阻塞的高优先级进程变为就绪，则可能选择这个进程运行</li>
+<li>为下次运行的进程设置 MMU 上下文，可能需要设置 TLB</li>
+<li>装入新进程的寄存器 (包含 PSW)</li>
+<li>开始运行新进程</li>
+</ol>
+<h3 id="设备驱动程序" class="headerLink">
+    <a href="#%e8%ae%be%e5%a4%87%e9%a9%b1%e5%8a%a8%e7%a8%8b%e5%ba%8f" class="header-mark"></a>设备驱动程序</h3><p>某些设备控制器会有寄存器用来向设备发送命令，或读出设备状态的寄存器，亦或两者都有。这些寄存器的数量、命令的性质在不同设备之间差距极大。因此连接计算机的 IO 设备需要某些设备的特定代码对其控制，这种代码被称为 <strong>设备驱动</strong> (device driver)，一般由设备制造商编写并交付。为了访问设备硬件 (即访问设备控制器的寄存器)，设备驱动程序通常必须是操作系统内核的一部分 (即 macro kernel)。不过也有可能处在用户空间并使用
+syscall 读写设备寄存器 (即 micro kernel)，这样做可以隔离 OS/driver 以及
+driver/driver，消除有问题的 driver 干扰 OS。</p>
+<p>往往不同设备基于不同的底层技术，但 USB 设备是典型的不同 device 基于相同的底层技术的代表。底层硬件中，USB 链路层处理硬件事物，如发送信号以及将信号译码为 USB 包；较高层次中，处理数据包以及 USB 的通用功能；顶层 API 则是交由不同 driver 进行处理。这与 TCP/IP 协议栈类似，底层协议栈实现数据的传输，而在上层实现不同的协议以针对不同的场景。因此即使是 USB 设备，最上层的设备驱动程序也是分开实现的。</p>
+<p>OS 一般定义一个明确的模型，以供 driver 被安装到 OS 中。通常 device 被分为 block
+与 character 两大类 (当然还有其他类型设备)，OS 会针对这些类别的设备分别制订必须支持的标准接口，以便 kernel 调用它们让驱动程序工作。当今的 OS 往往支持动态地装载
+driver，以便增添设备时添加新的 driver。</p>
+<p>许多 driver 具有若干功能，最主要的即接收上方设备无关的软件发出的请求并执行，还会在必要的时候对设备进行初始化，或对电源需求与日志事件进行管理等等。driver 可能要检查当前是否使用，如果使用那么新的请求排入队列以备稍后处理，空闲则检查硬件状态以了解请求是否能够处理。传输开始之前可能需要接通设备或启动马达，当就绪后实际的控制就可以开始。控制设备意味着向设备发送一系列命令，根据控制设备必须要做的工作，由
+driver 确定命令序列。driver 在获知哪些命令将要发出后，就开始将它们写入控制器的设备寄存器，并检测控制器是否已接收命令且准备好接收下一命令，直到所有命令被发送。某些设备控制器可以为其提供在内存中的命令链表，由控制器从命令链表中读取命令，而不再需要 OS 干涉。</p>
+<p>大多数情况下，命令发出后 driver 都会阻塞自身直到中断到来，然而某些情况操作可以几乎无延迟地完成 (比如没有机械部件的 character device)，前者 driver 会被中断唤醒，而后者则不会阻塞。无论哪种情况操作完成后 driver 必须检查错误，如果一切正常那么
+driver 将把数据传送给请求方，并为其返回用于错误报告的状态码。在一切完成后，
+driver 会检查队列中是否有待处理的请求，如果有则继续处理请求，反之则被阻塞等待新任务唤醒。</p>
+<p>但是实际上，driver 正在处理数据时，另一个中断可能会中断其执行，也可能中断通知该
+driver 新的数据到来，因此 driver 必须是 <strong>可重入的</strong> (reentrant)，这意味着 driver
+必须预料到在第一次调用完成之前第二次被调用。而热插拔设备在删除时，当前 IO 传送必须中止且不能破坏任何核心数据结构，并且相关没有处理的 IO 请求都应正确地从系统中删除，同时为这些请求向调用者返回错误信息。而添加新设备则需要 kernel 重新配置资源，从 driver 中删除旧资源，并在适当位置填入新资源。</p>
+<h3 id="设备无关的-io-软件" class="headerLink">
+    <a href="#%e8%ae%be%e5%a4%87%e6%97%a0%e5%85%b3%e7%9a%84-io-%e8%bd%af%e4%bb%b6" class="header-mark"></a>设备无关的 IO 软件</h3><p>driver 与设备无关软件之间的确切界限依赖于具体的系统，可能由于性能等因素，本应设备无关的实现方式交由 driver 实现。但是我们依然可以确定设备无关的软件的基本功能，即执行对所有设备公共的 IO 功能，并向用户层软件提供一个统一的接口。</p>
+<ul>
+<li>
+<p><strong>driver 的统一接口</strong></p>
+<p>如何使 IO 设备与驱动程序看起来或多或少相同，是 OS 中主要的设计问题，因为不能在新设备出现时都为其修改操作系统。</p>
+<p>因此对于每种设备类型，OS 定义一组驱动程序必须支持的函数，如 read、write、init、
+poweroff、poweron 等等。驱动程序通常包含这张表格，其中具有针对这些函数指向驱动程序自身的指针，当 OS 挂载 driver 时将记录下这个表格的地址，从而在统一接口被调用时查询实际需要调用的函数。</p>
+<p>其次 OS 还会将符号化的设备名映射到合适的的 driver 上。以 UNIX 为例，设备名一般被映射到特殊文件的 index 上，其中包含了用于定位驱动程序的 <code>主设备号</code> (major
+device number) 与作为参数传递给 driver 的 <code>次设备号</code> (minor device number)，并且所有 device 都是通过 major 来选择 driver 而得到访问的。其次设备都是以特殊文件映射到系统的，因此文件系统上对文件的保护规则可以应用于 IO 设备。</p>
+</li>
+<li>
+<p><strong>缓冲</strong></p>
+<p>无论是 character 还是 block 设备都有可能需要 <code>缓冲</code> (buffering)。每次都由小数据频繁引起中断，将导致进程运行效率的低下。</p>
+<p>加入 buffer 是麻烦的，如果 buffer 位于用户空间，当数据到来时 buffer 页面可能会被调出 RAM；当 buffer 位于内核空间时，buffer 被填满并向用户空间 buffer 复制时，到来新的数据将无处容纳。因此常用的方法为 <code>双缓冲</code> (double buffering)，在
+kernel 中使用两个缓冲区，一个 buffer 被填满时改用另一个 buffer 接收数据。另外一种方案则是使用 <code>环缓冲区</code> (circular buffer)，即一个内存区域与双指针的实现，一个指针指向该区域的数据的第一个字节，另一个指针指向最后一个数据的尾后字节。</p>
+<p>但是需要注意的是，数据被缓冲的次数过多时，由于大量的复制操作，且赋值操作必须有序地发生，因此系统性能会有所降低。</p>
+</li>
+<li>
+<p><strong>错误报告</strong></p>
+<p>错误在 IO 上下文中比其他上下文中要常见的多，错误发生时，OS 必须尽最大努力处理。许多错误是设备特定的且必须由适当的驱动程序来处理，但错误处理的框架是设备无关的。因此错误可以被分为不同的大类：</p>
+<ul>
+<li><strong>编程错误</strong> 发生在一个进程请求某些不可能的事情时所发生的，面对这些错误可以直接返回一个错误码给调用者
+<ul>
+<li>读一个输入设备 (键鼠、扫描仪等) 或写一个输出设备 (打印机等)</li>
+<li>指定了一个无效设备</li>
+<li>提供了无效的缓冲区地址或参数</li>
+</ul>
+</li>
+<li>面对 <strong>实际 IO 错误</strong> 时应该由 driver 决定干什么，如果 driver 不知道该做什么，则应将问题向上传递，返回给与设备无关的软件</li>
+</ul>
+<p>软件要做的事取决于环境与错误本身的本质，如果简单的读错误并存在一个交互式的用户可利用，那么可以显示交由用户选择需要做什么，没有交互用户时则以一个错误代码让系统调用中止。当然在重要的数据结构上，错误不能这样处理，比如根目录或空闲块列表被破坏，系统应该显示错误消息并终止进程。</p>
+<ul>
+<li>
+<p><strong>分配与释放专有设备</strong></p>
+<p>某些设备 (如打印机) 只能在任意时刻由一个进程使用，这就要求 OS 对设备的请求进行检查，并根据被请求的设备是否可用来接受或拒绝请求。这里说明两种方式以解决专有设备的独占问题：</p>
+<ul>
+<li>要求进程在代表设备的特殊文件上直接执行 open 操作，如果 open 失败则说明设备不可用，当使用结束则 close 将其释放</li>
+<li>对于请求与释放专有设备实现特殊机制，试图得到不可用的设备可以将调用者阻塞而非失败，这一进程被放入一个队列，当设备可用时从该队列中取出进程并使其继续运行</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>提供与设备无关的块大小</strong></p>
+<p>由于不同设备可能有不同的交付数据的单位，但设备无关的软件应该隐藏这一事实，向高层提供一个统一的块大小。高层软件只需要处理抽象的设备，这些设备无论是
+character 还是 block 全部使用相同的逻辑块大小</p>
+</li>
+</ul>
+<h3 id="用户空间的-io-软件" class="headerLink">
+    <a href="#%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e7%9a%84-io-%e8%bd%af%e4%bb%b6" class="header-mark"></a>用户空间的 IO 软件</h3><p>大部分 syscall (包含 IO 系统调用) 由库过程实现，这些库过程的集合则是 IO 系统的组成部分。虽然这些过程是将参数放在合适的位置供系统调用使用，但的确有其他 IO 过程实际实现真正的操作，比如 C 语言中的标准 IO 库 <code>stdio.h</code>​，它们作为用户程序的一部分运行。</p>
+<p>并非所有的用户层 IO 软件都是由库过程组成的，一个重要的类型就是 <strong>假脱机</strong>
+(spooling) 系统，这是多道程序设计系统中处理独占 IO 设备的一种方法。打印机就是典型的 spooling device，尽管技术上可以让任何用户进程打开表示打印机的字符特殊文件，但假如一个进程打开它并长时间不使用，那么其他进程也将无法打印。</p>
+<p>关于 spooling 的解决方法很简单，创建一个特殊进程 <strong>守护进程</strong> (daemon)，以及一个特殊目录 <strong>假脱机目录</strong> (spooling directory)。当一个进程要打印时，首先生成要打印的整个文件，并将其放入 spooling directory，由 daemon 打印该目录下的文件，该进程是允许使用打印机特殊文件的唯一进程。通过保护特殊文件来防止用户直接使用，可以解决某些进程不必要地长时间空占 spooling device。</p>
+<h3 id="io-系统的总结" class="headerLink">
+    <a href="#io-%e7%b3%bb%e7%bb%9f%e7%9a%84%e6%80%bb%e7%bb%93" class="header-mark"></a>IO 系统的总结</h3><figure><img src="/images/io-software-level.svg"/>
+</figure>
+
+<ul>
+<li>用户进程
+<ul>
+<li>产生 IO 请求</li>
+<li>对 IO 进行格式化</li>
+<li>假脱机</li>
+</ul>
+</li>
+<li>与设备无关的软件
+<ul>
+<li>命名、保护</li>
+<li>统一逻辑块大小</li>
+<li>缓冲</li>
+<li>分配与释放专有设备</li>
+</ul>
+</li>
+<li>设备驱动程序
+<ul>
+<li>设置设备寄存器</li>
+<li>检查设备状态</li>
+</ul>
+</li>
+<li>中断处理程序
+<ul>
+<li>当 IO 完成时唤醒驱动程序</li>
+</ul>
+</li>
+<li>硬件
+<ul>
+<li>执行 IO 操作</li>
+</ul>
+</li>
+</ul>
+<h2 id="盘" class="headerLink">
+    <a href="#%e7%9b%98" class="header-mark"></a>盘</h2><p>盘是概念简单且重要的 IO 设备，具有多种类型，最为常见的是磁盘，读写速度较快、容量大、断电数据不丢失，适合作为可靠的辅助存储器。对于程序、电影的发行光盘 (DVD 与
+Blu-ray) 也是十分重要的存储介质。如今移动硬盘越来越成为主流，其中仅包含半导体元件，速度也十分快速。</p>
+<h3 id="磁盘" class="headerLink">
+    <a href="#%e7%a3%81%e7%9b%98" class="header-mark"></a>磁盘</h3><p>磁盘的物理结构一般由 <code>磁头</code> (heads) 与 <code>盘片</code> (platters)、电动机、主控芯片与排线等部件组成。磁盘被划分为以下部分：</p>
+<ul>
+<li><strong>磁道</strong> (track)：当磁盘旋转时，head 若保持在一个位置上，则每个 head 都会在磁盘表面划出一个圆形的轨迹。</li>
+<li><strong>柱面</strong> (cylinder)：在多个 platter 构成的盘组中，不同 platter 的面，但处于同一半径的多个磁道组成的圆柱面。cylinder 的数量与 head 的数量相同，一般为
+platter 的二倍 (一般一个 platter 有正反两个盘面)。</li>
+<li><strong>扇区</strong> (sector)：或称 <code>磁道扇区</code> (track sector)，磁盘上的每个磁道被等分为若干个弧段中的一段。磁盘的第一个扇区为引导扇区。</li>
+<li><strong>几何扇区</strong> (geometrical sector)：或称 <code>扇面</code>​，是同一 platter 上，由拥有同心角的不同 sector 组成的扇面。</li>
+<li><strong>簇</strong> (cluster)：或称 <code>分配单元</code>​，是 OS 中文件系统存储管理的单位，即文件系统中的块大小。一个 cluster 可以由一个或多个 sector 组成，cluster size 一般在格式化文件系统时选定。这是一个 OS 逻辑概念，而非磁盘的物理特性。</li>
+</ul>
+<figure><img src="/images/hard-disk-drive-structure.svg"/>
+</figure>
+
+<p>集成驱动电子设备 (Integrated Drive Electronics, IDE) 是将控制器与盘体结合在一起的一种技术，这种技术使得数据传输的可靠性增加，磁盘制造变得简单，厂商无需担心自己产品与其他厂商的控制器之间的兼容性问题，也使得安装更为方便。高技术附件 (Advanced
+Technology Attachment, ATA) 是一种并行的、用于连接存储设备的标准接口，这是一种控制器技术，也被称为 并行高技术附件 (Parallel ATA)。由于并联易被干扰，速度缓慢，被之后出现的 串行高技术附件 (Serial ATA) 所替代。不过无论是 PATA 或 STAT，都是使用了 IDE 技术的磁盘，其本身包含一个微控制器，向实际的控制器发出一组高级指令，而控制器经常做磁道的高速缓存、坏块映射以及更多工作。</p>
+<p>磁盘驱动程序有一个重要的设备特性：控制器是否可以同时控制两个或多个驱动器进行寻道，即 <strong>重叠寻道</strong> (overlapped seek)。当控制器和软件等待一个驱动器完成寻道时，控制器同时可以启动另一个驱动器进行寻道；许多控制器可以在一个驱动器上进行读写，与此同时再对另一个或多个其他驱动器进行寻道，但是软盘控制器不能在两个驱动器上同时进行读写操作。overlapped seek 极大程度地降低了平均存取时间。</p>
+<p>在实现上，磁盘物理几何规格和驱动程序软件的几何规格几乎总是不同，现代 HDD 外层的磁道的扇区数量比内层磁道的扇区数量更多，为了隐藏这些磁盘细节，大多数现代磁盘都有一个虚拟几何规格呈现给 OS。软件使用 cylinder、head 和 sector 定位数据，并由控制器将 Triple <code>(C, H, S)</code> 映射为真实的位置。Triple 的最大值为 <code>(65535, 16, 63)</code>​，这与最初的 IBM PC 相兼容。在 IBM PC 上使用分别使用 <code>(16 bit, 4 bit, 6 bit)</code> 来蛇者这些参数，其中 cylinder 与 sector 的编号从 1 开始，head 的编号从 0 开始。为了突破 Triple 最大值的限制，现代 HDD 基本都支持名为 <strong>逻辑块寻址</strong> (Logical Block
+Addressing, LBA) 的系统，sector 从 0 开始连续编号，而不管磁盘的几何规格。</p>
+<h3 id="raid" class="headerLink">
+    <a href="#raid" class="header-mark"></a>RAID</h3><p>随着时间的推移，CPU 的速度越来越快，但是磁盘的寻道时间却依然难以以数量级的方式下降，CPU 与磁盘之间的速度差距越来越大。因此为提高性能，有人开始考虑并行 IO，
+Patterson 等人在 1988 年发表的 <a href="https://dl.acm.org/doi/10.1145/971701.50214" target="_blank" rel="noopener noreferrer">论文</a> 中提出，使用六种特殊的磁盘组织可能会改进性能、可靠性或两者同时改进。这一思想在工业界很快采纳，并导致成为 <strong>RAID</strong> 这一新型 IO 设备诞生。RAID 技术被称为 <code>Redundant Arrays of Inexpensive Disks</code> (廉价磁盘冗余阵列)，工作界将其称之为 <code>Redundant Arrays of Independent Disks</code> (独立磁盘冗余阵列)，并且有其对应的「反派角色」 <code>Signle Large Expensive Disks</code> (SLED，单独大容量昂贵磁盘)。顺带一提，如今 RISC 一词最早出现于 Patterson 在 1980 年 UC 主持 Berkeley
+RISC 计划时期发表的 <a href="https://dl.acm.org/doi/10.1145/641914.641917" target="_blank" rel="noopener noreferrer">另一篇论文</a>，尽管更早的由 Cocke 主持的 IBM 801 计划已经开始使用 RISC。</p>
+<p>RAID 是将一个装满磁盘的盒子安装到计算机上，用 RAID 控制器替换磁盘控制器卡，讲数据复制到整个 RAID 上，然后继续进行常规操作。以用户的角度来说 RAID 就是一个 SLED，但具有更好的性能与可靠性。RAID 就是将数据分布在全部的驱动器上，因此为不同的阵列方案，Pattersion 等人定义了不同的等级，如今是 0 到 6 级这七个等级。需要注意的是
+RAID 并不是层级结构，7 个等级只是 7 种不同的组织阵列的方式。</p>
+<figure><img src="/images/RAID-example.svg"/>
+</figure>
+
+<ol>
+<li>
+<p>RAID0</p>
+<p>它将 RAID 模拟的虚拟单个磁盘分成条带，每个条带具有 k 个扇区，其中 \(0 ~ k -
+1\) 为条带 0，​\(k ~ 2k - 1\) 为条带 1，以此类推。RAID0 将连续的条带以轮转的方式写入全部驱动器上。</p>
+<p>RAID0 的性能很好，尤其在数据量大时。RAID 驱动器会自动拆分命令，让控制器并行的在驱动器上查找数据。但是对于每次读取一个条带的请求，RAID0 并没有增强其性能，因为其中不存在并行。</p>
+</li>
+<li>
+<p>RAID1</p>
+<p>将所有的数据都会完全写入到备份数据盘中，实现数据的冗余，保证数据的完整性，而其他数据盘则会像 RAID0 一样轮询写入数据。因此 RAID1 可用存储容量将会是真实容量的一半，但数据可靠性大大增强，如果驱动器崩溃需要恢复，只要完整拷贝备份数据即可。</p>
+</li>
+<li>
+<p>RAID2</p>
+<p>RAID2 不再以条带为单位，而是使用汉明码对数据进行编码分割为独立的 bit 然后再写入磁盘。</p>
+</li>
+<li>
+<p>RAID3</p>
+<p>这是 RAID2 的简化版本，采用奇偶校验技术，将数据分为位存储于各个磁盘之中，并将同比特单独存在一个硬盘当中。</p>
+<p>RAID2 与 RAID3 都能提供非常高的数据率，但要求磁盘必须全部工作，但性能并不一定有 SLED 好。</p>
+</li>
+<li>
+<p>RAID4</p>
+<p>RAID4 重新采用条带为单位，使用块交织技术，将条带对条带的奇偶校验写入额外的磁盘上。如果一个驱动器崩溃了，则可以从奇偶校验驱动器中恢复。</p>
+</li>
+<li>
+<p>RAID5</p>
+<p>RAID5 在 RAID4 的基础上，轮询驱动器作为奇偶校验驱动器，将校验压力分摊到阵列的所有驱动器上。</p>
+</li>
+<li>
+<p>RAID6</p>
+<p>RAID6 更进一步使用了额外的奇偶校验块，带来了两块冗余空间。</p>
+</li>
+</ol>
+<h3 id="磁盘格式化" class="headerLink">
+    <a href="#%e7%a3%81%e7%9b%98%e6%a0%bc%e5%bc%8f%e5%8c%96" class="header-mark"></a>磁盘格式化</h3><p>磁盘是由一叠铝的、合金的或玻璃的盘片组成，典型的直径为 3.5 inch，在每个 platter
+上沉积着薄薄的可磁化的金属氧化物，在制造出来后磁盘上不存在任何信息。</p>
+<p>每个 sector 之间存在短的间隙，且具有一定格式，如下图。其中前导码以一定位模式开始，位模式使得硬件得以识别扇区的开始，前导码还包含 cylinder 与 sector number 以及其他信息。数据的大小是由低级格式化程序决定的。ECC 域包含冗余信息，可以用来恢复读错误。ECC Field 的大小和内容随生产商的不同而不同，它取决于设计者为了更高的可靠性原因放弃多少磁盘空间，以及控制器能够处理的 ECC 编码有多复杂。所有磁盘都分配有某些数目的备用 sector 来取代制造有瑕疵的 sector。</p>
+<figure><img src="/images/sector-example.svg"/>
+</figure>
+
+<p>在磁盘能够使用之前，需要软件完成对每个 platter 的 <strong>低级格式化</strong> (low-level
+format)。在格式化时每个磁道上 0th sector 的位置与前一个磁道存在偏移，这被称为
+<strong>柱面斜进</strong> (cylinder skew)，这样做主要是为了改进性能。比如读取最内层 track 后，
+head 需要寻道并移动到第二个 track，假设没有 skew，由于寻道时间的存在，head 错过了 0th sector 而不得不等待 platter 转到 0th sector；在 skew 的磁盘上，当 head 在前一个 track 的 0th sector 向下一个 track 寻道完成后，正好可以读取 0th sector，无需等待磁盘空转。因此 low-level format 与磁盘的物理格式相关，一般需要斜进的扇区数量为 \[\frac{T_{s} * Number_{seek} * RPM}{60000}.\]</p>
+<figure><img src="/images/cylinder-skew-example.svg"/>
+</figure>
+
+<p>我们假设一个 7200 RPM 的磁盘驱动器，track 到 track 的寻道时间为 \(750\mu s\)​，每个
+track 包含 sector 300 个，则需要斜进 sector 27 个。而 low-level format 的结果是磁盘容量减少，减少的量取决于前导码、扇区间间隙、ECC Field 大小以及保留的备用扇区数目。通常格式化比未格式化的容量低 \(20\%\) 。</p>
+<p>当然我们需要思考当 head 找到对应扇区后，读取数据并做 ECC 校验，之后讲数据送往内存，然后读取相邻的 sector。但是在读取之前相邻的 sector 从 head 划走，此时完成传输的 head 不得不再等磁盘空转直至第二个 sector 归来。面对这一问题，我们在
+low-level format 时往往还会采取交错的方式编号 sector，以防止这种情况的发生。</p>
+<p>low-level format 完成后，我们即将对磁盘进行分区操作，每个 partition 从逻辑上来讲就像是一个独立的磁盘。0 扇区一般为 MBR，它包含某些引导代码以及处于扇区末尾的分区表。最后一步我们将对 partition 进行 <strong>高级格式化</strong> (high-level format)，这一操作用于设置引导块、空闲存储管理器、根目录和空文件系统，并且将一个代码设置在分区表项中以表明分区使用的文件系统。</p>
+<h3 id="磁盘臂调度算法" class="headerLink">
+    <a href="#%e7%a3%81%e7%9b%98%e8%87%82%e8%b0%83%e5%ba%a6%e7%ae%97%e6%b3%95" class="header-mark"></a>磁盘臂调度算法</h3><p>在读写一个磁盘块时需要多长时间？一般由三个因素决定：</p>
+<ol>
+<li><strong>寻道时间</strong> (将磁盘臂移动到适当的柱面上所需的时间)</li>
+<li><strong>旋转延迟</strong> (等待适当扇区旋转到 head 下所需的时间)</li>
+<li>实际数据传输时间</li>
+</ol>
+<p>对于大多数磁盘而言，前两项是占主导地位的，所以减少平均寻道时间可以充分改善系统性能。</p>
+<p>如果现在有一系列以三元组 (C,H,S) 进行磁盘 IO 请求，如何调度磁盘臂？最简单的方法就是队列的思想，即 <code>先来先服务</code> (First-Come First-Served, FCFS)，但是如此难以优化寻道时间。那加入一点点 greedy 的思想，每次服务的请求是与磁盘臂当前 cylinder 最接近的请求，这是否可行呢？当然是没问题的，尽量让下一次的寻道时间最小化，这种算法被称为 <code>最短寻道优先</code> (Shortest Seek Frist, SSF)。不得不说这是很优秀的算法，思考这是不是与之前进程调度中的 SJF (Shortest Job First) 算法类似，这类算法往往有着最短的平均寻道时间。但是回想一下 SJF 的缺点，距离当前 cylinder 较远的请求往往需要较长时间的等待。</p>
+<p>那么针对每个请求与 head 寻道的动作，是否与电梯的运行很类似。它们都是在请求到来时，在一个方向上运行，直到那个方向上没有请求为止，然后改变方向。因此这个方法在磁盘世界也被称为 <strong>电梯算法</strong> (elevator algorithm)。在该算法中需要一个标志位来指示磁盘臂当前是向上还是向下移动，当该方向上没有请求时则掉转磁盘臂可是寻道，如果没有请求那么磁盘臂可以停止寻道并等待请求。elevator 往往不如 SSF，但其对任意一组请求，磁盘臂的移动总次数具有一个固定上界：​\(2 \times Number_{cylinder}\)​。当然电梯算法还可以总是按相同的方向进行扫描，即处理完最高 cylinder 的请求后，将 head 移动到请求的最低
+cylinder，然后继续沿相同方向移动 head。</p>
+<figure><img src="/images/disk-head-scheduling-algorithm-comparison.svg"/>
+</figure>
+
+<h3 id="错误处理" class="headerLink">
+    <a href="#%e9%94%99%e8%af%af%e5%a4%84%e7%90%86" class="header-mark"></a>错误处理</h3><p>磁盘制造商通过不断加大线性密度而持续推进技术的极限。一块 5.25 inch 的磁盘处于中间位置的磁道大约是 300 mm 周长，假设磁道存放 300 个 512 Byte 的 sector，考虑前导码、ECC 与扇区间隙损失部分空间的情况，线性记录密度大约是 \(5000 \texttt{bit}/\texttt{mm}\)​，而这需要及其均匀的基片与非常精细的氧化物涂层。但是按照规范制作的磁盘也不可能没有瑕疵，即使如此密度能够做到没有瑕疵，但是在向更高密度制作时也可能引入瑕疵。</p>
+<p>磁盘制造时的瑕疵会引入坏扇区，即 sector 不能正确地读回刚刚写入其上的值。如果只有几 bit 有瑕疵那么 ECC 即可校正错误，但瑕疵较大时便无法恢复。对于坏块一般有两种处理方法，但是控制器都必须知道每个扇区的编号，所以一般采用内部表跟踪扇区信息 (每个
+track 一张表)，或为了更好的性能重写前导码来重新映射扇区。</p>
+<ol>
+<li>在控制器或操作系统中对他们进行处理，磁盘在出场时进行测试并将坏扇区列表写入磁盘，每个坏扇区用一个备用扇区替换</li>
+<li>将所有扇区向上移动以避开坏扇区</li>
+</ol>
+<figure><img src="/images/sector-error-handle.svg"/>
+</figure>
+
+<p>除了瑕疵的扇区外，驱动器在正常运行时也可能出错。当遇到 ECC 不可处理的错误时，可以尝试重读数据，因为某些错误是瞬时的，比如 head 下正好有一粒灰尘。当 Controller
+遇到重复性错误时，可以在该 sector 完全坏掉之前切换到备用扇区，这样将不会丢失数据，用户也不会注意到此问题。但是回到之前的问题，如果硬件不具备内部表将扇区透明映射的能力，这将由操作系统来完成。OS 必须先获取到坏扇区列表，通过磁盘读出该表或自己测试整个磁盘。然后进行扇区的透明映射，OS 必须保证坏扇区不被任何文件包含，也不存在于空闲块列表中。</p>
+<p>虽然一直在讨论坏扇区问题，但是这并不是唯一的错误来源，也可能是磁盘臂的机械故障引发的寻道错误。大多数 Controller 可以自动修复该错误，如果交由 driver 修复，driver
+会发出一个 recalibrate (重新校准) 命令，让磁盘臂尽可能地想最外移动，并将
+Controller 内部的 current cylinder 重置为 0。一般如此可以解决问题，否则你的磁盘需要修理一下了。</p>
+<p>Recalibrate 会使磁盘发出古怪的噪音，但这不是大问题，最大的问题是实时约束系统需要磁盘的 bit stream 以均匀的速率到达 (比如播放视频或烧录 Blu-ray)，recalibrate 将会在均匀的 bit stream 中插入不可接受的间隙。因此一种称为 <strong>AV盘</strong> (Audio Visual
+Disk) 的驱动器永远不会执行 recalibrate 操作。</p>
+<p>还有一点必须说明，荷兰黑客 Jeroen Domburg 破解了一个现代控制器并使其运行定制代码，不得不说这个控制器是一个强大的 ARM 处理器，且有足够的资源运行 Linux。如果有人以这样的方式破坏你的计算机系统，并看到所有传入与传出磁盘的数据，这个磁盘被永久植入了后门。</p>
+<h3 id="稳定存储器" class="headerLink">
+    <a href="#%e7%a8%b3%e5%ae%9a%e5%ad%98%e5%82%a8%e5%99%a8" class="header-mark"></a>稳定存储器</h3><p>当我们不惜一切代价的保证磁盘的一致性时，这个磁盘系统应该在一个写命令时，要么正确的写入数据要么什么也不做，让现有数据完整无缺地留下，这种系统被称为 <strong>稳定存储器</strong>
+(stable storage)。</p>
+<p>我们首先需要确认一点，如果使用 16 Byte 的 ECC Field 校验 512 Byte 的 sector，在该 sector 出现错误但 ECC 没有出错的情况下，该错误是不会被检测出来的，即使这种错误的概率大约是 \(2^{-144}\)​。假设一点，被正确写入的 sector 会自然地变为不可读状态，但是在一个合理的间隔内 (如 1 天) 让相同的扇区在独立的驱动器上变坏的概率可以小到忽略不计。最后假设 CPU 故障，这种情况下只能停机，因此进行中的写操作也会停止，这会使写入的数据检测到不正确 ECC。</p>
+<p>现在所有假设成立的情况下，stable storage 使用完全相同的一对磁盘，对应的块一同工作以形成无差错的块。当不存在错误时，任意读取一块磁盘的数据即可，因为它们是完全相同的。为达到这一目的，定义以下三种操作：</p>
+<dl>
+<dt>稳定写 (stable write)</dt>
+<dd>首先将块写入第一个驱动器，然后将其都会校验是否正确，如果不正确则会重新进行读写操作，直到 n 次正常为止。经过 n 次连续的失败后将会将块应设备备用块上，并再次重复连续的重复读写。在驱动器 1 的数据写入成功后，再对驱动器 2 进行写入。在不存在 CPU 崩溃的情况下，stable write 完成后两个驱动器上的数据将正确的被写入。</dd>
+<dt>稳定读 (stable read)</dt>
+<dd>从第一个驱动器读取数据，若 ECC 校验失败则重新尝试读取数据，直到 n 次后成功为止。若连续 n 次失败则使用另一个驱动器进行 stable read。</dd>
+<dt>崩溃恢复 (crash recovery)</dt>
+<dd>崩溃之后恢复程序扫描两个磁盘，对比对应的块，一对块如果都是好的且相同那就什么都不做；如果其中一个具有 ECC 错误，那么坏块就用对应的好块来覆盖；如果两个块都是好的，但不相同，那么将第一个驱动器的块写到第二个驱动器。</dd>
+</dl>
+<figure><img src="/images/analysis-of-the-impact-of-cpu-crashes-on-stable-write.svg"/>
+</figure>
+
+<p>在某些计算机中拥有少量的 <strong>非易失性 RAM</strong> (nonvolatile RAM)，它是特殊的 CMOS 存储器，由锂电池供电，且可以维持很多年，计算机的每天的时间都会存储在此。如果
+nonvolatile RAM 有几个字节可供 OS 使用，那么 stable write 前将准备更新的块编号存入，如此即使计算机崩溃也可以快速找到哪些块需要检查一致性。</p>
+<h2 id="时钟" class="headerLink">
+    <a href="#%e6%97%b6%e9%92%9f" class="header-mark"></a>时钟</h2><p>时钟 (clock) 又称为 <strong>定时器</strong> (timer)，由于各种各样的原因决定了它对于任何多道程序设计系统的操作都是至关重要的。clock 主要负责维护时间，并防止一个进程垄断 CPU。
+clock 采用 driver 的形式存在并驱动，但它并不像 block 或 character device 一样。</p>
+<h3 id="时钟硬件" class="headerLink">
+    <a href="#%e6%97%b6%e9%92%9f%e7%a1%ac%e4%bb%b6" class="header-mark"></a>时钟硬件</h3><p>可编程时钟由三个部分组成：晶体振荡器、计数器以及存储寄存器。当石英晶体通过适当的切割并安装在一定电压下时，就可以产生非常精确的周期信号，典型的频率范围是几百兆
+Hz。使用电子器件可以将这一基础信号乘以一个小的整数来获得高达 1GHz 甚至更高的频率。
+clock 通常给计算机的各种电路提供同步信号，该信号背诵道计数器使其递减计数，直到计数器为 0 时产生一个 CPU 中断。</p>
+<p>可编程时钟一般具有几种操作模式</p>
+<ol>
+<li><strong>一次完成模式</strong> (one-shot mode)：当时钟启动时，将存储寄存器的值复制到计数器中，然后在每个晶体脉冲到来时使计数器减 1。当计数器为 0 时产生一个中断并停止工作，直到下一次启动</li>
+<li><strong>方波模式</strong> (square-wave mode)：当计数器变为 0 并产生中断后，存储寄存器的值自动复制到计数器中，并整个过程无限重复。这种周期性的中断被称为 <strong>时钟滴答</strong>
+(clock tick)。</li>
+</ol>
+<p>可编程时钟的优点是其中断频率可以由软件控制，例如 100 MHz 的晶体 (\(10
+\texttt{ns}\) 一次脉冲信号)，对于 32 bit 无符号寄存器来说，可以编程中断以 10 ns
+时间间隔最长时间 42.950 s 发生一次，可编程时钟芯片通常还会包含 2 到 3 个独立的可编程时钟，并且还具有许多其他选项。</p>
+<h3 id="时钟软件" class="headerLink">
+    <a href="#%e6%97%b6%e9%92%9f%e8%bd%af%e4%bb%b6" class="header-mark"></a>时钟软件</h3><p>时钟硬件所做的工作即根据已知的时间间隔产生中断，但是设计时间的其他工作必须由软件完成，即时钟驱动器。clock driver 的确切任务因 OS 而有差异，但通常都包含以下大部分：</p>
+<ol>
+<li>维护日时间。采用 timestamp (时间戳) 的形式以秒计时或记录 clock tick。</li>
+<li>防止进程超时运行。由调度程序以 clock tick 为单位初始化时间片，driver 在每次时钟中断到来时为时间片计数器减一，知道为 0 时进行进程切换。</li>
+<li>对 CPU 的使用情况记账。在进程启动时启动一个不同于主系统定时器的辅助定时器，进程终止时独处辅助定时器的值即可得知进程的运行时间。当中断发生时，辅助定时器应该被保存起来，中断结束后再恢复。</li>
+<li>处理用户进程提出的 alarm 系统调用。</li>
+<li>为系统本身的各个部分提供监视定时器 (watchdog timer)。wtachdog 通常用于对停止运行的系统进行复位，该定时器永远不会过期。watchdog 被用于 kernel 中，与普通的定时器类似，但它不会引发中断或发送信号，而是调用一个调用者提供的过程。由于 watchdog 调用的过程是调用者的一部分，因此必须与调用者处于相同的地址空间时才会起到作用。</li>
+<li>完成概要剖析、监视和统计信息收集。</li>
+</ol>
+<p>如果有无限多个物理时钟，那么 driver 可以为每个请求设置一个时钟，但是物理时钟是有限的，请求可能会溢出物理时钟的数量上限。面对这种情况，需要 driver 使用物理时钟模拟多个虚拟时钟，当请求到来时将其记录在表中，并在每次 tick 时检查是否有需要发出的信号。</p>
+<h3 id="软定时器" class="headerLink">
+    <a href="#%e8%bd%af%e5%ae%9a%e6%97%b6%e5%99%a8" class="header-mark"></a>软定时器</h3><p>一般而言，IO 一般采用中断和轮询的方式管理。中断具有较低的 latency (响应时间)，即中断在事件本身发生后立即发生，具有低 delay (延迟) 或根本没有 delay。但是由于现代
+CPU 需要进程切换以及流水线、TLB、Cache 等影响使得中断有相当大的开销。为了避免中断那么应用程序需要自己对其期待的事件进行轮询，虽然避免了中断但是有相当长的等待时间，等待时间平均是轮询间隔的一半。</p>
+<p>对于高性能应用来说，中断的开销与轮询的等待时间都是不能接受的，因此它需要一种避免中断的方法。这是一种被称为 <strong>软定时器</strong> (soft timer) 的解决方案。无论因什么原因，只要内核在运行时，在它返回用户态之前，都对实时时钟进行检查，用以了解 soft timer
+是否到期。如果 soft timer 到期则执行被调度时间，并在时间完成后复位 soft timer。</p>
+<p>soft timer 随着其他原因进入内核的频率而发起脉冲，其中包含：</p>
+<ul>
+<li>系统调用</li>
+<li>TLB 未命中</li>
+<li>页面故障</li>
+<li>IO 中断</li>
+<li>CPU 空闲</li>
+</ul>
+<p>对于这些事件发生的频率，Aron 与 Druschel 对于几种 CPU 负载进行了测量，并于 2000
+年发表了一篇 <a href="https://dl.acm.org/doi/10.1145/354871.354872" target="_blank" rel="noopener noreferrer">论文</a>。他们测试了包含全负载 Web Server、具有计算约束后台作业的 Web
+Server、在 Internet 播放实时音频以及重编译 UNIX 内核，进入内核的平均进入率在 \(1
+\sim 2 \upmu\texttt{s}\) ，其中大约有一半是 syscall。当然如果很长一段时间不发生上述事件，可以将辅助定时器设置每隔一定时间中断一次，来强制进入内核态触发 Soft Timer。</p>
+<h2 id="用户界面-键盘-鼠标和监视器" class="headerLink">
+    <a href="#%e7%94%a8%e6%88%b7%e7%95%8c%e9%9d%a2-%e9%94%ae%e7%9b%98-%e9%bc%a0%e6%a0%87%e5%92%8c%e7%9b%91%e8%a7%86%e5%99%a8" class="header-mark"></a>用户界面：键盘、鼠标和监视器</h2><p>为了人机交互，一台计算机往往具备键盘和监视器，现代的 GUI 系统还会配有一个鼠标，但是以前大型机上通常用户使用 Terminal (终端) 远程连接。</p>
+<h3 id="输入设备" class="headerLink">
+    <a href="#%e8%be%93%e5%85%a5%e8%ae%be%e5%a4%87" class="header-mark"></a>输入设备</h3><p>用户输入主要来自键鼠，当然这些年也有越来越多的触摸屏、数位板等，但是 <del>我们还是以键鼠为主</del> 这本书上只介绍了键鼠。</p>
+<p>键盘包含一个 embedded microprocessor，该处理器通过一个特殊的串行端口与主板的控制芯片通信，当按下一个键时都会产生一个中断，并且在键被释放时产生第二个中断。每当发生这样的键盘中断时，键盘驱动程序都要从与键盘相关联的 IO port 提取信息。其他一切事情都是在软件中发生的，在相当大的程度上独立于硬件。在讨论输入设备时，请想象往
+Terminal 输入命令时的场景。</p>
+<h4 id="键盘软件" class="headerLink">
+    <a href="#%e9%94%ae%e7%9b%98%e8%bd%af%e4%bb%b6" class="header-mark"></a>键盘软件</h4><p>键盘发往 IO port 的数据是键的编号，称为 <strong>扫描码</strong> (scan code)，请不要与 ASCII 混淆！键盘所拥有的键不超过 128 个，所以只需要 7 bit 即可编码所有键位，因此最后 1
+bit 可以设置为键按下 / 释放。跟踪每个键的状态是 driver 的任务，硬件仅给出中断。</p>
+<p>driver 的处理让键盘的输入十分灵活且不依赖于具体硬件。driver 一般向上层原封不动地传递输入的数据，这将输入的精准数据发送给上层应用 (比如文本编辑器和 Terminal，另外说一下书中使用 Emacs 举例好评！)。但是有些程序并不需要如此丰富的信息，它们只需要校正后的输入，即将行内编辑全部处理完成后再发送给上层应用。因此第一种是面向字符的，被称为 <strong>原始模式</strong> (raw mode)；而第二种则是面向行的，被称为 <strong>加工模式</strong>
+(cooked mode)。POSIX 这时候出现了，他们带着标准就这样来了！他们将 cooked mode 称为 <strong>术语规范模式</strong> (canonical mode)，而 raw mode 等价 <strong>非规范模式</strong> (noncanonical
+mode)，​<code>NOTWITHSTANDING</code> 终端行为的许多细节可能被修改了。POSIX 还提供了相关
+library。</p>
+<p>如果键盘处于 Canonical Mode 则字符必须存储起来直到累积完整的一样，并对这行完成相应的编辑。即使处于 Noncanonical Mode，程序也可能尚未请求输入，所以 character 也可能被缓存起来以便允许用户提前键入。如果你无法理解为什么 Noncanonical Mode 也需要缓存字符，想想 Terminal 中，如果你正在运行一个命令，这时你在键盘上输入了一些字符并摁下了回车会发生什么呢？什么都没有发生！命令还在运行当中！但是但这条命令完成后，Terminal 会直接运行你刚刚键入的字符，因为它们被 buffering 并且你摁下了回车。</p>
+<p>另外书中提到了一个很有意思的观点</p>
+<blockquote>
+<p>不允许用户提前键入的系统设计者都应该被 <code>涂柏油、粘羽毛</code>​，或者更加严重的惩罚，强迫他们使用自己设计的系统。</p>
+</blockquote>
+<p>这里的涂柏油和粘羽毛是近代欧洲及其殖民地的一种严厉惩罚和公开羞辱对方的行为，意在伸张非官方认可的正义或报复，通常由暴民作为私刑实施。羽毛粘在灼热的尚未凝固的柏油上，难以去除。当代欧洲语言中 <code>tarring and feathering</code> 则是 Metaphor (隐喻) 惩罚或严厉批评。</p>
+<p>言归正传，将刚刚键入的字符出现在屏幕上，这个过程被称为 <strong>回显</strong> (echoing)。键入与正在写屏幕使 echoing 变得复杂，因为输出不应该覆盖掉输入的 echoing。另一方面限制行长度，而在需要的时候进行断行也是复杂的，为了简单起见某些 driver 将有长度限制的
+echoing 直接根据限制截断。</p>
+<p>如果你认为这些都还好，另一点麻烦的是空白符，水平制表 <code>\t</code> 与空格 <code>space</code> 的显示，
+echoing 需要多少个正确的 space。而换行 <strong>LF</strong> (Line Feed, newline, end-of-line)
+<code>\n</code> 与回车 <strong>CR</strong> (carriage return) <code>\r</code> 的也同样是问题，由于行末换行符依赖于 OS，需要等效处理这些情况。</p>
+<p>简单的说一下，LF 与 CR 都是有其历史意义的，这两个可以追溯到 typewriter 时期。LF
+用于在一行结束时让 typewriter 将纸张向下移动一行，而移动这一行后 typewriter 的
+head 位置不变，如果输出可能使前面纸张的空白浪费，为了使 head 回到最前端则需要使用 CR。如果不使用 LF 而直接使用 CR 则会回到当前行的开头部分。进入计算机时代，LF
+与 CR 的传统也被保留了下来，BTW 如今主流的 QWERTY 键盘布局也是那个时代的产物。那么依赖于 OS 的换行符是如何选择的呢：</p>
+<ul>
+<li>LF：UNIX-like</li>
+<li>CR：Apple II 家族，以及 MacOS (before version X)</li>
+<li>CRLF: DOS 以及 Windows，还有部分非 UNIX-like</li>
+</ul>
+<p>Canonical Mode 下许多输入字符都具有特殊含义，以下列出了 POSIX 要求的所有特殊字符，这些字符一般不与程序所使用的文本输入或代码相冲突。并且处理 LF 与 CR，其它字符都可以在程序的控制下修改。PS 以下使用 <code>C</code> 代表 CTRL、​<code>S</code> 代表 Shift、​<code>M</code> 代表
+Meta 或 Alt、​<code>s</code> 代表 super。</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>POSIX 名称</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C-H</td>
+<td>ERASE</td>
+<td>退格一个字符</td>
+</tr>
+<tr>
+<td>C-U</td>
+<td>KILL</td>
+<td>擦除正在键入的整行</td>
+</tr>
+<tr>
+<td>C-V</td>
+<td>LNEXT</td>
+<td>按字面意义解释下一个字符</td>
+</tr>
+<tr>
+<td>C-S</td>
+<td>STOP</td>
+<td>停止输出</td>
+</tr>
+<tr>
+<td>C-Q</td>
+<td>START</td>
+<td>开始输出</td>
+</tr>
+<tr>
+<td>DEL</td>
+<td>INTR</td>
+<td>中断进程 (SIGINT)</td>
+</tr>
+<tr>
+<td>C-\</td>
+<td>QUIT</td>
+<td>强制核心转储 (SIGQUIT)</td>
+</tr>
+<tr>
+<td>C-D</td>
+<td>EOF</td>
+<td>End-of-File</td>
+</tr>
+<tr>
+<td>C-M</td>
+<td>CR</td>
+<td>carriage return</td>
+</tr>
+<tr>
+<td>C-J</td>
+<td>NL</td>
+<td>NewLine (Line Feed)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="鼠标软件" class="headerLink">
+    <a href="#%e9%bc%a0%e6%a0%87%e8%bd%af%e4%bb%b6" class="header-mark"></a>鼠标软件</h4><p>老式的鼠标采用轨迹球获取移动数据，当鼠标在粗糙表面上移动时这个轨迹球会随着旋转。现代鼠标更多使用光学设备，其底部采用一个或多个发光二级管和光电探测器。早期的光电鼠标需要在特殊的鼠标垫上使用，其上游锯齿状网格，通过计算穿过的线数获得移动轨迹。现代光电鼠标主要通过图形处理芯片获取并处理下方连续的低分辨率图片，寻找图像之间的变化，从而获取移动数据。</p>
+<p>无论是向哪个方向移动了一个确定的最小距离，或按钮被按下或释放时，都会有消息发送给计算机，而这个最小距离被称为 <strong>鼠标步</strong> (mickey)。发送到计算机的消息一般都包含
+\(\delta{}x\) 、​\(\delta{}y\) 与 button，消息的格式取决于系统和鼠标所具有的 button 数目，通常占 3 Byte。大多数鼠标返回报告频率最大为 40 Hz，所以鼠标自上次报告之后移动了多个 mickey。有时需要区分双击与单击，这是 driver 的事情，用户可以自行设置足够接近的时间来区分单击与双击，也可以设置 mickey 的大小。</p>
+<h3 id="输出软件" class="headerLink">
+    <a href="#%e8%be%93%e5%87%ba%e8%bd%af%e4%bb%b6" class="header-mark"></a>输出软件</h3><h4 id="文本窗口" class="headerLink">
+    <a href="#%e6%96%87%e6%9c%ac%e7%aa%97%e5%8f%a3" class="header-mark"></a>文本窗口</h4><p>当输出是连续的、单一字体、大小和颜色的形式时，输出比输入更简单。大体上，程序将字符发送到当前窗口，而字符在那里显示出来，通常通过系统调用将字符写入窗口。</p>
+<p>屏幕编辑器和许多其他复杂程序需要能够以更加复杂的方式更新屏幕，比如在屏幕的中间替换一行。为满足如此需求，大多数 output driver 支持一系列命令来移动光标，在光标处插入或删除字符或行。这些命令常被称为 <strong>转义序列</strong> (escape sequence)。</p>
+<p>在 25 * 80 ASCII 哑中断全盛时期，有数百种终端类型，每种都有自己的转义序列，因此编写可以在一种以上的终端类型的程序是十分困难的。此时出现了 termcap 的终端数据库，这是在 Berkeley UNIX 中引入的。该软件包定义了许多基本动作，比如移动光标到行、列或特殊位置，软件使用一般的转义序列，然后通过 termcap 转换成 terminal 实际定义的
+escape sequence。之后由于标准化的需要 ANSI 标准出现了！当然下表就是 ANSI escape
+sequence，但是其中的 space 只是方便展示，实际不被使用。</p>
+<table>
+<thead>
+<tr>
+<th>escape sequence</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ESC [nA</code></td>
+<td>向上移动 n 行</td>
+</tr>
+<tr>
+<td><code>ESC [nB</code></td>
+<td>向下移动 n 行</td>
+</tr>
+<tr>
+<td><code>ESC [nC</code></td>
+<td>向右移动 n 个间隔</td>
+</tr>
+<tr>
+<td><code>ESC [nD</code></td>
+<td>向左移动 n 个间隔</td>
+</tr>
+<tr>
+<td><code>ESC [m;nH</code></td>
+<td>将光标移动到 \((m,n)\)</td>
+</tr>
+<tr>
+<td><code>ESC [sJ</code></td>
+<td>从光标清除屏幕 (0:结尾; 1:开始; 2:两者)</td>
+</tr>
+<tr>
+<td><code>ESC [sK</code></td>
+<td>从光标清除行 (0:结尾; 1:开始; 2:两者)</td>
+</tr>
+<tr>
+<td><code>ESC [nL</code></td>
+<td>在光标处插入 n 行</td>
+</tr>
+<tr>
+<td><code>ESC [nM</code></td>
+<td>在光标处删除 n 行</td>
+</tr>
+<tr>
+<td><code>ESC [nP</code></td>
+<td>在光标处删除 n 个字符</td>
+</tr>
+<tr>
+<td><code>ESC [n@</code></td>
+<td>在光标处插入 n 个字符</td>
+</tr>
+<tr>
+<td><code>ESC [nm</code></td>
+<td>允许再现 n (0=常规; 4=粗体; 5=闪烁; 7=反白)</td>
+</tr>
+<tr>
+<td><code>ESC M</code></td>
+<td>如果光标在顶行则向后滚动屏幕</td>
+</tr>
+</tbody>
+</table>
+<h4 id="x-window-system" class="headerLink">
+    <a href="#x-window-system" class="header-mark"></a>X Window System</h4><p>X Window Ststem (简称为 X) 几乎是 UNIX-like 世界用户界面的基础，作为 Athena 计划的一部分于 20 世纪 80 年代在 MIT 被开发。X 具有非常好的可移植性，并完全运行在用户空间中。人们最初打算将其用于将大量的远程用户终端与中央计算服务器相连接，所以 X
+在逻辑上分为 Client 与 Server 两部分，这样就有可能运行在不同的计算机上。在现代个人计算机上，这两部分可以运行在同一机器上，GNOME 与 KDE 都运行于 X 之上。</p>
+<p>X 能为 GUI Environment 提供基本环境：在屏幕上描绘、呈现图像与移动程序窗口，同时也受理、运行以及管理键鼠的交互程序。X 没有管辖用户界面部分，由其他以 X 为基础的扩展来负责。此外由于 X 分为客户端 X Client 与服务端 X Server，Server 与 Client
+之间的网络通信是透明的，且能够安全交换数据。</p>
+<figure><img src="/images/x-window-system-example.svg"/>
+</figure>
+
+<p>X 只是一个窗口系统，并不是完整的 GUI，为了实现完整的 GUI，则需要在 X 之上运行其他软件层。Xlib 则是一组在其之上的库过程，用于访问 X 的功能，这些功能是 X Window
+System 的基础。但是它们实在过于底层了，实现起来过于麻烦，以至于大部分程序并不会直接使用 Xlib。为了让 X 编程更加容易，X 提供了一个名为 <strong>X Toolkit Intrinsics</strong>
+(本征函数集) 的工具包，intrinsics 用于管理按钮、滚动条以及其他窗口小部件
+(widget)。而图形库正是构建于 Intrinsics 之上，用以提供一致的外观、跨平台抽象。而真正的 <strong>窗口管理器</strong> (Window Manager, WM)，则是顶层的用户空间软件，其主要控制着屏幕上窗口的创建、删除和移动，为了管理窗口，WM 要发送命令到 X Server 告诉它做什么。</p>
+<figure><img src="/images/x-window-system-software-level.svg"/>
+</figure>
+
+<p>当然 X 也有着一套完整的开发、改进规则</p>
+<ul>
+<li>除非已有真正的应用程序，真的需要 X 为其修订、增订等支持，否则不会为 X 增加新功能。</li>
+<li>决定「一个系统不是什么」和决定「它是什么」同样重要。与其适应整个世界的需要，宁可使得系统可以扩展，如此才能以持续兼容的方式来满足新增的需求。</li>
+<li>只有完全没实例时，才会比只有一个实例来的糟。</li>
+<li>如果问题没完全弄懂，最好不要去解决它。</li>
+<li>如果可以通过 \(10\%\) 的工作量得到 \(90\%\) 的预期效果，应该用更简单的方法解决。</li>
+<li>尽量避免复杂性。</li>
+<li>提供机制而不是策略，有关用户界面的开发实现，交给实现应用者自主。</li>
+</ul>
+<p>由于这一套完整的规则，X 已经将版本号稳定到了 11，因此也被称为 X11。对于在 X 上运行的不同 Desktop Environment，freedesktop.org 积极与努力地维持各种不同 X Desktop
+Environment 的兼容性，使相竞态势下仍不失X的兼容本色。对于 X 的性能、稳定性的缺点，有着其他全新的窗口系统来竞争，比如 freedesktop.org 主导的 Wayland。</p>
+<p>对了！X 是一个开源软件，最早使用 X LICENSE 发布，如果你不知道这个协议，那你应该听说过 MIT LICENSE，没错它们是一个 LICENSE。Wayland 也使用 MIT 协议发布。</p>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 04-07</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2021/operatingsystem_004/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA&issue[description]=[POST](https://blog.ginshio.org/2021/operatingsystem_004/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2021/operatingsystem_004/" data-title="输入输出" data-hashtags="Note,IuputOutput"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2021/operatingsystem_004/" data-hashtag="Note"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2021/operatingsystem_004/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2021/operatingsystem_004/" data-title="输入输出" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2021/operatingsystem_004/" data-title="输入输出"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2021/operatingsystem_004/" data-title="输入输出"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2021/operatingsystem_004/" data-title="输入输出" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2021/operatingsystem_004/" data-title="输入输出" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2021/operatingsystem_004/" title="输入输出">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/iuputoutput/">IuputOutput</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021/operatingsystem_003/" class="prev" rel="prev" title="文件系统"><i class="fas fa-angle-left fa-fw"></i>文件系统</a>
+            <a href="/2021/operatingsystem_005/" class="next" rel="next" title="死锁">死锁<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2021-07-25T14:01:08+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"输入输出"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>

@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>排序算法 - iris</title><meta name="Description" content="GinShio | 数据结构与算法分析第七章笔记"><meta property="og:title" content="排序算法" />
+<meta property="og:description" content="GinShio | 数据结构与算法分析第七章笔记" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-08-27T08:26:23+08:00" />
+<meta property="article:modified_time" content="2022-04-07T18:16:36+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="排序算法"/>
+<meta name="twitter:description" content="GinShio | 数据结构与算法分析第七章笔记"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/" /><link rel="prev" href="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/" /><link rel="next" href="https://blog.ginshio.org/2022/unixnetworkprogramming_001/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "排序算法",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_007_sorting_algorithm\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Sort","wordcount":  7663 ,
+        "url": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_007_sorting_algorithm\/","datePublished": "2021-08-27T08:26:23+08:00","dateModified": "2022-04-07T18:16:36+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | 数据结构与算法分析第七章笔记"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#冒泡排序">冒泡排序</a></li>
+    <li><a href="#插入排序">插入排序</a></li>
+    <li><a href="#希尔排序">希尔排序</a></li>
+    <li><a href="#堆排序">堆排序</a>
+      <ul>
+        <li><a href="#基于堆排序的选择算法">基于堆排序的选择算法</a></li>
+      </ul>
+    </li>
+    <li><a href="#归并排序">归并排序</a>
+      <ul>
+        <li><a href="#归并排序的分析">归并排序的分析</a></li>
+        <li><a href="#在链表上进行归并排序">在链表上进行归并排序</a></li>
+      </ul>
+    </li>
+    <li><a href="#快速排序">快速排序</a>
+      <ul>
+        <li><a href="#选择枢纽元">选择枢纽元</a></li>
+        <li><a href="#分割策略">分割策略</a></li>
+        <li><a href="#小数组">小数组</a></li>
+        <li><a href="#快速排序的分析">快速排序的分析</a></li>
+        <li><a href="#基于快速排序的选择问题">基于快速排序的选择问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#间接排序">间接排序</a></li>
+    <li><a href="#非比较排序">非比较排序</a>
+      <ul>
+        <li><a href="#桶排序">桶排序</a></li>
+        <li><a href="#计数排序">计数排序</a></li>
+        <li><a href="#基数排序">基数排序</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">排序算法</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/algorithmdatastructure/"><i class="far fa-folder fa-fw"></i>Algorithm⁄DataStructure</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/"><i class="far fa-list-alt fa-fw"></i>数据结构与算法分析</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-27">08-27</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7663 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 16 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - 数据结构与算法分析</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_001_introduction/">数据结构与算法分析引论</a></li>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_002_linear_data_structure/">线性数据结构</a></li>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_003_tree_structure/">树结构</a></li>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_004_searching_structure/">查找结构</a></li>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_005_hash_table/">散列表</a></li>
+                                                    <li><a href="/2021/data_strucures_and_algorithm_analysis_006_heap_structure/">堆结构</a></li><li><span class="active">排序算法</span></li>
+                                                    <li><a href="/2022/data_strucures_and_algorithm_analysis_008_graph/">图结构</a></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#冒泡排序">冒泡排序</a></li>
+    <li><a href="#插入排序">插入排序</a></li>
+    <li><a href="#希尔排序">希尔排序</a></li>
+    <li><a href="#堆排序">堆排序</a>
+      <ul>
+        <li><a href="#基于堆排序的选择算法">基于堆排序的选择算法</a></li>
+      </ul>
+    </li>
+    <li><a href="#归并排序">归并排序</a>
+      <ul>
+        <li><a href="#归并排序的分析">归并排序的分析</a></li>
+        <li><a href="#在链表上进行归并排序">在链表上进行归并排序</a></li>
+      </ul>
+    </li>
+    <li><a href="#快速排序">快速排序</a>
+      <ul>
+        <li><a href="#选择枢纽元">选择枢纽元</a></li>
+        <li><a href="#分割策略">分割策略</a></li>
+        <li><a href="#小数组">小数组</a></li>
+        <li><a href="#快速排序的分析">快速排序的分析</a></li>
+        <li><a href="#基于快速排序的选择问题">基于快速排序的选择问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#间接排序">间接排序</a></li>
+    <li><a href="#非比较排序">非比较排序</a>
+      <ul>
+        <li><a href="#桶排序">桶排序</a></li>
+        <li><a href="#计数排序">计数排序</a></li>
+        <li><a href="#基数排序">基数排序</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Sorting something that you will never search is a complete waste; searching something you never sorted is merely inefficient.</p>
+<p>&mdash; Brian Christian</p>
+</blockquote>
+<p>我们假设对数组进行排序，数组的所有位置都有元素，且长度为 N。对于排序，假设元素存在 \(&lt;\) 和 \(&gt;\) 用以将输入按一致的次序放置，比较运算是除赋值运算外仅有的能对输入数据进行的操作。这种条件下的排序称之为 <strong>比较排序</strong> (comparison-based sorting)。另外对于已经排序完成的数组，如果可以保持原本的数据次序我们称之为 <strong>稳定排序</strong>
+(stable sorting)。</p>
+<p>当然这与 STL 的算法有一点点出入，sort 接收的是迭代器来表示待排序的范围，以及一个可选的比较器。而且 sort 的底层算法也更加复杂，这里只是简单地说明各个基础排序。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Iterator</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">sort</span><span class="p">(</span><span class="n">Iterator</span> <span class="n">begin</span><span class="p">,</span> <span class="n">Iterator</span> <span class="n">end</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Iterator</span><span class="p">,</span> <span class="k">class</span> <span class="nc">Comparator</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">sort</span><span class="p">(</span><span class="n">Iterator</span> <span class="n">begin</span><span class="p">,</span> <span class="n">Iterator</span> <span class="n">end</span><span class="p">,</span> <span class="n">Comparator</span> <span class="n">cmp</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>为了方便理解，将使用 Wikipedia 上关于排序的动图来帮助理解这种排序。先放个大招</p>
+<p>表格 <a href="#table--tbl:comparison-of-algorithm" rel="">排序算法简要比较</a> 摘自 <a href="https://en.wikipedia.org/wiki/Sorting_algorithm#Comparison_of_algorithms" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
+<p><a id="table--tbl:comparison-of-algorithm"></a></p>
+<div class="table-caption">
+  <span class="table-number"><a href="#table--tbl:comparison-of-algorithm">Table 1</a>:</span>
+  排序算法简要比较
+</div>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>英文名称</th>
+<th>稳定性</th>
+<th>\(Time_{avg}\)</th>
+<th>\(Time_{bad}\)</th>
+<th>\(Mem\)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>冒泡排序</td>
+<td>bubble sort</td>
+<td>\(\checkmark\)</td>
+<td>\(\mathcal{O}(N^{2})\)</td>
+<td>\(\mathcal{O}(N^{2})\)</td>
+<td>\(\mathcal{O}(1)\)</td>
+</tr>
+<tr>
+<td>选择排序</td>
+<td>selection sort</td>
+<td>\(\times\)</td>
+<td>\(\mathcal{O}(N^{2})\)</td>
+<td>\(\mathcal{O}(N^{2})\)</td>
+<td>\(\mathcal{O}(1)\)</td>
+</tr>
+<tr>
+<td>插入排序</td>
+<td>insertion sort</td>
+<td>\(\checkmark\)</td>
+<td>\(\mathcal{O}(N^{2})\)</td>
+<td>\(\mathcal{O}(N^{2})\)</td>
+<td>\(\mathcal{O}(1)\)</td>
+</tr>
+<tr>
+<td>希尔排序</td>
+<td>shell sort</td>
+<td>\(\times\)</td>
+<td>\(\mathcal{O}(N^{\frac{3}{2}})\)</td>
+<td>\(\mathcal{O}(N^{2})\)</td>
+<td>\(\mathcal{O}(1)\)</td>
+</tr>
+<tr>
+<td>堆排序</td>
+<td>heap sort</td>
+<td>\(\times\)</td>
+<td>\(\mathcal{O}(N\log_{}{N})\)</td>
+<td>\(\mathcal{O}(N\log_{}{N})\)</td>
+<td>\(\mathcal{O}(1)\)</td>
+</tr>
+<tr>
+<td>归并排序</td>
+<td>merge sort</td>
+<td>\(\checkmark\)</td>
+<td>\(\mathcal{O}(N\log_{}{N})\)</td>
+<td>\(\mathcal{O}(N\log_{}{N})\)</td>
+<td>\(\mathcal{O}(N)\)</td>
+</tr>
+<tr>
+<td>原地归并排序</td>
+<td>in-place merge sort</td>
+<td>\(\checkmark\)</td>
+<td>\(\mathcal{O}(N\log_{}^{2}{N})\)</td>
+<td>\(\mathcal{O}(N\log_{}^{2}{N})\)</td>
+<td>\(\mathcal{O}(1)\)</td>
+</tr>
+<tr>
+<td>快速排序</td>
+<td>quick sort</td>
+<td>\(\times\)</td>
+<td>\(\mathcal{O}(N\log_{}{N})\)</td>
+<td>\(\mathcal{O}(N^{2})\)</td>
+<td>\(\mathcal{O}(\log_{}{N})\)</td>
+</tr>
+<tr>
+<td>桶排序</td>
+<td>bucket sort</td>
+<td>\(\checkmark\)</td>
+<td>\(\mathcal{O}(N + k)\)</td>
+<td>\(\mathcal{O}(N^{2} + k)\)</td>
+<td>\(\mathcal{O}(2^{k})\)</td>
+</tr>
+<tr>
+<td>计数排序</td>
+<td>counting sort</td>
+<td>\(\checkmark\)</td>
+<td>\(\mathcal{O}(N + r)\)</td>
+<td>\(\mathcal{O}(N + r)\)</td>
+<td>\(\mathcal{O}(N + r)\)</td>
+</tr>
+<tr>
+<td>基数排序 (LSD)</td>
+<td>lsd radix sort</td>
+<td>\(\checkmark\)</td>
+<td>\(\mathcal{O}(N \frac{k}{d})\)</td>
+<td>\(\mathcal{O}(N \dfrac{k}{d})\)</td>
+<td>\(\mathcal{O}(N + 2^{d})\)</td>
+</tr>
+<tr>
+<td>基数排序 (MSD)</td>
+<td>msd radix sort</td>
+<td>\(\checkmark\)</td>
+<td>\(\mathcal{O}(N \frac{k}{d})\)</td>
+<td>\(\mathcal{O}(N \dfrac{k}{d})\)</td>
+<td>\(\mathcal{O}(N + 2^{d})\)</td>
+</tr>
+</tbody>
+</table>
+<p>其中 k 为键的大小，d 为数位大小，r 为排序的数字的范围大小。</p>
+<h2 id="冒泡排序" class="headerLink">
+    <a href="#%e5%86%92%e6%b3%a1%e6%8e%92%e5%ba%8f" class="header-mark"></a>冒泡排序</h2><p>冒泡排序 (bubble sort) 是一种简单的排序，它重复走访数据，对比两个相邻的元素，如果顺序错误就将它们交换位置，直到所有数据都在正确的位置上。实际上，bubble sort 是一种朴素的排序方式，其时间复杂度为 \(\mathcal{O}(N^{2})\) ，需要交换元素
+\(\mathcal{O}(N^{2})\) 次。当然，这是一种稳定排序！</p>
+<p>冒泡排序的具体做法如下：</p>
+<ol>
+<li>比较相邻的元素，如果位置不正确就交换</li>
+<li>对每一对相邻元素做同样的工作，直到结尾。当这一步完成后，最后一个元素将会正确的回到末尾位置</li>
+<li>针对所有相邻元素重复以上步骤 (除了刚刚摆放正确的元素)，直到没有可比较的元素为止</li>
+</ol>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Bubble_sort_animation.gif" width="40%"/>
+</figure>
+
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Array</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">bubble_sort</span><span class="p">(</span><span class="n">Array</span><span class="o">&amp;</span> <span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">len</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">swap</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="插入排序" class="headerLink">
+    <a href="#%e6%8f%92%e5%85%a5%e6%8e%92%e5%ba%8f" class="header-mark"></a>插入排序</h2><p>插入排序 (insertion sort) 是一种直观的排序，由 \(N-1\) 趟 (pass) 排序组成。对于
+\(p=1\) 到 \(N-1\) 趟，插入顺序保证从位置 0 到位置 p 上的元素为已排序状态。当然这基于一个事实：位置 0 到位置 \(p-1\) 上的元素都已排序过了。</p>
+<p>插入排序的具体做法如下：</p>
+<ol>
+<li>从第一个元素开始，该元素可以认为是已被排序的</li>
+<li>取出下一个元素，在已排序的元素中从后向前扫描</li>
+<li>如果已排序的元素与这个取出的元素位置不正确，将取出的元素向前移动，直到位置正确或没有已排序元素可以比较</li>
+<li>将取出的元素插入这里，并重复步骤 2 ~ 4 直到所有元素都被排序</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>初始状态</th>
+<th>34</th>
+<th>8</th>
+<th>64</th>
+<th>51</th>
+<th>32</th>
+<th>21</th>
+<th>当前取出元素</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>After \(p=1\)</td>
+<td>8</td>
+<td>34</td>
+<td>64</td>
+<td>51</td>
+<td>32</td>
+<td>21</td>
+<td>8</td>
+</tr>
+<tr>
+<td>After \(p=2\)</td>
+<td>8</td>
+<td>34</td>
+<td>64</td>
+<td>51</td>
+<td>32</td>
+<td>21</td>
+<td>64</td>
+</tr>
+<tr>
+<td>After \(p=3\)</td>
+<td>8</td>
+<td>34</td>
+<td>51</td>
+<td>64</td>
+<td>32</td>
+<td>21</td>
+<td>51</td>
+</tr>
+<tr>
+<td>After \(p=4\)</td>
+<td>8</td>
+<td>32</td>
+<td>34</td>
+<td>51</td>
+<td>64</td>
+<td>21</td>
+<td>32</td>
+</tr>
+<tr>
+<td>After \(p=5\)</td>
+<td>8</td>
+<td>21</td>
+<td>32</td>
+<td>34</td>
+<td>51</td>
+<td>64</td>
+<td>21</td>
+</tr>
+</tbody>
+</table>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Insertion_sort_animation.gif" width="40%"/>
+</figure>
+
+<p>由于每个嵌套循环都花费 N 次迭代，因此插入排序时间复杂度为 \(\mathcal{O}(N^{2})\)
+，对于 p 的每一个值最多执行 \(p + 1\) 次对已排序元素的检测，因此最多
+\(\sum_{i=2}^{N}{i} = 2 + 3 + 4 + \cdots + N = \Theta(N^{2})\) 。但是另一方面，如果输入的数据已经被排序了，那运行时间为 \(\mathcal{O}(N)\) ，而几乎有序的情况下，insertion sort
+将会很快运行完毕。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Array</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">insertion_sort</span><span class="p">(</span><span class="n">Array</span><span class="o">&amp;</span> <span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">j</span><span class="p">,</span> <span class="n">len</span> <span class="o">=</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">p</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="o">++</span><span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">p</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">tmp</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span> <span class="o">--</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="希尔排序" class="headerLink">
+    <a href="#%e5%b8%8c%e5%b0%94%e6%8e%92%e5%ba%8f" class="header-mark"></a>希尔排序</h2><p>希尔排序 (shell sort) 也称 <strong>递减增量排序</strong> (diminishing increment sort) 算法，是插入排序的一种更高效的改进版本，由发明者 Donald Shell 于 1959 年公布。Shell sort
+基于 insertion sort 的以下两点性质而提出改进方法的：</p>
+<ul>
+<li>insertion sort 在对几乎已经排好序的数据操作时效率高，即可以达到线性排序的效率</li>
+<li>insertion sort 一般来说是低效的，因为插入排序每次只能将数据移动一位</li>
+</ul>
+<p>Shell sort 使用序列 \(h_{1}, h_{2}, \cdots, h_{n}\) 这样一个增量序列，其中 \(h_{1}=1\) 。对于使用增量 \(h_{k}\) 的排序，我们可以看做是对序列 \(a[i + j * h_{k}] (j = 0, 1,
+\cdots, n)\) 进行的 insertion sort，在这一趟排序后，对于每个 i 则有 \(a[i] \leq a[i +
+h_{k}]\) ，即所有间隔为 \(h_{k}\) 的元素都被排序了，此时成为是 \(h_{k}\) 排序的
+(\(h_{k}\) sorted)。之后向前选取增量，直到增量为 1 的趟排序完，算法结束。</p>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/d/d8/Sorting_shellsort_anim.gif"/>
+</figure>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>\(a_{1}\)</th>
+<th>\(a_{2}\)</th>
+<th>\(a_{3}\)</th>
+<th>\(a_{4}\)</th>
+<th>\(a_{5}\)</th>
+<th>\(a_{6}\)</th>
+<th>\(a_{7}\)</th>
+<th>\(a_{8}\)</th>
+<th>\(a_{9}\)</th>
+<th>\(a_{10}\)</th>
+<th>\(a_{11}\)</th>
+<th>\(a_{12}\)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>input</td>
+<td>62</td>
+<td>83</td>
+<td>18</td>
+<td>53</td>
+<td>7</td>
+<td>17</td>
+<td>95</td>
+<td>86</td>
+<td>47</td>
+<td>69</td>
+<td>25</td>
+<td>28</td>
+</tr>
+<tr>
+<td>after step-5</td>
+<td>17</td>
+<td>28</td>
+<td>18</td>
+<td>47</td>
+<td>7</td>
+<td>25</td>
+<td>83</td>
+<td>86</td>
+<td>53</td>
+<td>69</td>
+<td>62</td>
+<td>95</td>
+</tr>
+<tr>
+<td>after step-3</td>
+<td>17</td>
+<td>7</td>
+<td>18</td>
+<td>47</td>
+<td>28</td>
+<td>25</td>
+<td>69</td>
+<td>62</td>
+<td>53</td>
+<td>83</td>
+<td>86</td>
+<td>95</td>
+</tr>
+<tr>
+<td>after step-1</td>
+<td>7</td>
+<td>17</td>
+<td>18</td>
+<td>25</td>
+<td>28</td>
+<td>47</td>
+<td>53</td>
+<td>62</td>
+<td>69</td>
+<td>83</td>
+<td>86</td>
+<td>95</td>
+</tr>
+</tbody>
+</table>
+<p>Shell sort 虽然实现简单，但运行时间的分析却很难。Shell sort 的运行时间依赖于所选择的增量序列。</p>
+<table>
+<thead>
+<tr>
+<th>增量序列</th>
+<th>时间复杂度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\(\frac{N}{2^{i}}\)</td>
+<td>\(\Theta(N^{2})\)</td>
+</tr>
+<tr>
+<td>\(2^{i} - 1\)</td>
+<td>\(\Theta(N^{3/2})\)</td>
+</tr>
+<tr>
+<td>\(2^{i}3^{j}\)</td>
+<td>\(\Theta(N\log_{}^{2}{N})\)</td>
+</tr>
+</tbody>
+</table>
+<p>已知最好的步长序列是 Sedgewick 提出的 \(1, 5, 19, 41, 109, \cdots\) ，这是一个下标从 0
+开始的序列，偶数下标对应的步长增量由 \(9 \times 4^{i} - 9 \times 2^{i} + 1\) 提供，奇数下标对应的步长增量由 \(2^{i+2} \times (2^{i+2} - 3) + 1\) 提供。在小数组中使用好的步长序列的 Shell sort 性能十分优秀。另外在大数组中，步长序列 \((fib(i+2))^{2}\) 表现优异。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">static</span> <span class="k">constexpr</span> <span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">SHELL_SORT_GAPS</span><span class="p">[]{</span><span class="mi">8929</span><span class="p">,</span> <span class="mi">3905</span><span class="p">,</span> <span class="mi">2161</span><span class="p">,</span> <span class="mi">929</span><span class="p">,</span> <span class="mi">505</span><span class="p">,</span> <span class="mi">209</span><span class="p">,</span> <span class="mi">109</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Array</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">shell_sort</span><span class="p">(</span><span class="n">Array</span><span class="o">&amp;</span> <span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">auto</span> <span class="n">len</span><span class="p">{</span><span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">()};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="nl">gap</span> <span class="p">:</span> <span class="n">SHELL_SORT_GAPS</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="n">gap</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">j</span><span class="p">{</span><span class="n">i</span><span class="p">};</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="n">gap</span> <span class="n">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">gap</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">];</span> <span class="n">j</span> <span class="o">-=</span> <span class="n">gap</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">gap</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="堆排序" class="headerLink">
+    <a href="#%e5%a0%86%e6%8e%92%e5%ba%8f" class="header-mark"></a>堆排序</h2><p>堆排序 (heap sort) 是基于上一篇中提到的 binary heap 的时间复杂度
+\(\mathcal{O}(N\log_{}{N})\) 的排序算法。如果我们要以升序排序数组，则将数组转换为一个 max heap，重复将 heap top 元素移除即可获取从大到小的序列。</p>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Sorting_heapsort_anim.gif" width="40%"/>
+</figure>
+
+<p>堆排序分为两个阶段，建立 max heap 与 N 次的移除操作。第一阶段建立 heap 需要最多
+\(2N\) 次比较，而第二阶段移除元素，每次移除元素最多用到 \(2\lfloor\log_{}{i}\rfloor\) 次比较。因此 heap sort 的最坏时间复杂度为 \(\mathcal{O}(N\log_{}{N})\) ，而 heap sort 性能十分稳定，其平均时间复杂度也是 \(\mathcal{O}(N\log_{}{N})\) 。</p>
+<p>我们可以利用 heap-order property 实现额外空间复杂度 \(\mathcal{O}(1)\) 的原地算法：在每次将 heap top 移除 heap 时将其与堆尾互换并将堆的尺寸缩小 1，然后利用
+percolate down 恢复 heap-order。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Array</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">max_heapify</span><span class="p">(</span><span class="n">Array</span><span class="o">&amp;</span> <span class="n">arr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">start</span><span class="p">,</span> <span class="kt">int</span> <span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">dad</span> <span class="o">=</span> <span class="n">start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">son</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">dad</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">son</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">son</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">end</span> <span class="o">&amp;&amp;</span> <span class="n">arr</span><span class="p">[</span><span class="n">son</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">son</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="o">++</span><span class="n">son</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">dad</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">son</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">swap</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">dad</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">son</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dad</span> <span class="o">=</span> <span class="n">son</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">son</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">dad</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Array</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">heap_sort</span><span class="p">(</span><span class="n">Array</span><span class="o">&amp;</span> <span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">len</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">max_heapify</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">len</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">len</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">swap</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">max_heapify</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="基于堆排序的选择算法" class="headerLink">
+    <a href="#%e5%9f%ba%e4%ba%8e%e5%a0%86%e6%8e%92%e5%ba%8f%e7%9a%84%e9%80%89%e6%8b%a9%e7%ae%97%e6%b3%95" class="header-mark"></a>基于堆排序的选择算法</h3><p>你可能不知道什么是选择算法，但是你应该听过这样一个问题，如何在一个序列中找出第 k
+大的元素，当然第 k 小的元素也可以用这种办法。我们可以明确建堆的时间复杂度
+\(\mathcal{O}(N)\) ，删除的时间复杂度 \(\mathcal{O}(k\log_{}{N})\) ，总时间复杂度
+\(\mathcal{O}(N\log_{}{N})\) 。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Array</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">max_heapify</span><span class="p">(</span><span class="n">Array</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">int</span> <span class="n">heap_size</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">largest</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span> <span class="n">heap_size</span> <span class="o">&amp;&amp;</span> <span class="n">a</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">largest</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">largest</span> <span class="o">=</span> <span class="n">l</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="n">heap_size</span> <span class="o">&amp;&amp;</span> <span class="n">a</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">largest</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">largest</span> <span class="o">=</span> <span class="n">r</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">largest</span> <span class="o">!=</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">swap</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">largest</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">max_heapify</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">largest</span><span class="p">,</span> <span class="n">heap_size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Array</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">build_max_heap</span><span class="p">(</span><span class="n">Array</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">heap_size</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">heap_size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">max_heapify</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">heap_size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Array</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">selection_algorithm</span><span class="p">(</span><span class="n">Array</span><span class="o">&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">heap_size</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="k">const</span> <span class="kt">int</span> <span class="n">loop_exit_cond</span> <span class="o">=</span> <span class="n">heap_size</span> <span class="o">-</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">build_max_heap</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">heap_size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">loop_exit_cond</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">swap</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">--</span><span class="n">heap_size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">max_heapify</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">heap_size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="归并排序" class="headerLink">
+    <a href="#%e5%bd%92%e5%b9%b6%e6%8e%92%e5%ba%8f" class="header-mark"></a>归并排序</h2><p>归并排序 (mergesort) 是 1945 年由 von Neumann 首次提出，以
+\(\mathcal{O}(N\log_{}{N})\) 最坏情形运行时间运行，而所使用的比较次数几乎是最优解。
+mergesort 最基本的操作是合并两个已排序的表，而这个时间是线性的。递归地对前半部分数据和后半部分数据进行各自归并排序，将排序后的两部分合并得到最终的排序序列。</p>
+<p>mergesort 是典型的 <strong>divide-and-conquer</strong> (分而治之) 算法，将问题 divide (分) 为一些小问题递归求解，并 conquering (治) 的阶段将分的阶段的解修补在一起。</p>
+<figure><img src="/images/algo-example-of-merge-sort.svg" width="55%"/>
+</figure>
+
+<p>递归操作是自顶向下的，具体操作方法：</p>
+<ol>
+<li>申请空间，用以存放合并后的已排序序列</li>
+<li>设定指针，指向最初的两个已排序序列的起始位置</li>
+<li>比较指针所指向的元素，选择相对较小的放入合并空间，并移动指针到下一位置</li>
+<li>重复步骤 3 直到某一指针到达序列尾部</li>
+<li>将剩下的所有元素复制到合并空间</li>
+</ol>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Merge_sort_animation2.gif" width="40%"/>
+</figure>
+
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Array</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">merge_impl</span><span class="p">(</span><span class="n">Array</span><span class="o">&amp;</span> <span class="n">array</span><span class="p">,</span> <span class="n">Array</span><span class="o">&amp;</span> <span class="n">reg</span><span class="p">,</span> <span class="kt">int</span> <span class="n">start</span><span class="p">,</span> <span class="kt">int</span> <span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="o">&gt;=</span> <span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">,</span> <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">len</span> <span class="o">+</span> <span class="n">start</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">start1</span> <span class="o">=</span> <span class="n">start</span><span class="p">,</span> <span class="n">end1</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">start2</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">end2</span> <span class="o">=</span> <span class="n">end</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">merge_impl</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="n">start1</span><span class="p">,</span> <span class="n">end1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">merge_impl</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="n">start2</span><span class="p">,</span> <span class="n">end2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">start1</span> <span class="o">&lt;=</span> <span class="n">end1</span> <span class="o">&amp;&amp;</span> <span class="n">start2</span> <span class="o">&lt;=</span> <span class="n">end2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">reg</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">start1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">array</span><span class="p">[</span><span class="n">start2</span><span class="p">]</span> <span class="o">?</span> <span class="n">array</span><span class="p">[</span><span class="n">start1</span><span class="o">++</span><span class="p">]</span> <span class="o">:</span> <span class="n">array</span><span class="p">[</span><span class="n">start2</span><span class="o">++</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">start1</span> <span class="o">&lt;=</span> <span class="n">end1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">reg</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">start1</span><span class="o">++</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">start2</span> <span class="o">&lt;=</span> <span class="n">end2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">reg</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">start2</span><span class="o">++</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="n">k</span> <span class="o">=</span> <span class="n">start</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">array</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">reg</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Array</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">Array</span><span class="o">&amp;</span> <span class="n">array</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Array</span> <span class="n">reg</span><span class="p">{</span><span class="n">array</span><span class="p">.</span><span class="n">size</span><span class="p">()};</span> <span class="c1">// reg.size == array.size
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">merge_impl</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">array</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="归并排序的分析" class="headerLink">
+    <a href="#%e5%bd%92%e5%b9%b6%e6%8e%92%e5%ba%8f%e7%9a%84%e5%88%86%e6%9e%90" class="header-mark"></a>归并排序的分析</h3><p>分析递归程序有一个经典技巧： <strong>给运行时间写出一个递推关系</strong> 。假设 N 是 2 的幂，从而总可以将它分裂成相等的两部分。对于 \(N = 1\) 归并排序所用时间为常数，记作 \[T(1)
+= 1.\] 对 N 个数的归并排序用时等于完成两个大小为 \(N/2\) 的递归排序所用时间加上合并时间，记作 \[T(N) = 2T(N/2) + N.\]</p>
+<ul>
+<li>第一种方法：对两边同时除以 N，于是 \[\frac{T(N)}{N} = \frac{T(N/2)}{N/2} +
+1, \quad \frac{T(N/2)}{N/2} = \frac{T(N/4)}{N/4} + 1, \quad \cdots \quad, \quad\frac{T(2)}{2} =
+\frac{T(1)}{1} + 1.\]
+将所有这些方程相加，实际上这些中间项都会被消去，我们称之为 <strong>叠缩</strong>
+(telescoping) 求和，最终结果为 \[\frac{T(N)}{N} = \frac{T(1)}{1} +
+\log_{}{N}.\] 由此得到最终答案 \[T(N) = N\log_{}{N} + N =
+\mathcal{O}(N\log_{}{N}).\]</li>
+</ul>
+<!--listend-->
+<ul>
+<li>第二种方法：在等式右边不断代入递推关系，得到 \[T(N) = 2T(N/2) + N, \quad T(N) =
+2(2(T(N/4)) + N/2) = 4T(N/4) + N, \quad T(N) = 8T(N/8) + N, \quad \cdots \quad, \quad T(N) =
+2^{k}T(N/2^{k}) + kN.\]
+代入 \(k=\log_{}{N}\) 得到 \[T(N) = NT(1) + N\log_{}{N} = N\log_{}{N} + N =
+\mathcal{O}(N\log_{}{N}).\]</li>
+</ul>
+<p>归并排序是比较次数最少的排序算法，其运行时间一般依赖于元素的比较与复制所消耗的时间。复杂的复制操作会降低排序速度，在递归交替层面我们可以从用谨慎地交换两个数组担任角色的方法，避免其来回的复制。另外复制操作的消耗依赖于编程语言，Java 中类都是采用引用传递，因此比较耗时很多但相对的移动元素快很多；C/C++ 中大对象的复制是十分缓慢的，而比较是快速的，可以考虑采用移动语义或者指针来优化复制带来的时间消耗。</p>
+<h3 id="在链表上进行归并排序" class="headerLink">
+    <a href="#%e5%9c%a8%e9%93%be%e8%a1%a8%e4%b8%8a%e8%bf%9b%e8%a1%8c%e5%bd%92%e5%b9%b6%e6%8e%92%e5%ba%8f" class="header-mark"></a>在链表上进行归并排序</h3><p>归并排序的递归实现是自顶向下的，而链表上常用自下向上的迭代思路。</p>
+<p>首先解释代码中所用到的额外函数：</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>释义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>splice(dest, src, iterator)</code></td>
+<td>将 src 中的元素 iterator 转移给 dest</td>
+</tr>
+<tr>
+<td><code>merge(dest, src)</code></td>
+<td>将有序的列表 dest 与 src 合并并转移到 dest 中</td>
+</tr>
+<tr>
+<td><code>swap(a, b)</code></td>
+<td>交换两个链表 a 与 b</td>
+</tr>
+</tbody>
+</table>
+<p>需要特别注意的是， <code>splice</code> 是将结点转移，也就是说它直接将结点链接进 dest 而不是复制结点的值到 dest，因此 src 将不再存在该结点。而 <code>merge</code> 是将 src 转移进 dest
+中，操作完成后 dest 是有序的 dest 与 src 的合并，而 src 中将不再有任何结点。代码的实现步骤如下：</p>
+<ol>
+<li>取出头结点转移给 transfer</li>
+<li>将 transfer 与 pool[cur] 中的元素合并，并将指针移动到下一个 pool</li>
+<li>重复步骤 2 直到 pool[cur] 为空，将 transfer 的所有元素转移到 pool[cur] 中</li>
+<li>如果 cur 与 end 相等，则将 end 加一</li>
+<li>如果 list 不为空，则重复步骤 1 到 4</li>
+<li>合并 pool 中的所有元素，直到 <code>pool[end - 1]</code> ，这就是排序之后的 list</li>
+</ol>
+<!--listend-->
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">sort</span><span class="p">(</span><span class="n">list</span><span class="o">&amp;</span> <span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">list</span> <span class="n">transfer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">list</span> <span class="n">pool</span><span class="p">[</span><span class="mi">48</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">end</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">cur</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">l</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">cur</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">splice</span><span class="p">(</span><span class="n">transfer</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">l</span><span class="p">.</span><span class="n">begin</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">cur</span> <span class="o">&lt;</span> <span class="n">end</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">empty</span><span class="p">(</span><span class="n">pool</span><span class="p">[</span><span class="n">cur</span><span class="p">]))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">merge</span><span class="p">(</span><span class="n">transfer</span><span class="p">,</span> <span class="n">pool</span><span class="p">[</span><span class="n">cur</span><span class="o">++</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">swap</span><span class="p">(</span><span class="n">pool</span><span class="p">[</span><span class="n">cur</span><span class="p">],</span> <span class="n">transfer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">cur</span> <span class="o">==</span> <span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="o">++</span><span class="n">end</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">cur</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">cur</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">;</span> <span class="o">++</span><span class="n">cur</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">merge</span><span class="p">(</span><span class="n">pool</span><span class="p">[</span><span class="n">cur</span><span class="p">],</span> <span class="n">pool</span><span class="p">[</span><span class="n">cur</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">swap</span><span class="p">(</span><span class="n">pool</span><span class="p">[</span><span class="n">end</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>有意思的一点，pool[i] 只会接纳 \(2^{i} (i \in \mathbb{N})\) 个已排序好的元素，因此
+<code>pool[end - 1]</code> 中的是已排序的前半部分，而 <code>[0, end - 1)</code> 中则分散着后半部分链表。这种方法是一个稳定排序，时间复杂度 \(\mathcal{O}(N\log_{}{N})\) ，并且这不会进行复制操作而是对结点进行操作。</p>
+<h2 id="快速排序" class="headerLink">
+    <a href="#%e5%bf%ab%e9%80%9f%e6%8e%92%e5%ba%8f" class="header-mark"></a>快速排序</h2><p>快速排序 (quicksort) 是在实践中已知排序算法中最快的，它的平均运行时间
+\(\mathcal{O}(N\log_{}{N})\) ，最坏情形为 \(\mathcal{O}(N^{2})\) ，当然只要稍加努力就可以避免这种情形。通过将 heapsort 与 quicksort 结合将得到对几乎所有输入的最快运行时间。</p>
+<p>quicksort 同样利用了 divide-and-conquer 的思想，基本算法如下：</p>
+<ol>
+<li>如果 arr 中元素个数是 0 或 1 则返回</li>
+<li>取 arr 中任一元素 e 为 <strong>枢纽元</strong> (pivot)</li>
+<li>将 arr 的其他元素 \(arr-\{e\}\) 划分为两个不相交的集合 \(arr_{1} = \{x \in
+arr-\{e\} | x \leq e\}\) 和 \(arr_{2} = \{x \in arr-\{e\} | x \geq e\}\)</li>
+<li>返回 \(\{quicksort(arr_{1}), e, quicksort(arr_{2})\}\)</li>
+</ol>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Sorting_quicksort_anim.gif" width="40%"/>
+</figure>
+
+<p>显然算法是成立的，可是为什么 quicksort 比 mergesort 快。quicksort 递归的解决两个子问题并需要线性的划分集合，但这两个子集的大小是不保证相等的，在划分是选择适当的位置将非常的高效，以至于弥补大小不等的递归带来的消耗甚至超过 mergesort。</p>
+<h3 id="选择枢纽元" class="headerLink">
+    <a href="#%e9%80%89%e6%8b%a9%e6%9e%a2%e7%ba%bd%e5%85%83" class="header-mark"></a>选择枢纽元</h3><p>虽然我们可以任意的原则 pivot，但显然一些选择是更优秀的。</p>
+<dl>
+<dt>错误的 pivot 选择方法</dt>
+<dd>通常将第一个或最后一个作为 pivot 是简单的，如果输入随机那还是可以接受的，但如果已经预排序或逆序，那么这将造成劣质的分割，所有元素都被划分到一个集合当中。当然这种情况可能发生在所有递归中。这将造成时间花费上升到 \(\mathcal{O}(N^{2})\) ，而实际上算法什么都没有做。</dd>
+<dt>一种安全的做法</dt>
+<dd>随机选取 pivot 是一种非常安全的策略，但是随机数生成器却是一种相对昂贵的。</dd>
+<dt>三数中值的分割法</dt>
+<dd>一个 N 个数的中值是第 \(\lfloor N/2 \rfloor\) 个最大的数，pivot 的最好选择就是数组的中值。但是计算整个数组的中值无疑会降低算法的速度，往往采用选取三个元素并用它们的中值作为 pivot，当然可以随机选取三个值，但一般做法事选取左端、右端以及中间三个元素的中值作为 pivot。</dd>
+</dl>
+<h3 id="分割策略" class="headerLink">
+    <a href="#%e5%88%86%e5%89%b2%e7%ad%96%e7%95%a5" class="header-mark"></a>分割策略</h3><p>选取 pivot 后，最重要的就是如何处理等于 pivot 的元素，即我们希望将等于 pivot 的元素均分到 pivot 的两边，保证两边尽可能的平衡。</p>
+<p>假设所有元素都不相同，那么我们用双指针 i 和 j 来指向两端的元素，前半部分是小于
+pivot 的元素，后半部分则是大于 pivot 的元素。当 i 遇到大于 pivot 的元素时停下来，等待 j 寻找小于 povit 的元素，交换这两个位置的元素，然后继续，直到 i 和 j 交错，那么交错的位置就是 pivot 的位置。通过这种方法我们可以很轻松的划分 \(arr_{1}\) 和
+\(arr_{2}\) 。</p>
+<p>假设所有元素都是相同的，当遇到等于 pivot 的元素时，显然 <code>只让</code> 指针 i 停止 (即
+\(arr_{1} = \{x \in arr-\{e\} | x &lt; e\}\)) 或 <code>只让</code> 指针 j 停止 (即 \(arr_{2} =
+\{x \in arr-\{e\} | x &gt; e\}\))，都会导致指针偏向其中一边。而都不停止，也是同样的结果，其时间复杂度会是 \(\mathcal{O}(N^{2})\) 。现在仅剩下的方法就是让 i 和 j 在遇到等于 pivot 的元素时，停下来并交换元素，这样会造成大量无意义的交换，但是可以将
+\(arr_{1}\) 与 \(arr_{2}\) 分割为大小几乎相等的集合，归并排序告诉我们其运行时间为
+\(\mathcal{O}(N\log_{}{N})\) 。</p>
+<h3 id="小数组" class="headerLink">
+    <a href="#%e5%b0%8f%e6%95%b0%e7%bb%84" class="header-mark"></a>小数组</h3><p>当然在数组大小很小的时候 (通常认为是 \(N \leq 20\))，quicksort 并不如 insertion sort。因此通常的解决方法是在小数组上不递归地使用 quicksort，而是改为 insertion sort 这种对小数组有效的排序。这种策略实际上可以节省大约 \(15\%\) (相对自始至终使用
+quicksort) 的运行时间。</p>
+<p>一种好的 <code>截止范围</code> (CUTOFF) 是 \(N = 10\) ，当然 CUTOFF 在 <code>5</code> 至 <code>20</code> 之间都有可能产生类似的结果。这种做法也避免了一些有害的退化情形。</p>
+<h3 id="快速排序的分析" class="headerLink">
+    <a href="#%e5%bf%ab%e9%80%9f%e6%8e%92%e5%ba%8f%e7%9a%84%e5%88%86%e6%9e%90" class="header-mark"></a>快速排序的分析</h3><p>在分析之前，给出该算法的相关代码。需要注意的是，在排序范围小于 10 时，会调用
+shell sort 为范围进行排序。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Array</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">shell_sort</span><span class="p">(</span><span class="n">Array</span><span class="o">&amp;</span> <span class="n">arr</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">l</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="nl">gap</span> <span class="p">:</span> <span class="n">SHELL_SORT_GAPS</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">base</span><span class="p">{</span><span class="n">l</span> <span class="o">+</span> <span class="n">gap</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="n">base</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">j</span><span class="p">{</span><span class="n">i</span><span class="p">};</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="n">base</span> <span class="n">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">gap</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">];</span> <span class="n">j</span> <span class="o">-=</span> <span class="n">gap</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">gap</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Array</span><span class="p">,</span> <span class="k">class</span> <span class="nc">Element</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">Array</span><span class="o">::</span><span class="n">value_type</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="n">Element</span><span class="o">&amp;</span> <span class="n">get_pivot</span><span class="p">(</span><span class="n">Array</span><span class="o">&amp;</span> <span class="n">arr</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">l</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">mid</span><span class="p">{(</span><span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Array</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">quicksort</span><span class="p">(</span><span class="n">Array</span><span class="o">&amp;</span> <span class="n">arr</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">l</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nf">shell_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">auto</span> <span class="n">pivot</span><span class="p">{</span><span class="n">get_pivot</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">)};</span>
+</span></span><span class="line"><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">i</span><span class="p">{</span><span class="n">l</span><span class="p">},</span> <span class="n">j</span><span class="p">{</span><span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="o">++</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">pivot</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="o">--</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">quicksort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">quicksort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Array</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">quicksort</span><span class="p">(</span><span class="n">Array</span><span class="o">&amp;</span> <span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">quicksort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">0ll</span><span class="p">,</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1ll</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对快排进行如同归并排序那样的分析。可以肯定的是 \(T(0) = T(1) = 1\) 和 \(T(N) =
+T(i) + T(N - i - 1) + cN\) ，我们需要考虑三种情况：</p>
+<dl>
+<dt>最坏情形的分析</dt>
+<dd>这种情况下，我们可以认为 pivot 始终是最小元素，那么可以认为 \(T(N) =
+T(N - 1) + cN\) ，通过递推关系我们可以得到 \[T(N) = T(1) + c\sum_{i=2}^{N}{i} =
+\mathcal{O}(N^{2}).\]</dd>
+<dt>最佳情形的分析</dt>
+<dd>这种情况下，我们可以认为 pivot 始终位于中间，为了简化假设两个集合的大小恰好为原大小的一半。可以发现 \(T(N) = 2T(N/2) + cN\) ，与归并排序一样，最终我们可以得到 \[T(N) = cN\log_{}{N} + N = \mathcal{O}(N\log_{}{N}).\]</dd>
+<dt>平均情形的分析</dt>
+<dd>当然这是最难的部分，我们假设对于 \(arr_{1}\) 每个大小都是等可能的，因此每个大小均有 \(1 / N\) 的概率。由此可知 \(T(i)\) 的平均值为 \((1/N)
+\sum_{j=0}^{N-1}{T(j)}\) ，代入 \(T(N) = T(i) + T(N - i - 1) + cN\) 得到 \[T(N) =
+\frac{2}{N}[\sum_{j=0}^{N-1}{T(j)}]+cN.\] 两边同时乘以 \(N\) 可以消去分母上的 \(N\)
+得到 \[NT(N) = 2[\sum_{j=0}^{N-1}{T(j)}]+cN.\] 如果为 \(T(N-1)\) 也这样做则可以得到 \[(N-1)T(N-1) = 2[\sum_{j=0}^{N-2}{T(j)}]+c(N-1)^{2}.\] 将上面两个式子相减可以消去其中的求和符号 \[NT(N) - (N-1)T(N-1) = 2T(N-1) + 2cN - c.\] 去除 \(-c\)
+并改写为 \(T(N)\) 与 \(T(N-1)\) 的关系式
+\[\frac{T(N)}{N+1}=\frac{T(N-1)}{N}+\frac{2c}{N+1}.\] 如此进行 telescoping
+求和即可得到 \[\frac{T(N)}{N+1} = \mathcal{O}(\log_{}{N}).\] 即 \(T(N) =
+\mathcal{O}(N\log_{}{N})\) 。</dd>
+</dl>
+<h3 id="基于快速排序的选择问题" class="headerLink">
+    <a href="#%e5%9f%ba%e4%ba%8e%e5%bf%ab%e9%80%9f%e6%8e%92%e5%ba%8f%e7%9a%84%e9%80%89%e6%8b%a9%e9%97%ae%e9%a2%98" class="header-mark"></a>基于快速排序的选择问题</h3><p>选择问题 (selection problem) 可以使用 quicksort 来解决，之前介绍了使用 heapsort
+的 \(\mathcal{O}(N + k\log_{}{N})\) 选择算法，而查询中值的话这个算法达到了
+\(\mathcal{O}(N\log_{}{N})\) ，这个所用时间可以给数组排序。因此我们期望获得一个更好的时间界。</p>
+<p>实际上这个新的方法，查找集合 \(arr\) 中第 \(k\) 个最小的算法几乎与 quicksort 基本相同，我们将这个算法称为 <strong>快速选择</strong> (quickselect)，令 \(|arr_{i}|\) 为 \(arr_{i}\) 中的元素个数，步骤如下：</p>
+<ol>
+<li>如果 \(|arr| = 1\) ，那么 \(k = 1\) 并将 \(arr\) 中的元素作为答案返回。如果正在使用小数组的截止方法且 \(|arr| \leq CUTOFF\) ，则将 \(arr\) 排序并返回第 \(k\) 个最小元</li>
+<li>选取一个 pivot \(e \in arr\)</li>
+<li>将集合 \(arr-{e}\) 分割成 \(arr_{1}\) 与 \(arr_{2}\) ，就像 quicksort 中那样</li>
+<li>如果 \(k \leq |arr_{1}|\) ，那么第 \(k\) 个最小元必然在 \(arr_{1}\) 中，这种情况下直接返回 \(quickselect(arr_{1}, k)\) 。如果 \(k = 1 + |arr_{1}|\) 那么 pivot 就是第 \(k\) 个最小元。否则我们进行一次递归并返回 \(quickselect(arr_{2}, k -
+1 - |arr_{1}|)\)</li>
+</ol>
+<p>与 quicksort 相比 quickselect 只进行了一次递归调用而不是两次，最坏时间复杂度与
+quicksort 相同，但平均时间复杂度是 \(\mathcal{O}(N)\) 。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// get_pivot 与 shell_sort 两个函数与 quicksort 中相同
+</span></span></span><span class="line"><span class="cl"><span class="c1">// quickselect 与 quicksort 极为相似
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Array</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">quickselect</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">size_t</span><span class="o">&amp;</span> <span class="n">k</span><span class="p">,</span> <span class="n">Array</span><span class="o">&amp;</span> <span class="n">arr</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">l</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">==</span> <span class="n">r</span> <span class="o">&amp;&amp;</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nf">shell_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">auto</span> <span class="n">pivot</span><span class="p">{</span><span class="n">get_pivot</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">)};</span>
+</span></span><span class="line"><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">i</span><span class="p">{</span><span class="n">l</span><span class="p">},</span> <span class="n">j</span><span class="p">{</span><span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="o">++</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">pivot</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="o">--</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">auto</span> <span class="n">len_1</span><span class="p">{</span><span class="n">i</span> <span class="o">-</span> <span class="n">l</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">len_1</span> <span class="o">!=</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">len_1</span> <span class="o">?</span> <span class="n">quickselect</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">:</span> <span class="n">quickselect</span><span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="n">len_1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Array</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">quickselect</span><span class="p">(</span><span class="n">Array</span><span class="o">&amp;</span> <span class="n">arr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">quickselect</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="mi">0ll</span><span class="p">,</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1ll</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="间接排序" class="headerLink">
+    <a href="#%e9%97%b4%e6%8e%a5%e6%8e%92%e5%ba%8f" class="header-mark"></a>间接排序</h2><p>对于排序来说，其中会有大量的比较与交换，一个难于复制的大对象所带来的时间成本是无法忽略的。解决方法也很简单，利用一个指向元素的指针所组成的数组，排序这些指针，从而确定元素的位置，而不是实际上的复制操作。这种被称为 <strong>中间置换</strong> (in-situ
+permutation) 算法，之前介绍的对链表的排序就是这种算法。</p>
+<p>但是对于数组这种顺序存储的结构，我们需要生成一个指针数组，并对指针数组进行
+in-situ permutation。这样即使最终排序好指针数组，也需要写回原始数组，一种简单的方法是开辟等长的数组，将其按照指针数组的顺序复制一份，再复制回原始数组。其代价是
+\(\mathcal{O}(N)\) 的额外空间复杂度与 \(\mathcal{O}(2N)\) 的复制次数。</p>
+<p>不过在优化之前，需要简单的理解一个问题。当我们需要交换 <code>a[2]</code> 与 <code>a[4]</code> 时，需要有一个临时变量存储 <code>a[2]</code> ，以防 <code>a[2]</code> 不能被正确交换。如果需要交换三个元素，那么我们可以使用一个临时变量与 <code>4</code> 次赋值操作完成这个流程。将其应用在 in-situ
+permutation 上，初始位置的 <code>a[i]</code> 存储到 tmp 中，让后将 <code>p[i]</code> 所指向的元素赋值到 <code>a[i]</code> 中，以此重复直到循环结束，将 tmp 赋值到正确的位置。这样一个长度为 \(L\)
+的循环只需要 \(L+1\) 次赋值，当然长度为 1 时不需要赋值。</p>
+<p>那么对于给定 N 个元素的数组，令 \(C_{L}\) 是长度为 \(L\) 的循环的次数，元素的赋值次数 \(M\) 如下 \[M = N - C_{1} + C_{2} + C_{3} + \cdots + C_{N}.\] 最好的情况是全是长度为 1 的循环，即每个元素都在正确的位置上，这样就不需要赋值。最坏情况是有 \(N/2\) 个长度为 2 的循环，此时需要 \(3N / 2\) 次赋值。</p>
+<h2 id="非比较排序" class="headerLink">
+    <a href="#%e9%9d%9e%e6%af%94%e8%be%83%e6%8e%92%e5%ba%8f" class="header-mark"></a>非比较排序</h2><p>在任何只使用比较的排序算法的最坏时间复杂度为 \(\Omega(N\log_{}{N})\) ，但是我们可以在某些情况下以 \(\mathcal{O}(N)\) 时间进行排序。</p>
+<h3 id="桶排序" class="headerLink">
+    <a href="#%e6%a1%b6%e6%8e%92%e5%ba%8f" class="header-mark"></a>桶排序</h3><p>一个简单的例子是 <strong>桶排序</strong> (bucket sort)，其将元素分到有限个桶中，每个桶再进行分别排序。当要被排序的数组内的数值是均匀分配的时候，桶排序使用线性时间 \(\Theta(n)\) 。</p>
+<p>桶排序的步骤如下：</p>
+<ol>
+<li>设置一个定量的数组当作空桶子</li>
+<li>访问序列并将元素一个一个放到对应的桶子去</li>
+<li>对每个不是空的桶子进行排序</li>
+<li>从不是空的桶子里把元素再放回原来的序列中</li>
+</ol>
+<h3 id="计数排序" class="headerLink">
+    <a href="#%e8%ae%a1%e6%95%b0%e6%8e%92%e5%ba%8f" class="header-mark"></a>计数排序</h3><p>计数排序 (counting sort) 将设置一个额外的数组，其中第 i 个元素是待排序数组中值等于 i 的元素的个数，然后根据额外数组来排序。算法的步骤如下：</p>
+<ol>
+<li>找出待排序的数组中最大和最小的元素</li>
+<li>统计数组中每个值为 i 的元素出现的次数，存入额外数组的第 i 项</li>
+<li>反向填充目标数组</li>
+</ol>
+<h3 id="基数排序" class="headerLink">
+    <a href="#%e5%9f%ba%e6%95%b0%e6%8e%92%e5%ba%8f" class="header-mark"></a>基数排序</h3><p>基数排序 (radix sort) 是将待排序元素按一定位进行分割，然后按每个数位进行比较。实现方式可以采用两种不同的策略，即 LSD (Least Significant Digital) 与 MSD (Most
+Significant Digital)，LSD 采用从最右位开始排序，MSD 采用从最左位开始排序。</p>
+<p>radix sort 不止可以对整数进行排序，还可以用于字符串或特定格式的浮点数，为了方便以整数为例，算法的步骤如下：</p>
+<ol>
+<li>将所有待比较数值统一为同样的数位长度，数位较短的数前面补零</li>
+<li>从最低位开始，将元素放入对应数位的桶中进行排序</li>
+<li>按照顺序从桶中取出元素，并重复步骤 2 直到元素最高位被排序</li>
+<li>最终序列为已排序序列</li>
+</ol>
+<p>基数排序的时间复杂度是 \(\mathcal{O}(kN)\) ，其中 \(N\) 是排序元素个数， \(k\) 是数字位数。当然 \(k &gt; \log_{}{N}\) 时 radix sort 并不比比较排序更优秀。</p>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 04-07</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95&issue[description]=[POST](https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/" data-title="排序算法" data-hashtags="Note,Sort"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/" data-hashtag="Note"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/" data-title="排序算法" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/" data-title="排序算法"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/" data-title="排序算法"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/" data-title="排序算法" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/" data-title="排序算法" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/" title="排序算法">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/sort/">Sort</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021/data_strucures_and_algorithm_analysis_006_heap_structure/" class="prev" rel="prev" title="堆结构"><i class="fas fa-angle-left fa-fw"></i>堆结构</a>
+            <a href="/2022/unixnetworkprogramming_001/" class="next" rel="next" title="UNP 简介">UNP 简介<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2021-08-27T08:26:23+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"排序算法"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>

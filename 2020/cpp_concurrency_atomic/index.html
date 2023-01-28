@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>原子操作 - iris</title><meta name="Description" content="GinShio | Cpp Concurrency in Action (2rd) 第五章读书笔记"><meta property="og:title" content="原子操作" />
+<meta property="og:description" content="GinShio | Cpp Concurrency in Action (2rd) 第五章读书笔记" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2020/cpp_concurrency_atomic/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-12-05T17:46:52+08:00" />
+<meta property="article:modified_time" content="2022-04-07T19:30:00+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="原子操作"/>
+<meta name="twitter:description" content="GinShio | Cpp Concurrency in Action (2rd) 第五章读书笔记"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2020/cpp_concurrency_atomic/" /><link rel="prev" href="https://blog.ginshio.org/2020/cpp_concurrency_std/" /><link rel="next" href="https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_001/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "原子操作",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2020\/cpp_concurrency_atomic\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, C\u002b\u002b, Concurrency, Atomic","wordcount":  5727 ,
+        "url": "https:\/\/blog.ginshio.org\/2020\/cpp_concurrency_atomic\/","datePublished": "2020-12-05T17:46:52+08:00","dateModified": "2022-04-07T19:30:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | Cpp Concurrency in Action (2rd) 第五章读书笔记"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#原子操作">原子操作</a>
+      <ul>
+        <li><a href="#std-atomic-flag">::std::atomic_flag</a></li>
+        <li><a href="#std-atomic">::std::atomic</a></li>
+      </ul>
+    </li>
+    <li><a href="#内存布局">内存布局</a>
+      <ul>
+        <li><a href="#数据模型">数据模型</a></li>
+        <li><a href="#内存对齐">内存对齐</a></li>
+        <li><a href="#内存位置与并发">内存位置与并发</a></li>
+      </ul>
+    </li>
+    <li><a href="#同步操作和强制排序">同步操作和强制排序</a>
+      <ul>
+        <li><a href="#相关术语">相关术语</a></li>
+        <li><a href="#内存顺序">内存顺序</a>
+          <ul>
+            <li><a href="#自由序">自由序</a></li>
+            <li><a href="#消费-释放序">消费-释放序</a></li>
+            <li><a href="#获取-释放序">获取-释放序</a></li>
+            <li><a href="#顺序一致性">顺序一致性</a></li>
+          </ul>
+        </li>
+        <li><a href="#栅栏">栅栏</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">原子操作</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/c++-%E5%B9%B6%E5%8F%91/"><i class="far fa-list-alt fa-fw"></i>C++ 并发</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="12-05">12-05</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5727 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 12 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - C&#43;&#43; 并发</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul>
+                                                    <li><a href="/2020/cpp_concurrency_std/">并发标准库</a></li><li><span class="active">原子操作</span></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#原子操作">原子操作</a>
+      <ul>
+        <li><a href="#std-atomic-flag">::std::atomic_flag</a></li>
+        <li><a href="#std-atomic">::std::atomic</a></li>
+      </ul>
+    </li>
+    <li><a href="#内存布局">内存布局</a>
+      <ul>
+        <li><a href="#数据模型">数据模型</a></li>
+        <li><a href="#内存对齐">内存对齐</a></li>
+        <li><a href="#内存位置与并发">内存位置与并发</a></li>
+      </ul>
+    </li>
+    <li><a href="#同步操作和强制排序">同步操作和强制排序</a>
+      <ul>
+        <li><a href="#相关术语">相关术语</a></li>
+        <li><a href="#内存顺序">内存顺序</a>
+          <ul>
+            <li><a href="#自由序">自由序</a></li>
+            <li><a href="#消费-释放序">消费-释放序</a></li>
+            <li><a href="#获取-释放序">获取-释放序</a></li>
+            <li><a href="#顺序一致性">顺序一致性</a></li>
+          </ul>
+        </li>
+        <li><a href="#栅栏">栅栏</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="原子操作" class="headerLink">
+    <a href="#%e5%8e%9f%e5%ad%90%e6%93%8d%e4%bd%9c" class="header-mark"></a>原子操作</h2><p>原子操作是一个不可分割的操作，系统的所有线程不会观察到原子操作完成了一半。如果读取对象的加载操作是原子的，那么这个对象的所有修改操作也是原子的。</p>
+<p>标准原子类型全部定义于头文件 <em>atomic</em> 中，这些类型的操作都是原子的，但是其内部实现可能使用原子操作或互斥量模拟，所以原子操作可以替代互斥量完成同步操作，但是如果内部使用互斥量实现那么不会有性能提升。</p>
+<p>通常标准原子类型不能进行拷贝和赋值，但是可以隐式转化成对应的内置类型，使用
+<code>load()</code>​、​<code>exchange()</code>​、​<code>compare_exchange_weak()</code> 和 <code>compare_exchange_strong()</code>​，另外还有 <code>store()</code> 用以原子地赋值。每种函数类型的操作都有一个内存序参数，这个参数可以用来指定存储的顺序。</p>
+<h3 id="std-atomic-flag" class="headerLink">
+    <a href="#std-atomic-flag" class="header-mark"></a>::std::atomic_flag</h3><p>::std::atomic_flag 是最简单的原子类型，标准保证其实现是 <strong>lock-free</strong> 的，这个类型的对象可以在 <strong>设置</strong> 和 <strong>清除</strong> 间切换，对象必须被 <code>ATOMIC_FLAG_INIT</code>​，初始化标志位为清除状态。初始化后，对象进可以执行销毁、清除、设置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic_flag</span> <span class="n">f</span> <span class="o">=</span> <span class="n">ATOMIC_FLAG_INIT</span><span class="p">;</span> <span class="c1">// 设置为清除状态 (false)
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>由于 <code>clear()</code> 清除操作原子地设置标志为 false，​<code>test_and_set()</code> 设置操作原子地设置标志为 true 并获得其先前值，所以可以简单地实现一个自旋锁</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">spinlock_mutex</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="k">private</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic_flag</span> <span class="n">flag</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">spinlock_mutex</span><span class="p">()</span> <span class="o">:</span> <span class="n">flag</span><span class="p">(</span><span class="n">ATOMIC_FLAG_INIT</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">lock</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">flag</span><span class="p">.</span><span class="n">test_and_set</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_acquire</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">unlock</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">flag</span><span class="p">.</span><span class="n">clear</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_release</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="std-atomic" class="headerLink">
+    <a href="#std-atomic" class="header-mark"></a>::std::atomic</h3><p>::std::atomic 不再保证 <strong>lock-free</strong>​，但相比 ::std::atomic_flag 有了更通用的操作，
+<code>store()</code> 是一个存储操作，​<code>load()</code> 是一个加载操作，​<code>exchange()</code> 是一个读-改-写操作。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">x</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_acquire</span><span class="p">);</span> <span class="c1">// 加载操作，x==false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">b</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span> <span class="c1">// 存储操作，b==true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">exchange</span><span class="p">(</span><span class="nb">false</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_acq_rel</span><span class="p">);</span> <span class="c1">// 读-改-写操作，b==false，x==true
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>原子操作中还有一种存储方式：当前值与预期值一致时存储新值，这种操作被称为
+<strong>compare/exchange</strong> (比较/交换) 操作。compare/exchange 是原子类型编程的基础，它比较原子变量的当前值和预期值，两者相等时存储目标值，当两者不相等时预期值会被更新为原子变量中的值。它在C++中以 <code>compare_exchange_weak()</code> 和
+<code>compare_exchange_strong()</code> 提供，将当前值与预期值的 <code>对象表示/值表示</code> 逐位比较，且复制是逐位的，比较相等将返回 true，否则返回 false。另外我们可以指定两个内存序，即成功修改原子变量的内存序与失败时可以是不同的，具体的内存序我们之后在学习。</p>
+<p>compare_exchange_weak 是 <strong>弱CAS</strong>​，可能出现伪失败，即当前值与预期值相等时，也可能出现比较失败的行为，为此通常配合循环使用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">expected</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">extern</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">b</span><span class="p">.</span><span class="n">compare_exchange_weak</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="nb">true</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">expected</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>compare_exchange_strong 是 <strong>强CAS</strong>​，它保证不会出现伪失败，一般推荐使用强形式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">ai</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">tst</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">ai</span><span class="p">.</span><span class="n">compare_exchange_strong</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="c1">// false, ai = 3, tst = 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ai</span><span class="p">.</span><span class="n">compare_exchange_strong</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="c1">// true,  ai = 5, tst = 3
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>整数类型、指针类型、浮点类型 (C++20起) 都拥有原子数值计算的能力，并且整数类型还可以原子地按位运算，这些操作可以修改原子变量并返回修改前原子变量的值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">arr</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">ai</span><span class="p">{</span><span class="mi">5</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">*&gt;</span> <span class="n">aip</span><span class="p">{</span><span class="n">arr</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 数值计算
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ai</span> <span class="o">+=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">// ai = 9
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">aip</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// aip = arr + 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ai</span><span class="p">.</span><span class="n">fetch_sub</span><span class="p">(</span><span class="mi">8</span><span class="p">);</span> <span class="c1">// ai = 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">--</span><span class="n">aip</span><span class="p">;</span> <span class="c1">// aip = arr + 1
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 按位运算 (仅整数类型特化)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ai</span> <span class="o">|=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// ai = 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ai</span><span class="p">.</span><span class="n">fetch_and</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span> <span class="c1">// ai = 0
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>类型中包含 <code>填充位</code>​、​<code>陷阱位</code> 或为 <code>同一值提供多个对象表示</code> (如浮点数的 NaN) 时推荐弱CAS，因为可能两个对象的值相等但CAS操作失败</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">TestCas</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="n">TestCas</span> <span class="n">a</span> <span class="o">=</span> <span class="p">{</span><span class="mi">65536</span><span class="p">};</span> <span class="c1">// 假设对象表示 [0,0,1,0,1,0,0,0]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="n">TestCas</span><span class="o">&gt;</span> <span class="n">aa</span><span class="p">{{</span><span class="mi">65536</span><span class="p">}};</span> <span class="c1">// 假设对象表示 [0,0,1,0,0,0,0,0]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">aa</span><span class="p">.</span><span class="n">compare_exchange_strong</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">{</span><span class="mi">1024</span><span class="p">});</span> <span class="c1">// 修改失败，对象表示不一致
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				       <span class="c1">// C++20开始，修改成功，值表示一致
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们常使用 <strong>用户定义类型</strong> (UDT)，原子类型会进行逐位比较或复制操作，所以 UDT 应该是 <strong>可平凡复制</strong> 的类型。通常 UDT 类型的原子类型会使用锁来完成原子操作，不过好消息是大多数平台对于 UDT 大小如同一个 int 或 void* 时，将使用原子指令实现原子操作
+(即无锁操作)，有些平台甚至还支持两倍大小使用原子指令，即 <strong>双字比较和交换</strong>
+(DWCAS) 指令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">boolalpha</span> <span class="o">&lt;&lt;</span> <span class="n">aa</span><span class="p">.</span><span class="n">is_lock_free</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// 可能的输出：true
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="内存布局" class="headerLink">
+    <a href="#%e5%86%85%e5%ad%98%e5%b8%83%e5%b1%80" class="header-mark"></a>内存布局</h2><p>内存模型一方面是内存布局，另一方面是并发，并发的基本结构很重要，特别是低层原子操作，因为C++所有的对象都和内存位置有关。一个类是一个有多个子对象组成的对象，我们需要牢记四个原则</p>
+<ol>
+<li>每个变量都是对象，包括其成员变量的对象</li>
+<li>每个对象至少占有一个内存位置</li>
+<li>基本类型都有确定的内存位置</li>
+<li>相邻位域是相同内存中的一部分</li>
+</ol>
+<h3 id="数据模型" class="headerLink">
+    <a href="#%e6%95%b0%e6%8d%ae%e6%a8%a1%e5%9e%8b" class="header-mark"></a>数据模型</h3><p>数据模型描述了C等编程语言的基本算术类型的位宽，以下是常见的数据模型 (之后我们以
+<strong>LP64</strong> 为准)</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>short</th>
+<th>int</th>
+<th>long</th>
+<th>long long</th>
+<th>ptr</th>
+<th>RunTime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LP32</td>
+<td>16</td>
+<td>16</td>
+<td>32</td>
+<td>64</td>
+<td>32</td>
+<td>MSVC (16bit)</td>
+</tr>
+<tr>
+<td>ILP32</td>
+<td>16</td>
+<td>32</td>
+<td>32</td>
+<td>64</td>
+<td>32</td>
+<td>MSVC (32bit), *nix (32bit)</td>
+</tr>
+<tr>
+<td>LLP64</td>
+<td>16</td>
+<td>32</td>
+<td>32</td>
+<td>64</td>
+<td>64</td>
+<td>MSVC, MinGW</td>
+</tr>
+<tr>
+<td>LP64</td>
+<td>16</td>
+<td>32</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>*nix, Cygwin, z/OS</td>
+</tr>
+<tr>
+<td>ILP64</td>
+<td>16</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>Solaris</td>
+</tr>
+<tr>
+<td>SILP64</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>UNICOS</td>
+</tr>
+</tbody>
+</table>
+<h3 id="内存对齐" class="headerLink">
+    <a href="#%e5%86%85%e5%ad%98%e5%af%b9%e9%bd%90" class="header-mark"></a>内存对齐</h3><p>内存对齐主要是为了提高内存的访问效率，也为了更好的移植性。但是这样会改变各个成员在类中的偏移量，类的大小也不再是简单的成员大小相加，幸好其中也有一些规律可循</p>
+<ol>
+<li>对象的起始地址能够被其最宽的成员大小整除</li>
+<li>成员相对于起始地址的偏移量能够被自身大小整除，否则在前一个成员后面填充字节</li>
+<li>类的大小能够被最宽的成员的大小整除，否则在最后填充字节</li>
+<li>如果是空类，按照标准该类的对象必须占有一个字节 (除非 <a href="https://zh.cppreference.com/w/cpp/language/ebo" target="_blank" rel="noopener noreferrer">空基类优化</a>)，在C中空类的大小是 <strong>0</strong> 字节</li>
+<li>当指定对齐的时候，类的大小将是指定对齐大小的倍数，如果不足则在最后填充字节</li>
+</ol>
+<p>好的，那么我们看一些简单的例子，基本上都可以算出下面各个类占用多少内存，并可以知道在哪里填充内存</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">A</span> <span class="p">{};</span> <span class="c1">// sizeof(A): 1, alignof(A): 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">B</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">short</span> <span class="n">b_a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 2 bytes
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="n">b_b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">b_c</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 3 bytes
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof(B): 12, , alignof(B): 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">C</span> <span class="o">:</span> <span class="k">public</span> <span class="n">A</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">c_a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span> <span class="c1">// sizeof(C): 4, alignof(C): 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">D</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">A</span> <span class="n">d_a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 3 bytes
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="n">d_b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span> <span class="c1">// sizeof(D): 8, alignof(D): 4
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们加入一些数组进来, 数组中的元素当然也会符合内存对齐的规则</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">E</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">e_a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">e_b</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 1 byte
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof(E): 8, alignof(E): 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">F</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">f_a</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 5 bytes
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">long</span> <span class="kt">long</span> <span class="n">f_b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">short</span> <span class="n">f_c</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 2 bytes
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">F</span><span class="o">*</span> <span class="n">f_d</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span> <span class="c1">// sizeof(F): 32, alignof(F): 8
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>指定内存对齐的方式时，必须是2的正幂，若指定的对齐方式弱于原生对齐方式，将忽略指定</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nf">alignas</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span> <span class="n">G</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">g_a</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 1 byte
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">short</span> <span class="n">g_b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 10 bytes
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof(G): 16, alignof(G): 16
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">H</span> <span class="o">:</span> <span class="k">public</span> <span class="n">G</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">short</span> <span class="n">h_a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 2 bytes
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="n">h_b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 10 bytes
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof(H): 32, alignof(H): 16
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nf">alignas</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="n">I</span> <span class="p">{</span> <span class="c1">// 弱于原生对齐方式(4)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">C</span> <span class="n">c</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span> <span class="c1">// sizeof(I): 4, alignof(I): 4
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>位域只会占有多个二进制位，而不会占有整个字节，不过位域也遵循内存对齐的原则</p>
+<ol>
+<li>位域的宽度不能超过底层类型的宽度</li>
+<li>多个位域可以共享同一底层类型，当底层类型不够存储位域时，将从下一分配单位开始存储</li>
+<li>允许空位域用以占位，则将不使用空位域</li>
+<li>大小为零的空位域将强制填充剩下的位，之后的位域将从新的分配单位开始存储</li>
+<li>位域是否可以 <strong>跨字节</strong> 与 <strong>打包方式</strong>​，由实现而定</li>
+</ol>
+<!--listend-->
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">J</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="nl">j_a</span> <span class="p">:</span><span class="mi">6</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="nl">j_b</span> <span class="p">:</span><span class="mi">4</span><span class="p">;</span> <span class="c1">// 与 j_c 共享字节
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="nl">j_c</span> <span class="p">:</span><span class="mi">4</span><span class="p">;</span> <span class="c1">// 与 j_b 共享字节
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">char</span> <span class="n">j_d</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 1 byte
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof(J): 4, alignof(J): 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">K</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="nl">k_a</span> <span class="p">:</span><span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span>     <span class="o">:</span><span class="mi">4</span><span class="p">;</span> <span class="c1">// 与 k_a 共享字节
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="nl">k_b</span> <span class="p">:</span><span class="mi">2</span><span class="p">;</span> <span class="c1">// 独占一字节
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">char</span> <span class="n">k_c</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 1 byte
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof(K): 4, alignof(K): 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">L</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="nl">l_a</span>  <span class="p">:</span><span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span>      <span class="o">:</span><span class="mi">0</span><span class="p">;</span> <span class="c1">// 将 int 剩下的部分填充
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">char</span> <span class="nl">l_b</span> <span class="p">:</span><span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">l_c</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 2 bytes
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span> <span class="c1">// sizeof(L): 8, alignof(L): 4
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>一个内存位置是</p>
+<ol>
+<li>一个标量类型 (算术类型、指针类型、枚举类型或 ::std::nullptr_t) 对象</li>
+<li>或非零长位域的最大相接序列</li>
+</ol>
+<p>C++的各种功能特性，例如引用和虚函数，可能涉及到程序不可访问，但为实现所管理的额外内存位置。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">S</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">a</span><span class="p">;</span>     <span class="c1">// 内存位置 #1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="nl">b</span> <span class="p">:</span> <span class="mi">5</span><span class="p">;</span>  <span class="c1">// 内存位置 #2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="nl">c</span> <span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="c1">// 内存位置 #2 （延续）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="nl">d</span> <span class="p">:</span> <span class="mi">8</span><span class="p">;</span>  <span class="c1">// 内存位置 #3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="nl">ee</span> <span class="p">:</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">// 内存位置 #4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span> <span class="n">e</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">obj</span><span class="p">;</span> <span class="c1">// 对象 &#39;obj&#39; 由 4 个分离的内存位置组成
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="内存位置与并发" class="headerLink">
+    <a href="#%e5%86%85%e5%ad%98%e4%bd%8d%e7%bd%ae%e4%b8%8e%e5%b9%b6%e5%8f%91" class="header-mark"></a>内存位置与并发</h3><p>当多个线程访问不同的内存位置时将不会存在任何问题，但是当写入与读取在同一内存位置时将会产生数据竞争，当然也有特例不会引起数据竞争</p>
+<ol>
+<li>两个同一内存位置上的操作在 <strong>同一线程</strong> 上</li>
+<li>冲突是 <strong>原子操作</strong></li>
+<li>一个冲突操作发生 <strong>早于</strong> 另一个</li>
+</ol>
+<p>对象都有在初始化开始阶段确定好修改顺序的，大多数情况下，这个顺序不同于执行中的顺序，但在给定的程序中，所有线程都需要遵守这个顺序。如果对象不是原子类型，必须确保有足够的同步操作，确定线程都遵守了修改顺序。</p>
+<h2 id="同步操作和强制排序" class="headerLink">
+    <a href="#%e5%90%8c%e6%ad%a5%e6%93%8d%e4%bd%9c%e5%92%8c%e5%bc%ba%e5%88%b6%e6%8e%92%e5%ba%8f" class="header-mark"></a>同步操作和强制排序</h2><h3 id="相关术语" class="headerLink">
+    <a href="#%e7%9b%b8%e5%85%b3%e6%9c%af%e8%af%ad" class="header-mark"></a>相关术语</h3><p>线程间同步和内存顺序决定表达式的求值和副效应如何在不同的执行线程间排序</p>
+<dl>
+<dt>同步于 (synchronizes-with)</dt>
+<dd>修改原子对象 M 的求值 A，对于其他线程可见</dd>
+<dt>先序于 (sequenced-before)</dt>
+<dd>在同一线程中求值 A 可以先序于求值 B</dd>
+<dt>携带依赖 (carries dependency)</dt>
+<dd>在同一线程中若下列任一为真，则先序于求值 B 的求值 A 可能也会将依赖带入 B
+<ul>
+<li>A 的值被用作 B 的运算数，除了
+<ul>
+<li>B 是对 ::std::kill_dependency 的调用</li>
+<li>A 是内建 &amp;&amp;、||、?: 或 , 运算符的左运算数</li>
+</ul>
+</li>
+<li>A 写入标量对象 M，B 从 M 读取</li>
+<li>A 将依赖携带入另一求值 X，而 X 将依赖携带入 B</li>
+</ul>
+</dd>
+<dt>修改顺序 (modification order)</dt>
+<dd>对任何特定的原子变量的修改，以限定于此一原子变量的单独全序出现，对所有原子操作保证下列四个要求
+<ul>
+<li><strong>写写连贯:</strong> 若修改某原子对象 M 的求值 A <code>先发于</code> 修改 M 的求值 B，则 A 在 M
+的修改顺序中早于 B 出现</li>
+<li><strong>读读连贯:</strong> 若某原子对象 M 的值计算 A <code>先发于</code> 对 M 的值计算 B，且 A 的值来自对 M 的写操作 X，则 B 的值要么是 X 所存储的值，要么是在 M 的修改顺序中后于 X 出现的 M 上的副效应 Y 所存储的值</li>
+<li><strong>读写连贯:</strong> 若某原子对象 M 的值计算 A <code>先发于</code> 修改 M 的求值 B，则 A 的值来自 M 的修改顺序中早于 B 出现的副效应 X</li>
+<li><strong>写读连贯:</strong> 若某原子对象 M 上的副效应 X <code>先发于</code> M 的值计算 B，则求值 B 应从 X 或从 M 的修改顺序中后随 X 的副效应 Y 取得其值</li>
+</ul>
+</dd>
+<dt>释放序列 (release sequence)</dt>
+<dd>在原子对象 M 上执行一次释放操作 A 之后，M 的修改顺序的最长连续子序列被称为以
+A 为首的释放序列
+<ul>
+<li>由执行 A 的同一线程所执行的写操作 (C++20前)</li>
+<li>任何线程对 M 的原子的读-改-写操作</li>
+</ul>
+</dd>
+<dt>依赖先序于 (dependency-ordered before)</dt>
+<dd>在线程间若下列任一为真，则求值 A 依赖先序于求值 B
+<ul>
+<li>A 在某原子对象 M 上进行释放操作，而不同的线程中 B 在同一原子对象 M 上进行消费操作，而 B 读取 A (<code>所引领的释放序列的任何部分 (C++20 前)</code>) 所写入的值</li>
+<li>A 依赖先序于 X 且 X 携带依赖到 B</li>
+</ul>
+</dd>
+<dt>线程间先行发生 (inter-thread happens-before)</dt>
+<dd>在线程间若下列任一为真，则求值 A 线程间先行发生于求值 B
+<ul>
+<li>A 同步于 B</li>
+<li>A 依赖先序于 B</li>
+<li>A 同步于某求值 X，且 X 先序于 B</li>
+<li>A 先序于某求值 X，且 X 线程间先行发生于 B</li>
+<li>A 线程间先行发生于某求值 X，且 X 线程间先行发生于 B</li>
+</ul>
+</dd>
+<dt>先行发生 (happens-before)</dt>
+<dd>先行发生无关乎线程，若下列任一为真，则求值 A 先发生于求值 B
+<ul>
+<li>A 先序于 B</li>
+<li>A 线程间先发生于 B</li>
+</ul>
+</dd>
+</dl>
+<h3 id="内存顺序" class="headerLink">
+    <a href="#%e5%86%85%e5%ad%98%e9%a1%ba%e5%ba%8f" class="header-mark"></a>内存顺序</h3><p>C++ 标准定义了六种原子操作的内存顺序，它们代表了四种内存模型：</p>
+<dl>
+<dt>自由序 (Relaxed ordering)</dt>
+<dd><code>memory_order_relaxed</code>​，没有同步或顺序制约，仅对此操作要求原子性</dd>
+<dt>消费-释放序 (Consume-Release ordering)</dt>
+<dd><ul>
+<li><code>memory_order_consume</code>​，当前线程中依赖于当前加载的该值的读或写不能被重排到此加载前；其他释放同一原子变量的线程对数据依赖变量的写入，为当前线程所可见</li>
+<li><code>memory_order_release</code>​，当前线程中读或写不能被重排到此存储后；当前线程的所有写入，对其他获取同一原子变量的线程可见，对原子变量的带依赖写入变得对其他消费同一原子对象的线程可见</li>
+</ul>
+</dd>
+<dt>获取-释放序 (Acquire-Release ordering)</dt>
+<dd><ul>
+<li><code>memory_order_acquire</code>​，当前线程中读或写不能被重排到此加载前；其他释放同一原子变量的线程的所有写入，能为当前线程所见</li>
+<li><code>memory_order_acq_rel</code>​，所有释放同一原子变量的线程的写操作在当前线程修改前可见，当前线程改操作对其他获取同一原子变量的线程可见</li>
+</ul>
+</dd>
+<dt>顺序一致性 (Sequentially-consistent ordering)</dt>
+<dd><code>memory_order_seq_cst</code>​，原子操作的默认内存序，所有线程以同一顺序观测到所有修改</dd>
+</dl>
+<p>在不同的原子操作上，可以用到的内存序也有所不同</p>
+<dl>
+<dt>store (写操作)</dt>
+<dd><code>memory_order_relaxed</code>, <code>memory_order_release</code>, <code>memory_order_seq_cst</code></dd>
+<dt>load (读操作)</dt>
+<dd><code>memory_order_relaxed</code>, <code>memory_order_consume</code>, <code>memory_order_acquire</code>, <code>memory_order_seq_cst</code></dd>
+<dt>read-modify-write (读改写操作)</dt>
+<dd><code>memory_order_relaxed</code>, <code>memory_order_consume</code>, <code>memory_order_acquire</code>,
+<code>memory_order_release</code>, <code>memory_order_acq_rel</code>, <code>memory_order_seq_cst</code></dd>
+</dl>
+<h4 id="自由序" class="headerLink">
+    <a href="#%e8%87%aa%e7%94%b1%e5%ba%8f" class="header-mark"></a>自由序</h4><p>带标签 <code>memory_order_relaxed</code> 的原子操作，它们不会在同时的内存访问间强加顺序，它们只保证原子性和修改顺序一致性，典型应用场景为 <strong>计数器自增</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="c1">// x = {0}, y = {0}
+</span></span></span><span class="line"><span class="cl"><span class="c1">// thread 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">r1</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_relaxed</span><span class="p">);</span> <span class="c1">// A
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_relaxed</span><span class="p">);</span> <span class="c1">// B
+</span></span></span><span class="line"><span class="cl"><span class="c1">// thread 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">r2</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_relaxed</span><span class="p">);</span> <span class="c1">// C
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">y</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_relaxed</span><span class="p">);</span> <span class="c1">// D
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">assert</span><span class="p">(</span><span class="n">r1</span> <span class="o">!=</span> <span class="mi">42</span> <span class="o">||</span> <span class="n">r2</span> <span class="o">!=</span> <span class="mi">42</span><span class="p">);</span> <span class="c1">// E
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>A 先序于 B，C 先序于 D，但 D 在 y 上的副效应可能对 A 可见，同时 B 在 x 上的副效应可能对 C 可见，所以允许 E 断言失败。</p>
+<p>另外自由序中，当前线程可能看到别的线程的更新，但是更新频率不一定是均匀的，但其值一定是递增的。详细例子可以查看 C++ Concurrency in Action (2rd) 中电话计数员的例子。</p>
+<h4 id="消费-释放序" class="headerLink">
+    <a href="#%e6%b6%88%e8%b4%b9-%e9%87%8a%e6%94%be%e5%ba%8f" class="header-mark"></a>消费-释放序</h4><p>若线程 A 中的原子存储带标签 <code>memory_order_release</code> 而线程 B 中来自同一对象的读取存储值的原子加载带标签 <code>memory_order_consume</code>​，则线程 A 视角中先发生于原子存储的所有内存写入，会在线程 B 中该加载操作所携带依赖进入的操作中变成可见副效应，即一旦完成原子加载，则保证线程 B 中使用从该加载获得的值的运算符和函数能见到线程 A 写入内存的内容。同步仅在释放和消费同一原子对象的线程间建立，其他线程能见到与被同步线程的一者或两者相异的内存访问顺序。</p>
+<p>此顺序的典型使用情景，涉及对 <strong>很少被写入</strong> 的数据结构的同时时读取，和 <strong>有指针中介发布</strong> 的 <code>发布者-订阅者</code> 情形，即当生产者发布消费者能通过其访问信息的指针之时：无需令生产者写入内存的所有其他内容对消费者可见。这种场景的例子之一是 <a href="https://en.wikipedia.org/wiki/Read-copy-update" target="_blank" rel="noopener noreferrer">rcu 解引用</a>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*&gt;</span> <span class="n">ptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">producer</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">p</span>  <span class="o">=</span> <span class="k">new</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&#34;Hello&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ptr</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_release</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">consumer</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">p2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">p2</span> <span class="o">=</span> <span class="n">ptr</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_consume</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assert</span><span class="p">(</span><span class="o">*</span><span class="n">p2</span> <span class="o">==</span> <span class="s">&#34;Hello&#34;</span><span class="p">);</span> <span class="c1">// 断言成功 (*p2 从 ptr 携带依赖)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">assert</span><span class="p">(</span><span class="n">data</span> <span class="o">==</span> <span class="mi">42</span><span class="p">);</span> <span class="c1">// 断言可能失败 (data 不从 ptr 携带依赖)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="获取-释放序" class="headerLink">
+    <a href="#%e8%8e%b7%e5%8f%96-%e9%87%8a%e6%94%be%e5%ba%8f" class="header-mark"></a>获取-释放序</h4><p>若线程 A 中的一个原子存储带标签 <code>memory_order_release</code>​，而线程 B 中来自同一变量的原子加载带标签 <code>memory_order_acquire</code>​，则从线程 A 的视角先发生于原子存储的所有内存写入，在线程 B 中成为可见副效应，即一旦原子加载完成保证线程 B 能观察到线程
+A 写入内存的所有内容。此顺序的典型使用场景是 <strong>互斥量</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*&gt;</span> <span class="n">ptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">producer</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">p</span>  <span class="o">=</span> <span class="k">new</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&#34;Hello&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ptr</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_release</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">consumer</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">p2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">p2</span> <span class="o">=</span> <span class="n">ptr</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_acquire</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assert</span><span class="p">(</span><span class="o">*</span><span class="n">p2</span> <span class="o">==</span> <span class="s">&#34;Hello&#34;</span><span class="p">);</span> <span class="c1">// 断言成功
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">assert</span><span class="p">(</span><span class="n">data</span> <span class="o">==</span> <span class="mi">42</span><span class="p">);</span> <span class="c1">// 断言成功
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="顺序一致性" class="headerLink">
+    <a href="#%e9%a1%ba%e5%ba%8f%e4%b8%80%e8%87%b4%e6%80%a7" class="header-mark"></a>顺序一致性</h4><p>带标签 <code>memory_order_seq_cst</code> 的原子操作不仅以与释放/获得顺序相同的方式排序内存
+(在一个线程中先发生于存储的任何结果都变成进行加载的线程中的可见副效应)，还对所有带此标签的内存操作建立单独全序。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">write_x</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="nb">true</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_seq_cst</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">write_y</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="nb">true</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_seq_cst</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">read_x_then_y</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">x</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_seq_cst</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_seq_cst</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="o">++</span><span class="n">z</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">read_y_then_x</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">y</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_seq_cst</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_seq_cst</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="o">++</span><span class="n">z</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="p">(</span><span class="n">z</span><span class="p">.</span><span class="n">load</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// 断言成功
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>全序列顺序在所有多核系统上要求完全的内存栅栏 CPU 指令，这可能成为性能瓶颈，因为它强制受影响的内存访问传播到每个核心。</p>
+<h3 id="栅栏" class="headerLink">
+    <a href="#%e6%a0%85%e6%a0%8f" class="header-mark"></a>栅栏</h3><p>栅栏操作会对内存序列进行约束，使其无法对任何数据进行修改，典型的做法是与使用
+<code>memory_order_relaxed</code> 约束序的原子操作一起使用。栅栏属于全局操作，执行栅栏操作可以影响到在线程中的其他原子操作，因为这类操作就像画了一条任何代码都无法跨越的线一样，所以栅栏操作通常也被称为 <strong>内存栅栏</strong> (memory barriers)。我们以下代码与 <code>获取- 释放序</code> 代码效果相同</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*&gt;</span> <span class="n">ptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">producer</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">p</span>  <span class="o">=</span> <span class="k">new</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&#34;Hello&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic_thread_fence</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_release</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ptr</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_relaxed</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">consumer</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">p2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">p2</span> <span class="o">=</span> <span class="n">ptr</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_relaxed</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic_thread_fence</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_acquire</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assert</span><span class="p">(</span><span class="o">*</span><span class="n">p2</span> <span class="o">==</span> <span class="s">&#34;Hello&#34;</span><span class="p">);</span> <span class="c1">// 断言成功
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">assert</span><span class="p">(</span><span class="n">data</span> <span class="o">==</span> <span class="mi">42</span><span class="p">);</span> <span class="c1">// 断言成功
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 04-07</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2020/cpp_concurrency_atomic/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C&issue[description]=[POST](https://blog.ginshio.org/2020/cpp_concurrency_atomic/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2020/cpp_concurrency_atomic/" data-title="原子操作" data-hashtags="Note,C&#43;&#43;,Concurrency,Atomic"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2020/cpp_concurrency_atomic/" data-hashtag="Note"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2020/cpp_concurrency_atomic/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2020/cpp_concurrency_atomic/" data-title="原子操作" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2020/cpp_concurrency_atomic/" data-title="原子操作"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2020/cpp_concurrency_atomic/" data-title="原子操作"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2020/cpp_concurrency_atomic/" data-title="原子操作" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2020/cpp_concurrency_atomic/" data-title="原子操作" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2020/cpp_concurrency_atomic/" title="原子操作">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>,&nbsp;<a href="/tags/concurrency/">Concurrency</a>,&nbsp;<a href="/tags/atomic/">Atomic</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/cpp_concurrency_std/" class="prev" rel="prev" title="并发标准库"><i class="fas fa-angle-left fa-fw"></i>并发标准库</a>
+            <a href="/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_001/" class="next" rel="next" title="Elixir 基本语法">Elixir 基本语法<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2020-12-05T17:46:52+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"原子操作"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>

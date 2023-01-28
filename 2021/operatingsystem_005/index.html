@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>死锁 - iris</title><meta name="Description" content="GinShio | 现代操作系统第六章读书笔记"><meta property="og:title" content="死锁" />
+<meta property="og:description" content="GinShio | 现代操作系统第六章读书笔记" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2021/operatingsystem_005/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-08-06T14:55:42+08:00" />
+<meta property="article:modified_time" content="2022-04-07T19:34:01+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+<meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_001/" /><meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_002/" /><meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_003/" /><meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_004/" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="死锁"/>
+<meta name="twitter:description" content="GinShio | 现代操作系统第六章读书笔记"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2021/operatingsystem_005/" /><link rel="prev" href="https://blog.ginshio.org/2021/operatingsystem_004/" /><link rel="next" href="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_001_introduction/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "死锁",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_005\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Concurrency, Deadlock","wordcount":  5735 ,
+        "url": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_005\/","datePublished": "2021-08-06T14:55:42+08:00","dateModified": "2022-04-07T19:34:01+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | 现代操作系统第六章读书笔记"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#资源">资源</a></li>
+    <li><a href="#死锁">死锁</a></li>
+    <li><a href="#死锁的检测与恢复">死锁的检测与恢复</a>
+      <ul>
+        <li><a href="#每种类型一个资源的死锁检测">每种类型一个资源的死锁检测</a></li>
+        <li><a href="#每种类型多个资源的死锁检测">每种类型多个资源的死锁检测</a></li>
+        <li><a href="#从死锁中恢复">从死锁中恢复</a></li>
+      </ul>
+    </li>
+    <li><a href="#死锁避免">死锁避免</a>
+      <ul>
+        <li><a href="#资源轨迹图">资源轨迹图</a></li>
+        <li><a href="#安全与不安全状态">安全与不安全状态</a></li>
+        <li><a href="#银行家算法">银行家算法</a></li>
+      </ul>
+    </li>
+    <li><a href="#死锁预防">死锁预防</a></li>
+    <li><a href="#其他问题">其他问题</a>
+      <ul>
+        <li><a href="#两阶段加锁">两阶段加锁</a></li>
+        <li><a href="#通信死锁">通信死锁</a></li>
+        <li><a href="#活锁">活锁</a></li>
+        <li><a href="#饥饿">饥饿</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">死锁</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/operatingsystem/"><i class="far fa-folder fa-fw"></i>OperatingSystem</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/operating-system-note/"><i class="far fa-list-alt fa-fw"></i>Operating System Note</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-06">08-06</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5735 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 12 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - Operating System Note</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul>
+                                                    <li><a href="/2021/operatingsystem_001/">进程与线程</a></li>
+                                                    <li><a href="/2021/operatingsystem_002/">内存管理</a></li>
+                                                    <li><a href="/2021/operatingsystem_003/">文件系统</a></li>
+                                                    <li><a href="/2021/operatingsystem_004/">输入输出</a></li><li><span class="active">死锁</span></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#资源">资源</a></li>
+    <li><a href="#死锁">死锁</a></li>
+    <li><a href="#死锁的检测与恢复">死锁的检测与恢复</a>
+      <ul>
+        <li><a href="#每种类型一个资源的死锁检测">每种类型一个资源的死锁检测</a></li>
+        <li><a href="#每种类型多个资源的死锁检测">每种类型多个资源的死锁检测</a></li>
+        <li><a href="#从死锁中恢复">从死锁中恢复</a></li>
+      </ul>
+    </li>
+    <li><a href="#死锁避免">死锁避免</a>
+      <ul>
+        <li><a href="#资源轨迹图">资源轨迹图</a></li>
+        <li><a href="#安全与不安全状态">安全与不安全状态</a></li>
+        <li><a href="#银行家算法">银行家算法</a></li>
+      </ul>
+    </li>
+    <li><a href="#死锁预防">死锁预防</a></li>
+    <li><a href="#其他问题">其他问题</a>
+      <ul>
+        <li><a href="#两阶段加锁">两阶段加锁</a></li>
+        <li><a href="#通信死锁">通信死锁</a></li>
+        <li><a href="#活锁">活锁</a></li>
+        <li><a href="#饥饿">饥饿</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>计算机中有很多独占 resource，在任一时刻它们只能被一个进程使用，因此 OS 需要授权一个进程临时地、排他地访问某一 resource 的能力。一般进程会排他性地访问若干资源，假设进程 A 在先使用扫描仪的情况请求蓝光光盘刻录机，而进程 B 在先使用蓝光光盘刻录机的情况下请求扫描仪，由于两个进程都占有一定 resouce 且不会释放，并且互相请求了对方的 Resource，而造成这两个进程无限阻塞下去，这样的状态被称为 <strong>死锁</strong>
+(deadlock)。请不要单纯理解只有一台机器才会产生 deadlock，在多台机器同时访问局域网下的多个独占 resource 时也可能发生。</p>
+<h2 id="资源" class="headerLink">
+    <a href="#%e8%b5%84%e6%ba%90" class="header-mark"></a>资源</h2><p>我们将需要排他访问的对象称为 <strong>资源</strong> (resource)，资源可以是硬件设备或一组信息，通常有多种资源同时存在，且一些类型的资源存在若干实例 (打印店在同一局域网下会存在多台打印机)。</p>
+<p>还记得学习进程与线程时所说的，scheduling algorithm 分为两类： <strong>抢占式</strong>
+(preemptable) 与 <strong>非抢占式</strong> (nonpreemptable)，这里我们也将 resource 分为这两类，且意义相同。比如说 RAM 就是 preemptable resource，一个进程可以在使用时被 OS 换出
+RAM；而蓝光刻录机则是 nonpreemptable resource，将正在刻录的蓝光刻录机分配给另一个进程可能造成蓝光光盘的损坏。不过需要思考一个问题，如果这台计算机不支持交换和页面调度，那么内存也就变为了 nonpreemptable resource。因此区分 preemptable /
+nonpreemptable resource 取决于上下文环境。</p>
+<p>preemptable resource 的 deadlock 可以通过 resource 的重新配分而化解，因此
+deadlock 主要与 nonpreemptable resource 有关。若 resource 变得不可用，则请求进程将不可用，有的 OS 在这时会阻塞该进程，直到 resource 可用时再次唤醒；有些 OS 则会返回一个错误代码，请求进程自己处理这个错误。但是大部分进程会选择请求、休眠、再请求的方式进行循环，这与被阻塞没什么两样，因此假设 OS 在 resource 不可用时阻塞进程。</p>
+<h2 id="死锁" class="headerLink">
+    <a href="#%e6%ad%bb%e9%94%81" class="header-mark"></a>死锁</h2><blockquote>
+<p>如果一个进程集合中的每个进程都在等待只能由该进程集合中的其他进程才能引发的事件，那么该集合就是死锁的。</p>
+</blockquote>
+<p>进程的数量、占有或请求的资源数量与种类都是无关紧要的，无论资源是何种类型，硬件还是软件，当该集合进程无法引发事件供集合使用时，他们就是 deadlock，当然这是 <strong>资源死锁</strong> (resource deadlock)。resource deadlock 并不是唯一的死锁类型，但这是最常见的一种。</p>
+<p>Coffman 等人在 1971 年发表的论文 <a href="https://dl.acm.org/doi/10.1145/356586.356588" target="_blank" rel="noopener noreferrer">System Deadlocks</a> 中总结了 Resource Deadlock 发生的四个必要条件：</p>
+<ol>
+<li><strong>互斥</strong>​，每个资源要么已分配给了一个进程，要么是可用的。</li>
+<li><strong>占有与等待</strong>​，已经得到了某个资源的进程可以再次请求新的资源。</li>
+<li><strong>不可抢占</strong>​，已分配的资源不能强制性地被抢占，它只能被占有它的进程显式地释放。</li>
+<li><strong>环路等待</strong>​，死锁发生时系统中必定存在两个或以上的进程组成的环路，该环路中每个进程都在等待下一个进程所占有的资源。</li>
+</ol>
+<p>需要注意的是，deadlock 发生时这四个条件必定同时满足，如果有一个不成立那么死锁不会发生。Holt 则在 1972 年发表的论文 <a href="https://dl.acm.org/doi/10.1145/356603.356607" target="_blank" rel="noopener noreferrer">Some Deadlock Properties of Computer Systems</a>
+中描述了如何用有向图对上述四个条件进行建模。有向图中 <code>圆形</code> 表示进程，​<code>方形</code> 表示资源，资源到进程的有向边则表示该资源已授权并被进程占用，进程到资源的有向边则表示请求且还未占有。</p>
+<figure><img src="/images/resource-allocation-diagram.svg"/>
+</figure>
+
+<p>可以大胆的猜测，当进程集合中的所有进程都以严格的串行运行，那么该集合就不会发生死锁。但是问题时，没有并行的系统性能极低，是不可接受的。如果所有进程都不进行 IO，那么 SJF 比轮询更好，此时的串行运行是最优解，但现实不是这样。</p>
+<p>既然死锁是四个必要条件，那么对其进行破坏不就可以解除死锁了吗。Holt 在建模的同时，提出了四种处理死锁的策略：</p>
+<ol>
+<li>鸵鸟算法，即忽略死锁。如果你忽略死锁，死锁也会忽略你。</li>
+<li>检测死锁并恢复。让死锁发生，检测它们是否发生，发生时采取行动解决问题。</li>
+<li>仔细对资源进行分配，动态避免死锁。</li>
+<li>通过破坏四个必要条件之一，防止死锁产生。</li>
+</ol>
+<h2 id="死锁的检测与恢复" class="headerLink">
+    <a href="#%e6%ad%bb%e9%94%81%e7%9a%84%e6%a3%80%e6%b5%8b%e4%b8%8e%e6%81%a2%e5%a4%8d" class="header-mark"></a>死锁的检测与恢复</h2><h3 id="每种类型一个资源的死锁检测" class="headerLink">
+    <a href="#%e6%af%8f%e7%a7%8d%e7%b1%bb%e5%9e%8b%e4%b8%80%e4%b8%aa%e8%b5%84%e6%ba%90%e7%9a%84%e6%ad%bb%e9%94%81%e6%a3%80%e6%b5%8b" class="header-mark"></a>每种类型一个资源的死锁检测</h3><p>我们可以为这样的系统构造一张资源分配图，这是一个有向图，当图中存在一个以上的环时即可说明死锁的存在。而在环上的资源与进程则是死锁所涉及的，最终我们将死锁检测转换为对有向环路的检测。</p>
+<figure><img src="/images/a-deadlock-example.svg"/>
+</figure>
+
+<h3 id="每种类型多个资源的死锁检测" class="headerLink">
+    <a href="#%e6%af%8f%e7%a7%8d%e7%b1%bb%e5%9e%8b%e5%a4%9a%e4%b8%aa%e8%b5%84%e6%ba%90%e7%9a%84%e6%ad%bb%e9%94%81%e6%a3%80%e6%b5%8b" class="header-mark"></a>每种类型多个资源的死锁检测</h3><p>如果一个类型有多个资源时，便不能使用有向图来检测是否死锁。现在提供一种基于矩阵的算法来检测 \(P_1\) 到 \(P_n\) 这 n 个进程的死锁。假设资源的类型数量为 m，资源 \(E_1\)
+到 \(E_m\) 代表了不同的资源。E 是 <strong>现有资源向量</strong> (Existing Resource Vector)，代表每种已存在资源的总数；A 是 <strong>可用资源向量</strong> (Available Resource Vector)，代表每种资源当前可用的数量。现在有 C 为 <strong>当前分配矩阵</strong> (Current Allocation Matrix)，R 为
+<strong>请求矩阵</strong> (Request Matrix)。C 中第 \(i\) 行代表进程 \(P_i\) 当前所持有的资源数量，所以 \(C_{ij}\) 代表了 \(P_i\) 持有资源 \(E_j\) 的数量，而 \(R_{ij}\) 代表了 \(P_i\) 所需资源 \(R_j\) 的数量。</p>
+<figure><img src="/images/necessary-data-structure-of-deadlock-detection.svg"/>
+</figure>
+
+<p>这四种 data structure 之间有一个重要的恒等式，具体地说，某种资源要么已分配要么可用： \[\sum_{i=1}^{n} CAM_{ij} + ARV_{j} = ERV_{j}.\]</p>
+<p>换言之，如果我们将所有已分配的资源 j 的数量加起来再和所有可供使用的资源相加，结果就是该资源的总数。死锁检测算法就是基于向量的比较，当且仅当 \(A_{i} \leq B_{i} (0 \leq
+i \leq m)\) 时 \(A \leq B\)​。当个进程起初都是没有标记过的，算法开始会对进程做标记，进程被标记后就表明它们能够被执行，不会进入死锁。当算法结束时，任何没有被标记的进程都是死锁的。</p>
+<p>死锁检查算法如下：</p>
+<ol>
+<li>寻找一个没有标记的进程 \(P_{i}\) ，对于它而言 \(RM_{i} \leq ARV\)​。</li>
+<li>如果找到了一个这样的进程，那么 \(ARV += CRM_{i}\)​，标记该进程并重新执行第一步。</li>
+<li>如果没有这样的进程，那么算法停止。</li>
+</ol>
+<p>你可能注意到了第二步中只是简单的将占有资源加到了可用资源中，没有做其他处理。因为我们这里只是对死锁进行检查，无需处理其他情况，因此该进程可以被满足时就认为不会死锁，并将其算为可用资源并计算其他进程的资源。</p>
+<p>我们知道了如何检测死锁，现在的问题是何时检测死锁。一般可以选择在资源请求时进行死锁检测，这样可以更早地发现存在的死锁，但是也会消耗大量的 CPU。另一种方法是每隔一段时间进行一次检测，或者当 CPU 的使用率降到某一语支时进行检测，这样考虑到 CPU 使用率的问题，如果死锁的进程数达到一定数量后，就没有多少进程可以运行了，所以 CPU
+会经常空闲。</p>
+<h3 id="从死锁中恢复" class="headerLink">
+    <a href="#%e4%bb%8e%e6%ad%bb%e9%94%81%e4%b8%ad%e6%81%a2%e5%a4%8d" class="header-mark"></a>从死锁中恢复</h3><p>我们需要利用一些手段，将检测到的死锁恢复，从而使系统恢复正常。</p>
+<dl>
+<dt>利用抢占恢复</dt>
+<dd>在某些情况下，可能会临时将某个资源从它的当前所有者那里转移给另一个进程。在不通知进程的情况下，将某一资源从一个进程强行取走给另一个进程使用接着再送回，这种做法是否可行主要取决于该资源本身的特性。用这种方法恢复通常比较困难或不太可能，若选择挂起某个进程，则在很大程度上取决于哪个进程拥有比较容易回收的资源。</dd>
+<dt>利用回滚恢复</dt>
+<dd>如果系统设计人员以及主机操作员了解到死锁有可能发生，他们就可以周期性地对进程进行检查点 (checkpointed) 检查。进程检查点检查就是将进程的状态写入一个文件以备以后重启。该检查点中不仅包括存储映像，还包括资源状态，即哪些资源分配给了该进程。为了使这一过程更有效，新的检查点不应覆盖原有的文件，而应写入新的文件。
+<p>当检测到死锁时，就很容易发现需要哪些资源。为了进行恢复，要从一个较早的检查点上开始，这样拥有所需要资源的进程会回滚到一个时间点，在此时间点之前该进程获得了一些其他的资源。在该检查点之后所做的所有工作都丢失。接着可以将这个资源分配给一个死锁进程，当该进程再次试图获取资源的控制时，就必须一直等待直到可用。</p>
+</dd>
+<dt>通过杀死进程恢复</dt>
+<dd>最直接、简单且有效的方法就是杀死一个或若干个进程，这些进程都是死锁环路上的一个，若杀死进程依然不行的话则继续杀死其他进程，直到打破死锁环。当然还可以牺牲环外的进程用以释放相关资源，供死锁环上的进程使用。当然选择杀死的进程应该具有 <strong>幂等性</strong>​，这样它再次运行时与第一次则会产生相同的结果。</dd>
+</dl>
+<h2 id="死锁避免" class="headerLink">
+    <a href="#%e6%ad%bb%e9%94%81%e9%81%bf%e5%85%8d" class="header-mark"></a>死锁避免</h2><p>还记着检测死锁的四个 structure 吗，我们假设的是一次请求所有的资源，但大多数系统一次只能请求一个资源。系统必须能够判断分配资源是否安全，且只能在保证安全的条件下进行资源分配。</p>
+<h3 id="资源轨迹图" class="headerLink">
+    <a href="#%e8%b5%84%e6%ba%90%e8%bd%a8%e8%bf%b9%e5%9b%be" class="header-mark"></a>资源轨迹图</h3><p>避免死锁的主要算法是基于一个安全状态的概念，在描述算法前，先讨论关于安全的概念。</p>
+<p>假设现在我们有两个进程与绘图仪、打印机，我们使用一个轨迹图来描述它们。横轴表示进程 A 执行的指令，纵轴则为进程 B 执行的指令。进程 A 在 \(I_1\) 处请求一台打印机并在
+\(I_3\) 处释放，在 \(I_2\) 处请求一台绘图仪，在 \(I_4\) 处释放；进程 B 则是 \(I_5 \sim
+I_7\) 之间使用绘图仪，​\(I_6 \sim I_8\) 之间使用打印机。</p>
+<figure><img src="/images/resource-trajectory-graph.svg"/>
+</figure>
+
+<p>资源轨迹图中的每个点代表两个进程的连接状态。初始点 p 表示没有进程执行任何指令。如果调度程序先选择 A 运行，那么 A 执行一段指令后到达 q，此时调度程序开始选中 B
+执行。渐变部分是死锁状态，而 \(I_1\)​、​\(I_2\)​、​\(I_5\) 和 \(I_6\) 围成的矩形区域一旦进入，一定会进入渐变区造成死锁，因此整个矩形都是不安全区域。唯一的办法就是在 t
+点开始调度程序一直让 A 运行直到 \(I_4\)​。一旦过了不安全区域，调度程序即可以任意方式到达中断。</p>
+<h3 id="安全与不安全状态" class="headerLink">
+    <a href="#%e5%ae%89%e5%85%a8%e4%b8%8e%e4%b8%8d%e5%ae%89%e5%85%a8%e7%8a%b6%e6%80%81" class="header-mark"></a>安全与不安全状态</h3><p>在任何时刻，系统状态包含了 E (Existing)、A (Available)、 C (Current) 和 R
+(Request)。如果没有死锁发生，且即使所有进程突然请求对资源的最大需求，也仍然存在某种调度次序能够使得每一个进程运行完毕，则称该状态是安全的。在其他序列中，进程可能先占有一个资源而使其他进程无法完成需求，但进程可能先释放一个资源，从而使其他进程可以优先完成，从而避免死锁。因此需要注意的是，不安全状态不意味着死锁，而是安全状态系统保证所有进程都可以完成，但不安全状态无此保证。</p>
+<h3 id="银行家算法" class="headerLink">
+    <a href="#%e9%93%b6%e8%a1%8c%e5%ae%b6%e7%ae%97%e6%b3%95" class="header-mark"></a>银行家算法</h3><p>我们十分熟悉的大神 Dijkstra 于 1965 年发表的算法，该模型基于一个小镇的银行家，他向一群客户分别承诺了一定的贷款额度。算法要做的是判断对请求的满足是否会导致进入不安全状态。如果是则拒绝请求，反之满足请求后系统仍是安全的，就给予分配。当然我们可以将银行家算法推广到多个资源的死锁预防。</p>
+<p>现在我们现在系统中有 6 台磁带机、3 台绘图仪、4 台打印机和 2 台蓝光光驱，5 个进程对其的占有与请求如下图。</p>
+<figure><img src="/images/banker-algorithm.svg"/>
+</figure>
+
+<p>检查一个状态是否安全的算法如下：</p>
+<ol>
+<li>查找 Request 中是否有一行，请求的资源数小于或等于 Available Resource。如果不存在这样的行则认为系统将会死锁，因为任何进程都无法结束运行。</li>
+<li>若找到满足条件的行，那么可以认为其获得所需的资源并运行结束，将该进程标记为终止，并将其资源加到 Available 上。</li>
+<li>重复以上两步，或者直到所有进程都标记为终止，其初始状态是安全的；或者所有进程资源都无法得到满足，发生死锁。</li>
+</ol>
+<p>虽然 Banker Algorithm 十分强大，但由于很少有进程在运行初期就知道所需资源的最大值，且进程数与资源数是动态变化的，因此实际上很少有系统使用该算法避免死锁。但一些系统会从该算法之类的启发式方法来避免死锁。</p>
+<h2 id="死锁预防" class="headerLink">
+    <a href="#%e6%ad%bb%e9%94%81%e9%a2%84%e9%98%b2" class="header-mark"></a>死锁预防</h2><p>虽然无法避免死锁，但我们还是可以从最初的四个必要条件说起，毕竟只需要破坏一个就可以保证死锁不会发生。</p>
+<dl>
+<dt>破坏互斥条件</dt>
+<dd>如果一个资源不被进程所独占，那么死锁不会发生，但是允许两个进程同时使用某些资源，难免会发生混乱，比如打印机。因此反过来，如果任何时候都只有一个进程使用该资源，那么也不会造成 deadlock。想想之前所说过的 spooling 技术，仅允许 daemon
+对资源进行请求，而其他进程以请求 daemon 的方式使用资源。并且 daemon 不再请求其他资源，因此不会造成 daedlock。</dd>
+<dt>破坏占有等待条件</dt>
+<dd>我们可以要求进程在开始时请求自己所需的全部资源，而在运行时将不再申请资源，这样的进程运行时一定不会发生死锁。当然我们还可以要求进程在请求资源时，首先释放当前已占有的所有资源，再请求所需的全部资源。</dd>
+</dl>
+<p>破坏不可抢占条件
+:</p>
+<dl>
+<dt>破坏环路条件</dt>
+<dd>我们可以对系统中的资源规定从小到大的统一编号，并且定义规则，所有请求必须按资源编号的升序提出。如果按照此规则进行实现，资源分配图中就不会出现环。当然在某些时刻，比如一些抽象资源会使编号变得很大，以至于根本无法使用编号。</dd>
+</dl>
+<h2 id="其他问题" class="headerLink">
+    <a href="#%e5%85%b6%e4%bb%96%e9%97%ae%e9%a2%98" class="header-mark"></a>其他问题</h2><p>虽然在一般情况下避免死锁和预防死锁并不是很有希望，但一些特殊应用会有很优秀的算法应对死锁。</p>
+<h3 id="两阶段加锁" class="headerLink">
+    <a href="#%e4%b8%a4%e9%98%b6%e6%ae%b5%e5%8a%a0%e9%94%81" class="header-mark"></a>两阶段加锁</h3><p>在数据库系统中，一个需要经常锁住一些记录，然后更新所有锁住的记录。当同时有很多进程运行时，就会出现死锁的危险。在此最常用的方法是 <strong>两阶段加锁</strong> (two-phase
+locking)。第一阶段进程试图对所有所需的记录进行加锁，一次锁一个记录。如果第一阶段加锁成功则进行第二阶段，完成更新后释放锁。如果需要加锁的记录已被加锁，则需要释放该进程刚刚所加的所有锁。第一阶段的全部记录都被加锁后，进行第二阶段，即真正的修改数据阶段。当然这在实时系统中是不可接受的。</p>
+<h3 id="通信死锁" class="headerLink">
+    <a href="#%e9%80%9a%e4%bf%a1%e6%ad%bb%e9%94%81" class="header-mark"></a>通信死锁</h3><p>资源死锁是 <strong>竞争性同步</strong> 问题，这是最普遍但不是唯一一种死锁。而两个或以上进程利用发送消息来通信时也可能发生死锁。普遍的情况是：进程 A 想进程 B 发送请求信息然后等待进程 B 回复，当请求丢失后 A 将阻塞等待回复，而 B 会阻塞等待一个向其发送命令的请求。虽然进程 A 与 B 没有占用对方所需的资源，但它们依然发生了死锁，这种死锁一般被称为 <strong>通信死锁</strong> (communication deadlock)。通信死锁是 <strong>协同同步</strong> 的异常情况，这种死锁中的进程如果是各自独立执行的，则无法完成服务。</p>
+<p>由于没有资源，所以针对资源排序或安排调度来避免死锁是行不通的，幸运的是其可以使用
+<code>超时</code> 来中断死锁。在大多数网络通信中，只要一个消息被发送且期待回信，通常会同时启动一个 Timer，如果 Timer 发生中断时回复消息还没有到达则认为发送的消息丢失。当然超时不仅可以用在通信死锁上，资源死锁也可以使用这种策略。</p>
+<h3 id="活锁" class="headerLink">
+    <a href="#%e6%b4%bb%e9%94%81" class="header-mark"></a>活锁</h3><p>在某些情况下，当进程意识到它不能获取所需要的下一个锁时，自主地释放已经获得的锁，然后等待 1ms 并再次尝试。从理论上来说这是一种检测并预防死锁的好方法，但如果另一个进程也在同时刻做相同的事情，那么两个进程就永远的相遇并为对方让步，导致双方都无法前进。这种情况被称之为 <strong>活锁</strong> (livelock)。在处理 livelock 时，我们尝尝为进程等待一个可接受范围内的随机时间，这样极大程度地避免 livelock 的发生。</p>
+<h3 id="饥饿" class="headerLink">
+    <a href="#%e9%a5%a5%e9%a5%bf" class="header-mark"></a>饥饿</h3><p><strong>饥饿</strong> (starvation) 与 deadlock / livelock 非常相似。在动态运行的系统中，任何时刻都有可能请求资源，在就需要策略来决定什么时候由谁获取资源。虽然这个策略表面上很合理，但某些进程可能永远得不到服务。</p>
+<p>考虑进程调度的 SJF 算法，最短的作业总是被最先执行，而需要时间长的作业被放到之后完成。如果大量小型作业不停涌入，大作业将一直得不到服务。这个大作业就产生了
+starvation。</p>
+<p>当然我们可以在其上加入 FCFS 的思想，所有作业都会变老，而最老的作业将被服务，从而缓解系统的 starvation 现象。</p>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 04-07</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2021/operatingsystem_005/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20%E6%AD%BB%E9%94%81&issue[description]=[POST](https://blog.ginshio.org/2021/operatingsystem_005/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2021/operatingsystem_005/" data-title="死锁" data-hashtags="Note,Concurrency,Deadlock"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2021/operatingsystem_005/" data-hashtag="Note"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2021/operatingsystem_005/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2021/operatingsystem_005/" data-title="死锁" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2021/operatingsystem_005/" data-title="死锁"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2021/operatingsystem_005/" data-title="死锁"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2021/operatingsystem_005/" data-title="死锁" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2021/operatingsystem_005/" data-title="死锁" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2021/operatingsystem_005/" title="死锁">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/concurrency/">Concurrency</a>,&nbsp;<a href="/tags/deadlock/">Deadlock</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2021/operatingsystem_004/" class="prev" rel="prev" title="输入输出"><i class="fas fa-angle-left fa-fw"></i>输入输出</a>
+            <a href="/2021/data_strucures_and_algorithm_analysis_001_introduction/" class="next" rel="next" title="数据结构与算法分析引论">数据结构与算法分析引论<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2021-08-06T14:55:42+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"死锁"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>
