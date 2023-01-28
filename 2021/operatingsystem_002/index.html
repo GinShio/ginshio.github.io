@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_002\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Memory","wordcount":  14332 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Memory","wordcount":  14317 ,
         "url": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_002\/","datePublished": "2021-07-14T12:14:40+08:00","dateModified": "2022-04-08T17:29:27+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -175,7 +175,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/operatingsystem/"><i class="far fa-folder fa-fw"></i>OperatingSystem</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/operating-system-note/"><i class="far fa-list-alt fa-fw"></i>Operating System Note</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-14">07-14</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 14332 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-14">07-14</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 14317 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 29 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -268,11 +268,11 @@ Basic Input Output System)。a 和 c 模型当用户程序出错时，可能会�
 <li>使用这种模型，想要同时运行多个程序是很困难的</li>
 </ol>
 <h3 id="地址空间的概念" class="headerLink">
-    <a href="#%e5%9c%b0%e5%9d%80%e7%a9%ba%e9%97%b4%e7%9a%84%e6%a6%82%e5%bf%b5" class="header-mark"></a>地址空间的概念</h3><p>要使多个应用程序同时处于内存中并且不互相影响，需要解决两个问题：​<strong>保护</strong> 和 <strong>重定位</strong> 。</p>
+    <a href="#%e5%9c%b0%e5%9d%80%e7%a9%ba%e9%97%b4%e7%9a%84%e6%a6%82%e5%bf%b5" class="header-mark"></a>地址空间的概念</h3><p>要使多个应用程序同时处于内存中并且不互相影响，需要解决两个问题：<strong>保护</strong> 和 <strong>重定位</strong> 。</p>
 <p>对于保护的解决方法，IBM 360 上使用过一种方法：给内存块标记上一个保护键，并且比较执行进程的键和其访问的内存字的保护键。然而，这种方法本身并没有解决后一个问题，虽然这个问题可以通过在程序被装载时重定位程序来解决，但这是一个缓慢且复杂的解决方法。</p>
 <p>一个更好的办法是创造一个新的存储器抽象：地址空间。就像进程的概念创造了一类抽象的
-CPU 以运行程序一样，地址空间为程序创造了一种抽象的内存。​<strong>地址空间</strong> 是一个进程可用于寻址内存的一套地址结合，每个进程都有一个自己的地址空间，并且这个地址空间独立于其他进程的地址空间。以域名为例，以 <strong>.com</strong> 结尾的网络域名的集合是一种地址空间，这个地址空间是由所有包含 2 ~ 63 个字符并且后面跟着 <strong>.com</strong> 的字符串组成的，组成这些字符串的字符可以是字母、数字和连字符。比较难的是给每个进程一个自己独有的地址空间，使得一个程序中的地址 28 所对应的物理地址与另一个程序中的地址 28 多对应的物理地址有所不同。</p>
-<p>一个简单的方式是使用 <strong>动态重定位</strong>​，简单地把每个进程的地址空间映射到物理内存的不同部分，这个方法会为 CPU 配置两个特殊的硬件寄存器 <strong>基址寄存器</strong> 与 <strong>界限寄存器</strong>
+CPU 以运行程序一样，地址空间为程序创造了一种抽象的内存。<strong>地址空间</strong> 是一个进程可用于寻址内存的一套地址结合，每个进程都有一个自己的地址空间，并且这个地址空间独立于其他进程的地址空间。以域名为例，以 <strong>.com</strong> 结尾的网络域名的集合是一种地址空间，这个地址空间是由所有包含 2 ~ 63 个字符并且后面跟着 <strong>.com</strong> 的字符串组成的，组成这些字符串的字符可以是字母、数字和连字符。比较难的是给每个进程一个自己独有的地址空间，使得一个程序中的地址 28 所对应的物理地址与另一个程序中的地址 28 多对应的物理地址有所不同。</p>
+<p>一个简单的方式是使用 <strong>动态重定位</strong>，简单地把每个进程的地址空间映射到物理内存的不同部分，这个方法会为 CPU 配置两个特殊的硬件寄存器 <strong>基址寄存器</strong> 与 <strong>界限寄存器</strong>
 。当使用基址寄存器与界限寄存器时，程序装载到内存中连续的空闲位置且装载期间无须重定位。当程序开始运行时，将程序的起始物理地址装载到基址寄存器中，程序的长度装载到界限寄存器中。当每次进程访问内存、取一条指令、读或写一个数据字，CPU 硬件会在把地址发送到内存总先前，自动将基址值加到进程发出地址值上。同时检查程序提供的地址是否大于或等于界限寄存器中的值，如果访问的地址超过界限则会产生错误并中止访问。</p>
 <h3 id="交换技术" class="headerLink">
     <a href="#%e4%ba%a4%e6%8d%a2%e6%8a%80%e6%9c%af" class="header-mark"></a>交换技术</h3><p>如果计算机物理内存足够大，可以保存所有进程，那么之前提及的所有方案或多或少都是可行的。但实际上，所有进程所需的 RAM 数量总和通常会远超出存储器能够支持的范围。有两种处理内存超载的通用方法，最简单的策略是 <strong>交换</strong> (swapping) 技术，即将一个进程完整调入内存，使该进程运行一段时间，然后把它存回磁盘。空闲进程主要存储在磁盘之上，所以当它们不运行时将不占用内存。另一种策略是 <strong>虚拟内存</strong> (virtual memory)，该策略甚至能使程序在只有一部分被调入内存的情况下运行。</p>
@@ -287,7 +287,7 @@ CPU 以运行程序一样，地址空间为程序创造了一种抽象的内存�
 
 <h3 id="空闲内存管理" class="headerLink">
     <a href="#%e7%a9%ba%e9%97%b2%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86" class="header-mark"></a>空闲内存管理</h3><p>在动态分配内存时，操作系统必须对其进行管理。一般而言，有两种管理方法 <strong>位图</strong> 与
-<strong>空闲区链表</strong>​。</p>
+<strong>空闲区链表</strong>。</p>
 <h4 id="使用位图的存储管理" class="headerLink">
     <a href="#%e4%bd%bf%e7%94%a8%e4%bd%8d%e5%9b%be%e7%9a%84%e5%ad%98%e5%82%a8%e7%ae%a1%e7%90%86" class="header-mark"></a>使用位图的存储管理</h4><p>该方法中，内存可能被划分成小到几个字或大到几千字的分配单元，每个分配单元对应位图中的一位。</p>
 <p>分配单元的大小是一个重要设计因素：分配单元越小，位图越大。然而即使只有 4 个字节大小的分配单元，32 位的内存需要位图中的 1 位，因此位图占用了 \(1 / 32\) 的内存。如果选择较大的分配单元，若进程的大小不是分配单元的整数倍，将极易浪费内存。</p>
@@ -329,8 +329,8 @@ page 都必须在内存中才能运行程序。当程序引用到一部分在物
 <figure><img src="/images/page-table-example.svg"/>
 </figure>
 
-<p>页表项的结果与机器紧密相关，但存储的信息大致相同，示例如下图所示。​<code>保护</code>
-(protection) 域指出 page 允许什么类型的访问，最简单的 protection 只有一位，其值一般为 0 (可读写) 和 1 (只读)；更复杂的情况是三位 protection，各位分别对应了读、写、执行标识。​<code>修改</code> (modified) 域与 <code>访问</code> (referenced) 域记录 page 的使用情况，在写入 page 时由硬件自动设置 modified，该 field 在在操作系统重新分配页框时是非常有用的：如果 page 被修改过 (即脏内存) 则必须写回磁盘，而没有被修改过的 page 可以直接丢弃。modified 又是也被称为 <strong>脏位</strong> (dirty bit)。无论读写系统都会在 page 被访问时都会设置 referenced，其会在系统发生缺页中断时帮助管理策略淘汰无用 page。最后一位是用于禁用高速缓存的 field，对于映射到设备寄存器而非 RAM 的页面十分重要。</p>
+<p>页表项的结果与机器紧密相关，但存储的信息大致相同，示例如下图所示。<code>保护</code>
+(protection) 域指出 page 允许什么类型的访问，最简单的 protection 只有一位，其值一般为 0 (可读写) 和 1 (只读)；更复杂的情况是三位 protection，各位分别对应了读、写、执行标识。<code>修改</code> (modified) 域与 <code>访问</code> (referenced) 域记录 page 的使用情况，在写入 page 时由硬件自动设置 modified，该 field 在在操作系统重新分配页框时是非常有用的：如果 page 被修改过 (即脏内存) 则必须写回磁盘，而没有被修改过的 page 可以直接丢弃。modified 又是也被称为 <strong>脏位</strong> (dirty bit)。无论读写系统都会在 page 被访问时都会设置 referenced，其会在系统发生缺页中断时帮助管理策略淘汰无用 page。最后一位是用于禁用高速缓存的 field，对于映射到设备寄存器而非 RAM 的页面十分重要。</p>
 <figure><img src="/images/page-table-element-example.svg"/>
 </figure>
 
@@ -343,11 +343,11 @@ page 都必须在内存中才能运行程序。当程序引用到一部分在物
 <p>最简单的方法是使用完整的硬件页表，无需访问内存，但代价高昂，且进程切换时需要替换整个页表。另一种方法是使用 RAM 存储页表，仅使用页表寄存器指向内存页表的表头，在进程切换时仅需加载新的表头地址，但每条指令都需要访问 RAM 来读取对应页框。</p>
 <p>大多数程序总是对少量 page 进行大量访问，而不是相反。因此可以设置一个小型硬件设备，将虚拟地址直接映射到物理地址，不再访问页表。这种设备被称为 <strong>转换检测缓冲区</strong>
 (Translation Lookaside Buffer, TLB)，或称为 <strong>相联存储器</strong> (associate memory) 或
-<strong>快表</strong>​。TLB 通常直接置于 MMU 中，包含少量的表项，每个表项记录了一个 page 的相关信息，这些表项与页表中的表项类似。</p>
+<strong>快表</strong>。TLB 通常直接置于 MMU 中，包含少量的表项，每个表项记录了一个 page 的相关信息，这些表项与页表中的表项类似。</p>
 <p>当一个虚拟地址输入 MMU 时，硬件先将虚拟页号与 TLB 中的表项进行并行匹配，判断是否存在。若存在有效的匹配，进行的操作不违反 protection，则将页框号直接输出而不需要访问页表；当违反 protection 操作时，与对页表进行非法操作一样；当虚拟页号不再 TLB
 时，就会进行页表的查询，并使用一个表项替换这个页表。</p>
 <p>使用软件实现 TLB 时，需要处理失效问题。当 page 的访问在内存而不在 TLB 中被称为
-<strong>软失效</strong> (soft miss)，此时只需要更新 TLB 而不用产生磁盘 I/O。如果本身不在内存中，则产生 <strong>硬失效</strong>​，此时需要从磁盘中装入 page。</p>
+<strong>软失效</strong> (soft miss)，此时只需要更新 TLB 而不用产生磁盘 I/O。如果本身不在内存中，则产生 <strong>硬失效</strong>，此时需要从磁盘中装入 page。</p>
 <h3 id="对大内存的页表" class="headerLink">
     <a href="#%e5%af%b9%e5%a4%a7%e5%86%85%e5%ad%98%e7%9a%84%e9%a1%b5%e8%a1%a8" class="header-mark"></a>对大内存的页表</h3><p>采用多级页表，可以轻松将大内存的页表拆分存储，避免全部页表一直保存在内存中，多级页表的级数越多其灵活性越强。</p>
 <p><strong>倒排页表</strong> (inverted page table) 是为解决多级页表层级不断增长的一种解决方法，主要在 PowerPC 中使用，将物理内存中的页框对应一个表项而不再是虚拟页号。表项记录了哪个进程、虚拟页面对定位于该页框中。虽然极大减小了空间，但使虚拟地址到物理地址的转换变得困难。</p>
@@ -427,7 +427,7 @@ page 的计数从而使计数器为 0，这些为 0 的 page 将是被换出 RAM
 </tbody>
 </table>
 <p>我们可以利用缺页中断的次数比总页面调度次数，得出缺页率，缺页率可以简单直观地衡量一个置换算法的好坏。其中最初 n 个空物理块的页面调用也算作缺页。</p>
-<p>假设现在有分配的物理块 4 个，页面 <code>4,3,2,1,4,3,5,4,3,2,1,5</code>​，那么以 OPT、FIFO、
+<p>假设现在有分配的物理块 4 个，页面 <code>4,3,2,1,4,3,5,4,3,2,1,5</code>，那么以 OPT、FIFO、
 LFU 为例</p>
 <ol>
 <li>
@@ -745,7 +745,7 @@ PFF 指出了何时增加或减少分配给一个进程的页面，但完全没�
 <p>正文段、数据段或堆栈段很可能不会恰好装满整个 page，最后一个页面通常是半空的，多余的空间就如此被浪费掉了，这种浪费称为 <strong>内部碎片</strong> (internal fragmentation)。在内存中有 n 个段，页面大小为 p 字节时，会有 \(np / 2\) 字节被内部碎片浪费。从这方面考虑使用小页面会更好，但使用小页面程序需要更多的页面，意味着需要更大的页表。而多余的页面被存放于磁盘上，更多的 page 意味着需要频繁与磁盘交换页面，大量时间被浪费于此。此外小页面能更充分的利用 TLB 空间，但占据更多的 TLB 表项，由于 TLB 表项是稀缺资源，在这种情况下使用大页面是值得的。而每次的进程切换，页面越小意味着页表越大，装入时间就会更长。</p>
 <p>假设进程平均大小是 s 字节，页面大小 p 字节，每个页表项 e 字节，则每个进程大约需要 \(s / p\) 个页面，占用 \(se / p\) 字节页表空间，内部碎片在最后一页的浪费为 \(p /
 2\) 字节，因此页表和内部碎片造成的全部开销为 \[\frac{se}{p} + \frac{p}{2}\] 字节。由于最优值一定在页面大小处于某个值时取得，通过对 p 进行一次求导并令表达式为 0 得到
-\[-\frac{se}{p^{2}} + \frac{1}{2} = 0\]​，解得 \[P = \sqrt{2se}.\]</p>
+\[-\frac{se}{p^{2}} + \frac{1}{2} = 0\]，解得 \[P = \sqrt{2se}.\]</p>
 <h4 id="共享页面" class="headerLink">
     <a href="#%e5%85%b1%e4%ba%ab%e9%a1%b5%e9%9d%a2" class="header-mark"></a>共享页面</h4><p>几个不同的用户同时运行同一个程序是很常见的，但内存中如果存在同一个程序的两份副本将会浪费内存，共享页面效率更高。但是并不是所有 page 都适合共享，那些只读的 page
 可以共享，但数据页面是不能共享的。</p>
@@ -834,7 +834,7 @@ fragmentation)。空闲区的存被浪费，而这可以通过内存紧缩来解
     <a href="#%e6%ae%b5%e9%a1%b5%e5%bc%8f%e5%ae%9e%e7%8e%b0" class="header-mark"></a>段页式实现</h2><p>如果一个段比较大，那么将它整个保存在内存中可能很不方便甚至是不可能的，因此产生了对它进行分页的想法。这样只需要在真正需要的页面才会被调入内存。</p>
 <h3 id="multics" class="headerLink">
     <a href="#multics" class="header-mark"></a>MULTICS</h3><p>MULTICS 是有史以来最具影响力的操作系统之一，对 UNIX 系统、x86 存储器体系结构、快表以及运计算均有过深刻的影响。MULTICS 始于 MIT 的一个研究项目，1969 年上线，最后一个 MULTICS 系统在运行了 31 年后于 2000 年关闭，几乎没有其他操作系统能像
-MULTICS 一样几乎没有修改地持续运行那么长时间。更重要的是基于 MULTICS 形成的观点和理论在现在仍同 1965 年第一篇 <a href="https://dl.acm.org/doi/10.1145/1463891.1463912" target="_blank" rel="noopener noreferrer">相关论文</a> 发表时产生的效果一样的。MULTICS 最具有创新性的一面 <strong>虚拟存储架构</strong>​。</p>
+MULTICS 一样几乎没有修改地持续运行那么长时间。更重要的是基于 MULTICS 形成的观点和理论在现在仍同 1965 年第一篇 <a href="https://dl.acm.org/doi/10.1145/1463891.1463912" target="_blank" rel="noopener noreferrer">相关论文</a> 发表时产生的效果一样的。MULTICS 最具有创新性的一面 <strong>虚拟存储架构</strong>。</p>
 <p>MULTICS 运行在 Honeywell 6000 及后续机型上，为每个程序提供最多 \(2^{18}\) 个
 segment，每个 segment 的虚拟地址空间最长为 65536 个字长。为了实现它，MULTICS 的设计者决定把每个 segment 都看作一个虚拟内存并对其进行分页，以结合分页的优点 (固定的页大小和只需调用部分 page) 和分段的优点 (易于编程、模块化、保护和共享)。</p>
 <p>每个程序都有一个段表，每个 segment 对应一个描述符。因为段表可能有 25 万多表项，因此段表本身也是一个 segment 并被分页。一个段描述符包含了一个段是否在内存中的标志，只要 segment 的任一部分在内存中就认为其在内存中。如果 segment 在内存中，它的描述符将包含一个 18 位的指向它的页表指针。由于物理内存是 24 bit 并且页面按 64 字节的边界对齐 (页面地址的低 6 位使用 0 填充)，所以描述符只需要 18 bit 来存储页表地址。段描述符还包含了段大小、保护位以及其他一些条目。每个 segment 都是一个普通的虚拟地址空间，一般页面大小位 1024 字，MULTICS 自己使用的段可能不分页或以 64 字为长度分页。</p>
@@ -856,7 +856,7 @@ segment，每个 segment 的虚拟地址空间最长为 65536 个字长。为了
 <h3 id="intel-x86" class="headerLink">
     <a href="#intel-x86" class="header-mark"></a>Intel x86</h3><p>x86 处理器的虚拟内存与 MULTICS 类似，其中包括分页分段机制，其支持最多 \(2^{14}\)
 个 segment，每个 segment 最长 10 亿个 32 位字。虽然段数量较少，但相比之下 x86 的段大小特征比更多的段数目要重要的多，因为几乎没有程序需要 1000 个以上的段，但很多需要大型的段。自从 <code>x86-64</code> 起分段机制被认为是过时且不再支持的，但在本机模式下依然存在分段机制的某些痕迹。</p>
-<p>x86 处理器中虚拟内存的核心是两张表：​<strong>局部描述表</strong> (Local Descriptor Table, LDT)
+<p>x86 处理器中虚拟内存的核心是两张表：<strong>局部描述表</strong> (Local Descriptor Table, LDT)
 和 <strong>全局描述表</strong> (Global Descriptor Table, GDT)，每个程序都有自己的 LDT，但同一台计算机上的所有程序共享一个 GDT。LDT 描述局部每个程序的 segment，包括其代码、数据、堆栈等；GDT 描述系统段，包含操作系统本身。</p>
 <p>为了访问一个段，x86 程序必须把这个段的选择子 (selector) 装入机器的 6 个寄存器的某一个中，在运行过程中 CS 寄存器保存代码段的 selector，DS 寄存器保存数据段的
 selector，其他的段寄存器不太重要，每个 selector 是一个 16 bit 数。selector 中的
@@ -871,8 +871,8 @@ address)，为了和只有 24 bit 基址的 286 兼容，基址被分为 3 片�
 </figure>
 
 <p>如果禁止分页，线性地址将被解释为物理地址并送往存储器用于读写操作，因此禁止操作将是一个纯分段方案。另外段之间允许相互覆盖，这可能是由于验证段不重叠开销太大。如果允许分页，线性地址就被解释为与虚拟地址，并通过页表映射到物理地址。由于 32 位虚拟地址与 4 KB 页的情况下，segment 可能包含多达 100万个页面，因此使用两级映射以便在段较小时减小页表大小。每个进程都有一个 1024 个 32 bit 表项组成的 <strong>页目录</strong> (page
-directory)，其通过全局寄存器来定位。page directory 中的每个目录项都指向一个也包含 1024 个 32 bit 表项的页表，页表项指向页框。线性地址被分为三个域：​<code>目录</code>​、
-<code>页面</code> 和 <code>偏移量</code>​。目录域被作为索引在 page directory 中找到指向正确的页表的指针，随后页面域被用于索引在页表中找到页框的物理地址，最后偏移量被加到页框地址上得到需要的物理地址。</p>
+directory)，其通过全局寄存器来定位。page directory 中的每个目录项都指向一个也包含 1024 个 32 bit 表项的页表，页表项指向页框。线性地址被分为三个域：<code>目录</code>、
+<code>页面</code> 和 <code>偏移量</code>。目录域被作为索引在 page directory 中找到指向正确的页表的指针，随后页面域被用于索引在页表中找到页框的物理地址，最后偏移量被加到页框地址上得到需要的物理地址。</p>
 </div>
 
         <div class="post-footer" id="post-footer">

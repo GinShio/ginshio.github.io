@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_003\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, FileSystem","wordcount":  9964 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, FileSystem","wordcount":  9946 ,
         "url": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_003\/","datePublished": "2021-07-19T21:01:19+08:00","dateModified": "2022-04-08T15:13:39+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -166,7 +166,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/operatingsystem/"><i class="far fa-folder fa-fw"></i>OperatingSystem</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/operating-system-note/"><i class="far fa-list-alt fa-fw"></i>Operating System Note</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-19">07-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 9964 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-19">07-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 9946 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 20 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -247,7 +247,7 @@
 <li>如何防止一个用户读取另一个用户的数据</li>
 <li>如何知道哪些块是空闲的</li>
 </ol>
-<p>就像 OS 提取处理器的概念来创建进程的抽象，以及提取 RAM 的概念来创建进程虚拟地址空间的抽象一样，使用 <strong>文件</strong> (File) 来解决磁盘的问题。File 是 <strong>进程创建的信息逻辑单元</strong>​，文件是对磁盘的建模而非 RAM，因此将文件看做地址空间就能理解了。</p>
+<p>就像 OS 提取处理器的概念来创建进程的抽象，以及提取 RAM 的概念来创建进程虚拟地址空间的抽象一样，使用 <strong>文件</strong> (File) 来解决磁盘的问题。File 是 <strong>进程创建的信息逻辑单元</strong>，文件是对磁盘的建模而非 RAM，因此将文件看做地址空间就能理解了。</p>
 <p>进程可以读取已存在的 File，并在需要时建立新 File，存储的文件必须是持久的，因此不会受到进程的创建与终止而受到影响，只有在其所有者明确删除它的情况下才会消失。File
 受操作系统管理，有关的构造、命名、访问、使用、保护、实现和管理方法都是 OS 设计的主要内容。从总体上看，OS 处理文件的部分被称为 <strong>文件系统</strong> (file system)，这才是
 OS 的核心问题之一。从用户的角度看，File System 中最重要的就是其表现形式，即文件由什么组成的，如何命名、修改等操作。至于如何实现，和我这个用户有什么关系呢。</p>
@@ -263,14 +263,14 @@ extension)，extension 往往是约定俗成的，表明了当前文件的内容
 UNIX 中则是一个 C++ 文件。虽然 UNIX 并不关心 extension，但是现代图形界面往往支持程序与 extension 注册绑定，方便用户使用。</p>
 <p>文件系统支持多种文件类型，比如 UNIX 与 Windows 中都支持的 <strong>普通文件</strong> (regular
 file) 与 <strong>目录</strong> (directory)，UNIX 还支持 <strong>字符文件</strong> (character file) 与 <strong>块文件</strong>
-(block file)。regular 包含有用户信息的文件，有二进制文件或 ASCII 文件，ASCII 文件在每行结束有一个换行符 <strong>LF</strong> (有的操作系统采用回车 <strong>CR</strong>​，或混合 <strong>CRLF</strong>)，ASCII
+(block file)。regular 包含有用户信息的文件，有二进制文件或 ASCII 文件，ASCII 文件在每行结束有一个换行符 <strong>LF</strong> (有的操作系统采用回车 <strong>CR</strong>，或混合 <strong>CRLF</strong>)，ASCII
 文件方便显示、打印并可以编辑。二进制文件人们往往无法理解，其打印也是一堆无意义数据，但二进制文件其格式正确，执行的程序才能精准的将其展示或打印为人类可懂的内容。</p>
 <h3 id="文件结构" class="headerLink">
     <a href="#%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84" class="header-mark"></a>文件结构</h3><p>文件可以有多种构造方式，最常用的是三种方式：</p>
 <ol>
-<li><strong>字节</strong>​，即文件是由多个字节组成的，OS 并不关心文件的内容是什么，其内容的含义交由处理其的软件解释。这是 OS 中最主流的实现方式，有极大的灵活性，允许用户写入任何内容，OS 不提供帮助也不构成障碍。</li>
-<li><strong>记录</strong>​，即文件是具有固定长度记录的序列，每个记录都有其内部结构。读操作将返回一个记录，写操作重写或追加一个记录。</li>
-<li><strong>树</strong>​，即文件由一颗记录树构成，每个记录不必具有相同的长度，记录的固定位置上有一个 key 字段，树按照 key 进行排序并可以快速查找。采用这种方式时，用户可以为文件添加新的记录，并无需关心记录的存储位置，但用户不能决定记录添加在什么位置，这是 OS 的工作范围。这种方法主要被用语一些大型计算机中。</li>
+<li><strong>字节</strong>，即文件是由多个字节组成的，OS 并不关心文件的内容是什么，其内容的含义交由处理其的软件解释。这是 OS 中最主流的实现方式，有极大的灵活性，允许用户写入任何内容，OS 不提供帮助也不构成障碍。</li>
+<li><strong>记录</strong>，即文件是具有固定长度记录的序列，每个记录都有其内部结构。读操作将返回一个记录，写操作重写或追加一个记录。</li>
+<li><strong>树</strong>，即文件由一颗记录树构成，每个记录不必具有相同的长度，记录的固定位置上有一个 key 字段，树按照 key 进行排序并可以快速查找。采用这种方式时，用户可以为文件添加新的记录，并无需关心记录的存储位置，但用户不能决定记录添加在什么位置，这是 OS 的工作范围。这种方法主要被用语一些大型计算机中。</li>
 </ol>
 <figure><img src="/images/file-structure.svg"/>
 </figure>
@@ -347,14 +347,14 @@ file) 与 <strong>目录</strong> (directory)，UNIX 还支持 <strong>字符文
     <a href="#%e6%96%87%e4%bb%b6%e6%93%8d%e4%bd%9c" class="header-mark"></a>文件操作</h3><p>早期操作系统仅支持 <strong>顺序访问</strong> (sequential access)，进程在这些系统中从头按顺序读取文件的全部字节或记录，不能跳过或随机读取内容，可以返回起点并根据需求多次读取文件，这是磁带的访问方式。当我们使用磁盘时，可以不按顺序读取文件，这种访问方式被称为 <strong>随机访问</strong> (random access)。</p>
 <p>使用文件的目的是储存信息并未了之后的检索，因此这里介绍一些常见的与文件相关的系统调用</p>
 <ol>
-<li><code>create</code>​，创建不包含任何数据的文件，表明文件即将建立并设置一些属性</li>
-<li><code>delete</code>​，当文件不再需要时，以删除文件并释放磁盘空间</li>
-<li><code>open</code>​，将文件属性与磁盘地址装入内存，以供以后的使用</li>
-<li><code>close</code>​，关闭文件并释放内部表空间</li>
-<li><code>read</code>​，在文件中读取数据，读取的数据来自文件的当前位置</li>
-<li><code>write</code>​，向文件的当前位置写入数据</li>
-<li><code>append</code>​，向文件的末尾写入数据</li>
-<li><code>seek</code>​，指定文件的位置，方便对文件进行随机访问</li>
+<li><code>create</code>，创建不包含任何数据的文件，表明文件即将建立并设置一些属性</li>
+<li><code>delete</code>，当文件不再需要时，以删除文件并释放磁盘空间</li>
+<li><code>open</code>，将文件属性与磁盘地址装入内存，以供以后的使用</li>
+<li><code>close</code>，关闭文件并释放内部表空间</li>
+<li><code>read</code>，在文件中读取数据，读取的数据来自文件的当前位置</li>
+<li><code>write</code>，向文件的当前位置写入数据</li>
+<li><code>append</code>，向文件的末尾写入数据</li>
+<li><code>seek</code>，指定文件的位置，方便对文件进行随机访问</li>
 </ol>
 <h3 id="目录" class="headerLink">
     <a href="#%e7%9b%ae%e5%bd%95" class="header-mark"></a>目录</h3><p>文件系统通常提供 <strong>目录</strong> 或 <strong>文件夹</strong> 来记录文件的位置，当然很多系统中目录也是文件。目录是层级结构的，最顶层的目录被称为 <strong>根</strong> (root)，在 UNIX 系统中也被称为 <code>/</code> ，目录将文件自然而然的进行分组。</p>
@@ -437,10 +437,10 @@ index node 的寻找将变得困难，因为 index node 不再通过简单的计
 <p>由于磁盘并不是无限大的，日志可能会占满整个磁盘，但是幸运的是，有些块虽然被前面的日志使用着，但实际已经不再需要。因此 LFS 有一个清理线程，周期性地扫描日志进行磁盘压缩。该线程首先读入日志的第一个段的摘要，检查有哪些 index 节点与文件，并与当前 index 节点图进行对比，查看文件、index 是否有效，无效时信息将被丢弃，反之
 index 与块将进入内存等待写回到下一个段中，原先的段将被标记为空闲以便存放新的日志。</p>
 <p>日志结构文件系统的大量零碎写操作性能强于 UNIX 一个数量级，并且其读操作与大块写操作的性能并不比 UNIX 文件系统差，甚至更好。</p>
-<p>由于 LFS 并不于现有文件系统匹配，但其面对出错的健壮性，及其思想 (保存系统下一步将要做什么的日志)，被其他文件系统所借鉴。这样系统即将完成一些任务时崩溃，重启后通过查看日志即可获取崩溃前的任务并完成。这样的文件系统被称为 <strong>日志文件系统</strong>​，
+<p>由于 LFS 并不于现有文件系统匹配，但其面对出错的健壮性，及其思想 (保存系统下一步将要做什么的日志)，被其他文件系统所借鉴。这样系统即将完成一些任务时崩溃，重启后通过查看日志即可获取崩溃前的任务并完成。这样的文件系统被称为 <strong>日志文件系统</strong>，
 NTFS、ext3、ReiserFS 等都是这种系统的应用。</p>
 <p>日志文件系统先写入一个日志项，列出将要完成的任务，当日志项被写入后将开始执行任务，所有的任务都完成后将擦除日志项。如果系统这时候崩溃，可以在系统恢复后通过检查日志项，确定是否有未完成的操作西药继续完成。为了让系统工作，被写入日志的操作必须是
-<strong>幂等的</strong>​，意味着只要有必要操作就可以执行多次，并且不会带来破坏。为了可靠性，系统可以添加 <strong>原子事务</strong> 的概念。</p>
+<strong>幂等的</strong>，意味着只要有必要操作就可以执行多次，并且不会带来破坏。为了可靠性，系统可以添加 <strong>原子事务</strong> 的概念。</p>
 <h3 id="虚拟文件系统" class="headerLink">
     <a href="#%e8%99%9a%e6%8b%9f%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f" class="header-mark"></a>虚拟文件系统</h3><p>在计算机的不同分区可能使用不同的文件系统，这在现实中很常用，因此操作系统使用 <strong>虚拟文件系统</strong> (Virtual File System, VFS) 的概念将不同文件系统统一成一种有序的结构。关键思路是抽象出所有文件系统的共同部分，并将这部分代码放在单独的一层，VFS 调用底层实际的文件系统来管理数据。</p>
 <figure><img src="/images/vfs-example.svg"/>
@@ -462,7 +462,7 @@ VFS 管理用户打开的文件，并将 POSIX 接口转换为真正的文件系
 <h4 id="记录空闲块" class="headerLink">
     <a href="#%e8%ae%b0%e5%bd%95%e7%a9%ba%e9%97%b2%e5%9d%97" class="header-mark"></a>记录空闲块</h4><p>对于如何记录空闲块的方式，主要有两种：</p>
 <ol>
-<li><strong>磁盘块链表</strong>​，每个块中包含尽可能多的空闲磁盘号，并采用空闲块存放空闲列表</li>
+<li><strong>磁盘块链表</strong>，每个块中包含尽可能多的空闲磁盘号，并采用空闲块存放空闲列表</li>
 <li><strong>位图</strong></li>
 </ol>
 <p>使用记录连续块的方式优化链表存储，但磁盘碎片严重时，这种方式将比单独记录的方法效率低。并且指针块可以存储在内存中，但在指针块快满时对文件的删除操作，可能使指针块溢出，从而交换新的指针块，导致大量的磁盘 IO。避免过多的磁盘 IO 可以将内存中始终保持半满的指针块，在释放与写入时都可以减少频繁的 IO。</p>
@@ -477,10 +477,10 @@ VFS 管理用户打开的文件，并将 POSIX 接口转换为真正的文件系
 <li>备份是否需要压缩算法，也是需要考量的。因为备份设备上的一个坏点即可破坏整个文件，导致数据无法读取。</li>
 <li>对活动的文件系统进行备份是很难的，极有可能发生文件的不一致性。因此人们修改了转储算法，记录下文件系统的瞬时快照 (复制关键的数据结构)，然后需要把将来对文件和目录所做的修改复制到块中，而非处处更新。</li>
 </ol>
-<p>转储分为 <strong>物理转储</strong> 与 <strong>逻辑转储</strong>​。前者从磁盘的第 0 块开始，将全部的磁盘块按序输出到磁带，直到最后一块。这种方案很简单，可以确保万无一失。但是物理转储无法跳过选定目录，也无法增量转储。后者从一个或多个指定的目录开始，递归地转储其给定的基准日期后所更改的全部文件和目录。</p>
+<p>转储分为 <strong>物理转储</strong> 与 <strong>逻辑转储</strong>。前者从磁盘的第 0 块开始，将全部的磁盘块按序输出到磁带，直到最后一块。这种方案很简单，可以确保万无一失。但是物理转储无法跳过选定目录，也无法增量转储。后者从一个或多个指定的目录开始，递归地转储其给定的基准日期后所更改的全部文件和目录。</p>
 <h3 id="文件系统的一致性" class="headerLink">
     <a href="#%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e7%9a%84%e4%b8%80%e8%87%b4%e6%80%a7" class="header-mark"></a>文件系统的一致性</h3><p>如果在修改过的磁盘块全部写回之前系统崩溃，则文件系统将处于不一致状态，如果未被写回的块是 index、目录块或含有空闲表的块时，这个问题尤为严重。因此在解决不一致性的问题上，很多系统都带有检验系统一致性的程序。在系统启动 (或因崩溃重启) 时可以运行该程序。一致性检测一般分为两种：块的一致性检测与文件的一致性检测。</p>
-<p>在检测块的一致性时，程序构造两张表，每张表中为每个块设立一个计数器，都初始化为 0。接着程序使用原始设备读取全部的 index 节点，忽略文件结构，只返回从零开始的所有磁盘块。以下展示了块一致性检测中可能出现的问题。b 情况 <strong>块丢失</strong>​，即块没有出现在任意一张表中，虽然没有危害，但是造成了资源的浪费，解决方案也很简单，将其加入到空闲表中即可。c 情况出现了重复的空闲块，此时只要重新建立空闲表即可。d 情况最为复杂，在两个或多个数据中都出现一同一个块，如果删除其中一个文件则会出现块处于一种使用与空闲的状态，而删除所有相关文件则会让其在空闲表中重复多次。一种解决方案是复制该块，并让引用这个块的文件得到相同的一份副本，消除文件系统的不一致性，并将错误报告给用户。</p>
+<p>在检测块的一致性时，程序构造两张表，每张表中为每个块设立一个计数器，都初始化为 0。接着程序使用原始设备读取全部的 index 节点，忽略文件结构，只返回从零开始的所有磁盘块。以下展示了块一致性检测中可能出现的问题。b 情况 <strong>块丢失</strong>，即块没有出现在任意一张表中，虽然没有危害，但是造成了资源的浪费，解决方案也很简单，将其加入到空闲表中即可。c 情况出现了重复的空闲块，此时只要重新建立空闲表即可。d 情况最为复杂，在两个或多个数据中都出现一同一个块，如果删除其中一个文件则会出现块处于一种使用与空闲的状态，而删除所有相关文件则会让其在空闲表中重复多次。一种解决方案是复制该块，并让引用这个块的文件得到相同的一份副本，消除文件系统的不一致性，并将错误报告给用户。</p>
 <figure><img src="/images/file-system-block-check-status.svg"/>
 </figure>
 

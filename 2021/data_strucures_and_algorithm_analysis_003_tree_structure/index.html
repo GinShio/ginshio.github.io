@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_003_tree_structure\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, BinaryTree","wordcount":  8887 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, BinaryTree","wordcount":  8879 ,
         "url": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_003_tree_structure\/","datePublished": "2021-08-19T07:12:25+08:00","dateModified": "2022-04-08T15:11:37+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -175,7 +175,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/algorithmdatastructure/"><i class="far fa-folder fa-fw"></i>Algorithm⁄DataStructure</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/"><i class="far fa-list-alt fa-fw"></i>数据结构与算法分析</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-19">08-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 8887 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-19">08-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 8879 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 18 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -265,9 +265,9 @@
 <dt>树的度 (degree of tree)</dt>
 <dd>一棵树中最大的 node degree 称为树的度</dd>
 <dt>叶结点 (leaf)</dt>
-<dd>或称​<strong>终端结点</strong>​，如果结点满足 \(degree = 0\) 则该结点为叶结点</dd>
+<dd>或称<strong>终端结点</strong>，如果结点满足 \(degree = 0\) 则该结点为叶结点</dd>
 <dt>分支结点 (branch node)</dt>
-<dd>或称​<strong>内部结点</strong> (internal node)、​<strong>非终端结点</strong>​，度不为 0 的结点</dd>
+<dd>或称<strong>内部结点</strong> (internal node)、<strong>非终端结点</strong>，度不为 0 的结点</dd>
 <dt>层次 (level)</dt>
 <dd>从 root 开始，root 所在的层为第 1 层，root 的 child 为第二层，以此类推</dd>
 <dt>关系</dt>
@@ -1417,8 +1417,8 @@ BST 平均路径长。令 \(D(N)\) 是具有 N 个结点的某棵树 T 的内部
 </div>
 </div><p>在之前的内容中，所有代码尽量都避免 C / C++ 的一些深度的语言特性，来避免读者因为编程语言的特性而带来的困扰。但是下面这个例子，将展示 C / C++ 因为其底层、灵活而展示出的强大。</p>
 <p>在 LP64 模型下指针大小为 64 bit，从堆上分配来的内存的地址，起始地址能够被其最宽的成员大小整除。那么含有指针的 <code>TreadedBinaryTreeNode</code> 在分配时其地址可以被 8
-byte 整除，这是什么概念的，就是其地址的 <strong>低 3 bit 一定为 0</strong>​。我们可以充分利用这 3
-bit，在不改变二叉树结点结构的情况下，辨别该结点是否是线索。如此整个结构体大小缩小了 8 byte。其实这个技巧在很多 C 代码中都有使用，甚至你可以考虑将结构体空洞废物利用起来，或者 C 的宏编程，这些​<strong>奇技淫巧</strong>​威力强大但降低了代码的可读性。</p>
+byte 整除，这是什么概念的，就是其地址的 <strong>低 3 bit 一定为 0</strong>。我们可以充分利用这 3
+bit，在不改变二叉树结点结构的情况下，辨别该结点是否是线索。如此整个结构体大小缩小了 8 byte。其实这个技巧在很多 C 代码中都有使用，甚至你可以考虑将结构体空洞废物利用起来，或者 C 的宏编程，这些<strong>奇技淫巧</strong>威力强大但降低了代码的可读性。</p>
 <p>使用最低 3 bit 存储状态，那么我们在使用时就不能直接使用指针了，那么下列函数可能会对你使用这 3 bit 有帮助。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

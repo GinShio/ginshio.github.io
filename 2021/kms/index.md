@@ -30,7 +30,7 @@ Vlmcsd 的使用很简单，下载下来启动即可提供服务，默认端口�
 
 ### 激活 Windows {#激活-windows}
 
-相对来说激活 Windows 也很简单，以​**管理员身份**​打开 Powershell 或命令提示符，并输入命令即可激活
+相对来说激活 Windows 也很简单，以**管理员身份**打开 Powershell 或命令提示符，并输入命令即可激活
 
 1.  设置 GVLK，这里我们以 Windows Server 2016 标准版为例
     ```bat
@@ -139,7 +139,7 @@ Vlmcsd 的使用很简单，下载下来启动即可提供服务，默认端口�
 
 我们首先下载 [Office Deployment Tool (ODT)](https://www.microsoft.com/en-us/download/confirmation.aspx?id=49117)，即 Office 部署工具，运行 ODT 将会获取到一个 **setup** 和示例的配置文件。setup 是用于安装 Office 的可执行程序，而配置文件是指示 setup 如何安装 Office 的配置文件。
 
-我们将使用配置文件 `config.xml` 进行安装，以​**管理员身份**​打开 Powershell 或命令提示符，并输入命令进行安装。至于 ODT 配置文件的内容，将在下节介绍。
+我们将使用配置文件 `config.xml` 进行安装，以**管理员身份**打开 Powershell 或命令提示符，并输入命令进行安装。至于 ODT 配置文件的内容，将在下节介绍。
 
 1.  根据配置文件下载数据
     ```bat
@@ -161,12 +161,12 @@ Vlmcsd 的使用很简单，下载下来启动即可提供服务，默认端口�
 Add 用于定义要下载的 **产品** 和 **语言**
 
 SourcePath (可选)
-: 用于定义 `安装文件的位置` ，这是下载的数据文件的位置，而非最终的安装位置。如果没有定义该属性，则会在 ODT 所处的文件夹下下载数据。如果 SourcePath 下包含相同版本的 Office 数据文件，那么 ODT 会增量下载文件以节省网络带宽。示例值 `\server\share`​、​`c:\preload\office`
+: 用于定义 `安装文件的位置` ，这是下载的数据文件的位置，而非最终的安装位置。如果没有定义该属性，则会在 ODT 所处的文件夹下下载数据。如果 SourcePath 下包含相同版本的 Office 数据文件，那么 ODT 会增量下载文件以节省网络带宽。示例值 `\server\share`、`c:\preload\office`
 
 Version (可选)
 : 用于指定 `安装的版本` ，默认为可用的最新版本，推荐与
     `Channel` 属性一同使用。可以选择 **MatchInstalled** 作为值，即使有新的可用版本，也将下载与已安装的 Office 版本相同的数据，此选项在添加语言包、Visio、Project
-    时十分有用。示例值 `16.0.8201.2193`​、​`MatchInstalled`
+    时十分有用。示例值 `16.0.8201.2193`、`MatchInstalled`
 
 OfficeClientEdition (可选)
 : 指定 Office 的位版本，默认安装 64 位 Office，如果 Windows 版本为 64 位或内存小于 4 GB 则安装 32 位。如果已安装 Office 时，默认会与已安装的版本匹配，Office 不支持混合体系，请小心设置该属性
@@ -178,9 +178,9 @@ Channel (可选)
 
 #### Product 元素 {#product-元素}
 
-Product 定义要​**下载或安装**​的产品。如果定义了多个产品，这些产品会按照配置文件中的顺序进行安装。指定产品的 ID，更多 ID 请参阅 [官方文档](https://docs.microsoft.com/en-us/office365/troubleshoot/installation/product-ids-supported-office-deployment-click-to-run)
+Product 定义要**下载或安装**的产品。如果定义了多个产品，这些产品会按照配置文件中的顺序进行安装。指定产品的 ID，更多 ID 请参阅 [官方文档](https://docs.microsoft.com/en-us/office365/troubleshoot/installation/product-ids-supported-office-deployment-click-to-run)
 
-遗憾的是我没有找到 Office 2016 的 `KEY`​，但是可以通过 Volume License Pack 获取安装包，如果你知道如何用 ODT 安装请告诉我
+遗憾的是我没有找到 Office 2016 的 `KEY`，但是可以通过 Volume License Pack 获取安装包，如果你知道如何用 ODT 安装请告诉我
 
 -   [Office 2021](https://www.microsoft.com/download/details.aspx?id=103446)
 
@@ -225,7 +225,7 @@ Product 定义要​**下载或安装**​的产品。如果定义了多个产�
 Language 定义要下载或安装的语言。如果定义了多个语言，首个语言决定了 UI 区域性、快捷方式、工具提示。
 
 ID 属性的决定了具体下载、安装哪种语言。值 `MatchInstalled` 可以选择匹配已安装的
-Office，​`MatchOS` 可以选择匹配操作系统，也可以参考 [官方文档](https://docs.microsoft.com/en-us/deployoffice/overview-deploying-languages-microsoft-365-apps#languages-culture-codes-and-companion-proofing-languages) 直接指定区域性代码
+Office，`MatchOS` 可以选择匹配操作系统，也可以参考 [官方文档](https://docs.microsoft.com/en-us/deployoffice/overview-deploying-languages-microsoft-365-apps#languages-culture-codes-and-companion-proofing-languages) 直接指定区域性代码
 
 <a id="table--tbl:language-list"></a>
 <div class="table-caption">
@@ -335,7 +335,7 @@ IgnoreProduct (可选)
 
 ### 激活 Office {#激活-office}
 
-以​**管理员身份**​打开 Powershell 或命令提示符，并输入命令即可激活
+以**管理员身份**打开 Powershell 或命令提示符，并输入命令即可激活
 
 1.  进入 Office 目录，32 位安装在 `C:\Program Files (x86)\Microsoft
          Office\Office??` ，64 位安装在 `C:\Program Files\Microsoft Office\Office??`
@@ -347,7 +347,7 @@ IgnoreProduct (可选)
     ```bat
     cscript ospp.vbs /inpkey:WXY84-JN2Q9-RBCCQ-3Q3J3-3PFJ6
     ```
-3.  注册 KMS 服务器，​`sethst` 设置的是地址，​`setprt` 设置的是端口，如果端口是
+3.  注册 KMS 服务器，`sethst` 设置的是地址，`setprt` 设置的是端口，如果端口是
     1688 则不需要设置
     ```bat
     rem 设置地址

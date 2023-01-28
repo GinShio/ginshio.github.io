@@ -219,7 +219,7 @@ BinaryTreeNode* merge(BinaryTreeNode* h1, BinaryTreeNode* h2) {
 \\[\left(\begin{aligned} k \\\ d \end{aligned}\right).\\]
 
 如果将堆序施加于二项树上，并允许任意高度上最多一棵二项树，那么能够用二项树的集合唯一地表示任意大小的优先队列。例如，大小为 13 的优先队列可以用森林 \\(B\_3\\) 、\\(B\_2\\)
-、​\\(B\_0\\) 表示，将这种二项队列写作 \\(1101\\)​。
+、\\(B\_0\\) 表示，将这种二项队列写作 \\(1101\\)。
 
 {{< figure src="https://upload.wikimedia.org/wikipedia/commons/6/61/Binomial-heap-13.svg" width="50%" >}}
 

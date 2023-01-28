@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/compilerprinciple_008\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, IR","wordcount":  8106 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, IR","wordcount":  8068 ,
         "url": "https:\/\/blog.ginshio.org\/2022\/compilerprinciple_008\/","datePublished": "2022-05-28T18:18:47+08:00","dateModified": "2022-06-02T11:19:22+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -169,7 +169,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="05-28">05-28</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="06-02">06-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 8106 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="05-28">05-28</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="06-02">06-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 8068 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 17 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -289,7 +289,7 @@
 </tbody>
 </table>
 <p>通常语法树或 DAG 的结点存放在记录数组中，每个记录第一个字段是运算符代码，也是该结点的标号；叶结点可能有一个存放词法值的字段，而内部结点可能有两个指向其左右运算数的字段。</p>
-<p>在这样的一个数组中，我们只需要给定结点对应的整数下标就可以引用该结点了。而这个下标被称为表达式的​<strong>值编码</strong> (value number)。通常为了防止结点太多所造成的巨大的搜索开销，可以用 Hash 的方法实现，加快创建结点时的搜索。</p>
+<p>在这样的一个数组中，我们只需要给定结点对应的整数下标就可以引用该结点了。而这个下标被称为表达式的<strong>值编码</strong> (value number)。通常为了防止结点太多所造成的巨大的搜索开销，可以用 Hash 的方法实现，加快创建结点时的搜索。</p>
 <h2 id="三地址码" class="headerLink">
     <a href="#%e4%b8%89%e5%9c%b0%e5%9d%80%e7%a0%81" class="header-mark"></a>三地址码</h2><p>三地址码中一条指令的右侧最多有一个运算符，因此 \(x+y*z\) 这样的代码可能被翻译成
 \[\begin{aligned}
@@ -308,12 +308,12 @@ t_{2} &amp;= x + t_{1}
 <li>形如 <code>x = y op z</code> 的赋值指令，其中 op 是双目运算符，x/y/z 是地址</li>
 <li>形如 <code>x = op y</code> 的赋值指令，其中 op 是单目运算符，x/y 是地址</li>
 <li>形如 <code>x = y</code> 的复制指令，将 y 的值赋给 x</li>
-<li>无条件转移指令 <code>goto L</code>​，下一步执行的指令为标号为 L 的三地址码</li>
+<li>无条件转移指令 <code>goto L</code>，下一步执行的指令为标号为 L 的三地址码</li>
 <li>形如 <code>if x goto L</code> 或 <code>if False x goto L</code> 的条件转移指令，当条件 x 为假时转移到标号为 L 的三地址码，否则顺序执行下一指令</li>
 <li>形如 <code>if x relop y goto L</code> 条件转移指令，如果 x 和 y 满足 relop 关系则跳转，否则顺序执行</li>
-<li>过程调用 <code>call p,n</code>​，​参数传递 <code>param x</code>​，返回指令 <code>return y</code></li>
+<li>过程调用 <code>call p,n</code>，参数传递 <code>param x</code>，返回指令 <code>return y</code></li>
 <li>带下标的指令 <code>x[i] = y</code> 和 <code>x = y[i]</code></li>
-<li>形如 <code>x = &amp;y</code>​、​<code>x = *y</code> 或 <code>*x = y</code> 的地址及指针赋值指令</li>
+<li>形如 <code>x = &amp;y</code>、<code>x = *y</code> 或 <code>*x = y</code> 的地址及指针赋值指令</li>
 </ul>
 <p>比方说语句 <code>do i = i + 1; while (a[i] &lt; v);</code> 可以翻译为三地址码</p>
 <div class="highlight"><div class="chroma">
@@ -351,13 +351,13 @@ t_{2} &amp;= x + t_{1}
 </div>
 </div><h3 id="四元式表示" class="headerLink">
     <a href="#%e5%9b%9b%e5%85%83%e5%bc%8f%e8%a1%a8%e7%a4%ba" class="header-mark"></a>四元式表示</h3><p><a href="#%e5%9c%b0%e5%9d%80%e5%92%8c%e6%8c%87%e4%bb%a4" rel="">地址和指令</a> 一节中介绍了三地址码的具体组成，但在数据结构上的表示方法，常用四元式、三元式和间接三元式这三种描述方式。</p>
-<p>四元式 (quadruple) 有四个字段，分别是 op、arg1、arg2 和 result，其中 op 是运算符的内部编码。比如三地址码 <code>x​=​y+z</code> 可以用四元式 <code>(​=​, y, z, x)</code> 表示。但有一些特例：</p>
+<p>四元式 (quadruple) 有四个字段，分别是 op、arg1、arg2 和 result，其中 op 是运算符的内部编码。比如三地址码 <code>x=y+z</code> 可以用四元式 <code>(=, y, z, x)</code> 表示。但有一些特例：</p>
 <ol>
-<li>形如 <code>x = -y</code> 这样的单目运算符和赋值运算符 <code>x = y</code>​，不使用 arg2</li>
+<li>形如 <code>x = -y</code> 这样的单目运算符和赋值运算符 <code>x = y</code>，不使用 arg2</li>
 <li>形如 <code>param</code> 这样的运算既不使用 arg2 也不使用 result</li>
 <li>条件或非条件转移指令将目标标号存入 result 字段</li>
 </ol>
-<p>比如说语句 <code>a = b * -c + b * -c</code>​，可以得到三地址码</p>
+<p>比如说语句 <code>a = b * -c + b * -c</code>，可以得到三地址码</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -434,7 +434,7 @@ t_{2} &amp;= x + t_{1}
 </table>
 <h3 id="三元式表示" class="headerLink">
     <a href="#%e4%b8%89%e5%85%83%e5%bc%8f%e8%a1%a8%e7%a4%ba" class="header-mark"></a>三元式表示</h3><p>三元式 (triple) 只有 op、arg1、arg2 三个字段，四元式中 result 字段主要保留的是临时变量，因此三元式中用运算的位置表示其结果。但是像 <code>x[i] = y</code> 这样的三元式，需要两个条目，我们可以把 x 和 i 置于同一个三元式，y 置于另一个三元式。</p>
-<p>作为语句 <code>a = b * -c + b * -c</code>​，可以得到三元式</p>
+<p>作为语句 <code>a = b * -c + b * -c</code>，可以得到三元式</p>
 <table>
 <thead>
 <tr>
@@ -608,8 +608,8 @@ t_{2} &amp;= x + t_{1}
 <p>图是表示类型表达式的方便方法，内部结点表示类型构造算子，而叶结点可以是基本类型、类型名或类型变量。这与构造 DAG 的结点的值编码方式类似。</p>
 <h3 id="类型等价" class="headerLink">
     <a href="#%e7%b1%bb%e5%9e%8b%e7%ad%89%e4%bb%b7" class="header-mark"></a>类型等价</h3><p>如果两个类型表达式相等，那么这两个类型等价。不过在给一个类型表达式起别名时，在类型表达式中的别名代表一个类型，还是另一个类型表达式的缩写。</p>
-<p>当用图表示类型表达式时，只有以下的某个条件成立时，两种类型之间​<strong>结构等价</strong>
-(structurally equivalent)。如果类型名仅表示自身，那么前两个定义了类型表达式的​<strong>名等价</strong> (name equivalence) 关系</p>
+<p>当用图表示类型表达式时，只有以下的某个条件成立时，两种类型之间<strong>结构等价</strong>
+(structurally equivalent)。如果类型名仅表示自身，那么前两个定义了类型表达式的<strong>名等价</strong> (name equivalence) 关系</p>
 <ul>
 <li>它们是相同的基本类型</li>
 <li>它们是将相同的类型构造算子应用于结构等价的类型而构造得到</li>
@@ -627,7 +627,7 @@ C &amp;\rightarrow{} \varepsilon\ |\ [ \, \textbf{num} \, ] \, C
 <h3 id="局部变量名的存储布局" class="headerLink">
     <a href="#%e5%b1%80%e9%83%a8%e5%8f%98%e9%87%8f%e5%90%8d%e7%9a%84%e5%ad%98%e5%82%a8%e5%b8%83%e5%b1%80" class="header-mark"></a>局部变量名的存储布局</h3><p>从变量的类型可以得知类型信息或所需的内存占用。在编译时，可以使用这些数量为每个名字分配一个相对地址。名字的类型和相对地址信息保存在相应的符号表条目中。对于字符串这样的变长数据，以及动态数组这样的只有运行时才能确定大小的数据，处理方法是为这些数据的指针保留一个已知的固定大小的存储区域。</p>
 <p>假设存储区域是连续的字节块，其中字节是可寻址的最小内存单位。一个字节通常有 8 bit，若干字节组成一个机器字。多字节数据对像往往被存储在一段连续的字节中，并以初始字节的地址作为该数据对象的地址。</p>
-<p>类型的​<strong>宽度</strong> (width) 是指该类型的每个对象需要多少存储单元。一个基本类型需要整数个字节，为方便访问，数组和类这样的组合类型数据分配的内存是一个连续存储的字节块。</p>
+<p>类型的<strong>宽度</strong> (width) 是指该类型的每个对象需要多少存储单元。一个基本类型需要整数个字节，为方便访问，数组和类这样的组合类型数据分配的内存是一个连续存储的字节块。</p>
 <p>因此我们可以给出<a href="#%e5%a3%b0%e6%98%8e" rel="">声明</a>中给出的示例的 SDT，在这个 SDT 中，每个非终结符使用综合属性
 type 和 width 记录类型信息，并有继承属性 t 和 w 传递类型信息。
 \[\begin{array}{lllll}
@@ -726,7 +726,7 @@ L &amp;\rightarrow{} &amp;\textbf{id}\,[\,E\,] &amp; \{ &amp; L.array\,=\,top.ge
 <li>L.type 是 L 生成的子数组类型，其宽度为 t.width，数组的元素类型由 t.elem 给出</li>
 </ol>
 <p>如果 a 表示一个 \(2\times3\) 的整数数组，c、i、j 都是整数，那么 a 的类型是
-\(array(2, array(3, integer))\)。假设整数宽度为 4，那么 a 的宽度为 24。​<code>a[i]</code> 的类型为 \(array(3, integer)\)，宽度 \(w_{1}\) 为 12。</p>
+\(array(2, array(3, integer))\)。假设整数宽度为 4，那么 a 的宽度为 24。<code>a[i]</code> 的类型为 \(array(3, integer)\)，宽度 \(w_{1}\) 为 12。</p>
 <p>表达式 \(c+a[i][j]\) 的三地址码可以表示为：
 \[\begin{aligned}
 t_{1} &amp;= i*12\\
@@ -739,11 +739,11 @@ t_{5} &amp;= c + t_{4}
 </figure>
 
 <h2 id="类型检查" class="headerLink">
-    <a href="#%e7%b1%bb%e5%9e%8b%e6%a3%80%e6%9f%a5" class="header-mark"></a>类型检查</h2><p>为了进行类型检查，编译器需要给源程序的每个组成部分赋予一个类型表达式，编译器确定这些类型表达式是否满足一组逻辑规则，这些规则称为源语言的​<strong>类型系统</strong> (type system)。</p>
+    <a href="#%e7%b1%bb%e5%9e%8b%e6%a3%80%e6%9f%a5" class="header-mark"></a>类型检查</h2><p>为了进行类型检查，编译器需要给源程序的每个组成部分赋予一个类型表达式，编译器确定这些类型表达式是否满足一组逻辑规则，这些规则称为源语言的<strong>类型系统</strong> (type system)。</p>
 <p>如果目标代码在保存元素值的同时保存了类型信息，那么任何检查都可以动态地进行。一个
-<code>健全</code> (sound) 的类型系统可以消除对动态类型错误检查的需要，因为它可以静态地确定这些错误不会在目标程序运行时发生。如果编译器可以保证它接受的程序在运行时不会发生类型错误，那么该语言的实现被称为​<code>强类型的</code>​。</p>
+<code>健全</code> (sound) 的类型系统可以消除对动态类型错误检查的需要，因为它可以静态地确定这些错误不会在目标程序运行时发生。如果编译器可以保证它接受的程序在运行时不会发生类型错误，那么该语言的实现被称为<code>强类型的</code>。</p>
 <h3 id="类型检查规则" class="headerLink">
-    <a href="#%e7%b1%bb%e5%9e%8b%e6%a3%80%e6%9f%a5%e8%a7%84%e5%88%99" class="header-mark"></a>类型检查规则</h3><p>类型检查由两种形式，​<code>综合</code>​和​<code>推导</code>​。类型综合 (type synthesis) 根据子表达式的类型构造该表达式的类型。它要求名字先声明再使用。表达式 \(E_{1}+E_{2}\) 的类型是根据
+    <a href="#%e7%b1%bb%e5%9e%8b%e6%a3%80%e6%9f%a5%e8%a7%84%e5%88%99" class="header-mark"></a>类型检查规则</h3><p>类型检查由两种形式，<code>综合</code>和<code>推导</code>。类型综合 (type synthesis) 根据子表达式的类型构造该表达式的类型。它要求名字先声明再使用。表达式 \(E_{1}+E_{2}\) 的类型是根据
 \(E_{1}\) 和 \(E_{2}\) 定义的。还有一个经典例子：如果 f 的类型是 \(s\rightarrow{}t\) 且 x
 的类型是 s，那么 <code>f(x)</code> 的类型是 t。</p>
 <p>类型推导 (type inference) 根据一个语言结构的使用方式来确定该结构的类型，比如说
@@ -766,7 +766,7 @@ t_{5} &amp;= c + t_{4}
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>但是类型的增多将需要处理的工作量也急剧增长。因此，在处理大量类型时，精心组织用于类型转换的语义动作就变得十分重要。</p>
-<p>不过不同语言的类型转换规则是不同的，Java 的转换规则分为​<code>拓宽</code> (widening) 和​<code>窄化</code>
+<p>不过不同语言的类型转换规则是不同的，Java 的转换规则分为<code>拓宽</code> (widening) 和<code>窄化</code>
 (narrowing)，前者可以保持原有信息，而后者则可能丢失信息。</p>
 <figure><img src="/images/java-type-conversion-example.svg"/>
 </figure>
@@ -879,7 +879,7 @@ B &amp;\rightarrow{} \textbf{false}            &amp; B.code      &amp;= gen(&lsq
 <li>不需要为 \(B\rightarrow{}!\,B_{1}\) 产生新代码，只需要将 B 的真假出口对换</li>
 <li>将常量 <strong>true</strong> 和 <strong>false</strong> 分别翻译为 \(B.true\) 和 \(B.false\) 的跳转指令</li>
 </ul>
-<p>考虑以下语句 <code>if (x&lt;100 || x&gt;200 &amp;&amp; x != y) x=0;</code>​，可以生成得到如下语法
+<p>考虑以下语句 <code>if (x&lt;100 || x&gt;200 &amp;&amp; x != y) x=0;</code>，可以生成得到如下语法
 \[\begin{aligned}
 &amp; if\ x\ &lt;\ 100\ \texttt{goto}\ L_{2}\\
 &amp; \textbf{goto}\ L_{3}\\
@@ -890,7 +890,7 @@ L_{4}:\quad &amp; if\ x\ !=\ y\ \texttt{goto}\ L_{2}\\
 L_{2}:\quad &amp; x\ =\ 0\\
 L_{1}:\quad &amp;
 \end{aligned}\]</p>
-<p>但是在这个生成的语句中，​<code>goto L3</code> 是冗余的，下一条语句的标号就是 L3。另外，如果将 L3 和 L4 的 <code>if</code> 换为 <code>ifFalse</code>​，那么还可以省去两条 <code>goto</code>​，因此生成的最佳代码为
+<p>但是在这个生成的语句中，<code>goto L3</code> 是冗余的，下一条语句的标号就是 L3。另外，如果将 L3 和 L4 的 <code>if</code> 换为 <code>ifFalse</code>，那么还可以省去两条 <code>goto</code>，因此生成的最佳代码为
 \[\begin{aligned}
 &amp; if\ x\ &lt;\ 100\ \texttt{goto}\ L_{2}\\
 &amp; ifFalse\ x\ &gt;\ 200\ \texttt{goto}\ L_{1}\\
@@ -910,7 +910,7 @@ S.code &amp;= B.code\ ||\ S_{1}.code
 \end{aligned}\]</p>
 <p>现在尝试修改布尔表达式的语义规则，使其尽可能允许控制流直落。在 B.true 和 B.false
 都是显示的标号时，也就是说都不是 <code>fallthrough</code> 时，\(B\rightarrow{}E_{1}\ \textbf{comp}\
-E_{2}\) 将产生新的语义规则。如果 B.true 是显示的标号而 B.false 是 <code>fallthrough</code>​，将产生一条 <code>if</code> 指令确保条件为假时控制流可以直落；反之产生一条 <code>ifFalse</code> 指令。如果都是 <code>fallthrough</code> 将不产生任何跳转指令。新语义规则如下：</p>
+E_{2}\) 将产生新的语义规则。如果 B.true 是显示的标号而 B.false 是 <code>fallthrough</code>，将产生一条 <code>if</code> 指令确保条件为假时控制流可以直落；反之产生一条 <code>ifFalse</code> 指令。如果都是 <code>fallthrough</code> 将不产生任何跳转指令。新语义规则如下：</p>
 <div class="verse">
 <p>test   = E1.addr <strong>comp</strong>.op E2.addr<br />
 s      = <strong>if</strong> B.true != fallthrough <strong>and</strong> B.false != fallthrough <strong>then</strong><br />

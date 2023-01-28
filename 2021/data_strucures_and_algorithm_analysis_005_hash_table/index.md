@@ -40,7 +40,7 @@ factor。使用 separate chaining 时，我们往往认为 \\(\lambda \approx 1\
 由于 separate chaining 需要使用链表，给新单元分配地址可能需要额外的时间，并且还要求第二种数据结构的实现，因此另一种解决方法是将 collision 发生时尝试选择另一个单元，直到找到空白单元为止。
 
 更正式的表达方式是： 单元 \\(h\_{0}(x), h\_{1}(x), \cdots\\) 一次进行尝试，其中 \\(h\_{i}(x) =
-(hash(x) + f(i)) mod Length\_{table}\\) 且 \\(f(0) = 0\\) 。函数 \\(f\\) 是冲突解决函数。因为所有的数据都要放在表内，因此所需要的表就远大于 separate chaining 的表。我们将这种方案称之为 **探测散列表** (probing hash tables)，而 probing hash 的 \\(\lambda\\) 一般来说应该低于 \\(0.5\\)​。
+(hash(x) + f(i)) mod Length\_{table}\\) 且 \\(f(0) = 0\\) 。函数 \\(f\\) 是冲突解决函数。因为所有的数据都要放在表内，因此所需要的表就远大于 separate chaining 的表。我们将这种方案称之为 **探测散列表** (probing hash tables)，而 probing hash 的 \\(\lambda\\) 一般来说应该低于 \\(0.5\\)。
 
 
 ### 线性探测 {#线性探测}

@@ -109,7 +109,7 @@ import (导入)
     import List
     last([1, 2, 3]) # 3
     ```
-    好消息是，就像之前学习 Struct 时控制 inspect 输出一样，​`:only` 与 `:except`
+    好消息是，就像之前学习 Struct 时控制 inspect 输出一样，`:only` 与 `:except`
     是我们控制 import 导出的好帮手
     ```elixir
     import List, only: [last: 1] # only import `last/1'
@@ -170,7 +170,7 @@ use (使用)
 
 Elixir 是一个动态语言，类型信息会被编译器忽略，这样完成一个程序会很麻烦，因此我们往往会寄希望于其他工具帮助我们来完成检查，降低复杂度，这时就需要注解来帮助我们。
 
-Specification 可以理解为一个接口 (**interface**)，用于定义了函数的参数与返回值的类型，语法 `@spec name(param list) :: return`​，简单用例子看一下怎么用吧
+Specification 可以理解为一个接口 (**interface**)，用于定义了函数的参数与返回值的类型，语法 `@spec name(param list) :: return`，简单用例子看一下怎么用吧
 
 ```elixir
 @spec sum_product(integer) :: integer
@@ -179,7 +179,7 @@ def sum_product(a) do
 end
 ```
 
-我们可以正常的使用这个函数，毕竟它不被编译器所关注，​`Enum.sum()` 将会返回一个
+我们可以正常的使用这个函数，毕竟它不被编译器所关注，`Enum.sum()` 将会返回一个
 number 而不是 integer，如果想发现这些问题的话，我们需要使用 Dialyzer 这类静态分析器来帮我们解决这些问题
 
 当我们使用一个 spec 时我们可能需要有一些很复杂的结构，如果每次都定义一遍实在太麻烦了，这时我们就需要类型相关的注解，好在 Elixir 提供了
@@ -223,7 +223,7 @@ en_bin = en <> <<0>> # <<104, 101, 108, 108, 111, 0>>
 zh_bin = zh <> <<0>> # <<228, 189, 160, 229, 165, 189, 0>>
 ```
 
-除了字符序列，Elixir 中还有一种字符列表，它们使用 `'char list'` 来表示，字符列表的值都是 **UTF-8 码点** ，这与字符序列有很大不同。正如示例中的 `你`​，码点是 20320，但是 UTF-8 编码中是三个字节
+除了字符序列，Elixir 中还有一种字符列表，它们使用 `'char list'` 来表示，字符列表的值都是 **UTF-8 码点** ，这与字符序列有很大不同。正如示例中的 `你`，码点是 20320，但是 UTF-8 编码中是三个字节
 
 ```elixir
 en_ = 'hello' # [104, 101, 108, 108, 111]
@@ -297,7 +297,7 @@ Date.leap_year?(d) # false
 
 Sigil 创建 Date 和 Time 还挺方便，不过有个问题，它们都是最简单的 **UTC** 时间，并且仅有日期或时间，也没有时区，显得很不好用
 
-还记得之前 Sigil 中列出的 `~N` 吗，我们现在来看看这个 **NaiveDateTime**​，它包含了日期与时间，不过还是缺少时区，所以它所表示的还是 UTC 时间
+还记得之前 Sigil 中列出的 `~N` 吗，我们现在来看看这个 **NaiveDateTime**，它包含了日期与时间，不过还是缺少时区，所以它所表示的还是 UTC 时间
 
 ```elixir
 n = NaiveDateTime.utc_now() # ~N[2021-02-19 11:50:44.630064], UTC时间
@@ -306,7 +306,7 @@ l = NaiveDateTime.local_now() # ~N[2021-02-19 19:52:10], 本地时间
 NaiveDateTime.to_iso8601(l) # "2021-02-19T19:52:10", 格式化到 iso8601
 ```
 
-**DateTime** 是包含全部信息的时间数据结构，不过遗憾的是这个模块仅有一些转换函数和处理 UTC 的函数，因为 Elixir 还没有提供相关的 **时区数据库**​，务必加上 [tz](https://github.com/mathieuprog/tz) /
+**DateTime** 是包含全部信息的时间数据结构，不过遗憾的是这个模块仅有一些转换函数和处理 UTC 的函数，因为 Elixir 还没有提供相关的 **时区数据库**，务必加上 [tz](https://github.com/mathieuprog/tz) /
 [tzdata](https://github.com/lau/tzdata) 这个时区数据库再来体验，不然只能 UTC 太痛苦了
 
 ```elixir

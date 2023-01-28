@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
 
 ### socket {#socket}
 
-我们最先遇到的 API 是 `socket/3`​，这会帮助我们启动一个网络服务，我们可以自己指定 **domain**, **type** ，还有一个特殊的 **protocol** 参数用于指定 socket 一起使用的特定协议，但这个参数通常情况下为 0。下表展示了常用的 domain 与 type 值，摘自
+我们最先遇到的 API 是 `socket/3`，这会帮助我们启动一个网络服务，我们可以自己指定 **domain**, **type** ，还有一个特殊的 **protocol** 参数用于指定 socket 一起使用的特定协议，但这个参数通常情况下为 0。下表展示了常用的 domain 与 type 值，摘自
 Linux Kernel 5.3.18。
 
 | domain                | 释义                           | Manual     |
@@ -129,7 +129,7 @@ Linux Kernel 5.3.18。
 | `SOCK_NONBLOCK`  | 为新打开的 fd 设置 `O_NONBLOCK` 标志 |
 | `SOCK_CLOEXEC`   | 为新打开的 fd 设置 `O_ELOEXEC` 标志 |
 
-我们往往使用 `AF_INET` 与 `SOCK_STREAM` 来启动一个 TCP 连接。而该 API 会返回一个整数作为返回结果，成功时将返回新 socket 的文件描述符 (fd)，而失败时返回 \\(-1\\) 并设置 **errno**​，而 errno 可以让我们得知具体发生了什么错误。
+我们往往使用 `AF_INET` 与 `SOCK_STREAM` 来启动一个 TCP 连接。而该 API 会返回一个整数作为返回结果，成功时将返回新 socket 的文件描述符 (fd)，而失败时返回 \\(-1\\) 并设置 **errno**，而 errno 可以让我们得知具体发生了什么错误。
 
 ```c
 // 构建 IPv4 socket
@@ -186,7 +186,7 @@ uint16_t ntohs(uint16_t netshort);   // 将 unsigned short 类型 network to hos
 
 最后一个与IP信息有关的函数就是 `inet_pton/3` (presentation to numeric，头文件
 **arpa/inet.h** 中)，这是一个伴随着 IPv6 诞生的 POSIX 函数，可以将 IPv4 的点分十进制字符串形式或 IPv6 的字符串行形式地址转换为 `in_addr` 或 `in6_addr` 的字节形式。这个函数会返回一个整数用来确定函数是否成功，\\(1\\) 代表了成功，而 \\(0\\) 代表没有包含有效的地址，\\(-1\\) 是最为严重的，表示不是有效的协议族，这还会将 errno 设置为
-**EAFNOSUPPORT**​。与这个函数相关的还有一个 `inet_ntop/4`​，它与前一个函数作用相反，最后一个参数 size 则指示了 buffer 可以接收的字节大小。下面一段程序是 Manual 中给出的示例，于此贴出。
+**EAFNOSUPPORT**。与这个函数相关的还有一个 `inet_ntop/4`，它与前一个函数作用相反，最后一个参数 size 则指示了 buffer 可以接收的字节大小。下面一段程序是 Manual 中给出的示例，于此贴出。
 
 ```c
 #include <arpa/inet.h>
@@ -254,11 +254,11 @@ int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 
 该函数接收 sockfd 用于监听主机端口，并使用 addr 接收服务器的地址、端口等信息，最后一个参数则是 addr 的数据类型大小。
 
-当然 socket 类型会影响该函数的行为：​`SOCK_DGRAM` 类型的 socket，addr 是默认发送和接收数据报的地址；而 `SOCK_STREAM` 和 `SOCK_SEQPACKET` 类型的 socket，将会试图与指定地址建立连接。通常来说，基于连接的 socket 只允许调用成功一次该函数，而无连接的 socket 可以多次调用该函数来更改关联的地址，并且自 Linux Kernel 2.2 以后，可以通过连接到将 **sa_family** 设置为 `AF_UNSPEC` 来解除地址关联。
+当然 socket 类型会影响该函数的行为：`SOCK_DGRAM` 类型的 socket，addr 是默认发送和接收数据报的地址；而 `SOCK_STREAM` 和 `SOCK_SEQPACKET` 类型的 socket，将会试图与指定地址建立连接。通常来说，基于连接的 socket 只允许调用成功一次该函数，而无连接的 socket 可以多次调用该函数来更改关联的地址，并且自 Linux Kernel 2.2 以后，可以通过连接到将 **sa_family** 设置为 `AF_UNSPEC` 来解除地址关联。
 
 读取一个文件的数据往往采用 POSIX 函数 `read/3` ，接收 fd、buffer、接收的字节长度
 size，最终会返回实际读取的字节长度，但是返回 -1 时代表发生错误并会设置
-**errno**​。
+**errno**。
 
 往往在读取服务器数据时，采用循环的方式读取，直到读到的数据大小为 0 才认为此次读取完成。虽然这个程序中每次读取都会直接读完所有数据 (因为数据只有 26 byte，而一次可以接收 4096 byte)。
 
@@ -323,7 +323,7 @@ int main(int argc, const char* argv[]) {
 ```
 
 可以看到与客户端不同的是，服务器在申请 socket 时没什么变化，但接下来服务器填写了自己的 IP 与 Port 信息，Port 用于指示接下来监听的端口，而 IP 则是指定为了
-`INADDR_ANY`​，这是系统中预定的 IP 地址的值。
+`INADDR_ANY`，这是系统中预定的 IP 地址的值。
 
 | 定义               | 值              | 释义          |
 |------------------|----------------|-------------|
@@ -340,7 +340,7 @@ int main(int argc, const char* argv[]) {
 **SOCK_STREAM** 与 **SOCK_SEQPACKET** 类型的 socket。(`SOCK_DGRAM` 又一次被排除在外了) listen 的第二个参数，根据 Manual 的 NOTE 章节，目前版本的 Linux 代表了成功
 accept 的 TCP 连接队列的长度。
 
-在与客户端通信时，往往使用 `accept/3` 接收来自客户端的连接所创建的 connfd，经过这一步后，TCP 完成连接从而状态改变为 **ESTABLISHED**​。当数据被准备好之后，服务器就可以通过 `write/3` 将数据写入 connfd 发送给客户端，这与平时向文件中写内容是类似的。最后我们只需要像关闭文件一样关闭 connfd 就可以了。
+在与客户端通信时，往往使用 `accept/3` 接收来自客户端的连接所创建的 connfd，经过这一步后，TCP 完成连接从而状态改变为 **ESTABLISHED**。当数据被准备好之后，服务器就可以通过 `write/3` 将数据写入 connfd 发送给客户端，这与平时向文件中写内容是类似的。最后我们只需要像关闭文件一样关闭 connfd 就可以了。
 
 但是这个程序存在一些问题， `while (true)` 可以让服务器一直循环等待客户端请求到来，但是一次只能接收一个请求并处理，这对大量请求情况下显然是不合适的。但在示例中，我们仅使用了标准库函数 time 和 ctim，运行速度很快。但现实中我们可能需要几十秒甚至一分钟处理一个请求，这时这样的服务器是不可接受的。
 
@@ -350,7 +350,7 @@ accept 的 TCP 连接队列的长度。
 ## Unix 标准 {#unix-标准}
 
 Unix 标准通常被称作 POSIX，即 **Portable Operating System Interface** (可移植操作系统接口)。当然由于当时有多个机构进行标准化工作，因此 Unix 标准又有很多名字
-`ISO/IEC 9945`, `IEEE Std 1003.1` 和单一 Unix 规范 (Signle UNIX Specification)，当然经过发展，POSIX 也经历过版本更新，UNP 所介绍到了 POSIX.1-2001，如今最新标准为 **POSIX.1-2017**​。
+`ISO/IEC 9945`, `IEEE Std 1003.1` 和单一 Unix 规范 (Signle UNIX Specification)，当然经过发展，POSIX 也经历过版本更新，UNP 所介绍到了 POSIX.1-2001，如今最新标准为 **POSIX.1-2017**。
 
 -   POSIX 第一版为 IEEE Std. 1003.1-1988，这一版规范了 Unix 内核的 C 语言接口，这些接口覆盖了进程原语 (fork，exec，signals 等)、进程环境 (user ID，程序组等)、文件与目录 (所有的 I/O 函数)、终端 I/O、系统数据库 (密码文件与组文件) 以及
     tar、cpio 等归档格式。不过当时 POSIX 被称为 `IEEE-IX` ，POSIX 这个名称是

@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2021\/elixir_phoenix_framework_notes_001\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Elixir, Network, Web, Phoenix, Framework","wordcount":  2766 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Elixir, Network, Web, Phoenix, Framework","wordcount":  2748 ,
         "url": "https:\/\/blog.ginshio.org\/2021\/elixir_phoenix_framework_notes_001\/","datePublished": "2021-02-23T19:52:05+08:00","dateModified": "2021-07-04T19:57:42+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -146,7 +146,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/elixir-phoenix-framework/"><i class="far fa-list-alt fa-fw"></i>Elixir Phoenix Framework</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="02-23">02-23</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="07-04">07-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2766 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="02-23">02-23</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="07-04">07-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2748 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -220,7 +220,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>项目创建完成之后，我们可以看到终端中有提示，在 config/dev.exs 中配置程序并执行
-<code>mix ecto.create</code>​，配置文件中的 <code>Repo</code> 是数据库设置，​<code>Endpoint</code> 配置的是网站相关的内容</p>
+<code>mix ecto.create</code>，配置文件中的 <code>Repo</code> 是数据库设置，<code>Endpoint</code> 配置的是网站相关的内容</p>
 <p>这时 mix 会为我们创建一个 Phoenix 项目，默认的数据库是 PostgreSQL，如果应用不使用数据库则加上tag <code>--no-ecto</code> 即可，如果要使用其他数据库只需要加上 tag
 <code>--database db</code></p>
 <p>webpack 用于管理静态资源，添加 tag <code>--no-webpack</code> 即可禁止使用 webpack，
@@ -241,7 +241,7 @@
 <li><code>templates</code> 是 <strong>模板</strong> 实现</li>
 </ul>
 <p>我们来看看路由情况，可以看到 <code>scope &quot;/&quot;</code> 这个空间下有一个 API，绑定的函数是
-<strong>PageController.index</strong>​，即浏览器发送请求 <code>GET /</code> 时将会执行绑定的函数。那看看控制器吧，就一句 <code>render(conn, &quot;index.html&quot;)</code> 渲染页面，渲染的是哪里的 index.html，还得看视图层 <code>page_view.ex</code>​，这会默认去找 <code>templates/page</code> 下的文件进行渲染，整个最简单的流程就是这样</p>
+<strong>PageController.index</strong>，即浏览器发送请求 <code>GET /</code> 时将会执行绑定的函数。那看看控制器吧，就一句 <code>render(conn, &quot;index.html&quot;)</code> 渲染页面，渲染的是哪里的 index.html，还得看视图层 <code>page_view.ex</code>，这会默认去找 <code>templates/page</code> 下的文件进行渲染，整个最简单的流程就是这样</p>
 <h3 id="仿照一个页面" class="headerLink">
     <a href="#%e4%bb%bf%e7%85%a7%e4%b8%80%e4%b8%aa%e9%a1%b5%e9%9d%a2" class="header-mark"></a>仿照一个页面</h3><p>我们实现一个页面，通过请求 <code>GET /hello</code> 展示 <strong>Hello, Phoenix!</strong></p>
 <div class="highlight"><div class="chroma">
@@ -357,7 +357,7 @@ Etco 所定义的模型，可以直接与数据库交互，而查文档的话也
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>changeset/2 是 Ecto 的回调函数，一般对数据进行 <strong>过滤</strong>​、​<strong>验证</strong> 与 <strong>约束</strong> 操作，调用方式</p>
+</div><p>changeset/2 是 Ecto 的回调函数，一般对数据进行 <strong>过滤</strong>、<strong>验证</strong> 与 <strong>约束</strong> 操作，调用方式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -370,7 +370,7 @@ Etco 所定义的模型，可以直接与数据库交互，而查文档的话也
 </span></span><span class="line"><span class="cl"><span class="n">changeset</span><span class="o">.</span><span class="n">errors</span> <span class="c1">#=&gt; [password: {&#34;can&#39;t be blank&#34;, []}]</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>OK，下来我们就开始仔细解读下这个函数，​<code>validate_required</code> 是指明哪些字段必填，而 <code>unique_constraint</code> 则是约束字段唯一，那现在我们需要再添加一些代码来实现需求</p>
+</div><p>OK，下来我们就开始仔细解读下这个函数，<code>validate_required</code> 是指明哪些字段必填，而 <code>unique_constraint</code> 则是约束字段唯一，那现在我们需要再添加一些代码来实现需求</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -427,8 +427,8 @@ Router 、 Controller 都属于 Plug</p>
 </div><h4 id="module-plug" class="headerLink">
     <a href="#module-plug" class="header-mark"></a>module plug</h4><p>Plug 的另一种类型是 module plug，它被定义在 module 中，可以将整个 module 当作一个 plug 放入处理流程中，因此这个 module 需要符合一定的规范</p>
 <ul>
-<li><strong>init/1</strong>​：初始化传递给 call/2 的参数或选项</li>
-<li><strong>call/2</strong>​：处理链接，与 function plug 差不多</li>
+<li><strong>init/1</strong>：初始化传递给 call/2 的参数或选项</li>
+<li><strong>call/2</strong>：处理链接，与 function plug 差不多</li>
 </ul>
 <p>我们可以试一试写一个模块 plug，功能是把 <code>:locale</code> 键值对放到连接流里，以便让后面的其他 plugs 控制器和页面等也能使用</p>
 <div class="highlight"><div class="chroma">
@@ -482,7 +482,7 @@ Router 、 Controller 都属于 Plug</p>
     <a href="#%e8%b7%af%e7%94%b1" class="header-mark"></a>路由</h3><p>路由是 Phoenix 应用的重要组成部分，可以将对应的 HTTP 请求映射到
 controller/action, 处理实时 channel，还为路由之前的中间件定义了一系列的转换功能</p>
 <p><strong>pipeline</strong> 可以定义一种类型的操作，这种操作可以定义一系列 plug 为以后定义的 API
-使用。​<strong>scope</strong> 操作可以定义一组 API 的作用域，并且可以指定 pipe 类型来获取 plug
+使用。<strong>scope</strong> 操作可以定义一组 API 的作用域，并且可以指定 pipe 类型来获取 plug
 操作</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -544,7 +544,7 @@ controller/action, 处理实时 channel，还为路由之前的中间件定义�
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>我们添加一系列 <code>/</code> 与 <code>/admin</code> 下的 API，phx.routes 查看 API，可以发现 uri、
-Controller、function 都是没问题的，但是 helps 都是 <strong>review_path</strong>​，这会引起
+Controller、function 都是没问题的，但是 helps 都是 <strong>review_path</strong>，这会引起
 helps 函数调用错误</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -611,13 +611,13 @@ helps 函数调用错误</p>
     <a href="#%e6%8e%a7%e5%88%b6%e5%99%a8" class="header-mark"></a>控制器</h3><p>Phoenix 控制器是一个类似中间人的角色，里面的函数称为 atcion，它响应路由的 HTTP
 请求。action 可以命名为任意名称，但我们一般遵循一些约定</p>
 <ul>
-<li><strong>index</strong>​：按照给定的数据渲染一组条目</li>
-<li><strong>show</strong>​：渲染一个给定的 id 的独立条目</li>
-<li><strong>new</strong>​：渲染一个创建新条目所需的表单</li>
-<li><strong>create</strong>​：接收创建的新条并将其存储</li>
-<li><strong>edit</strong>​：接收给定 id 的条目，并将其显示在 form 中用以编辑</li>
-<li><strong>update</strong>​：接收修改过的 item 并存储</li>
-<li><strong>delete</strong>​：接收给定 id 的条目并将其删除</li>
+<li><strong>index</strong>：按照给定的数据渲染一组条目</li>
+<li><strong>show</strong>：渲染一个给定的 id 的独立条目</li>
+<li><strong>new</strong>：渲染一个创建新条目所需的表单</li>
+<li><strong>create</strong>：接收创建的新条并将其存储</li>
+<li><strong>edit</strong>：接收给定 id 的条目，并将其显示在 form 中用以编辑</li>
+<li><strong>update</strong>：接收修改过的 item 并存储</li>
+<li><strong>delete</strong>：接收给定 id 的条目并将其删除</li>
 </ul>
 <p>控制器有一些方法渲染内容，最简单的一种是使用 Phoenix 提供的 <code>text/2</code> 方法渲染纯文本，当然也可以有一些其他方法来渲染 <code>json/2</code> 或 <code>html/2</code></p>
 <div class="highlight"><div class="chroma">

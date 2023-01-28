@@ -68,7 +68,7 @@ _PyCharm_ 还要分，太麻烦了，就问你能加 `Erlang` 、 `Elixir` 、 `
 -   Emacs [几乎](https://www.gnu.org/software/emacs/manual/html_node/elisp/Threads.html) 是单线程的，这意味着一些不当的操作将阻塞整个应用
 -   一些其他方面的干扰……
 
-说实话，我是个 Emacs 「低手」，并不是高手。所以 ELisp 有点痛苦，不过还好吧，起码会算 `(+ 1 1)`​。
+说实话，我是个 Emacs 「低手」，并不是高手。所以 ELisp 有点痛苦，不过还好吧，起码会算 `(+ 1 1)`。
 
 
 ## 基础配置 {#基础配置}
@@ -1806,7 +1806,7 @@ OOTB 的 emoji 模块！麻烦的一点是设置的有些默认字符，可能�
 	 centaur-tabs-gray-out-icons 'buffer))
 ```
 
-如果想要 tabs 底下显示 `bar` ，需要开启 `x-underline-at-descent-line`​，但是它在 `(after! ...)` 中不起作用。
+如果想要 tabs 底下显示 `bar` ，需要开启 `x-underline-at-descent-line`，但是它在 `(after! ...)` 中不起作用。
 
 ```emacs-lisp
 (setq! centaur-tabs-set-bar 'under
@@ -2280,7 +2280,7 @@ figure.png╶─╧─▶ PROJECT.ORG ▶───╴filters╶───╧─�
 
 -  零宽度工具
 
-    偶尔在用 Org 是你希望将两个分开的块放在一起，这点有点烦人。比如将加​**重**​一个单词的一部分，或者说在内联源码块之前放一些符号。有一个可以解决的方法 --- 零宽空格。由于这是 Emacs，我们可以为 org-mode 做一个很小的改动将其添加到快捷键上 🙂。
+    偶尔在用 Org 是你希望将两个分开的块放在一起，这点有点烦人。比如将加**重**一个单词的一部分，或者说在内联源码块之前放一些符号。有一个可以解决的方法 --- 零宽空格。由于这是 Emacs，我们可以为 org-mode 做一个很小的改动将其添加到快捷键上 🙂。
 
     ```emacs-lisp
     (map! :map org-mode-map
@@ -3744,8 +3744,8 @@ the vast majority of the change in behaviour comes from switch statements in:
     ```
 
     然后需要一个函数来生成应用字体集的 LaTeX 片段。如果可以为单个样式完成此操作并使用不同样式作为主要文档字体，那就太好了。如果字体集的各个字体分别定义为
-    `:serif`​、​`:sans`​、​`:mono` 和 `:maths}`​。 我可以使用它们为完整字体集的子集生成
-    LaTeX。然后，如果我不让任何字体集名称中包含 `-`​，我可以使用 `-sans` 和 `-mono`
+    `:serif`、`:sans`、`:mono` 和 `:maths}`。 我可以使用它们为完整字体集的子集生成
+    LaTeX。然后，如果我不让任何字体集名称中包含 `-`，我可以使用 `-sans` 和 `-mono`
     作为指定要使用的文档字体的后缀。
 
     ```emacs-lisp
@@ -4303,7 +4303,7 @@ contextual information."
 
 我用 hugo 的主要原因是就是可以用 Org Mode 来写作，之后交给 [ox-hugo](https://ox-hugo.scripter.co/) 就好。需要尽量减少 hugo 所带来的额外语法，这样可以让我们仅用 Org 编辑，发布不同的文件。
 
-我使用的 Hugo 主题是 [DoIt](https://github.com/HEIGE-PCloud/DoIt)，​`authors` 字段接受数组类型，而 `ox-hugo` 默认导出
+我使用的 Hugo 主题是 [DoIt](https://github.com/HEIGE-PCloud/DoIt)，`authors` 字段接受数组类型，而 `ox-hugo` 默认导出
 `author` 字段为数组类型，对于该问题可以参考该 [issue](https://github.com/kaushalmodi/ox-hugo/issues/608#issuecomment-1086950058)
 
 ```text

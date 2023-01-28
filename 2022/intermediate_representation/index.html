@@ -37,7 +37,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/intermediate_representation\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, IR","wordcount":  7563 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, IR","wordcount":  7543 ,
         "url": "https:\/\/blog.ginshio.org\/2022\/intermediate_representation\/","datePublished": "2022-09-19T15:59:40+08:00","dateModified": "2022-09-21T22:13:56+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -169,7 +169,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="09-19">09-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="09-21">09-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7563 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="09-19">09-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="09-21">09-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7543 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 16 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -223,12 +223,12 @@
     </li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><p>编译器通常组织为一连串的处理 pass，在每两个 pass 之间需要将已知的所有信息进行传递，因此编译器需要​<strong>中间表示</strong> (IR, Intermediate Representation) 表达信息。IR 在编译器中可能是唯一的，也可能有多种。在转换期间，编译器不会回头查看源代码，而是只观察
+            </div><div class="content" id="content"><p>编译器通常组织为一连串的处理 pass，在每两个 pass 之间需要将已知的所有信息进行传递，因此编译器需要<strong>中间表示</strong> (IR, Intermediate Representation) 表达信息。IR 在编译器中可能是唯一的，也可能有多种。在转换期间，编译器不会回头查看源代码，而是只观察
 IR，因此 IR 的性质对编译器对代码的处理由决定性影响。</p>
 <p>除了词法分析器，大多数 pass 的输入都是 IR；除了代码生成器，大多数 pass 的输出都是 IR。大多数源代码并不足以支持编译器必须的信息，比如变量与常量的地址，或参数使用的寄存器等，为了记录所有信息，大多数编译器还会添加表和集合来记录额外信息，通常认为这也是 IR 的一部分。</p>
 <p>IR 的实现会迫使编译器的开发人员专注于实际问题，用廉价的方式来执行需要频繁进行的操作，并且简洁的表示编译器间可能出现的所有结构。除了这些，还需要可读的 IR 表示。当然，对于使用 IR 的编译器来说，总会在 IR 上进行多次处理，一个 pass 处理中收集信息，另一个 pass 处理中优化代码。</p>
 <h2 id="ir-的分类" class="headerLink">
-    <a href="#ir-%e7%9a%84%e5%88%86%e7%b1%bb" class="header-mark"></a>IR 的分类</h2><p>编译器使用过许多种 IR，主要是三个方面：​<strong>结构性的组织</strong>​、​<strong>抽象层次</strong>​和​<strong>命名方案</strong>​。一般来说，这三个属性是独立的。对于 IR 从结构上可以分为：</p>
+    <a href="#ir-%e7%9a%84%e5%88%86%e7%b1%bb" class="header-mark"></a>IR 的分类</h2><p>编译器使用过许多种 IR，主要是三个方面：<strong>结构性的组织</strong>、<strong>抽象层次</strong>和<strong>命名方案</strong>。一般来说，这三个属性是独立的。对于 IR 从结构上可以分为：</p>
 <dl>
 <dt>图 IR</dt>
 <dd>将编译器信息编码在图中。算法通过途中的对象来表述：结点、边、列表、树。</dd>
@@ -302,7 +302,7 @@ IR，因此 IR 的性质对编译器对代码的处理由决定性影响。</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>加载进寄存器、进行运算，一共分配了 4 个名字。如果将 <code>%1</code> 和 <code>%2</code> 这两个名字都替换为
-<code>%b</code>​，那么分配的名字数目将会缩减一半。因此名字的分配对编译器有很大影响。比如子表达式 \(2 - b\) 拥有唯一的名字，如果之后编译器发现有冗余的该表达式求值，并且期间并没有产生对变量 b 的副作用，可以直接用此处产生的值替换，而不用再次计算。另外，命名方案的选择还会影响到编译时的数据结构大小以及编译所用的时间。</p>
+<code>%b</code>，那么分配的名字数目将会缩减一半。因此名字的分配对编译器有很大影响。比如子表达式 \(2 - b\) 拥有唯一的名字，如果之后编译器发现有冗余的该表达式求值，并且期间并没有产生对变量 b 的副作用，可以直接用此处产生的值替换，而不用再次计算。另外，命名方案的选择还会影响到编译时的数据结构大小以及编译所用的时间。</p>
 <h2 id="图-ir" class="headerLink">
     <a href="#%e5%9b%be-ir" class="header-mark"></a>图 IR</h2><p>虽然很多编译器使用图 IR 作为中间表示，但是其中的抽象层次、图的结构等方面可能有巨大不同。</p>
 <h3 id="与语法相关的树" class="headerLink">
@@ -328,12 +328,12 @@ IR，因此 IR 的性质对编译器对代码的处理由决定性影响。</p>
 </div>
 </div><p>AST 的表示选择也会影响编译器的行为，比如一个复数常数，实部和虚部分别为树形结构的子结点，这种结构的 AST 适用于语法制导编辑器，可以方便的分别修改实部与虚部的值。由于其他常数都是单结点的，而这种结构的常数需要编译器在处理常数添加额外的代码。如果将复数常数设计为单结点的，那么编译器在编辑或加载到寄存器时操作会变得复杂，但可以简化其他操作。</p>
 <h4 id="有向非循环图" class="headerLink">
-    <a href="#%e6%9c%89%e5%90%91%e9%9d%9e%e5%be%aa%e7%8e%af%e5%9b%be" class="header-mark"></a>有向非循环图</h4><p>虽然 AST 相比语法分析树已经很简洁了，但它依然保留了所有源代码的结构，即使表达式中存在完全相同的两个子树。​<strong>有向非循环图</strong> (DAG, Directed Acyclic Graph) 是 AST 避免这种复制的简化。相同的子树可以被重复利用，也就意味着结点可以有多个父结点。</p>
+    <a href="#%e6%9c%89%e5%90%91%e9%9d%9e%e5%be%aa%e7%8e%af%e5%9b%be" class="header-mark"></a>有向非循环图</h4><p>虽然 AST 相比语法分析树已经很简洁了，但它依然保留了所有源代码的结构，即使表达式中存在完全相同的两个子树。<strong>有向非循环图</strong> (DAG, Directed Acyclic Graph) 是 AST 避免这种复制的简化。相同的子树可以被重复利用，也就意味着结点可以有多个父结点。</p>
 <p>DAG 可以显示展示出冗余的表达式，减少冗余的求值，降低求值过程中的代价。但明显，编译器必须证明两个相同的表达式之间没有副作用产生，副作用产生时 DAG 需要重新计算子树。</p>
 <p>编译器使用 DAG 主要基于两点原因，能够减少内存占用，其次能够暴露出冗余之处，从而优化代码。通常在优化时，DAG 作为衍生的 IR 使用，建立 DAG 以获取相关的冗余信息，之后将其丢弃。</p>
 <h3 id="图" class="headerLink">
     <a href="#%e5%9b%be" class="header-mark"></a>图</h3><h4 id="控制流图" class="headerLink">
-    <a href="#%e6%8e%a7%e5%88%b6%e6%b5%81%e5%9b%be" class="header-mark"></a>控制流图</h4><p>程序中最简单的控制流单位是​<strong>基本单位块</strong> (BB, Basic Block)，也就是最大长度的无分支代码序列。BB 中的所有指令总是按顺序全部执行，结束于一个分支、跳转或条件跳转指令。</p>
+    <a href="#%e6%8e%a7%e5%88%b6%e6%b5%81%e5%9b%be" class="header-mark"></a>控制流图</h4><p>程序中最简单的控制流单位是<strong>基本单位块</strong> (BB, Basic Block)，也就是最大长度的无分支代码序列。BB 中的所有指令总是按顺序全部执行，结束于一个分支、跳转或条件跳转指令。</p>
 <p><strong>控制流图</strong> (CFG, Control Flow Graph) 对程序中各 BB 之间的控制流建立了模型。CFG 是一个有向图 \(G=(N, E)\)，每个结点 \(n \in N\) 对应于一个 BB，每条边 \(e=(n_{i},
 n_{j}) \in E\) 对应于一个可能的从块 \(n_{i}\) 到 \(n_{j}\) 的一个可能的控制转移。
 CFG 不同于面向语法的 IR，而是提供一种语法结构的表示。</p>
@@ -379,7 +379,7 @@ CFG 不同于面向语法的 IR，而是提供一种语法结构的表示。</p>
 <p>编译器通常将 CFG 与另一种 IR 联用，从而组合成一种混合 IR。用 CFG 表示块之间的关系，而块内部采用表达式层次上的 AST、DAG 或某种线性 IR。</p>
 <p>另外构造 CFG 时，代码块也可以不采用 BB 构造，而是使用对应于源代码层次上的单一语句的单语句块，单语句块可以简化用于分析和优化的算法。BB 与单语句块的选择实际上是时间与空间的权衡，单语句块需要更多的结点与边，同时遍历块结点时也需要更多的时间。</p>
 <h4 id="依赖关系图" class="headerLink">
-    <a href="#%e4%be%9d%e8%b5%96%e5%85%b3%e7%b3%bb%e5%9b%be" class="header-mark"></a>依赖关系图</h4><p>编译器还是用图来编码表示值从创建之外 (定义) 到使用处的流动，​<strong>数据依赖图</strong> (DDG,
+    <a href="#%e4%be%9d%e8%b5%96%e5%85%b3%e7%b3%bb%e5%9b%be" class="header-mark"></a>依赖关系图</h4><p>编译器还是用图来编码表示值从创建之外 (定义) 到使用处的流动，<strong>数据依赖图</strong> (DDG,
 Data Dependence Graph) 就是用于表示这种关系的。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -407,8 +407,8 @@ Data Dependence Graph) 就是用于表示这种关系的。</p>
 Graph) 用结点表示过程，边表示每个不同的过程的调用位置。比如，过程 p 中有三处不同位置对过程 q 的调用，因此调用图中有三条 <code>(p, q)</code> 的边。</p>
 <p>但是软件工程方面的惯用法和语言特性都会使调用图变得复杂</p>
 <ul>
-<li><strong>分离编译</strong>​，即分别独立编译程序的若干小子集的惯例，典型代表为 C / C++ 的编译单元为一个源文件。该行为限制了编译器建立调用图并进行过程间分析和优化的能力。</li>
-<li><strong>过程参数</strong>​，即将过程作为参数或返回值的高阶函数，都会引入具有二义性的调用位置，使得调用图的构建复杂化。例如一个函数对象，同一个调用位置可能调用不同的过程。</li>
+<li><strong>分离编译</strong>，即分别独立编译程序的若干小子集的惯例，典型代表为 C / C++ 的编译单元为一个源文件。该行为限制了编译器建立调用图并进行过程间分析和优化的能力。</li>
+<li><strong>过程参数</strong>，即将过程作为参数或返回值的高阶函数，都会引入具有二义性的调用位置，使得调用图的构建复杂化。例如一个函数对象，同一个调用位置可能调用不同的过程。</li>
 <li><strong>OO中的 override</strong></li>
 </ul>
 <h2 id="线性-ir" class="headerLink">
@@ -461,7 +461,7 @@ RISC 指令十分相似的 IR 被广泛使用</li>
 <p>例如 mvcl (move characters long) 指令 (功能与 C 函数 memcpy 一致)，在实现了该指令的架构上，编译器可以直接使用该指令表示复杂的操作，在不关注指令内部工作机制的情况下进行分析、优化、移动等操作。</p>
 <p>实际编译器的中间表示可能有多种。</p>
 <ul>
-<li>GCC 长期使用被称为​<strong>寄存器传输语言</strong> (RTL, Register Transfer Language) 的底层 IR。近年 GCC 转移到了语法分析器产生特定接口的语法分析树，这些接口可以从语言相关的语法分析树转化为语言无关的类似于树的 IR &ndash; GIMPLE。GIMPLE 使用表达式和赋值的三地址码对树结构进行了注解，并表示控制流，基于 GIMPLE 构建 SSA。之后 GCC
+<li>GCC 长期使用被称为<strong>寄存器传输语言</strong> (RTL, Register Transfer Language) 的底层 IR。近年 GCC 转移到了语法分析器产生特定接口的语法分析树，这些接口可以从语言相关的语法分析树转化为语言无关的类似于树的 IR &ndash; GIMPLE。GIMPLE 使用表达式和赋值的三地址码对树结构进行了注解，并表示控制流，基于 GIMPLE 构建 SSA。之后 GCC
 将 GIMPLE 转化为 RTL 进行最后的优化和代码生成。</li>
 <li>LLVM 使用单一的类型化的线性三地址 SSA IR，LLVM IR 对数组和结构地址提供了显示支持，还有对向量或 SIMD 数据和操作支持。</li>
 <li>Open64 使用了一组被称为 WHIRL 的相关 IR (共 5 个)，WHIRL 提供了不同抽象层次的 IR，保存了足够多的信息用于提高优化效果。</li>
@@ -625,8 +625,8 @@ Model 同样反映出该值在寄存器中是安全的。</p>
 </span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="c1">; ERROR: unbound variable:  x</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>为编译包含嵌套作用域的程序，编译器必须将每个变量引用映射到与之对应的特定声明。这个过程称为​<strong>名字解析</strong> (name resolution)，将各次引用映射到其声明所在的词法层次，完成这一工作的就是作用域化的符号表。</p>
-<p>在管理嵌套作用域时，语法分析器必须稍微改变一下其管理符号表的方法。语法分析器每次进入一个新的词法作用域时，它将为该作用域建立一个新的符号表。这种方法将创建一​<span class="underline">束</span>​符号表，按词法作用域的层次嵌套关系连接在一起，在当前作用域中遇到声明时，就将相应的信息输入到当前作用域的符号表中。在遇到引用时，需要检查当前作用域的符号表，如果当前符号表并不包含该名字的声明，那么就依次向外一层检查，直到遇到该名字的声明或所有可见的作用域都没有该名字的声明。</p>
+</div><p>为编译包含嵌套作用域的程序，编译器必须将每个变量引用映射到与之对应的特定声明。这个过程称为<strong>名字解析</strong> (name resolution)，将各次引用映射到其声明所在的词法层次，完成这一工作的就是作用域化的符号表。</p>
+<p>在管理嵌套作用域时，语法分析器必须稍微改变一下其管理符号表的方法。语法分析器每次进入一个新的词法作用域时，它将为该作用域建立一个新的符号表。这种方法将创建一<span class="underline">束</span>符号表，按词法作用域的层次嵌套关系连接在一起，在当前作用域中遇到声明时，就将相应的信息输入到当前作用域的符号表中。在遇到引用时，需要检查当前作用域的符号表，如果当前符号表并不包含该名字的声明，那么就依次向外一层检查，直到遇到该名字的声明或所有可见的作用域都没有该名字的声明。</p>
 <figure><img src="/images/symbol-table-example.svg"/>
 </figure>
 
@@ -635,9 +635,9 @@ Model 同样反映出该值在寄存器中是安全的。</p>
 <h4 id="结构表" class="headerLink">
     <a href="#%e7%bb%93%e6%9e%84%e8%a1%a8" class="header-mark"></a>结构表</h4><p>用于指定结构或记录中字段的文本串，存在与变量和过程不同的名称空间。对于结构中的每个字段，编译器必须记录其类型、大小、结构内偏移量等信息，它还需要确定结构的总长度。管理字段名的命名空间由几种方式：</p>
 <ul>
-<li><strong>独立表</strong>​， 编译器为每个记录定义维护一个对应的符号表。概念上这种方式最干净纯粹。</li>
-<li><strong>选择符表</strong>​，编译器可以为所有字段名维护一个独立的表。为避免不同结构中同名字段间的冲突，编译器必须使用修饰名，即为同一个结构中的字段添加同样的但全局唯一的前缀。该前缀可以是结构名，也可以是结构名在符号表中的索引值。这种方法编译器必须想办法将同一个结构的字段关联起来。</li>
-<li><strong>统一表</strong>​，编译器通过修饰名将字段同样存储在主符号表中，这样可以减少表的数目，但也意味着增加主符号表中的表项与字段。</li>
+<li><strong>独立表</strong>， 编译器为每个记录定义维护一个对应的符号表。概念上这种方式最干净纯粹。</li>
+<li><strong>选择符表</strong>，编译器可以为所有字段名维护一个独立的表。为避免不同结构中同名字段间的冲突，编译器必须使用修饰名，即为同一个结构中的字段添加同样的但全局唯一的前缀。该前缀可以是结构名，也可以是结构名在符号表中的索引值。这种方法编译器必须想办法将同一个结构的字段关联起来。</li>
+<li><strong>统一表</strong>，编译器通过修饰名将字段同样存储在主符号表中，这样可以减少表的数目，但也意味着增加主符号表中的表项与字段。</li>
 </ul>
 <p>独立表的好处在于，任何与作用域相关的问题，都可以自然而然地匹配到主符号表的作用域管理框架中，结构本身可见时，其内部的符号表可以通过结构在主符号表中的表项访问。</p>
 <h4 id="使用链接表解决-oo-范式的名字解析问题" class="headerLink">

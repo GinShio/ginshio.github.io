@@ -15,7 +15,7 @@ Git 的安装应该是都会的，但还是应该说以下，在 Windows 上安�
     {{< figure src="/images/wingit-choosing-the-default-editor-used.png" width="40%" >}}
 
     实际上，git 已经在这里说的很明白了，默认 vim 是一个历史原因，推建我们使用更现代的 GUI 编辑器。实际上，你可以使用 `core.editor` 来修改你想使用的编辑器。当然，如果你不设置这个值，git 会用环境变量中的 `EDITOR` 作为默认编辑器使用，而
-    Unix 世界中，​`EDITOR` 往往是 `Vi` 或 `Vim`​。
+    Unix 世界中，`EDITOR` 往往是 `Vi` 或 `Vim`。
 
     最后说一下我的习惯，我并不喜欢 Vim，但是配置了的 Emacs 打开太慢了，由其是简单的写一个 message (VSCode 人称小 emacs)，所以我更偏向于终端编辑器 GNU Nano，图形编辑器则更喜欢用 Kate。
 
@@ -39,7 +39,7 @@ Git 的安装应该是都会的，但还是应该说以下，在 Windows 上安�
         as-is, commit as-is`)，由自己根据项目要求手动关理换行符。可以用
     `core.autocrlf=false` 来指定这种方式。
 
-    其中，​`as-is` 的意思是​**原本是什么样就是什么样，Git 不会转换换行符**​。以下这两种方式是最容易出问题的，当原本的换行符被替换时，整个文件将发生冲突。
+    其中，`as-is` 的意思是**原本是什么样就是什么样，Git 不会转换换行符**。以下这两种方式是最容易出问题的，当原本的换行符被替换时，整个文件将发生冲突。
 
     -   **Checkout Windows-style, commit Unix-style:** 拉取时转换为 Windows 换行符，和用户本地一致，提交时自动转换为 Unix 风格换行符。可以用
         `core.autocrlf=true` 来指定这种方式。
@@ -57,7 +57,7 @@ Git 的安装应该是都会的，但还是应该说以下，在 Windows 上安�
     {{< figure src="/images/wingit-default-behavior-of-pull.png" width="40%" >}}
 
     pull 的行为主要有 rebase、merge 和 fast-forward，主要由变量 `pull.rebase` 和
-    `pull.ff` 控制。​`rebase` 的行为可以理解为每次都将自己的提交放在 remote 提交之后；​`merge` 的行为是将生成一个新的节点；​`fast-forward` 则会在一个提交树上类似于
+    `pull.ff` 控制。`rebase` 的行为可以理解为每次都将自己的提交放在 remote 提交之后；`merge` 的行为是将生成一个新的节点；`fast-forward` 则会在一个提交树上类似于
     rebase，当出现分叉时行为类似于 merge，如果是 `ff-only` 时只会产生 rebase 行为，出现分叉则会导致命令失败。
 
     {{< figure src="https://git-scm.com/book/en/v2/images/basic-branching-5.png" width="55%" >}}
@@ -145,7 +145,7 @@ MSYS2_PATH_TYPE
 
 这时的 pacman 还是无法使用的阶段，毕竟 Git 携带的是最小化的环境，并没有 pacman
 需要的依赖。不过 msys package 中已经为我们详细列出了其所需的依赖。如果你想知道
-Git 安装了哪些软件，可以查看 `/etc/package-versions.txt`​。
+Git 安装了哪些软件，可以查看 `/etc/package-versions.txt`。
 
 -   bash &gt;= 4.2.045
 -   bzip2
@@ -175,14 +175,14 @@ yes |pacman -Syuu
 ```
 
 如果你用 pacman 搜索自己安装的 pacman 或者 Git 安装的 curl，会发现包管理器并没有把它们记录为已安装的状态。将刚刚自己安装的 pacman、msys2-keyring 和
-pacman-mirrors 及其版本号，写入 `/etc/package-versions.txt`​。并用 pacman 将其写入数据库中。如果其间遇到未找到目标的错误，把对应行删去即可。
+pacman-mirrors 及其版本号，写入 `/etc/package-versions.txt`。并用 pacman 将其写入数据库中。如果其间遇到未找到目标的错误，把对应行删去即可。
 
 ```shell
 yes |pacman -S $(cut -d ' ' -f 1 /etc/package-versions.txt) \
     man git git-extras mingw-w64-x86_64-git-lfs curl
 ```
 
-修改 `/etc/pacman.conf`​，关闭除 mingw64 和 msys 以外的所有软件源。下面是关闭了
+修改 `/etc/pacman.conf`，关闭除 mingw64 和 msys 以外的所有软件源。下面是关闭了
 mingw32 的示例。
 
 ```text
@@ -257,7 +257,7 @@ abbr -a Pve  "pacman -Dk"
 -   curl: (77) error setting certificate verify locations
 
     这个问题是因为 `mingw-w64-x86_64-ca-certificates` 包调用 `p11-kit` 时发生错误，Git
-    的默认安装路径为 `/c/Program Files/Git`​，而 p11-kit 执行时将 Program 作为一个命令执行。因此在安装 Git 时，应避免使用带空格的路径或中文路径。
+    的默认安装路径为 `/c/Program Files/Git`，而 p11-kit 执行时将 Program 作为一个命令执行。因此在安装 Git 时，应避免使用带空格的路径或中文路径。
 
 
 ## Useful Link {#useful-link}

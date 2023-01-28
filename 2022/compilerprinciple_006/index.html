@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/compilerprinciple_006\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, SyntacticAnalysis","wordcount":  9538 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, SyntacticAnalysis","wordcount":  9494 ,
         "url": "https:\/\/blog.ginshio.org\/2022\/compilerprinciple_006\/","datePublished": "2022-04-20T16:25:13+08:00","dateModified": "2022-04-30T15:09:46+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -169,8 +169,8 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="04-20">04-20</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-30">04-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 9538 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 20 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="04-20">04-20</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-30">04-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 9494 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 19 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
                                     <span>系列 - 龙书学习笔记</span>
@@ -247,7 +247,7 @@
 <p>自底向上语法分析过程中，最关键的是何时进行归约，以及应用哪个产生式进行归约。</p>
 <p>当然归约是推导步骤的反向操作，不过可以是 <strong>最右</strong> 推导。</p>
 <h3 id="句柄剪枝" class="headerLink">
-    <a href="#%e5%8f%a5%e6%9f%84%e5%89%aa%e6%9e%9d" class="header-mark"></a>句柄剪枝</h3><p>对输入进行从左向右扫描，并在扫描过程中进行自底向上语法分析，就可以反向构造出最右推导。简单地说，​<strong>句柄</strong> 是和某个产生式体匹配的子串，对它的归约代表了相应最右推导中的一个反向步骤。</p>
+    <a href="#%e5%8f%a5%e6%9f%84%e5%89%aa%e6%9e%9d" class="header-mark"></a>句柄剪枝</h3><p>对输入进行从左向右扫描，并在扫描过程中进行自底向上语法分析，就可以反向构造出最右推导。简单地说，<strong>句柄</strong> 是和某个产生式体匹配的子串，对它的归约代表了相应最右推导中的一个反向步骤。</p>
 <p>如果有 \(\textit{S}\xRightarrow[rm]{*}\alpha\textit{A}w\xRightarrow[rm]{}\alpha\beta{}w\)，那么紧跟 \(\alpha\) 的产生式 \(\textit{A}\rightarrow\beta\) 是 \(\alpha\beta{}w\) 的一个 <strong>句柄</strong> (handle)。换句话说，最右句型 \(\gamma\) 的一个句柄是满足以下条件的产生式 \(\textit{A}\rightarrow\beta\) 及串
 \(\beta\) 在 \(\gamma\) 中出现的位置：将这个位置上的 \(\beta\) 替换为 <em>A</em> 之后得到的串是
 \(\gamma\) 的某个最右推导序列中出现在位于 \(\gamma\) 之前的最右句型。</p>
@@ -255,7 +255,7 @@
 </figure>
 
 <p>句柄右边的串 w 一定只包含终结符，即产生式体 \(\beta\) 称为一个句柄 (而不是
-\(\textit{A}\rightarrow\beta\))，如果文法有二义性时可能存在多个最右推导，但无二义性的文法有且仅有一个句柄。通过​<strong>句柄剪枝</strong>​可以得到一个反向的最右推导。</p>
+\(\textit{A}\rightarrow\beta\))，如果文法有二义性时可能存在多个最右推导，但无二义性的文法有且仅有一个句柄。通过<strong>句柄剪枝</strong>可以得到一个反向的最右推导。</p>
 <h3 id="移入-规约语法分析技术" class="headerLink">
     <a href="#%e7%a7%bb%e5%85%a5-%e8%a7%84%e7%ba%a6%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e6%8a%80%e6%9c%af" class="header-mark"></a>移入-规约语法分析技术</h3><p>该语法分析使用栈来保存符号，并用一个输入缓冲区来存放将要进行语法分析的其余符号。句柄在被识别之前，总是出现在栈顶的。</p>
 <p>在栈中依然用 \(\$\) 标记栈底位置，在从左到右扫描输入串时，语法分析器将零个或多个输入符号移动到栈顶，直到对栈顶的一个文法符号串 \(\beta\) 进行归约为止。语法分析器将不断重复这个过程，直到检测到错误，或栈中包含了开始符号且输入缓冲区为空为止。此时宣告语法分析完成。</p>
@@ -270,7 +270,7 @@
 <dt>报错 (error)</dt>
 <dd>发现一个语法错误，调用错误恢复过程</dd>
 </dl>
-<p>使用栈主要是因为在语法分析过程中有个重要的性质：​<strong>句柄总出现在栈顶，绝不会出现在栈中</strong>​。</p>
+<p>使用栈主要是因为在语法分析过程中有个重要的性质：<strong>句柄总出现在栈顶，绝不会出现在栈中</strong>。</p>
 <h3 id="移入-归约语法分析中的冲突" class="headerLink">
     <a href="#%e7%a7%bb%e5%85%a5-%e5%bd%92%e7%ba%a6%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e4%b8%ad%e7%9a%84%e5%86%b2%e7%aa%81" class="header-mark"></a>移入-归约语法分析中的冲突</h3><p>某些上下文无关文法无法使用移入-归约语法分析技术，对于这样的文法可能出现如下
 configuration：虽然知道栈中的所有内容以及接下来的 k 个输入符号，</p>
@@ -297,16 +297,16 @@ expr\_list&\rightarrow expr
 <p>对一个以 \(p(i, j)\) 开头的语句以词法单元流 \(\textbf{id}(\textbf{id},
 \textbf{id})\) 的方式输入词法分析器。在处于如下 configuration 时，</p>
 <p>栈 \(\cdots \textbf{id} ( \textbf{id}\)，输入 \(, \textbf{id} )\cdots\)</p>
-<p>此时应该归约栈顶的 <strong>id</strong>​，但选用哪个产生式呢？如果：</p>
+<p>此时应该归约栈顶的 <strong>id</strong>，但选用哪个产生式呢？如果：</p>
 <ul>
 <li>p 是一个过程，那么正确的选择是产生式 <code>5</code></li>
 <li>p 是一个数组，那么正确的选择是产生式 <code>7</code></li>
 </ul>
 <p>这将产生归约/归约冲突。</p>
-<p>这必须在 p 的声明中来确定符号表中的信息。相对简单地方法是，将产生式 <code>1</code> 中的词法单元 <strong>id</strong> 改为 <strong>procid</strong>​，使用更加复杂的词法分析器，在识别到过程名字的词素时返回词法单元名 <strong>procid</strong>​。</p>
+<p>这必须在 p 的声明中来确定符号表中的信息。相对简单地方法是，将产生式 <code>1</code> 中的词法单元 <strong>id</strong> 改为 <strong>procid</strong>，使用更加复杂的词法分析器，在识别到过程名字的词素时返回词法单元名 <strong>procid</strong>。</p>
 <p>可以发现，移入-归约语法分析技术可以使用栈中离栈顶较远的信息来引导语法分析过程。</p>
 <h2 id="简单-lr-技术" class="headerLink">
-    <a href="#%e7%ae%80%e5%8d%95-lr-%e6%8a%80%e6%9c%af" class="header-mark"></a>简单 LR 技术</h2><p>与 LL(1) 技术类似，​<code>LR(k)</code> 技术即从左向右扫描的最右推导过程，语法分析决定最多向前看 k 个字符。</p>
+    <a href="#%e7%ae%80%e5%8d%95-lr-%e6%8a%80%e6%9c%af" class="header-mark"></a>简单 LR 技术</h2><p>与 LL(1) 技术类似，<code>LR(k)</code> 技术即从左向右扫描的最右推导过程，语法分析决定最多向前看 k 个字符。</p>
 <p>最简单的移入-规约语法分析方法被称为 <code>SLR</code> (简单 LR 技术)。</p>
 <h3 id="为什么使用-lr-语法分析器" class="headerLink">
     <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e4%bd%bf%e7%94%a8-lr-%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e5%99%a8" class="header-mark"></a>为什么使用 LR 语法分析器</h3><p>LR 分析器是表格驱动的，与迭代 LL 语法分析器类似。并且只要存在从左到右的移入-归约语法分析器，它总能在某文法的最右句型的句柄出现在栈顶时识别出句柄，那么这个文法是
@@ -327,7 +327,7 @@ LR 的。</p>
 <p>LR 方法的主要缺点是，为一个典型的程序设计语言文法手工构造 LR 分析器的工作量非常大。因此有很多通用的 LR 语法分析生成器的工具诞生，简化了 LR 分析器构造的工作量。</p>
 <h3 id="项和-lr--0--自动机" class="headerLink">
     <a href="#%e9%a1%b9%e5%92%8c-lr--0--%e8%87%aa%e5%8a%a8%e6%9c%ba" class="header-mark"></a>项和 LR(0) 自动机</h3><p>那么一个语法分析器怎么知道何时移入、何时归约的呢？</p>
-<p>一个 IR 语法分析器通过维护一些状态，用这些状态来表明我们在语法分析过程中所处的位置，从而做出移入-归约决定。这些状态代表了​<strong>项</strong> (item) 的集合。一个文法 G 的一个
+<p>一个 IR 语法分析器通过维护一些状态，用这些状态来表明我们在语法分析过程中所处的位置，从而做出移入-归约决定。这些状态代表了<strong>项</strong> (item) 的集合。一个文法 G 的一个
 LR (0) 项是 G 的一个产生式再加上一个位于它的体中某处的点。因此，产生式
 \(\textit{A}\rightarrow\textit{XYZ}\) 产生了四个项：</p>
 <p>\[\begin{aligned}
@@ -337,12 +337,12 @@ LR (0) 项是 G 的一个产生式再加上一个位于它的体中某处的点�
 \textit{A} &amp;\rightarrow \textit{XYZ}\cdot
 \end{aligned}\]</p>
 <p>产生式 \(\textit{A}\rightarrow\varepsilon\) 只生成一个项 \(\textit{A}\rightarrow\cdot\) 。</p>
-<p>一个称为​<strong>规范 LR(0) 项集族</strong>​的一组项集提供了构建一个确定有穷自动机的基础，该自动机用于做出语法分析决定，这样的自动机被称为 LR(0) 自动机。这个自动机的每个状态代表了规范 LR(0) 项集族中的一个项集。</p>
+<p>一个称为<strong>规范 LR(0) 项集族</strong>的一组项集提供了构建一个确定有穷自动机的基础，该自动机用于做出语法分析决定，这样的自动机被称为 LR(0) 自动机。这个自动机的每个状态代表了规范 LR(0) 项集族中的一个项集。</p>
 <p>为了构造一个文法的规范 LR(0) 项集族，我们定义了一个增广文法和两个函数 <code>CLOSURE</code>
-和 <code>GOTO</code>​。如果 G 是以 S 为开始符号的文法，那么 G 的增广文法 \(\textit{G}^{&rsquo;}\)
+和 <code>GOTO</code>。如果 G 是以 S 为开始符号的文法，那么 G 的增广文法 \(\textit{G}^{&rsquo;}\)
 就是在 G 中加上新的开始符号 \(\textit{S}^{&rsquo;}\) 和产生式
 \(\textit{S}^{&rsquo;}\rightarrow\textit{S}\) 的文法。引入新的产生式的目的是告诉文法分析器何时应该停止语法分析并宣称接受输入符号串。</p>
-<p>对于之前反复提到的示例 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>​，可以构造出如下自动机。</p>
+<p>对于之前反复提到的示例 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>，可以构造出如下自动机。</p>
 <figure><img src="/images/LR-0-automachine-example.svg"/>
 </figure>
 
@@ -355,7 +355,7 @@ LR (0) 项是 G 的一个产生式再加上一个位于它的体中某处的点�
 \(\texttt{CLOSURE}(\textit{I})\) 中，就将这个项加入其中。不断应用这个规则，直到没有新项可以加入 \(\texttt{CLOSURE}(\textit{I})\) 中为止。</li>
 </ol>
 <p>closure 可以按照以下方式计算。函数 closure 可以添加一个 added 数组来方便实现，该数组下标是 G 的非终结符，当各个 B 的产生式 \(\textit{B}\rightarrow\gamma\) 加入对应的项
-\(\textit{B}\rightarrow\cdot\gamma\) 时，​<code>added[B]</code> 被设置为 <strong>true</strong>​。</p>
+\(\textit{B}\rightarrow\cdot\gamma\) 时，<code>added[B]</code> 被设置为 <strong>true</strong>。</p>
 <div class="verse">
 <p>SetOfItems CLOSURE(<em>I</em>) {<br />
     <em>J</em> = <em>I</em>;<br />
@@ -378,7 +378,7 @@ LR (0) 项是 G 的一个产生式再加上一个位于它的体中某处的点�
 </dl>
 <p>感兴趣的项集是某个内核项集合的闭包，求闭包加入的项必然是非内核项。如果我们抛弃所有非内核项，就可以用很少的内存来表示真正感兴趣的项的集合，因为我们已知这些非内核项可以通过闭包运算重新生成。即之前构造出自动机的阴影部分。</p>
 <h4 id="goto-函数" class="headerLink">
-    <a href="#goto-%e5%87%bd%e6%95%b0" class="header-mark"></a>GOTO 函数</h4><p><code>GOTO(I,X)</code>​，其中 <em>I</em> 是一个项集而 <em>X</em> 是一个文法符号。​<code>GOTO(I,X)</code> 被定义为 <em>I</em>
+    <a href="#goto-%e5%87%bd%e6%95%b0" class="header-mark"></a>GOTO 函数</h4><p><code>GOTO(I,X)</code>，其中 <em>I</em> 是一个项集而 <em>X</em> 是一个文法符号。<code>GOTO(I,X)</code> 被定义为 <em>I</em>
 中所有形如 \([\textit{A}\rightarrow\alpha\cdot\textit{X}\beta]\) 的项所对应的项
 \([\textit{A}\rightarrow\alpha\textit{X}\cdot\beta]\) 的集合的闭包。简单地说，就是自动机的状态转换。示例自动机，\(\texttt{GOTO}(\textit{I}_{1}, +)\) 的结果为项集 \(\textit{I}_{6}\)。</p>
 <p>现在我们可以构造出增广文法 \(\textit{G}^{&rsquo;}\) 的规范 LR(0) 项集族 <em>C</em> 的算法。</p>
@@ -397,7 +397,7 @@ LR (0) 项是 G 的一个产生式再加上一个位于它的体中某处的点�
     <a href="#lr--0--%e8%87%aa%e5%8a%a8%e6%9c%ba%e7%9a%84%e7%94%a8%e6%b3%95" class="header-mark"></a>LR(0) 自动机的用法</h4><p>SLR 的中心思想是根据文法构造出 LR(0) 自动机。这个自动机的状态是规范 LR(0) 项集族中的元素，而它的转换由 \(\texttt{GOTO}\) 函数给出。</p>
 <p>状态 j 是指对应的与项集 \(\textit{I}_{j}\) 的状态。LR(0) 自动机从开始状态 0 运行到某个状态 j，如果下一个输入符号为 a 且状态 j 有一个 a 上的转换，那么就移入 a，否则就进行归约。</p>
 <h3 id="lr-语法分析算法" class="headerLink">
-    <a href="#lr-%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e7%ae%97%e6%b3%95" class="header-mark"></a>LR 语法分析算法</h3><p>还记得 LL 语法分析的非递归预测分析中提到的​<strong>分析表驱动的语法分析器</strong>​吗，我们的 LR
+    <a href="#lr-%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e7%ae%97%e6%b3%95" class="header-mark"></a>LR 语法分析算法</h3><p>还记得 LL 语法分析的非递归预测分析中提到的<strong>分析表驱动的语法分析器</strong>吗，我们的 LR
 语法分析器与它很像。</p>
 <figure><img src="/images/LR-parser-model.svg"/>
 </figure>
@@ -547,8 +547,8 @@ LR (0) 项是 G 的一个产生式再加上一个位于它的体中某处的点�
 <h2 id="更强大的-lr-语法分析器" class="headerLink">
     <a href="#%e6%9b%b4%e5%bc%ba%e5%a4%a7%e7%9a%84-lr-%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e5%99%a8" class="header-mark"></a>更强大的 LR 语法分析器</h2><p>扩展 LR(0) 语法分析技术，在输入中向前看一个符号，有两种方法：</p>
 <ol>
-<li><strong>规范 LR</strong>​，采用很大的 LR(1) 项集，充分利用向前符号</li>
-<li><strong>向前看 LR</strong>​ 或 <strong>LALR</strong>​，基于 LR(0) 项集族，但比 LR(1) 拥有更少的状态。可以构造出更强的文法，同时分析表与 SLR 差不多大。</li>
+<li><strong>规范 LR</strong>，采用很大的 LR(1) 项集，充分利用向前符号</li>
+<li><strong>向前看 LR</strong> 或 <strong>LALR</strong>，基于 LR(0) 项集族，但比 LR(1) 拥有更少的状态。可以构造出更强的文法，同时分析表与 SLR 差不多大。</li>
 </ol>
 <h3 id="规范-lr--1--项" class="headerLink">
     <a href="#%e8%a7%84%e8%8c%83-lr--1--%e9%a1%b9" class="header-mark"></a>规范 LR(1) 项</h3><p>回顾一下在 <a href="#%e6%9e%84%e9%80%a0-slr-%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e8%a1%a8" rel="">构造 SLR 语法分析表</a> 中提到的那个无二义性文法，\(\textit{I}_{2}\) 要求按照 \(\textit{R}\rightarrow\textit{L}\) 归约，同时要求
@@ -628,13 +628,13 @@ SetOfItems \(\texttt{GOTO}\)(<em>I</em>, <em>X</em>) {<br />
 
 <h3 id="构造-lalr-语法分析表" class="headerLink">
     <a href="#%e6%9e%84%e9%80%a0-lalr-%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e8%a1%a8" class="header-mark"></a>构造 LALR 语法分析表</h3><p>LALR 语法分析技术是实践中常用的分析技术，因为其分析表比 LR 分析表小的多，且大部分常见的程序设计语言都可以方便构造 LALR 文法表示。SLR 与 LALR 总是有相同数量的状态。比如 C 语言 SLR 可能有几百个状态，但规范 LR(1) 可能达到上千个状态。</p>
-<p>考虑规范 LR(1) 文法中的示例，考虑状态 4 与状态 7 的区别，正则表达式 <code>c*dc*d</code>​，第一组 <code>c*d</code> 会进入状态 4，而第二组 <code>c*d</code> 会进入状态 7</p>
+<p>考虑规范 LR(1) 文法中的示例，考虑状态 4 与状态 7 的区别，正则表达式 <code>c*dc*d</code>，第一组 <code>c*d</code> 会进入状态 4，而第二组 <code>c*d</code> 会进入状态 7</p>
 <ul>
 <li>\(\textit{I}_{4}\): \(\textit{C}\rightarrow{}d\cdot,c/d\)</li>
 <li>\(\textit{I}_{7}\): \(\textit{C}\rightarrow{}d\cdot,\$\)</li>
 </ul>
 <p>基本没什么区别，可以将状态 4 和状态 7 作为并集替换为 \(\textit{I}_{47}\)，这个项集包含了 \([\textit{C}\rightarrow{}d\cdot,c/d/\$]\)。</p>
-<p>我们通常将具有相同​<strong>核心</strong> (core) 的 LR(1) 项集合并为第一分量的集合，一个核心就是当前正处理的文法的 LR(0) 项集，LR(1) 文法可能产生多个具有相同核心的项集。
+<p>我们通常将具有相同<strong>核心</strong> (core) 的 LR(1) 项集合并为第一分量的集合，一个核心就是当前正处理的文法的 LR(0) 项集，LR(1) 文法可能产生多个具有相同核心的项集。
 \(\texttt{GOTO}(\textit{I}, \textit{X})\) 的核心只有 <em>I</em> 的核心决定，一组被合并的项集的 \(\texttt{GOTO}\) 的目标也可以被合并。因此我们可以相应地修改
 \(\texttt{GOTO}\) 函数和动作函数。</p>
 <p>但是如果无脑合并，可能会产生冲突，比如以下这个文法
@@ -647,8 +647,8 @@ SetOfItems \(\texttt{GOTO}\)(<em>I</em>, <em>X</em>) {<br />
 <p>这是一个 LR(1) 文法，其中有两个项集 core 相同：\(\{[\textit{A}\rightarrow{}c\cdot,d],
 [\textit{B}\rightarrow{}c\cdot,e]\}\) 和 \(\{[\textit{A}\rightarrow{}c\cdot,e], [\textit{B}\rightarrow{}c\cdot,d]\}\)。但是它们的并集 \(\{[\textit{A}\rightarrow{}c\cdot,d/e], [\textit{B}\rightarrow{}c\cdot,d/e]\}\) 将会造成归约/
 归约冲突。</p>
-<p>那么可以给出定义 LALR(1) 文法的语法分析表构建方法，其核心思想就是​<strong>构造出 LR(1)
-项集，将没有冲突且相同核心的项集合并</strong>​。</p>
+<p>那么可以给出定义 LALR(1) 文法的语法分析表构建方法，其核心思想就是<strong>构造出 LR(1)
+项集，将没有冲突且相同核心的项集合并</strong>。</p>
 <ol>
 <li>构造 LR(1) 项集族 \(\textit{C}=\{\textit{I}_{0}, \textit{I}_{1}, \cdots,
 \textit{I}_{n}\}\)</li>
@@ -682,7 +682,7 @@ SetOfItems \(\texttt{GOTO}\)(<em>I</em>, <em>X</em>) {<br />
 <ul>
 <li>首先只用用内核项来表示任意的 LR(0) 或 LR(1) 项集。就是只使用初始项
 \([\textit{S}^{&rsquo;}\rightarrow\cdot\textit{S}]\) 或 \([\textit{S}^{&rsquo;}\rightarrow\cdot\textit{S},\$]\) 以及那些点不在产生体左端的项来表示项集</li>
-<li>我们可以使用一个​<strong>传播和自发生成</strong>​的过程生成向前看符号，根据 LR(0) 项的内核来生成 LALR(1) 项的内核</li>
+<li>我们可以使用一个<strong>传播和自发生成</strong>的过程生成向前看符号，根据 LR(0) 项的内核来生成 LALR(1) 项的内核</li>
 <li>如果有了 LALR(1) 内核，对各个内核求 \(\texttt{CLOSURE}\)，再把 LALR(1) 项集当作规范 LR(1) 项集族，计算分析表，从而得到 LALR(1) 语法分析表</li>
 </ul>
 <p>还是一样的用一个示例构造 LALR(1) 语法分析表。
@@ -710,7 +710,7 @@ SetOfItems \(\texttt{GOTO}\)(<em>I</em>, <em>X</em>) {<br />
 <ul>
 <li>存在一个包含内核项 \([\textit{A}\rightarrow\alpha\cdot\beta, a]\) 的项集 <em>I</em> 且
 \(\textit{J}=\texttt{GOTO}(\textit{I},\textit{X})\)。不管 a 为何值，构造
-\(\texttt{GOTO}(\texttt{CLOSURE}(\{[\textit{A}\rightarrow\alpha\cdot\beta, a]\}), X)\) 时得到的结果总是包含 \([\textit{B}\rightarrow\gamma\cdot\delta, b]\)。对于 \(\textit{B}\rightarrow\gamma\cdot\delta\) 而言，这个向前看符号 b 称为​<strong>自发生成的</strong>​。符号 \(\$\) 对于初始项
+\(\texttt{GOTO}(\texttt{CLOSURE}(\{[\textit{A}\rightarrow\alpha\cdot\beta, a]\}), X)\) 时得到的结果总是包含 \([\textit{B}\rightarrow\gamma\cdot\delta, b]\)。对于 \(\textit{B}\rightarrow\gamma\cdot\delta\) 而言，这个向前看符号 b 称为<strong>自发生成的</strong>。符号 \(\$\) 对于初始项
 \([\textit{S}^{&rsquo;}\rightarrow\cdot\textit{S}]\) 而言总是自发生成的。</li>
 <li>其余条件与上一个条件相同，但是 \(a=b\)，且计算
 \(\texttt{GOTO}(\texttt{CLOSURE}(\{[\textit{A}\rightarrow\alpha\cdot\beta, b]\}), \textit{X})\) 得到的结果中包含 \([\textit{B}\rightarrow\gamma\cdot\delta, b]\) 的原因是项 \(\textit{A}\rightarrow\alpha\cdot\beta\) 有一个向前看符号 b。这种情况称为向前看符号从 <em>I</em> 的内核中的 \(\textit{A}\rightarrow\alpha\cdot\beta\) 传播到了 <em>J</em> 的内核中的 \(\textit{B}\rightarrow\gamma\cdot\delta\) 上。</li>
@@ -719,7 +719,7 @@ SetOfItems \(\texttt{GOTO}\)(<em>I</em>, <em>X</em>) {<br />
 <p>这个检测实际上很简单。令 \(\#\) 为一个不在当前文法中的符号。令
 \(\textit{A}\rightarrow\alpha\cdot\beta\)　为项集 <em>I</em> 中的一个内核 LR(0) 项。对每个 <em>X</em> 计算
 \(\textit{J}=\texttt{GOTO}(\texttt{CLOSURE}(\{[\textit{A}\rightarrow\alpha\cdot\beta, \#]\}),
-\textit{X})\)。检查 <em>J</em> 中的每个内核项的向前看符号集合，如果 \(\#\) 是它的向前看符号，那么向前看符号就从 \(\textit{A}\rightarrow\alpha\cdot\beta\) 传播到这个项。所有其他的向前看符号都是自发生成的。这个算法还用到了一个性质：​_J_ 中的所有内核项中点的左边都是 _X_​，即它们必然是形如 \(\textit{B}\rightarrow\gamma\textit{X}\cdot\delta\) 的项。</p>
+\textit{X})\)。检查 <em>J</em> 中的每个内核项的向前看符号集合，如果 \(\#\) 是它的向前看符号，那么向前看符号就从 \(\textit{A}\rightarrow\alpha\cdot\beta\) 传播到这个项。所有其他的向前看符号都是自发生成的。这个算法还用到了一个性质：<em>J</em> 中的所有内核项中点的左边都是 <em>X</em>，即它们必然是形如 \(\textit{B}\rightarrow\gamma\textit{X}\cdot\delta\) 的项。</p>
 <p>有 LR(0) 项集 <em>I</em> 的内核 <em>K</em> 构造向前看符号的算法如下：</p>
 <div class="verse">
 <p><strong>for</strong> (<em>K</em> 中的每个项 \(\textit{A}\rightarrow\alpha\cdot\beta\)) {<br />
@@ -788,7 +788,7 @@ SetOfItems \(\texttt{GOTO}\)(<em>I</em>, <em>X</em>) {<br />
     <a href="#%e4%bd%bf%e7%94%a8%e4%ba%8c%e4%b9%89%e6%80%a7%e6%96%87%e6%b3%95" class="header-mark"></a>使用二义性文法</h2><p>每个二义性文法都不是 LR 的，但某些类型的二义性文法在语言的归约和实现中很有用。像表达式这样的语言构造，二义性文法能提供比任何等价的无二义性文法更短、更自然的归约。二义性文法的另一个用途是隔离经常出现的语法构造，以对其进行特殊优化。</p>
 <p>虽然使用的文法有二义性，但在所有情况下给出消除二义性的规则，使得每个句子只有一颗语法分析树。通过这个方法，语言的归约在整体上是无二义性的，有时还可以构造出遵循这个二义性解决方法的 LR 语法分析器。</p>
 <h3 id="用优先级和结合性解决冲突" class="headerLink">
-    <a href="#%e7%94%a8%e4%bc%98%e5%85%88%e7%ba%a7%e5%92%8c%e7%bb%93%e5%90%88%e6%80%a7%e8%a7%a3%e5%86%b3%e5%86%b2%e7%aa%81" class="header-mark"></a>用优先级和结合性解决冲突</h3><p>回想之前一直提及的示例 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>​，其无二义性文法
+    <a href="#%e7%94%a8%e4%bc%98%e5%85%88%e7%ba%a7%e5%92%8c%e7%bb%93%e5%90%88%e6%80%a7%e8%a7%a3%e5%86%b3%e5%86%b2%e7%aa%81" class="header-mark"></a>用优先级和结合性解决冲突</h3><p>回想之前一直提及的示例 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>，其无二义性文法
 \[\begin{aligned}
 \textit{E}&amp;\rightarrow\textit{E}+\textit{T}\\
 \textit{E}&amp;\rightarrow\textit{T}\\
@@ -856,16 +856,16 @@ SetOfItems \(\texttt{GOTO}\)(<em>I</em>, <em>X</em>) {<br />
 \end{aligned}\]</li>
 <li>\(\textit{I}_{9}\): \(\textit{E}\rightarrow(\textit{E})\cdot\)</li>
 </ul>
-<p>现在假设语法分析器处理完了 <strong>id</strong> <code>+</code> <strong>id</strong>​，栈中的状态为 \(0, 1, 4, 7\)，剩下的输入为</p>
+<p>现在假设语法分析器处理完了 <strong>id</strong> <code>+</code> <strong>id</strong>，栈中的状态为 \(0, 1, 4, 7\)，剩下的输入为</p>
 <ul>
-<li><code>*</code> <strong>id</strong>​，这会产生移入/归约冲突
+<li><code>*</code> <strong>id</strong>，这会产生移入/归约冲突
 <ul>
-<li>如果 <code>*</code> 的优先级高于 <code>+</code>​，语法分析器将移入 <code>*</code></li>
-<li>如果 <code>+</code> 的优先级高于 <code>*</code>​，语法分析器将归约
+<li>如果 <code>*</code> 的优先级高于 <code>+</code>，语法分析器将移入 <code>*</code></li>
+<li>如果 <code>+</code> 的优先级高于 <code>*</code>，语法分析器将归约
 \(\textit{E}\rightarrow\textit{E}+\textit{E}\)</li>
 </ul>
 </li>
-<li><code>+</code> <strong>id</strong>​，这会产生移入/归约冲突。如果 <code>+</code> 是左结合的，那么按照
+<li><code>+</code> <strong>id</strong>，这会产生移入/归约冲突。如果 <code>+</code> 是左结合的，那么按照
 \(\textit{E}\rightarrow\textit{E}+\textit{E}\) 归约</li>
 </ul>
 <p>因此利用优先级和结合性，可以得到一个与 SLR 近似的语法动作表。</p>

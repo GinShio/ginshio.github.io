@@ -17,7 +17,7 @@ mailu 的打算
 ## 部署 {#部署}
 
 开始搭建服务器，以下采用域名 (`example.com`) 和 IP (`1.1.1.1`)，安装在
-`/mailcow`​，使用主机的nginx反向代理，部署之前我们首先定义一些Shell变量，以便之后使用，请根据自己的需求更改
+`/mailcow`，使用主机的nginx反向代理，部署之前我们首先定义一些Shell变量，以便之后使用，请根据自己的需求更改
 
 ```shell
 path_to="/path/to"
@@ -44,7 +44,7 @@ webmail，使用本地的邮件客户端收发邮件，以便更好的使用加�
 
 DNS设置是一个邮件服务器的重中之重，为了让我们可以发出邮件和收到邮件，防止邮件被拒收或者进入垃圾箱被识别成垃圾邮件等，当然不是配置好了就不会进垃圾邮箱，不配置肯定会有问题。
 
-除了上述DNS解析之外，还需要配置 **DKIM** 和 **PTR**​，DKIM在我们搭建好服务之后配置，
+除了上述DNS解析之外，还需要配置 **DKIM** 和 **PTR**，DKIM在我们搭建好服务之后配置，
 PTR需要向运营商提交工单申请 (阿里云和腾讯云是这样的)，如果你没有配置ptr解析那么你可能会上一些黑名单。
 
 DKIM 同样的也是 TXT 类型的 DNS 解析，在部署完成后由指定选择器生成 DKIM，之后设置 DNS 解析
@@ -65,7 +65,7 @@ DKIM 同样的也是 TXT 类型的 DNS 解析，在部署完成后由指定选�
 ### Mailcow:dockerized {#mailcow-dockerized}
 
 [Mailcow:dockerized](https://mailcow.email/) 是一个使用docker搭建的标准邮件服务器，集成了邮局、webmail、管理以及反垃圾邮件等功能，过程相对全面，不过缺点是比较吃资源，并且不支持
-**Synology/QNAP** 或 **OpenVZ**​、​**LXC** 等虚拟化方式，并且不能使用 `CentOS 7/8` 源中的 Docker 包，要求真多。。。消耗资源的主要原因是 `ClamAV` 和 `Solr`​，即杀毒功能和搜索功能，如果不需要可以关闭。
+**Synology/QNAP** 或 **OpenVZ**、**LXC** 等虚拟化方式，并且不能使用 `CentOS 7/8` 源中的 Docker 包，要求真多。。。消耗资源的主要原因是 `ClamAV` 和 `Solr`，即杀毒功能和搜索功能，如果不需要可以关闭。
 
 | 资源 | 需求          |
 |----|-------------|
@@ -164,7 +164,7 @@ docker-compose up -d
 
 #### 为 Mailcow:dockerized 配置 TLS {#为-mailcow-dockerized-配置-tls}
 
-现在我们可以为SMTP与IMAP服务加入TLS，假设我们已经对域名 `mail.example.com` 申请了证书，对 postfix 与 dovecot 配置证书前，我们需要根据 postfix 文档先将我们自己的证书与提供商的证书按顺序存放在同一文件下，并且文件后缀为 **.pem**​，并存放在
+现在我们可以为SMTP与IMAP服务加入TLS，假设我们已经对域名 `mail.example.com` 申请了证书，对 postfix 与 dovecot 配置证书前，我们需要根据 postfix 文档先将我们自己的证书与提供商的证书按顺序存放在同一文件下，并且文件后缀为 **.pem**，并存放在
 mailcow的ssl文件夹下
 
 ```shell

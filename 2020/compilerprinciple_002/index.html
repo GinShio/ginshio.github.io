@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_002\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, LexicalAnalysis","wordcount":  5329 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, LexicalAnalysis","wordcount":  5286 ,
         "url": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_002\/","datePublished": "2020-07-16T16:47:49+08:00","dateModified": "2022-04-12T19:20:04+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -143,7 +143,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-16">07-16</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-12">04-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5329 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-16">07-16</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-12">04-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5286 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 11 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -187,7 +187,7 @@
     </li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><p>词法分析是编译器的第一阶段，主要负责读取源程序的输入字符，将它们组成 <strong>词素</strong>​，生成并输出一个词法单元序列，每个词法单元对应一个词素，这个词法单元序列将被语法分析器进行语法分析。除此之外，词法分析器还会过滤源程序中的注释和空白，生成错误信息与源程序的位置关联起来，有时还会进行宏扩展。</p>
+            </div><div class="content" id="content"><p>词法分析是编译器的第一阶段，主要负责读取源程序的输入字符，将它们组成 <strong>词素</strong>，生成并输出一个词法单元序列，每个词法单元对应一个词素，这个词法单元序列将被语法分析器进行语法分析。除此之外，词法分析器还会过滤源程序中的注释和空白，生成错误信息与源程序的位置关联起来，有时还会进行宏扩展。</p>
 <figure><img src="/images/lexical-analyzer-and-syntax-analyzer.svg"/>
 </figure>
 
@@ -244,12 +244,12 @@
 </table>
 <h2 id="词法单元的规约" class="headerLink">
     <a href="#%e8%af%8d%e6%b3%95%e5%8d%95%e5%85%83%e7%9a%84%e8%a7%84%e7%ba%a6" class="header-mark"></a>词法单元的规约</h2><h3 id="串和语言" class="headerLink">
-    <a href="#%e4%b8%b2%e5%92%8c%e8%af%ad%e8%a8%80" class="header-mark"></a>串和语言</h3><p><strong>字母表</strong> (alphabet) 是一个有限的符号集合，符号的典型示例是包括字母、数字和标点符号，常见的字母表如 <em>ASCII</em> 和 _Unicode_​。</p>
-<p><strong>串</strong> (string) 是某个字母表中符号的一个有穷序列，串 s 的长度，表示 s 中符号出现的次数，记作 \(|s|\)​，长度为 0 的串被称为空串，记作 \(\varepsilon\)​。</p>
+    <a href="#%e4%b8%b2%e5%92%8c%e8%af%ad%e8%a8%80" class="header-mark"></a>串和语言</h3><p><strong>字母表</strong> (alphabet) 是一个有限的符号集合，符号的典型示例是包括字母、数字和标点符号，常见的字母表如 <em>ASCII</em> 和 <em>Unicode</em>。</p>
+<p><strong>串</strong> (string) 是某个字母表中符号的一个有穷序列，串 s 的长度，表示 s 中符号出现的次数，记作 \(|s|\)，长度为 0 的串被称为空串，记作 \(\varepsilon\)。</p>
 <p><strong>语言</strong> (language) 是某个给定字母表上一个任意的可数的串的集合，此外空集
 \(\varnothing\) 和 仅包含空串的集合都是语言。</p>
-<p>词法分析中，最重要的语言上的运算是 <code>并</code>​、​<code>连接</code> 和 <code>闭包</code>​。连接是将一个串附加到另一个串的后面形成新串，例如 \(x=dog, y=house\)​，那么 x、y 的连接 \(xy=doghouse\)
-；空串是连接运算的 <strong>单位元</strong>​，即对于任意串 \(s\varepsilon = \varepsilon s = s\)​。两个串的连接可以被看作乘积，那么可以定义串的指数运算： \(s^0=\varepsilon，s^i = s^{i-1}s(i &gt; 0)\) 。Kleene <strong>闭包</strong> (closure)，记作 \(L^{*}\)​，即将 L 连接 0 次或多次后得到的串集；​<strong>正闭包</strong> 与闭包基本相同，但不包括 \(L^0\)​，也就是说，除非 \(\varepsilon\) 属于 L，否则 \(\varepsilon \notin L\)​。</p>
+<p>词法分析中，最重要的语言上的运算是 <code>并</code>、<code>连接</code> 和 <code>闭包</code>。连接是将一个串附加到另一个串的后面形成新串，例如 \(x=dog, y=house\)，那么 x、y 的连接 \(xy=doghouse\)
+；空串是连接运算的 <strong>单位元</strong>，即对于任意串 \(s\varepsilon = \varepsilon s = s\)。两个串的连接可以被看作乘积，那么可以定义串的指数运算： \(s^0=\varepsilon，s^i = s^{i-1}s(i &gt; 0)\) 。Kleene <strong>闭包</strong> (closure)，记作 \(L^{*}\)，即将 L 连接 0 次或多次后得到的串集；<strong>正闭包</strong> 与闭包基本相同，但不包括 \(L^0\)，也就是说，除非 \(\varepsilon\) 属于 L，否则 \(\varepsilon \notin L\)。</p>
 <table>
 <thead>
 <tr>
@@ -296,10 +296,10 @@
     <a href="#%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f" class="header-mark"></a>正则表达式</h3><p>正则表达式由常量和运算构成，它们分别是字符串的集合和在这些集合上的运算，正则表达式可以由较小的正则表达式按照一定规则递归地构建。</p>
 <ol>
 <li><strong>归纳基础</strong>
-a. \(\varepsilon\) 是一个正则表达式， \(L(\varepsilon) = \{\varepsilon\}\)​，即该语言仅包含空串
+a. \(\varepsilon\) 是一个正则表达式， \(L(\varepsilon) = \{\varepsilon\}\)，即该语言仅包含空串
 b. 如果 a 是 \(\Sigma\) 上的一个符号，那么 <strong>a</strong> 是一个正则表达式，并且
 \(L(\textbf{a}) = \{a\}\) ，即该语言仅包含一个长度为 1 的字符串 a</li>
-<li><strong>归纳步骤</strong>​：假定 r 和 s 都是正则表达式，分别表示语言 \(L( r)\) 和 \(L(s)\) ，那么
+<li><strong>归纳步骤</strong>：假定 r 和 s 都是正则表达式，分别表示语言 \(L( r)\) 和 \(L(s)\) ，那么
 a. \(( r)|(s)\) 是一个正则表达式，表示语言 \(L( r) \cup L(s)\)
 b. \(( r)(s)\) 是一个正则表达式，表示语言 \(L( r)L(s)\)
 c. \(( r)^{*}\) 是一个正则表达式，表示语言 \((L( r))^{*}\)
@@ -351,7 +351,7 @@ d. \(( r)\) 是一个正则表达式，表示语言 \(L( r)\)</li>
 </tbody>
 </table>
 <h3 id="正则定义" class="headerLink">
-    <a href="#%e6%ad%a3%e5%88%99%e5%ae%9a%e4%b9%89" class="header-mark"></a>正则定义</h3><p>如果 \(\Sigma\) 是 <code>基本符号集</code>​，那么一个 <strong>正则定义</strong> (regular definition) 是具有如下形式的定义序列</p>
+    <a href="#%e6%ad%a3%e5%88%99%e5%ae%9a%e4%b9%89" class="header-mark"></a>正则定义</h3><p>如果 \(\Sigma\) 是 <code>基本符号集</code>，那么一个 <strong>正则定义</strong> (regular definition) 是具有如下形式的定义序列</p>
 <p>\[ \begin{aligned} d_1 \rightarrow r_1 \\ d_2 \rightarrow r_2 \\ \dots \\ d_n \rightarrow r_n \end{aligned} \]</p>
 <ul>
 <li>每个 \(d_i\) 都是一个新符号，它们都不在 \(\Sigma\) 中，并且各不相同</li>
@@ -361,12 +361,12 @@ d. \(( r)\) 是一个正则表达式，表示语言 \(L( r)\)</li>
 \[ \begin{aligned}
 \textit{letter}\_ &amp; \rightarrow A | B | \ldots | Z | a | b | \ldots | z | \_ \\ \textit{digit} &amp; \rightarrow 0 | 1 | \ldots | 9 \\ \textit{id} &amp; \rightarrow \textit{letter\_}(\textit{letter\_}|dight)^{*}
 \end{aligned} \]</p>
-<p>在进行词法分析器的规约时，现有的正则定义太过于麻烦，于是对其做了一些扩展，当然除了以下介绍的 <em>GNU_​、​_Perl</em> 等都有互不兼容的正则表达式扩展</p>
+<p>在进行词法分析器的规约时，现有的正则定义太过于麻烦，于是对其做了一些扩展，当然除了以下介绍的 <em>GNU</em>、<em>Perl</em> 等都有互不兼容的正则表达式扩展</p>
 <ul>
-<li>一个或多个实例 (+)，表示一个正则表达式及其语言的正闭包，​_+_ 与 <em>*</em> 具有相同的优先级与结合性</li>
-<li>零个或一个实例 (?)，表示一个正则表达式及其语言出现零或一次，​\(r? = r|\varepsilon\)​，​_?_
+<li>一个或多个实例 (+)，表示一个正则表达式及其语言的正闭包，<em>+</em> 与 <em>*</em> 具有相同的优先级与结合性</li>
+<li>零个或一个实例 (?)，表示一个正则表达式及其语言出现零或一次，\(r? = r|\varepsilon\)，<em>?</em>
 与 <em>*</em> 具有相同的优先级与结合性</li>
-<li>字符类，一个正则表达式 \(a_1 | a_2 | \ldots | a_n\) 可以缩写为 \([a_1a_2\ldots a_n]\)​，如果 \(a_1\) 到 \(a_n\) 是连接的序列时可以缩写为 \([a_1-a_n]\)</li>
+<li>字符类，一个正则表达式 \(a_1 | a_2 | \ldots | a_n\) 可以缩写为 \([a_1a_2\ldots a_n]\)，如果 \(a_1\) 到 \(a_n\) 是连接的序列时可以缩写为 \([a_1-a_n]\)</li>
 </ul>
 <p>C 语言的数字字面量可以分为 <a href="https://zh.cppreference.com/w/cpp/language/integer_literal" target="_blank" rel="noopener noreferrer">整型字面量</a> 与 <a href="https://zh.cppreference.com/w/cpp/language/floating_literal" target="_blank" rel="noopener noreferrer">浮点型字面量</a>，以下给出它们的正则定义
 \[ \begin{aligned}
@@ -376,9 +376,9 @@ d. \(( r)\) 是一个正则表达式，表示语言 \(L( r)\)</li>
     <a href="#%e7%8a%b6%e6%80%81%e8%bd%ac%e6%8d%a2%e5%9b%be" class="header-mark"></a>状态转换图</h2><p>将模式首先需要转换为具有特定风格的流图，我们称为 <strong>状态转化图</strong> (transition
 diagram)，它有一组被称为 <code>状态</code> (state) 的结点，词法分析器扫描输入串的过程中寻找和某个模式匹配的词素，状态图上的每个状态代表一个可能在过程中出现的情况，结点包含了我们在进行词法分析时需要的全部信息。状态图的 <code>边</code> (edge) 从图的一个状态指向另一个状态，每条边的标号包含了一个或多个符号。例如我们现在处于状态 s 下，下一个输入的符号为 a，那么我们就会在状态图中寻找一条从 s 离开且符号为 a 的边，并进入这条边所指向的下一个状态。关于状态转移图的重要约定如下</p>
 <ol>
-<li>某些状态被称为 <strong>接受状态</strong> 或 <strong>最终状态</strong>​，在图中用双层圈表示，如果该状态要执行一个动作，通常是向语法分析器返回一个词法单元和相关属性值</li>
-<li>如果要回退一个位置，我们一般在该状态上加一个 <code>*</code>​，如果要回退多个位置则需要加相应数量的 <code>*</code></li>
-<li>一个状态被称为 <strong>开始状态</strong> 或 <strong>初始状态</strong>​，该状态由一条没有出发结点的、标号为
+<li>某些状态被称为 <strong>接受状态</strong> 或 <strong>最终状态</strong>，在图中用双层圈表示，如果该状态要执行一个动作，通常是向语法分析器返回一个词法单元和相关属性值</li>
+<li>如果要回退一个位置，我们一般在该状态上加一个 <code>*</code>，如果要回退多个位置则需要加相应数量的 <code>*</code></li>
+<li>一个状态被称为 <strong>开始状态</strong> 或 <strong>初始状态</strong>，该状态由一条没有出发结点的、标号为
 <em>start</em> 的边指明，在读入任何符号之前，状态图总是位于它的起始状态</li>
 </ol>
 <p>我们用 SQL 中的关系运算符来举个例子</p>
@@ -528,9 +528,9 @@ diagram)，它有一组被称为 <code>状态</code> (state) 的结点，词法�
 <dt>归纳规则</dt>
 <dd>假设正则表达式 s 和 t 的 NFA 分别为 N(s) 和 N(t)，表达式 r 的 NFA 为 N(r)
 <ol>
-<li>假设 <code>r = s|t</code>​，构造 N(r)，可以得到从 i 到 N(s) 或 N(t) 的开始状态各有一个
+<li>假设 <code>r = s|t</code>，构造 N(r)，可以得到从 i 到 N(s) 或 N(t) 的开始状态各有一个
 \(\varepsilon\) 转换，从 N(s) 和 N(t) 的接受状态到 f 也各有一个 \(\varepsilon\) 转换。因为从 i 到 f
-的任何路径要么只通过 N(s)，要么只通过 N(t)，且离开 i 或进入 f 的 \(\varepsilon\) 转换都不会改变路径上的标号，因此我们可以判定 N(r) 识别 \(L(s) \cup L(t)\)​，即 \(L( r)\)
+的任何路径要么只通过 N(s)，要么只通过 N(t)，且离开 i 或进入 f 的 \(\varepsilon\) 转换都不会改变路径上的标号，因此我们可以判定 N(r) 识别 \(L(s) \cup L(t)\)，即 \(L( r)\)
 <a class="lightgallery" href="/images/reg2NFA-inductiverules-or.svg" title="/images/reg2NFA-inductiverules-or.svg" data-thumbnail="/images/reg2NFA-inductiverules-or.svg">
         <img
             
@@ -550,7 +550,7 @@ diagram)，它有一组被称为 <code>状态</code> (state) 的结点，词法�
             sizes="auto"
             alt="/images/reg2NFA-inductiverules-and.svg">
     </a></li>
-<li>假设 r = \(s^{*}\)​，构造 N(r)，i 和 f 是两个新状态，分别为 N(r) 的开始状态和唯一的接受状态。要从i到达f我们需要沿着新引入的标号为 \(\varepsilon\) 的路径前进，这个路径对应 \(L(s)^{0}\) 中的一个串。我们也可以到达 N(s) 的开始状态，然后经过该
+<li>假设 r = \(s^{*}\)，构造 N(r)，i 和 f 是两个新状态，分别为 N(r) 的开始状态和唯一的接受状态。要从i到达f我们需要沿着新引入的标号为 \(\varepsilon\) 的路径前进，这个路径对应 \(L(s)^{0}\) 中的一个串。我们也可以到达 N(s) 的开始状态，然后经过该
 NFA，在零次或多次从它的接受状态回到它的开始状态并重复上述过程。
 <a class="lightgallery" href="/images/reg2NFA-inductiverules-closure.svg" title="/images/reg2NFA-inductiverules-closure.svg" data-thumbnail="/images/reg2NFA-inductiverules-closure.svg">
         <img
@@ -567,7 +567,7 @@ NFA，在零次或多次从它的接受状态回到它的开始状态并重复�
 </dl>
 <p>N(r) 接受语言 L(r) 之外，构造得到的 NFA 还具有以下性质:</p>
 <ul>
-<li>N(r) 的状态数最多为 r 中出现的 <code>运算符</code> 和 <code>运算分量</code> 的总数的 <strong>2倍</strong>​，因为算法的每一个构造步骤最多只引入两个新状态</li>
+<li>N(r) 的状态数最多为 r 中出现的 <code>运算符</code> 和 <code>运算分量</code> 的总数的 <strong>2倍</strong>，因为算法的每一个构造步骤最多只引入两个新状态</li>
 <li>N(r) 有且只有一个开始状态和一个接受状态</li>
 <li>N(r) 中除接受状态之外的每个状态要么有一条其标号为 \(\Sigma\) 中符号的出边，要么有两条标号为 \(\varepsilon\) 的出边</li>
 </ul>
@@ -581,7 +581,7 @@ NFA 状态数的指数，不过对于真实的语言，NFA 与 DFA 的状态数�
         <div class="details-content">
             <div class="admonition-content"><p>输入：一个 NFA N</p>
 <p>输出：一个接受同样语言的 DFA D</p>
-<p>方法：我们为 D 构造一个转换表 <code>Dtran</code>​。D的每个状态是一个 NFA 的状态集，我们构造 Dtran 使得 D 并行的模拟 N 在遇到一个给定输入串时可能执行的所有动作。在读入第一个输入符号之前，N 位于 \(\varepsilon-closure(s_0)\) 中的任何状态上。假定 N 在读入字符串 x 后位于集合 T 的状态上，那么下一个输入符号 a，N 可以移动到集合 \(move(T，
+<p>方法：我们为 D 构造一个转换表 <code>Dtran</code>。D的每个状态是一个 NFA 的状态集，我们构造 Dtran 使得 D 并行的模拟 N 在遇到一个给定输入串时可能执行的所有动作。在读入第一个输入符号之前，N 位于 \(\varepsilon-closure(s_0)\) 中的任何状态上。假定 N 在读入字符串 x 后位于集合 T 的状态上，那么下一个输入符号 a，N 可以移动到集合 \(move(T，
 a)\) 中的任何状态。</p>
 </div>
         </div>
@@ -600,7 +600,7 @@ a)\) 中的任何状态。</p>
 </figure>
 
 <p>我们继续以上图 \((a|b)^{*}abb\) 为例进行从 NFA 到 DFA 的装换，起始状态 A 为
-\(\varepsilon-closure(0)\)​，即 \(A=\{0，1，2，4，7\}\)​，而输入字母表为 \(\{a，b\}\)​，那么接下来分别计算 \(Dtran[A，a] = \varepsilon-closure(move(A,a))\) 以及 \(Dtran[A，b] =
+\(\varepsilon-closure(0)\)，即 \(A=\{0，1，2，4，7\}\)，而输入字母表为 \(\{a，b\}\)，那么接下来分别计算 \(Dtran[A，a] = \varepsilon-closure(move(A,a))\) 以及 \(Dtran[A，b] =
 \varepsilon-closure(move(A,b))\) 分别得到 DFA 的状态 B 与状态 C，最终依次计算，我们会得到一张 NFA 与 DFA 对应关系表 (下表)，这样就可能很轻松的完成 NFA 向 DFA 的转换</p>
 <table>
 <thead>

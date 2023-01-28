@@ -37,7 +37,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2020\/mail_server\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Server, Mail","wordcount":  3869 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Server, Mail","wordcount":  3863 ,
         "url": "https:\/\/blog.ginshio.org\/2020\/mail_server\/","datePublished": "2020-11-16T22:43:53+08:00","dateModified": "2022-04-08T15:12:02+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -151,7 +151,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="11-16">11-16</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3869 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="11-16">11-16</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3863 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -216,7 +216,7 @@ mailu 的打算</div>
     </div>
 <h2 id="部署" class="headerLink">
     <a href="#%e9%83%a8%e7%bd%b2" class="header-mark"></a>部署</h2><p>开始搭建服务器，以下采用域名 (<code>example.com</code>) 和 IP (<code>1.1.1.1</code>)，安装在
-<code>/mailcow</code>​，使用主机的nginx反向代理，部署之前我们首先定义一些Shell变量，以便之后使用，请根据自己的需求更改</p>
+<code>/mailcow</code>，使用主机的nginx反向代理，部署之前我们首先定义一些Shell变量，以便之后使用，请根据自己的需求更改</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -255,7 +255,7 @@ mailu 的打算</div>
 webmail，使用本地的邮件客户端收发邮件，以便更好的使用加密、签名功能，如有需要请自行开启webmail。</p>
 <h3 id="dns" class="headerLink">
     <a href="#dns" class="header-mark"></a>DNS</h3><p>DNS设置是一个邮件服务器的重中之重，为了让我们可以发出邮件和收到邮件，防止邮件被拒收或者进入垃圾箱被识别成垃圾邮件等，当然不是配置好了就不会进垃圾邮箱，不配置肯定会有问题。</p>
-<p>除了上述DNS解析之外，还需要配置 <strong>DKIM</strong> 和 <strong>PTR</strong>​，DKIM在我们搭建好服务之后配置，
+<p>除了上述DNS解析之外，还需要配置 <strong>DKIM</strong> 和 <strong>PTR</strong>，DKIM在我们搭建好服务之后配置，
 PTR需要向运营商提交工单申请 (阿里云和腾讯云是这样的)，如果你没有配置ptr解析那么你可能会上一些黑名单。</p>
 <p>DKIM 同样的也是 TXT 类型的 DNS 解析，在部署完成后由指定选择器生成 DKIM，之后设置 DNS 解析</p>
 <table>
@@ -282,7 +282,7 @@ PTR需要向运营商提交工单申请 (阿里云和腾讯云是这样的)，�
 </ul>
 <h3 id="mailcow-dockerized" class="headerLink">
     <a href="#mailcow-dockerized" class="header-mark"></a>Mailcow:dockerized</h3><p><a href="https://mailcow.email/" target="_blank" rel="noopener noreferrer">Mailcow:dockerized</a> 是一个使用docker搭建的标准邮件服务器，集成了邮局、webmail、管理以及反垃圾邮件等功能，过程相对全面，不过缺点是比较吃资源，并且不支持
-<strong>Synology/QNAP</strong> 或 <strong>OpenVZ</strong>​、​<strong>LXC</strong> 等虚拟化方式，并且不能使用 <code>CentOS 7/8</code> 源中的 Docker 包，要求真多。。。消耗资源的主要原因是 <code>ClamAV</code> 和 <code>Solr</code>​，即杀毒功能和搜索功能，如果不需要可以关闭。</p>
+<strong>Synology/QNAP</strong> 或 <strong>OpenVZ</strong>、<strong>LXC</strong> 等虚拟化方式，并且不能使用 <code>CentOS 7/8</code> 源中的 Docker 包，要求真多。。。消耗资源的主要原因是 <code>ClamAV</code> 和 <code>Solr</code>，即杀毒功能和搜索功能，如果不需要可以关闭。</p>
 <table>
 <thead>
 <tr>
@@ -495,7 +495,7 @@ PTR需要向运营商提交工单申请 (阿里云和腾讯云是这样的)，�
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="为-mailcow-dockerized-配置-tls" class="headerLink">
-    <a href="#%e4%b8%ba-mailcow-dockerized-%e9%85%8d%e7%bd%ae-tls" class="header-mark"></a>为 Mailcow:dockerized 配置 TLS</h4><p>现在我们可以为SMTP与IMAP服务加入TLS，假设我们已经对域名 <code>mail.example.com</code> 申请了证书，对 postfix 与 dovecot 配置证书前，我们需要根据 postfix 文档先将我们自己的证书与提供商的证书按顺序存放在同一文件下，并且文件后缀为 <strong>.pem</strong>​，并存放在
+    <a href="#%e4%b8%ba-mailcow-dockerized-%e9%85%8d%e7%bd%ae-tls" class="header-mark"></a>为 Mailcow:dockerized 配置 TLS</h4><p>现在我们可以为SMTP与IMAP服务加入TLS，假设我们已经对域名 <code>mail.example.com</code> 申请了证书，对 postfix 与 dovecot 配置证书前，我们需要根据 postfix 文档先将我们自己的证书与提供商的证书按顺序存放在同一文件下，并且文件后缀为 <strong>.pem</strong>，并存放在
 mailcow的ssl文件夹下</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

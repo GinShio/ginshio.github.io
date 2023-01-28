@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/unixnetworkprogramming_002\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Unix, Network, Posix","wordcount":  7544 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Unix, Network, Posix","wordcount":  7539 ,
         "url": "https:\/\/blog.ginshio.org\/2022\/unixnetworkprogramming_002\/","datePublished": "2022-01-18T19:55:40+08:00","dateModified": "2022-04-07T19:44:38+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -160,7 +160,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="01-18">01-18</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7544 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="01-18">01-18</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7539 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 16 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -244,7 +244,7 @@ UDP、SCTP、ICMP 和 IGMP 提供分组传递服务。</p>
 </dd>
 <dt>TCP</dt>
 <dd>Transmission Control Protocol
-<p>TCP 是一种面向连接的协议，提供可靠、全双工的字节流服务，是一种流式 socket，定义在 <strong>RFC 793</strong>, <strong>RFC 1323</strong>, <strong>RFC 2581</strong>, <strong>RFC 2988</strong> 和 <strong>RFC 3390</strong>​。</p>
+<p>TCP 是一种面向连接的协议，提供可靠、全双工的字节流服务，是一种流式 socket，定义在 <strong>RFC 793</strong>, <strong>RFC 1323</strong>, <strong>RFC 2581</strong>, <strong>RFC 2988</strong> 和 <strong>RFC 3390</strong>。</p>
 <p>为对端发送消息时必须收到明确的答复，如果没有收到答复 TCP 将自动重发数据并等待一段时间。在尝试多次重传失败时 (大概会在 4 到 10 分钟)，TCP 会主动放弃。主要注意的是 TCP 并不会保证对端接收数据，如果可以 TCP 会尝试重传并通知用户。然而 TCP 不是 \(100\%\) 可靠的协议，它的可靠只是在传送数据或失败时通知。</p>
 <p>TCP 包含一个在客户端与服务器之间动态评估 RTT (Round-trip time, 往返时间) 的算法，因此知道一个确认等待了多长时间。举个例子，在穿过 LAN 时可能花费几微秒，而穿过 WAN 时则可能话费数秒。此外，TCP 还会持续评估给定连接的 RTT，因为 RTT
 受到网络波动的变化很大。</p>
@@ -302,7 +302,7 @@ IP 地址。这一特性可以增强健壮性来抵抗网络故障。一个端�
 <li>公共端口为 \(0\) 到 \(1023\) ，这些端口由 IANA 分配和控制，可能的话 TCP、UDP 和
 SCTP 将会在同一服务获得相同的端口号，比如无论 TCP 还是 UDP 80 端口都是 Web
 服务器，虽然所有实现都是只使用 TCP。</li>
-<li>注册端口 (registered port) 为 \(1024\) 到 \(49151\)​，这些端口不受 IANA 控制，但 IANA 登记并提供其使用情况清单，方便整个群体。同样地，尽可能将所有协议的同端口号分得同一服务。</li>
+<li>注册端口 (registered port) 为 \(1024\) 到 \(49151\)，这些端口不受 IANA 控制，但 IANA 登记并提供其使用情况清单，方便整个群体。同样地，尽可能将所有协议的同端口号分得同一服务。</li>
 <li>动态端口 (dynamic) 或私有端口 (private) 范围为 \(49152\) 到 \(65535\) (这个数是
 65536 的 \(\frac{3}{4}\))，即临时端口，这部分是 IANA 不管的。</li>
 </ol>
@@ -659,7 +659,7 @@ MSS)，这是本次连接中每个分节所能接受的最大大小，而对端�
 0 到 14 bit)，由此所能提供的最大窗口即 \(65535 \times 2^{14}\) 。只有在两端都支持的系统上该选项才有用。</li>
 <li>时间戳选项。对于高速连接这是必要选项，可以防止由失而复得的分组可能造成的数据损坏。类似窗口扩展，这也需要双端支持。</li>
 </ul>
-<p>大多数实现都支持这些设置，后两项有时称为 <code>RFC 1323 选项</code>​，高宽带或长延迟网络被称为 <strong>长胖管道</strong> (long fat pipe)，因此后两项也称为 <code>长胖管道选项</code>​。</p>
+<p>大多数实现都支持这些设置，后两项有时称为 <code>RFC 1323 选项</code>，高宽带或长延迟网络被称为 <strong>长胖管道</strong> (long fat pipe)，因此后两项也称为 <code>长胖管道选项</code>。</p>
 <h3 id="tcp-连接终止" class="headerLink">
     <a href="#tcp-%e8%bf%9e%e6%8e%a5%e7%bb%88%e6%ad%a2" class="header-mark"></a>TCP 连接终止</h3><p>相比创建连接的三次握手，终止连接往往需要四步：</p>
 <ol>
@@ -680,7 +680,7 @@ MSS)，这是本次连接中每个分节所能接受的最大大小，而对端�
 <figure><img src="/images/unp-tcp-state-transition-diagram.svg" width="75%"/>
 </figure>
 
-<p>上图中标记了两个没有介绍过的转换：​<strong>同时打开</strong> (simultaneous open) 和 <strong>同时关闭</strong>
+<p>上图中标记了两个没有介绍过的转换：<strong>同时打开</strong> (simultaneous open) 和 <strong>同时关闭</strong>
 (simultaneous close)，它们是两端同时发送 SYN / FIN 的情形下产生的，虽然及其罕见但并不是不能发生。</p>
 <h3 id="tcp-的分节" class="headerLink">
     <a href="#tcp-%e7%9a%84%e5%88%86%e8%8a%82" class="header-mark"></a>TCP 的分节</h3><p>在完整的 TCP 连接中，会有建立连接、传输数据、终止连接三个阶段。</p>

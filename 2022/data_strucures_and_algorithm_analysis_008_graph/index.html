@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/data_strucures_and_algorithm_analysis_008_graph\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Graph","wordcount":  3602 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Graph","wordcount":  3593 ,
         "url": "https:\/\/blog.ginshio.org\/2022\/data_strucures_and_algorithm_analysis_008_graph\/","datePublished": "2022-10-07T20:15:29+08:00","dateModified": "2022-10-12T00:31:17+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -137,7 +137,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/algorithmdatastructure/"><i class="far fa-folder fa-fw"></i>Algorithm⁄DataStructure</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/"><i class="far fa-list-alt fa-fw"></i>数据结构与算法分析</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="10-07">10-07</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="10-12">10-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3602 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="10-07">10-07</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="10-12">10-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3593 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -192,7 +192,7 @@
 \(\lvert{V}\rvert\) 表示；\(E \subseteq \{ \{ x, y \}: (x, y) \in V^{2}, x \ne y \}\) 是边集
 (Edge)，边的个数用 \(\lvert{E}\rvert\) 表示。如果点对是有序的，那么这个图称为有向图 (directed graph / digraph)。当然有向图的边，如果去掉方向限制所对应的无向图，称为该有向图的基础图 (underlying graph)。有时边还有一个属性称为权重 (weight)，表示使用这条边的代价 (cost)。如果任意两个顶点之间都有一条边的话，那么这个图被称作完全图 (complete graph)。</p>
 <p>图中的一条路径 (path) 是一个顶点序列 \(v_{1}, v_{2}, \cdots, v_{n}\) (其中 \(v_{i},
-v_{i+1} \in E, i \le i &lt; n\))，一条路径的长 (length) 是这条路径上的边的数量。如果图中含有一个顶点到它自身的路径，则这个路径称为环 (loop)，另外环上所有顶点是互异的。有向图中的环通常被称为回路 (cycle)，没有回路的有向图是无环的 (acyclic)，也被称为​<strong>有向无环图</strong> (DAG, Directed Acyclic Graph)。</p>
+v_{i+1} \in E, i \le i &lt; n\))，一条路径的长 (length) 是这条路径上的边的数量。如果图中含有一个顶点到它自身的路径，则这个路径称为环 (loop)，另外环上所有顶点是互异的。有向图中的环通常被称为回路 (cycle)，没有回路的有向图是无环的 (acyclic)，也被称为<strong>有向无环图</strong> (DAG, Directed Acyclic Graph)。</p>
 <p>如果无向图中从任意顶点到其他顶点都存在一条路径，那么该图是连通的 (connected)；如果是具有这样性质的有向图，则被称为强连通的 (strongly connected)；如果没有这样性质的有向图，但其基础图具有这种性质，那么该图被称为弱连通的 (weakly connected)。</p>
 <p>根据图的邻接表表示，可以轻松的实现出图的结点</p>
 <div class="highlight"><div class="chroma">
@@ -355,9 +355,9 @@ DFS，并按照被访问的顺序对其进行编号，记作 \(Num(v)\)。对每
 </li>
 <li>如果无向图 G 有 2k 个奇顶点，那么可以用 <code>k</code> 笔画成，并且至少要用 k 笔画成</li>
 </ol>
-<p>现在问题是，如何在线性时间复杂度内寻找出这条欧拉回路。​<del>这都在 DFS 下了，还用想，
+<p>现在问题是，如何在线性时间复杂度内寻找出这条欧拉回路。<del>这都在 DFS 下了，还用想，
 DFS 就完了！</del></p>
-<p>选择一个起点出发，可能遍历之后提前回到了起点，此时如果起点的所有边都已访问，那图的其他部分就不会被访问到了。此时可以在已经访问的路径上，查找还有路径没有访问的顶点，从这个新顶点开始重复刚刚的操作。直到新的路径也回到起点并没有可以继续访问的边，就将这个新的路径插入到之前的路径中。直到所有边都被访问，这样得到的路径就是一个欧拉回路。这种算法被称为 <strong>Hierholzer</strong>​。</p>
+<p>选择一个起点出发，可能遍历之后提前回到了起点，此时如果起点的所有边都已访问，那图的其他部分就不会被访问到了。此时可以在已经访问的路径上，查找还有路径没有访问的顶点，从这个新顶点开始重复刚刚的操作。直到新的路径也回到起点并没有可以继续访问的边，就将这个新的路径插入到之前的路径中。直到所有边都被访问，这样得到的路径就是一个欧拉回路。这种算法被称为 <strong>Hierholzer</strong>。</p>
 <figure><img src="/images/algo-example-of-Hierholzer.svg" width="72%"/>
 </figure>
 
@@ -399,8 +399,8 @@ DFS 就完了！</del></p>
 </div><p>与欧拉回路相似的是哈密顿回路，即仅通过图中所有顶点一次的回路。但是这个问题并没有已知的有效算法。</p>
 <h3 id="有向图" class="headerLink">
     <a href="#%e6%9c%89%e5%90%91%e5%9b%be" class="header-mark"></a>有向图</h3><p>深度优先遍历可以与遍历无向图类似的方法遍历有向图。如果图不是强连通的，那么从某个结点开始的 DFS 可能不能访问所有结点。</p>
-<p>给定任意一个有向图，根据深度优先遍历得到一棵生成树，与无向图得到的生成树不同的是，这棵树上有一些后向边 (back edge)，即访问祖先结点，如图中的 <code>(A,B)</code>​；一些前向边
-(forward edge)，这些边从树的一个结点通向其后裔，如图中的 <code>(C,D)</code>​；还可能有一些交叉边 (cross edge)，即将两棵直接不相关的树连接起来的边，如图中的 <code>(F, C)</code>​、​<code>(H, F)</code>​ 等。</p>
+<p>给定任意一个有向图，根据深度优先遍历得到一棵生成树，与无向图得到的生成树不同的是，这棵树上有一些后向边 (back edge)，即访问祖先结点，如图中的 <code>(A,B)</code>；一些前向边
+(forward edge)，这些边从树的一个结点通向其后裔，如图中的 <code>(C,D)</code>；还可能有一些交叉边 (cross edge)，即将两棵直接不相关的树连接起来的边，如图中的 <code>(F, C)</code>、<code>(H, F)</code> 等。</p>
 <figure><img src="/images/algo-dfs-for-digraph.svg" width="80%"/>
 </figure>
 

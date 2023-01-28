@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_003\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, LexicalAnalysis","wordcount":  3607 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, LexicalAnalysis","wordcount":  3576 ,
         "url": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_003\/","datePublished": "2020-10-17T22:33:04+08:00","dateModified": "2022-04-12T21:23:18+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -132,7 +132,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="10-17">10-17</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-12">04-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3607 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="10-17">10-17</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-12">04-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3576 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -175,24 +175,24 @@
 <p>如果 NFA 是使用 <code>McMaughton-Yamada-Thompson</code> 算法根据一个正则表达式生成的，那么我们可以获得更多重要状态的性质</p>
 <ul>
 <li>重要状态只包括在基础规则部分为正则表达式中某个特定符号位置引入的初始状态，即每个重要状态对应于正则表达式中的某个运算分量</li>
-<li>NFA 只有一个接受状态，但该接受状态不是重要状态。我们可以在正则表达式r的右端连接一个独特的结束标记符 <code>#</code>​，使得r的接收状态增加一个在 <code>#</code> 上的转换，使其成为
+<li>NFA 只有一个接受状态，但该接受状态不是重要状态。我们可以在正则表达式r的右端连接一个独特的结束标记符 <code>#</code>，使得r的接收状态增加一个在 <code>#</code> 上的转换，使其成为
 <code>(r)#</code> 的NFA的重要状态</li>
 <li>NFA 的重要状态直接对应于正则表达式中存放了字母表中符号的位置，使用抽象语法树来表示扩展的正则表达式是非常有用的</li>
 </ul>
 <h2 id="抽象语法树" class="headerLink">
     <a href="#%e6%8a%bd%e8%b1%a1%e8%af%ad%e6%b3%95%e6%a0%91" class="header-mark"></a>抽象语法树</h2><p>抽象语法树的叶子结点对应于运算分量，内部结点表示运算符。标号为 <code>连接运算符</code>
-(\(\circ\)) 的内部结点被称为 <strong>cat结点</strong>​，​<code>并运算符</code> (\(|\)) 的内部结点被称为 <strong>or结点</strong>​，​=
-星号运算符= (\(*\)) 的内部结点被称为 <strong>star结点</strong>​，我们构建正则表达式
+(\(\circ\)) 的内部结点被称为 <strong>cat结点</strong>，<code>并运算符</code> (\(|\)) 的内部结点被称为 <strong>or结点</strong>，=
+星号运算符= (\(*\)) 的内部结点被称为 <strong>star结点</strong>，我们构建正则表达式
 \((a|b)^{*}abb\#\) 的抽象语法树。</p>
 <figure><img src="/images/ast-example.svg"/>
 </figure>
 
-<p>抽象语法树的叶子结点可以标号为 \(\varepsilon\)​，也可以用字母表中的符号作为标号，对于每个标号不为 \(\varepsilon\) 的叶子结点，我们赋予一个独立的整数，我们将这个整数称作叶子结点的 <strong>位置</strong>​，同时也表示和它对应的符号的位置，当然一个符号可以有多个位置。抽象语法树中的这些位置对应构造出的 NFA 中的重要状态。</p>
+<p>抽象语法树的叶子结点可以标号为 \(\varepsilon\)，也可以用字母表中的符号作为标号，对于每个标号不为 \(\varepsilon\) 的叶子结点，我们赋予一个独立的整数，我们将这个整数称作叶子结点的 <strong>位置</strong>，同时也表示和它对应的符号的位置，当然一个符号可以有多个位置。抽象语法树中的这些位置对应构造出的 NFA 中的重要状态。</p>
 <figure><img src="/images/NFA-with-ast-example.svg"/>
 </figure>
 
 <h2 id="计算函数" class="headerLink">
-    <a href="#%e8%ae%a1%e7%ae%97%e5%87%bd%e6%95%b0" class="header-mark"></a>计算函数</h2><p>要从一个正则表达式直接构造出 DFA，我们要先构造出它的抽象语法树，然后计算如下四个函数：​<code>nullable</code>​、​<code>firstpos</code>​、​<code>lastpos</code> 和 <code>followpos</code>​，且这四个函数都用到了扩展正则表达式 <code>(r)#</code> 的抽象语法树。</p>
+    <a href="#%e8%ae%a1%e7%ae%97%e5%87%bd%e6%95%b0" class="header-mark"></a>计算函数</h2><p>要从一个正则表达式直接构造出 DFA，我们要先构造出它的抽象语法树，然后计算如下四个函数：<code>nullable</code>、<code>firstpos</code>、<code>lastpos</code> 和 <code>followpos</code>，且这四个函数都用到了扩展正则表达式 <code>(r)#</code> 的抽象语法树。</p>
 <dl>
 <dt>nullable(n)</dt>
 <dd>当且仅当此结点代表的子表达式的语言中包含空串 \(\varepsilon\) 时抽象语法树结点n为真，即：这个子表达式可以生成空串或本身就是空串，即使它也可能表示其他串</dd>
@@ -202,7 +202,7 @@
 <dd>定义了以结点n为根的子树中的位置集合，这些位置对应于以n为根的子表达式的语言中某个串的 <strong>最后一个符号</strong></dd>
 <dt>followpos(p)</dt>
 <dd>定义了一个和位置p相关的、抽象语法树中的某些位置的集合。当且仅当存在 L((r)#)
-中的某个串 \(x=a_{1}a_{2}\cdots a_{n}\)​，使得我们在解释为什么x属于 L((r)#) 时，可以将x中的某个 \(a_{i}\) 和抽象语法树中的位置p匹配，且将位置 \(a_{i+1}\) 和位置q
+中的某个串 \(x=a_{1}a_{2}\cdots a_{n}\)，使得我们在解释为什么x属于 L((r)#) 时，可以将x中的某个 \(a_{i}\) 和抽象语法树中的位置p匹配，且将位置 \(a_{i+1}\) 和位置q
 匹配，那么位置q在 \(followpos(p)\) 中。简单地说，该函数计算出位置n之后可以跟随的其他位置</dd>
 </dl>
 <p>在计算函数时，我们先给出较为简单的 nullable 、 firstpos 和 lastpos 的计算方式，可以使用一个对树的高度直接进行递归的过程来计算它们，计算方式如下。</p>
@@ -245,13 +245,13 @@
 </ul>
 <p>followpos 的概念有些复杂，我们先来了解如何计算 followpos，只有两种情况会使得正则表达式的某个位置跟在另一个位置之后</p>
 <ol>
-<li>如果 n 是 cat 结点，且其左右子结点分别是 \(c_{1}\) 和 \(c_{2}\)​，那么对于
+<li>如果 n 是 cat 结点，且其左右子结点分别是 \(c_{1}\) 和 \(c_{2}\)，那么对于
 \(lastpos(c_{1})\) 中的每个位置 i， \(firstpos(c_{2})\) 中的所有位置都在
 \(followpos(i)\) 中</li>
 <li>如果 n 是 star 结点，且 i 是 \(lastpos(n)\) 中的一个位置，那么 \(firstpos(n)\)
 中的所有位置都在 \(followpos(i)\) 中</li>
 </ol>
-<p>四个函数如何计算都已经给出，现在我们用正则表达式 \((a|b)^{*}abb\#\) 练练手，下图给出构建出的语法分析树，结点左边给出其 <strong>firstpos</strong>​，结点右边给出其 <strong>lastpos</strong></p>
+<p>四个函数如何计算都已经给出，现在我们用正则表达式 \((a|b)^{*}abb\#\) 练练手，下图给出构建出的语法分析树，结点左边给出其 <strong>firstpos</strong>，结点右边给出其 <strong>lastpos</strong></p>
 <figure><img src="/images/ast-with-firstpos-and-lastpos.svg"/>
 </figure>
 
@@ -318,7 +318,7 @@ star 结点，并将它的firstpos中的所有位置放到它的lastpos中各个
 <ol>
 <li>根据扩展的正则表达式 <code>(r)#</code> 构造出一颗抽象语法树 T</li>
 <li>计算T的函数 nullable，firstpos，lastpos 和 followpos</li>
-<li>构造出 D 的 <strong>状态集</strong> \(D_{states}\) 和 D 的 <strong>转换函数</strong> \(D_{tran}\)​，D的状态就是T中的位置集合，开始状态是 \(firstpos(n_{0})\) (\(n_{0}\) 是T的根节点)，接受状态集合是那些包含了和结束标记#对应的位置的状态。每个状态最初都是 <code>未标记的</code>​，当我们开始考虑某个状态的离开转换时，该状态就变为 <strong>已标记的</strong></li>
+<li>构造出 D 的 <strong>状态集</strong> \(D_{states}\) 和 D 的 <strong>转换函数</strong> \(D_{tran}\)，D的状态就是T中的位置集合，开始状态是 \(firstpos(n_{0})\) (\(n_{0}\) 是T的根节点)，接受状态集合是那些包含了和结束标记#对应的位置的状态。每个状态最初都是 <code>未标记的</code>，当我们开始考虑某个状态的离开转换时，该状态就变为 <strong>已标记的</strong></li>
 </ol>
 <p>构造的伪代码如下:</p>
 <div class="highlight"><div class="chroma">
@@ -343,8 +343,8 @@ star 结点，并将它的firstpos中的所有位置放到它的lastpos中各个
 </div>
 </div><p>依然以 \((a|b)^{*}abb\) 为例构造 DFA，正则表达式所构造出的语法分析树上面已有，分析语法分析树可知只有 star 结点的 nullable 为真。</p>
 <p>这颗树的根结点的 firstpos 集为 <code>{1,2,3}</code> ，即 DFA 的开始状态集合，我们称这个集合为 A。计算 \(D_{tran}[A，a]\) 和 \(D_{tran}[A，b]\) ，A中1和3对应于a，2对应于b，所有
-\(D_{tran}[A，a] = followpos(1) \cup followpos(3) = {1，2，3，4}\)​，​\(D_{tran}[A，b]
-= followpos(2) = {1,2,3}\) ​以此类推，构造出该正则表达式的 DFA。</p>
+\(D_{tran}[A，a] = followpos(1) \cup followpos(3) = {1，2，3，4}\)，\(D_{tran}[A，b]
+= followpos(2) = {1,2,3}\) 以此类推，构造出该正则表达式的 DFA。</p>
 <table>
 <thead>
 <tr>
@@ -386,7 +386,7 @@ star 结点，并将它的firstpos中的所有位置放到它的lastpos中各个
 
 <h2 id="最小化dfa" class="headerLink">
     <a href="#%e6%9c%80%e5%b0%8f%e5%8c%96dfa" class="header-mark"></a>最小化DFA</h2><p>对于同一个语言，可以存在多个识别此语言的DFA。对于不同的DFA，各个状态的的名字可能不同，状态的个数也可能不一样，如果我们使用DFA实现词法分析器，则希望DFA的状态数尽可能的少，因为词法分析器的转换表需要为每个状态分配条目。</p>
-<p>状态名如果不同，但只改变状态名就可以将一个自动机转换为另一个自动机，那么这两个自动机是​<strong>同构的</strong>​，反之则不是。有一个重要结论：任何正则语言都有一个​<strong>唯一的</strong>​且​<strong>状态数目最少</strong>​的DFA，而且从任意接受相同正则语言的DFA出发，通过分组合并等价状态，我们总可以构造出状态数最少的 DFA。</p>
+<p>状态名如果不同，但只改变状态名就可以将一个自动机转换为另一个自动机，那么这两个自动机是<strong>同构的</strong>，反之则不是。有一个重要结论：任何正则语言都有一个<strong>唯一的</strong>且<strong>状态数目最少</strong>的DFA，而且从任意接受相同正则语言的DFA出发，通过分组合并等价状态，我们总可以构造出状态数最少的 DFA。</p>
 <p>我们以正则表达式 \((a|b)^{*}abb\) 的两个已经构造出的DFA来讲解最小化，其中最小化的
 DFA是本篇中由正则表达式直接构造出的DFA，另一个非同构DFA是上一篇中由NFA转换来的
 DFA。</p>
@@ -394,10 +394,10 @@ DFA。</p>
 </figure>
 
 <p>在最小化DFA之前，先说明输入串是如何区分各个状态的，如果分别从状态s和t出发，沿着标号为x的路径到达的两个状态只有一个是接受状态，则串x <code>区分状态</code> s 和 t；如果状态
-s 和 t 存在能够区分它们的串，那么它们就是 <strong>可区分的</strong>​。空串 \(\varepsilon\) 可以区分如何一个接受状态和非接受状态。串 <code>bb</code> 区分状态 A 和 B，因为从 A 出发经过标号 bb 的路径会到达非接受状态 C，而从B出发可以到达接受状态。</p>
+s 和 t 存在能够区分它们的串，那么它们就是 <strong>可区分的</strong>。空串 \(\varepsilon\) 可以区分如何一个接受状态和非接受状态。串 <code>bb</code> 区分状态 A 和 B，因为从 A 出发经过标号 bb 的路径会到达非接受状态 C，而从B出发可以到达接受状态。</p>
 <p>DFA状态最小化的工作原理是将一个DFA的状态集合划分为多个组，每个组中的各个状态相互不可区分，但不同组的状态是可区分的，每个组中的状态合并为最小DFA的一个状态，当任意一个组都不能再被分解为更小的组时这个划分结束，此时我们就得到了状态最少的DFA。具体方法如下</p>
 <ol>
-<li>首先构造包含两个组 <code>F</code> 和 <code>S-F</code> 的初始划分 \(\Pi\)​，这两个组分别是D的接受状态组和非接受状态组</li>
+<li>首先构造包含两个组 <code>F</code> 和 <code>S-F</code> 的初始划分 \(\Pi\)，这两个组分别是D的接受状态组和非接受状态组</li>
 <li>应用以下方法构造新的分划 \(\Pi_{new}\)
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -414,7 +414,7 @@ s 和 t 存在能够区分它们的串，那么它们就是 <strong>可区分的
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
-<li>如果 \(\Pi_{new} = \Pi\)​，令 \(\Pi_{final} = \Pi\) 并执行步骤4，否则用 \(\Pi_{new}\) 替换
+<li>如果 \(\Pi_{new} = \Pi\)，令 \(\Pi_{final} = \Pi\) 并执行步骤4，否则用 \(\Pi_{new}\) 替换
 \(\Pi\) 并重复步骤2</li>
 <li>在划分 \(\Pi_{final}\) 的每个组中选取一个状态作为该组的代表，这些代表构成了状态最少 DFA 的状态。最小状态DFA \(D&rsquo;\) 的其他部分按如下步骤构造
 a. \(D&rsquo;\) 的开始状态是包含了 D 的开始状态的组的代表

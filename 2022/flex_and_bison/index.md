@@ -37,7 +37,7 @@ int yylex(void);
 
 Flex 默认会生成标准的 C99 代码，而非 `K&R` 风格代码。在调用 yylex 时，它会持续从全局输入文件 yyin 中扫描 token，直到遇到 EOF 或 action 执行返回语句。如果 yylex
 因 return 停止扫描，可以再次调用扫描器，从中断处继续扫描。当扫描到 EOF 时，只有
-`yywrap()` 返回 0 才继续读取其他文件，返回非零时扫描器会终止并返回 0。如果你不实现 `yywrap()`​,需要使用 `%option noyywrap` 或链接 `-lfl` 使用总返回 1 的默认版本。
+`yywrap()` 返回 0 才继续读取其他文件，返回非零时扫描器会终止并返回 0。如果你不实现 `yywrap()`,需要使用 `%option noyywrap` 或链接 `-lfl` 使用总返回 1 的默认版本。
 
 话说回来，学习词法分析最大的收获应该是知道了正则是怎么运作的，自己哪天心血来潮了说不定就手撕一个。
 
@@ -204,10 +204,10 @@ r$
 &lt;\*&gt;r
 : 以任意条件开始的 r
 
-&lt;​&lt;EOF&gt;​&gt;
+&lt;&lt;EOF&gt;&gt;
 : 文件末尾
 
-&lt;s1,s2&gt;&lt;​&lt;EOF&gt;​&gt;
+&lt;s1,s2&gt;&lt;&lt;EOF&gt;&gt;
 : 以条件 s1 或 s2 开始的文件末尾
 
 在字符串中，除了转义符 (`\`)、字符集运算符 (`-` 和 `]]`) 以及行首标记 (`^`)，其他特殊字符均失去了其特殊意义。
@@ -254,13 +254,13 @@ info 上看，支持了，但没全支持。
 
 <!--listend-->
 
--   Flex 允许否定 POSIX 字符集，只需要在字符类名称前加上 `^`​，但是大小写不敏感的扫描器上 `[:^upper:]` 和 `[:^lower:]` 会被跳过，它们的含义不清。
+-   Flex 允许否定 POSIX 字符集，只需要在字符类名称前加上 `^`，但是大小写不敏感的扫描器上 `[:^upper:]` 和 `[:^lower:]` 会被跳过，它们的含义不清。
 
--   操作符 `{-}` 可以为两个字符集做差，但小心生成一个永远不会被匹配的空集。不过做差的两个集合不必是包含关系，比如 `[a-c]{-}[b-z]` 的结果为 `[a]`​。
+-   操作符 `{-}` 可以为两个字符集做差，但小心生成一个永远不会被匹配的空集。不过做差的两个集合不必是包含关系，比如 `[a-c]{-}[b-z]` 的结果为 `[a]`。
 
--   操作符 `{+}` 求两个字符集的并集。比如 `[[:alpha:]]{-}[[:lower:]]{+}[q]` 的结果为 `[A-Zq]`​。
+-   操作符 `{+}` 求两个字符集的并集。比如 `[[:alpha:]]{-}[[:lower:]]{+}[q]` 的结果为 `[A-Zq]`。
 
--   一个 pattern 最多有一个尾随上下文 (`/` 或 `$`)，开始条件、​`^` 和 `<​<EOF>​>` 只能出现在 pattern 的开头。这些内容均不能出现在 `()` 的优先级分组中。另外 `^` 与
+-   一个 pattern 最多有一个尾随上下文 (`/` 或 `$`)，开始条件、`^` 和 `<<EOF>>` 只能出现在 pattern 的开头。这些内容均不能出现在 `()` 的优先级分组中。另外 `^` 与
     `$` 没有出现在相应位置的情况下，将被视为普通字符。
 
 
@@ -279,7 +279,7 @@ Flex 的匹配原则是最长匹配，且按优先级匹配。即多个同时匹
 当匹配成功时，匹配的文本将可以使用全局指针 **yytext** 获取，长度可以通过全局整型
 **yyleng** 获取。之后开始执行匹配模式相应的 action，然后再扫描剩余的输入。但是没有匹配时，将执行默认规则：输入的下一个字符将被当作匹配并复制到标准输出。
 
-需要注意，​**yytext** 可以用两种不同的方式定义：字符指针或字符数组。在定义部分，你可以用 `%pointer` 或 `%array` 来指定用何种方式，当然默认使用指针的方式，如果有
+需要注意，**yytext** 可以用两种不同的方式定义：字符指针或字符数组。在定义部分，你可以用 `%pointer` 或 `%array` 来指定用何种方式，当然默认使用指针的方式，如果有
 lex 兼容选项默认使用数组。使用指针带来的劣势是：修改 yytext 将会受限，且调用
 `unput()` 会破坏其中的内容，也可能出现 lex 的移植性问题。
 
@@ -305,7 +305,7 @@ action 可以用 `{` 和 `}` 包括起来，在里面写多行 C 语言代码，
 
 action 可以自由修改 yytext，除了延长它 (末尾添加字符将覆盖之后的字符，在使用
 array 方式时不能修改)。action 还可以自由修改 yyleng，除非 action 还包括使用
-`yymore()`​。
+`yymore()`。
 
 还为 action 定义了一些预设指令
 
@@ -396,7 +396,7 @@ YY_FLUSH_BUFFER
 
 
 yyterminate()
-: 替代 action 中的返回语句并返回 0 表示​**全部完成**​。通常在遇到
+: 替代 action 中的返回语句并返回 0 表示**全部完成**。通常在遇到
     EOF 时使用该函数。
 
 
@@ -434,7 +434,7 @@ EOF 只能与开始条件一起使用，不合格的 EOF 将适用于所有没�
 开始条件 (sc) 相当于一种激活机制，用 `BEGIN` 触发 sc，在下次 BEGIN 前，给定 sc
 都是激活状态，而其他 sc 都是屏蔽状态。
 
-在​`定义`​部分声明，有 `%s` (兼容性) 或 `%x` (排他性) 两种 sc，后跟随名称列表。兼容性 sc 激活时不会屏蔽非 sc 规则，但排他性 sc 激活时不但屏蔽其他 sc 规则，还屏蔽非 sc 规则。
+在`定义`部分声明，有 `%s` (兼容性) 或 `%x` (排他性) 两种 sc，后跟随名称列表。兼容性 sc 激活时不会屏蔽非 sc 规则，但排他性 sc 激活时不但屏蔽其他 sc 规则，还屏蔽非 sc 规则。
 
 ```text
 %s example
@@ -540,8 +540,8 @@ expect-floats        BEGIN(expect);
 <comment>"*"+"/"        BEGIN(comment_caller);
 ```
 
-一个更好的方式是，​`YY_START` 可以记录当前的 sc 状态，因此写成 `comment_caller =
-YY_START;` 是更好的方式。如果你想兼容 lex 则可以用它的别名 `YYSTATE`​。
+一个更好的方式是，`YY_START` 可以记录当前的 sc 状态，因此写成 `comment_caller =
+YY_START;` 是更好的方式。如果你想兼容 lex 则可以用它的别名 `YYSTATE`。
 
 最后，看一份 C 风格的字符串示例
 
@@ -668,7 +668,7 @@ sc 栈是动态增长的，也没有内建大小限制，但是内存用尽时�
 
 最后还有一些宏，比如 `YY_CURRENT_BUFFER` 将返回当前缓冲区的 `YY_BUFFER_STATE` 句柄，但是请不要将它作为左值。
 
-看下示例吧！​**Talk is cheap. Show me the code.**
+看下示例吧！**Talk is cheap. Show me the code.**
 
 首先示例是一个关于 `include` 功能的实现，使用 `yypush_buffer_state` 和
 `yypop_buffer_state` 实现 (利用 Flex 自身维护堆栈)
@@ -750,7 +750,7 @@ YY_BUFFER_STATE yy_scan_buffer(char *base, yy_size_t size);  // no copy buffer
 ```
 
 前两者会复制一份数据，这在希望修改缓冲区内容时是安全的，但你想避免复制时需要使用第三个函数。需要注意，它并不是末尾 non-NULL 字符串，它的最后两个字节必须是
-`YY_END_OF_BUFFER_CHAR`​。因此真正扫描的数据在 0 到 size-2。
+`YY_END_OF_BUFFER_CHAR`。因此真正扫描的数据在 0 到 size-2。
 
 
 ### Flex 的各种奇奇怪怪的定义 {#flex-的各种奇奇怪怪的定义}
@@ -771,7 +771,7 @@ YY_USER_INIT
 
 
 yy_set_interactive(is_interactive)
-: 控制当前缓冲区是否是​**交互的**​。交互式的缓冲区性能差，但输入源是交互式的可以避免由于等待填充缓冲区导致的问题。也可以使用操作 `%option always-interactive` 或 `%option never-interactive` 指定是否为交互式缓冲区，但该宏会覆盖这两个操作。其值零表示为非交互的。
+: 控制当前缓冲区是否是**交互的**。交互式的缓冲区性能差，但输入源是交互式的可以避免由于等待填充缓冲区导致的问题。也可以使用操作 `%option always-interactive` 或 `%option never-interactive` 指定是否为交互式缓冲区，但该宏会覆盖这两个操作。其值零表示为非交互的。
 
 
 yy_set_bol(at_bol)
@@ -789,7 +789,7 @@ int yyleng
 
 
 FILE \*yyin
-: 当前读取文件的指针。如果想修改需要在扫描开始之前或遇到 EOF 之后，否则 UB，这种情况请使用 `yyrestart()`​。
+: 当前读取文件的指针。如果想修改需要在扫描开始之前或遇到 EOF 之后，否则 UB，这种情况请使用 `yyrestart()`。
 
 
 void yyrestart(FILE \*new_file);
@@ -819,7 +819,7 @@ YY_START
 %option   outfile="scanner.c" header-file="scanner.h"
 ```
 
-flex 你可以在第一部分中写入 `%option`​，大部分选项都以名称的形式给出，你可以在前面加上 no 来表示否形式。这些名称与相应的命令行选项相同。
+flex 你可以在第一部分中写入 `%option`，大部分选项都以名称的形式给出，你可以在前面加上 no 来表示否形式。这些名称与相应的命令行选项相同。
 
 如果你有些强迫症，需要将没用的过程全部关闭，不让 flex 生成相关过程。下列函数是默认生成的：
 
@@ -878,7 +878,7 @@ yyget_lloc, yyset_lloc, yyget_debug, yyset_debug<br />
     -   short name: l
     -   long name: lex-compat
     -   option name: lex-compat
-    -   comment: **最大成度**​兼容 AT&amp;T lex，但不保证完全兼容。会拖慢扫描器性能，还会导致大量选项不可用。
+    -   comment: **最大成度**兼容 AT&amp;T lex，但不保证完全兼容。会拖慢扫描器性能，还会导致大量选项不可用。
 -   交互式扫描器
     -   short name: I
     -   long name: interactive
@@ -909,7 +909,7 @@ yyget_lloc, yyset_lloc, yyget_debug, yyset_debug<br />
     -   short name: x
     -   long name: posix
     -   option name: posix
-    -   comment: **最大成度**​兼容 POSIX 1003.2-1992 定义的 lex，由于最初实现是为 POSIX
+    -   comment: **最大成度**兼容 POSIX 1003.2-1992 定义的 lex，由于最初实现是为 POSIX
         定义所设计的，因此只有很少的行为不一致。已知的是 cat 与重复 `{}` 之间的优先级问题，大多数 POSIX 程序使用的扩展正则表达式 (ERE) 优先级与 flex 默认优先级一致，都是 cat 低于重复 (即 `ab{3}` 将产生 `abbb`)，而 POSIX 定义下是高于的
         (即 `ab{3}` 将产生 `ababab`)。
 -   启用 sc 栈
@@ -936,7 +936,7 @@ yyget_lloc, yyset_lloc, yyget_debug, yyset_debug<br />
 -   GNU Bison locations 支持
     -   long name: bison-locations
     -   option name: bison-locations
-    -   comment: 指示扫描器正在使用 GNU Bison `%locations`​，yylex 将而额外增加一个
+    -   comment: 指示扫描器正在使用 GNU Bison `%locations`，yylex 将而额外增加一个
         yylloc 参数。这个选项意味着启用了上一个选项。
 -   不生成 `#line` 指令
     -   short name: L
@@ -986,7 +986,7 @@ yyget_lloc, yyset_lloc, yyget_debug, yyset_debug<br />
         -   yyrealloc
         -   yyfree
 
-        但是，如果是 C++ 扫描器只会影响到 `yywrap` 和 `yyFlexLexer`​。另外你需要自己实现对应名称的 yywrap。
+        但是，如果是 C++ 扫描器只会影响到 `yywrap` 和 `yyFlexLexer`。另外你需要自己实现对应名称的 yywrap。
 -   生成一个默认的 main
     -   long name: main
     -   optino name: main
@@ -995,7 +995,7 @@ yyget_lloc, yyset_lloc, yyget_debug, yyset_debug<br />
 -   禁止使用 unistd.h
     -   long name: nounistd
     -   optino name: nounistd
-    -   comment: 针对不存在 POSIX 的环境，flex 将不包含头文件 `unistd.h`​。但某些选项可能依赖于该头文件。
+    -   comment: 针对不存在 POSIX 的环境，flex 将不包含头文件 `unistd.h`。但某些选项可能依赖于该头文件。
 -   C++ 类名称
     -   long name: nounistd
     -   optino name: nounistd
@@ -1036,9 +1036,9 @@ yyget_lloc, yyset_lloc, yyget_debug, yyset_debug<br />
     -   long name: read
     -   option name: read
     -   comment: Flex 直接使用 syscall `read()` 进行输入，而非标准 IO 库的 `fread()`
-        或 `getc()`​。除非你还使用 `-Cf` 或 `-CF`​，否则其性能提升可以忽略不计。
+        或 `getc()`。除非你还使用 `-Cf` 或 `-CF`，否则其性能提升可以忽略不计。
 
-表格的压缩选项可以组合起来，比如默认的表格选项是 `-Cem`​，Flex 默认开启了等价类和元等价类选项，这是最慢的一种情况，但是表格最小的情况。可以理解的是，Flex 支持以生成表格的大小来换取扫描器的性能，从表格最小到扫描器性能最高的选项依次是 `-Cem`​、​`-Cm`​、​`-Ce`​、​`-C`​、​`-C{f,F}e`​、​`-C{f,F}e`​、​`-C{f,F}a`​。往往越小的表格生成和编译也就越快，而 `-Cfe` 选项通常是在压缩大小与性能之间比较好的权衡。
+表格的压缩选项可以组合起来，比如默认的表格选项是 `-Cem`，Flex 默认开启了等价类和元等价类选项，这是最慢的一种情况，但是表格最小的情况。可以理解的是，Flex 支持以生成表格的大小来换取扫描器的性能，从表格最小到扫描器性能最高的选项依次是 `-Cem`、`-Cm`、`-Ce`、`-C`、`-C{f,F}e`、`-C{f,F}e`、`-C{f,F}a`。往往越小的表格生成和编译也就越快，而 `-Cfe` 选项通常是在压缩大小与性能之间比较好的权衡。
 
 -   构造完整扫描表
     -   short name: f
@@ -1058,7 +1058,7 @@ yyget_lloc, yyset_lloc, yyget_debug, yyset_debug<br />
     -   short name: b
     -   long name: backup
     -   option name: backup
-    -   comment: 备份扫描器的状态列表和需要备份输入字符。如果消除所有的备份状态并使用 `-Cf` 或 `-CF`​，生成的扫描器将运行得更快。
+    -   comment: 备份扫描器的状态列表和需要备份输入字符。如果消除所有的备份状态并使用 `-Cf` 或 `-CF`，生成的扫描器将运行得更快。
 -   debug 模式
     -   short name: d
     -   long name: debug
@@ -1071,8 +1071,8 @@ yyget_lloc, yyset_lloc, yyget_debug, yyset_debug<br />
     -   short name: p
     -   long name: perf-report
     -   option name: perf-report
-    -   comment: 获得导致扫描器性能严重下降的功能注释，如果包含两次该选项，还会报告轻微性能损失。使用 `REJECT`​、可变尾随上下文会导致严重的性能损失，而
-        `yymore()`​、​`^` 运算符和 `--interactive` 会导致轻微性能下降。
+    -   comment: 获得导致扫描器性能严重下降的功能注释，如果包含两次该选项，还会报告轻微性能损失。使用 `REJECT`、可变尾随上下文会导致严重的性能损失，而
+        `yymore()`、`^` 运算符和 `--interactive` 会导致轻微性能下降。
 -   抑制默认规则
     -   short name: s
     -   long name: nodefault
@@ -1173,7 +1173,7 @@ do {
     int yylex_destroy(yyscan_t yyscanner);
     ```
 -   使用访问器方法 (get/set) 对常见的 flex 变量进行访问，格式为 `yyget_NAME` 或
-    `yyset_NAME`​，另外还有额外的参数 yyscanner
+    `yyset_NAME`，另外还有额外的参数 yyscanner
     ```c
     /* Set the last character of yytext to NULL. */
     void chop(yyscan_t scanner) {
@@ -1243,7 +1243,7 @@ stmt: RETURN expr ';' ;
 
 #### 语义值 {#语义值}
 
-如果一条规则表示的终结符是整数常量，那么​`任意`​整数常量都是有效的。也就是说，解析输入与具体的值是无关的：可以解析 `x+4` 的语法，也可以解析 `x+1` 或 `x+5452`​。
+如果一条规则表示的终结符是整数常量，那么`任意`整数常量都是有效的。也就是说，解析输入与具体的值是无关的：可以解析 `x+4` 的语法，也可以解析 `x+1` 或 `x+5452`。
 
 但是对于被解析之后，精确值是十分重要的。无法区分精确值的编译器不是好的编译器！因此对每个 token，Bison 都会有一个 token 类型和一个语义值。
 
@@ -1371,7 +1371,7 @@ Parsers](https://www.cs.rhul.ac.uk/research/languages/publications/tomita_style_
     ```
 
     这个语法将在 x 被解释为 ID 后 (假设 T 被解释成 TYPENAME) 分叉，因为规则 `expr:
-    ID` 和 `declarator: ID` 都可以归约，这里产生归约/归约冲突。之后随着进行 expr 分支被归约为 `stmt: expr ';'` 而 decl 分支被归约为 `stmt: decl`​，之后两个解析器都看到了 `prog stmt` 以及剩余相同的未处理输入，这里需要进行合并。但 bison 语法定义的 `%dprec` 声明将优先将示例解析为 decl。
+    ID` 和 `declarator: ID` 都可以归约，这里产生归约/归约冲突。之后随着进行 expr 分支被归约为 `stmt: expr ';'` 而 decl 分支被归约为 `stmt: decl`，之后两个解析器都看到了 `prog stmt` 以及剩余相同的未处理输入，这里需要进行合并。但 bison 语法定义的 `%dprec` 声明将优先将示例解析为 decl。
 
     当然 `%dprec` 仅在多个解析器存在的时候有效，比如以下这个例子，这里没有歧义，在看到 `+` 时 decl 分支将消亡，因此 bison 不会看 %dprec 定义
 
@@ -1450,7 +1450,7 @@ Parsers](https://www.cs.rhul.ac.uk/research/languages/publications/tomita_style_
     expr: expr '+' expr   { $$ = $1 + $3; } ;
     ```
 
-    当前分组的位置为 `$$`​，而子表达式的位置为 `$1` 和 `$3`​。通常不用为每个规则描述其
+    当前分组的位置为 `$$`，而子表达式的位置为 `$1` 和 `$3`。通常不用为每个规则描述其
     `$$` 如何形成的，默认行为是采用第一个符号的开头和最后一个符号的结尾。
 
 
@@ -1511,7 +1511,7 @@ EPILOGUE
     ;
     ```
 
-    如果一个规则的 COMPONENTS 为空，则称为 `empty`​。那么 RESULT 可以匹配空字符串。
+    如果一个规则的 COMPONENTS 为空，则称为 `empty`。那么 RESULT 可以匹配空字符串。
 
     ```text
     RUSULT: | ";" ;
@@ -1527,7 +1527,7 @@ EPILOGUE
     ```
 
     如果添加 `-Wempty-rule` 将警告没有 `%empty` 的空规则，如果想关掉则使用
-    `-Wno-empty-rule`​。另外这是 Bison 的扩展，如果想兼容 POSIX Yacc，则写法是
+    `-Wno-empty-rule`。另外这是 Bison 的扩展，如果想兼容 POSIX Yacc，则写法是
 
     ```text
     RUSULT:
@@ -1557,7 +1557,7 @@ EPILOGUE
 
     但是在编写时，应该更多地使用左递归，即迭代，它可以在有限堆栈空间上解析任意数量的元素，但右递归 (递归) 所用堆栈空间与元素数量成正比。
 
-    另外还有​`间接`​或​`相互`​执行的递归。
+    另外还有`间接`或`相互`执行的递归。
 
     ```text
     expr:
@@ -1581,7 +1581,7 @@ EPILOGUE
 -  语义值的数据类型
 
     一个简单的程序中，语义值采用相同的类型就够了，比如计算器。Bison 通常将其设置为
-    `int`​，如果要指定其他类型，则需要
+    `int`，如果要指定其他类型，则需要
 
     ```text
     %define api.value.type {double}
@@ -1608,7 +1608,7 @@ EPILOGUE
 
 -  生成语义值类型
 
-    用 `%define` 定义变量 `api.value.type` 为 `union`​，用 Bison 提供的 `%type` 与
+    用 `%define` 定义变量 `api.value.type` 为 `union`，用 Bison 提供的 `%type` 与
     `%token` 定义真正的类型。如下
 
     ```text
@@ -1698,9 +1698,9 @@ EPILOGUE
     expr[result]: | expr[left] '+' expr[right] { $result = $left + $right; }
     ```
 
-    如果没为规则指定操作，Bison 会使用默认的 `$$ = $1`​，空规则应该具有显式的行为，除非规则的值无关紧要。
+    如果没为规则指定操作，Bison 会使用默认的 `$$ = $1`，空规则应该具有显式的行为，除非规则的值无关紧要。
 
-    另外指定位置为 0 或负数是十分危险的行为，除非你确定上下文的规则了，否则不要使用它。比如下面这个示例，​`$0` 总是指 foo 中定义在 bar 之前的 `expr`​，如果存在还可以通过 yylval 访问前瞻语义值。
+    另外指定位置为 0 或负数是十分危险的行为，除非你确定上下文的规则了，否则不要使用它。比如下面这个示例，`$0` 总是指 foo 中定义在 bar 之前的 `expr`，如果存在还可以通过 yylval 访问前瞻语义值。
 
     ```text
     foo:
@@ -1724,7 +1724,7 @@ EPILOGUE
     expr : | expr '+' expr { $$ = $1 + $3; }
     ```
 
-    当然也可以在引用值时指明数据类型，比如说写成 `$<INT>1`​。
+    当然也可以在引用值时指明数据类型，比如说写成 `$<INT>1`。
 
 <!--list-separator-->
 
@@ -1732,8 +1732,8 @@ EPILOGUE
 
     有时将行为放在规则中间很有用，它可以在解析器识别下一个组件前执行。
 
-    中间规则只能引用之前的 `$N`​，而不能引用之后的位置。规则中行为往往算作规则的组成部分，并且也具有语义值，另外行为可以通过给 `$$` 设置值，规则后面的行为可以用
-    `$N` 引用这个值，由于没有符号来命名行为，因此无法提前为该值声明数据类型，每次引用都需要指定数据类型 `$<TYPE>N`​。并无法通过规则中行为设置整体的值，唯一的方法就是规则末尾的行为。示例处理一个 `let (VARIABLE) STATEMENT` 的 let 语句，需要在
+    中间规则只能引用之前的 `$N`，而不能引用之后的位置。规则中行为往往算作规则的组成部分，并且也具有语义值，另外行为可以通过给 `$$` 设置值，规则后面的行为可以用
+    `$N` 引用这个值，由于没有符号来命名行为，因此无法提前为该值声明数据类型，每次引用都需要指定数据类型 `$<TYPE>N`。并无法通过规则中行为设置整体的值，唯一的方法就是规则末尾的行为。示例处理一个 `let (VARIABLE) STATEMENT` 的 let 语句，需要在
     STATEMENT 期间临时创建一个名为 VARIABLE 的变量，在解析 STATEMENT 时必须将
     VARIABLE 放入符号表，并在之后将其删除。
 
@@ -1808,14 +1808,14 @@ EPILOGUE
     } YYLTYPE;
     ```
 
-    这些字段在解析开始时被初始化为 yylloc 的 `1`​。自定义位置类型的话，需要使用
+    这些字段在解析开始时被初始化为 yylloc 的 `1`。自定义位置类型的话，需要使用
     `%initial-action` 操作。
 
 <!--list-separator-->
 
 -  位置与行为
 
-    与访问规则类似，访问位置使用表达式 `@N`​，而左边的非终结符位置为 `@$`​。位置也可以用命名位置 `@[NAME]` 或 `@NAME`​。
+    与访问规则类似，访问位置使用表达式 `@N`，而左边的非终结符位置为 `@$`。位置也可以用命名位置 `@[NAME]` 或 `@NAME`。
 
     ```text
     exp:
@@ -1862,7 +1862,7 @@ EPILOGUE
 
 -  位置的默认行为
 
-    由于位置比语义值更通用，因此行为并不是计算位置的最佳位置。在每次匹配规则时运行相关操作之前都会调用 `YYLLOC_DEFAULT`​，处理语法错误实惠调用它来计算错误位置。在报告无法解决的语法歧义之前，GLR 也会递归调用它来计算歧义的位置。大多数时候该宏就足够通用了。
+    由于位置比语义值更通用，因此行为并不是计算位置的最佳位置。在每次匹配规则时运行相关操作之前都会调用 `YYLLOC_DEFAULT`，处理语法错误实惠调用它来计算错误位置。在报告无法解决的语法歧义之前，GLR 也会递归调用它来计算歧义的位置。大多数时候该宏就足够通用了。
 
     YYLLOC_DEFAULT 有三个参数，即分组的位置 (计算结果)、元素位置、右边的大小。当 GLR
     报告歧义时，将多个未定义的候选传递给 YYLLOC_DEFAULT；在错误处理时，第二个参数表示在错误处理期间被丢弃的符号位置，第三个参数时丢弃的符号数量。默认定义如下：
@@ -1913,7 +1913,7 @@ exp[result]: exp[left] '/' exp[right]
 ```
 
 在使用点、破折等字符时，需要显式括号语法。这是由于 Bison 通常将 `$name.suffix`
-解析为 `$name` 与语义值字段 `suffix`​。为识别整体必须用此语法。
+解析为 `$name` 与语义值字段 `suffix`。为识别整体必须用此语法。
 
 ```text
 if-stmt: "if" '(' expr ')' "then" then.stmt ';'
@@ -1965,12 +1965,12 @@ Bison 声明部分用于指定语法的符号和语义值的数据类型。通�
 
 -  声明运算符优先级
 
-    你可以使用 `%left`​、​`%right`​、​`%precedence`​ 或 ​`%nonassoc` 来替换 token，来指定其关联性和优先级，它们和 `%token` 一致，区别就在于指定了关联性和优先级：
+    你可以使用 `%left`、`%right`、`%precedence` 或 `%nonassoc` 来替换 token，来指定其关联性和优先级，它们和 `%token` 一致，区别就在于指定了关联性和优先级：
 
-    -   运算符 OP 的关联性取决于运算法嵌套的方式，即有些语言中说的​**左结合**​与​**右结合**​。比如表达式 `X OP Y OP Z`​，左结合即运算符从左向右依次计算表达式，即 `(X OP Y)
-            OP Z`​；右结合正好相反，即​`X OP (Y OP Z)`​。而 `%nonassoc` 指定为无关联性，意思是 `X OP Y OP Z` 被认为语法错误。
+    -   运算符 OP 的关联性取决于运算法嵌套的方式，即有些语言中说的**左结合**与**右结合**。比如表达式 `X OP Y OP Z`，左结合即运算符从左向右依次计算表达式，即 `(X OP Y)
+            OP Z`；右结合正好相反，即`X OP (Y OP Z)`。而 `%nonassoc` 指定为无关联性，意思是 `X OP Y OP Z` 被认为语法错误。
     -   `%precedence` 赋予了符号相对的优先级，但不赋予其任何关联性。比如表达式 `X
-            OP1 Y OP2 Z`​，如果 OP2 的优先级高于 OP1，那么将解析为 `X OP1 (Y OP2 Z)`​。
+            OP1 Y OP2 Z`，如果 OP2 的优先级高于 OP1，那么将解析为 `X OP1 (Y OP2 Z)`。
     -   在单个优先级声明中，所有符号的优先级相同，它们根据关联性进行分组。当两个不同优先级的符号，后一个声明的 token 优先级更高。
 
 <!--list-separator-->
@@ -1987,7 +1987,7 @@ Bison 声明部分用于指定语法的符号和语义值的数据类型。通�
 
 -  解析前执行行为
 
-    解析器可能需要在解析之前执行一些初始化。​`%initial-action` 指令允许这样的操作，其中可以执行任意的代码。
+    解析器可能需要在解析之前执行一些初始化。`%initial-action` 指令允许这样的操作，其中可以执行任意的代码。
 
     ```text
     %parse-param { char const *file_name };
@@ -2023,7 +2023,7 @@ Bison 声明部分用于指定语法的符号和语义值的数据类型。通�
     在这个示例中，解析器丢弃 CHR 和 chr 时不会做任何行为，而其他符号都会调用 `free`
     函数来释放内存。当然在释放 STRING1 和 string1 的符号时，只会调用第二个析构函数，保证只会释放依次内存。
 
-    Bison 生成的解析器只为用户定义的符号调用 `%destructor`​，也不会为中间行为调用析构函数。
+    Bison 生成的解析器只为用户定义的符号调用 `%destructor`，也不会为中间行为调用析构函数。
 
     丢弃的符号类型如下：
 
@@ -2036,7 +2036,7 @@ Bison 声明部分用于指定语法的符号和语义值的数据类型。通�
 
 -  声明抑制冲突警告
 
-    如果语法存在冲突，Bison 会发出警告 (虽然大部分冲突都是无害的移入归约冲突)，因此可以使用声明来抑制这些冲突。声明移入规约冲突数量为 `%expect N`​，而声明归约归约冲突的数量为 `%expect-rr N`​。N 说明应该有 N 个预期的相应的冲突，如果数量不对 Bison
+    如果语法存在冲突，Bison 会发出警告 (虽然大部分冲突都是无害的移入归约冲突)，因此可以使用声明来抑制这些冲突。声明移入规约冲突数量为 `%expect N`，而声明归约归约冲突的数量为 `%expect-rr N`。N 说明应该有 N 个预期的相应的冲突，如果数量不对 Bison
     将会发出警告。
 
     使用 `%expect` 时你应该确保：
@@ -2092,7 +2092,7 @@ Bison 声明部分用于指定语法的符号和语义值的数据类型。通�
     %define api.push-pull push
     ```
 
-    在几乎所有情况下，Push 解析器应该都是​**纯**​解析器，除非直到自已在做什么
+    在几乎所有情况下，Push 解析器应该都是**纯**解析器，除非直到自已在做什么
 
     ```text
     %define api.pure full
@@ -2101,7 +2101,7 @@ Bison 声明部分用于指定语法的符号和语义值的数据类型。通�
 
     纯的 Push 解析器和不纯的 Push 解析器之间存在主要的功能差异。纯 Push 解析器可以同时在内存中拥有许多相同类型解析器的实例，相反不纯的只能使用一个解析器。
 
-    **yypstate** 是生成的解析器用来存储解析器状态的结构，​`yypstate_new` 是创建新解析器实例的函数，​`yypstate_delete` 将释放相应解析器实例相关联的资源，而
+    **yypstate** 是生成的解析器用来存储解析器状态的结构，`yypstate_new` 是创建新解析器实例的函数，`yypstate_delete` 将释放相应解析器实例相关联的资源，而
     `yypush_parse` 是当令牌可用于提供解析器时应该调用的函数。简单的调用示例如下：
 
     ```c
@@ -2144,9 +2144,9 @@ Bison 声明部分用于指定语法的符号和语义值的数据类型。通�
 
 -  %code 声明
 
-    `%code` 可以比 `%{%}` 代码块提供更多的灵活性。通常情况下非限定的 `%code` 可以替换 `%{%}`​。
+    `%code` 可以比 `%{%}` 代码块提供更多的灵活性。通常情况下非限定的 `%code` 可以替换 `%{%}`。
 
-    重点主要放在限定代码块上。语法 `%code QUALIFIER { CODE }`​。限定符有如下几种
+    重点主要放在限定代码块上。语法 `%code QUALIFIER { CODE }`。限定符有如下几种
 
     -   requires
 
@@ -2191,7 +2191,7 @@ void yyerror(int *nastiness, int *randomness, const char *msg);
 void yyparse(int *nastiness, int *randomness);
 ```
 
-当然同时使用 `%define api.pure full` (或仅 `%define api.pure`) 和 `%locations`​，
+当然同时使用 `%define api.pure full` (或仅 `%define api.pure`) 和 `%locations`，
 yyerror 将生成不一样的签名。
 
 ```c
@@ -2311,7 +2311,7 @@ exp: ... { ...; *randomness += 1; ... }
     ```
 
     如果没有使用位置参数的话，将不会定义 YYSTYPE，也就不需要由参数 lvalp 了。如果还需要其他参数，可以使用 `%lex-param` 来声明其他参数，用法和之前的 `%parse-param`
-    一样。如果想对 yyparse 和 yylex 都传入某个参数可以使用 `%param`​。
+    一样。如果想对 yyparse 和 yylex 都传入某个参数可以使用 `%param`。
 
 
 #### 错误处理函数 yyerror {#错误处理函数-yyerror}
@@ -2519,7 +2519,7 @@ redirects:
 ;
 ```
 
-但是，如果输入为 "word word"，很明显可以被归约 `words words` 或 `words`​，这有一个二义性的移入归约冲突，第二个 word 是移入还是将栈中的 word 归约。
+但是，如果输入为 "word word"，很明显可以被归约 `words words` 或 `words`，这有一个二义性的移入归约冲突，第二个 word 是移入还是将栈中的 word 归约。
 
 可以用优先级解决这个问题
 
@@ -2657,7 +2657,7 @@ return_spec:
 
     -   延迟调用 yylex
 
-        **一致状态**​是只有一个可能的解析器操作。如果操作是归约且它被编码为默认归约，那么一致状态被称作​**默认状态**​。达到默认状态后，Bison 不会在执行归约操作之前调用 yylex。即当它在输入中达到该 token 时，或它需要前前看来决定下一个操作，此时调用 yylex。但默认开启默认归约时，将会改变解析器行为。yylex 的行为可能影响或受默认归约的影响。
+        **一致状态**是只有一个可能的解析器操作。如果操作是归约且它被编码为默认归约，那么一致状态被称作**默认状态**。达到默认状态后，Bison 不会在执行归约操作之前调用 yylex。即当它在输入中达到该 token 时，或它需要前前看来决定下一个操作，此时调用 yylex。但默认开启默认归约时，将会改变解析器行为。yylex 的行为可能影响或受默认归约的影响。
 
     -   延迟检测语法错误
 
@@ -2674,7 +2674,7 @@ return_spec:
 
     对于 IELR 和 LALR，默认对所有状态启用默认归约。除了
 
-    -   对​`错误` token 只有移入没有归约
+    -   对`错误` token 只有移入没有归约
     -   GLR 解析器不会为存在冲突的向前看 token 设置默认规约
 
     如果想修改 Bison 的默认行为，可以声明
@@ -2697,7 +2697,7 @@ return_spec:
     从 GNU Bison **3.8** 开始 lookahead correction (Java) 不再是实验性功能
     {{< /admonition >}}
 
-    解析器在发现语法错误前可能进行额外的规约，这些规约可能执行不符合预期的语义操作，并且可能导致错误恢复发生在其他文法上下文中。这个问题的根源通常是 `%nonassoc`​、不一致状态下的默认规约以及 GLR 解析器合并。因此主要影响的是 IELR 和 LALR 解析器。
+    解析器在发现语法错误前可能进行额外的规约，这些规约可能执行不符合预期的语义操作，并且可能导致错误恢复发生在其他文法上下文中。这个问题的根源通常是 `%nonassoc`、不一致状态下的默认规约以及 GLR 解析器合并。因此主要影响的是 IELR 和 LALR 解析器。
 
     LAC (前瞻校正) 是一种解析的新机制，可以在不牺牲 `%nonassoc` 和默认规约或状态合并的功能的前提下，解决这个问题。只需要定义
 
@@ -2728,7 +2728,7 @@ return_spec:
 
 -  不可达状态
 
-    如果不存在从解析器的起始状态到某个状态 S 的转换序列，则 Bison 认为 S 是​**不可达状态**​。如果 Bison 禁用从前一个状态到该状态的转换操作，则该状态可能在冲突解决期间变得无法访问。
+    如果不存在从解析器的起始状态到某个状态 S 的转换序列，则 Bison 认为 S 是**不可达状态**。如果 Bison 禁用从前一个状态到该状态的转换操作，则该状态可能在冲突解决期间变得无法访问。
 
     默认情况下，Bison 会在冲突解决后从解析器中删除无法访问的状态，因为它们在生成的解析器中是无用的。然而，当试图理解解析器和语法之间的关系时，保留不可达状态有时很有用。
 
@@ -2893,8 +2893,8 @@ void yyerror(::std::unique_ptr<::std::string const> &ast, const char *s) {
 }
 ```
 
-很明显语法分析器中，这个语法分析可以很好得解析我们在本节开始声明的 EBNF 文法，也就是 main 函数。需要注意的是，这里不能使用 `::std::make_unique`​，因为其只能移动或者从参数构建智能指针，但我们的非终结符语义值都是用 `new` 构建好的指针 (非 POD
-类型不能作为 union 成员)，因此我们需要用构造函数来构造 `::std::unique_ptr`​，将之前构造的指针所有权移交给智能指针。
+很明显语法分析器中，这个语法分析可以很好得解析我们在本节开始声明的 EBNF 文法，也就是 main 函数。需要注意的是，这里不能使用 `::std::make_unique`，因为其只能移动或者从参数构建智能指针，但我们的非终结符语义值都是用 `new` 构建好的指针 (非 POD
+类型不能作为 union 成员)，因此我们需要用构造函数来构造 `::std::unique_ptr`，将之前构造的指针所有权移交给智能指针。
 
 虽然词法分析与语法分析出来了，我们还要自己编写一个主文件
 

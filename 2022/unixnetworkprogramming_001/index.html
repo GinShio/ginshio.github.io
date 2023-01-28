@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/unixnetworkprogramming_001\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Unix, Network, Posix","wordcount":  4391 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Unix, Network, Posix","wordcount":  4382 ,
         "url": "https:\/\/blog.ginshio.org\/2022\/unixnetworkprogramming_001\/","datePublished": "2022-01-17T13:46:50+08:00","dateModified": "2022-04-08T15:13:54+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -136,7 +136,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="01-17">01-17</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4391 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="01-17">01-17</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4382 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -354,7 +354,7 @@
 </div>
 </div><p>当然需要自行编译一下 daytimetcpsrv 并启动它，然后就可以顺利启动 client 就可以看到获取的时间了。</p>
 <h3 id="socket" class="headerLink">
-    <a href="#socket" class="header-mark"></a>socket</h3><p>我们最先遇到的 API 是 <code>socket/3</code>​，这会帮助我们启动一个网络服务，我们可以自己指定 <strong>domain</strong>, <strong>type</strong> ，还有一个特殊的 <strong>protocol</strong> 参数用于指定 socket 一起使用的特定协议，但这个参数通常情况下为 0。下表展示了常用的 domain 与 type 值，摘自
+    <a href="#socket" class="header-mark"></a>socket</h3><p>我们最先遇到的 API 是 <code>socket/3</code>，这会帮助我们启动一个网络服务，我们可以自己指定 <strong>domain</strong>, <strong>type</strong> ，还有一个特殊的 <strong>protocol</strong> 参数用于指定 socket 一起使用的特定协议，但这个参数通常情况下为 0。下表展示了常用的 domain 与 type 值，摘自
 Linux Kernel 5.3.18。</p>
 <table>
 <thead>
@@ -464,7 +464,7 @@ Linux Kernel 5.3.18。</p>
 </tr>
 </tbody>
 </table>
-<p>我们往往使用 <code>AF_INET</code> 与 <code>SOCK_STREAM</code> 来启动一个 TCP 连接。而该 API 会返回一个整数作为返回结果，成功时将返回新 socket 的文件描述符 (fd)，而失败时返回 \(-1\) 并设置 <strong>errno</strong>​，而 errno 可以让我们得知具体发生了什么错误。</p>
+<p>我们往往使用 <code>AF_INET</code> 与 <code>SOCK_STREAM</code> 来启动一个 TCP 连接。而该 API 会返回一个整数作为返回结果，成功时将返回新 socket 的文件描述符 (fd)，而失败时返回 \(-1\) 并设置 <strong>errno</strong>，而 errno 可以让我们得知具体发生了什么错误。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -561,7 +561,7 @@ Linux Kernel 5.3.18。</p>
 </div>
 </div><p>最后一个与IP信息有关的函数就是 <code>inet_pton/3</code> (presentation to numeric，头文件
 <strong>arpa/inet.h</strong> 中)，这是一个伴随着 IPv6 诞生的 POSIX 函数，可以将 IPv4 的点分十进制字符串形式或 IPv6 的字符串行形式地址转换为 <code>in_addr</code> 或 <code>in6_addr</code> 的字节形式。这个函数会返回一个整数用来确定函数是否成功，\(1\) 代表了成功，而 \(0\) 代表没有包含有效的地址，\(-1\) 是最为严重的，表示不是有效的协议族，这还会将 errno 设置为
-<strong>EAFNOSUPPORT</strong>​。与这个函数相关的还有一个 <code>inet_ntop/4</code>​，它与前一个函数作用相反，最后一个参数 size 则指示了 buffer 可以接收的字节大小。下面一段程序是 Manual 中给出的示例，于此贴出。</p>
+<strong>EAFNOSUPPORT</strong>。与这个函数相关的还有一个 <code>inet_ntop/4</code>，它与前一个函数作用相反，最后一个参数 size 则指示了 buffer 可以接收的字节大小。下面一段程序是 Manual 中给出的示例，于此贴出。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -696,10 +696,10 @@ Linux Kernel 5.3.18。</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>该函数接收 sockfd 用于监听主机端口，并使用 addr 接收服务器的地址、端口等信息，最后一个参数则是 addr 的数据类型大小。</p>
-<p>当然 socket 类型会影响该函数的行为：​<code>SOCK_DGRAM</code> 类型的 socket，addr 是默认发送和接收数据报的地址；而 <code>SOCK_STREAM</code> 和 <code>SOCK_SEQPACKET</code> 类型的 socket，将会试图与指定地址建立连接。通常来说，基于连接的 socket 只允许调用成功一次该函数，而无连接的 socket 可以多次调用该函数来更改关联的地址，并且自 Linux Kernel 2.2 以后，可以通过连接到将 <strong>sa_family</strong> 设置为 <code>AF_UNSPEC</code> 来解除地址关联。</p>
+<p>当然 socket 类型会影响该函数的行为：<code>SOCK_DGRAM</code> 类型的 socket，addr 是默认发送和接收数据报的地址；而 <code>SOCK_STREAM</code> 和 <code>SOCK_SEQPACKET</code> 类型的 socket，将会试图与指定地址建立连接。通常来说，基于连接的 socket 只允许调用成功一次该函数，而无连接的 socket 可以多次调用该函数来更改关联的地址，并且自 Linux Kernel 2.2 以后，可以通过连接到将 <strong>sa_family</strong> 设置为 <code>AF_UNSPEC</code> 来解除地址关联。</p>
 <p>读取一个文件的数据往往采用 POSIX 函数 <code>read/3</code> ，接收 fd、buffer、接收的字节长度
 size，最终会返回实际读取的字节长度，但是返回 -1 时代表发生错误并会设置
-<strong>errno</strong>​。</p>
+<strong>errno</strong>。</p>
 <p>往往在读取服务器数据时，采用循环的方式读取，直到读到的数据大小为 0 才认为此次读取完成。虽然这个程序中每次读取都会直接读完所有数据 (因为数据只有 26 byte，而一次可以接收 4096 byte)。</p>
 <p>在这个示例中，数据传输完成由服务器关闭连接表示，这与 <strong>HTTP/1.0</strong> 是类似的；而
 SMTP 采用两个字节序的 ASCII 回车符后跟 ASCII 换行符表示数据结束；Sun RPC 和 DNS
@@ -809,7 +809,7 @@ SMTP 采用两个字节序的 ASCII 回车符后跟 ASCII 换行符表示数据�
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>可以看到与客户端不同的是，服务器在申请 socket 时没什么变化，但接下来服务器填写了自己的 IP 与 Port 信息，Port 用于指示接下来监听的端口，而 IP 则是指定为了
-<code>INADDR_ANY</code>​，这是系统中预定的 IP 地址的值。</p>
+<code>INADDR_ANY</code>，这是系统中预定的 IP 地址的值。</p>
 <table>
 <thead>
 <tr>
@@ -842,12 +842,12 @@ SMTP 采用两个字节序的 ASCII 回车符后跟 ASCII 换行符表示数据�
 <p>最后一个 <code>listen/2</code> 就是监听给出的 addr 及 port，这里的 sockfd 主要是
 <strong>SOCK_STREAM</strong> 与 <strong>SOCK_SEQPACKET</strong> 类型的 socket。(<code>SOCK_DGRAM</code> 又一次被排除在外了) listen 的第二个参数，根据 Manual 的 NOTE 章节，目前版本的 Linux 代表了成功
 accept 的 TCP 连接队列的长度。</p>
-<p>在与客户端通信时，往往使用 <code>accept/3</code> 接收来自客户端的连接所创建的 connfd，经过这一步后，TCP 完成连接从而状态改变为 <strong>ESTABLISHED</strong>​。当数据被准备好之后，服务器就可以通过 <code>write/3</code> 将数据写入 connfd 发送给客户端，这与平时向文件中写内容是类似的。最后我们只需要像关闭文件一样关闭 connfd 就可以了。</p>
+<p>在与客户端通信时，往往使用 <code>accept/3</code> 接收来自客户端的连接所创建的 connfd，经过这一步后，TCP 完成连接从而状态改变为 <strong>ESTABLISHED</strong>。当数据被准备好之后，服务器就可以通过 <code>write/3</code> 将数据写入 connfd 发送给客户端，这与平时向文件中写内容是类似的。最后我们只需要像关闭文件一样关闭 connfd 就可以了。</p>
 <p>但是这个程序存在一些问题， <code>while (true)</code> 可以让服务器一直循环等待客户端请求到来，但是一次只能接收一个请求并处理，这对大量请求情况下显然是不合适的。但在示例中，我们仅使用了标准库函数 time 和 ctim，运行速度很快。但现实中我们可能需要几十秒甚至一分钟处理一个请求，这时这样的服务器是不可接受的。</p>
 <p>示例中的服务器被称为 <strong>迭代服务器</strong> (iterative server)，对于每个请求都迭代执行一次；同时处理多个请求的服务器被称为 <strong>并发服务器</strong> (concurrent server)。而从 shell 终端启动一个服务器可能会一直运行，因此我们常常使用 Unix 守护进程 (daemon)，可以在后台运行，而不跟任何终端关联地运行。</p>
 <h2 id="unix-标准" class="headerLink">
     <a href="#unix-%e6%a0%87%e5%87%86" class="header-mark"></a>Unix 标准</h2><p>Unix 标准通常被称作 POSIX，即 <strong>Portable Operating System Interface</strong> (可移植操作系统接口)。当然由于当时有多个机构进行标准化工作，因此 Unix 标准又有很多名字
-<code>ISO/IEC 9945</code>, <code>IEEE Std 1003.1</code> 和单一 Unix 规范 (Signle UNIX Specification)，当然经过发展，POSIX 也经历过版本更新，UNP 所介绍到了 POSIX.1-2001，如今最新标准为 <strong>POSIX.1-2017</strong>​。</p>
+<code>ISO/IEC 9945</code>, <code>IEEE Std 1003.1</code> 和单一 Unix 规范 (Signle UNIX Specification)，当然经过发展，POSIX 也经历过版本更新，UNP 所介绍到了 POSIX.1-2001，如今最新标准为 <strong>POSIX.1-2017</strong>。</p>
 <ul>
 <li>POSIX 第一版为 IEEE Std. 1003.1-1988，这一版规范了 Unix 内核的 C 语言接口，这些接口覆盖了进程原语 (fork，exec，signals 等)、进程环境 (user ID，程序组等)、文件与目录 (所有的 I/O 函数)、终端 I/O、系统数据库 (密码文件与组文件) 以及
 tar、cpio 等归档格式。不过当时 POSIX 被称为 <code>IEEE-IX</code> ，POSIX 这个名称是

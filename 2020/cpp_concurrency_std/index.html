@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2020\/cpp_concurrency_std\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, C\u002b\u002b, Concurrency, Library","wordcount":  7118 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, C\u002b\u002b, Concurrency, Library","wordcount":  7090 ,
         "url": "https:\/\/blog.ginshio.org\/2020\/cpp_concurrency_std\/","datePublished": "2020-12-01T19:42:25+08:00","dateModified": "2022-04-07T19:30:06+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -171,7 +171,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/c++-%E5%B9%B6%E5%8F%91/"><i class="far fa-list-alt fa-fw"></i>C++ 并发</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="12-01">12-01</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7118 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="12-01">12-01</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7090 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 15 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -239,7 +239,7 @@
 </nav></div>
             </div><div class="content" id="content"><h2 id="线程管理" class="headerLink">
     <a href="#%e7%ba%bf%e7%a8%8b%e7%ae%a1%e7%90%86" class="header-mark"></a>线程管理</h2><h3 id="创建线程" class="headerLink">
-    <a href="#%e5%88%9b%e5%bb%ba%e7%ba%bf%e7%a8%8b" class="header-mark"></a>创建线程</h3><p>新的线程会在 <code>::std::thread</code> (头文件 <em>thread</em> 中) 对象创建的时候被启动，在函数执行完毕后，该线程也就结束了，提供的函数对象会复制到新线程的存储空间中，函数对象的执行与操作都在线程的内存空间中执行。在创建新线程时你可以指定一个函数作为任务，或者是 <strong>仿函数</strong>​，当然也可以是 lambda 表达式</p>
+    <a href="#%e5%88%9b%e5%bb%ba%e7%ba%bf%e7%a8%8b" class="header-mark"></a>创建线程</h3><p>新的线程会在 <code>::std::thread</code> (头文件 <em>thread</em> 中) 对象创建的时候被启动，在函数执行完毕后，该线程也就结束了，提供的函数对象会复制到新线程的存储空间中，函数对象的执行与操作都在线程的内存空间中执行。在创建新线程时你可以指定一个函数作为任务，或者是 <strong>仿函数</strong>，当然也可以是 lambda 表达式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -266,7 +266,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}};</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>线程启动后，需要指定是​<code>等待线程结束</code>​还是​<code>让其自主运行</code>​，如果 <code>::std::thread</code> 对象销毁之前没有做出决定，程序就会终止，因此必须确保线程能够正确 <strong>汇入</strong>​ (joined)
+</div><p>线程启动后，需要指定是<code>等待线程结束</code>还是<code>让其自主运行</code>，如果 <code>::std::thread</code> 对象销毁之前没有做出决定，程序就会终止，因此必须确保线程能够正确 <strong>汇入</strong> (joined)
 或 <strong>分离</strong> (detached)。调用 join() 可以等待线程完成，并在线程结束时清理相关的内存，使 ::std::thread 对象不再与已完成线程有任何关联，所以一个线程一旦被汇入将不能再次汇入。调用 detach() 会使线程在后台运行，不再与主线程进行直接交互， ::std::thread
 对象不再引用这个线程，分离的线程也不可被再次汇入，不过C++运行时库保证线程退出时可以正确回收相关资源。</p>
 <p>在C++中 ::std::thread 对象是一种 <strong>可移动但不可复制</strong> 的资源，它可以交出它的所有权，但不能与其他对象共享线程的所有权。如果你希望对一个已持有线程的对象更改其行为，那你必须先汇入或分离已关联的线程，或者将已关联的线程的所有权交出。</p>
@@ -338,7 +338,7 @@
 </div>
 </div><h3 id="线程标识" class="headerLink">
     <a href="#%e7%ba%bf%e7%a8%8b%e6%a0%87%e8%af%86" class="header-mark"></a>线程标识</h3><p>线程的标识类型是 <code>::std:🧵:id</code> ，可以使用 ::std::thread 对象的成员函数
-<code>get_id()</code> 获取，当线程没有和任何执行线程关联时将返回默认值来表示 <strong>无线程</strong>; 也可以使用 <code>::std::this_thread::get_id()</code> 来获取当前线程的标识。​<code>::std:🧵:id</code> 对象可以拷贝或对比，因为标识符是可复用的，当两个标识符相等时代表​<strong>同一个线程</strong>​或这两个线程​<strong>无关联线程</strong></p>
+<code>get_id()</code> 获取，当线程没有和任何执行线程关联时将返回默认值来表示 <strong>无线程</strong>; 也可以使用 <code>::std::this_thread::get_id()</code> 来获取当前线程的标识。<code>::std:🧵:id</code> 对象可以拷贝或对比，因为标识符是可复用的，当两个标识符相等时代表<strong>同一个线程</strong>或这两个线程<strong>无关联线程</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -359,7 +359,7 @@
     <a href="#%e5%85%b1%e4%ba%ab%e6%95%b0%e6%8d%ae" class="header-mark"></a>共享数据</h2><p>涉及到共享数据时，问题就是因为共享数据的修改所导致，如果共享数据只读，那么不会影响到数据，更不会对数据进行修改，所有线程都会获得同样的数据。但当一个或多个线程要修改共享数据时，就会产生很多麻烦，需要小心谨慎，才能确保所有线程都正常工作。</p>
 <h3 id="条件竞争" class="headerLink">
     <a href="#%e6%9d%a1%e4%bb%b6%e7%ab%9e%e4%ba%89" class="header-mark"></a>条件竞争</h3><p>并发中的竞争条件，取决于一个以上线程的执行顺序，每个线程都抢着完成自己的任务，大多数情况下，即使改变执行顺序，也是良性竞争，结果是可以接受的。遗憾的是，当不变量遭到破坏时会产生条件竞争，通常是恶性竞争：并发的去修改一个独立对象。恶性竞争时对一个数据块进行修改时，其他线程可能同时对其进行访问，导致数据不一致或与预期不符，并且出现概率低且难复现。</p>
-<p>避免恶性竞争，最简单的方法就是对数据结构采用某种​<strong>保护机制</strong>​，确保只有修改线程可以看到不变量的中间状态，其他线程观察结构时会发现其修改还未开始。另一方式就是对数据结构与不变量进行修改，修改后的结构可以完成一系列不可分割的变量，从而保证不变量的状态，即​<strong>无锁编程</strong>​。</p>
+<p>避免恶性竞争，最简单的方法就是对数据结构采用某种<strong>保护机制</strong>，确保只有修改线程可以看到不变量的中间状态，其他线程观察结构时会发现其修改还未开始。另一方式就是对数据结构与不变量进行修改，修改后的结构可以完成一系列不可分割的变量，从而保证不变量的状态，即<strong>无锁编程</strong>。</p>
 <h3 id="互斥量" class="headerLink">
     <a href="#%e4%ba%92%e6%96%a5%e9%87%8f" class="header-mark"></a>互斥量</h3><p>访问共享数据前将数据锁住，在访问结束后再将数据解锁，当线程使用互斥量锁住共享数据时，其他的线程都必须等到之前那个线程对数据进行解锁后，才能进行访问数据。</p>
 <p>通过实例化 <code>::std::mutex</code> (头文件 <em>mutex</em> 中) 创建互斥量实例，成员函数lock()可对互斥量上锁，unlock()为解锁，不过不推荐使用成员函数，因为你必须在函数的出口处正确的解锁，其中包括异常情况也必须保证正确解锁，否则互斥量可能无法正常使用。推荐的做法是使用互斥量RAII模板类 <code>::std::lock_guard</code> (头文件 <em>mutex</em> 中)，构造时加锁并在析构时解锁，保证互斥量可以被正确的解锁。</p>
@@ -385,7 +385,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>不过通常互斥量会与需要保护的数据封装在同一个类中，让它们联系在一起，保证数据不变量的稳定状态。不过当类中某个方法返回保护数据的指针或者引用时，可能会破坏数据，此时需要谨慎的对接口进行设计，切勿将受保护数据的指针或引用传递到互斥锁作用域之外。</p>
-<p>使用互斥量保护数据时，还需要考虑接口间的条件竞争，比如常使用的 ::std::stack，以下代码在单线程中是正确的，但是当 ::std::stack 是共享数据时，虽然每次调用接口时内部可能返回正确的结果，但是当用户使用时可能并非安全的。很明显代码中，top() 调用时很可能其他线程已经 pop() 了最后一个元素，虽然该线程访问到栈不为空，但是 top() 获取到错误的结果，​<code>top()</code> 与 <code>pop()</code> 存在数据竞争关系</p>
+<p>使用互斥量保护数据时，还需要考虑接口间的条件竞争，比如常使用的 ::std::stack，以下代码在单线程中是正确的，但是当 ::std::stack 是共享数据时，虽然每次调用接口时内部可能返回正确的结果，但是当用户使用时可能并非安全的。很明显代码中，top() 调用时很可能其他线程已经 pop() 了最后一个元素，虽然该线程访问到栈不为空，但是 top() 获取到错误的结果，<code>top()</code> 与 <code>pop()</code> 存在数据竞争关系</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -406,7 +406,7 @@
 </div>
 </div><p>锁的粒度太小，恶性条件竞争已经出现，需要保护的操作并未全覆盖到; 如果锁的粒度太大，会抵消并发带来的性能提升。</p>
 <h4 id="死锁" class="headerLink">
-    <a href="#%e6%ad%bb%e9%94%81" class="header-mark"></a>死锁</h4><p>使用多个互斥量操作时需要注意 <strong>死锁</strong>​，这会让两个线程互相等待，直到另一个解锁互斥量。死锁产生的必要条件:</p>
+    <a href="#%e6%ad%bb%e9%94%81" class="header-mark"></a>死锁</h4><p>使用多个互斥量操作时需要注意 <strong>死锁</strong>，这会让两个线程互相等待，直到另一个解锁互斥量。死锁产生的必要条件:</p>
 <dl>
 <dt>互斥条件</dt>
 <dd>一个资源每次只能被一个任务使用</dd>
@@ -418,7 +418,7 @@
 <dd>若干任务之间形成一种头尾相接的循环等待资源关系</dd>
 </dl>
 <p>一般在C++使用互斥量时，避免循环等待即可，对多个互斥量可以使用标准库中的
-<code>::std::lock</code> 与 <code>::std::lock_guard</code> 进行RAII锁定，可以按照一定的顺序对互斥量进行锁定，避免循环锁定。以下代码展示了一次锁定多个互斥量，​::std::lock 锁定互斥量，并创建两个 ::std::lock_guard 对象对互斥量进行管理，​<code>::std::adopt_lock</code> 表示
+<code>::std::lock</code> 与 <code>::std::lock_guard</code> 进行RAII锁定，可以按照一定的顺序对互斥量进行锁定，避免循环锁定。以下代码展示了一次锁定多个互斥量，::std::lock 锁定互斥量，并创建两个 ::std::lock_guard 对象对互斥量进行管理，<code>::std::adopt_lock</code> 表示
 ::std::lock_guard 可以获取锁并将锁交给其管理，::std::lock_guard 对象不需要再构建新的锁。值得一提的是，::std::lock 可能会抛出异常，但是请放心，已锁定的锁会随着异常而自动释放，所以 ::std::lock 要么 <strong>全部锁住</strong> 要么 <strong>一个都不锁</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -444,7 +444,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>C++17 中提供了RAII模板类 <code>::std::scoped_lock</code> (头文件 <em>mutex</em> 中) 用来支持这种情况，并且增加了 <strong>自动推导模板参数</strong>​，是所以这种情况在 C++17 中将会更简单的实现</p>
+</div><p>C++17 中提供了RAII模板类 <code>::std::scoped_lock</code> (头文件 <em>mutex</em> 中) 用来支持这种情况，并且增加了 <strong>自动推导模板参数</strong>，是所以这种情况在 C++17 中将会更简单的实现</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -535,7 +535,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>::std::unique_lock 还支持在对象销毁之前放弃持有互斥，这样可以提前为其他等待线程释放锁，增加性能。</p>
-<p>锁的粒度是用来描述锁保护的数据量的大小，​<strong>细粒度锁</strong> (fine-grained lock) 能够保护较小的数据量，​<strong>粗粒度锁</strong> (coarse-grained lock) 能够保护较多的数据量。比如数据库中，对一行进行锁定的锁比对整张表锁定的锁粒度小，行锁相对于表锁性能更高，因为可以同时处理多行，但是也更不安全。</p>
+<p>锁的粒度是用来描述锁保护的数据量的大小，<strong>细粒度锁</strong> (fine-grained lock) 能够保护较小的数据量，<strong>粗粒度锁</strong> (coarse-grained lock) 能够保护较多的数据量。比如数据库中，对一行进行锁定的锁比对整张表锁定的锁粒度小，行锁相对于表锁性能更高，因为可以同时处理多行，但是也更不安全。</p>
 <h3 id="保护共享数据的方式" class="headerLink">
     <a href="#%e4%bf%9d%e6%8a%a4%e5%85%b1%e4%ba%ab%e6%95%b0%e6%8d%ae%e7%9a%84%e6%96%b9%e5%bc%8f" class="header-mark"></a>保护共享数据的方式</h3><h4 id="保护共享数据的初始化过程" class="headerLink">
     <a href="#%e4%bf%9d%e6%8a%a4%e5%85%b1%e4%ba%ab%e6%95%b0%e6%8d%ae%e7%9a%84%e5%88%9d%e5%a7%8b%e5%8c%96%e8%bf%87%e7%a8%8b" class="header-mark"></a>保护共享数据的初始化过程</h4><p>如果一个资源构造代价昂贵，我们可能会使用延迟初始化来构造它，不过这在单线程下是安全的，多线程下初始化是需要被保护的，不然可能会出现多次初始化的情况</p>
@@ -629,7 +629,7 @@ C++11开始我们也可以实现安全的DCLP。详细可以阅读 <a href="http
 </div>
 </div><h4 id="保护不常更新的数据结构" class="headerLink">
     <a href="#%e4%bf%9d%e6%8a%a4%e4%b8%8d%e5%b8%b8%e6%9b%b4%e6%96%b0%e7%9a%84%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" class="header-mark"></a>保护不常更新的数据结构</h4><p>当有不常更新的数据结构时，我们希望在修改时线程可以独占并安全的修改内容，完成修改后可以并发的安全访问数据。使用 ::std::mutex 来保护这样的数据结构对于性能来说并不是一个很好的方法，这会削弱读取数据的性能。我们可以想象这样一种互斥量，它可以在
-<strong>写</strong> 线程中独占访问，而允许 <strong>读</strong> 线程并发访问，这样的互斥量被称为 <strong>读写锁</strong>​，读线程需要等写线程释放锁后才可以并发访问，而写线程必须等全部读线程放弃互斥量后才可以独占访问。</p>
+<strong>写</strong> 线程中独占访问，而允许 <strong>读</strong> 线程并发访问，这样的互斥量被称为 <strong>读写锁</strong>，读线程需要等写线程释放锁后才可以并发访问，而写线程必须等全部读线程放弃互斥量后才可以独占访问。</p>
 <p>C++17标准库提供了 <code>::std::shared_mutex</code> (头文件 <em>shared_mutex</em> 中)，C++14提供了
 RAII模板类 <code>::std::shared_lock</code> 与有时限的读写锁 <code>::std::shared_timed_mutex</code> (头文件
 <em>shared_mutex</em> 中)，可惜的是C++11中并没有提供相应的设施。timed_mutex系列互斥量相比普通互斥量，多了时限功能，在时限内可以获得锁则返回true并获得锁，否则返回false
@@ -674,7 +674,7 @@ RAII模板类 <code>::std::shared_lock</code> 与有时限的读写锁 <code>::s
     <a href="#%e9%87%8d%e5%85%a5%e9%94%81" class="header-mark"></a>重入锁</h4><p>在一个线程上，对已上锁的 ::std::mutex 再次上锁是错误的，会引起未定义行为，如果希望在线程上对一个互斥量在释放前进行多次上锁，则需要使用 <code>::std::recursive_mutex</code> (头文件 <em>mutex</em> 中)。当然要牢记，你对其上锁了多少次，那一定需要解锁多少次，否则就会出现锁死其他线程的情况 (请善用 ::std::lock_guard 与 ::std::unique_lock)</p>
 <h2 id="同步操作" class="headerLink">
     <a href="#%e5%90%8c%e6%ad%a5%e6%93%8d%e4%bd%9c" class="header-mark"></a>同步操作</h2><h3 id="等待条件" class="headerLink">
-    <a href="#%e7%ad%89%e5%be%85%e6%9d%a1%e4%bb%b6" class="header-mark"></a>等待条件</h3><p>通过一条线程触发等待事件的机制是最基本的唤醒方式，这种机制被称为 <strong>条件变量</strong>​，条件变量与多个事件或其他条件相关，并且一个或多个线程会等待条件的达成。当某些线程被终止时，为了唤醒等待线程，终止线程会向等待着的线程广播信息。</p>
+    <a href="#%e7%ad%89%e5%be%85%e6%9d%a1%e4%bb%b6" class="header-mark"></a>等待条件</h3><p>通过一条线程触发等待事件的机制是最基本的唤醒方式，这种机制被称为 <strong>条件变量</strong>，条件变量与多个事件或其他条件相关，并且一个或多个线程会等待条件的达成。当某些线程被终止时，为了唤醒等待线程，终止线程会向等待着的线程广播信息。</p>
 <p>C++标准库实现了条件变量 (头文件 <em>condition_variable</em> 中)
 <code>::std::condition_variable</code> 和 <code>::std::condition_variable_any</code> ，它们需要与互斥量一起才能工作，前者需要和 ::std::mutex 一起工作，而 _any 后缀的条件变量可以和任何互斥量一起，但是相比普通条件变量更消耗系统资源。</p>
 <div class="highlight"><div class="chroma">
@@ -739,11 +739,11 @@ RAII模板类 <code>::std::shared_lock</code> 与有时限的读写锁 <code>::s
 <li>preparation 线程调用 notify_one() 会唤醒 <strong>一个正在等待</strong> 的线程，调用后需要解锁互斥量，如果没有等待线程则无事发生，notify_one() 不会唤醒调用后开始等待的线程</li>
 <li>如果 processing 线程被唤醒，则会重新获取锁，并再次进行条件谓词的检查</li>
 </ol>
-<p>条件变量调用wait()的过程中，可能会多次检查条件谓词，并在谓词为true的情况下立即返回。另一点，等待线程可能会在不被其他线程通知的情况下被唤醒，这被称为 <strong>虚假唤醒</strong>​，而虚假唤醒的数量和频率都是不确定的，所以条件谓词不建议有副作用。</p>
+<p>条件变量调用wait()的过程中，可能会多次检查条件谓词，并在谓词为true的情况下立即返回。另一点，等待线程可能会在不被其他线程通知的情况下被唤醒，这被称为 <strong>虚假唤醒</strong>，而虚假唤醒的数量和频率都是不确定的，所以条件谓词不建议有副作用。</p>
 <h3 id="future" class="headerLink">
     <a href="#future" class="header-mark"></a>future</h3><p>当线程需要等待特定事件时，某种程度上来说就需要知道期望的结果，线程会周期性的等待或检查事件是否触发，检查期间也会执行其他任务。另外，等待任务期间也可以先执行另外的任务，直到对应的任务触发，而后等待future的状态会变为就绪状态。future可能是和数据相关，也可能不是，当事件发生时，这个future就不能重置了。</p>
 <p>C++标准库提供了两种future (头文件 <em>future</em> 中) <code>::std::future</code> 和
-<code>::std::shared_future</code>​，它们与智能指针 ::std::shared_ptr 和 ::std::unique_ptr 十分类似。::std::future 只能与指定事件相关连，而 ::std::shared_future 可以关联多个事件，而实现中所有实例会同时变为就绪状态，并且可以访问与事件相关的数据。如果希望future与数据无关，则可以使用 <strong>void</strong> 的特化。future 像是线程通信，但是其本身并不提供同步访问，如果需要访问独立的future对象时则需要使用互斥量或类似同步机制进行保护，::std::shared_future 提供访问异步操作结果的机制，每个线程可以安全的访问自身
+<code>::std::shared_future</code>，它们与智能指针 ::std::shared_ptr 和 ::std::unique_ptr 十分类似。::std::future 只能与指定事件相关连，而 ::std::shared_future 可以关联多个事件，而实现中所有实例会同时变为就绪状态，并且可以访问与事件相关的数据。如果希望future与数据无关，则可以使用 <strong>void</strong> 的特化。future 像是线程通信，但是其本身并不提供同步访问，如果需要访问独立的future对象时则需要使用互斥量或类似同步机制进行保护，::std::shared_future 提供访问异步操作结果的机制，每个线程可以安全的访问自身
 ::std::shared_future 对象的副本。</p>
 <h4 id="异步返回值" class="headerLink">
     <a href="#%e5%bc%82%e6%ad%a5%e8%bf%94%e5%9b%9e%e5%80%bc" class="header-mark"></a>异步返回值</h4><p>我们可以使用 <code>::std::async</code> (头文件 <em>future</em> 中) 和 ::std::future 启动一个异步任务，获取线程的返回值，当然等待返回值的线程会阻塞，直到 ::std::future 就绪为止</p>
@@ -897,7 +897,7 @@ std::promise 只应当使用一次。</p>
 </div>
 </div><h3 id="限时等待" class="headerLink">
     <a href="#%e9%99%90%e6%97%b6%e7%ad%89%e5%be%85" class="header-mark"></a>限时等待</h3><p>阻塞调用会将线程挂起一段不确定的时间，直到相应的事件发生，通常情况下这样的方式很不错，但是在一些情况下，需要限定线程等待的时间。</p>
-<p>通常有两种指定超时方式：一种是 <strong>时间段</strong>​，另一种是 <strong>时间点</strong>​。第一种方式，需要指定一段时间；第二种方式，就是指定一个时间点。多数等待函数提供变量，对两种超时方式进行处理，处理持续时间的变量 (<strong>时间段</strong>) 以 <code>_for</code> 作为后缀，处理绝对时间的变量
+<p>通常有两种指定超时方式：一种是 <strong>时间段</strong>，另一种是 <strong>时间点</strong>。第一种方式，需要指定一段时间；第二种方式，就是指定一个时间点。多数等待函数提供变量，对两种超时方式进行处理，处理持续时间的变量 (<strong>时间段</strong>) 以 <code>_for</code> 作为后缀，处理绝对时间的变量
 (时间戳) 以 <code>_until</code> 作为后缀。</p>
 <h4 id="时钟" class="headerLink">
     <a href="#%e6%97%b6%e9%92%9f" class="header-mark"></a>时钟</h4><p>时钟就是时间信息源，一个时钟的当前时间可由静态成员函数 <code>now()</code> 获取，特定的时间点的类型是成员类型 <code>time_point</code> 。时钟节拍被指定为1/x秒，这是由时间周期所决定，当时钟节拍均匀分布且不可修改时这种时钟被称为稳定时钟。</p>
@@ -913,7 +913,7 @@ Period 类型的 <strong>计次周期</strong> 组成，计次周期是一个编
 <li><strong>::std::chrono::hours</strong> (时)</li>
 </ul>
 <p>C++20开始，标准库又增加了天、周、月、年来方便使用时间段。</p>
-<p>C++14 中，​<code>::std::literals</code> 中定义了一些 duration 字面量方便使用</p>
+<p>C++14 中，<code>::std::literals</code> 中定义了一些 duration 字面量方便使用</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1

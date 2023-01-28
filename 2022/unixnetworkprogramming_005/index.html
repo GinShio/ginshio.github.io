@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/unixnetworkprogramming_005\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Unix, Network, Posix, IuputOutput, Multiplexing","wordcount":  10046 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Unix, Network, Posix, IuputOutput, Multiplexing","wordcount":  10040 ,
         "url": "https:\/\/blog.ginshio.org\/2022\/unixnetworkprogramming_005\/","datePublished": "2022-02-26T14:35:50+08:00","dateModified": "2022-04-07T19:45:13+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -171,7 +171,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="02-26">02-26</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 10046 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="02-26">02-26</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 10040 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 21 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -241,7 +241,7 @@
   </ul>
 </nav></div>
             </div><div class="content" id="content"><p>在客户端阻塞在 read 等待用户输入时，服务器关闭会导致向客户端发送 FIN，这是客户端的另一个输入。但由于客户端阻塞在 read 从而无法立即接受这个输入，直到从套接字读入为止。这就需要进程提前告知内核，使得内核在进程指定的输入准备好后，或可以输出后，立即通知进程，这个能力被称为 I/O 复用 (I/O multiplexing)。</p>
-<p>I/O 复用有多个 syscall 可以实现，Unix 古老的函数 select 与 poll，POSIX 有一个比较新的变种为 pselect，而 Linux 与 freeBSD 独立发展出了 <strong>epoll</strong> 与 <strong>kqueue</strong>​。</p>
+<p>I/O 复用有多个 syscall 可以实现，Unix 古老的函数 select 与 poll，POSIX 有一个比较新的变种为 pselect，而 Linux 与 freeBSD 独立发展出了 <strong>epoll</strong> 与 <strong>kqueue</strong>。</p>
 <p>I/O 复用典型适用于以下场合：</p>
 <ul>
 <li>当客户处理多个描述符时</li>
@@ -272,7 +272,7 @@
 <figure><img src="/images/unp-non-blocking-io-model.svg" width="64%"/>
     </figure>
 
-<p>在上图中，可以反复调用 syscall 查看数据是否已复制到缓冲区。如果我们有一系列非阻塞描述符时，可以轮流对其进行询问，这种方式称为​<strong>轮询</strong> (polling)，当有描述符可用时进行处理，否则询问下一个描述符。但是这样做会消耗大量的 CPU，因此需要尽可能少的使用该方法。</p>
+<p>在上图中，可以反复调用 syscall 查看数据是否已复制到缓冲区。如果我们有一系列非阻塞描述符时，可以轮流对其进行询问，这种方式称为<strong>轮询</strong> (polling)，当有描述符可用时进行处理，否则询问下一个描述符。但是这样做会消耗大量的 CPU，因此需要尽可能少的使用该方法。</p>
 </li>
 <li>
 <p><strong>I/O multiplexing</strong> (I/O 复用, e.g. select, poll)</p>
@@ -416,7 +416,7 @@ EINVAL 错误，即不支持的 timeout。</p>
 </li>
 <li>
 <p>nfds 参数</p>
-<p>nfds 指定了待测试描述符的个数，其值是最大描述符 \(+1\)​， <code>FD_SETSIZE</code> 是定义
+<p>nfds 指定了待测试描述符的个数，其值是最大描述符 \(+1\)， <code>FD_SETSIZE</code> 是定义
 fd_set 数据可描述的描述符大小的常值，通常是 1024。比如关心 1、4、5 描述符，那么 nfds 应该填 6。</p>
 </li>
 </ul>
@@ -1006,7 +1006,7 @@ Attacks)：如果客户端仅发送一个字节的数据，且这个字节不是
 </tr>
 </tbody>
 </table>
-<p>poll 可以识别并处理 <strong>普通</strong> (normal)、​<strong>优先级带</strong> (priority band) 和 <strong>高优先级</strong> (high priority) 数据 (术语出自基于流的实现)。另外 <code>POLLIN</code> 与 <code>POLLOUT</code>
+<p>poll 可以识别并处理 <strong>普通</strong> (normal)、<strong>优先级带</strong> (priority band) 和 <strong>高优先级</strong> (high priority) 数据 (术语出自基于流的实现)。另外 <code>POLLIN</code> 与 <code>POLLOUT</code>
 自 SVR3 实现存在，早于 SVR4 中的优先级带，这两个值的出现是历史因素。</p>
 <p>就 TCP 与 UDP 套接字而言，以下条件会引起 poll 返回特定的 revent</p>
 <ul>
@@ -1402,7 +1402,7 @@ epoll_wait 在事件状态未变更前将不断被触发。</p>
 <code>epoll_wait</code> 返回时都会包括该事件，直到事件缓冲区为空位置；ET 模式下，事件只会通知一次，不会反复通知</li>
 <li>以写事件为例，LT 模式下只要写缓冲区未满，就会一直通知可写；ET 模式下，内核写缓冲区由满变为未满的情况下，只会通知一次可写事件</li>
 </ul>
-<p>水平触发与边沿触发这两个术语来自中断。​<code>水平触发</code> 也称状态触发，当设备希望发送中断信号时，驱动中断请求线路置相应电位，并在 CPU 发出强制停止命令或处理所请求的中断事件之前始终保持。持续保持中断也就对应了 LT 模式下事件发生就会一直返回，直到处理。​<code>边沿触发</code> 系统中，中断设备向中断线路发送一个脉冲来表示其中断请求，脉冲可以为上升沿或下降沿，当发送完脉冲后立即释放中断线路。</p>
+<p>水平触发与边沿触发这两个术语来自中断。<code>水平触发</code> 也称状态触发，当设备希望发送中断信号时，驱动中断请求线路置相应电位，并在 CPU 发出强制停止命令或处理所请求的中断事件之前始终保持。持续保持中断也就对应了 LT 模式下事件发生就会一直返回，直到处理。<code>边沿触发</code> 系统中，中断设备向中断线路发送一个脉冲来表示其中断请求，脉冲可以为上升沿或下降沿，当发送完脉冲后立即释放中断线路。</p>
 <p>ET 模式使得程序有可能在用户态缓存 I/O 状态，以下情况下推荐使用 ET 模式</p>
 <ul>
 <li>read 或 write 系统调用返回了 <strong>EAGAIN</strong></li>

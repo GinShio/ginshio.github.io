@@ -37,7 +37,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/memory_alignment\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "C\u002b\u002b, GLSLang, Memory","wordcount":  7887 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "C\u002b\u002b, GLSLang, Memory","wordcount":  7840 ,
         "url": "https:\/\/blog.ginshio.org\/2022\/memory_alignment\/","datePublished": "2022-09-03T17:41:38+08:00","dateModified": "2022-09-05T04:51:57+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -162,7 +162,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programming/"><i class="far fa-folder fa-fw"></i>Programming</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="09-03">09-03</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="09-05">09-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7887 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="09-03">09-03</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="09-05">09-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7840 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 16 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -250,7 +250,7 @@
 <p>另外对齐可以更好的确定是否在同一个 cache line 上，某些类型的应用会针对 cache
 line 进行优化，从而取得更好的性能。</p>
 <h3 id="范围" class="headerLink">
-    <a href="#%e8%8c%83%e5%9b%b4" class="header-mark"></a>范围</h3><p>给定任意的地址空间，如果架构认为 2 个最低有效位 (LSB) 总是 0 (如 32bit 机器)，那么它可以访问四倍大小的内存 (2 bit 可以表示 4 个不同的状态)，或者相同大小的内存但有额外两个标志位。2 个最低有效位意味着 4 字节对齐，地址在增加时只会从第 2 位开始变动，最低两位始终是 <code>00</code>​。</p>
+    <a href="#%e8%8c%83%e5%9b%b4" class="header-mark"></a>范围</h3><p>给定任意的地址空间，如果架构认为 2 个最低有效位 (LSB) 总是 0 (如 32bit 机器)，那么它可以访问四倍大小的内存 (2 bit 可以表示 4 个不同的状态)，或者相同大小的内存但有额外两个标志位。2 个最低有效位意味着 4 字节对齐，地址在增加时只会从第 2 位开始变动，最低两位始终是 <code>00</code>。</p>
 <p>这可以影响处理器的物理结构，这意味着地址总线可以少两位，或者 CPU 少两个针脚，亦或者电路板上少走 2 根线。</p>
 <h3 id="原子性" class="headerLink">
     <a href="#%e5%8e%9f%e5%ad%90%e6%80%a7" class="header-mark"></a>原子性</h3><p>CPU 可以原子地操作对齐的字内存，这意味着没有指令可以中断这次操作。这对许多<a href="http://kukuruku.co/hub/cpp/lock-free-data-structures-basics-atomicity-and-atomic-primitives" target="_blank" rel="noopener noreferrer">无锁数据结构</a>和其他<a href="https://www.sciencedirect.com/science/article/pii/0304397588900965" target="_blank" rel="noopener noreferrer">并发</a>范式的正确操作有着至关重要的作用。</p>
@@ -329,16 +329,16 @@ line 进行优化，从而取得更好的性能。</p>
 </tbody>
 </table>
 <p>虽然数据模型定义很清楚，但在处理跨平台代码时，数据类型大小的处理是很头疼的。</p>
-<p>好在 C / C++ 在 <code>stdint.h</code> 中还提供了更多种类的定长整型，长度主要是 <code>8</code>​、​<code>16</code>​、​<code>32</code> 和
-<code>64</code> bit​，且提供了不同需求的定长整型 <code>fast</code> 和 <code>least</code>​。</p>
+<p>好在 C / C++ 在 <code>stdint.h</code> 中还提供了更多种类的定长整型，长度主要是 <code>8</code>、<code>16</code>、<code>32</code> 和
+<code>64</code> bit，且提供了不同需求的定长整型 <code>fast</code> 和 <code>least</code>。</p>
 <ul>
-<li>定长整型，e.g. <code>uint8_t</code>​、​<code>int16_t</code>​。定长整型是编译器可选项，因此可能不存在这个指定的类型。定长整型指定的位长度不可多也不可少，即强制要求位长度匹配。</li>
-<li>最接近的定长整型，e.g. <code>int_least16_t</code>​、​<code>uint_least16_t</code>​。最接近的定长整型指可以比指定的位长度可以多但不可以少。比如使用 <code>uint_least8_t</code>​，但平台不支持
-<code>uint16_t</code> 但支持 <code>uint32_t</code>​，因此该类型是 <code>uint32_t</code>​。</li>
-<li>最快的定长整型，e.g. <code>int_fast32_t</code>​、​<code>uint_fast32_t</code>​。最快的定长整型指可以比指定的位多但不能少，且在满足指定位长的情况下使用执行最快的整型。比如使用
-<code>uint_fast8_t</code>​，平台支持 <code>uint32_t</code> 和 <code>uint16_t</code>​，但最快的是 <code>uint32_t</code>​，因此该类型使用前者。</li>
+<li>定长整型，e.g. <code>uint8_t</code>、<code>int16_t</code>。定长整型是编译器可选项，因此可能不存在这个指定的类型。定长整型指定的位长度不可多也不可少，即强制要求位长度匹配。</li>
+<li>最接近的定长整型，e.g. <code>int_least16_t</code>、<code>uint_least16_t</code>。最接近的定长整型指可以比指定的位长度可以多但不可以少。比如使用 <code>uint_least8_t</code>，但平台不支持
+<code>uint16_t</code> 但支持 <code>uint32_t</code>，因此该类型是 <code>uint32_t</code>。</li>
+<li>最快的定长整型，e.g. <code>int_fast32_t</code>、<code>uint_fast32_t</code>。最快的定长整型指可以比指定的位多但不能少，且在满足指定位长的情况下使用执行最快的整型。比如使用
+<code>uint_fast8_t</code>，平台支持 <code>uint32_t</code> 和 <code>uint16_t</code>，但最快的是 <code>uint32_t</code>，因此该类型使用前者。</li>
 </ul>
-<p>最后再说一下，由于指针在不同平台上的大小是不一样的，因此在转换指针位整型时，为了跨平台性，可以选择标准库可选的 <code>intptr_t</code> 和 <code>uintptr_t</code>​。</p>
+<p>最后再说一下，由于指针在不同平台上的大小是不一样的，因此在转换指针位整型时，为了跨平台性，可以选择标准库可选的 <code>intptr_t</code> 和 <code>uintptr_t</code>。</p>
 <h2 id="c-plus-plus-的内存对齐" class="headerLink">
     <a href="#c-plus-plus-%e7%9a%84%e5%86%85%e5%ad%98%e5%af%b9%e9%bd%90" class="header-mark"></a>C++ 的内存对齐</h2><div class="details admonition info open">
         <div class="details-summary admonition-title">
@@ -350,16 +350,16 @@ line 进行优化，从而取得更好的性能。</p>
     </div>
 <h3 id="具名要求" class="headerLink">
     <a href="#%e5%85%b7%e5%90%8d%e8%a6%81%e6%b1%82" class="header-mark"></a>具名要求</h3><h4 id="平凡类" class="headerLink">
-    <a href="#%e5%b9%b3%e5%87%a1%e7%b1%bb" class="header-mark"></a>平凡类</h4><p>首先，​<code>可平凡复制类型</code> 满足以下所有条件</p>
+    <a href="#%e5%b9%b3%e5%87%a1%e7%b1%bb" class="header-mark"></a>平凡类</h4><p>首先，<code>可平凡复制类型</code> 满足以下所有条件</p>
 <ul>
-<li>至少有一个未被弃置的​<code>复制构造函数</code>​、​<code>移动构造函数</code>​、​<code>复制赋值运算符</code>​或​<code>移动赋值运算符</code></li>
+<li>至少有一个未被弃置的<code>复制构造函数</code>、<code>移动构造函数</code>、<code>复制赋值运算符</code>或<code>移动赋值运算符</code></li>
 <li>每个复制构造函数都是平凡的或被弃置的</li>
 <li>每个移动构造函数都是平凡的或被弃置的</li>
 <li>每个复制赋值运算符都是平凡的或被弃置的</li>
 <li>每个移动赋值运算符都是平凡的或被弃置的</li>
 <li>有一个未被弃置的平凡析构函数</li>
 </ul>
-<p>一个 <code>平凡类</code>​，满足以下所有条件</p>
+<p>一个 <code>平凡类</code>，满足以下所有条件</p>
 <ul>
 <li>是一个可平凡复制类型</li>
 <li>有一个或多个默认构造函数，它们全部都是平凡的或被弃置的，而且其中至少有一个未被弃置</li>
@@ -415,7 +415,7 @@ line 进行优化，从而取得更好的性能。</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">L</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">x</span><span class="p">{</span><span class="mi">0</span><span class="p">};</span> <span class="p">};</span> <span class="c1">// is non-trivial
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><p>如果你用 gcc 或 clang 编译，会发现编译器显示 <code>E</code>​、​<code>F</code>​ 和 <code>H</code> 是平凡类，按照标准，实际上应该不是平凡类，可以在 bugzilla 查看 <a href="https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96288" target="_blank" rel="noopener noreferrer">gcc</a> 和 <a href="https://bugs.llvm.org/show_bug.cgi?id=39050" target="_blank" rel="noopener noreferrer">clang</a> 的 bug 报告。</p>
+</div><p>如果你用 gcc 或 clang 编译，会发现编译器显示 <code>E</code>、<code>F</code> 和 <code>H</code> 是平凡类，按照标准，实际上应该不是平凡类，可以在 bugzilla 查看 <a href="https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96288" target="_blank" rel="noopener noreferrer">gcc</a> 和 <a href="https://bugs.llvm.org/show_bug.cgi?id=39050" target="_blank" rel="noopener noreferrer">clang</a> 的 bug 报告。</p>
 <p>另外，可平凡复制类可以用 <code>::memcpy</code> 或 <code>::memmove</code> 在两个不存在潜在重叠的对象之间互相拷贝。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -528,7 +528,7 @@ data) 的概念来表示 C 中这些类型 (C++20 移除了这一概念)，即�
 <li>所有非静态数据成员都是 POD 类类型</li>
 </ul>
 <p>可以这样理解，平凡类规定了一个类型无关心任何资源，即最基础的构造、析构方式；标准布局类规定了一个类型如何布局每个字段的。只要是标准布局类就可以和 C 程序无痛操作，但这个类型可能不是平凡类型，因此将 POD 拆分为两个概念。</p>
-<p>最好理解的就是 <code>::std::vector</code>​，它采用 RAII 的方式自己管理资源，有复杂的构造、析构函数，它不是一个平凡类，但它是一个​<strong>标准布局类</strong>​，因此完全其完全遵循内存对齐方式，也可以用 <code>memcpy</code> 将其内部的值拷贝下来。</p>
+<p>最好理解的就是 <code>::std::vector</code>，它采用 RAII 的方式自己管理资源，有复杂的构造、析构函数，它不是一个平凡类，但它是一个<strong>标准布局类</strong>，因此完全其完全遵循内存对齐方式，也可以用 <code>memcpy</code> 将其内部的值拷贝下来。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -874,7 +874,7 @@ data) 的概念来表示 C 中这些类型 (C++20 移除了这一概念)，即�
 </span></span><span class="line"><span class="cl"><span class="p">};</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>也就是说，上面这个示例中，只保证了 <code>&amp;S::s &lt; &amp;S::t &lt; &amp;S::v</code>​，但不会保证 <code>&amp;S::s &lt; &amp;S::u</code>​。或者说，在内存中，可能出现 <code>s, t, u, v</code> 的顺序，也可能出现 <code>u, s, t, v</code> 的顺序。</p>
+</div><p>也就是说，上面这个示例中，只保证了 <code>&amp;S::s &lt; &amp;S::t &lt; &amp;S::v</code>，但不会保证 <code>&amp;S::s &lt; &amp;S::u</code>。或者说，在内存中，可能出现 <code>s, t, u, v</code> 的顺序，也可能出现 <code>u, s, t, v</code> 的顺序。</p>
 <p>当然不止访问性导致的顺序问题，在不同类中声明的字段也会造成顺序问题。也就是说，我们不能假定基类中声明的变量，其位置一定先于派生类中声明的变量。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -888,7 +888,7 @@ data) 的概念来表示 C 中这些类型 (C++20 移除了这一概念)，即�
 </span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">U</span> <span class="o">:</span> <span class="k">public</span> <span class="n">S</span><span class="p">,</span> <span class="n">T</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">u</span><span class="p">;</span> <span class="p">};</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>也就是说，上面这个示例中，不能保证 <code>&amp;U::s &lt; &amp;U::u</code>​。但是标准保证，在派生类指针转换到基类指针时，会自动计算基类字对象的偏移量。但不保证 U 的对象首地址就是 S 的字对象首地址。</p>
+</div><p>也就是说，上面这个示例中，不能保证 <code>&amp;U::s &lt; &amp;U::u</code>。但是标准保证，在派生类指针转换到基类指针时，会自动计算基类字对象的偏移量。但不保证 U 的对象首地址就是 S 的字对象首地址。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1029,7 +1029,7 @@ data) 的概念来表示 C 中这些类型 (C++20 移除了这一概念)，即�
 </tbody>
 </table>
 <h3 id="buffer-的布局修饰" class="headerLink">
-    <a href="#buffer-%e7%9a%84%e5%b8%83%e5%b1%80%e4%bf%ae%e9%a5%b0" class="header-mark"></a>buffer 的布局修饰</h3><p>​<code>buffer</code> 作为可读可写的全局对象，其布局由实现定义，除非手动指定布局。​<code>uniform</code> 是一种特殊的全局 buffer，只可读，默认 std140 布局且无法修改；​<code>push_constant</code> 是一种特殊的 uniform，其存储在寄存器，大小约为 16 words，实现可以使用 uniform 代替实现，当超出大小时同样将超出部分存储在 uniform buffer 中，默认布局为 std430，可以修改布局。</p>
+    <a href="#buffer-%e7%9a%84%e5%b8%83%e5%b1%80%e4%bf%ae%e9%a5%b0" class="header-mark"></a>buffer 的布局修饰</h3><p><code>buffer</code> 作为可读可写的全局对象，其布局由实现定义，除非手动指定布局。<code>uniform</code> 是一种特殊的全局 buffer，只可读，默认 std140 布局且无法修改；<code>push_constant</code> 是一种特殊的 uniform，其存储在寄存器，大小约为 16 words，实现可以使用 uniform 代替实现，当超出大小时同样将超出部分存储在 uniform buffer 中，默认布局为 std430，可以修改布局。</p>
 <p>在 buffer 中，默认矩阵都是列主矩阵 (<strong>column_major</strong>)，可以在布局中对其进行修改</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1131,7 +1131,7 @@ SPIRV 禁止使用 <code>packed</code> 与 <code>shared</code> 的布局方式�
 </span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">bo</span><span class="p">;</span> <span class="c1">// sizeof = 32, alignof = 8</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>虽然默认的布局方式已经很好了，不过有时也可能会手动的修改以下字段的偏移量。这时候需要使用 <code>offset</code>​。但是编译器不会检查手动设置的偏移量是否与其他字段存在重叠。</p>
+</div><p>虽然默认的布局方式已经很好了，不过有时也可能会手动的修改以下字段的偏移量。这时候需要使用 <code>offset</code>。但是编译器不会检查手动设置的偏移量是否与其他字段存在重叠。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1168,7 +1168,7 @@ SPIRV 禁止使用 <code>packed</code> 与 <code>shared</code> 的布局方式�
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="location" class="headerLink">
-    <a href="#location" class="header-mark"></a>location</h3><p>location 相当于每个 shader 数据传输的一个存储点，location 根据编号进行匹配，其匹配上一个 shader 的 <code>in</code> 与下一个 shader 的 <code>out</code>​。同一个 location 不能在 shader 中声明多次，in 与 out 是完全不同的 location。</p>
+    <a href="#location" class="header-mark"></a>location</h3><p>location 相当于每个 shader 数据传输的一个存储点，location 根据编号进行匹配，其匹配上一个 shader 的 <code>in</code> 与下一个 shader 的 <code>out</code>。同一个 location 不能在 shader 中声明多次，in 与 out 是完全不同的 location。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1265,7 +1265,7 @@ location 值，然后让其他变量的 location 值自动递增。</p>
 </span></span><span class="line"><span class="cl"><span class="p">};</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>之前说过 location 的大小是 4 words，如果一个 location 只用其中的一部分存储变量显然是低效的，​<code>component</code> 可以指定变量在 location 的偏移量。但是需要注意的是，
+</div><p>之前说过 location 的大小是 4 words，如果一个 location 只用其中的一部分存储变量显然是低效的，<code>component</code> 可以指定变量在 location 的偏移量。但是需要注意的是，
 component 偏移后剩余部分必须能存储该变量。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

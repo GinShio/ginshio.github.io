@@ -14,7 +14,7 @@ help new** 查看，对于新建项目，mix 会很友好的创建一系列文�
 mix new example
 ```
 
-我们目前只需要关注其中的 **mix.exs** 就行了，它包含了配置应用、依赖、环境信息、版本等功能，​`project` 函数设置项目相关信息， `application` 函数在生产应用文件的时候会用到，​`deps` 函数则是定义项目的依赖项
+我们目前只需要关注其中的 **mix.exs** 就行了，它包含了配置应用、依赖、环境信息、版本等功能，`project` 函数设置项目相关信息， `application` 函数在生产应用文件的时候会用到，`deps` 函数则是定义项目的依赖项
 
 
 ### 管理依赖、环境 {#管理依赖-环境}
@@ -64,9 +64,9 @@ MIX_ENV=prod mix compile
 
 ### 测试 {#测试}
 
-Elixir 社区提供了相当多的工具，其中之前讲过了文档使用的 **ExDoc**​，今天我们主要说一说测试工具 **ExUnit**
+Elixir 社区提供了相当多的工具，其中之前讲过了文档使用的 **ExDoc**，今天我们主要说一说测试工具 **ExUnit**
 
-测试是通过 Elixir 脚本来执行的，所以测试文件的后缀必须是 **.exs**​，在测试之前需要使用 `ExUnit.start()` 启动 ExUnit (一般 mix 中的 `test/test_helper.exs` 已经帮我们做了这一步)。当执行 `mix test` 时，就开始运行项目测试了，测试时除了 case 之外，还会执行文档测试
+测试是通过 Elixir 脚本来执行的，所以测试文件的后缀必须是 **.exs**，在测试之前需要使用 `ExUnit.start()` 启动 ExUnit (一般 mix 中的 `test/test_helper.exs` 已经帮我们做了这一步)。当执行 `mix test` 时，就开始运行项目测试了，测试时除了 case 之外，还会执行文档测试
 
 ```elixir
 # test/example_test.exs
@@ -95,7 +95,7 @@ end
 
 -   refute 与 assert 的关系就像 unless 与 if，所以它们正好是一对语义相反的断言
 -   assert_raise 是错误处理中断言某个错误是否被抛出，而 assert_receive 则是并发当中断言小时是否被发送
--   capture_io 和 capture_log 都是检查应用是否正确输出，不过 `_io` 检查的是IO输出，​`_log` 检查的是logger输出
+-   capture_io 和 capture_log 都是检查应用是否正确输出，不过 `_io` 检查的是IO输出，`_log` 检查的是logger输出
 
 
 ## 与 Erlang 互操作 {#与-erlang-互操作}
@@ -232,7 +232,7 @@ end
 
 ## 并发 {#并发}
 
-得益于 BEAM (Erlang VM)，Elixir 对并发的支持很棒，并发模型是 **Actors**​，通过消息传递交互的进程，BEAM 的进程是轻量级的，可以运行在所有 CPU 之上，类似于现在所说的协程。
+得益于 BEAM (Erlang VM)，Elixir 对并发的支持很棒，并发模型是 **Actors**，通过消息传递交互的进程，BEAM 的进程是轻量级的，可以运行在所有 CPU 之上，类似于现在所说的协程。
 
 创建新进程的方式很简单，和 Golang 中的 go 有异曲同工之妙，使用 `spawn` 即可完成，并且返回一个 **pid** (进程标识符)
 
@@ -306,7 +306,7 @@ Example.run() # Exit reason: iris
 #### 进程监控 {#进程监控}
 
 如果不希望链接两个进程，但是仍然希望获得错误信息通知，那么就需要监控这个进程，即
-`spawn_monitor`​，不需要捕获进程，也不会导致当前进程崩溃
+`spawn_monitor`，不需要捕获进程，也不会导致当前进程崩溃
 
 ```elixir
 defmodule Example do
@@ -386,7 +386,7 @@ def queue(), do: GenServer.call(__MODULE__, :queue)
 def dequeue(), do: GenServer.call(__MODULE__, :dequeue)
 ```
 
-同步操作时，当调用 :dequeue 函数，就会从队列中取出头部，并将尾部保存为状态等待下一次使用，最终返回头部，当队列为空时则什么都不做。​`:queue` 函数则只会展示当前状态，不会改变状态
+同步操作时，当调用 :dequeue 函数，就会从队列中取出头部，并将尾部保存为状态等待下一次使用，最终返回头部，当队列为空时则什么都不做。`:queue` 函数则只会展示当前状态，不会改变状态
 
 ```elixir
 SimpleQueue.start_link([1, 2, 3]) # {:ok, #PID<0.136.0>}
@@ -432,9 +432,9 @@ end
 
 如果我们的 SimpleQueue 进程崩溃了，或者被终止了，Supervisor 会自动重启这个进程，重启策略有三种
 
--   `:one_for_one`​：只重启失败的子进程
--   `:one_for_all`​：当错误事件出现时，重启所有子进程
--   `:rest_for_one`​：重启失败的子进程，以及所有在它后面启动的进程
+-   `:one_for_one`：只重启失败的子进程
+-   `:one_for_all`：当错误事件出现时，重启所有子进程
+-   `:rest_for_one`：重启失败的子进程，以及所有在它后面启动的进程
 
 
 #### 子进程 Specification {#子进程-specification}

@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/compilerprinciple_005\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, SyntacticAnalysis","wordcount":  4578 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, SyntacticAnalysis","wordcount":  4489 ,
         "url": "https:\/\/blog.ginshio.org\/2022\/compilerprinciple_005\/","datePublished": "2022-04-12T22:23:17+08:00","dateModified": "2022-04-30T15:09:59+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -150,8 +150,8 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="04-12">04-12</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-30">04-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4578 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 10 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="04-12">04-12</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-30">04-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4489 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
                                     <span>系列 - 龙书学习笔记</span>
@@ -202,7 +202,7 @@
   </ul>
 </nav></div>
             </div><div class="content" id="content"><p>自顶向下语法可以被看作输入串构造语法分析树的问题，从语法分析树的根结点开始，深度优先创建这棵树的各个结点。</p>
-<p>对于输入 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>​，可以根据最左推导序列产生语法分析树序列：
+<p>对于输入 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>，可以根据最左推导序列产生语法分析树序列：
 \[\begin{aligned}
 E &amp;\rightarrow TE^{&rsquo;}\\
 E^{&rsquo;} &amp;\rightarrow +\ T\ E^{&rsquo;}\,|\,\varepsilon\\
@@ -236,17 +236,17 @@ F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\
 \xRightarrow{*}\varepsilon\)，那么 \(\varepsilon\) 也在 \(\texttt{FIRST}(\alpha)\) 中。在之前的示例中，就是 \(\textit{A} \xRightarrow{*} c\gamma\)，因此 \(c\) 在 \(\texttt{FIRST}(\alpha)\) 中，如图 <a href="#figure--fig:top-down-parsing-process-example-follow-and-first" rel="">2</a> 所示。</p>
 <p><a id="figure--fig:top-down-parsing-process-example-follow-and-first"></a></p>
 <figure><img src="/images/top-down-parsing-process-example-follow-and-first.svg"
-         alt="Figure 2: 终结符 c 在 FIRST​(A) 中且 a 在 FOLLOW​(A) 中"/><figcaption>
-            <p><span class="figure-number">Figure 2: </span>终结符 c 在 <code>FIRST</code>​(<em>A</em>) 中且 a 在 <code>FOLLOW</code>​(<em>A</em>) 中</p>
+         alt="Figure 2: 终结符 c 在 FIRST(A) 中且 a 在 FOLLOW(A) 中"/><figcaption>
+            <p><span class="figure-number">Figure 2: </span>终结符 c 在 <code>FIRST</code>(<em>A</em>) 中且 a 在 <code>FOLLOW</code>(<em>A</em>) 中</p>
         </figcaption>
 </figure>
 
 <p>考虑两个 A 的产生式 \(\textit{A} \rightarrow \alpha\,|\,\beta\)，其中 \(\texttt{FIRST}(\alpha)\) 和
 \(\texttt{FIRST}(\beta)\) 是不相交的集合。那么只需要查看下一个输入符号 a 就可以选择产生式。因为 a 只能出现在 \(\texttt{FIRST}(\alpha)\) 或 \(\texttt{FIRST}(\beta)\) 中，但不能同时出现在两个集合中。</p>
-<p>对于非终结符 _A_​，\(\texttt{FOLLOW}(\textit{A})\) 被定义为可能在某些句型中紧跟在
+<p>对于非终结符 <em>A</em>，\(\texttt{FOLLOW}(\textit{A})\) 被定义为可能在某些句型中紧跟在
 <em>A</em> 右边的终结符的集合。如图
 <a href="#figure--fig:top-down-parsing-process-example-follow-and-first" rel="">2</a> 所示
-\(\textit{S}\xRightarrow{*}\alpha​\textit{A}a​\beta\) 的推导，\(\alpha\) 和 \(\beta\) 是文法符号串，终结符 a 在 \(\texttt{FOLLOW}(\textit{A})\) 中。</p>
+\(\textit{S}\xRightarrow{*}\alpha\textit{A}a\beta\) 的推导，\(\alpha\) 和 \(\beta\) 是文法符号串，终结符 a 在 \(\texttt{FOLLOW}(\textit{A})\) 中。</p>
 <h3 id="计算-first" class="headerLink">
     <a href="#%e8%ae%a1%e7%ae%97-first" class="header-mark"></a>计算 FIRST</h3><p>计算各个文法符号 <em>X</em> 的 \(\texttt{FRIST}(\textit{X})\) 时，不断应用以下规则，直到没有新的终结符或 \(\varepsilon\) 可以被加入。</p>
 <ol>
@@ -290,11 +290,11 @@ F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\
 \(\texttt{FOLLOW}(\textit{B})\) 中。</li>
 </ol>
 <h3 id="示例的-first-和-follow-计算" class="headerLink">
-    <a href="#%e7%a4%ba%e4%be%8b%e7%9a%84-first-%e5%92%8c-follow-%e8%ae%a1%e7%ae%97" class="header-mark"></a>示例的 FIRST 和 FOLLOW 计算</h3><p>对于示例 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>​，我们可以如此计算 FIRST 与 FOLLOW。</p>
+    <a href="#%e7%a4%ba%e4%be%8b%e7%9a%84-first-%e5%92%8c-follow-%e8%ae%a1%e7%ae%97" class="header-mark"></a>示例的 FIRST 和 FOLLOW 计算</h3><p>对于示例 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>，我们可以如此计算 FIRST 与 FOLLOW。</p>
 <ol>
 <li>\(\texttt{FIRST}(\textit{F})\ =\ \texttt{FIRST}(\textit{T})\ =\
-\texttt{FIRST}(\textit{E})\ =\ \{(,\textbf{id}\}\)。​_F_ 的产生式以终结符
-<strong>id</strong> 和左括号开头；​_T_ 只有 <em>F</em> 开头的产生式，​_F_ 不能推出 \(\varepsilon\)，因此
+\texttt{FIRST}(\textit{E})\ =\ \{(,\textbf{id}\}\)。<em>F</em> 的产生式以终结符
+<strong>id</strong> 和左括号开头；<em>T</em> 只有 <em>F</em> 开头的产生式，<em>F</em> 不能推出 \(\varepsilon\)，因此
 \(\texttt{FIRST}(\textit{T})\) 与 \(\texttt{FIRST}(\textit{F})\) 必然相同；对 \(\texttt{FIRST}(\textit{E})\) 论据相同。</li>
 <li>\(\texttt{FIRST}(\textit{E}^{&rsquo;}) = \{+, \varepsilon\}\)。\(\textit{E}^{&rsquo;}\) 的两个产生式中，一个以 \(+\) 开头，而另一个为 \(\varepsilon\)。只要有一个 \(\varepsilon\) 我们就将其加入 <code>FIRST</code> 中。</li>
 <li>\(\texttt{FIRST}(\textit{T}^{&rsquo;}) = \{*, \varepsilon\}\)。论据同 2。</li>
@@ -344,7 +344,7 @@ F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\
   1. 对于 \(\texttt{FIRST}(\alpha)\) 中的每个终结符 a，将 \(\textit{A} \rightarrow \alpha\) 加入到 \(\textit{M}[\textit{A}, a]\) 中<br />
   2. 如果 \(\varepsilon\) 在 \(\texttt{FIRST}(\alpha)\) 中，那么对于 \(\texttt{FOLLOW}(\textit{A})\) 中的每个终结符 b，将 \(\textit{A} \rightarrow \alpha\) 加入到 \(\textit{M}[\textit{A}, b]\) 中。如果 \(\$\) 也在 \(\texttt{FOLLOW}(\textit{A})\) 中，那也将 \(\textit{A} \rightarrow \alpha\) 加入到 \(\textit{M}[\textit{A}, \$]\) 中<br /></p>
 </div>
-<p>对于示例 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>​ 可以构造出如下分析表</p>
+<p>对于示例 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong> 可以构造出如下分析表</p>
 <table>
 <thead>
 <tr>
@@ -490,7 +490,7 @@ error();
 令 <em>X</em> 为栈顶符号;
 }
 #+end_vers</p>
-<p>在之前已经有了示例 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>​ 的预测分析表了，现在展示以下其执行步骤</p>
+<p>在之前已经有了示例 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong> 的预测分析表了，现在展示以下其执行步骤</p>
 <table>
 <thead>
 <tr>
@@ -619,7 +619,7 @@ error();
 <li>如果栈顶的一个终结符不能和输入匹配，最简单的方法是将其弹出栈，发出消息称已经插入这个终结符，并继续语法分析。这个方法是将其他词法单元的合集作为同步集合。</li>
 </ol>
 <p>因此我们可以将 <code>FOLLOW</code> 作为同步词法单元，重绘预测分析表，示例 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code>
-<strong>id</strong>​ 的预测分析表如下</p>
+<strong>id</strong> 的预测分析表如下</p>
 <table>
 <thead>
 <tr>

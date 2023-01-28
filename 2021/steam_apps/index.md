@@ -1,7 +1,7 @@
 # 使用 steamcmd 搭建游戏服务器
 
 
-和好友联机的时候本地服务器实在是不爽，一个人起飞，其他人都是​**高PING战士**​，最开始主要是 L4D2 时各种 RPG 服务器有些不爽，为了纯净的服务器只好自己建了
+和好友联机的时候本地服务器实在是不爽，一个人起飞，其他人都是**高PING战士**，最开始主要是 L4D2 时各种 RPG 服务器有些不爽，为了纯净的服务器只好自己建了
 
 事先声明，我们所有的操作在 Debian / Ubuntu 下操作，有些操作系统可能会不一样，不过大同小异，我们还是定义一些等等可能用到的变量 (主要是路径和密码之类的
 
@@ -63,7 +63,7 @@ sudo -u steam -H ln -s /usr/games/steamcmd ${steam}/steamcmd
 | quote   | 引用                             | [quote=author]引用文本[/quote]           |
 | code    | 等宽字体 (保留空格)              | [code]code[/code]                        |
 
-表格语法有点难度，​`tr` 表示一行，​`th` 表示一个单元格
+表格语法有点难度，`tr` 表示一行，`th` 表示一个单元格
 
 ```text
 [table]
@@ -148,7 +148,7 @@ heartbeat
 EOF
 ```
 
-对于服务器公告，​`${l4d2}/left4dead2/host.txt` 可以修改服务器公告的标题，而
+对于服务器公告，`${l4d2}/left4dead2/host.txt` 可以修改服务器公告的标题，而
 `${l4d2}/left4dead2/motd.txt` 修改的是公告的内容，我们可以在公告中使用之前列出的文本标记语法。对于第三方地图，我们只需要将地图存放在
 `{l4d2}/left4dead2/addons/workshop` 中即可，不过记得将地图文件的权限转到 steam
 
@@ -184,7 +184,7 @@ WantedBy=multi-user.target
 
 首先我们配置服务器，不过和 L4D2 的方式差不多，毕竟都是 SteamCMD，不废话，直接上
 Shell 指令。需要注意的是，Valheim 将占用三个端口，即 `valheim_port` 到
-`valheim_port + 2`​，请在防火墙开启需要的全部三个端口
+`valheim_port + 2`，请在防火墙开启需要的全部三个端口
 
 ```shell
 sudo -u steam -H ${steam}/steamcmd +force_install_dir ${valheim} +login anonymous +app_update ${valheim_id} validate +quit
@@ -791,7 +791,7 @@ DST 服务器最复杂的是世界设置文件，可以先在自己电脑上配�
     }
     ```
 
-说明一下，测试时发现地下修改为虫洞，而非大触手时，跳虫洞将导致服务器崩溃。使用了服务器虫洞着色插件 **wormhole marks**​，目前不清楚是 mod 问题还是游戏本身问题。
+说明一下，测试时发现地下修改为虫洞，而非大触手时，跳虫洞将导致服务器崩溃。使用了服务器虫洞着色插件 **wormhole marks**，目前不清楚是 mod 问题还是游戏本身问题。
 
 
 #### 启动程序 {#启动程序}
@@ -801,7 +801,7 @@ DST 服务器最复杂的是世界设置文件，可以先在自己电脑上配�
 
 -   **console** 指示这个服务器可以使用控制台
 -   **persistent_storage_root** 指定世界位面存储在什么地方，默认存在于
-    `$HOME/.klei`​，个人不推荐修改默认目录
+    `$HOME/.klei`，个人不推荐修改默认目录
 -   **conf_dir** 指定使用哪个位面的配置目录。默认目录为 DoNotStarveTogether，简单来说一个配置目录中有多个 **ClusterNum** 组成，如果想开多个完全不同的服务器，可以使用该参数修改路径
 -   **shard** 指定启动哪个世界，一般为地上、地下世界的启动指示，当然不排除你一个位面中存在多个地上世界
 
@@ -828,7 +828,7 @@ RestartPreventExitStatus=23
 WantedBy=multi-user.target
 ```
 
-我所使用的是 `dst@.service`​，这样只需要在启动不同位面时，在 `@` 之后加上目录名即可。由于 ExecStartPost 是启动地下世界，这是一个 simple 类型的命令，所以需要设置超时时间为无限 (即 **TimeoutStartSec=infinity** 来保证 systemd 不会杀掉服务器)。同时也是这个原因，在 start 时并不会结束命令，所以我一般重启服务器利用关机重启来重启这个命令。
+我所使用的是 `dst@.service`，这样只需要在启动不同位面时，在 `@` 之后加上目录名即可。由于 ExecStartPost 是启动地下世界，这是一个 simple 类型的命令，所以需要设置超时时间为无限 (即 **TimeoutStartSec=infinity** 来保证 systemd 不会杀掉服务器)。同时也是这个原因，在 start 时并不会结束命令，所以我一般重启服务器利用关机重启来重启这个命令。
 
 举个例子，我有一个冬季盛宴位面在 Winter 目录下，一个万圣节位面在 Dracula 目录下。我想关停万圣节位面关停冬季盛宴位面，即可使用以下命令
 

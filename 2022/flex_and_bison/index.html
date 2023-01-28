@@ -37,7 +37,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/flex_and_bison\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Applications, SyntacticAnalysis, LexicalAnalysis","wordcount":  26272 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Applications, SyntacticAnalysis, LexicalAnalysis","wordcount":  26082 ,
         "url": "https:\/\/blog.ginshio.org\/2022\/flex_and_bison\/","datePublished": "2022-05-01T15:29:43+08:00","dateModified": "2022-05-22T14:27:38+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -209,7 +209,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="05-01">05-01</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="05-22">05-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 26272 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="05-01">05-01</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="05-22">05-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 26082 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 53 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -345,7 +345,7 @@ generator。根据描述的正则表达式与 C 代码 (这些被称为 <strong>
 </div>
 </div><p>Flex 默认会生成标准的 C99 代码，而非 <code>K&amp;R</code> 风格代码。在调用 yylex 时，它会持续从全局输入文件 yyin 中扫描 token，直到遇到 EOF 或 action 执行返回语句。如果 yylex
 因 return 停止扫描，可以再次调用扫描器，从中断处继续扫描。当扫描到 EOF 时，只有
-<code>yywrap()</code> 返回 0 才继续读取其他文件，返回非零时扫描器会终止并返回 0。如果你不实现 <code>yywrap()</code>​,需要使用 <code>%option noyywrap</code> 或链接 <code>-lfl</code> 使用总返回 1 的默认版本。</p>
+<code>yywrap()</code> 返回 0 才继续读取其他文件，返回非零时扫描器会终止并返回 0。如果你不实现 <code>yywrap()</code>,需要使用 <code>%option noyywrap</code> 或链接 <code>-lfl</code> 使用总返回 1 的默认版本。</p>
 <p>话说回来，学习词法分析最大的收获应该是知道了正则是怎么运作的，自己哪天心血来潮了说不定就手撕一个。</p>
 <h3 id="flex-输入文件的格式" class="headerLink">
     <a href="#flex-%e8%be%93%e5%85%a5%e6%96%87%e4%bb%b6%e7%9a%84%e6%a0%bc%e5%bc%8f" class="header-mark"></a>Flex 输入文件的格式</h3><p>输入文件被分为三个部分，两个部分之间使用 <code>%%</code> 分隔。</p>
@@ -544,9 +544,9 @@ generator。根据描述的正则表达式与 C 代码 (这些被称为 <strong>
 <dd>仅以 s1 或 s2 或 s3 开始的 r</dd>
 <dt>&lt;*&gt;r</dt>
 <dd>以任意条件开始的 r</dd>
-<dt>&lt;​&lt;EOF&gt;​&gt;</dt>
+<dt>&lt;&lt;EOF&gt;&gt;</dt>
 <dd>文件末尾</dd>
-<dt>&lt;s1,s2&gt;&lt;​&lt;EOF&gt;​&gt;</dt>
+<dt>&lt;s1,s2&gt;&lt;&lt;EOF&gt;&gt;</dt>
 <dd>以条件 s1 或 s2 开始的文件末尾</dd>
 </dl>
 <p>在字符串中，除了转义符 (<code>\</code>)、字符集运算符 (<code>-</code> 和 <code>]]</code>) 以及行首标记 (<code>^</code>)，其他特殊字符均失去了其特殊意义。</p>
@@ -706,16 +706,16 @@ info 上看，支持了，但没全支持。</p>
 <!--listend-->
 <ul>
 <li>
-<p>Flex 允许否定 POSIX 字符集，只需要在字符类名称前加上 <code>^</code>​，但是大小写不敏感的扫描器上 <code>[:^upper:]</code> 和 <code>[:^lower:]</code> 会被跳过，它们的含义不清。</p>
+<p>Flex 允许否定 POSIX 字符集，只需要在字符类名称前加上 <code>^</code>，但是大小写不敏感的扫描器上 <code>[:^upper:]</code> 和 <code>[:^lower:]</code> 会被跳过，它们的含义不清。</p>
 </li>
 <li>
-<p>操作符 <code>{-}</code> 可以为两个字符集做差，但小心生成一个永远不会被匹配的空集。不过做差的两个集合不必是包含关系，比如 <code>[a-c]{-}[b-z]</code> 的结果为 <code>[a]</code>​。</p>
+<p>操作符 <code>{-}</code> 可以为两个字符集做差，但小心生成一个永远不会被匹配的空集。不过做差的两个集合不必是包含关系，比如 <code>[a-c]{-}[b-z]</code> 的结果为 <code>[a]</code>。</p>
 </li>
 <li>
-<p>操作符 <code>{+}</code> 求两个字符集的并集。比如 <code>[[:alpha:]]{-}[[:lower:]]{+}[q]</code> 的结果为 <code>[A-Zq]</code>​。</p>
+<p>操作符 <code>{+}</code> 求两个字符集的并集。比如 <code>[[:alpha:]]{-}[[:lower:]]{+}[q]</code> 的结果为 <code>[A-Zq]</code>。</p>
 </li>
 <li>
-<p>一个 pattern 最多有一个尾随上下文 (<code>/</code> 或 <code>$</code>)，开始条件、​<code>^</code> 和 <code>&lt;​&lt;EOF&gt;​&gt;</code> 只能出现在 pattern 的开头。这些内容均不能出现在 <code>()</code> 的优先级分组中。另外 <code>^</code> 与
+<p>一个 pattern 最多有一个尾随上下文 (<code>/</code> 或 <code>$</code>)，开始条件、<code>^</code> 和 <code>&lt;&lt;EOF&gt;&gt;</code> 只能出现在 pattern 的开头。这些内容均不能出现在 <code>()</code> 的优先级分组中。另外 <code>^</code> 与
 <code>$</code> 没有出现在相应位置的情况下，将被视为普通字符。</p>
 </li>
 </ul>
@@ -726,7 +726,7 @@ info 上看，支持了，但没全支持。</p>
     <a href="#flex-%e5%8c%b9%e9%85%8d%e8%a7%84%e5%88%99" class="header-mark"></a>Flex 匹配规则</h4><p>Flex 的匹配原则是最长匹配，且按优先级匹配。即多个同时匹配的规则，采用匹配到文本最长的规则；多个同时匹配且长度相同的规则，采用第一个列出的规则 (最上面的优先级最高)。长度包含尾随上下文的尾随部分。</p>
 <p>当匹配成功时，匹配的文本将可以使用全局指针 <strong>yytext</strong> 获取，长度可以通过全局整型
 <strong>yyleng</strong> 获取。之后开始执行匹配模式相应的 action，然后再扫描剩余的输入。但是没有匹配时，将执行默认规则：输入的下一个字符将被当作匹配并复制到标准输出。</p>
-<p>需要注意，​<strong>yytext</strong> 可以用两种不同的方式定义：字符指针或字符数组。在定义部分，你可以用 <code>%pointer</code> 或 <code>%array</code> 来指定用何种方式，当然默认使用指针的方式，如果有
+<p>需要注意，<strong>yytext</strong> 可以用两种不同的方式定义：字符指针或字符数组。在定义部分，你可以用 <code>%pointer</code> 或 <code>%array</code> 来指定用何种方式，当然默认使用指针的方式，如果有
 lex 兼容选项默认使用数组。使用指针带来的劣势是：修改 yytext 将会受限，且调用
 <code>unput()</code> 会破坏其中的内容，也可能出现 lex 的移植性问题。</p>
 <p>遗憾的是，生成 C++ 扫描器类是不能使用 <code>%pointer</code> 方式的。</p>
@@ -748,7 +748,7 @@ lex 兼容选项默认使用数组。使用指针带来的劣势是：修改 yyt
 <p>之前说了可以包含 <strong>return</strong> 语句，它将返回值给名为 <strong>yylex</strong> 的函数，这个函数每次在上次停止的地方继续向下处理，直到到达文件末尾或执行返回。</p>
 <p>action 可以自由修改 yytext，除了延长它 (末尾添加字符将覆盖之后的字符，在使用
 array 方式时不能修改)。action 还可以自由修改 yyleng，除非 action 还包括使用
-<code>yymore()</code>​。</p>
+<code>yymore()</code>。</p>
 <p>还为 action 定义了一些预设指令</p>
 <dl>
 <dt>ECHO</dt>
@@ -890,7 +890,7 @@ stream 冲突。</p>
 <dt>YY_FLUSH_BUFFER</dt>
 <dd>清空内部缓冲区，在下次匹配是先使用 <code>YY_INPUT()</code> 重填缓冲区。这个方法会在之后解释。</dd>
 <dt>yyterminate()</dt>
-<dd>替代 action 中的返回语句并返回 0 表示​<strong>全部完成</strong>​。通常在遇到
+<dd>替代 action 中的返回语句并返回 0 表示<strong>全部完成</strong>。通常在遇到
 EOF 时使用该函数。</dd>
 </dl>
 <h4 id="eof-规则" class="headerLink">
@@ -940,7 +940,7 @@ EOF 时使用该函数。</dd>
 </div><h3 id="开始条件" class="headerLink">
     <a href="#%e5%bc%80%e5%a7%8b%e6%9d%a1%e4%bb%b6" class="header-mark"></a>开始条件</h3><p>开始条件 (sc) 相当于一种激活机制，用 <code>BEGIN</code> 触发 sc，在下次 BEGIN 前，给定 sc
 都是激活状态，而其他 sc 都是屏蔽状态。</p>
-<p>在​<code>定义</code>​部分声明，有 <code>%s</code> (兼容性) 或 <code>%x</code> (排他性) 两种 sc，后跟随名称列表。兼容性 sc 激活时不会屏蔽非 sc 规则，但排他性 sc 激活时不但屏蔽其他 sc 规则，还屏蔽非 sc 规则。</p>
+<p>在<code>定义</code>部分声明，有 <code>%s</code> (兼容性) 或 <code>%x</code> (排他性) 两种 sc，后跟随名称列表。兼容性 sc 激活时不会屏蔽非 sc 规则，但排他性 sc 激活时不但屏蔽其他 sc 规则，还屏蔽非 sc 规则。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1122,7 +1122,7 @@ EOF 时使用该函数。</dd>
 </span></span><span class="line"><span class="cl">&lt;comment&gt;&#34;*&#34;+&#34;/&#34;        BEGIN(comment_caller);
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>一个更好的方式是，​<code>YY_START</code> 可以记录当前的 sc 状态，因此写成 <code>comment_caller = YY_START;</code> 是更好的方式。如果你想兼容 lex 则可以用它的别名 <code>YYSTATE</code>​。</p>
+</div><p>一个更好的方式是，<code>YY_START</code> 可以记录当前的 sc 状态，因此写成 <code>comment_caller = YY_START;</code> 是更好的方式。如果你想兼容 lex 则可以用它的别名 <code>YYSTATE</code>。</p>
 <p>最后，看一份 C 风格的字符串示例</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1356,7 +1356,7 @@ EOF 时使用该函数。</dd>
 </li>
 </ul>
 <p>最后还有一些宏，比如 <code>YY_CURRENT_BUFFER</code> 将返回当前缓冲区的 <code>YY_BUFFER_STATE</code> 句柄，但是请不要将它作为左值。</p>
-<p>看下示例吧！​<strong>Talk is cheap. Show me the code.</strong></p>
+<p>看下示例吧！<strong>Talk is cheap. Show me the code.</strong></p>
 <p>首先示例是一个关于 <code>include</code> 功能的实现，使用 <code>yypush_buffer_state</code> 和
 <code>yypop_buffer_state</code> 实现 (利用 Flex 自身维护堆栈)</p>
 <div class="highlight"><div class="chroma">
@@ -1506,7 +1506,7 @@ EOF 时使用该函数。</dd>
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>前两者会复制一份数据，这在希望修改缓冲区内容时是安全的，但你想避免复制时需要使用第三个函数。需要注意，它并不是末尾 non-NULL 字符串，它的最后两个字节必须是
-<code>YY_END_OF_BUFFER_CHAR</code>​。因此真正扫描的数据在 0 到 size-2。</p>
+<code>YY_END_OF_BUFFER_CHAR</code>。因此真正扫描的数据在 0 到 size-2。</p>
 <h3 id="flex-的各种奇奇怪怪的定义" class="headerLink">
     <a href="#flex-%e7%9a%84%e5%90%84%e7%a7%8d%e5%a5%87%e5%a5%87%e6%80%aa%e6%80%aa%e7%9a%84%e5%ae%9a%e4%b9%89" class="header-mark"></a>Flex 的各种奇奇怪怪的定义</h3><h4 id="奇奇怪怪的宏定义" class="headerLink">
     <a href="#%e5%a5%87%e5%a5%87%e6%80%aa%e6%80%aa%e7%9a%84%e5%ae%8f%e5%ae%9a%e4%b9%89" class="header-mark"></a>奇奇怪怪的宏定义</h4><dl>
@@ -1526,7 +1526,7 @@ EOF 时使用该函数。</dd>
 <dt>YY_USER_INIT</dt>
 <dd>提供了在第一次扫描之前或者内部初始化之前，执行的操作。比如说打开日志文件。</dd>
 <dt>yy_set_interactive(is_interactive)</dt>
-<dd>控制当前缓冲区是否是​<strong>交互的</strong>​。交互式的缓冲区性能差，但输入源是交互式的可以避免由于等待填充缓冲区导致的问题。也可以使用操作 <code>%option always-interactive</code> 或 <code>%option never-interactive</code> 指定是否为交互式缓冲区，但该宏会覆盖这两个操作。其值零表示为非交互的。</dd>
+<dd>控制当前缓冲区是否是<strong>交互的</strong>。交互式的缓冲区性能差，但输入源是交互式的可以避免由于等待填充缓冲区导致的问题。也可以使用操作 <code>%option always-interactive</code> 或 <code>%option never-interactive</code> 指定是否为交互式缓冲区，但该宏会覆盖这两个操作。其值零表示为非交互的。</dd>
 <dt>yy_set_bol(at_bol)</dt>
 <dd>控制当前缓冲区是否开启行头的扫描上下文。零值表示为 <code>^</code> 规则无效。宏 <code>YY_AT_BOL</code> 可以给出当前的情况。</dd>
 </dl>
@@ -1537,7 +1537,7 @@ EOF 时使用该函数。</dd>
 <dt>int yyleng</dt>
 <dd>当前 token 的文本长度。</dd>
 <dt>FILE *yyin</dt>
-<dd>当前读取文件的指针。如果想修改需要在扫描开始之前或遇到 EOF 之后，否则 UB，这种情况请使用 <code>yyrestart()</code>​。</dd>
+<dd>当前读取文件的指针。如果想修改需要在扫描开始之前或遇到 EOF 之后，否则 UB，这种情况请使用 <code>yyrestart()</code>。</dd>
 <dt>void yyrestart(FILE *new_file);</dt>
 <dd>要求 yyin 指向新的输入文件。</dd>
 <dt>FILE *yyout</dt>
@@ -1563,7 +1563,7 @@ EOF 时使用该函数。</dd>
 </span></span><span class="line"><span class="cl">%option   outfile=&#34;scanner.c&#34; header-file=&#34;scanner.h&#34;
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>flex 你可以在第一部分中写入 <code>%option</code>​，大部分选项都以名称的形式给出，你可以在前面加上 no 来表示否形式。这些名称与相应的命令行选项相同。</p>
+</div><p>flex 你可以在第一部分中写入 <code>%option</code>，大部分选项都以名称的形式给出，你可以在前面加上 no 来表示否形式。这些名称与相应的命令行选项相同。</p>
 <p>如果你有些强迫症，需要将没用的过程全部关闭，不让 flex 生成相关过程。下列函数是默认生成的：</p>
 <div class="verse">
 <p>input, unput<br />
@@ -1637,7 +1637,7 @@ yyget_lloc, yyset_lloc, yyget_debug, yyset_debug<br /></p>
 <li>short name: l</li>
 <li>long name: lex-compat</li>
 <li>option name: lex-compat</li>
-<li>comment: <strong>最大成度</strong>​兼容 AT&amp;T lex，但不保证完全兼容。会拖慢扫描器性能，还会导致大量选项不可用。</li>
+<li>comment: <strong>最大成度</strong>兼容 AT&amp;T lex，但不保证完全兼容。会拖慢扫描器性能，还会导致大量选项不可用。</li>
 </ul>
 </li>
 <li>交互式扫描器
@@ -1689,7 +1689,7 @@ yyget_lloc, yyset_lloc, yyget_debug, yyset_debug<br /></p>
 <li>short name: x</li>
 <li>long name: posix</li>
 <li>option name: posix</li>
-<li>comment: <strong>最大成度</strong>​兼容 POSIX 1003.2-1992 定义的 lex，由于最初实现是为 POSIX
+<li>comment: <strong>最大成度</strong>兼容 POSIX 1003.2-1992 定义的 lex，由于最初实现是为 POSIX
 定义所设计的，因此只有很少的行为不一致。已知的是 cat 与重复 <code>{}</code> 之间的优先级问题，大多数 POSIX 程序使用的扩展正则表达式 (ERE) 优先级与 flex 默认优先级一致，都是 cat 低于重复 (即 <code>ab{3}</code> 将产生 <code>abbb</code>)，而 POSIX 定义下是高于的
 (即 <code>ab{3}</code> 将产生 <code>ababab</code>)。</li>
 </ul>
@@ -1733,7 +1733,7 @@ API 的修改</li>
 <ul>
 <li>long name: bison-locations</li>
 <li>option name: bison-locations</li>
-<li>comment: 指示扫描器正在使用 GNU Bison <code>%locations</code>​，yylex 将而额外增加一个
+<li>comment: 指示扫描器正在使用 GNU Bison <code>%locations</code>，yylex 将而额外增加一个
 yylloc 参数。这个选项意味着启用了上一个选项。</li>
 </ul>
 </li>
@@ -1810,7 +1810,7 @@ yylloc 参数。这个选项意味着启用了上一个选项。</li>
 <li>yyrealloc</li>
 <li>yyfree</li>
 </ul>
-<p>但是，如果是 C++ 扫描器只会影响到 <code>yywrap</code> 和 <code>yyFlexLexer</code>​。另外你需要自己实现对应名称的 yywrap。</p>
+<p>但是，如果是 C++ 扫描器只会影响到 <code>yywrap</code> 和 <code>yyFlexLexer</code>。另外你需要自己实现对应名称的 yywrap。</p>
 </li>
 </ul>
 </li>
@@ -1826,7 +1826,7 @@ noyywrap 选项。</li>
 <ul>
 <li>long name: nounistd</li>
 <li>optino name: nounistd</li>
-<li>comment: 针对不存在 POSIX 的环境，flex 将不包含头文件 <code>unistd.h</code>​。但某些选项可能依赖于该头文件。</li>
+<li>comment: 针对不存在 POSIX 的环境，flex 将不包含头文件 <code>unistd.h</code>。但某些选项可能依赖于该头文件。</li>
 </ul>
 </li>
 <li>C++ 类名称
@@ -1889,11 +1889,11 @@ RISC 架构上获取和操作长字比使用较小尺寸的短字更有效。</l
 <li>long name: read</li>
 <li>option name: read</li>
 <li>comment: Flex 直接使用 syscall <code>read()</code> 进行输入，而非标准 IO 库的 <code>fread()</code>
-或 <code>getc()</code>​。除非你还使用 <code>-Cf</code> 或 <code>-CF</code>​，否则其性能提升可以忽略不计。</li>
+或 <code>getc()</code>。除非你还使用 <code>-Cf</code> 或 <code>-CF</code>，否则其性能提升可以忽略不计。</li>
 </ul>
 </li>
 </ul>
-<p>表格的压缩选项可以组合起来，比如默认的表格选项是 <code>-Cem</code>​，Flex 默认开启了等价类和元等价类选项，这是最慢的一种情况，但是表格最小的情况。可以理解的是，Flex 支持以生成表格的大小来换取扫描器的性能，从表格最小到扫描器性能最高的选项依次是 <code>-Cem</code>​、​<code>-Cm</code>​、​<code>-Ce</code>​、​<code>-C</code>​、​<code>-C{f,F}e</code>​、​<code>-C{f,F}e</code>​、​<code>-C{f,F}a</code>​。往往越小的表格生成和编译也就越快，而 <code>-Cfe</code> 选项通常是在压缩大小与性能之间比较好的权衡。</p>
+<p>表格的压缩选项可以组合起来，比如默认的表格选项是 <code>-Cem</code>，Flex 默认开启了等价类和元等价类选项，这是最慢的一种情况，但是表格最小的情况。可以理解的是，Flex 支持以生成表格的大小来换取扫描器的性能，从表格最小到扫描器性能最高的选项依次是 <code>-Cem</code>、<code>-Cm</code>、<code>-Ce</code>、<code>-C</code>、<code>-C{f,F}e</code>、<code>-C{f,F}e</code>、<code>-C{f,F}a</code>。往往越小的表格生成和编译也就越快，而 <code>-Cfe</code> 选项通常是在压缩大小与性能之间比较好的权衡。</p>
 <ul>
 <li>构造完整扫描表
 <ul>
@@ -1919,7 +1919,7 @@ RISC 架构上获取和操作长字比使用较小尺寸的短字更有效。</l
 <li>short name: b</li>
 <li>long name: backup</li>
 <li>option name: backup</li>
-<li>comment: 备份扫描器的状态列表和需要备份输入字符。如果消除所有的备份状态并使用 <code>-Cf</code> 或 <code>-CF</code>​，生成的扫描器将运行得更快。</li>
+<li>comment: 备份扫描器的状态列表和需要备份输入字符。如果消除所有的备份状态并使用 <code>-Cf</code> 或 <code>-CF</code>，生成的扫描器将运行得更快。</li>
 </ul>
 </li>
 <li>debug 模式
@@ -1944,8 +1944,8 @@ RISC 架构上获取和操作长字比使用较小尺寸的短字更有效。</l
 <li>short name: p</li>
 <li>long name: perf-report</li>
 <li>option name: perf-report</li>
-<li>comment: 获得导致扫描器性能严重下降的功能注释，如果包含两次该选项，还会报告轻微性能损失。使用 <code>REJECT</code>​、可变尾随上下文会导致严重的性能损失，而
-<code>yymore()</code>​、​<code>^</code> 运算符和 <code>--interactive</code> 会导致轻微性能下降。</li>
+<li>comment: 获得导致扫描器性能严重下降的功能注释，如果包含两次该选项，还会报告轻微性能损失。使用 <code>REJECT</code>、可变尾随上下文会导致严重的性能损失，而
+<code>yymore()</code>、<code>^</code> 运算符和 <code>--interactive</code> 会导致轻微性能下降。</li>
 </ul>
 </li>
 <li>抑制默认规则
@@ -2095,7 +2095,7 @@ RISC 架构上获取和操作长字比使用较小尺寸的短字更有效。</l
 </div>
 </div></li>
 <li>使用访问器方法 (get/set) 对常见的 flex 变量进行访问，格式为 <code>yyget_NAME</code> 或
-<code>yyset_NAME</code>​，另外还有额外的参数 yyscanner
+<code>yyset_NAME</code>，另外还有额外的参数 yyscanner
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -2195,7 +2195,7 @@ C 或 C++ 进行编写程序，但 Bison 现在实现性的增添了 Java 支持
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="语义值" class="headerLink">
-    <a href="#%e8%af%ad%e4%b9%89%e5%80%bc" class="header-mark"></a>语义值</h4><p>如果一条规则表示的终结符是整数常量，那么​<code>任意</code>​整数常量都是有效的。也就是说，解析输入与具体的值是无关的：可以解析 <code>x+4</code> 的语法，也可以解析 <code>x+1</code> 或 <code>x+5452</code>​。</p>
+    <a href="#%e8%af%ad%e4%b9%89%e5%80%bc" class="header-mark"></a>语义值</h4><p>如果一条规则表示的终结符是整数常量，那么<code>任意</code>整数常量都是有效的。也就是说，解析输入与具体的值是无关的：可以解析 <code>x+4</code> 的语法，也可以解析 <code>x+1</code> 或 <code>x+5452</code>。</p>
 <p>但是对于被解析之后，精确值是十分重要的。无法区分精确值的编译器不是好的编译器！因此对每个 token，Bison 都会有一个 token 类型和一个语义值。</p>
 <p>一般来说 token 类型是一个语法的终结符，比如说 INTEGER、IDENTIFIER 或 <code>','</code> 等。它可以提供决定 token 是否出现得正确和怎样组织其他 token 的所需的一切，比如整数字面量的值，或标识符的名称。而语法规则除了 token 类型外什么都不必知道。</p>
 <p>每个分组还可以具有语义值以及非终结符。比如计算器程序，表达式通常是数字语义值，而编译器中语义值描述的是树结构。</p>
@@ -2365,7 +2365,7 @@ GLR 则会像往常一样发出一个语法错误。所有的一切影响是解�
 <pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="n">T</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span><span class="p">;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>这个语法将在 x 被解释为 ID 后 (假设 T 被解释成 TYPENAME) 分叉，因为规则 <code>expr: ID</code> 和 <code>declarator: ID</code> 都可以归约，这里产生归约/归约冲突。之后随着进行 expr 分支被归约为 <code>stmt: expr ';'</code> 而 decl 分支被归约为 <code>stmt: decl</code>​，之后两个解析器都看到了 <code>prog stmt</code> 以及剩余相同的未处理输入，这里需要进行合并。但 bison 语法定义的 <code>%dprec</code> 声明将优先将示例解析为 decl。</p>
+</div><p>这个语法将在 x 被解释为 ID 后 (假设 T 被解释成 TYPENAME) 分叉，因为规则 <code>expr: ID</code> 和 <code>declarator: ID</code> 都可以归约，这里产生归约/归约冲突。之后随着进行 expr 分支被归约为 <code>stmt: expr ';'</code> 而 decl 分支被归约为 <code>stmt: decl</code>，之后两个解析器都看到了 <code>prog stmt</code> 以及剩余相同的未处理输入，这里需要进行合并。但 bison 语法定义的 <code>%dprec</code> 声明将优先将示例解析为 decl。</p>
 <p>当然 <code>%dprec</code> 仅在多个解析器存在的时候有效，比如以下这个例子，这里没有歧义，在看到 <code>+</code> 时 decl 分支将消亡，因此 bison 不会看 %dprec 定义</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -2471,7 +2471,7 @@ token 的语义值与位置。</li>
 <pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">expr: expr &#39;+&#39; expr   { $$ = $1 + $3; } ;
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>当前分组的位置为 <code>$$</code>​，而子表达式的位置为 <code>$1</code> 和 <code>$3</code>​。通常不用为每个规则描述其
+</div><p>当前分组的位置为 <code>$$</code>，而子表达式的位置为 <code>$1</code> 和 <code>$3</code>。通常不用为每个规则描述其
 <code>$$</code> 如何形成的，默认行为是采用第一个符号的开头和最后一个符号的结尾。</p>
 </li>
 </ul>
@@ -2547,7 +2547,7 @@ token 的语义值与位置。</li>
 </span></span><span class="line"><span class="cl">;
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>如果一个规则的 COMPONENTS 为空，则称为 <code>empty</code>​。那么 RESULT 可以匹配空字符串。</p>
+</div><p>如果一个规则的 COMPONENTS 为空，则称为 <code>empty</code>。那么 RESULT 可以匹配空字符串。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -2572,7 +2572,7 @@ token 的语义值与位置。</li>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>如果添加 <code>-Wempty-rule</code> 将警告没有 <code>%empty</code> 的空规则，如果想关掉则使用
-<code>-Wno-empty-rule</code>​。另外这是 Bison 的扩展，如果想兼容 POSIX Yacc，则写法是</p>
+<code>-Wno-empty-rule</code>。另外这是 Bison 的扩展，如果想兼容 POSIX Yacc，则写法是</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -2620,7 +2620,7 @@ expseq2 是右递归的，但这两个非终结符是等价的。</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>但是在编写时，应该更多地使用左递归，即迭代，它可以在有限堆栈空间上解析任意数量的元素，但右递归 (递归) 所用堆栈空间与元素数量成正比。</p>
-<p>另外还有​<code>间接</code>​或​<code>相互</code>​执行的递归。</p>
+<p>另外还有<code>间接</code>或<code>相互</code>执行的递归。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -2654,7 +2654,7 @@ expseq2 是右递归的，但这两个非终结符是等价的。</p>
 <li>
 <p>语义值的数据类型</p>
 <p>一个简单的程序中，语义值采用相同的类型就够了，比如计算器。Bison 通常将其设置为
-<code>int</code>​，如果要指定其他类型，则需要</p>
+<code>int</code>，如果要指定其他类型，则需要</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -2691,7 +2691,7 @@ expseq2 是右递归的，但这两个非终结符是等价的。</p>
 <ul>
 <li>
 <p>生成语义值类型</p>
-<p>用 <code>%define</code> 定义变量 <code>api.value.type</code> 为 <code>union</code>​，用 Bison 提供的 <code>%type</code> 与
+<p>用 <code>%define</code> 定义变量 <code>api.value.type</code> 为 <code>union</code>，用 Bison 提供的 <code>%type</code> 与
 <code>%token</code> 定义真正的类型。如下</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -2834,8 +2834,8 @@ union 串联起来，因此只有第一个 union 定义可以加 value 标签。
 <pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">expr[result]: | expr[left] &#39;+&#39; expr[right] { $result = $left + $right; }
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>如果没为规则指定操作，Bison 会使用默认的 <code>$$ = $1</code>​，空规则应该具有显式的行为，除非规则的值无关紧要。</p>
-<p>另外指定位置为 0 或负数是十分危险的行为，除非你确定上下文的规则了，否则不要使用它。比如下面这个示例，​<code>$0</code> 总是指 foo 中定义在 bar 之前的 <code>expr</code>​，如果存在还可以通过 yylval 访问前瞻语义值。</p>
+</div><p>如果没为规则指定操作，Bison 会使用默认的 <code>$$ = $1</code>，空规则应该具有显式的行为，除非规则的值无关紧要。</p>
+<p>另外指定位置为 0 或负数是十分危险的行为，除非你确定上下文的规则了，否则不要使用它。比如下面这个示例，<code>$0</code> 总是指 foo 中定义在 bar 之前的 <code>expr</code>，如果存在还可以通过 yylval 访问前瞻语义值。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -2874,7 +2874,7 @@ union 串联起来，因此只有第一个 union 定义可以加 value 标签。
 <pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">expr : | expr &#39;+&#39; expr { $$ = $1 + $3; }
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>当然也可以在引用值时指明数据类型，比如说写成 <code>$&lt;INT&gt;1</code>​。</p>
+</div><p>当然也可以在引用值时指明数据类型，比如说写成 <code>$&lt;INT&gt;1</code>。</p>
 </li>
 </ul>
 <!--list-separator-->
@@ -2882,8 +2882,8 @@ union 串联起来，因此只有第一个 union 定义可以加 value 标签。
 <li>
 <p>规则中行为</p>
 <p>有时将行为放在规则中间很有用，它可以在解析器识别下一个组件前执行。</p>
-<p>中间规则只能引用之前的 <code>$N</code>​，而不能引用之后的位置。规则中行为往往算作规则的组成部分，并且也具有语义值，另外行为可以通过给 <code>$$</code> 设置值，规则后面的行为可以用
-<code>$N</code> 引用这个值，由于没有符号来命名行为，因此无法提前为该值声明数据类型，每次引用都需要指定数据类型 <code>$&lt;TYPE&gt;N</code>​。并无法通过规则中行为设置整体的值，唯一的方法就是规则末尾的行为。示例处理一个 <code>let (VARIABLE) STATEMENT</code> 的 let 语句，需要在
+<p>中间规则只能引用之前的 <code>$N</code>，而不能引用之后的位置。规则中行为往往算作规则的组成部分，并且也具有语义值，另外行为可以通过给 <code>$$</code> 设置值，规则后面的行为可以用
+<code>$N</code> 引用这个值，由于没有符号来命名行为，因此无法提前为该值声明数据类型，每次引用都需要指定数据类型 <code>$&lt;TYPE&gt;N</code>。并无法通过规则中行为设置整体的值，唯一的方法就是规则末尾的行为。示例处理一个 <code>let (VARIABLE) STATEMENT</code> 的 let 语句，需要在
 STATEMENT 期间临时创建一个名为 VARIABLE 的变量，在解析 STATEMENT 时必须将
 VARIABLE 放入符号表，并在之后将其删除。</p>
 <div class="highlight"><div class="chroma">
@@ -3007,7 +3007,7 @@ YYLTYPE 定义位置的类型，默认 Bison 指定的类型为</p>
 </span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">YYLTYPE</span><span class="p">;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>这些字段在解析开始时被初始化为 yylloc 的 <code>1</code>​。自定义位置类型的话，需要使用
+</div><p>这些字段在解析开始时被初始化为 yylloc 的 <code>1</code>。自定义位置类型的话，需要使用
 <code>%initial-action</code> 操作。</p>
 </li>
 </ul>
@@ -3015,7 +3015,7 @@ YYLTYPE 定义位置的类型，默认 Bison 指定的类型为</p>
 <ul>
 <li>
 <p>位置与行为</p>
-<p>与访问规则类似，访问位置使用表达式 <code>@N</code>​，而左边的非终结符位置为 <code>@$</code>​。位置也可以用命名位置 <code>@[NAME]</code> 或 <code>@NAME</code>​。</p>
+<p>与访问规则类似，访问位置使用表达式 <code>@N</code>，而左边的非终结符位置为 <code>@$</code>。位置也可以用命名位置 <code>@[NAME]</code> 或 <code>@NAME</code>。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -3100,7 +3100,7 @@ YYLTYPE 定义位置的类型，默认 Bison 指定的类型为</p>
 <ul>
 <li>
 <p>位置的默认行为</p>
-<p>由于位置比语义值更通用，因此行为并不是计算位置的最佳位置。在每次匹配规则时运行相关操作之前都会调用 <code>YYLLOC_DEFAULT</code>​，处理语法错误实惠调用它来计算错误位置。在报告无法解决的语法歧义之前，GLR 也会递归调用它来计算歧义的位置。大多数时候该宏就足够通用了。</p>
+<p>由于位置比语义值更通用，因此行为并不是计算位置的最佳位置。在每次匹配规则时运行相关操作之前都会调用 <code>YYLLOC_DEFAULT</code>，处理语法错误实惠调用它来计算错误位置。在报告无法解决的语法歧义之前，GLR 也会递归调用它来计算歧义的位置。大多数时候该宏就足够通用了。</p>
 <p>YYLLOC_DEFAULT 有三个参数，即分组的位置 (计算结果)、元素位置、右边的大小。当 GLR
 报告歧义时，将多个未定义的候选传递给 YYLLOC_DEFAULT；在错误处理时，第二个参数表示在错误处理期间被丢弃的符号位置，第三个参数时丢弃的符号数量。默认定义如下：</p>
 <div class="highlight"><div class="chroma">
@@ -3179,7 +3179,7 @@ YYLTYPE 定义位置的类型，默认 Bison 指定的类型为</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>在使用点、破折等字符时，需要显式括号语法。这是由于 Bison 通常将 <code>$name.suffix</code>
-解析为 <code>$name</code> 与语义值字段 <code>suffix</code>​。为识别整体必须用此语法。</p>
+解析为 <code>$name</code> 与语义值字段 <code>suffix</code>。为识别整体必须用此语法。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -3254,10 +3254,10 @@ YYLTYPE 定义位置的类型，默认 Bison 指定的类型为</p>
 <ul>
 <li>
 <p>声明运算符优先级</p>
-<p>你可以使用 <code>%left</code>​、​<code>%right</code>​、​<code>%precedence</code>​ 或 ​<code>%nonassoc</code> 来替换 token，来指定其关联性和优先级，它们和 <code>%token</code> 一致，区别就在于指定了关联性和优先级：</p>
+<p>你可以使用 <code>%left</code>、<code>%right</code>、<code>%precedence</code> 或 <code>%nonassoc</code> 来替换 token，来指定其关联性和优先级，它们和 <code>%token</code> 一致，区别就在于指定了关联性和优先级：</p>
 <ul>
-<li>运算符 OP 的关联性取决于运算法嵌套的方式，即有些语言中说的​<strong>左结合</strong>​与​<strong>右结合</strong>​。比如表达式 <code>X OP Y OP Z</code>​，左结合即运算符从左向右依次计算表达式，即 <code>(X OP Y) OP Z</code>​；右结合正好相反，即​<code>X OP (Y OP Z)</code>​。而 <code>%nonassoc</code> 指定为无关联性，意思是 <code>X OP Y OP Z</code> 被认为语法错误。</li>
-<li><code>%precedence</code> 赋予了符号相对的优先级，但不赋予其任何关联性。比如表达式 <code>X OP1 Y OP2 Z</code>​，如果 OP2 的优先级高于 OP1，那么将解析为 <code>X OP1 (Y OP2 Z)</code>​。</li>
+<li>运算符 OP 的关联性取决于运算法嵌套的方式，即有些语言中说的<strong>左结合</strong>与<strong>右结合</strong>。比如表达式 <code>X OP Y OP Z</code>，左结合即运算符从左向右依次计算表达式，即 <code>(X OP Y) OP Z</code>；右结合正好相反，即<code>X OP (Y OP Z)</code>。而 <code>%nonassoc</code> 指定为无关联性，意思是 <code>X OP Y OP Z</code> 被认为语法错误。</li>
+<li><code>%precedence</code> 赋予了符号相对的优先级，但不赋予其任何关联性。比如表达式 <code>X OP1 Y OP2 Z</code>，如果 OP2 的优先级高于 OP1，那么将解析为 <code>X OP1 (Y OP2 Z)</code>。</li>
 <li>在单个优先级声明中，所有符号的优先级相同，它们根据关联性进行分组。当两个不同优先级的符号，后一个声明的 token 优先级更高。</li>
 </ul>
 </li>
@@ -3281,7 +3281,7 @@ YYLTYPE 定义位置的类型，默认 Bison 指定的类型为</p>
 <ul>
 <li>
 <p>解析前执行行为</p>
-<p>解析器可能需要在解析之前执行一些初始化。​<code>%initial-action</code> 指令允许这样的操作，其中可以执行任意的代码。</p>
+<p>解析器可能需要在解析之前执行一些初始化。<code>%initial-action</code> 指令允许这样的操作，其中可以执行任意的代码。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -3337,7 +3337,7 @@ YYLTYPE 定义位置的类型，默认 Bison 指定的类型为</p>
 </div>
 </div><p>在这个示例中，解析器丢弃 CHR 和 chr 时不会做任何行为，而其他符号都会调用 <code>free</code>
 函数来释放内存。当然在释放 STRING1 和 string1 的符号时，只会调用第二个析构函数，保证只会释放依次内存。</p>
-<p>Bison 生成的解析器只为用户定义的符号调用 <code>%destructor</code>​，也不会为中间行为调用析构函数。</p>
+<p>Bison 生成的解析器只为用户定义的符号调用 <code>%destructor</code>，也不会为中间行为调用析构函数。</p>
 <p>丢弃的符号类型如下：</p>
 <ul>
 <li>错误恢复的第一阶段弹出堆栈的符号</li>
@@ -3351,7 +3351,7 @@ YYLTYPE 定义位置的类型，默认 Bison 指定的类型为</p>
 <ul>
 <li>
 <p>声明抑制冲突警告</p>
-<p>如果语法存在冲突，Bison 会发出警告 (虽然大部分冲突都是无害的移入归约冲突)，因此可以使用声明来抑制这些冲突。声明移入规约冲突数量为 <code>%expect N</code>​，而声明归约归约冲突的数量为 <code>%expect-rr N</code>​。N 说明应该有 N 个预期的相应的冲突，如果数量不对 Bison
+<p>如果语法存在冲突，Bison 会发出警告 (虽然大部分冲突都是无害的移入归约冲突)，因此可以使用声明来抑制这些冲突。声明移入规约冲突数量为 <code>%expect N</code>，而声明归约归约冲突的数量为 <code>%expect-rr N</code>。N 说明应该有 N 个预期的相应的冲突，如果数量不对 Bison
 将会发出警告。</p>
 <p>使用 <code>%expect</code> 时你应该确保：</p>
 <ul>
@@ -3430,7 +3430,7 @@ pull 模式下是 yyparse 的局部变量，而 push 模式下时 yypstate 的�
 <pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">%define api.push-pull push
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>在几乎所有情况下，Push 解析器应该都是​<strong>纯</strong>​解析器，除非直到自已在做什么</p>
+</div><p>在几乎所有情况下，Push 解析器应该都是<strong>纯</strong>解析器，除非直到自已在做什么</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -3442,7 +3442,7 @@ pull 模式下是 yyparse 的局部变量，而 push 模式下时 yypstate 的�
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>纯的 Push 解析器和不纯的 Push 解析器之间存在主要的功能差异。纯 Push 解析器可以同时在内存中拥有许多相同类型解析器的实例，相反不纯的只能使用一个解析器。</p>
-<p><strong>yypstate</strong> 是生成的解析器用来存储解析器状态的结构，​<code>yypstate_new</code> 是创建新解析器实例的函数，​<code>yypstate_delete</code> 将释放相应解析器实例相关联的资源，而
+<p><strong>yypstate</strong> 是生成的解析器用来存储解析器状态的结构，<code>yypstate_new</code> 是创建新解析器实例的函数，<code>yypstate_delete</code> 将释放相应解析器实例相关联的资源，而
 <code>yypush_parse</code> 是当令牌可用于提供解析器时应该调用的函数。简单的调用示例如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -3513,8 +3513,8 @@ pull 模式下是 yyparse 的局部变量，而 push 模式下时 yypstate 的�
 <ul>
 <li>
 <p>%code 声明</p>
-<p><code>%code</code> 可以比 <code>%{%}</code> 代码块提供更多的灵活性。通常情况下非限定的 <code>%code</code> 可以替换 <code>%{%}</code>​。</p>
-<p>重点主要放在限定代码块上。语法 <code>%code QUALIFIER { CODE }</code>​。限定符有如下几种</p>
+<p><code>%code</code> 可以比 <code>%{%}</code> 代码块提供更多的灵活性。通常情况下非限定的 <code>%code</code> 可以替换 <code>%{%}</code>。</p>
+<p>重点主要放在限定代码块上。语法 <code>%code QUALIFIER { CODE }</code>。限定符有如下几种</p>
 <ul>
 <li>
 <p>requires</p>
@@ -3570,7 +3570,7 @@ YYSTYPE、YYLTYPE 和 token 定义之后的头文件和源文件中。</p>
 </span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">yyparse</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">nastiness</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">randomness</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>当然同时使用 <code>%define api.pure full</code> (或仅 <code>%define api.pure</code>) 和 <code>%locations</code>​，
+</div><p>当然同时使用 <code>%define api.pure full</code> (或仅 <code>%define api.pure</code>) 和 <code>%locations</code>，
 yyerror 将生成不一样的签名。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -3752,7 +3752,7 @@ int)，可以用这种方式在 yylex 中使用</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>如果没有使用位置参数的话，将不会定义 YYSTYPE，也就不需要由参数 lvalp 了。如果还需要其他参数，可以使用 <code>%lex-param</code> 来声明其他参数，用法和之前的 <code>%parse-param</code>
-一样。如果想对 yyparse 和 yylex 都传入某个参数可以使用 <code>%param</code>​。</p>
+一样。如果想对 yyparse 和 yylex 都传入某个参数可以使用 <code>%param</code>。</p>
 </li>
 </ul>
 <h4 id="错误处理函数-yyerror" class="headerLink">
@@ -4058,7 +4058,7 @@ token THEN，这样在悬空 else 问题上，每次都优先移入 else 而非�
 </span></span><span class="line"><span class="cl">;
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>但是，如果输入为 &ldquo;word word&rdquo;，很明显可以被归约 <code>words words</code> 或 <code>words</code>​，这有一个二义性的移入归约冲突，第二个 word 是移入还是将栈中的 word 归约。</p>
+</div><p>但是，如果输入为 &ldquo;word word&rdquo;，很明显可以被归约 <code>words words</code> 或 <code>words</code>，这有一个二义性的移入归约冲突，第二个 word 是移入还是将栈中的 word 归约。</p>
 <p>可以用优先级解决这个问题</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -4246,7 +4246,7 @@ November</a>。</p>
 <ul>
 <li>
 <p>延迟调用 yylex</p>
-<p><strong>一致状态</strong>​是只有一个可能的解析器操作。如果操作是归约且它被编码为默认归约，那么一致状态被称作​<strong>默认状态</strong>​。达到默认状态后，Bison 不会在执行归约操作之前调用 yylex。即当它在输入中达到该 token 时，或它需要前前看来决定下一个操作，此时调用 yylex。但默认开启默认归约时，将会改变解析器行为。yylex 的行为可能影响或受默认归约的影响。</p>
+<p><strong>一致状态</strong>是只有一个可能的解析器操作。如果操作是归约且它被编码为默认归约，那么一致状态被称作<strong>默认状态</strong>。达到默认状态后，Bison 不会在执行归约操作之前调用 yylex。即当它在输入中达到该 token 时，或它需要前前看来决定下一个操作，此时调用 yylex。但默认开启默认归约时，将会改变解析器行为。yylex 的行为可能影响或受默认归约的影响。</p>
 </li>
 <li>
 <p>延迟检测语法错误</p>
@@ -4262,7 +4262,7 @@ November</a>。</p>
 <p>对于 Canonical LR，唯一开启默认归约的状态是接受状态，但是这不会引起上述的两个延迟问题 (毕竟直接结束了，不再需要检测错误或找下一个 token 了)。</p>
 <p>对于 IELR 和 LALR，默认对所有状态启用默认归约。除了</p>
 <ul>
-<li>对​<code>错误</code> token 只有移入没有归约</li>
+<li>对<code>错误</code> token 只有移入没有归约</li>
 <li>GLR 解析器不会为存在冲突的向前看 token 设置默认规约</li>
 </ul>
 <p>如果想修改 Bison 的默认行为，可以声明</p>
@@ -4297,7 +4297,7 @@ November</a>。</p>
 </div>
         </div>
     </div>
-<p>解析器在发现语法错误前可能进行额外的规约，这些规约可能执行不符合预期的语义操作，并且可能导致错误恢复发生在其他文法上下文中。这个问题的根源通常是 <code>%nonassoc</code>​、不一致状态下的默认规约以及 GLR 解析器合并。因此主要影响的是 IELR 和 LALR 解析器。</p>
+<p>解析器在发现语法错误前可能进行额外的规约，这些规约可能执行不符合预期的语义操作，并且可能导致错误恢复发生在其他文法上下文中。这个问题的根源通常是 <code>%nonassoc</code>、不一致状态下的默认规约以及 GLR 解析器合并。因此主要影响的是 IELR 和 LALR 解析器。</p>
 <p>LAC (前瞻校正) 是一种解析的新机制，可以在不牺牲 <code>%nonassoc</code> 和默认规约或状态合并的功能的前提下，解决这个问题。只需要定义</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -4333,7 +4333,7 @@ November</a>。</p>
 <ul>
 <li>
 <p>不可达状态</p>
-<p>如果不存在从解析器的起始状态到某个状态 S 的转换序列，则 Bison 认为 S 是​<strong>不可达状态</strong>​。如果 Bison 禁用从前一个状态到该状态的转换操作，则该状态可能在冲突解决期间变得无法访问。</p>
+<p>如果不存在从解析器的起始状态到某个状态 S 的转换序列，则 Bison 认为 S 是<strong>不可达状态</strong>。如果 Bison 禁用从前一个状态到该状态的转换操作，则该状态可能在冲突解决期间变得无法访问。</p>
 <p>默认情况下，Bison 会在冲突解决后从解析器中删除无法访问的状态，因为它们在生成的解析器中是无用的。然而，当试图理解解析器和语法之间的关系时，保留不可达状态有时很有用。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -4617,8 +4617,8 @@ Number   ::= INT_CONST;<br /></p>
 </span></span><span class="line"><span class="cl">}
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>很明显语法分析器中，这个语法分析可以很好得解析我们在本节开始声明的 EBNF 文法，也就是 main 函数。需要注意的是，这里不能使用 <code>::std::make_unique</code>​，因为其只能移动或者从参数构建智能指针，但我们的非终结符语义值都是用 <code>new</code> 构建好的指针 (非 POD
-类型不能作为 union 成员)，因此我们需要用构造函数来构造 <code>::std::unique_ptr</code>​，将之前构造的指针所有权移交给智能指针。</p>
+</div><p>很明显语法分析器中，这个语法分析可以很好得解析我们在本节开始声明的 EBNF 文法，也就是 main 函数。需要注意的是，这里不能使用 <code>::std::make_unique</code>，因为其只能移动或者从参数构建智能指针，但我们的非终结符语义值都是用 <code>new</code> 构建好的指针 (非 POD
+类型不能作为 union 成员)，因此我们需要用构造函数来构造 <code>::std::unique_ptr</code>，将之前构造的指针所有权移交给智能指针。</p>
 <p>虽然词法分析与语法分析出来了，我们还要自己编写一个主文件</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

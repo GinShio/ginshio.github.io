@@ -36,7 +36,7 @@ Konsole。而 Windows 中，直接在 Store 中下载 Windows Terminal 即可。
 
 Windows 下，你可以在这里下载 [Python3](https://www.python.org/) 或 [erlang](https://www.erlang.org/)。安装之后将路径添加到 PATH 系统环境变量中。如果你用 WSL 那和 Linux 下没什么区别。
 
-对于 Linux 用户，就很方便了。使用包管理器进行安装，​`apt install erlang python3`
+对于 Linux 用户，就很方便了。使用包管理器进行安装，`apt install erlang python3`
 (Debian / Ubuntu)，或者 `zypper in erlang python3` (openSUSE)，有或者 `pacman -S
 erlang python3` (Arch)，当然其他发行版也可以用相关的命令进行安装。
 
@@ -59,7 +59,7 @@ CS61A 贴心的提供了在线编辑器 <https://code.cs61a.org/>
 
 #### 算术运算符 {#算术运算符}
 
-在大部分编程语言中，算术运算所包含的东西都差不多。比如 `+` (加)、​`-` (减)、​`*` (乘)、​`/` (除) 等，erlang 和 python 都不例外
+在大部分编程语言中，算术运算所包含的东西都差不多。比如 `+` (加)、`-` (减)、`*` (乘)、`/` (除) 等，erlang 和 python 都不例外
 
 ```erlang
 3 + 4.  % 7
@@ -91,7 +91,7 @@ scheme 是 Lisp 的方言，因此和 Lisp 一样，使用前缀运算，即表�
 ```
 
 当然还有一些额外的运算，比如 python 不止提供了 `//` (整数除法) 和 `%` (取模)，还提供了 `**` (幂运算)；erlang 提供了 `div` (整数除法) 和 `rem` (余数)；scheme 则是有
-`quotient` (整数除法)、​`remainder` (余数运算) 和 `modulo` (模运算)。很遗憾的就是
+`quotient` (整数除法)、`remainder` (余数运算) 和 `modulo` (模运算)。很遗憾的就是
 erlang 中并没有取模运算。
 
 ```erlang
@@ -175,7 +175,7 @@ a = "str"
 a  # "str"
 ```
 
-当然 scheme 中可以使用 `let` 定义一个有作用域的变量，用 `define` 则会定义一个全局的变量。而赋值语句则是 `set!`​，与 Python 一样，scheme 也是一门动态强类型语言。
+当然 scheme 中可以使用 `let` 定义一个有作用域的变量，用 `define` 则会定义一个全局的变量。而赋值语句则是 `set!`，与 Python 一样，scheme 也是一门动态强类型语言。
 
 ```scheme
 (let ((x 3) (y 4)) (* x y))  ;; 12
@@ -188,7 +188,7 @@ a  # "str"
   (let  ((x y) (y x)) (list x y)))  ;; (1 0)
 ```
 
-不过对于 erlang 情况就有点特殊了。在 erlang 中 `=` 表示将值与名字进行匹配，如果是没有定义的名字，也会进行绑定。这是由于 erlang 是​**纯** (pure) 函数式语言，等号的语义和 Python / C 中是不一样的。
+不过对于 erlang 情况就有点特殊了。在 erlang 中 `=` 表示将值与名字进行匹配，如果是没有定义的名字，也会进行绑定。这是由于 erlang 是**纯** (pure) 函数式语言，等号的语义和 Python / C 中是不一样的。
 
 ```erlang
 X = 10.  % 10
@@ -286,7 +286,7 @@ lists:foldl(fun(X, Sum) -> X + Sum end, 0, [1,2,3,4,5]). % 15
 2.  在栈帧中绑定实际参数 (arguments) 和形式参数 (parameters)
 3.  在新环境中执行函数体
 
-在 Python 中函数如果不返回，则将默认直接返回 `None`​，而很多函数式编程语言中默认都会返回块的最后一个表达式
+在 Python 中函数如果不返回，则将默认直接返回 `None`，而很多函数式编程语言中默认都会返回块的最后一个表达式
 
 ```python
 def square_not_return(x):

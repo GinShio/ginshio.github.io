@@ -37,7 +37,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2021\/kms\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Windows, Server, KMS","wordcount":  3316 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Windows, Server, KMS","wordcount":  3300 ,
         "url": "https:\/\/blog.ginshio.org\/2021\/kms\/","datePublished": "2021-05-09T18:28:44+08:00","dateModified": "2022-04-08T11:54:02+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -155,7 +155,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="05-09">05-09</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3316 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="05-09">05-09</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3300 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -220,7 +220,7 @@ Vlmcsd 的使用很简单，下载下来启动即可提供服务，默认端口�
 <h2 id="windows" class="headerLink">
     <a href="#windows" class="header-mark"></a>Windows</h2><p>对于 Windows 的下载，可以选择 <a href="https://www.microsoft.com/zh-cn/software-download/windows10ISO" target="_blank" rel="noopener noreferrer">官方渠道</a> 或通过 <a href="https://msdn.itellyou.cn/" target="_blank" rel="noopener noreferrer">MSDN, I tell you</a> 进行下载，安装的专业版均可以 KMS 激活</p>
 <h3 id="激活-windows" class="headerLink">
-    <a href="#%e6%bf%80%e6%b4%bb-windows" class="header-mark"></a>激活 Windows</h3><p>相对来说激活 Windows 也很简单，以​<strong>管理员身份</strong>​打开 Powershell 或命令提示符，并输入命令即可激活</p>
+    <a href="#%e6%bf%80%e6%b4%bb-windows" class="header-mark"></a>激活 Windows</h3><p>相对来说激活 Windows 也很简单，以<strong>管理员身份</strong>打开 Powershell 或命令提示符，并输入命令即可激活</p>
 <ol>
 <li>设置 GVLK，这里我们以 Windows Server 2016 标准版为例
 <div class="highlight"><div class="chroma">
@@ -569,7 +569,7 @@ Vlmcsd 的使用很简单，下载下来启动即可提供服务，默认端口�
     <a href="#office" class="header-mark"></a>Office</h2><p>由于 Office 的 RTL 转 VL 比较麻烦，这里我们使用 VL 版进行激活操作</p>
 <h3 id="安装-office-vl" class="headerLink">
     <a href="#%e5%ae%89%e8%a3%85-office-vl" class="header-mark"></a>安装 Office VL</h3><p>我们首先下载 <a href="https://www.microsoft.com/en-us/download/confirmation.aspx?id=49117" target="_blank" rel="noopener noreferrer">Office Deployment Tool (ODT)</a>，即 Office 部署工具，运行 ODT 将会获取到一个 <strong>setup</strong> 和示例的配置文件。setup 是用于安装 Office 的可执行程序，而配置文件是指示 setup 如何安装 Office 的配置文件。</p>
-<p>我们将使用配置文件 <code>config.xml</code> 进行安装，以​<strong>管理员身份</strong>​打开 Powershell 或命令提示符，并输入命令进行安装。至于 ODT 配置文件的内容，将在下节介绍。</p>
+<p>我们将使用配置文件 <code>config.xml</code> 进行安装，以<strong>管理员身份</strong>打开 Powershell 或命令提示符，并输入命令进行安装。至于 ODT 配置文件的内容，将在下节介绍。</p>
 <ol>
 <li>根据配置文件下载数据
 <div class="highlight"><div class="chroma">
@@ -598,11 +598,11 @@ Vlmcsd 的使用很简单，下载下来启动即可提供服务，默认端口�
     <a href="#add-%e5%85%83%e7%b4%a0" class="header-mark"></a>Add 元素</h4><p>Add 用于定义要下载的 <strong>产品</strong> 和 <strong>语言</strong></p>
 <dl>
 <dt>SourcePath (可选)</dt>
-<dd>用于定义 <code>安装文件的位置</code> ，这是下载的数据文件的位置，而非最终的安装位置。如果没有定义该属性，则会在 ODT 所处的文件夹下下载数据。如果 SourcePath 下包含相同版本的 Office 数据文件，那么 ODT 会增量下载文件以节省网络带宽。示例值 <code>\server\share</code>​、​<code>c:\preload\office</code></dd>
+<dd>用于定义 <code>安装文件的位置</code> ，这是下载的数据文件的位置，而非最终的安装位置。如果没有定义该属性，则会在 ODT 所处的文件夹下下载数据。如果 SourcePath 下包含相同版本的 Office 数据文件，那么 ODT 会增量下载文件以节省网络带宽。示例值 <code>\server\share</code>、<code>c:\preload\office</code></dd>
 <dt>Version (可选)</dt>
 <dd>用于指定 <code>安装的版本</code> ，默认为可用的最新版本，推荐与
 <code>Channel</code> 属性一同使用。可以选择 <strong>MatchInstalled</strong> 作为值，即使有新的可用版本，也将下载与已安装的 Office 版本相同的数据，此选项在添加语言包、Visio、Project
-时十分有用。示例值 <code>16.0.8201.2193</code>​、​<code>MatchInstalled</code></dd>
+时十分有用。示例值 <code>16.0.8201.2193</code>、<code>MatchInstalled</code></dd>
 <dt>OfficeClientEdition (可选)</dt>
 <dd>指定 Office 的位版本，默认安装 64 位 Office，如果 Windows 版本为 64 位或内存小于 4 GB 则安装 32 位。如果已安装 Office 时，默认会与已安装的版本匹配，Office 不支持混合体系，请小心设置该属性</dd>
 <dt>Channel (可选)</dt>
@@ -610,8 +610,8 @@ Vlmcsd 的使用很简单，下载下来启动即可提供服务，默认端口�
 <code>Current</code> ，已安装的情况下会自动匹配相同的频道。Office 2019 受支持的更新频道为 <code>PerpetualVL2019</code> ，2021 则是 <code>PerpetualVL2021</code></dd>
 </dl>
 <h4 id="product-元素" class="headerLink">
-    <a href="#product-%e5%85%83%e7%b4%a0" class="header-mark"></a>Product 元素</h4><p>Product 定义要​<strong>下载或安装</strong>​的产品。如果定义了多个产品，这些产品会按照配置文件中的顺序进行安装。指定产品的 ID，更多 ID 请参阅 <a href="https://docs.microsoft.com/en-us/office365/troubleshoot/installation/product-ids-supported-office-deployment-click-to-run" target="_blank" rel="noopener noreferrer">官方文档</a></p>
-<p>遗憾的是我没有找到 Office 2016 的 <code>KEY</code>​，但是可以通过 Volume License Pack 获取安装包，如果你知道如何用 ODT 安装请告诉我</p>
+    <a href="#product-%e5%85%83%e7%b4%a0" class="header-mark"></a>Product 元素</h4><p>Product 定义要<strong>下载或安装</strong>的产品。如果定义了多个产品，这些产品会按照配置文件中的顺序进行安装。指定产品的 ID，更多 ID 请参阅 <a href="https://docs.microsoft.com/en-us/office365/troubleshoot/installation/product-ids-supported-office-deployment-click-to-run" target="_blank" rel="noopener noreferrer">官方文档</a></p>
+<p>遗憾的是我没有找到 Office 2016 的 <code>KEY</code>，但是可以通过 Volume License Pack 获取安装包，如果你知道如何用 ODT 安装请告诉我</p>
 <ul>
 <li><a href="https://www.microsoft.com/download/details.aspx?id=103446" target="_blank" rel="noopener noreferrer">Office 2021</a>
 <table>
@@ -779,7 +779,7 @@ Vlmcsd 的使用很简单，下载下来启动即可提供服务，默认端口�
 <h4 id="language-元素" class="headerLink">
     <a href="#language-%e5%85%83%e7%b4%a0" class="header-mark"></a>Language 元素</h4><p>Language 定义要下载或安装的语言。如果定义了多个语言，首个语言决定了 UI 区域性、快捷方式、工具提示。</p>
 <p>ID 属性的决定了具体下载、安装哪种语言。值 <code>MatchInstalled</code> 可以选择匹配已安装的
-Office，​<code>MatchOS</code> 可以选择匹配操作系统，也可以参考 <a href="https://docs.microsoft.com/en-us/deployoffice/overview-deploying-languages-microsoft-365-apps#languages-culture-codes-and-companion-proofing-languages" target="_blank" rel="noopener noreferrer">官方文档</a> 直接指定区域性代码</p>
+Office，<code>MatchOS</code> 可以选择匹配操作系统，也可以参考 <a href="https://docs.microsoft.com/en-us/deployoffice/overview-deploying-languages-microsoft-365-apps#languages-culture-codes-and-companion-proofing-languages" target="_blank" rel="noopener noreferrer">官方文档</a> 直接指定区域性代码</p>
 <p><a id="table--tbl:language-list"></a></p>
 <div class="table-caption">
   <span class="table-number"><a href="#table--tbl:language-list">Table 1</a>:</span>
@@ -1011,7 +1011,7 @@ Boolean</dd>
 </div></li>
 </ul>
 <h3 id="激活-office" class="headerLink">
-    <a href="#%e6%bf%80%e6%b4%bb-office" class="header-mark"></a>激活 Office</h3><p>以​<strong>管理员身份</strong>​打开 Powershell 或命令提示符，并输入命令即可激活</p>
+    <a href="#%e6%bf%80%e6%b4%bb-office" class="header-mark"></a>激活 Office</h3><p>以<strong>管理员身份</strong>打开 Powershell 或命令提示符，并输入命令即可激活</p>
 <ol>
 <li>进入 Office 目录，32 位安装在 <code>C:\Program Files (x86)\Microsoft Office\Office??</code> ，64 位安装在 <code>C:\Program Files\Microsoft Office\Office??</code>
 ，最后两位是数字，Office 这个数字好像是 16
@@ -1034,7 +1034,7 @@ Boolean</dd>
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
-<li>注册 KMS 服务器，​<code>sethst</code> 设置的是地址，​<code>setprt</code> 设置的是端口，如果端口是
+<li>注册 KMS 服务器，<code>sethst</code> 设置的是地址，<code>setprt</code> 设置的是端口，如果端口是
 1688 则不需要设置
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

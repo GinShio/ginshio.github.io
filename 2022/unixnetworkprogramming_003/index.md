@@ -9,7 +9,7 @@
 ### IPv4 套接字地址结构 {#ipv4-套接字地址结构}
 
 IPv4 套接字地址结构通常称之为 **互联网套接字结构** (Internet socket address
-structure)，结构体 **sockaddr_in**​，定义于 `<netinet/in.h>` 中 (POSIX)。
+structure)，结构体 **sockaddr_in**，定义于 `<netinet/in.h>` 中 (POSIX)。
 
 ```c
 struct in_addr {
@@ -94,7 +94,7 @@ byte)，无论方向如何。对于可变长度的结构 (e.g. sockaddr_un) 改�
 
 首先思考一个例子，一个 16-bit 整数由两个字节构成，这两个字节是如何存储这个整数的，或者说，高 8-bit 存储在哪个字节中。
 
-**大端** (big-endian) 字节序指的是高位到低位从数据起始位置开始存储，​**小端**
+**大端** (big-endian) 字节序指的是高位到低位从数据起始位置开始存储，**小端**
 (little-endian) 字节序值低位字节从数据起始位置开始存储，高位在数据结束的地方，也就是按照内存增大方向生长。
 
 这两种表示并没有什么标准可言，且在不同系统中都有使用，我们又将其称为主机字节序，与网络字节序相区分。
@@ -162,7 +162,7 @@ uint16_t ntohs(uint16_t netshort);   // 将 unsigned short 类型 network to hos
 
 ### 字节操作函数 {#字节操作函数}
 
-在 C 语言标准库中关于字符串的操作函数集中于 `string.h`​，而 C 语言中 char 类型与
+在 C 语言标准库中关于字符串的操作函数集中于 `string.h`，而 C 语言中 char 类型与
 int8_t 类型无大的差别，定义的 string 可以认为是 int8_t 的数组，也可以粗略的看作是一个字节数组。
 
 首先第一祖字节操作函数是 C 语言标准库中的 `mem` 系列函数，这一系列函数主要是针对
@@ -175,8 +175,8 @@ void* memcpy(void *dest, const void *src, size_t count);     // 内存复制
 int memcmp(const void *lhs, const void *rhs, size_t count);  // 内存比较
 ```
 
-`memchr` 将在内存 ptr 中查找 count 个字节，查找是否有字节值为 ch。​`memset` 是将这块内存中的每个字节都设置为 C，设置长度 count byte。​`memcpy` 是将 src 的内容复制到 dest 中，这里要求 src 与 dest 没有交集，如果可能有交集请使用类似的
-`memmove`​。​`memcmp` 将两块内存 lhs 与 rhs 逐字节进行比较，负数表示 lhs 字典序小于 rhs，零表示两块内存相等。
+`memchr` 将在内存 ptr 中查找 count 个字节，查找是否有字节值为 ch。`memset` 是将这块内存中的每个字节都设置为 C，设置长度 count byte。`memcpy` 是将 src 的内容复制到 dest 中，这里要求 src 与 dest 没有交集，如果可能有交集请使用类似的
+`memmove`。`memcmp` 将两块内存 lhs 与 rhs 逐字节进行比较，负数表示 lhs 字典序小于 rhs，零表示两块内存相等。
 
 另一组函数在网络编程中经常遇到，这是一组 POSIX 函数，派生自 4.2BSD，定义于
 `<strings.h>` 中。这些函数以 b 开头 (byte)。
@@ -214,7 +214,7 @@ const char *inet_ntop(int af, const void *restrict src, char *restrict dst, sock
 int inet_pton(int af, const char *restrict src, void *restrict dst);
 ```
 
-首先来看旧式函数，​`inet_aton` 将 ASCII 点分十进制字符串形式地址转换为 32-bit 网络序二进制地址，也就是结果存储在参数 inp 中，而返回值为 1 表示成功。但是在处理
+首先来看旧式函数，`inet_aton` 将 ASCII 点分十进制字符串形式地址转换为 32-bit 网络序二进制地址，也就是结果存储在参数 inp 中，而返回值为 1 表示成功。但是在处理
 cp 是空指针时，不会返回错误而是什么都不存储。
 
 `inet_addr` 与上一个函数类似，但是不同的是它不再接收 inp 参数，改为返回地址，这样它可以处理 IPv4 的地址，但遗憾的是它表示错误的方式是返回 **INADDR_NONE** 这个常量，其值与 IPv4 受限广播地址 255.255.255.255 相同，因此该函数无法有效处理这个地址。另外有些手册标注该函数在错误时返回 \\(-1\\) 而非 INADDR_NONE，想一下无符号返回值返回 \\(-1\\) 时应该是怎样的 (UB!)，因此这个函数已被废弃。应该尽可能避免使用该函数。
@@ -228,7 +228,7 @@ ASCII 字符串形式地址转换为网络序二进制形式，而 ntop 正好�
 两个函数都接受 af 作为参数来标识协议族，接受其值为 **AF_INET** (IPv4) 或
 **AF_INET6** (IPv6)，如果协议族是不支持的将在 errno 中写入错误 **EAFNOSUPPORT** (协议族不受支持)。
 
-因此在 pton 中，src 指代字符串地址，而 dst 就是接收二进制地址的数据，成功转换时返回 1，非有效地址则返回 0；ntop 中 src 与 dst 与其含义相反，而 size 则是调用者提供的 buffer 的大小，防止溢出。如果大小不足以容纳字符串地址时，将返回空指针并设置 errno 为 **ENOSPC**​。大小在 &lt;netinet/in.h&gt; 中定义了如下常量
+因此在 pton 中，src 指代字符串地址，而 dst 就是接收二进制地址的数据，成功转换时返回 1，非有效地址则返回 0；ntop 中 src 与 dst 与其含义相反，而 size 则是调用者提供的 buffer 的大小，防止溢出。如果大小不足以容纳字符串地址时，将返回空指针并设置 errno 为 **ENOSPC**。大小在 &lt;netinet/in.h&gt; 中定义了如下常量
 
 ```c
 #define INET_ADDRSTRLEN 16   // IPv4 点分十进制字符串长度

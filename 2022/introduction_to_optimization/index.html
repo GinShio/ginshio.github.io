@@ -37,7 +37,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/introduction_to_optimization\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Optimization","wordcount":  11330 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Optimization","wordcount":  11280 ,
         "url": "https:\/\/blog.ginshio.org\/2022\/introduction_to_optimization\/","datePublished": "2022-09-23T17:06:56+08:00","dateModified": "2022-10-07T14:52:51+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -177,7 +177,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="09-23">09-23</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="10-07">10-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 11330 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="09-23">09-23</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="10-07">10-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 11280 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 23 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -240,16 +240,16 @@
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="优化背景" class="headerLink">
-    <a href="#%e4%bc%98%e5%8c%96%e8%83%8c%e6%99%af" class="header-mark"></a>优化背景</h2><p>上世纪 80 年代早期优化在编译器开发中还是一个可选特性，一般在其他部分都完成后才会添加到编译器中。因此出现了​<strong>调试编译器</strong>​和​<strong>优化编译器</strong>​的区别，即前者强调编译速度，因此可执行代码与源码之间存在较强的对应关系；后者强调最小化或最大化可执行程序的某些属性。因此优化编译器会花费更多时间来编译，生成质量更好的代码，通常这个过程伴随着大量移动操作，使调试变得困难。</p>
+    <a href="#%e4%bc%98%e5%8c%96%e8%83%8c%e6%99%af" class="header-mark"></a>优化背景</h2><p>上世纪 80 年代早期优化在编译器开发中还是一个可选特性，一般在其他部分都完成后才会添加到编译器中。因此出现了<strong>调试编译器</strong>和<strong>优化编译器</strong>的区别，即前者强调编译速度，因此可执行代码与源码之间存在较强的对应关系；后者强调最小化或最大化可执行程序的某些属性。因此优化编译器会花费更多时间来编译，生成质量更好的代码，通常这个过程伴随着大量移动操作，使调试变得困难。</p>
 <p>从 RISC 开始流行，运行时性能开始需要编译器的优化。分支指令的延迟槽、非阻塞内存操作、流水线使用的增多以及功能单元数目的增加等，这些特性使得处理器性能不仅收程序布局和结构方面的制约，还受到指令调度和资源分配等底层细节的限制。</p>
 <p>优化编译器现在变得司空见惯 (反而 go 是异类)，进而使编译器改变成了前端、后端的架构，优化将前端与性能问题分割开来。优化假定后端会处理资源分配的问题，因而假定针对具有无限寄存器、内存和功能单元的理想机器进行优化。这也对编译器后端产生了更大压力。</p>
 <h3 id="示例-改进数组的地址计算" class="headerLink">
-    <a href="#%e7%a4%ba%e4%be%8b-%e6%94%b9%e8%bf%9b%e6%95%b0%e7%bb%84%e7%9a%84%e5%9c%b0%e5%9d%80%e8%ae%a1%e7%ae%97" class="header-mark"></a>示例：改进数组的地址计算</h3><p>如果编译器前端对数组的引用 <code>m[i, j]</code>​ 生成的 IR 没有关于 m、i、j 的信息或不了解外围的上下文，编译器如果按照默认的行主序处理地址。生成的表达式类似</p>
+    <a href="#%e7%a4%ba%e4%be%8b-%e6%94%b9%e8%bf%9b%e6%95%b0%e7%bb%84%e7%9a%84%e5%9c%b0%e5%9d%80%e8%ae%a1%e7%ae%97" class="header-mark"></a>示例：改进数组的地址计算</h3><p>如果编译器前端对数组的引用 <code>m[i, j]</code> 生成的 IR 没有关于 m、i、j 的信息或不了解外围的上下文，编译器如果按照默认的行主序处理地址。生成的表达式类似</p>
 <p>\[m + (i - low_{1}(m)) \times (high_{2}(m) - low_{2}(m) + 1) \times w + (j - low_{2}(m)) \times
 w.\]</p>
 <p>m 是数组的首地址，\(low_{i}(m)\) 和 \(high_{i}(m)\) 分别表示 m 的第 i 维的下界和上界，w 是 m 中一个元素的字节长度。如何降低该计算的代价，直接取决于对该数组变量极其上下文的分析。如果数组 m 是局部变量并各维度下界均从 1 开始，且上界已知，那么就可以将计算简化为
 \[m + (i - 1) \times high_{2}(m) \times w + (j - 1) \times w.\]</p>
-<p>如果引用出现在循环内部，且循环中 i 从 1 变动到 I，那么编译器可以使用​<strong>运算符强度折减</strong> (OSR, Operator Strength Reduction) 将 \((i - 1) \times high_{2}(m) \times
+<p>如果引用出现在循环内部，且循环中 i 从 1 变动到 I，那么编译器可以使用<strong>运算符强度折减</strong> (OSR, Operator Strength Reduction) 将 \((i - 1) \times high_{2}(m) \times
 w\) 替换为 \(i^{&rsquo;}_{x} = i^{&rsquo;}_{x - 1} + high_{2}(m) \times w\) (其中 \(i^{&rsquo;}_{1} =
 0\))。同样地，如果 j 也是个循环的归纳变量 (IV, Induction Variable)，且 j 从 1 变动到 J，那么经过 OSR 后就有了 \(j^{&rsquo;}_{y} = j^{&rsquo;}_{y - 1} + w\) (其中
 \(j^{&rsquo;}_{1} = 0\))。经过两次 OSR 后，只需要计算此式
@@ -376,11 +376,11 @@ dmxpy 是一个经典的能够说明上下文作用的例子。源码可以在<a
 k]\)，地址计算就是 \(x + (j - k) * w\)，进一步化简 \(x + jw - kw\)，也就是说循环展开后，每次 x 的基址为 \(x + jw\)，load 操作将有相同的基址和不同的偏移量。</p>
 <p>虽然 m 的元素也不会被改变，但是每次内循环都会改变引用的元素，因此无法将 load 运算外提来削减 load 带来的开销。但是同理可以使用相同基址的方法减少计算的消耗。</p>
 <h3 id="对优化的考虑" class="headerLink">
-    <a href="#%e5%af%b9%e4%bc%98%e5%8c%96%e7%9a%84%e8%80%83%e8%99%91" class="header-mark"></a>对优化的考虑</h3><p>优化变换的核心就是两个问题 &ndash; <strong>安全性</strong> 和 <strong>可获利性</strong>​。安全性就是保证变换将保持程序原有的语义，而可获利性就是保证变换是有利可图的。如果不能同时满足时，那么编译器就不应该采用该变换。</p>
+    <a href="#%e5%af%b9%e4%bc%98%e5%8c%96%e7%9a%84%e8%80%83%e8%99%91" class="header-mark"></a>对优化的考虑</h3><p>优化变换的核心就是两个问题 &ndash; <strong>安全性</strong> 和 <strong>可获利性</strong>。安全性就是保证变换将保持程序原有的语义，而可获利性就是保证变换是有利可图的。如果不能同时满足时，那么编译器就不应该采用该变换。</p>
 <p>一般来说可供优化编译器利用的时机有几种不同的来源</p>
 <ul>
-<li><strong>减少抽象开销</strong>​，程序设计语言引入的数据结构和类型需要运行时支持，优化器可以通过分析和变换来减少这种开销。</li>
-<li><strong>利用特性</strong>​，通常编译器可以利用操作执行时所处上下文的相关信息，来特化该操作。</li>
+<li><strong>减少抽象开销</strong>，程序设计语言引入的数据结构和类型需要运行时支持，优化器可以通过分析和变换来减少这种开销。</li>
+<li><strong>利用特性</strong>，通常编译器可以利用操作执行时所处上下文的相关信息，来特化该操作。</li>
 <li><strong>将代码与系统资源匹配</strong></li>
 </ul>
 <hr>
@@ -419,7 +419,7 @@ substitution) 和 <span class="underline">过程间常数传递</span> (interpro
 </div>
         </div>
     </div>
-<p>如图，可以将这个 CFG 划分为 3 个 EBB：​\(\{B_{0}, B_{1}, B_{2}, B_{3}, B_{4}\}\)、
+<p>如图，可以将这个 CFG 划分为 3 个 EBB：\(\{B_{0}, B_{1}, B_{2}, B_{3}, B_{4}\}\)、
 \(\{B_{5}\}\) 和 \(\{B_{6}\}\)。</p>
 <figure><img src="/images/cfg-example.svg"/>
 </figure>
@@ -458,9 +458,9 @@ end<br /></p>
 <h4 id="扩展-lvn-算法" class="headerLink">
     <a href="#%e6%89%a9%e5%b1%95-lvn-%e7%ae%97%e6%b3%95" class="header-mark"></a>扩展 LVN 算法</h4><p>LVN 还可以进行其他几种局部优化</p>
 <ul>
-<li><strong>交换运算</strong>​，对于可交换的运算来说，如果仅运算操作数的顺序不同，它们将分配相同的值编号</li>
-<li><strong>常量合并</strong>​，如果一个运算的所有运算对象都是已知的常数项，那么 LVN 可以在编译时计算并将结果进行合并。</li>
-<li><strong>代数恒等式</strong>​，LVN 可以用代数恒等式来简化代码。如 \(x+0\) 和 \(x\) 应该分配相同的编号。</li>
+<li><strong>交换运算</strong>，对于可交换的运算来说，如果仅运算操作数的顺序不同，它们将分配相同的值编号</li>
+<li><strong>常量合并</strong>，如果一个运算的所有运算对象都是已知的常数项，那么 LVN 可以在编译时计算并将结果进行合并。</li>
+<li><strong>代数恒等式</strong>，LVN 可以用代数恒等式来简化代码。如 \(x+0\) 和 \(x\) 应该分配相同的编号。</li>
 </ul>
 <div class="verse">
 <p>for <code>expr</code> in BasicBlock, do<br />
@@ -537,7 +537,7 @@ end<br /></p>
 <p>在算法重排各个运算对象时，规模较大的候选树能够提供更多的重排机会。因此，算法试图构造最大规模的候选树。概念上算法找到每个候选树都可以看作是一个 n 元运算符 (n 尽可能大)。因此某些因素会限制候选树的规模</p>
 <ol>
 <li>树不可能大过它表示的程序块</li>
-<li>重写无法改变程序程序块的 <code>可观察量</code>​，即程序块以外使用的任何值都必须像原来的代码中那样计算，且保留其值。类似地，任何在程序块中使用多次的值都必须保留</li>
+<li>重写无法改变程序程序块的 <code>可观察量</code>，即程序块以外使用的任何值都必须像原来的代码中那样计算，且保留其值。类似地，任何在程序块中使用多次的值都必须保留</li>
 <li>树反向扩展时不能超过程序块的起始位置</li>
 </ol>
 <div class="details admonition info open">
@@ -665,7 +665,7 @@ Flatten 例程分别处理每种情形。</li>
 </span></span><span class="line"><span class="cl"><span class="nv">%7</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%6,</span> <span class="nv">%h</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>假设只有 <code>%7</code> 在程序块之外使用，那么只有 <code>Uses(%7) &gt; 1</code>​，因此只有 <code>%7</code> 被作为候选树的根。平衡时扁平化树将会得到以下队列
+</div><p>假设只有 <code>%7</code> 在程序块之外使用，那么只有 <code>Uses(%7) &gt; 1</code>，因此只有 <code>%7</code> 被作为候选树的根。平衡时扁平化树将会得到以下队列
 \[&lt;h, 1&gt;, &lt;g, 1&gt;, &lt;f, 1&gt;, &lt;e, 1&gt;, &lt;d, 1&gt;, &lt;c, 1&gt;, &lt;b, 1&gt;, &lt;a, 1&gt;.\]</p>
 <p>Rebuild 会从队列中取出 \(&lt;h, 1&gt;\) 和 \(&lt;g, 1&gt;\) 然后将 \(&lt;n_{0}, 2&gt;\) 加入队列。
 \[&lt;f, 1&gt;, &lt;e, 1&gt;, &lt;d, 1&gt;, &lt;c, 1&gt;, &lt;b, 1&gt;, &lt;a, 1&gt;, &lt;n_{0}, 2&gt;.\]</p>
@@ -733,7 +733,7 @@ t5 &amp;= t1 + t3
 </span></span><span class="line"><span class="cl"><span class="nv">%11</span> <span class="nf">=</span> <span class="nv">add</span> <span class="nv">nsw</span> <span class="nv">i32</span> <span class="nv">%3,</span> <span class="nv">%9</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>依然第一步寻找候选树的根。算法会选出 5 个根：​<code>%3</code>​、​<code>%6</code>​、​<code>%7</code>​、​<code>%10</code> 以及 <code>%11</code></p>
+</div><p>依然第一步寻找候选树的根。算法会选出 5 个根：<code>%3</code>、<code>%6</code>、<code>%7</code>、<code>%10</code> 以及 <code>%11</code></p>
 <figure><img src="/images/tree-height-balance-second-example.svg"/>
 </figure>
 
@@ -790,7 +790,7 @@ t5 &amp;= t1 + t3
 <h3 id="超局部值编号" class="headerLink">
     <a href="#%e8%b6%85%e5%b1%80%e9%83%a8%e5%80%bc%e7%bc%96%e5%8f%b7" class="header-mark"></a>超局部值编号</h3><p>命名一直是编译器中的一个重点项目，LVN 是在单个 BB 内的命名方法，超局部值编号
 (SVN, Superlocal Value Numbering) 则是扩展到 EBB 中进行命名的方法。</p>
-<p>回到<a href="#%e4%bc%98%e5%8c%96%e7%9a%84%e8%8c%83%e5%9b%b4" rel="">优化的范围</a>所提到的 EBB 示例，先聚焦到第一个 EBB ​\(\{B_{0}, B_{1}, B_{2},
+<p>回到<a href="#%e4%bc%98%e5%8c%96%e7%9a%84%e8%8c%83%e5%9b%b4" rel="">优化的范围</a>所提到的 EBB 示例，先聚焦到第一个 EBB \(\{B_{0}, B_{1}, B_{2},
 B_{3}, B_{4}\}\) 上，SVN 可以将 3 条路径中的每一条路径都当作一个单个 BB 进行处理，也就是说，在处理时 \(\{B_{0}, B_{1}\}\)、\(\{B_{0}, B_{2}, B_{3}\}\) 和
 \(\{B_{0}, B_{2}, B_{4}\}\) 都被当作线性代码。比如在处理 \(\{B_{0}, B_{1}\}\) 时，编译器先将 LVN 算法应用到 \(B_{0}\) 上，然后将生成的散列表按 BB 顺序用 LVN 算法应用到 \(B_{1}\) 上。</p>
 <div class="details admonition warning open">
@@ -866,24 +866,24 @@ end<br /></p>
 <h2 id="全局优化" class="headerLink">
     <a href="#%e5%85%a8%e5%b1%80%e4%bc%98%e5%8c%96" class="header-mark"></a>全局优化</h2><p>全局优化处理整个过程或方法，其作用域包括有环的控制流结构 (如循环)，全局优化在修改代码前通常会有一个分析阶段。</p>
 <h3 id="利用活动信息查找未初始化变量" class="headerLink">
-    <a href="#%e5%88%a9%e7%94%a8%e6%b4%bb%e5%8a%a8%e4%bf%a1%e6%81%af%e6%9f%a5%e6%89%be%e6%9c%aa%e5%88%9d%e5%a7%8b%e5%8c%96%e5%8f%98%e9%87%8f" class="header-mark"></a>利用活动信息查找未初始化变量</h3><p>如果过程 p 在为某个变量 v 分配一个值之前能够使用 v 的值，那么就说 v 在这次使用时是为初始化的。通过计算​<strong>活动情况</strong>​的信息，可以找到对未初始化变量的潜在使用。当且仅当
+    <a href="#%e5%88%a9%e7%94%a8%e6%b4%bb%e5%8a%a8%e4%bf%a1%e6%81%af%e6%9f%a5%e6%89%be%e6%9c%aa%e5%88%9d%e5%a7%8b%e5%8c%96%e5%8f%98%e9%87%8f" class="header-mark"></a>利用活动信息查找未初始化变量</h3><p>如果过程 p 在为某个变量 v 分配一个值之前能够使用 v 的值，那么就说 v 在这次使用时是为初始化的。通过计算<strong>活动情况</strong>的信息，可以找到对未初始化变量的潜在使用。当且仅当
 CFG 中存在一条从 p 到使用 v 的某个位置之间的路径，且 v 在该路径中没有被重新定义，变量 v 在位置 p 处是活动的。通过计算将过程中的每个 BB 对应的活动信息编码到集合
 <code>LiveOut(bb)</code> 中，该集合包含在 BB 退出时的所有活动的变量。</p>
 <p>给定 CFG 入口结点 \(n_{0}\) 的 LiveOut 集合，\(LiveOut(n_{0})\) 中的每个变量都有一次潜在的未初始化使用。</p>
 <h4 id="定义数据流问题" class="headerLink">
     <a href="#%e5%ae%9a%e4%b9%89%e6%95%b0%e6%8d%ae%e6%b5%81%e9%97%ae%e9%a2%98" class="header-mark"></a>定义数据流问题</h4><p>为了计算 CFG 中结点 n 的 LiveOut，需要使用其后继结点的 LiveOut，以及另外两个集合
-<code>UEVar</code> 和 <code>VarKill</code>​。定义 LiveOut 的方程如下：
+<code>UEVar</code> 和 <code>VarKill</code>。定义 LiveOut 的方程如下：
 \[LiveOut(n) = \cup_{m\in{}succ(n)} \left( UEVar(m) \cup \left( LiveOut(m) \cap
 \overline{VarKill(m)} \right) \right).\]</p>
-<p><code>UEVar(m)</code> 包含了 m 中向上展现的变量，即那些在 m 中重新定义之前就开始使用的变量。​<code>VarKill(m)</code> 包含了 m 中定义的所有变量，\(\overline{VarKill(m)}\) 则是其补集，即未在 m 中定义的变量的集合。由于 <code>LiveOut(n)</code> 是利用 n 的后继结点来定义的，因此该方程描述了一个​<strong>反向数据流问题</strong>​。</p>
+<p><code>UEVar(m)</code> 包含了 m 中向上展现的变量，即那些在 m 中重新定义之前就开始使用的变量。<code>VarKill(m)</code> 包含了 m 中定义的所有变量，\(\overline{VarKill(m)}\) 则是其补集，即未在 m 中定义的变量的集合。由于 <code>LiveOut(n)</code> 是利用 n 的后继结点来定义的，因此该方程描述了一个<strong>反向数据流问题</strong>。</p>
 <h4 id="解决这个数据流问题" class="headerLink">
     <a href="#%e8%a7%a3%e5%86%b3%e8%bf%99%e4%b8%aa%e6%95%b0%e6%8d%ae%e6%b5%81%e9%97%ae%e9%a2%98" class="header-mark"></a>解决这个数据流问题</h4><p>对一个过程及其 CFG 计算各个结点的 LiveOut 集合，编译器可以使用一个三步算法</p>
 <ol>
 <li>
-<p><strong>构建 CFG</strong>​，这个步骤在概念上很简单</p>
+<p><strong>构建 CFG</strong>，这个步骤在概念上很简单</p>
 </li>
 <li>
-<p><strong>收集初始信息</strong>​，分析程序在一趟简单的遍历中分别为每个程序块 b 计算一个 <code>UEVar</code>
+<p><strong>收集初始信息</strong>，分析程序在一趟简单的遍历中分别为每个程序块 b 计算一个 <code>UEVar</code>
 和 <code>VarKill</code> 集合</p>
 <p>为了计算 LiveOut 集合，分析程序需要每个程序块的 UEVar 和 VarKill 集合。一趟处理即可计算出这两个集合。对于每个程序块，分析程序将两个集合都初始化为
 \(\emptyset\)。接下来按从上到下顺序遍历，并适当地更新 UEVar 和 VarKill 集合，以反映程序块的每个操作的影响。</p>
@@ -1131,13 +1131,13 @@ end<br /></p>
     <a href="#%e5%86%85%e8%81%94%e6%9b%bf%e6%8d%a2" class="header-mark"></a>内联替换</h3><p>那编译器可以通过将被调用过程的副本替换到调用位置上，并根据调用位置的上下文调整代码，这种变换称为内联替换 (inline subsitution)。</p>
 <p>在每个调用位置上，编译器必须决定是否内联该调用。一个调用位置上所做的决策可能会影响到其他调用位置上的决策。如 a 调用 b、b 调用 c 的过程，如果内联过程 c，可能会改变内联到 a 中的特征。因此在内联替换时需要一些准则来考察。</p>
 <ul>
-<li><strong>被调用者的规模</strong>​，如果被调用者的代码长度小于进行上下文保存、恢复的长度，那么内联替换可以减少代码长度</li>
-<li><strong>调用者的规模</strong>​，如果希望生成的代码足够的小</li>
-<li><strong>动态调用计数</strong>​，对频繁调用位置上的改进可以提供更大的收益</li>
-<li><strong>常数值实参</strong>​，调用时使用常数值实参，可能产生潜在的代码改进</li>
-<li><strong>静态调用计数</strong>​，编译器跟踪一个过程在不同位置的调用次数</li>
-<li><strong>参数计数</strong>​，参数的数目可以充当过程链接代价的一种表示</li>
-<li><strong>过程中的调用</strong>​，检查调用图的叶结点，通常这是良好的候选内联对象</li>
+<li><strong>被调用者的规模</strong>，如果被调用者的代码长度小于进行上下文保存、恢复的长度，那么内联替换可以减少代码长度</li>
+<li><strong>调用者的规模</strong>，如果希望生成的代码足够的小</li>
+<li><strong>动态调用计数</strong>，对频繁调用位置上的改进可以提供更大的收益</li>
+<li><strong>常数值实参</strong>，调用时使用常数值实参，可能产生潜在的代码改进</li>
+<li><strong>静态调用计数</strong>，编译器跟踪一个过程在不同位置的调用次数</li>
+<li><strong>参数计数</strong>，参数的数目可以充当过程链接代价的一种表示</li>
+<li><strong>过程中的调用</strong>，检查调用图的叶结点，通常这是良好的候选内联对象</li>
 </ul>
 <p>编译器会根据一些准则，然后应用一条或一组相应的启发式规则，来决定一个调用是否被内联替换。</p>
 <h3 id="过程置放" class="headerLink">
@@ -1146,8 +1146,8 @@ end<br /></p>
     <a href="#%e9%92%88%e5%af%b9%e8%bf%87%e7%a8%8b%e9%97%b4%e4%bc%98%e5%8c%96%e7%9a%84%e7%bc%96%e8%af%91%e5%99%a8%e7%bb%84%e7%bb%87%e7%bb%93%e6%9e%84" class="header-mark"></a>针对过程间优化的编译器组织结构</h3><p>对于传统编译器来说，编译单元可能是单个过程、单个类或单个代码文件，编译器生成的目标代码完全取决于编译单元的内容。到达编译单元边界时，编译器无法链接另一个编译单元中的行为，通常只能使用最坏的结果进行假设优化。</p>
 <p>人们提出了针对过程间优化的不同编译器组织结构：</p>
 <ul>
-<li><strong>扩大编译单元</strong>​，这是最简单的一种解决方法</li>
-<li><strong>链接时优化</strong>​ (Link-Time Optimization)，直接地将过程间优化移动到链接器中，其中可以访问所有的静态链接代码。</li>
+<li><strong>扩大编译单元</strong>，这是最简单的一种解决方法</li>
+<li><strong>链接时优化</strong> (Link-Time Optimization)，直接地将过程间优化移动到链接器中，其中可以访问所有的静态链接代码。</li>
 </ul>
 </div>
 

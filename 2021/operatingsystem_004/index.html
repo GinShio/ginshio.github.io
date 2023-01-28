@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_004\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, IuputOutput","wordcount":  20394 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, IuputOutput","wordcount":  20374 ,
         "url": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_004\/","datePublished": "2021-07-25T14:01:08+08:00","dateModified": "2022-04-07T19:33:33+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -180,7 +180,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/operatingsystem/"><i class="far fa-folder fa-fw"></i>OperatingSystem</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/operating-system-note/"><i class="far fa-list-alt fa-fw"></i>Operating System Note</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-25">07-25</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 20394 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-25">07-25</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 20374 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 41 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -262,7 +262,7 @@
 <h2 id="单位" class="headerLink">
     <a href="#%e5%8d%95%e4%bd%8d" class="header-mark"></a>单位</h2><p>在进行本篇之前，需要明确一下计算机领域常用单位，只有统一了单位，我们才能更好的交流。</p>
 <p>计算机领域以 bit (b，位) 和 byte (B，字节) 作为基本单位，bit 是只能表示 1 或 0
-的单位数据，\(1 \texttt{Byte} = 8 \texttt{bit}\)​，即 1 Byte 可以表示 256 种不同的状态。另外在 IO 传输数据时，最常用的单位即 <strong>比特率</strong> (单位：bit/s 或 bps)，即每秒传输的 bit 数量，当然也可以对其进行除以 8 运算转变为 <code>Byte/s</code>​。</p>
+的单位数据，\(1 \texttt{Byte} = 8 \texttt{bit}\)，即 1 Byte 可以表示 256 种不同的状态。另外在 IO 传输数据时，最常用的单位即 <strong>比特率</strong> (单位：bit/s 或 bps)，即每秒传输的 bit 数量，当然也可以对其进行除以 8 运算转变为 <code>Byte/s</code>。</p>
 <p>传统单位以 <a href="https://en.wikipedia.org/wiki/Metric_prefix" target="_blank" rel="noopener noreferrer">SI</a> (10 进制) 前缀为词头，而计算机领域多以 <a href="https://en.wikipedia.org/wiki/Binary_prefix" target="_blank" rel="noopener noreferrer">IEC 60027</a> (2 进制) 前缀为词头。一般内存与 CD 使用 IEC-60027 词头，而磁盘、闪存、DVD 常用 SI 词头表示容量。至于 Windows 系统对于容量的显示问题，内部转换为 IEC-60027 但显示的词头却是 SI，这也是历史原因所造成的。</p>
 <table>
 <thead>
@@ -480,7 +480,7 @@ device 以字符为单位发送或接收一个字符流，而不考虑任何块�
     <a href="#%e5%86%85%e5%ad%98%e6%98%a0%e5%b0%84-io" class="header-mark"></a>内存映射 IO</h3><p>每个 Controller 有几个寄存器用来与 CPU 通信，通过写入寄存器，OS 可以命令设备发送数据、接收数据、开启或关闭，或执行其他某些操作。通过读取这些寄存器，OS 可以了解设备的状态、是否准备好接收新的命令等。除了这些寄存器外，许多设备还有一个 OS 可以读写的数据缓冲区，那么首先要解决的问题即如何与设备的控制器寄存器和缓冲区通信。</p>
 <p>可以为控制器寄存器分配 IO 端口 (port) 号，形成 IO 端口空间，并且受到保护使得普通的用户程序不能对其进行访问。另一种方法是 PDP-11 引入的，将所有控制寄存器映射到内存空间中，这些内存空间是唯一且不会被其他程序分配到的，这样的系统称为 <strong>内存映射
 IO</strong> (memory mapped IO)。在大部分系统中，分配给控制寄存器的地址位于或靠近地址空间的顶端。当 CPU 读取一个字的时候，不论从内存还是 IO port 读取，都需要将地址放入总线的地址线上，然后总线的控制线置为 READ，第二条信号线表明需要的是 IO 空间或内存空间。如果只有内存空间，那么每个内存模块和和每个 IO 设备都会将地址线和它所服务的地址范围进行比较，地址落入该范围才会响应请求。</p>
-<p>对于 memory mapped IO 的 <strong>优点</strong>​：</p>
+<p>对于 memory mapped IO 的 <strong>优点</strong>：</p>
 <ol>
 <li>若需要特殊的 IO 指令读写设备控制寄存器，那么访问这些寄存器需要汇编代码，而使用 memory mapped 则可以完全使用 C 语言编写驱动</li>
 <li>不需要特殊的保护机制阻止用户进程执行 IO 操作，OS 只需要避免将内存分配给其他进程即可。在用户需要控制特定的设备时，只需要将其页面添加进页表</li>
@@ -550,7 +550,7 @@ Memory Access, DMA) 这种方案。只有硬件存在 DMA 时 OS 才能使用它
 仔细地将正在做的一切事情记入日志并维护寄存器的影子副本，但这样对开销都对性能具有较大的影响。</p>
 <h2 id="io-软件原理" class="headerLink">
     <a href="#io-%e8%bd%af%e4%bb%b6%e5%8e%9f%e7%90%86" class="header-mark"></a>IO 软件原理</h2><p>IO 软件设计的关键概念即 <strong>设备独立性</strong> (Device Independence)，编写的程序无需事先指定设备且可以访问任意 IO 设备。与 Device Independence 息息相关的是 <strong>统一命名</strong>
-(uniform naming)，即文件或设备的名称应该是一个简单的字符串或整数，不应依赖于设备。例如 UNIX 下 mount 一个 USB 设备到一个 path，那么访问并修改这个 path 就可以将数据写入 USB 设备中，这样文件和设备都采用统一的 <code>路径名寻址</code>​。</p>
+(uniform naming)，即文件或设备的名称应该是一个简单的字符串或整数，不应依赖于设备。例如 UNIX 下 mount 一个 USB 设备到一个 path，那么访问并修改这个 path 就可以将数据写入 USB 设备中，这样文件和设备都采用统一的 <code>路径名寻址</code>。</p>
 <p><strong>错误处理</strong> (Error Handling) 是 IO 软件的重要组成，Error 应该尽可能地接近硬件层面处理，只有在底层软件处理不了的情况再交由高层处理。</p>
 <p><strong>同步</strong> (Synchronous) 与 <strong>异步</strong> (Asynchronous) 传输是 IO 软件需要关心的，大多数物理 IO 是 Asynchronous，CPU 请求 IO 之后就去完成其他任务，直到 IO 中断的发生。如果是 Synchronous IO 那么用户程序将变得容易编写，只需要调用 read 后程序就会挂起，直到缓冲区准备完毕。但是相应的，一些高性能的程序需要自己控制 IO 细节，所以需要
 Asynchronous IO。</p>
@@ -650,7 +650,7 @@ character 还是 block 全部使用相同的逻辑块大小</p>
 </li>
 </ul>
 <h3 id="用户空间的-io-软件" class="headerLink">
-    <a href="#%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e7%9a%84-io-%e8%bd%af%e4%bb%b6" class="header-mark"></a>用户空间的 IO 软件</h3><p>大部分 syscall (包含 IO 系统调用) 由库过程实现，这些库过程的集合则是 IO 系统的组成部分。虽然这些过程是将参数放在合适的位置供系统调用使用，但的确有其他 IO 过程实际实现真正的操作，比如 C 语言中的标准 IO 库 <code>stdio.h</code>​，它们作为用户程序的一部分运行。</p>
+    <a href="#%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e7%9a%84-io-%e8%bd%af%e4%bb%b6" class="header-mark"></a>用户空间的 IO 软件</h3><p>大部分 syscall (包含 IO 系统调用) 由库过程实现，这些库过程的集合则是 IO 系统的组成部分。虽然这些过程是将参数放在合适的位置供系统调用使用，但的确有其他 IO 过程实际实现真正的操作，比如 C 语言中的标准 IO 库 <code>stdio.h</code>，它们作为用户程序的一部分运行。</p>
 <p>并非所有的用户层 IO 软件都是由库过程组成的，一个重要的类型就是 <strong>假脱机</strong>
 (spooling) 系统，这是多道程序设计系统中处理独占 IO 设备的一种方法。打印机就是典型的 spooling device，尽管技术上可以让任何用户进程打开表示打印机的字符特殊文件，但假如一个进程打开它并长时间不使用，那么其他进程也将无法打印。</p>
 <p>关于 spooling 的解决方法很简单，创建一个特殊进程 <strong>守护进程</strong> (daemon)，以及一个特殊目录 <strong>假脱机目录</strong> (spooling directory)。当一个进程要打印时，首先生成要打印的整个文件，并将其放入 spooling directory，由 daemon 打印该目录下的文件，该进程是允许使用打印机特殊文件的唯一进程。通过保护特殊文件来防止用户直接使用，可以解决某些进程不必要地长时间空占 spooling device。</p>
@@ -701,8 +701,8 @@ Blu-ray) 也是十分重要的存储介质。如今移动硬盘越来越成为�
 <li><strong>柱面</strong> (cylinder)：在多个 platter 构成的盘组中，不同 platter 的面，但处于同一半径的多个磁道组成的圆柱面。cylinder 的数量与 head 的数量相同，一般为
 platter 的二倍 (一般一个 platter 有正反两个盘面)。</li>
 <li><strong>扇区</strong> (sector)：或称 <code>磁道扇区</code> (track sector)，磁盘上的每个磁道被等分为若干个弧段中的一段。磁盘的第一个扇区为引导扇区。</li>
-<li><strong>几何扇区</strong> (geometrical sector)：或称 <code>扇面</code>​，是同一 platter 上，由拥有同心角的不同 sector 组成的扇面。</li>
-<li><strong>簇</strong> (cluster)：或称 <code>分配单元</code>​，是 OS 中文件系统存储管理的单位，即文件系统中的块大小。一个 cluster 可以由一个或多个 sector 组成，cluster size 一般在格式化文件系统时选定。这是一个 OS 逻辑概念，而非磁盘的物理特性。</li>
+<li><strong>几何扇区</strong> (geometrical sector)：或称 <code>扇面</code>，是同一 platter 上，由拥有同心角的不同 sector 组成的扇面。</li>
+<li><strong>簇</strong> (cluster)：或称 <code>分配单元</code>，是 OS 中文件系统存储管理的单位，即文件系统中的块大小。一个 cluster 可以由一个或多个 sector 组成，cluster size 一般在格式化文件系统时选定。这是一个 OS 逻辑概念，而非磁盘的物理特性。</li>
 </ul>
 <figure><img src="/images/hard-disk-drive-structure.svg"/>
 </figure>
@@ -710,7 +710,7 @@ platter 的二倍 (一般一个 platter 有正反两个盘面)。</li>
 <p>集成驱动电子设备 (Integrated Drive Electronics, IDE) 是将控制器与盘体结合在一起的一种技术，这种技术使得数据传输的可靠性增加，磁盘制造变得简单，厂商无需担心自己产品与其他厂商的控制器之间的兼容性问题，也使得安装更为方便。高技术附件 (Advanced
 Technology Attachment, ATA) 是一种并行的、用于连接存储设备的标准接口，这是一种控制器技术，也被称为 并行高技术附件 (Parallel ATA)。由于并联易被干扰，速度缓慢，被之后出现的 串行高技术附件 (Serial ATA) 所替代。不过无论是 PATA 或 STAT，都是使用了 IDE 技术的磁盘，其本身包含一个微控制器，向实际的控制器发出一组高级指令，而控制器经常做磁道的高速缓存、坏块映射以及更多工作。</p>
 <p>磁盘驱动程序有一个重要的设备特性：控制器是否可以同时控制两个或多个驱动器进行寻道，即 <strong>重叠寻道</strong> (overlapped seek)。当控制器和软件等待一个驱动器完成寻道时，控制器同时可以启动另一个驱动器进行寻道；许多控制器可以在一个驱动器上进行读写，与此同时再对另一个或多个其他驱动器进行寻道，但是软盘控制器不能在两个驱动器上同时进行读写操作。overlapped seek 极大程度地降低了平均存取时间。</p>
-<p>在实现上，磁盘物理几何规格和驱动程序软件的几何规格几乎总是不同，现代 HDD 外层的磁道的扇区数量比内层磁道的扇区数量更多，为了隐藏这些磁盘细节，大多数现代磁盘都有一个虚拟几何规格呈现给 OS。软件使用 cylinder、head 和 sector 定位数据，并由控制器将 Triple <code>(C, H, S)</code> 映射为真实的位置。Triple 的最大值为 <code>(65535, 16, 63)</code>​，这与最初的 IBM PC 相兼容。在 IBM PC 上使用分别使用 <code>(16 bit, 4 bit, 6 bit)</code> 来蛇者这些参数，其中 cylinder 与 sector 的编号从 1 开始，head 的编号从 0 开始。为了突破 Triple 最大值的限制，现代 HDD 基本都支持名为 <strong>逻辑块寻址</strong> (Logical Block
+<p>在实现上，磁盘物理几何规格和驱动程序软件的几何规格几乎总是不同，现代 HDD 外层的磁道的扇区数量比内层磁道的扇区数量更多，为了隐藏这些磁盘细节，大多数现代磁盘都有一个虚拟几何规格呈现给 OS。软件使用 cylinder、head 和 sector 定位数据，并由控制器将 Triple <code>(C, H, S)</code> 映射为真实的位置。Triple 的最大值为 <code>(65535, 16, 63)</code>，这与最初的 IBM PC 相兼容。在 IBM PC 上使用分别使用 <code>(16 bit, 4 bit, 6 bit)</code> 来蛇者这些参数，其中 cylinder 与 sector 的编号从 1 开始，head 的编号从 0 开始。为了突破 Triple 最大值的限制，现代 HDD 基本都支持名为 <strong>逻辑块寻址</strong> (Logical Block
 Addressing, LBA) 的系统，sector 从 0 开始连续编号，而不管磁盘的几何规格。</p>
 <h3 id="raid" class="headerLink">
     <a href="#raid" class="header-mark"></a>RAID</h3><p>随着时间的推移，CPU 的速度越来越快，但是磁盘的寻道时间却依然难以以数量级的方式下降，CPU 与磁盘之间的速度差距越来越大。因此为提高性能，有人开始考虑并行 IO，
@@ -725,7 +725,7 @@ RAID 并不是层级结构，7 个等级只是 7 种不同的组织阵列的方�
 <li>
 <p>RAID0</p>
 <p>它将 RAID 模拟的虚拟单个磁盘分成条带，每个条带具有 k 个扇区，其中 \(0 ~ k -
-1\) 为条带 0，​\(k ~ 2k - 1\) 为条带 1，以此类推。RAID0 将连续的条带以轮转的方式写入全部驱动器上。</p>
+1\) 为条带 0，\(k ~ 2k - 1\) 为条带 1，以此类推。RAID0 将连续的条带以轮转的方式写入全部驱动器上。</p>
 <p>RAID0 的性能很好，尤其在数据量大时。RAID 驱动器会自动拆分命令，让控制器并行的在驱动器上查找数据。但是对于每次读取一个条带的请求，RAID0 并没有增强其性能，因为其中不存在并行。</p>
 </li>
 <li>
@@ -768,7 +768,7 @@ head 需要寻道并移动到第二个 track，假设没有 skew，由于寻道�
 <figure><img src="/images/cylinder-skew-example.svg"/>
 </figure>
 
-<p>我们假设一个 7200 RPM 的磁盘驱动器，track 到 track 的寻道时间为 \(750\mu s\)​，每个
+<p>我们假设一个 7200 RPM 的磁盘驱动器，track 到 track 的寻道时间为 \(750\mu s\)，每个
 track 包含 sector 300 个，则需要斜进 sector 27 个。而 low-level format 的结果是磁盘容量减少，减少的量取决于前导码、扇区间间隙、ECC Field 大小以及保留的备用扇区数目。通常格式化比未格式化的容量低 \(20\%\) 。</p>
 <p>当然我们需要思考当 head 找到对应扇区后，读取数据并做 ECC 校验，之后讲数据送往内存，然后读取相邻的 sector。但是在读取之前相邻的 sector 从 head 划走，此时完成传输的 head 不得不再等磁盘空转直至第二个 sector 归来。面对这一问题，我们在
 low-level format 时往往还会采取交错的方式编号 sector，以防止这种情况的发生。</p>
@@ -782,13 +782,13 @@ low-level format 时往往还会采取交错的方式编号 sector，以防止�
 </ol>
 <p>对于大多数磁盘而言，前两项是占主导地位的，所以减少平均寻道时间可以充分改善系统性能。</p>
 <p>如果现在有一系列以三元组 (C,H,S) 进行磁盘 IO 请求，如何调度磁盘臂？最简单的方法就是队列的思想，即 <code>先来先服务</code> (First-Come First-Served, FCFS)，但是如此难以优化寻道时间。那加入一点点 greedy 的思想，每次服务的请求是与磁盘臂当前 cylinder 最接近的请求，这是否可行呢？当然是没问题的，尽量让下一次的寻道时间最小化，这种算法被称为 <code>最短寻道优先</code> (Shortest Seek Frist, SSF)。不得不说这是很优秀的算法，思考这是不是与之前进程调度中的 SJF (Shortest Job First) 算法类似，这类算法往往有着最短的平均寻道时间。但是回想一下 SJF 的缺点，距离当前 cylinder 较远的请求往往需要较长时间的等待。</p>
-<p>那么针对每个请求与 head 寻道的动作，是否与电梯的运行很类似。它们都是在请求到来时，在一个方向上运行，直到那个方向上没有请求为止，然后改变方向。因此这个方法在磁盘世界也被称为 <strong>电梯算法</strong> (elevator algorithm)。在该算法中需要一个标志位来指示磁盘臂当前是向上还是向下移动，当该方向上没有请求时则掉转磁盘臂可是寻道，如果没有请求那么磁盘臂可以停止寻道并等待请求。elevator 往往不如 SSF，但其对任意一组请求，磁盘臂的移动总次数具有一个固定上界：​\(2 \times Number_{cylinder}\)​。当然电梯算法还可以总是按相同的方向进行扫描，即处理完最高 cylinder 的请求后，将 head 移动到请求的最低
+<p>那么针对每个请求与 head 寻道的动作，是否与电梯的运行很类似。它们都是在请求到来时，在一个方向上运行，直到那个方向上没有请求为止，然后改变方向。因此这个方法在磁盘世界也被称为 <strong>电梯算法</strong> (elevator algorithm)。在该算法中需要一个标志位来指示磁盘臂当前是向上还是向下移动，当该方向上没有请求时则掉转磁盘臂可是寻道，如果没有请求那么磁盘臂可以停止寻道并等待请求。elevator 往往不如 SSF，但其对任意一组请求，磁盘臂的移动总次数具有一个固定上界：\(2 \times Number_{cylinder}\)。当然电梯算法还可以总是按相同的方向进行扫描，即处理完最高 cylinder 的请求后，将 head 移动到请求的最低
 cylinder，然后继续沿相同方向移动 head。</p>
 <figure><img src="/images/disk-head-scheduling-algorithm-comparison.svg"/>
 </figure>
 
 <h3 id="错误处理" class="headerLink">
-    <a href="#%e9%94%99%e8%af%af%e5%a4%84%e7%90%86" class="header-mark"></a>错误处理</h3><p>磁盘制造商通过不断加大线性密度而持续推进技术的极限。一块 5.25 inch 的磁盘处于中间位置的磁道大约是 300 mm 周长，假设磁道存放 300 个 512 Byte 的 sector，考虑前导码、ECC 与扇区间隙损失部分空间的情况，线性记录密度大约是 \(5000 \texttt{bit}/\texttt{mm}\)​，而这需要及其均匀的基片与非常精细的氧化物涂层。但是按照规范制作的磁盘也不可能没有瑕疵，即使如此密度能够做到没有瑕疵，但是在向更高密度制作时也可能引入瑕疵。</p>
+    <a href="#%e9%94%99%e8%af%af%e5%a4%84%e7%90%86" class="header-mark"></a>错误处理</h3><p>磁盘制造商通过不断加大线性密度而持续推进技术的极限。一块 5.25 inch 的磁盘处于中间位置的磁道大约是 300 mm 周长，假设磁道存放 300 个 512 Byte 的 sector，考虑前导码、ECC 与扇区间隙损失部分空间的情况，线性记录密度大约是 \(5000 \texttt{bit}/\texttt{mm}\)，而这需要及其均匀的基片与非常精细的氧化物涂层。但是按照规范制作的磁盘也不可能没有瑕疵，即使如此密度能够做到没有瑕疵，但是在向更高密度制作时也可能引入瑕疵。</p>
 <p>磁盘制造时的瑕疵会引入坏扇区，即 sector 不能正确地读回刚刚写入其上的值。如果只有几 bit 有瑕疵那么 ECC 即可校正错误，但瑕疵较大时便无法恢复。对于坏块一般有两种处理方法，但是控制器都必须知道每个扇区的编号，所以一般采用内部表跟踪扇区信息 (每个
 track 一张表)，或为了更好的性能重写前导码来重新映射扇区。</p>
 <ol>
@@ -809,7 +809,7 @@ Disk) 的驱动器永远不会执行 recalibrate 操作。</p>
 <h3 id="稳定存储器" class="headerLink">
     <a href="#%e7%a8%b3%e5%ae%9a%e5%ad%98%e5%82%a8%e5%99%a8" class="header-mark"></a>稳定存储器</h3><p>当我们不惜一切代价的保证磁盘的一致性时，这个磁盘系统应该在一个写命令时，要么正确的写入数据要么什么也不做，让现有数据完整无缺地留下，这种系统被称为 <strong>稳定存储器</strong>
 (stable storage)。</p>
-<p>我们首先需要确认一点，如果使用 16 Byte 的 ECC Field 校验 512 Byte 的 sector，在该 sector 出现错误但 ECC 没有出错的情况下，该错误是不会被检测出来的，即使这种错误的概率大约是 \(2^{-144}\)​。假设一点，被正确写入的 sector 会自然地变为不可读状态，但是在一个合理的间隔内 (如 1 天) 让相同的扇区在独立的驱动器上变坏的概率可以小到忽略不计。最后假设 CPU 故障，这种情况下只能停机，因此进行中的写操作也会停止，这会使写入的数据检测到不正确 ECC。</p>
+<p>我们首先需要确认一点，如果使用 16 Byte 的 ECC Field 校验 512 Byte 的 sector，在该 sector 出现错误但 ECC 没有出错的情况下，该错误是不会被检测出来的，即使这种错误的概率大约是 \(2^{-144}\)。假设一点，被正确写入的 sector 会自然地变为不可读状态，但是在一个合理的间隔内 (如 1 天) 让相同的扇区在独立的驱动器上变坏的概率可以小到忽略不计。最后假设 CPU 故障，这种情况下只能停机，因此进行中的写操作也会停止，这会使写入的数据检测到不正确 ECC。</p>
 <p>现在所有假设成立的情况下，stable storage 使用完全相同的一对磁盘，对应的块一同工作以形成无差错的块。当不存在错误时，任意读取一块磁盘的数据即可，因为它们是完全相同的。为达到这一目的，定义以下三种操作：</p>
 <dl>
 <dt>稳定写 (stable write)</dt>
@@ -879,12 +879,12 @@ Terminal 输入命令时的场景。</p>
 bit 可以设置为键按下 / 释放。跟踪每个键的状态是 driver 的任务，硬件仅给出中断。</p>
 <p>driver 的处理让键盘的输入十分灵活且不依赖于具体硬件。driver 一般向上层原封不动地传递输入的数据，这将输入的精准数据发送给上层应用 (比如文本编辑器和 Terminal，另外说一下书中使用 Emacs 举例好评！)。但是有些程序并不需要如此丰富的信息，它们只需要校正后的输入，即将行内编辑全部处理完成后再发送给上层应用。因此第一种是面向字符的，被称为 <strong>原始模式</strong> (raw mode)；而第二种则是面向行的，被称为 <strong>加工模式</strong>
 (cooked mode)。POSIX 这时候出现了，他们带着标准就这样来了！他们将 cooked mode 称为 <strong>术语规范模式</strong> (canonical mode)，而 raw mode 等价 <strong>非规范模式</strong> (noncanonical
-mode)，​<code>NOTWITHSTANDING</code> 终端行为的许多细节可能被修改了。POSIX 还提供了相关
+mode)，<code>NOTWITHSTANDING</code> 终端行为的许多细节可能被修改了。POSIX 还提供了相关
 library。</p>
 <p>如果键盘处于 Canonical Mode 则字符必须存储起来直到累积完整的一样，并对这行完成相应的编辑。即使处于 Noncanonical Mode，程序也可能尚未请求输入，所以 character 也可能被缓存起来以便允许用户提前键入。如果你无法理解为什么 Noncanonical Mode 也需要缓存字符，想想 Terminal 中，如果你正在运行一个命令，这时你在键盘上输入了一些字符并摁下了回车会发生什么呢？什么都没有发生！命令还在运行当中！但是但这条命令完成后，Terminal 会直接运行你刚刚键入的字符，因为它们被 buffering 并且你摁下了回车。</p>
 <p>另外书中提到了一个很有意思的观点</p>
 <blockquote>
-<p>不允许用户提前键入的系统设计者都应该被 <code>涂柏油、粘羽毛</code>​，或者更加严重的惩罚，强迫他们使用自己设计的系统。</p>
+<p>不允许用户提前键入的系统设计者都应该被 <code>涂柏油、粘羽毛</code>，或者更加严重的惩罚，强迫他们使用自己设计的系统。</p>
 </blockquote>
 <p>这里的涂柏油和粘羽毛是近代欧洲及其殖民地的一种严厉惩罚和公开羞辱对方的行为，意在伸张非官方认可的正义或报复，通常由暴民作为私刑实施。羽毛粘在灼热的尚未凝固的柏油上，难以去除。当代欧洲语言中 <code>tarring and feathering</code> 则是 Metaphor (隐喻) 惩罚或严厉批评。</p>
 <p>言归正传，将刚刚键入的字符出现在屏幕上，这个过程被称为 <strong>回显</strong> (echoing)。键入与正在写屏幕使 echoing 变得复杂，因为输出不应该覆盖掉输入的 echoing。另一方面限制行长度，而在需要的时候进行断行也是复杂的，为了简单起见某些 driver 将有长度限制的
@@ -901,8 +901,8 @@ head 位置不变，如果输出可能使前面纸张的空白浪费，为了使
 <li>CR：Apple II 家族，以及 MacOS (before version X)</li>
 <li>CRLF: DOS 以及 Windows，还有部分非 UNIX-like</li>
 </ul>
-<p>Canonical Mode 下许多输入字符都具有特殊含义，以下列出了 POSIX 要求的所有特殊字符，这些字符一般不与程序所使用的文本输入或代码相冲突。并且处理 LF 与 CR，其它字符都可以在程序的控制下修改。PS 以下使用 <code>C</code> 代表 CTRL、​<code>S</code> 代表 Shift、​<code>M</code> 代表
-Meta 或 Alt、​<code>s</code> 代表 super。</p>
+<p>Canonical Mode 下许多输入字符都具有特殊含义，以下列出了 POSIX 要求的所有特殊字符，这些字符一般不与程序所使用的文本输入或代码相冲突。并且处理 LF 与 CR，其它字符都可以在程序的控制下修改。PS 以下使用 <code>C</code> 代表 CTRL、<code>S</code> 代表 Shift、<code>M</code> 代表
+Meta 或 Alt、<code>s</code> 代表 super。</p>
 <table>
 <thead>
 <tr>
@@ -967,7 +967,7 @@ Meta 或 Alt、​<code>s</code> 代表 super。</p>
 <h4 id="鼠标软件" class="headerLink">
     <a href="#%e9%bc%a0%e6%a0%87%e8%bd%af%e4%bb%b6" class="header-mark"></a>鼠标软件</h4><p>老式的鼠标采用轨迹球获取移动数据，当鼠标在粗糙表面上移动时这个轨迹球会随着旋转。现代鼠标更多使用光学设备，其底部采用一个或多个发光二级管和光电探测器。早期的光电鼠标需要在特殊的鼠标垫上使用，其上游锯齿状网格，通过计算穿过的线数获得移动轨迹。现代光电鼠标主要通过图形处理芯片获取并处理下方连续的低分辨率图片，寻找图像之间的变化，从而获取移动数据。</p>
 <p>无论是向哪个方向移动了一个确定的最小距离，或按钮被按下或释放时，都会有消息发送给计算机，而这个最小距离被称为 <strong>鼠标步</strong> (mickey)。发送到计算机的消息一般都包含
-\(\delta{}x\) 、​\(\delta{}y\) 与 button，消息的格式取决于系统和鼠标所具有的 button 数目，通常占 3 Byte。大多数鼠标返回报告频率最大为 40 Hz，所以鼠标自上次报告之后移动了多个 mickey。有时需要区分双击与单击，这是 driver 的事情，用户可以自行设置足够接近的时间来区分单击与双击，也可以设置 mickey 的大小。</p>
+\(\delta{}x\) 、\(\delta{}y\) 与 button，消息的格式取决于系统和鼠标所具有的 button 数目，通常占 3 Byte。大多数鼠标返回报告频率最大为 40 Hz，所以鼠标自上次报告之后移动了多个 mickey。有时需要区分双击与单击，这是 driver 的事情，用户可以自行设置足够接近的时间来区分单击与双击，也可以设置 mickey 的大小。</p>
 <h3 id="输出软件" class="headerLink">
     <a href="#%e8%be%93%e5%87%ba%e8%bd%af%e4%bb%b6" class="header-mark"></a>输出软件</h3><h4 id="文本窗口" class="headerLink">
     <a href="#%e6%96%87%e6%9c%ac%e7%aa%97%e5%8f%a3" class="header-mark"></a>文本窗口</h4><p>当输出是连续的、单一字体、大小和颜色的形式时，输出比输入更简单。大体上，程序将字符发送到当前窗口，而字符在那里显示出来，通常通过系统调用将字符写入窗口。</p>

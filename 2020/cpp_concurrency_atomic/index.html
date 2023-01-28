@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2020\/cpp_concurrency_atomic\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, C\u002b\u002b, Concurrency, Atomic","wordcount":  5727 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, C\u002b\u002b, Concurrency, Atomic","wordcount":  5703 ,
         "url": "https:\/\/blog.ginshio.org\/2020\/cpp_concurrency_atomic\/","datePublished": "2020-12-05T17:46:52+08:00","dateModified": "2022-04-07T19:30:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -154,7 +154,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/c++-%E5%B9%B6%E5%8F%91/"><i class="far fa-list-alt fa-fw"></i>C++ 并发</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="12-05">12-05</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5727 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="12-05">12-05</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5703 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 12 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -207,9 +207,9 @@
     <a href="#%e5%8e%9f%e5%ad%90%e6%93%8d%e4%bd%9c" class="header-mark"></a>原子操作</h2><p>原子操作是一个不可分割的操作，系统的所有线程不会观察到原子操作完成了一半。如果读取对象的加载操作是原子的，那么这个对象的所有修改操作也是原子的。</p>
 <p>标准原子类型全部定义于头文件 <em>atomic</em> 中，这些类型的操作都是原子的，但是其内部实现可能使用原子操作或互斥量模拟，所以原子操作可以替代互斥量完成同步操作，但是如果内部使用互斥量实现那么不会有性能提升。</p>
 <p>通常标准原子类型不能进行拷贝和赋值，但是可以隐式转化成对应的内置类型，使用
-<code>load()</code>​、​<code>exchange()</code>​、​<code>compare_exchange_weak()</code> 和 <code>compare_exchange_strong()</code>​，另外还有 <code>store()</code> 用以原子地赋值。每种函数类型的操作都有一个内存序参数，这个参数可以用来指定存储的顺序。</p>
+<code>load()</code>、<code>exchange()</code>、<code>compare_exchange_weak()</code> 和 <code>compare_exchange_strong()</code>，另外还有 <code>store()</code> 用以原子地赋值。每种函数类型的操作都有一个内存序参数，这个参数可以用来指定存储的顺序。</p>
 <h3 id="std-atomic-flag" class="headerLink">
-    <a href="#std-atomic-flag" class="header-mark"></a>::std::atomic_flag</h3><p>::std::atomic_flag 是最简单的原子类型，标准保证其实现是 <strong>lock-free</strong> 的，这个类型的对象可以在 <strong>设置</strong> 和 <strong>清除</strong> 间切换，对象必须被 <code>ATOMIC_FLAG_INIT</code>​，初始化标志位为清除状态。初始化后，对象进可以执行销毁、清除、设置</p>
+    <a href="#std-atomic-flag" class="header-mark"></a>::std::atomic_flag</h3><p>::std::atomic_flag 是最简单的原子类型，标准保证其实现是 <strong>lock-free</strong> 的，这个类型的对象可以在 <strong>设置</strong> 和 <strong>清除</strong> 间切换，对象必须被 <code>ATOMIC_FLAG_INIT</code>，初始化标志位为清除状态。初始化后，对象进可以执行销毁、清除、设置</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -218,7 +218,7 @@
 <pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic_flag</span> <span class="n">f</span> <span class="o">=</span> <span class="n">ATOMIC_FLAG_INIT</span><span class="p">;</span> <span class="c1">// 设置为清除状态 (false)
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><p>由于 <code>clear()</code> 清除操作原子地设置标志为 false，​<code>test_and_set()</code> 设置操作原子地设置标志为 true 并获得其先前值，所以可以简单地实现一个自旋锁</p>
+</div><p>由于 <code>clear()</code> 清除操作原子地设置标志为 false，<code>test_and_set()</code> 设置操作原子地设置标志为 true 并获得其先前值，所以可以简单地实现一个自旋锁</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -250,8 +250,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="std-atomic" class="headerLink">
-    <a href="#std-atomic" class="header-mark"></a>::std::atomic</h3><p>::std::atomic 不再保证 <strong>lock-free</strong>​，但相比 ::std::atomic_flag 有了更通用的操作，
-<code>store()</code> 是一个存储操作，​<code>load()</code> 是一个加载操作，​<code>exchange()</code> 是一个读-改-写操作。</p>
+    <a href="#std-atomic" class="header-mark"></a>::std::atomic</h3><p>::std::atomic 不再保证 <strong>lock-free</strong>，但相比 ::std::atomic_flag 有了更通用的操作，
+<code>store()</code> 是一个存储操作，<code>load()</code> 是一个加载操作，<code>exchange()</code> 是一个读-改-写操作。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -269,7 +269,7 @@
 </div><p>原子操作中还有一种存储方式：当前值与预期值一致时存储新值，这种操作被称为
 <strong>compare/exchange</strong> (比较/交换) 操作。compare/exchange 是原子类型编程的基础，它比较原子变量的当前值和预期值，两者相等时存储目标值，当两者不相等时预期值会被更新为原子变量中的值。它在C++中以 <code>compare_exchange_weak()</code> 和
 <code>compare_exchange_strong()</code> 提供，将当前值与预期值的 <code>对象表示/值表示</code> 逐位比较，且复制是逐位的，比较相等将返回 true，否则返回 false。另外我们可以指定两个内存序，即成功修改原子变量的内存序与失败时可以是不同的，具体的内存序我们之后在学习。</p>
-<p>compare_exchange_weak 是 <strong>弱CAS</strong>​，可能出现伪失败，即当前值与预期值相等时，也可能出现比较失败的行为，为此通常配合循环使用</p>
+<p>compare_exchange_weak 是 <strong>弱CAS</strong>，可能出现伪失败，即当前值与预期值相等时，也可能出现比较失败的行为，为此通常配合循环使用</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -282,7 +282,7 @@
 </span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">b</span><span class="p">.</span><span class="n">compare_exchange_weak</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="nb">true</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">expected</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>compare_exchange_strong 是 <strong>强CAS</strong>​，它保证不会出现伪失败，一般推荐使用强形式</p>
+</div><p>compare_exchange_strong 是 <strong>强CAS</strong>，它保证不会出现伪失败，一般推荐使用强形式</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -326,7 +326,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ai</span><span class="p">.</span><span class="n">fetch_and</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span> <span class="c1">// ai = 0
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><p>类型中包含 <code>填充位</code>​、​<code>陷阱位</code> 或为 <code>同一值提供多个对象表示</code> (如浮点数的 NaN) 时推荐弱CAS，因为可能两个对象的值相等但CAS操作失败</p>
+</div><p>类型中包含 <code>填充位</code>、<code>陷阱位</code> 或为 <code>同一值提供多个对象表示</code> (如浮点数的 NaN) 时推荐弱CAS，因为可能两个对象的值相等但CAS操作失败</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -564,7 +564,7 @@
 <li>多个位域可以共享同一底层类型，当底层类型不够存储位域时，将从下一分配单位开始存储</li>
 <li>允许空位域用以占位，则将不使用空位域</li>
 <li>大小为零的空位域将强制填充剩下的位，之后的位域将从新的分配单位开始存储</li>
-<li>位域是否可以 <strong>跨字节</strong> 与 <strong>打包方式</strong>​，由实现而定</li>
+<li>位域是否可以 <strong>跨字节</strong> 与 <strong>打包方式</strong>，由实现而定</li>
 </ol>
 <!--listend-->
 <div class="highlight"><div class="chroma">
@@ -723,21 +723,21 @@ A 为首的释放序列
     <a href="#%e5%86%85%e5%ad%98%e9%a1%ba%e5%ba%8f" class="header-mark"></a>内存顺序</h3><p>C++ 标准定义了六种原子操作的内存顺序，它们代表了四种内存模型：</p>
 <dl>
 <dt>自由序 (Relaxed ordering)</dt>
-<dd><code>memory_order_relaxed</code>​，没有同步或顺序制约，仅对此操作要求原子性</dd>
+<dd><code>memory_order_relaxed</code>，没有同步或顺序制约，仅对此操作要求原子性</dd>
 <dt>消费-释放序 (Consume-Release ordering)</dt>
 <dd><ul>
-<li><code>memory_order_consume</code>​，当前线程中依赖于当前加载的该值的读或写不能被重排到此加载前；其他释放同一原子变量的线程对数据依赖变量的写入，为当前线程所可见</li>
-<li><code>memory_order_release</code>​，当前线程中读或写不能被重排到此存储后；当前线程的所有写入，对其他获取同一原子变量的线程可见，对原子变量的带依赖写入变得对其他消费同一原子对象的线程可见</li>
+<li><code>memory_order_consume</code>，当前线程中依赖于当前加载的该值的读或写不能被重排到此加载前；其他释放同一原子变量的线程对数据依赖变量的写入，为当前线程所可见</li>
+<li><code>memory_order_release</code>，当前线程中读或写不能被重排到此存储后；当前线程的所有写入，对其他获取同一原子变量的线程可见，对原子变量的带依赖写入变得对其他消费同一原子对象的线程可见</li>
 </ul>
 </dd>
 <dt>获取-释放序 (Acquire-Release ordering)</dt>
 <dd><ul>
-<li><code>memory_order_acquire</code>​，当前线程中读或写不能被重排到此加载前；其他释放同一原子变量的线程的所有写入，能为当前线程所见</li>
-<li><code>memory_order_acq_rel</code>​，所有释放同一原子变量的线程的写操作在当前线程修改前可见，当前线程改操作对其他获取同一原子变量的线程可见</li>
+<li><code>memory_order_acquire</code>，当前线程中读或写不能被重排到此加载前；其他释放同一原子变量的线程的所有写入，能为当前线程所见</li>
+<li><code>memory_order_acq_rel</code>，所有释放同一原子变量的线程的写操作在当前线程修改前可见，当前线程改操作对其他获取同一原子变量的线程可见</li>
 </ul>
 </dd>
 <dt>顺序一致性 (Sequentially-consistent ordering)</dt>
-<dd><code>memory_order_seq_cst</code>​，原子操作的默认内存序，所有线程以同一顺序观测到所有修改</dd>
+<dd><code>memory_order_seq_cst</code>，原子操作的默认内存序，所有线程以同一顺序观测到所有修改</dd>
 </dl>
 <p>在不同的原子操作上，可以用到的内存序也有所不同</p>
 <dl>
@@ -776,7 +776,7 @@ A 为首的释放序列
 </div><p>A 先序于 B，C 先序于 D，但 D 在 y 上的副效应可能对 A 可见，同时 B 在 x 上的副效应可能对 C 可见，所以允许 E 断言失败。</p>
 <p>另外自由序中，当前线程可能看到别的线程的更新，但是更新频率不一定是均匀的，但其值一定是递增的。详细例子可以查看 C++ Concurrency in Action (2rd) 中电话计数员的例子。</p>
 <h4 id="消费-释放序" class="headerLink">
-    <a href="#%e6%b6%88%e8%b4%b9-%e9%87%8a%e6%94%be%e5%ba%8f" class="header-mark"></a>消费-释放序</h4><p>若线程 A 中的原子存储带标签 <code>memory_order_release</code> 而线程 B 中来自同一对象的读取存储值的原子加载带标签 <code>memory_order_consume</code>​，则线程 A 视角中先发生于原子存储的所有内存写入，会在线程 B 中该加载操作所携带依赖进入的操作中变成可见副效应，即一旦完成原子加载，则保证线程 B 中使用从该加载获得的值的运算符和函数能见到线程 A 写入内存的内容。同步仅在释放和消费同一原子对象的线程间建立，其他线程能见到与被同步线程的一者或两者相异的内存访问顺序。</p>
+    <a href="#%e6%b6%88%e8%b4%b9-%e9%87%8a%e6%94%be%e5%ba%8f" class="header-mark"></a>消费-释放序</h4><p>若线程 A 中的原子存储带标签 <code>memory_order_release</code> 而线程 B 中来自同一对象的读取存储值的原子加载带标签 <code>memory_order_consume</code>，则线程 A 视角中先发生于原子存储的所有内存写入，会在线程 B 中该加载操作所携带依赖进入的操作中变成可见副效应，即一旦完成原子加载，则保证线程 B 中使用从该加载获得的值的运算符和函数能见到线程 A 写入内存的内容。同步仅在释放和消费同一原子对象的线程间建立，其他线程能见到与被同步线程的一者或两者相异的内存访问顺序。</p>
 <p>此顺序的典型使用情景，涉及对 <strong>很少被写入</strong> 的数据结构的同时时读取，和 <strong>有指针中介发布</strong> 的 <code>发布者-订阅者</code> 情形，即当生产者发布消费者能通过其访问信息的指针之时：无需令生产者写入内存的所有其他内容对消费者可见。这种场景的例子之一是 <a href="https://en.wikipedia.org/wiki/Read-copy-update" target="_blank" rel="noopener noreferrer">rcu 解引用</a>。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -811,7 +811,7 @@ A 为首的释放序列
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="获取-释放序" class="headerLink">
-    <a href="#%e8%8e%b7%e5%8f%96-%e9%87%8a%e6%94%be%e5%ba%8f" class="header-mark"></a>获取-释放序</h4><p>若线程 A 中的一个原子存储带标签 <code>memory_order_release</code>​，而线程 B 中来自同一变量的原子加载带标签 <code>memory_order_acquire</code>​，则从线程 A 的视角先发生于原子存储的所有内存写入，在线程 B 中成为可见副效应，即一旦原子加载完成保证线程 B 能观察到线程
+    <a href="#%e8%8e%b7%e5%8f%96-%e9%87%8a%e6%94%be%e5%ba%8f" class="header-mark"></a>获取-释放序</h4><p>若线程 A 中的一个原子存储带标签 <code>memory_order_release</code>，而线程 B 中来自同一变量的原子加载带标签 <code>memory_order_acquire</code>，则从线程 A 的视角先发生于原子存储的所有内存写入，在线程 B 中成为可见副效应，即一旦原子加载完成保证线程 B 能观察到线程
 A 写入内存的所有内容。此顺序的典型使用场景是 <strong>互斥量</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

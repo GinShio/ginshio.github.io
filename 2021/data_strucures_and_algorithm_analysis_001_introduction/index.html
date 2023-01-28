@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_001_introduction\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note","wordcount":  5923 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note","wordcount":  5921 ,
         "url": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_001_introduction\/","datePublished": "2021-08-15T20:01:41+08:00","dateModified": "2022-04-07T19:28:48+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -157,7 +157,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/algorithmdatastructure/"><i class="far fa-folder fa-fw"></i>Algorithm⁄DataStructure</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/"><i class="far fa-list-alt fa-fw"></i>数据结构与算法分析</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-15">08-15</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5923 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-15">08-15</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5921 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 12 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -408,7 +408,7 @@ element 完全一样时，就称这两个 set 相等，记作 \(A = B\) 。</p>
 </ol>
 <p>需要注意的是，我们不要说 \(f(N) \leq \mathcal{O}(g(N))\) ，因为 \(\mathcal{O}\) 定义中已经蕴含了不等式；写作 \(f(N) \geq \mathcal{O}(g(N))\) 则是错误的，因为其没有意义。</p>
 <h3 id="要分析的问题" class="headerLink">
-    <a href="#%e8%a6%81%e5%88%86%e6%9e%90%e7%9a%84%e9%97%ae%e9%a2%98" class="header-mark"></a>要分析的问题</h3><p>一般需要分析的最重要的资源是运行时间，有多个因素影响程序的运行时间。除了编译器与计算机等超出理论模型的范畴，主要因素是使用的 <strong>算法</strong> 以及对该算法的 <strong>输入</strong>​。</p>
+    <a href="#%e8%a6%81%e5%88%86%e6%9e%90%e7%9a%84%e9%97%ae%e9%a2%98" class="header-mark"></a>要分析的问题</h3><p>一般需要分析的最重要的资源是运行时间，有多个因素影响程序的运行时间。除了编译器与计算机等超出理论模型的范畴，主要因素是使用的 <strong>算法</strong> 以及对该算法的 <strong>输入</strong>。</p>
 <p>我们需要明白，虽然实现方面我们可以使用不同编程语言，但是我们往往忽略编程语言的细节所带来的影响，虽然不同语言的实现存在着运行时间的差异。</p>
 <p>典型情况下，输入的大小是主要的讨论因素。我们定义函数 \(T_{avg}(N)\) 与
 \(T_{worst}(N)\) 分别表示对于输入 N 所花费的平均情形与最坏情形的运行时间，显然
@@ -425,7 +425,7 @@ element 完全一样时，就称这两个 set 相等，记作 \(A = B\) 。</p>
 </ol>
 <p>不过我们需要注意一点，就是 <strong>递归</strong> (recursion)，虽然其中可能只使用到顺序与选择语句，但其是隐含的循环结构。如果你对递归的认识并不是很好，可以学习 SICP 的第一章 ~
 构造过程的抽象~ ，使用 Scheme 进行学习与构造的过程中是十分愉快的。</p>
-<p>使用 SICP 中的例子，递归可以分为 <strong>线性递归</strong> 与 <strong>树形递归</strong>​，在 recursion 应用中，前者的典型示例是阶乘，而后者的典型示例是 Fibonacci 数列。</p>
+<p>使用 SICP 中的例子，递归可以分为 <strong>线性递归</strong> 与 <strong>树形递归</strong>，在 recursion 应用中，前者的典型示例是阶乘，而后者的典型示例是 Fibonacci 数列。</p>
 <p>以阶乘为示例，翻译为简单的数学表达式 \(n! = n \cdot [(n - 1) \cdot (n - 2) \cdots 3 \cdot 2 \cdot 1] =
 n \cdot (n - 1)!\) ，递归的进行阶乘的求解，构造起一个 <code>推迟进行的操作</code> 所形成的链条，收缩阶段表现为这些运算的实际执行。忽略程序运行时进行的函数调用开销，这个程序的时间复杂度为 \(\mathcal{O}(N)\) ，保证对于任何输入都可以在关于 N 的线性时间完成。</p>
 <div class="highlight"><div class="chroma">

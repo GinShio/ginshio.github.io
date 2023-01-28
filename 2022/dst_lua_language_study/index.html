@@ -37,7 +37,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/dst_lua_language_study\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Lua","wordcount":  7289 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Lua","wordcount":  7277 ,
         "url": "https:\/\/blog.ginshio.org\/2022\/dst_lua_language_study\/","datePublished": "2022-02-09T22:03:41+08:00","dateModified": "2022-02-15T13:28:10+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -162,7 +162,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="02-09">02-09</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="02-15">02-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7289 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="02-09">02-09</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="02-15">02-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7277 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 15 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -316,7 +316,7 @@
 </tbody>
 </table>
 <p>与 C 语言类似，文字字符串使用单引号或双引号分割，并可以包含转义字符。另外还可以使用 <code>\</code> 跟三位数字的方式来表示一个字符 (<a href="https://en.wikipedia.org/wiki/ASCII" target="_blank" rel="noopener noreferrer">ASCII</a>)，在不足三位数字时默认在前方补 0
-扩展到三位。在 Lua 中有长字符串，即多行字符串，Lua 中称为长括号字符串。长括号字符串以 <code>[[</code> 开始，并且这两个 [ 之间可以增加任意多的 <code>=</code>​，结束时以 <code>]]</code> 结尾，结尾必须匹配相同多的 <code>=</code>​。根据 = 的多少，将其称为 n 级 (e.g. <code>[==[</code> 称为 2 级，而
+扩展到三位。在 Lua 中有长字符串，即多行字符串，Lua 中称为长括号字符串。长括号字符串以 <code>[[</code> 开始，并且这两个 [ 之间可以增加任意多的 <code>=</code>，结束时以 <code>]]</code> 结尾，结尾必须匹配相同多的 <code>=</code>。根据 = 的多少，将其称为 n 级 (e.g. <code>[==[</code> 称为 2 级，而
 <code>[[</code> 称为 0 级)。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -384,8 +384,8 @@
 </div><h2 id="值与类型" class="headerLink">
     <a href="#%e5%80%bc%e4%b8%8e%e7%b1%bb%e5%9e%8b" class="header-mark"></a>值与类型</h2><p>Lua 是动态类型语言，这意味着值是没有类型的，所有值都是第一类值，所有值都可以被存储在变量、传递到参数、或作为函数返回的结果。</p>
 <p>在 Lua 中有八个基本类型: <strong>nil</strong>, <strong>boolean</strong>, <strong>number</strong>, <strong>string</strong>, <strong>function</strong>,
-<strong>userdata</strong>, <strong>thread</strong> 和 <strong>table</strong>​。Nil 是不同于任何值的 nil 类型字面量，通常表示无用的量。boolean 则是表示真假的量，nil 和 false 都可以使表示条件为假，而其他值则可以表示条件为真。number 表示全体实数，这是一个双精度浮点数。string 表示的是字符的数组，而字符以 8 bit ASCII 表示；与 C 语言不同的是，字符串可以包含任意 8 bit
-字符，甚至是 <code>\0</code>​。</p>
+<strong>userdata</strong>, <strong>thread</strong> 和 <strong>table</strong>。Nil 是不同于任何值的 nil 类型字面量，通常表示无用的量。boolean 则是表示真假的量，nil 和 false 都可以使表示条件为假，而其他值则可以表示条件为真。number 表示全体实数，这是一个双精度浮点数。string 表示的是字符的数组，而字符以 8 bit ASCII 表示；与 C 语言不同的是，字符串可以包含任意 8 bit
+字符，甚至是 <code>\0</code>。</p>
 <p>Lua 可以调用或操作 Lua 或 C 的函数，userdata 可以在 C 数据结构中直接存储 Lua 值。这种类型对应于一块原始内存，在 Lua 中除了赋值和身份测试外没有其他预定义操作。然而在使用 metatables 时程序员可以定义 userdata 值的操作。Userdata 值不可以被创建或修改，只能通过 C API 使用，这将保证宿主程序可以拥有数据的完整性。</p>
 <p>thread 类型代表的是执行线程的标识符，这个是以协程实现的，因此不要与操作系统的线程混淆。因此即使操作系统不支持线程，Lua 也可以正常使用 thread 类型。</p>
 <p>table 实现关联数组，这个数组不仅可以使用 number 作为下标，可以使用任何值作为下标
@@ -393,7 +393,7 @@
 nil)。table 是 Lua 中唯一的数据结构机制：可以表示普通数组、符号表、集合、记录、图、树等。表示记录时，Lua 使用字段名作为索引。Lua 支持以 <code>a.name</code> 作为
 <code>a[&quot;name&quot;]</code> 的语法糖使用。创建表有几种方便的方法。与索引一样，表字段的值也可以是任意类型 (nil 除外)，因为函数是一等值，所以表字段可以包含函数。</p>
 <p>table、function、thread 和所有的 userdata 值都是 objects：变量不能实质性的包含这些值，只是引用它们。赋值、参数传递、函数返回总是操作这些值的引用，因此不会有任何复制操作。库函数类型返回一个描述给定值类型的字符串。</p>
-<p>Lua 在运行时提供了字符串和数值之间的自动转换，任何应用于字符串的算术运算都会尝试将字符串转换为数字，相反在需要字符串的地方使用数字则会尝试相反的操作，如果需要完全控制字符串的转换需要使用 <code>string.format</code>​。</p>
+<p>Lua 在运行时提供了字符串和数值之间的自动转换，任何应用于字符串的算术运算都会尝试将字符串转换为数字，相反在需要字符串的地方使用数字则会尝试相反的操作，如果需要完全控制字符串的转换需要使用 <code>string.format</code>。</p>
 <h2 id="变量" class="headerLink">
     <a href="#%e5%8f%98%e9%87%8f" class="header-mark"></a>变量</h2><p>变量存储值，在 lua 中变量分为全局变量、局部变量和表字段。定义变量时其名称 (标识符) 是唯一的。</p>
 <div class="verse">
@@ -585,11 +585,11 @@ prefixexp ::= var | functioncall | `(` exp `)`<br /></p>
 <h3 id="算术运算符" class="headerLink">
     <a href="#%e7%ae%97%e6%9c%af%e8%bf%90%e7%ae%97%e7%ac%a6" class="header-mark"></a>算术运算符</h3><p>Lua 支持多种算术运算符 <code>+</code> (加)、 <code>-</code> (减)、 <code>*</code> (乘)、 <code>/</code> (除)、 <code>%</code> (取模) 以及 <code>^</code> (幂)。所有的字符串在运算中被转换为数字。</p>
 <h3 id="比较运算符" class="headerLink">
-    <a href="#%e6%af%94%e8%be%83%e8%bf%90%e7%ae%97%e7%ac%a6" class="header-mark"></a>比较运算符</h3><p>比较运算符包含 <code>==</code> (相等)、 <code>~=</code> (不等)、 <code>&lt;</code> (小于)、 <code>&gt;</code> (大于)、 <code>&lt;=</code> (小于等于) 和 <code>&gt;=</code> (大于等于)，这些运算符总是返回 <strong>false</strong> 或 <strong>true</strong>​。</p>
-<p>对于相等运算符，首先比较运算数的类型，不同类型的运算数将会直接返回 <strong>false</strong>​，然后对值进行比较。对于 Object (tables / userdata / threads / functions) 的比较，同一个 Object 才会相等。而表结构 <code>t[0]</code> 与 <code>t[&quot;0&quot;]</code> 是不同的元素。</p>
+    <a href="#%e6%af%94%e8%be%83%e8%bf%90%e7%ae%97%e7%ac%a6" class="header-mark"></a>比较运算符</h3><p>比较运算符包含 <code>==</code> (相等)、 <code>~=</code> (不等)、 <code>&lt;</code> (小于)、 <code>&gt;</code> (大于)、 <code>&lt;=</code> (小于等于) 和 <code>&gt;=</code> (大于等于)，这些运算符总是返回 <strong>false</strong> 或 <strong>true</strong>。</p>
+<p>对于相等运算符，首先比较运算数的类型，不同类型的运算数将会直接返回 <strong>false</strong>，然后对值进行比较。对于 Object (tables / userdata / threads / functions) 的比较，同一个 Object 才会相等。而表结构 <code>t[0]</code> 与 <code>t[&quot;0&quot;]</code> 是不同的元素。</p>
 <p>不等号仅可以在 Number 与 String 上使用，Lua 会尝试调用元函数 <code>lt</code> 与 <code>le</code> 。</p>
 <h3 id="逻辑运算符" class="headerLink">
-    <a href="#%e9%80%bb%e8%be%91%e8%bf%90%e7%ae%97%e7%ac%a6" class="header-mark"></a>逻辑运算符</h3><p>Lua 中逻辑运算符以 <strong>and</strong> 、 <strong>or</strong> 和 <strong>not</strong> 为主，和之前说过的一样，​<strong>false</strong> 和
+    <a href="#%e9%80%bb%e8%be%91%e8%bf%90%e7%ae%97%e7%ac%a6" class="header-mark"></a>逻辑运算符</h3><p>Lua 中逻辑运算符以 <strong>and</strong> 、 <strong>or</strong> 和 <strong>not</strong> 为主，和之前说过的一样，<strong>false</strong> 和
 <strong>nil</strong> 被逻辑运算符当作假值，其他值都为真。另外 and 和 or 都有短路特性。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -616,7 +616,7 @@ prefixexp ::= var | functioncall | `(` exp `)`<br /></p>
 </div><h3 id="级联--concatenation" class="headerLink">
     <a href="#%e7%ba%a7%e8%81%94--concatenation" class="header-mark"></a>级联 (Concatenation)</h3><p>Lua 中 <code>..</code> 表示字符串级联，如果操作数是数字或字符串，它们将被转换为字符串并进行连接，Lua 会调用元函数 <code>concat</code> 。</p>
 <h3 id="长度操作" class="headerLink">
-    <a href="#%e9%95%bf%e5%ba%a6%e6%93%8d%e4%bd%9c" class="header-mark"></a>长度操作</h3><p>长度操作为 <code>#</code>​，可以计算字符串的字节数，但是对于 table 并不是表中键值对的个数，而是最大的不为 nil 的整数下标的值，这个前提是 table 中没有空洞。Lua 下标从 1 开始，因此 1 为 nil 时 <code>#t</code> 为 0。</p>
+    <a href="#%e9%95%bf%e5%ba%a6%e6%93%8d%e4%bd%9c" class="header-mark"></a>长度操作</h3><p>长度操作为 <code>#</code>，可以计算字符串的字节数，但是对于 table 并不是表中键值对的个数，而是最大的不为 nil 的整数下标的值，这个前提是 table 中没有空洞。Lua 下标从 1 开始，因此 1 为 nil 时 <code>#t</code> 为 0。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -893,7 +893,7 @@ C 代码直接访问。C 函数相关的 env 是默认 userdata 和 C function �
 <h2 id="垃圾回收--garbage-collection" class="headerLink">
     <a href="#%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6--garbage-collection" class="header-mark"></a>垃圾回收 (Garbage Collection)</h2><p>Lua 实现了自动内存管理，即 Lua 会自动清理没有那些申请了但不再使用的对象，这一机制使用垃圾回收来完成。</p>
 <p>Lua 实现了一个增量标记清理收集器，使用两个数字来控制 GC 周期: <strong>GC 暂停</strong> 和 <strong>GC
-步长倍数</strong>​，其使用百分比作为单位 (设置 100 表示内部值 100%)。</p>
+步长倍数</strong>，其使用百分比作为单位 (设置 100 表示内部值 100%)。</p>
 <ul>
 <li>GC 暂停控制收集器在开始新的周期之前的等待时间，较大的值意味着收集器行为不那么激进。举个例子：小于 100 时，收集器不会等待而直接开始新的周期，而 200 表示收集器在开始新的周期时等待使用的内存翻倍。</li>
 <li>GC 步长倍数控制收集器相对内存分配的速度，较大的值意味着收集器不仅更激进，而且每次增加步长还会逐渐增大。比如说，值 100 时收集器会很慢，并且可能导致器永远不会完成一个周期；而默认值 200 表示收集器将以内存分配速度的 2 倍运行。</li>
@@ -927,14 +927,14 @@ C 代码直接访问。C 函数相关的 env 是默认 userdata 和 C function �
 <p>弱表可以是弱键、弱值，或二者都是。弱键意味着可以回收键但不能回收值，实际上，如果键或值有一个被回收的话那么整个 pair 将从表中删除。虚表用元表中的 <strong>__mode</strong> 字段控制，__mode 包含 k 表示弱键，v 表示弱值。在使用定义好的虚表时，不应修改 __mode 字段的值，否则行为未定义。</p>
 <h2 id="协程--coroutine" class="headerLink">
     <a href="#%e5%8d%8f%e7%a8%8b--coroutine" class="header-mark"></a>协程 (Coroutine)</h2><p>Lua 支持协程，协程的执行在 Lua 中依赖线程。与多线程系统的线程不同，协程需要显式调用 yield 函数主动暂停。</p>
-<p>创建协程使用 <code>coroutine.create</code>​，与线程类似使用参数传递协程执行函数，并返回一个协程的句柄，但不会执行协程。创建之后，以句柄为参数的第一次调用
+<p>创建协程使用 <code>coroutine.create</code>，与线程类似使用参数传递协程执行函数，并返回一个协程的句柄，但不会执行协程。创建之后，以句柄为参数的第一次调用
 <code>coroutine.resume</code> 将开始执行协程，额外的参数将传递给协程函数。</p>
 <p>协程有两种方式终止：</p>
 <ul>
 <li>协程主函数返回 (显式或隐式都可以)，resume 将返回 <strong>true</strong> 和所有函数的返回值</li>
 <li>产生不保护错误，resume 将返回 <strong>false</strong> 外加错误信息</li>
 </ul>
-<p>协程使用 <code>coroutine.yield</code> 时将会暂停， <code>coroutine.resume</code> 立即返回 <strong>true</strong>​，和所有从 <code>coroutine.yield</code> 中返回的值。当下一次运行相同的协程时，将从 yield 开始继续执行。</p>
+<p>协程使用 <code>coroutine.yield</code> 时将会暂停， <code>coroutine.resume</code> 立即返回 <strong>true</strong>，和所有从 <code>coroutine.yield</code> 中返回的值。当下一次运行相同的协程时，将从 yield 开始继续执行。</p>
 <p><code>coroutine.wrap</code> 也可以创建协程，但不同的是将会返回一个函数用以调用来启动协程，函数参数通过 wrap 返回函数来传递，与 <code>coroutine.resume</code> 不同的是，wrap 不会产生不保护错误，因此不会有第一个 boolean 返回值来判断函数是否失败。</p>
 <p>举个协程的例子</p>
 <div class="highlight"><div class="chroma">

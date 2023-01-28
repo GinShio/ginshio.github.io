@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2021\/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_002\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Elixir, Guide","wordcount":  3037 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Elixir, Guide","wordcount":  3031 ,
         "url": "https:\/\/blog.ginshio.org\/2021\/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_002\/","datePublished": "2021-02-19T14:31:54+08:00","dateModified": "2022-04-07T19:31:30+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -138,7 +138,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/elixir-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>Elixir 学习笔记</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="02-19">02-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3037 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="02-19">02-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3031 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -355,7 +355,7 @@
 </span></span><span class="line"><span class="cl"><span class="n">last</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span> <span class="c1"># 3</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>好消息是，就像之前学习 Struct 时控制 inspect 输出一样，​<code>:only</code> 与 <code>:except</code>
+</div><p>好消息是，就像之前学习 Struct 时控制 inspect 输出一样，<code>:only</code> 与 <code>:except</code>
 是我们控制 import 导出的好帮手</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -463,7 +463,7 @@
 </dl>
 <h3 id="注解" class="headerLink">
     <a href="#%e6%b3%a8%e8%a7%a3" class="header-mark"></a>注解</h3><p>Elixir 是一个动态语言，类型信息会被编译器忽略，这样完成一个程序会很麻烦，因此我们往往会寄希望于其他工具帮助我们来完成检查，降低复杂度，这时就需要注解来帮助我们。</p>
-<p>Specification 可以理解为一个接口 (<strong>interface</strong>)，用于定义了函数的参数与返回值的类型，语法 <code>@spec name(param list) :: return</code>​，简单用例子看一下怎么用吧</p>
+<p>Specification 可以理解为一个接口 (<strong>interface</strong>)，用于定义了函数的参数与返回值的类型，语法 <code>@spec name(param list) :: return</code>，简单用例子看一下怎么用吧</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -478,7 +478,7 @@
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>我们可以正常的使用这个函数，毕竟它不被编译器所关注，​<code>Enum.sum()</code> 将会返回一个
+</div><p>我们可以正常的使用这个函数，毕竟它不被编译器所关注，<code>Enum.sum()</code> 将会返回一个
 number 而不是 integer，如果想发现这些问题的话，我们需要使用 Dialyzer 这类静态分析器来帮我们解决这些问题</p>
 <p>当我们使用一个 spec 时我们可能需要有一些很复杂的结构，如果每次都定义一遍实在太麻烦了，这时我们就需要类型相关的注解，好在 Elixir 提供了</p>
 <ul>
@@ -544,7 +544,7 @@ number 而不是 integer，如果想发现这些问题的话，我们需要使�
 </span></span><span class="line"><span class="cl"><span class="n">zh_bin</span> <span class="o">=</span> <span class="n">zh</span> <span class="o">&lt;&gt;</span> <span class="p">&lt;&lt;</span><span class="mi">0</span><span class="p">&gt;&gt;</span> <span class="c1"># &lt;&lt;228, 189, 160, 229, 165, 189, 0&gt;&gt;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>除了字符序列，Elixir 中还有一种字符列表，它们使用 <code>'char list'</code> 来表示，字符列表的值都是 <strong>UTF-8 码点</strong> ，这与字符序列有很大不同。正如示例中的 <code>你</code>​，码点是 20320，但是 UTF-8 编码中是三个字节</p>
+</div><p>除了字符序列，Elixir 中还有一种字符列表，它们使用 <code>'char list'</code> 来表示，字符列表的值都是 <strong>UTF-8 码点</strong> ，这与字符序列有很大不同。正如示例中的 <code>你</code>，码点是 20320，但是 UTF-8 编码中是三个字节</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -676,7 +676,7 @@ Sigil</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Sigil 创建 Date 和 Time 还挺方便，不过有个问题，它们都是最简单的 <strong>UTC</strong> 时间，并且仅有日期或时间，也没有时区，显得很不好用</p>
-<p>还记得之前 Sigil 中列出的 <code>~N</code> 吗，我们现在来看看这个 <strong>NaiveDateTime</strong>​，它包含了日期与时间，不过还是缺少时区，所以它所表示的还是 UTC 时间</p>
+<p>还记得之前 Sigil 中列出的 <code>~N</code> 吗，我们现在来看看这个 <strong>NaiveDateTime</strong>，它包含了日期与时间，不过还是缺少时区，所以它所表示的还是 UTC 时间</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -691,7 +691,7 @@ Sigil</p>
 </span></span><span class="line"><span class="cl"><span class="nc">NaiveDateTime</span><span class="o">.</span><span class="n">to_iso8601</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="c1"># &#34;2021-02-19T19:52:10&#34;, 格式化到 iso8601</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><strong>DateTime</strong> 是包含全部信息的时间数据结构，不过遗憾的是这个模块仅有一些转换函数和处理 UTC 的函数，因为 Elixir 还没有提供相关的 <strong>时区数据库</strong>​，务必加上 <a href="https://github.com/mathieuprog/tz" target="_blank" rel="noopener noreferrer">tz</a> /
+</div><p><strong>DateTime</strong> 是包含全部信息的时间数据结构，不过遗憾的是这个模块仅有一些转换函数和处理 UTC 的函数，因为 Elixir 还没有提供相关的 <strong>时区数据库</strong>，务必加上 <a href="https://github.com/mathieuprog/tz" target="_blank" rel="noopener noreferrer">tz</a> /
 <a href="https://github.com/lau/tzdata" target="_blank" rel="noopener noreferrer">tzdata</a> 这个时区数据库再来体验，不然只能 UTC 太痛苦了</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

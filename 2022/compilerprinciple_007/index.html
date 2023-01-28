@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/compilerprinciple_007\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, IR","wordcount":  8010 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, IR","wordcount":  7989 ,
         "url": "https:\/\/blog.ginshio.org\/2022\/compilerprinciple_007\/","datePublished": "2022-05-19T13:26:43+08:00","dateModified": "2022-06-02T11:19:33+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -164,7 +164,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="05-19">05-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="06-02">06-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 8010 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="05-19">05-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="06-02">06-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7989 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 16 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -296,9 +296,9 @@ N 的父结点、N 本身和 N 的兄弟结点上的属性来定义。</dd>
 </tbody>
 </table>
 <p>产生式 1 设置了整个表达式的值，而产生式 2 的值由它的两个子结点的值求和得来，类似的产生式 4 的值由它的两个子结点的值求积得来。而产生式 7 的值由词法单元返回的数值得来。这个只包含综合属性的 SDD 被称作 S 属性 (S-attribute) SDD，它的头部的非终结符的值都由产生式的体的属性值计算得来。</p>
-<p>一个没有副作用的 SDD 也被称为​<strong>属性文法</strong>​ (attribute grammar)，一个属性文法的规则仅仅通过其他属性值和常量值来定义一个属性值。</p>
+<p>一个没有副作用的 SDD 也被称为<strong>属性文法</strong> (attribute grammar)，一个属性文法的规则仅仅通过其他属性值和常量值来定义一个属性值。</p>
 <h3 id="在语法分析树的结点上对-sdd-求值" class="headerLink">
-    <a href="#%e5%9c%a8%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e6%a0%91%e7%9a%84%e7%bb%93%e7%82%b9%e4%b8%8a%e5%af%b9-sdd-%e6%b1%82%e5%80%bc" class="header-mark"></a>在语法分析树的结点上对 SDD 求值</h3><p>在语法分析器上进行求值有助于将 SDD 翻译方案可视化，虽然实际上不需要构建语法分析树。在应用一个 SDD 规则之前首先构造出一棵语法分析树，并用这些规则对树上的各个结点上的所有属性进行求值。一个显示了各个属性值的语法分析树称作​<strong>注释语法分析树</strong>
+    <a href="#%e5%9c%a8%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e6%a0%91%e7%9a%84%e7%bb%93%e7%82%b9%e4%b8%8a%e5%af%b9-sdd-%e6%b1%82%e5%80%bc" class="header-mark"></a>在语法分析树的结点上对 SDD 求值</h3><p>在语法分析器上进行求值有助于将 SDD 翻译方案可视化，虽然实际上不需要构建语法分析树。在应用一个 SDD 规则之前首先构造出一棵语法分析树，并用这些规则对树上的各个结点上的所有属性进行求值。一个显示了各个属性值的语法分析树称作<strong>注释语法分析树</strong>
 (annotated parse tree)。</p>
 <p>根据上节的产生式和规则，可以构造出一棵语法分析树，对应的非终结符的每个结点都按照自底向上的顺序计算。</p>
 <figure><img src="/images/annotated-parse-tree-for-5.1-example.svg"/>
@@ -341,7 +341,7 @@ SDD 的一个有用子类，它能保证对每棵语法分析树都存在一个�
 </tr>
 </tbody>
 </table>
-<p>自顶向下的过程中，第一个输入 <code>3</code> 将与 \(\times\) 不在同一棵子树下，我们需要使用继承属性将运算分量传递给运算符 <code>*</code>​。非终结符 T 和 F 各自有一个综合属性 val，终结符
+<p>自顶向下的过程中，第一个输入 <code>3</code> 将与 \(\times\) 不在同一棵子树下，我们需要使用继承属性将运算分量传递给运算符 <code>*</code>。非终结符 T 和 F 各自有一个综合属性 val，终结符
 <strong>digit</strong> 有一个综合属性 lexval，非终结符 \(T^{&rsquo;}\) 有一个继承属性 inh 和一个综合属性 syn。</p>
 <p>这些语义规则基于如下思想：运算符 <code>*</code> 的做运算分量是通过继承得到的。也就是说，
 \(T^{&rsquo;}\rightarrow{}*FT^{&rsquo;}\) 的头部继承了产生体中的 <code>*</code> 左运算分量。当递归地处理完毕后，这个结果就通过综合属性传递到树的根部。</p>
@@ -361,11 +361,11 @@ SDD 的一个有用子类，它能保证对每棵语法分析树都存在一个�
 </figure>
 
 <h3 id="属性求值顺序" class="headerLink">
-    <a href="#%e5%b1%9e%e6%80%a7%e6%b1%82%e5%80%bc%e9%a1%ba%e5%ba%8f" class="header-mark"></a>属性求值顺序</h3><p>依赖图刻画了对一棵语法分析树中不同结点上的属性求值时可能采取的顺序。如果依赖图中有一条从结点 M 到结点 N 的边，那么先对 M 对应的属性求值，再对 N 对应的属性求值。因此，所有的棵性求值顺序就是满足下列条件的结点顺序 \(N_{1}, N_{2}, \cdots, N_{k}\)；如果有一条从结点 \(N_{i}\) 到 \(N_{j}\) 的依赖图的边，那么 \(i &lt; j\)。这样的排序将一个有向图变成了线性排序，即图的​​<strong>拓扑排序</strong> (topological sort)。</p>
+    <a href="#%e5%b1%9e%e6%80%a7%e6%b1%82%e5%80%bc%e9%a1%ba%e5%ba%8f" class="header-mark"></a>属性求值顺序</h3><p>依赖图刻画了对一棵语法分析树中不同结点上的属性求值时可能采取的顺序。如果依赖图中有一条从结点 M 到结点 N 的边，那么先对 M 对应的属性求值，再对 N 对应的属性求值。因此，所有的棵性求值顺序就是满足下列条件的结点顺序 \(N_{1}, N_{2}, \cdots, N_{k}\)；如果有一条从结点 \(N_{i}\) 到 \(N_{j}\) 的依赖图的边，那么 \(i &lt; j\)。这样的排序将一个有向图变成了线性排序，即图的<strong>拓扑排序</strong> (topological sort)。</p>
 <p>如果依赖图中存在任意的环，将不存在拓扑排序，即没办法对相应的 SDD 求值；如果图中没有没有环，那么总能找到至少一个拓扑排序。</p>
 <h3 id="s-属性的定义" class="headerLink">
     <a href="#s-%e5%b1%9e%e6%80%a7%e7%9a%84%e5%ae%9a%e4%b9%89" class="header-mark"></a>S 属性的定义</h3><p>有些特定类型的 SDD 不允许产生带环的依赖图，且有两类还可以和自顶向下以及自底向上语法分析过程一起高效实现的 SSD，即之前提到的 S-attribute 和 L-attribute。</p>
-<p>如果一个 SDD 的​<strong>每个属性都是综合属性</strong>​，那么这个 SDD 就是 S-attribute Definition。
+<p>如果一个 SDD 的<strong>每个属性都是综合属性</strong>，那么这个 SDD 就是 S-attribute Definition。
 S-attribute SDD 可以按照分析树的结点，以任何自底向上的顺序计算各个属性值。最简单的方式即后序遍历语法分析树。因此 S-attribute SDD 可以在自底向上语法分析的过程中实现。</p>
 <h3 id="l-属性的定义" class="headerLink">
     <a href="#l-%e5%b1%9e%e6%80%a7%e7%9a%84%e5%ae%9a%e4%b9%89" class="header-mark"></a>L 属性的定义</h3><p>L-attribute SSD 的思想是在一个产生式体所关联的各个属性之间，依赖图的边总是从左到右。也就是说每个属性必须：</p>
@@ -432,7 +432,7 @@ S-attribute SDD 可以按照分析树的结点，以任何自底向上的顺序�
 <li>L.inh: 标识符的类型值</li>
 </ul>
 <p>因此 addType 可以正确的将 <strong>id</strong> 所代表的标识符类型设置为 L.inh。也可以认为调用
-addType 是设置该结点的哑属性。比如输入串 <code>float f1, f2, f3</code>​​，我们依据此输入构建依赖图。</p>
+addType 是设置该结点的哑属性。比如输入串 <code>float f1, f2, f3</code>，我们依据此输入构建依赖图。</p>
 <figure><img src="/images/dependency-graph-for-5.10-example.svg"/>
 </figure>
 
@@ -444,7 +444,7 @@ addType 是设置该结点的哑属性。比如输入串 <code>float f1, f2, f3<
 <ul>
 <li>如果结点是叶结点，那么对象将有一个附加字段来存放这些叶节点的词法值。构造函数
 <code>Leaf(op, val)</code> 创建一个叶对象。也可以把结点看作记录，那么 Leaf 可以返回指向叶结点对应的新记录的指针。</li>
-<li>如果结点是内部结点，那么它的附加字段的个数与该结点在语法分析树中的子结点个数相同。构造函数 Node 带有两个或多个参数 <code>Node(op, c1, c2, ..., ck)</code>​。</li>
+<li>如果结点是内部结点，那么它的附加字段的个数与该结点在语法分析树中的子结点个数相同。构造函数 Node 带有两个或多个参数 <code>Node(op, c1, c2, ..., ck)</code>。</li>
 </ul>
 <p>以下示例为 S 属性定义为一个简单的表达式文法构造出语法树，这个文法只有二元运算符
 \(+\) 和 \(-\)，通常这两个运算符具有相同优先级且都是左结合。所有非终结符都有一个综合属性 node，表示相应抽象语法树结点</p>
@@ -554,7 +554,7 @@ p_{5}&amp;={}\textbf{new}\ Node(&rsquo;+&rsquo;, p_{3}, p_{4});
 
 <h3 id="类型的结构" class="headerLink">
     <a href="#%e7%b1%bb%e5%9e%8b%e7%9a%84%e7%bb%93%e6%9e%84" class="header-mark"></a>类型的结构</h3><p>当语法分析树的结构与输入的抽象语法树结构不同时，继承属性是很有用的。这种情况下，继承属性可以用来将信息从语法分析树的一部分传递到另一部分。</p>
-<p>比如 C 语言中的 <code>int[2][3]</code>​，相应的表达式可以是 <code>array(2, array(3, integer))</code>​。因此我们可以尝试用以下的 SDD 来构造语法分析树。</p>
+<p>比如 C 语言中的 <code>int[2][3]</code>，相应的表达式可以是 <code>array(2, array(3, integer))</code>。因此我们可以尝试用以下的 SDD 来构造语法分析树。</p>
 <table>
 <thead>
 <tr>
@@ -590,17 +590,17 @@ p_{5}&amp;={}\textbf{new}\ Node(&rsquo;+&rsquo;, p_{3}, p_{4});
 </figure>
 
 <h2 id="语法制导的翻译方案" class="headerLink">
-    <a href="#%e8%af%ad%e6%b3%95%e5%88%b6%e5%af%bc%e7%9a%84%e7%bf%bb%e8%af%91%e6%96%b9%e6%a1%88" class="header-mark"></a>语法制导的翻译方案</h2><p><strong>语法制导的翻译方案</strong> (Syntax-Directed Translation Scheme, SDT) 是语法制导定义的一种补充，是在其产生式体中嵌入了程序片段的一个上下文无关文法，这些片段称为​<strong>语义动作</strong>​，它们可以出现在产生式体的任何地方。任何 SDT 都可以通过下面的方式实现：首先构造一棵语法分析树，然后按照从左到右的深度优先顺序来执行这些动作，也就是说在一个前序遍历过程中执行。</p>
+    <a href="#%e8%af%ad%e6%b3%95%e5%88%b6%e5%af%bc%e7%9a%84%e7%bf%bb%e8%af%91%e6%96%b9%e6%a1%88" class="header-mark"></a>语法制导的翻译方案</h2><p><strong>语法制导的翻译方案</strong> (Syntax-Directed Translation Scheme, SDT) 是语法制导定义的一种补充，是在其产生式体中嵌入了程序片段的一个上下文无关文法，这些片段称为<strong>语义动作</strong>，它们可以出现在产生式体的任何地方。任何 SDT 都可以通过下面的方式实现：首先构造一棵语法分析树，然后按照从左到右的深度优先顺序来执行这些动作，也就是说在一个前序遍历过程中执行。</p>
 <p>通常 SDT 在语法分析的过程中实现，不会真的构造一棵语法分析树。但着重点我们放在两类 SDD 上：</p>
 <ul>
 <li>基本文法可以用 LR 技术分析，且是 S-attribute SDD</li>
 <li>基本文法可以用 LL 技术分析，且是 L-attribute SDD</li>
 </ul>
-<p>在语法分析过程中实现的 SDT 可以按照如下的方式识别：将每个内嵌的语义动作替换为一个独有的​<strong>非终结符</strong>​ (marker nonterminal)。每个标记非终结符 M 只有一个产生式
+<p>在语法分析过程中实现的 SDT 可以按照如下的方式识别：将每个内嵌的语义动作替换为一个独有的<strong>非终结符</strong> (marker nonterminal)。每个标记非终结符 M 只有一个产生式
 \(M\rightarrow{}\varepsilon\)。如果带有标记非终结符的文法可以使用某个方法进行语法分析，那么这个 SDT
 就可以在语法分析过程中实现。</p>
 <h3 id="后缀翻译方案" class="headerLink">
-    <a href="#%e5%90%8e%e7%bc%80%e7%bf%bb%e8%af%91%e6%96%b9%e6%a1%88" class="header-mark"></a>后缀翻译方案</h3><p>最简单的实现 SDD 的情况是第一种文法，即可以用 LR 技术分析，且是 S-attribute SDD。这种情况下我们可以构造出一个 SDT，其中的每个动作都放在产生式的最后，并在归约为头部的时候执行这个动作。所有动作都在产生式最右端的 SDT 称为​<strong>后缀翻译方案</strong>​。</p>
+    <a href="#%e5%90%8e%e7%bc%80%e7%bf%bb%e8%af%91%e6%96%b9%e6%a1%88" class="header-mark"></a>后缀翻译方案</h3><p>最简单的实现 SDD 的情况是第一种文法，即可以用 LR 技术分析，且是 S-attribute SDD。这种情况下我们可以构造出一个 SDT，其中的每个动作都放在产生式的最后，并在归约为头部的时候执行这个动作。所有动作都在产生式最右端的 SDT 称为<strong>后缀翻译方案</strong>。</p>
 <p>后缀 SDT 当归约发生时执行相应的语义动作。各个文法符号的属性值可以放到栈中的某个位置，使得执行归约的时候可以找到它们，最好的方法就是将属性和文法符号一起放入栈的记录里。</p>
 <p>如果所有属性都是综合属性，且所有动作都位于产生式某位，那么我们可以在把产生式体归约成产生式头的时候计算各个属性的值。</p>
 <h3 id="产生式内部带有语义动作的-sdt" class="headerLink">
@@ -787,8 +787,8 @@ C.true=L_{2};\ print(&ldquo;label&rdquo;, L_{1});\,\}\\
 &amp; S_{1}            &amp;
 \end{aligned}\]</p>
 <h3 id="l-属性的-sdd-和-ll-语法分析" class="headerLink">
-    <a href="#l-%e5%b1%9e%e6%80%a7%e7%9a%84-sdd-%e5%92%8c-ll-%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90" class="header-mark"></a>L 属性的 SDD 和 LL 语法分析</h3><p>假设一个 L 属性的 SDD 的基础文法是 LL 文法，且按照 <a href="#l-%e5%b1%9e%e6%80%a7%e5%ae%9a%e4%b9%89%e7%9a%84-sdt" rel="">L 属性定义的 SDT</a> 一节将其转换为一个 SDT，其语义动作被嵌入到各个产生式中。可以 LL 语法分析中完成翻译过程，需要扩展语法分析栈来存放语义动作和属性求值所需的某些数据项。额外保存​<strong>动作记录</strong>
-(action-record) 和​<strong>综合记录</strong> (synthesize-record)，其中前者是即将执行的语义动作，而后者保存的是非终结符的综合属性。</p>
+    <a href="#l-%e5%b1%9e%e6%80%a7%e7%9a%84-sdd-%e5%92%8c-ll-%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90" class="header-mark"></a>L 属性的 SDD 和 LL 语法分析</h3><p>假设一个 L 属性的 SDD 的基础文法是 LL 文法，且按照 <a href="#l-%e5%b1%9e%e6%80%a7%e5%ae%9a%e4%b9%89%e7%9a%84-sdt" rel="">L 属性定义的 SDT</a> 一节将其转换为一个 SDT，其语义动作被嵌入到各个产生式中。可以 LL 语法分析中完成翻译过程，需要扩展语法分析栈来存放语义动作和属性求值所需的某些数据项。额外保存<strong>动作记录</strong>
+(action-record) 和<strong>综合记录</strong> (synthesize-record)，其中前者是即将执行的语义动作，而后者保存的是非终结符的综合属性。</p>
 <ul>
 <li>非终结符 A 的继承属性放在表示这个非终结符的栈记录中，对这些属性求值的代码通常在仅靠 A 的上面。</li>
 <li>非终结符 A 的综合属性单独的存放在仅靠 A 的下面。</li>

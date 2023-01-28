@@ -157,7 +157,7 @@ tree 进行一个结点访问就会发生移动操作，它要经过一系列旋
 
 为了防止 M-ary tree 退化，我们会为其加入更加严格的平衡条件，以保证其它的平衡。
 1970 年 Rudolf Bayer 与 Edward M. McCreight 在波音研究实验室 (Boeing Research
-Labs) 发现了自平衡的 **B树** (B-tree)。不过不像其他结构那样，两位作者都没有给出这里 B 的含义，你可以认为是 **Balanced**​、​**Bayer** 甚至是 **Boeing**​，不过 Knuth 在
+Labs) 发现了自平衡的 **B树** (B-tree)。不过不像其他结构那样，两位作者都没有给出这里 B 的含义，你可以认为是 **Balanced**、**Bayer** 甚至是 **Boeing**，不过 Knuth 在
 1980 年发表的论文 **CS144C classroom lecture about disk storage and B-trees** 中推测其中的含义可能是后两种。
 
 
@@ -255,7 +255,7 @@ B-Tree 中的 `-` 是一个连字符。既然是变种，那就有差异：
 
 ## 红黑树 {#红黑树}
 
-红黑树 (red-black tree) 是一种自平衡二叉树，于 1972 年由 Rudolf Bayer 发明，发明时被称为 **对称二叉 B 树**​，现代名称红黑树来自 Knuth 的博士生 Robert Sedgewick 于
+红黑树 (red-black tree) 是一种自平衡二叉树，于 1972 年由 Rudolf Bayer 发明，发明时被称为 **对称二叉 B 树**，现代名称红黑树来自 Knuth 的博士生 Robert Sedgewick 于
 1978 年发表的论文。红黑树的结构复杂，但操作有着良好的最坏情况运行时间：它可以在
 \\(\mathcal{O}(\log\_{}{N})\\) 时间内完成查找、插入和删除操作。
 
@@ -397,7 +397,7 @@ void insert(Node* node, Node* head, T& value, Node** pos = nullptr) {
 
 ## AA 树 {#aa-树}
 
-二叉B树 (Binary B-tree) 是一种简单但颇有竞争力的实现，被称为 BB 树，可以理解为带有附加条件的红黑树：​**一个结点最多有一个红色的孩子**​。
+二叉B树 (Binary B-tree) 是一种简单但颇有竞争力的实现，被称为 BB 树，可以理解为带有附加条件的红黑树：**一个结点最多有一个红色的孩子**。
 
 {{< figure src="/images/algo-example-of-aa-tree.svg" width="64%" >}}
 

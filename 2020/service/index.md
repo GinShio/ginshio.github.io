@@ -210,8 +210,8 @@ Full text search
 
 ## GitLab {#gitlab}
 
-GitLab 是开源的基于git的 web **DevOps生命周期工具**​，提供了​<span class="underline">Git仓库</span>​、​<span class="underline">问题追踪</span>​和​<span class="underline">CI/CD</span>​等功能。分为社区版和企业版，使用相同内核，部分功能社区版没有提供。
-Gitlab 相较消耗资源，官方推荐的最低要求为 **4C4G** 可以最多支持500用户， **8C8G** 最多支持1000用户，具体的使用受到​<span class="underline">用户的活跃程度</span>​、​<span class="underline">CI/CD</span>​、​<span class="underline">修改大小</span>​等因素影响。
+GitLab 是开源的基于git的 web **DevOps生命周期工具**，提供了<span class="underline">Git仓库</span>、<span class="underline">问题追踪</span>和<span class="underline">CI/CD</span>等功能。分为社区版和企业版，使用相同内核，部分功能社区版没有提供。
+Gitlab 相较消耗资源，官方推荐的最低要求为 **4C4G** 可以最多支持500用户， **8C8G** 最多支持1000用户，具体的使用受到<span class="underline">用户的活跃程度</span>、<span class="underline">CI/CD</span>、<span class="underline">修改大小</span>等因素影响。
 
 由于暂时不需要，没有安装 Gitlab Pages，Gitlab的安装依赖 git 用户，以下是目录结构
 
@@ -651,7 +651,7 @@ docker 执行器的 runner
 sudo gitlab-runner register --executor docker --docker-image alpine:latest
 ```
 
-或许以后会改为 k8s 搭建 runner。先将 docker build 映射到 `/tmp`​，只需要修改配置文件中的 volumes 为
+或许以后会改为 k8s 搭建 runner。先将 docker build 映射到 `/tmp`，只需要修改配置文件中的 volumes 为
 
 ```toml
 volumes = ["/cache", "/tmp:/builds:rw"]
@@ -675,7 +675,7 @@ cp config/initializers/smtp_settings.rb.sample config/initializers/smtp_settings
 ```
 
 将email启用后，还需要配置smtp，可以参考 [官方教程](https://docs.gitlab.com/omnibus/settings/smtp.html#mailcow)，修改配置文件
-**config/initializers/smtp_settings.rb**​，将 `ActionMailer::Base.smtp_settings` 修改为以下内容
+**config/initializers/smtp_settings.rb**，将 `ActionMailer::Base.smtp_settings` 修改为以下内容
 
 ```ruby
 enable: true,
@@ -691,7 +691,7 @@ openssl_verify_mode: 'none'
 ```
 
 开启对邮件的 S/MIME 签名服务，将你的S/MIME私钥保存到
-`$gitlab_path/.gitlab_smime_key`​，公钥保存到
+`$gitlab_path/.gitlab_smime_key`，公钥保存到
 `$gitlab_path/.gitlab_smime_cert`
 
 ```fish

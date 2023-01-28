@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/unixnetworkprogramming_003\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Unix, Network, Posix","wordcount":  3956 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Unix, Network, Posix","wordcount":  3947 ,
         "url": "https:\/\/blog.ginshio.org\/2022\/unixnetworkprogramming_003\/","datePublished": "2022-02-17T14:28:37+08:00","dateModified": "2022-04-07T19:44:47+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -146,7 +146,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="02-17">02-17</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3956 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="02-17">02-17</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3947 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -194,7 +194,7 @@
     <a href="#%e5%a5%97%e6%8e%a5%e5%ad%97%e5%9c%b0%e5%9d%80%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" class="header-mark"></a>套接字地址数据结构</h2><p>套接字函数基本都需要一个指向套接字地址结构的指针作为参数，每个协议族都有自己的套接字定义，均以 <code>sockaddr_</code> 开头，并有协议族的唯一后缀。</p>
 <h3 id="ipv4-套接字地址结构" class="headerLink">
     <a href="#ipv4-%e5%a5%97%e6%8e%a5%e5%ad%97%e5%9c%b0%e5%9d%80%e7%bb%93%e6%9e%84" class="header-mark"></a>IPv4 套接字地址结构</h3><p>IPv4 套接字地址结构通常称之为 <strong>互联网套接字结构</strong> (Internet socket address
-structure)，结构体 <strong>sockaddr_in</strong>​，定义于 <code>&lt;netinet/in.h&gt;</code> 中 (POSIX)。</p>
+structure)，结构体 <strong>sockaddr_in</strong>，定义于 <code>&lt;netinet/in.h&gt;</code> 中 (POSIX)。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -335,7 +335,7 @@ byte)，无论方向如何。对于可变长度的结构 (e.g. sockaddr_un) 改�
 <h2 id="字节函数" class="headerLink">
     <a href="#%e5%ad%97%e8%8a%82%e5%87%bd%e6%95%b0" class="header-mark"></a>字节函数</h2><h3 id="字节序函数" class="headerLink">
     <a href="#%e5%ad%97%e8%8a%82%e5%ba%8f%e5%87%bd%e6%95%b0" class="header-mark"></a>字节序函数</h3><p>首先思考一个例子，一个 16-bit 整数由两个字节构成，这两个字节是如何存储这个整数的，或者说，高 8-bit 存储在哪个字节中。</p>
-<p><strong>大端</strong> (big-endian) 字节序指的是高位到低位从数据起始位置开始存储，​<strong>小端</strong>
+<p><strong>大端</strong> (big-endian) 字节序指的是高位到低位从数据起始位置开始存储，<strong>小端</strong>
 (little-endian) 字节序值低位字节从数据起始位置开始存储，高位在数据结束的地方，也就是按照内存增大方向生长。</p>
 <p>这两种表示并没有什么标准可言，且在不同系统中都有使用，我们又将其称为主机字节序，与网络字节序相区分。</p>
 <div class="highlight"><div class="chroma">
@@ -427,7 +427,7 @@ sparc-sun-solaris2.9: big-endian<br /></p>
 </div>
 </div><p>这表示按照顺序来为协议栈写入 4 个字节，最左端的是最高有效位，编号为 0 的位是最高位。</p>
 <h3 id="字节操作函数" class="headerLink">
-    <a href="#%e5%ad%97%e8%8a%82%e6%93%8d%e4%bd%9c%e5%87%bd%e6%95%b0" class="header-mark"></a>字节操作函数</h3><p>在 C 语言标准库中关于字符串的操作函数集中于 <code>string.h</code>​，而 C 语言中 char 类型与
+    <a href="#%e5%ad%97%e8%8a%82%e6%93%8d%e4%bd%9c%e5%87%bd%e6%95%b0" class="header-mark"></a>字节操作函数</h3><p>在 C 语言标准库中关于字符串的操作函数集中于 <code>string.h</code>，而 C 语言中 char 类型与
 int8_t 类型无大的差别，定义的 string 可以认为是 int8_t 的数组，也可以粗略的看作是一个字节数组。</p>
 <p>首先第一祖字节操作函数是 C 语言标准库中的 <code>mem</code> 系列函数，这一系列函数主要是针对
 memory 而言的。</p>
@@ -445,8 +445,8 @@ memory 而言的。</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">memcmp</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">rhs</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">);</span>  <span class="c1">// 内存比较
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><p><code>memchr</code> 将在内存 ptr 中查找 count 个字节，查找是否有字节值为 ch。​<code>memset</code> 是将这块内存中的每个字节都设置为 C，设置长度 count byte。​<code>memcpy</code> 是将 src 的内容复制到 dest 中，这里要求 src 与 dest 没有交集，如果可能有交集请使用类似的
-<code>memmove</code>​。​<code>memcmp</code> 将两块内存 lhs 与 rhs 逐字节进行比较，负数表示 lhs 字典序小于 rhs，零表示两块内存相等。</p>
+</div><p><code>memchr</code> 将在内存 ptr 中查找 count 个字节，查找是否有字节值为 ch。<code>memset</code> 是将这块内存中的每个字节都设置为 C，设置长度 count byte。<code>memcpy</code> 是将 src 的内容复制到 dest 中，这里要求 src 与 dest 没有交集，如果可能有交集请使用类似的
+<code>memmove</code>。<code>memcmp</code> 将两块内存 lhs 与 rhs 逐字节进行比较，负数表示 lhs 字典序小于 rhs，零表示两块内存相等。</p>
 <p>另一组函数在网络编程中经常遇到，这是一组 POSIX 函数，派生自 4.2BSD，定义于
 <code>&lt;strings.h&gt;</code> 中。这些函数以 b 开头 (byte)。</p>
 <div class="highlight"><div class="chroma">
@@ -491,7 +491,7 @@ POSIX 函数，用来将一个 IPv4 点分十进制字符串 (e.g. <code>192.168
 </span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">inet_pton</span><span class="p">(</span><span class="kt">int</span> <span class="n">af</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">src</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">dst</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>首先来看旧式函数，​<code>inet_aton</code> 将 ASCII 点分十进制字符串形式地址转换为 32-bit 网络序二进制地址，也就是结果存储在参数 inp 中，而返回值为 1 表示成功。但是在处理
+</div><p>首先来看旧式函数，<code>inet_aton</code> 将 ASCII 点分十进制字符串形式地址转换为 32-bit 网络序二进制地址，也就是结果存储在参数 inp 中，而返回值为 1 表示成功。但是在处理
 cp 是空指针时，不会返回错误而是什么都不存储。</p>
 <p><code>inet_addr</code> 与上一个函数类似，但是不同的是它不再接收 inp 参数，改为返回地址，这样它可以处理 IPv4 的地址，但遗憾的是它表示错误的方式是返回 <strong>INADDR_NONE</strong> 这个常量，其值与 IPv4 受限广播地址 255.255.255.255 相同，因此该函数无法有效处理这个地址。另外有些手册标注该函数在错误时返回 \(-1\) 而非 INADDR_NONE，想一下无符号返回值返回 \(-1\) 时应该是怎样的 (UB!)，因此这个函数已被废弃。应该尽可能避免使用该函数。</p>
 <p><code>inet_ntoa</code> 从名字上看它与 inet_aton 作用相反，返回的是 ASCII 点分十进制字符串地址格式。需要注意的是，这个字符串在函数内部使用 static 内存进行保存，因此该函数是
@@ -500,7 +500,7 @@ cp 是空指针时，不会返回错误而是什么都不存储。</p>
 ASCII 字符串形式地址转换为网络序二进制形式，而 ntop 正好与其相反。</p>
 <p>两个函数都接受 af 作为参数来标识协议族，接受其值为 <strong>AF_INET</strong> (IPv4) 或
 <strong>AF_INET6</strong> (IPv6)，如果协议族是不支持的将在 errno 中写入错误 <strong>EAFNOSUPPORT</strong> (协议族不受支持)。</p>
-<p>因此在 pton 中，src 指代字符串地址，而 dst 就是接收二进制地址的数据，成功转换时返回 1，非有效地址则返回 0；ntop 中 src 与 dst 与其含义相反，而 size 则是调用者提供的 buffer 的大小，防止溢出。如果大小不足以容纳字符串地址时，将返回空指针并设置 errno 为 <strong>ENOSPC</strong>​。大小在 &lt;netinet/in.h&gt; 中定义了如下常量</p>
+<p>因此在 pton 中，src 指代字符串地址，而 dst 就是接收二进制地址的数据，成功转换时返回 1，非有效地址则返回 0；ntop 中 src 与 dst 与其含义相反，而 size 则是调用者提供的 buffer 的大小，防止溢出。如果大小不足以容纳字符串地址时，将返回空指针并设置 errno 为 <strong>ENOSPC</strong>。大小在 &lt;netinet/in.h&gt; 中定义了如下常量</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1

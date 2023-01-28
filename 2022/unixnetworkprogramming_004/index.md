@@ -99,7 +99,7 @@ int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 | 本地 IP 地址 | 非 0    | 进程指定 IP 和 port |
 
 对于 IPv4 来说，通配地址通常使用 **INADDR_ANY** 来指定，其值一般为 0 (0.0.0.0)，而
-IPv6 中使用结构变量 **in6addr_any**​。
+IPv6 中使用结构变量 **in6addr_any**。
 
 ```c
 // IPv4
@@ -160,7 +160,7 @@ accept 将其取出进行通信。
 -   三次握手完成后，在服务器调用 accept 之前到达的数据由服务器 TCP 进行排队，最大数据量为相应已连接套接字的接收缓冲区大小
 
 下表是 unp 给出的各个操作系统下，backlog 参数取不同值时已排队连接的实际数目。可以看到 AIX 与 MacOS 遵循传统的 Berkeley 算法，Solaris 也有类似的算法，而 FreeBSD
-则是 backlog 值 \\(+1\\)​。
+则是 backlog 值 \\(+1\\)。
 
 | backlog | MaxOS 10.2.6 / AIX 5.1 | Linux 2.4.7 | HP-UX 11.11 | FreeBSD 5.1 | Solaris 2.9 |
 |---------|------------------------|-------------|-------------|-------------|-------------|
@@ -191,7 +191,7 @@ int accept(int sockfd, struct sockaddr *cliaddr, socklen_t *addrlen);
 // return non-negative descriptor if OK, -1 on error
 ```
 
-参数 cliaddr 与 addrlen 是结果参数，调用时，将 addrlen 设置为 cliaddr 的套接字地址结构长度；返回时，该整数被内核设置为结构的确切字节值。如果对客户端的地址不感兴趣，可以将这两个参数在调用时设置为 `NULL`​。成功时返回值是内核自动生成的一个套接字描述符，这是与其连接的客户端的描述符。
+参数 cliaddr 与 addrlen 是结果参数，调用时，将 addrlen 设置为 cliaddr 的套接字地址结构长度；返回时，该整数被内核设置为结构的确切字节值。如果对客户端的地址不感兴趣，可以将这两个参数在调用时设置为 `NULL`。成功时返回值是内核自动生成的一个套接字描述符，这是与其连接的客户端的描述符。
 
 想想第一篇的时间获取客户端，这里给出该客户端对应的时间获取服务端，以这个程序作为例子讲解。
 
@@ -425,7 +425,7 @@ int execve(const char *file, char *const argv[], char *const envp[]);
 ```
 
 这些函数只有错误时才返回到调用者，否则将从新程序的起始点 (通常为 main) 开始。一般 execve 是 syscall，而其他 5 个是调用 execve 的库函数，glibc 扩展了一个与
-execve 的库函数 execvpe，检测宏为 **\_GNU_SOURCE**​。
+execve 的库函数 execvpe，检测宏为 **\_GNU_SOURCE**。
 
 {{< figure src="/images/unp-relationship-between-exec-family-functions.svg" width="90%" >}}
 
@@ -434,7 +434,7 @@ execve 的库函数 execvpe，检测宏为 **\_GNU_SOURCE**​。
 -   execl、execlp、execle 三个参数将程序的每个字符串参数作为独立的参数传递给
     exec，并以 NULL 作为程序参数结束的标志。而 execvp、execv、execve 三个参数将程序的字符串参数作为参数数组 argv 的一部分进行传递，由于没有传递该数组的长度，因此约定 argv 的末尾必须含有空指针 NULL 来标记结尾。
 -   最左侧的 execlp 与 execvp 两个函数指定的是 file，exec 函数将当前的环境变量
-    PATH 作为查找程序的依据。但如果 file 参数字符串中存在 `/`​，则在当前程序的工作目录 (workpath) 中查找程序，而非 PATH 环境变量中。
+    PATH 作为查找程序的依据。但如果 file 参数字符串中存在 `/`，则在当前程序的工作目录 (workpath) 中查找程序，而非 PATH 环境变量中。
 -   execl、execlp、execv、execvp 四个函数均不指定环境变量，因此使用外部变量
     **environ** (man 7) 作为环境变量列表。execle 与 execve 使用用户指定的环境变量列表，同 argv 一样，需要用户传递的 envp 也以 NULL 结尾。
 -   通常进程打开的所有文件描述符，在 exec 切换程序后都会保留，继续打开。可以通过
@@ -502,7 +502,7 @@ while (true) {
 
 这里有一个问题，close 套接字描述符时不是会导致该连接关闭，为什么子进程还可以正确处理客户端的请求？
 
-每个文件描述符都是引用计数的，系统会维护一个打开的描述符列表，打开文件时会将对应的描述符引用计数 \\(+1\\)​，而关闭时会将引用计数 \\(-1\\)​，只有引用计数为 \\(0\\) 时系统才会真正的关闭这个文件。换到这里，accept 导致 connfd \\(+1\\)​，而 fork 拷贝副本会导致
+每个文件描述符都是引用计数的，系统会维护一个打开的描述符列表，打开文件时会将对应的描述符引用计数 \\(+1\\)，而关闭时会将引用计数 \\(-1\\)，只有引用计数为 \\(0\\) 时系统才会真正的关闭这个文件。换到这里，accept 导致 connfd \\(+1\\)，而 fork 拷贝副本会导致
 listenfd 与 connfd 再次 \\(+1\\) 从而值为 2，父进程关闭 connfd 不会使其引用计数为 0，这就是不会导致提前回收 connfd 的原因。真正回收 connfd 是在子进程调用 close 或结束时。
 
 
@@ -864,7 +864,7 @@ Cont (继续)
 
 ### 信号处理 {#信号处理}
 
-对信号处理的方式相对简单，即调用 POSIX 方法 sigaction，但是相对复杂的是需要分配并填写相关结构。有一个相对简单的方式即 **signal** 函数，第一个参数是信号名，第二个参数就是指向回调函数的指针，或者宏定义 `SIG_IGN` 或 `SIG_DFL`​。
+对信号处理的方式相对简单，即调用 POSIX 方法 sigaction，但是相对复杂的是需要分配并填写相关结构。有一个相对简单的方式即 **signal** 函数，第一个参数是信号名，第二个参数就是指向回调函数的指针，或者宏定义 `SIG_IGN` 或 `SIG_DFL`。
 
 signal 函数的原型很复杂，不简化时是这个样子
 
@@ -881,7 +881,7 @@ typedef void (*sighandler_t)(int);
 sighandler_t signal(int signum, sighandler_t handler);
 ```
 
-捕获信号成功时将返回该处理函数，而失败时会返回常量 `SIG_ERR`​。
+捕获信号成功时将返回该处理函数，而失败时会返回常量 `SIG_ERR`。
 
 现在回过头来看一看 POSIX 函数 sigaction
 

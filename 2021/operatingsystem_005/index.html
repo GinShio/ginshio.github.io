@@ -38,7 +38,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_005\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Concurrency, Deadlock","wordcount":  5735 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Concurrency, Deadlock","wordcount":  5720 ,
         "url": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_005\/","datePublished": "2021-08-06T14:55:42+08:00","dateModified": "2022-04-07T19:34:01+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -152,7 +152,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/operatingsystem/"><i class="far fa-folder fa-fw"></i>OperatingSystem</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/operating-system-note/"><i class="far fa-list-alt fa-fw"></i>Operating System Note</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-06">08-06</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5735 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-06">08-06</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5720 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 12 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
@@ -219,13 +219,13 @@ deadlock 主要与 nonpreemptable resource 有关。若 resource 变得不可用
 <p>进程的数量、占有或请求的资源数量与种类都是无关紧要的，无论资源是何种类型，硬件还是软件，当该集合进程无法引发事件供集合使用时，他们就是 deadlock，当然这是 <strong>资源死锁</strong> (resource deadlock)。resource deadlock 并不是唯一的死锁类型，但这是最常见的一种。</p>
 <p>Coffman 等人在 1971 年发表的论文 <a href="https://dl.acm.org/doi/10.1145/356586.356588" target="_blank" rel="noopener noreferrer">System Deadlocks</a> 中总结了 Resource Deadlock 发生的四个必要条件：</p>
 <ol>
-<li><strong>互斥</strong>​，每个资源要么已分配给了一个进程，要么是可用的。</li>
-<li><strong>占有与等待</strong>​，已经得到了某个资源的进程可以再次请求新的资源。</li>
-<li><strong>不可抢占</strong>​，已分配的资源不能强制性地被抢占，它只能被占有它的进程显式地释放。</li>
-<li><strong>环路等待</strong>​，死锁发生时系统中必定存在两个或以上的进程组成的环路，该环路中每个进程都在等待下一个进程所占有的资源。</li>
+<li><strong>互斥</strong>，每个资源要么已分配给了一个进程，要么是可用的。</li>
+<li><strong>占有与等待</strong>，已经得到了某个资源的进程可以再次请求新的资源。</li>
+<li><strong>不可抢占</strong>，已分配的资源不能强制性地被抢占，它只能被占有它的进程显式地释放。</li>
+<li><strong>环路等待</strong>，死锁发生时系统中必定存在两个或以上的进程组成的环路，该环路中每个进程都在等待下一个进程所占有的资源。</li>
 </ol>
 <p>需要注意的是，deadlock 发生时这四个条件必定同时满足，如果有一个不成立那么死锁不会发生。Holt 则在 1972 年发表的论文 <a href="https://dl.acm.org/doi/10.1145/356603.356607" target="_blank" rel="noopener noreferrer">Some Deadlock Properties of Computer Systems</a>
-中描述了如何用有向图对上述四个条件进行建模。有向图中 <code>圆形</code> 表示进程，​<code>方形</code> 表示资源，资源到进程的有向边则表示该资源已授权并被进程占用，进程到资源的有向边则表示请求且还未占有。</p>
+中描述了如何用有向图对上述四个条件进行建模。有向图中 <code>圆形</code> 表示进程，<code>方形</code> 表示资源，资源到进程的有向边则表示该资源已授权并被进程占用，进程到资源的有向边则表示请求且还未占有。</p>
 <figure><img src="/images/resource-allocation-diagram.svg"/>
 </figure>
 
@@ -252,11 +252,11 @@ deadlock 主要与 nonpreemptable resource 有关。若 resource 变得不可用
 
 <p>这四种 data structure 之间有一个重要的恒等式，具体地说，某种资源要么已分配要么可用： \[\sum_{i=1}^{n} CAM_{ij} + ARV_{j} = ERV_{j}.\]</p>
 <p>换言之，如果我们将所有已分配的资源 j 的数量加起来再和所有可供使用的资源相加，结果就是该资源的总数。死锁检测算法就是基于向量的比较，当且仅当 \(A_{i} \leq B_{i} (0 \leq
-i \leq m)\) 时 \(A \leq B\)​。当个进程起初都是没有标记过的，算法开始会对进程做标记，进程被标记后就表明它们能够被执行，不会进入死锁。当算法结束时，任何没有被标记的进程都是死锁的。</p>
+i \leq m)\) 时 \(A \leq B\)。当个进程起初都是没有标记过的，算法开始会对进程做标记，进程被标记后就表明它们能够被执行，不会进入死锁。当算法结束时，任何没有被标记的进程都是死锁的。</p>
 <p>死锁检查算法如下：</p>
 <ol>
-<li>寻找一个没有标记的进程 \(P_{i}\) ，对于它而言 \(RM_{i} \leq ARV\)​。</li>
-<li>如果找到了一个这样的进程，那么 \(ARV += CRM_{i}\)​，标记该进程并重新执行第一步。</li>
+<li>寻找一个没有标记的进程 \(P_{i}\) ，对于它而言 \(RM_{i} \leq ARV\)。</li>
+<li>如果找到了一个这样的进程，那么 \(ARV += CRM_{i}\)，标记该进程并重新执行第一步。</li>
 <li>如果没有这样的进程，那么算法停止。</li>
 </ol>
 <p>你可能注意到了第二步中只是简单的将占有资源加到了可用资源中，没有做其他处理。因为我们这里只是对死锁进行检查，无需处理其他情况，因此该进程可以被满足时就认为不会死锁，并将其算为可用资源并计算其他进程的资源。</p>
@@ -272,7 +272,7 @@ i \leq m)\) 时 \(A \leq B\)​。当个进程起初都是没有标记过的，�
 <p>当检测到死锁时，就很容易发现需要哪些资源。为了进行恢复，要从一个较早的检查点上开始，这样拥有所需要资源的进程会回滚到一个时间点，在此时间点之前该进程获得了一些其他的资源。在该检查点之后所做的所有工作都丢失。接着可以将这个资源分配给一个死锁进程，当该进程再次试图获取资源的控制时，就必须一直等待直到可用。</p>
 </dd>
 <dt>通过杀死进程恢复</dt>
-<dd>最直接、简单且有效的方法就是杀死一个或若干个进程，这些进程都是死锁环路上的一个，若杀死进程依然不行的话则继续杀死其他进程，直到打破死锁环。当然还可以牺牲环外的进程用以释放相关资源，供死锁环上的进程使用。当然选择杀死的进程应该具有 <strong>幂等性</strong>​，这样它再次运行时与第一次则会产生相同的结果。</dd>
+<dd>最直接、简单且有效的方法就是杀死一个或若干个进程，这些进程都是死锁环路上的一个，若杀死进程依然不行的话则继续杀死其他进程，直到打破死锁环。当然还可以牺牲环外的进程用以释放相关资源，供死锁环上的进程使用。当然选择杀死的进程应该具有 <strong>幂等性</strong>，这样它再次运行时与第一次则会产生相同的结果。</dd>
 </dl>
 <h2 id="死锁避免" class="headerLink">
     <a href="#%e6%ad%bb%e9%94%81%e9%81%bf%e5%85%8d" class="header-mark"></a>死锁避免</h2><p>还记着检测死锁的四个 structure 吗，我们假设的是一次请求所有的资源，但大多数系统一次只能请求一个资源。系统必须能够判断分配资源是否安全，且只能在保证安全的条件下进行资源分配。</p>
@@ -280,13 +280,13 @@ i \leq m)\) 时 \(A \leq B\)​。当个进程起初都是没有标记过的，�
     <a href="#%e8%b5%84%e6%ba%90%e8%bd%a8%e8%bf%b9%e5%9b%be" class="header-mark"></a>资源轨迹图</h3><p>避免死锁的主要算法是基于一个安全状态的概念，在描述算法前，先讨论关于安全的概念。</p>
 <p>假设现在我们有两个进程与绘图仪、打印机，我们使用一个轨迹图来描述它们。横轴表示进程 A 执行的指令，纵轴则为进程 B 执行的指令。进程 A 在 \(I_1\) 处请求一台打印机并在
 \(I_3\) 处释放，在 \(I_2\) 处请求一台绘图仪，在 \(I_4\) 处释放；进程 B 则是 \(I_5 \sim
-I_7\) 之间使用绘图仪，​\(I_6 \sim I_8\) 之间使用打印机。</p>
+I_7\) 之间使用绘图仪，\(I_6 \sim I_8\) 之间使用打印机。</p>
 <figure><img src="/images/resource-trajectory-graph.svg"/>
 </figure>
 
 <p>资源轨迹图中的每个点代表两个进程的连接状态。初始点 p 表示没有进程执行任何指令。如果调度程序先选择 A 运行，那么 A 执行一段指令后到达 q，此时调度程序开始选中 B
-执行。渐变部分是死锁状态，而 \(I_1\)​、​\(I_2\)​、​\(I_5\) 和 \(I_6\) 围成的矩形区域一旦进入，一定会进入渐变区造成死锁，因此整个矩形都是不安全区域。唯一的办法就是在 t
-点开始调度程序一直让 A 运行直到 \(I_4\)​。一旦过了不安全区域，调度程序即可以任意方式到达中断。</p>
+执行。渐变部分是死锁状态，而 \(I_1\)、\(I_2\)、\(I_5\) 和 \(I_6\) 围成的矩形区域一旦进入，一定会进入渐变区造成死锁，因此整个矩形都是不安全区域。唯一的办法就是在 t
+点开始调度程序一直让 A 运行直到 \(I_4\)。一旦过了不安全区域，调度程序即可以任意方式到达中断。</p>
 <h3 id="安全与不安全状态" class="headerLink">
     <a href="#%e5%ae%89%e5%85%a8%e4%b8%8e%e4%b8%8d%e5%ae%89%e5%85%a8%e7%8a%b6%e6%80%81" class="header-mark"></a>安全与不安全状态</h3><p>在任何时刻，系统状态包含了 E (Existing)、A (Available)、 C (Current) 和 R
 (Request)。如果没有死锁发生，且即使所有进程突然请求对资源的最大需求，也仍然存在某种调度次序能够使得每一个进程运行完毕，则称该状态是安全的。在其他序列中，进程可能先占有一个资源而使其他进程无法完成需求，但进程可能先释放一个资源，从而使其他进程可以优先完成，从而避免死锁。因此需要注意的是，不安全状态不意味着死锁，而是安全状态系统保证所有进程都可以完成，但不安全状态无此保证。</p>

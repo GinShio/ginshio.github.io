@@ -36,7 +36,7 @@ mix archive.install hex phx_new
 ```
 
 项目创建完成之后，我们可以看到终端中有提示，在 config/dev.exs 中配置程序并执行
-`mix ecto.create`​，配置文件中的 `Repo` 是数据库设置，​`Endpoint` 配置的是网站相关的内容
+`mix ecto.create`，配置文件中的 `Repo` 是数据库设置，`Endpoint` 配置的是网站相关的内容
 
 这时 mix 会为我们创建一个 Phoenix 项目，默认的数据库是 PostgreSQL，如果应用不使用数据库则加上tag `--no-ecto` 即可，如果要使用其他数据库只需要加上 tag
 `--database db`
@@ -60,7 +60,7 @@ webpack 用于管理静态资源，添加 tag `--no-webpack` 即可禁止使用 
 -   `templates` 是 **模板** 实现
 
 我们来看看路由情况，可以看到 `scope "/"` 这个空间下有一个 API，绑定的函数是
-**PageController.index**​，即浏览器发送请求 `GET /` 时将会执行绑定的函数。那看看控制器吧，就一句 `render(conn, "index.html")` 渲染页面，渲染的是哪里的 index.html，还得看视图层 `page_view.ex`​，这会默认去找 `templates/page` 下的文件进行渲染，整个最简单的流程就是这样
+**PageController.index**，即浏览器发送请求 `GET /` 时将会执行绑定的函数。那看看控制器吧，就一句 `render(conn, "index.html")` 渲染页面，渲染的是哪里的 index.html，还得看视图层 `page_view.ex`，这会默认去找 `templates/page` 下的文件进行渲染，整个最简单的流程就是这样
 
 
 ### 仿照一个页面 {#仿照一个页面}
@@ -139,7 +139,7 @@ def changeset(user, attrs) do
 end
 ```
 
-changeset/2 是 Ecto 的回调函数，一般对数据进行 **过滤**​、​**验证** 与 **约束** 操作，调用方式
+changeset/2 是 Ecto 的回调函数，一般对数据进行 **过滤**、**验证** 与 **约束** 操作，调用方式
 
 ```elixir
 changeset = User.changeset(%User{}, %{username: "Example", email: "i@example.com"})
@@ -147,7 +147,7 @@ changeset = User.changeset(%User{}, %{username: "Example", email: "i@example.com
 changeset.errors #=> [password: {"can't be blank", []}]
 ```
 
-OK，下来我们就开始仔细解读下这个函数，​`validate_required` 是指明哪些字段必填，而 `unique_constraint` 则是约束字段唯一，那现在我们需要再添加一些代码来实现需求
+OK，下来我们就开始仔细解读下这个函数，`validate_required` 是指明哪些字段必填，而 `unique_constraint` 则是约束字段唯一，那现在我们需要再添加一些代码来实现需求
 
 ```elixir
 |> validate_exclusion(:username, ~w(admin administrator root)) # 保留用户名
@@ -193,8 +193,8 @@ end
 
 Plug 的另一种类型是 module plug，它被定义在 module 中，可以将整个 module 当作一个 plug 放入处理流程中，因此这个 module 需要符合一定的规范
 
--   **init/1**​：初始化传递给 call/2 的参数或选项
--   **call/2**​：处理链接，与 function plug 差不多
+-   **init/1**：初始化传递给 call/2 的参数或选项
+-   **call/2**：处理链接，与 function plug 差不多
 
 我们可以试一试写一个模块 plug，功能是把 `:locale` 键值对放到连接流里，以便让后面的其他 plugs 控制器和页面等也能使用
 
@@ -230,7 +230,7 @@ end
 controller/action, 处理实时 channel，还为路由之前的中间件定义了一系列的转换功能
 
 **pipeline** 可以定义一种类型的操作，这种操作可以定义一系列 plug 为以后定义的 API
-使用。​**scope** 操作可以定义一组 API 的作用域，并且可以指定 pipe 类型来获取 plug
+使用。**scope** 操作可以定义一组 API 的作用域，并且可以指定 pipe 类型来获取 plug
 操作
 
 ```elixir
@@ -268,7 +268,7 @@ Helps 也可以用在 eex 中，示例 `page_path(@conn, :index)` 的输出即�
 ```
 
 我们添加一系列 `/` 与 `/admin` 下的 API，phx.routes 查看 API，可以发现 uri、
-Controller、function 都是没问题的，但是 helps 都是 **review_path**​，这会引起
+Controller、function 都是没问题的，但是 helps 都是 **review_path**，这会引起
 helps 函数调用错误
 
 ```text
@@ -309,13 +309,13 @@ end
 Phoenix 控制器是一个类似中间人的角色，里面的函数称为 atcion，它响应路由的 HTTP
 请求。action 可以命名为任意名称，但我们一般遵循一些约定
 
--   **index**​：按照给定的数据渲染一组条目
--   **show**​：渲染一个给定的 id 的独立条目
--   **new**​：渲染一个创建新条目所需的表单
--   **create**​：接收创建的新条并将其存储
--   **edit**​：接收给定 id 的条目，并将其显示在 form 中用以编辑
--   **update**​：接收修改过的 item 并存储
--   **delete**​：接收给定 id 的条目并将其删除
+-   **index**：按照给定的数据渲染一组条目
+-   **show**：渲染一个给定的 id 的独立条目
+-   **new**：渲染一个创建新条目所需的表单
+-   **create**：接收创建的新条并将其存储
+-   **edit**：接收给定 id 的条目，并将其显示在 form 中用以编辑
+-   **update**：接收修改过的 item 并存储
+-   **delete**：接收给定 id 的条目并将其删除
 
 控制器有一些方法渲染内容，最简单的一种是使用 Phoenix 提供的 `text/2` 方法渲染纯文本，当然也可以有一些其他方法来渲染 `json/2` 或 `html/2`
 
