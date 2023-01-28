@@ -38,4 +38,10 @@
   (load bootstrap-file nil 'nomessage))
 (straight-use-package '(org :type built-in)
                       (require 'ox))
+;;; ELIMINATES THE ZERO-WIDTH SPACE
+(defun +org-export-remove-zero-width-space (text _backend _info)
+  "Remove zero width spaces from TEXT."
+  (unless (org-export-derived-backend-p 'org)
+    (replace-regexp-in-string "\u200B" "" text)))
+(add-to-list 'org-export-filter-final-output-functions #'+org-export-remove-zero-width-space t)
 ;;; batch-export-publisher.el ends here
