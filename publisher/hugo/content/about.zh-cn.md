@@ -1,11 +1,11 @@
 ### Hi there 👋 is Xin Liu
 
-I’m a new college graduate (NCG), bachelor degree, from Xi'an, China. Working as a software development engineer.
+I’m Xin "Russell" Liu, bachelor degree, from Xi'an, China. Working as a software development engineer.
 
 Currently I’m learning modern C++ and modern cmake, of course git is also need to be learned. I would like to learn some functional programming languages if I can.
 
 My personal development environment is
-  - [openSUSE Leap 15.4](https://opensuse.org)
+  - [openSUSE Tumbleweed](https://opensuse.org)
   - [Doom Emacs](https://github.com/doomemacs)
 
 You can contact me via my personal email <ginshio78@gmail.com>.
@@ -29,12 +29,13 @@ Here are some ideas to get you started:
 
 ![Github Stats](https://github-readme-stats.vercel.app/api?username=GinShio&show_icons=true&count_private=true&title_color=FFE211&text_color=FFFFFF&icon_color=FFA500&bg_color=50,66CCFF,39C5BB)
 
-![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=GinShio&layout=compact&hide=html,javascript,css)
+![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=GinShio&layout=compact&hide=html,javascript,css,scss)
 
 #### Public Key
 
   - [personal OpenPGP](pgp_public_key)
-  - [personal email S/MIME (ginshio78@gmail.com)](gmail_smime_public_key)
+  <!-- - [personal email S/MIME (ginshio78@gmail.com)](gmail_smime_public_key) -->
+  - NO Email S/MIME
 
 #### Personal Account
 
