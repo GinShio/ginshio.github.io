@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>libarchive 介绍与入门 - iris</title><meta name="Description" content="GinShio | libarchive Learning and Development Guide -- Introduction"><meta property="og:title" content="libarchive 介绍与入门" />
+<meta property="og:description" content="GinShio | libarchive Learning and Development Guide -- Introduction" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.ginshio.org/2023/libarchive_development_001/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-28T19:09:45+08:00" />
+<meta property="article:modified_time" content="2023-01-30T19:17:07+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
+
+<meta name="twitter:title" content="libarchive 介绍与入门"/>
+<meta name="twitter:description" content="GinShio | libarchive Learning and Development Guide -- Introduction"/>
+<meta name="application-name" content="iris">
+<meta name="apple-mobile-web-app-title" content="iris">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.ginshio.org/2023/libarchive_development_001/" /><link rel="prev" href="https://blog.ginshio.org/2022/data_strucures_and_algorithm_analysis_008_graph/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.1d6e6517c44074bf1c692657d249d106a5e98bb9db25f7773715b24eda7aa575354611c095c23092aa17916f1b5be527.css" integrity="sha384-HW5lF8RAdL8caSZX0knRBqXpi7nbJfd3NxWyTtp6pXU1RhHAlcIwkqoXkW8bW&#43;Un"><link rel="stylesheet" href="/css/style.min.cd14de6b7577483a378a3e7b1d8d4d22e9116704e99988548443184415b6e7ea3d5f86d181e92e8d979297f4dc91299a.css" integrity="sha384-zRTea3V3SDo3ij57HY1NIukRZwTpmYhUhEMYRBW25&#43;o9X4bRgekujZeSl/TckSma"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.2cba216129d7b04299cad0e4a8bb0eb317de61d6e2489778de53950bfcb59fa58d01a258c9e2675ffa3c07c058996f2d.css" integrity="sha384-LLohYSnXsEKZytDkqLsOsxfeYdbiSJd43lOVC/y1n6WNAaJYyeJnX/o8B8BYmW8t"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.1aedca555d87f5dfb2038403a5507b55c3b284994056b717774b61123af82b39df6853cb7b4c50272a2757138d6b8642.css" integrity="sha384-Gu3KVV2H9d&#43;yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC"></noscript>
+    
+    
+    
+    <meta name="google-site-verification" content="fbzw9fQcZyEFrrrUtxLfzYW-qhZ5TMEZKHHSp9NeLBw" /><meta name="msvalidate.01" content="EC9CEC799D42793C414AE7BDB0D0205C" /><meta name="yandex-verification" content="c0b808dd3e49f730" /><meta name="baidu-site-verification" content="code-RhPhu2ccLc" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "libarchive 介绍与入门",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.ginshio.org\/2023\/libarchive_development_001\/"
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "C, Archive, Library","wordcount":  4279 ,
+        "url": "https:\/\/blog.ginshio.org\/2023\/libarchive_development_001\/","datePublished": "2023-01-28T19:09:45+08:00","dateModified": "2023-01-30T19:17:07+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
+                        "@type": "Person",
+                        "name": "GinShio"                    
+                    }],"description": "GinShio | libarchive Learning and Development Guide -- Introduction"
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('light' === 'light' || 'light' === 'dark' || 'light' === 'black') setTheme('light'), saveTheme('light'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"><i class="fa fa-archive faa-wrench"></i> 归档 </a><a class="menu-item" href="/tags/"><i class="fa fa-tag faa-wrench"></i> 标签 </a><a class="menu-item" href="/categories/"><i class="fa fa-folder-open faa-wrench"></i> 分类 </a><a class="menu-item" href="/series/"><i class="fas fa-object-group"></i> 系列 </a><a class="menu-item" href="/about/"><i class="fa fa-info-circle faa-wrench"></i> 关于 </a><a class="menu-item" href="/links/"><i class="fa fa-user-friends faa-wrench"></i> 友人帐 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="iris"><span class="header-title-pre"><i class="fas fa-terminal"></i></span>iris</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title=""><i class="fa fa-archive faa-wrench"></i>归档</a><a class="menu-item" href="/tags/" title=""><i class="fa fa-tag faa-wrench"></i>标签</a><a class="menu-item" href="/categories/" title=""><i class="fa fa-folder-open faa-wrench"></i>分类</a><a class="menu-item" href="/series/" title=""><i class="fas fa-object-group"></i>系列</a><a class="menu-item" href="/about/" title=""><i class="fa fa-info-circle faa-wrench"></i>关于</a><a class="menu-item" href="/links/" title=""><i class="fa fa-user-friends faa-wrench"></i>友人帐</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title">目录</h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#简介">简介</a>
+      <ul>
+        <li><a href="#为什么实现">为什么实现</a></li>
+        <li><a href="#谁在用">谁在用</a></li>
+        <li><a href="#有哪些功能">有哪些功能</a></li>
+        <li><a href="#获取更多信息">获取更多信息</a></li>
+        <li><a href="#如何贡献">如何贡献</a></li>
+      </ul>
+    </li>
+    <li><a href="#归档与压缩">归档与压缩</a></li>
+    <li><a href="#编译">编译</a></li>
+    <li><a href="#简单的入门">简单的入门</a>
+      <ul>
+        <li><a href="#读取归档中的文件名">读取归档中的文件名</a></li>
+        <li><a href="#注册自己的函数">注册自己的函数</a>
+          <ul>
+            <li><a href="#read-write-close-callback">read / write / close callback</a></li>
+            <li><a href="#skip-callback">skip callback</a></li>
+            <li><a href="#seek-callback">seek callback</a></li>
+          </ul>
+        </li>
+        <li><a href="#写入文件">写入文件</a></li>
+        <li><a href="#在磁盘上构造对象">在磁盘上构造对象</a></li>
+        <li><a href="#错误处理">错误处理</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">libarchive 介绍与入门</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/libarchive-%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/"><i class="far fa-list-alt fa-fw"></i>libarchive 学习与开发指南</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="01-28">01-28</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="01-30">01-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4279 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - libarchive 学习与开发指南</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul><li><span class="active">libarchive 介绍与入门</span></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#简介">简介</a>
+      <ul>
+        <li><a href="#为什么实现">为什么实现</a></li>
+        <li><a href="#谁在用">谁在用</a></li>
+        <li><a href="#有哪些功能">有哪些功能</a></li>
+        <li><a href="#获取更多信息">获取更多信息</a></li>
+        <li><a href="#如何贡献">如何贡献</a></li>
+      </ul>
+    </li>
+    <li><a href="#归档与压缩">归档与压缩</a></li>
+    <li><a href="#编译">编译</a></li>
+    <li><a href="#简单的入门">简单的入门</a>
+      <ul>
+        <li><a href="#读取归档中的文件名">读取归档中的文件名</a></li>
+        <li><a href="#注册自己的函数">注册自己的函数</a>
+          <ul>
+            <li><a href="#read-write-close-callback">read / write / close callback</a></li>
+            <li><a href="#skip-callback">skip callback</a></li>
+            <li><a href="#seek-callback">seek callback</a></li>
+          </ul>
+        </li>
+        <li><a href="#写入文件">写入文件</a></li>
+        <li><a href="#在磁盘上构造对象">在磁盘上构造对象</a></li>
+        <li><a href="#错误处理">错误处理</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>libarchive 是一个可以创建和读取多种不同流式归档格式的程序库，包含了最流行的 tar
+格式变体、一些 cpio 格式，以及所有的 BSD 和 GNU ar 变体。bsdtar 是一个使用
+libarchive 的 tar 实现。</p>
+<hr>
+<h2 id="简介" class="headerLink">
+    <a href="#%e7%ae%80%e4%bb%8b" class="header-mark"></a>简介</h2><h3 id="为什么实现" class="headerLink">
+    <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e5%ae%9e%e7%8e%b0" class="header-mark"></a>为什么实现</h3><p>大约在 2001 年的某个时间，邮件列表中出现了一些关于 FreeBSD 打包工具的辩论，辩论主要涉及两个相关的问题：</p>
+<ul>
+<li>对打包工具来说什么是 <strong>正确</strong> (right) 的格式？</li>
+<li>为什么 FreeBSD 的打包工具比其他发行版的打包工具慢？</li>
+</ul>
+<p>在仔细研究之后，Kientzle 认为 <code>tar/gzip</code> 和 <code>tar/bzip2</code> 依然是很好的格式，性能问题纯粹是实现的原因。</p>
+<p>因此，Kientzle 开启了一个从 <code>pkg_add</code> 开始重写打包工具的项目，关键是这个项目是一个了解 <code>tar/gzip</code> 和 <code>tar/bzip2</code> 的库。他最终在 2003 年时完成了 <em>libtarfile</em>，并意识到许多核心的基础设施都要简单通用地处理其他格式，因此这个库被重命名为 <strong>libarchive</strong>。一次在 Kientzle 构建 libarchive 时，他意识到他早期测试套件更接近于一个 GNU tar 的完全 BSD 许可的替代品，即 bsdtar。FreeBSD 项目采用了 bsdtar 和 libarchive，并允许他继续在 FreeBSD 源码树中开发。大约在 2007 年，libarchive 被移植到其他平台，并将主要开发工作转移到了独立的仓库，刚开始在 GoogleCode，之后转到了 GitHub 直到今天。</p>
+<h3 id="谁在用" class="headerLink">
+    <a href="#%e8%b0%81%e5%9c%a8%e7%94%a8" class="header-mark"></a>谁在用</h3><ul>
+<li>
+<p>操作系统</p>
+<ul>
+<li>freeBSD
+<ul>
+<li>2004 年 11 月发布的 FreeBSD 5.3 中首次包含 libarchive</li>
+<li>FreeBSD 6 起将 bsdtar 设置为默认的 tar 工具</li>
+<li>FreeBSD 8 起将 bsdcpio 设置为默认的 cpio 工具</li>
+<li>FreeBSD 8 起将 Kai Wang 的 <code>ar</code> 和 Dag-Erling Smørgrav 的 <code>unzip</code> 标准化</li>
+</ul>
+</li>
+<li>NetBSD
+<ul>
+<li>从 NetBSD 5.0 开始 libarchive 就是其一部分</li>
+<li>NetBSD 9.0 开始使用 bsdtar 和 bsdcpio 作为默认的系统工具</li>
+</ul>
+</li>
+<li>MacOS
+<ul>
+<li>2009 的起 libarchive 就作为 MacOS 的一部分</li>
+<li>bsdtar 和 bsdcpio 也是 MacOS 的默认系统工具</li>
+</ul>
+</li>
+<li>Windows
+<ul>
+<li>Windows 10 insider build 17063 开始，libarchive 和 bsdtar 作为系统默认工具被提供</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>包管理器</p>
+<ul>
+<li>Arch Linux 的 <a href="https://wiki.archlinux.org/title/pacman" target="_blank" rel="noopener noreferrer">Pacman</a></li>
+<li>Void Linux 的 <a href="https://docs.voidlinux.org/xbps/index.html" target="_blank" rel="noopener noreferrer">XBPS</a></li>
+<li>CRUX Linux 的 <a href="https://crux.nu/Wiki/FaqPkgUtils" target="_blank" rel="noopener noreferrer">pkgutils</a></li>
+<li>Gentoo 和 Exherbo 的多格式包管理器 <a href="https://wiki.gentoo.org/wiki/Paludis" target="_blank" rel="noopener noreferrer">Paludis</a></li>
+<li><a href="https://cmake.org/" target="_blank" rel="noopener noreferrer">CMake</a></li>
+</ul>
+</li>
+<li>
+<p>压缩软件和文件浏览器</p>
+<ul>
+<li><a href="https://www.tarsnap.com/" target="_blank" rel="noopener noreferrer">Tarsnap</a></li>
+<li>Springy 用于处理 TAR, PAX 和 CPIO 格式的文件</li>
+<li><a href="https://github.com/cybernoid/archivemount" target="_blank" rel="noopener noreferrer">Archivemount</a> 用于挂载归档文件</li>
+<li>KDE 的 <a href="http://utils.kde.org/projects/ark" target="_blank" rel="noopener noreferrer">ark</a></li>
+</ul>
+</li>
+</ul>
+<p>更多的用户可以参见 <a href="https://github.com/libarchive/libarchive/wiki/LibarchiveUsers" target="_blank" rel="noopener noreferrer">LibarchiveUsers</a></p>
+<h3 id="有哪些功能" class="headerLink">
+    <a href="#%e6%9c%89%e5%93%aa%e4%ba%9b%e5%8a%9f%e8%83%bd" class="header-mark"></a>有哪些功能</h3><p>libarchive 支持读取多种不同的格式，包括 <strong>tar</strong>、<strong>pax</strong>、<strong>cpio</strong>、<strong>7zip</strong>、<strong>zip</strong>、<strong>xar</strong>、<strong>mtree</strong>、<strong>rar</strong> 以及 ISO 映像等；可以写入 <strong>tar</strong>、<strong>pax</strong>、<strong>cpio</strong>、<strong>7zip</strong>、<strong>zip</strong>、<strong>xar</strong>、<strong>mtree</strong>、<strong>ISO</strong> 以及
+<strong>shar</strong> 等格式。更多格式可以查看<a href="https://github.com/libarchive/libarchive/wiki/LibarchiveFormats" target="_blank" rel="noopener noreferrer">文档</a>。</p>
+<p>在读取归档文件时，libarchive 有一个健壮的格式自动检测器用以识别归档文件的格式，也可以识别 gzip、bzip2、xz、lzip 以及多种流行的压缩算法，包括像 <code>tar.gz</code> 这样的归档、压缩组合。</p>
+<p>libarchive 允许灵活地处理数据的来源和去处。有一个方便的包装器可以读取、写入数据到磁盘上的常规文件或内存中，也可以注册你自己的 IO 函数来读取、写入<code>磁带设备</code>、<code>网络套接字</code>或<code>任何数据源</code>的归档文件。libarchive 的内部 IO 模型是零拷贝设计的，在操作非常大的归档文件时，可以最小化拷贝数据，以获取最佳性能。</p>
+<h3 id="获取更多信息" class="headerLink">
+    <a href="#%e8%8e%b7%e5%8f%96%e6%9b%b4%e5%a4%9a%e4%bf%a1%e6%81%af" class="header-mark"></a>获取更多信息</h3><ul>
+<li><a href="http://libarchive.org/" target="_blank" rel="noopener noreferrer">官方网站</a></li>
+<li><a href="https://github.com/libarchive/libarchive" target="_blank" rel="noopener noreferrer">仓库</a></li>
+<li><a href="https://github.com/libarchive/libarchive/wiki" target="_blank" rel="noopener noreferrer">Wiki</a></li>
+<li><a href="mailto:libarchive-discuss@googlegroups.com" rel="">邮件列表</a></li>
+<li><a href="https://github.com/libarchive/libarchive/wiki/ManualPages" target="_blank" rel="noopener noreferrer">手册</a></li>
+<li><a href="https://github.com/libarchive/libarchive/issues" target="_blank" rel="noopener noreferrer">Issues</a></li>
+<li><a href="https://github.com/libarchive/libarchive/pulls" target="_blank" rel="noopener noreferrer">PR</a></li>
+</ul>
+<h3 id="如何贡献" class="headerLink">
+    <a href="#%e5%a6%82%e4%bd%95%e8%b4%a1%e7%8c%ae" class="header-mark"></a>如何贡献</h3><p>libarchive 欢迎大家贡献，贡献前请先阅读相关文档，以免造成不必要的麻烦：</p>
+<ul>
+<li><a href="https://github.com/libarchive/libarchive/wiki/ContributingToLibarchiveInGithub" target="_blank" rel="noopener noreferrer">贡献到 Libarchive</a></li>
+<li><a href="https://github.com/libarchive/libarchive/wiki/WishList" target="_blank" rel="noopener noreferrer">愿望单</a></li>
+<li><a href="https://github.com/libarchive/libarchive/wiki/LibarchiveInternals" target="_blank" rel="noopener noreferrer">内部资料</a></li>
+</ul>
+<p>如果您无法帮助编写 C 代码，开发者们依然欢迎其他帮忙：</p>
+<ul>
+<li>改进 Wiki 文档</li>
+<li>在邮件列表中解决问题</li>
+<li>随着 libarchive 的发展进行测试</li>
+</ul>
+<hr>
+<h2 id="归档与压缩" class="headerLink">
+    <a href="#%e5%bd%92%e6%a1%a3%e4%b8%8e%e5%8e%8b%e7%bc%a9" class="header-mark"></a>归档与压缩</h2><p>一个归档文件可以分为两个部分，<strong>归档</strong> (仅存储) 和<strong>压缩</strong>。通常将需要添加到压缩包的文件先归档为一个文件，再对这个文件进行压缩。</p>
+<p>像 tar、7z、zip 等被 libarchive 称为格式的就是归档文件，这些格式规定了压缩包内文件怎么存储，怎么记录词条，等等信息。</p>
+<p>压缩就是对这个已经归档的文件选用什么算法进行操作。像 lzma、xz、zstd 等被
+libarchive 称为 filter 的就是压缩算法。</p>
+<p>一般来说，压缩包就是格式与压缩算法的组合，像常见的 7zip，就是 <code>7zip</code> 格式与默认算法 <code>lzma2</code> 的组合，而有些 7zip 文件也会不进行压缩，也就是用 7zip 格式将待打包的文件归档在一个文件里。而 unix-like 世界中常见的 <code>tar/gzip</code>、<code>tar/bzip2</code> 等就是 tar 格式与 gz、bz2 算法的组合。</p>
+<hr>
+<h2 id="编译" class="headerLink">
+    <a href="#%e7%bc%96%e8%af%91" class="header-mark"></a>编译</h2><p>libarchive 用 format 和 filter 区分格式与压缩。格式通常只需要 libarchive 根据其文档实现就 okay。压缩由于算法基本都公开，因此有大量优秀的库来实现这些压缩算法，因此 libarchive 并不实现压缩算法。因此 libarchive 编译时有很多关于算法的开关</p>
+<ul>
+<li>
+<p>压缩算法开关</p>
+<table>
+<thead>
+<tr>
+<th>算法名称</th>
+<th>仓库地址</th>
+<th>开关名称</th>
+<th>默认状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://lz4.github.io/lz4" target="_blank" rel="noopener noreferrer">LZ4</a></td>
+<td><a href="https://github.com/lz4/lz4" target="_blank" rel="noopener noreferrer">GitHub</a></td>
+<td><strong>ENABLE_LZ4</strong></td>
+<td>ON</td>
+</tr>
+<tr>
+<td><a href="http://www.oberhumer.com/opensource/lzo/" target="_blank" rel="noopener noreferrer">LZO</a></td>
+<td>None</td>
+<td><strong>ENABLE_LZO</strong></td>
+<td>OFF</td>
+</tr>
+<tr>
+<td><a href="https://7-zip.org/sdk.html" target="_blank" rel="noopener noreferrer">LZMA</a></td>
+<td><a href="https://github.com/tukaani-project/xz" target="_blank" rel="noopener noreferrer">xz-utils</a></td>
+<td><strong>ENABLE_LZMA</strong></td>
+<td>ON</td>
+</tr>
+<tr>
+<td><a href="https://facebook.github.io/zstd/" target="_blank" rel="noopener noreferrer">Zstandard</a></td>
+<td><a href="https://github.com/facebook/zstd" target="_blank" rel="noopener noreferrer">GitHub</a></td>
+<td><strong>ENABLE_ZSTD</strong></td>
+<td>ON</td>
+</tr>
+<tr>
+<td><a href="http://sourceware.org/bzip2/" target="_blank" rel="noopener noreferrer">Bzip2</a></td>
+<td><a href="https://sourceware.org/git/?p=bzip2.git" target="_blank" rel="noopener noreferrer">sourceware</a> or <a href="https://gitlab.com/bzip2/bzip2" target="_blank" rel="noopener noreferrer">GitLab</a></td>
+<td><strong>ENABLE_Bzip2</strong></td>
+<td>ON</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>加密库开关</p>
+<table>
+<thead>
+<tr>
+<th>库名称</th>
+<th>仓库地址</th>
+<th>开关名称</th>
+<th>默认状态</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.trustedfirmware.org/projects/mbed-tls/" target="_blank" rel="noopener noreferrer">Mbed TLS</a></td>
+<td><a href="https://github.com/Mbed-TLS/mbedtls" target="_blank" rel="noopener noreferrer">GitHub</a></td>
+<td><strong>ENABLE_MBEDTLS</strong></td>
+<td>OFF</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://www.lysator.liu.se/~nisse/nettle/" target="_blank" rel="noopener noreferrer">GNU Nettle</a></td>
+<td><a href="https://git.lysator.liu.se/nettle/nettle" target="_blank" rel="noopener noreferrer">Lysator</a></td>
+<td><strong>ENABLE_NETTLE</strong></td>
+<td>OFF</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://www.openssl.org/" target="_blank" rel="noopener noreferrer">OpenSSL</a></td>
+<td><a href="https://github.com/openssl/openssl" target="_blank" rel="noopener noreferrer">GitHub</a></td>
+<td><strong>ENABLE_OPENSSL</strong></td>
+<td>ON</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/windows/win32/seccng/cng-portal" target="_blank" rel="noopener noreferrer">Windows CNG</a></td>
+<td>None</td>
+<td><strong>ENABLE_CNG</strong></td>
+<td>ON</td>
+<td>用于 Windows 上的 Zip 加密解密</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>其他开关</p>
+<table>
+<thead>
+<tr>
+<th>开关名称</th>
+<th>默认状态</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ENABLE_TAR</strong></td>
+<td>ON</td>
+<td>编译 bsdtar</td>
+</tr>
+<tr>
+<td><strong>ENABLE_CPIO</strong></td>
+<td>ON</td>
+<td>编译 bsdcpio</td>
+</tr>
+<tr>
+<td><strong>ENABLE_CAT</strong></td>
+<td>ON</td>
+<td>编译 bsdcat</td>
+</tr>
+<tr>
+<td><strong>ENABLE_LIBXML2</strong></td>
+<td>ON</td>
+<td>使用 <a href="https://gitlab.gnome.org/GNOME/libxml2/-/wikis/home" target="_blank" rel="noopener noreferrer">libxml2</a> 解析 xar 格式</td>
+</tr>
+<tr>
+<td><strong>ENABLE_EXPAT</strong></td>
+<td>ON</td>
+<td>使用 <a href="https://libexpat.github.io/" target="_blank" rel="noopener noreferrer">Expat</a> 解析 xar 格式</td>
+</tr>
+<tr>
+<td><strong>ENABLE_PCREPOSIX</strong></td>
+<td>ON</td>
+<td>在 bsdtar 中使用 <a href="https://www.pcre.org/" target="_blank" rel="noopener noreferrer">pcreposix</a> 解析 regex</td>
+</tr>
+<tr>
+<td><strong>ENABLE_ACL</strong></td>
+<td>ON</td>
+<td>支持读写 POSIX.1e ACLs。Linux 需要 libacl</td>
+</tr>
+<tr>
+<td><strong>ENABLE_XATTR</strong></td>
+<td>ON</td>
+<td>支持读写 POSIX.1e 风格文件扩展属性。Linux 需要 libxattr；FreeBSD 如果使用 ZFS 并 hang 过，建议关闭</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>编译变量</p>
+<ul>
+<li><strong>POSIX_REGEX_LIB</strong>，使用哪个库解析 POSIX 正则表达式
+<ul>
+<li><code>AUTO</code> (Default)</li>
+<li><code>LIBC</code></li>
+<li><code>LIBREGEX</code></li>
+</ul>
+</li>
+<li><strong>ENABLE_SAFESEH</strong></li>
+<li><strong>WINDOWS_VERSION</strong></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="简单的入门" class="headerLink">
+    <a href="#%e7%ae%80%e5%8d%95%e7%9a%84%e5%85%a5%e9%97%a8" class="header-mark"></a>简单的入门</h2><p>Libarchive 使用时需要两个对用户透明的基础类型对象：<strong>struct archive</strong> 指针和 <strong>struct
+archive_entry</strong> 指针。在 libarchive 中 archive 对象的生命周期是十分简单的：</p>
+<ul>
+<li>使用 <code>archive_xxx_new</code> 创建一个对象</li>
+<li>使用 <code>support</code> 或 <code>set</code> 对 archive 对象进行配置
+<ul>
+<li>support 允许库决定何时启用功能</li>
+<li>set 无条件的启用功能</li>
+</ul>
+</li>
+<li><code>open</code> 打开一个数据源</li>
+<li>迭代读取内容：从 entry 中获取 archive 词条的 header 信息和数据。</li>
+<li>结束时，使用 <code>close</code> 写入信息，<code>free</code> 则会释放 archive 对象</li>
+</ul>
+<h3 id="读取归档中的文件名" class="headerLink">
+    <a href="#%e8%af%bb%e5%8f%96%e5%bd%92%e6%a1%a3%e4%b8%ad%e7%9a%84%e6%96%87%e4%bb%b6%e5%90%8d" class="header-mark"></a>读取归档中的文件名</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">archive</span> <span class="o">*</span><span class="n">a</span> <span class="o">=</span> <span class="n">archive_read_new</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_read_support_filter_all</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_read_support_format_all</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">archive_read_open_filename</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s">&#34;archive.tar&#34;</span><span class="p">,</span> <span class="mi">10240</span><span class="p">)</span> <span class="o">!=</span> <span class="n">ARCHIVE_OK</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">archive_entry</span> <span class="o">*</span><span class="n">entry</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="n">archive_read_next_header</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">entry</span><span class="p">)</span> <span class="o">==</span> <span class="n">ARCHIVE_OK</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">archive_entry_pathname</span><span class="p">(</span><span class="n">entry</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">archive_read_data_skip</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>  <span class="c1">// Note 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">archive_read_free</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">!=</span> <span class="n">ARCHIVE_OK</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>代码开始时的 <code>support_filter_all</code> 与 <code>support_format_all</code> 就是 libacrhive 所说的自动推导数据源的压缩算法与格式。</p>
+<p>这里使用的 <code>open</code> 是 <code>filename</code>，即打开一个磁盘上的文件作为数据源，另外 libarchive
+还可以对<strong>内存</strong> (memory) 进行读写，或<strong>文件指针</strong> (<code>FILE*</code>)、<strong>文件描述符</strong> (<code>fd</code>) 进行读写。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="n">archive_read_open_memory</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">buff</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buff</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_read_open_FILE</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">fileptr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_read_open_fd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="mi">10240</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>之后在 loop 中使用 <code>next_header</code> 来获取归档中的文件信息，也就是之前说到的迭代读取内容。该函数可以将目前待读取的文件信息写入到 entry 结构中，以便用户之后进行操作。如 <code>archive_entry_pathname</code> 获取文件名称。实际上 <code>archive_read_data_skip</code> 并不需要调用，这里作为不对数据进行任何处理的标志。如果没有使用数据，在 <code>next_header</code> 中
+libarchive 会自动调用该函数。</p>
+<p>最后调用了 <code>archive_read_free</code> 来释放掉 archive 结构，这也会自动关闭已经打开的数据源。如果你还有其他用途，可以使用 <code>close</code> 关闭打开的数据源，并重新打开新的数据源，防止重复分配释放 archive 以获得更高的性能。另外显式调用 <code>close</code> 有一个好处是你可以获取到错误状态，而 free 中隐式调用 close 则用户无法接收到 close 的状态。</p>
+<p>另外需要注意的是，只有从磁盘上打开的数据源，libarchive 会真正的 close 掉，内存、文件指针以及文件描述符，libarchive 并不会 close 它们，因为这是不属于 libarchive
+的资源，需要调用者自己承担这些资源的释放。但是也不能因为 libarchive 不会释放它们而不调用 close 函数，因为该函数中会释放一些 libarchive 自己申请的一些资源。</p>
+<h3 id="注册自己的函数" class="headerLink">
+    <a href="#%e6%b3%a8%e5%86%8c%e8%87%aa%e5%b7%b1%e7%9a%84%e5%87%bd%e6%95%b0" class="header-mark"></a>注册自己的函数</h3><h4 id="read-write-close-callback" class="headerLink">
+    <a href="#read-write-close-callback" class="header-mark"></a>read / write / close callback</h4><p>libarchive 提供了更低级的 <code>open</code> 函数，该函数接收 3 个回调函数和你定义的数据类型：</p>
+<ul>
+<li>一个打开数据源的 <strong>open</strong> 回调，不过这是个遗留参数，不需要也不应该被使用</li>
+<li>一个 <strong>read</strong> / <strong>write</strong> 的回调函数</li>
+<li>一个 <strong>close</strong> 的回调函数</li>
+</ul>
+<p>因此你可以定制一个如从 HTTP 中读取归档文件的实现。</p>
+<p>回调函数应该遵循基本的 libarchive 约定：</p>
+<ul>
+<li>open 与 close 函数在成功时应该返回 <code>ARCHIVE_OK</code> (0)，而失败时应该返回一个负数。通常来说使用 <code>ARCHIVE_WARN</code> 表示有问题的情况，而 <code>ARCHIVE_FATAL</code> 表示不能恢复或不能重试的问题。</li>
+<li>read 与 write 返回成功读取、写入的字节数，0 表示 EOF，出现错误与上一回调函数一样。read 回调还会返回一个指向读取的数据的指针。</li>
+<li>Libarchive 不在意数据的块大小，在访问下一个块前会完成当前块，因此回调函数中不需要处理这些块。唯一要求时块的大小必须不为 0，因为 0 字节大小表示 EOF。</li>
+</ul>
+<!--listend-->
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="n">ssize_t</span> <span class="nf">myread</span><span class="p">(</span><span class="k">struct</span> <span class="n">archive</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">client_data</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">**</span><span class="n">buff</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">mydata</span> <span class="o">*</span><span class="n">mydata</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">mydata</span> <span class="o">*</span><span class="p">)</span> <span class="n">client_data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="n">buff</span> <span class="o">=</span> <span class="n">mydata</span><span class="o">-&gt;</span><span class="n">buff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">read</span><span class="p">(</span><span class="n">mydata</span><span class="o">-&gt;</span><span class="n">fd</span><span class="p">,</span> <span class="n">mydata</span><span class="o">-&gt;</span><span class="n">buff</span><span class="p">,</span> <span class="mi">1024</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">myclose</span><span class="p">(</span><span class="k">struct</span> <span class="n">archive</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">client_data</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">mydata</span> <span class="o">*</span><span class="n">mydata</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">mydata</span> <span class="o">*</span><span class="p">)</span> <span class="n">client_data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">mydata</span><span class="o">-&gt;</span><span class="n">fd</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">close</span><span class="p">(</span><span class="n">mydata</span><span class="o">-&gt;</span><span class="n">fd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">free</span><span class="p">(</span><span class="n">mydata</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">ARCHIVE_OK</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// in main
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="n">mydata</span> <span class="n">mydata</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">O_RDONLY</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_read_open</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">mydata</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">myread</span><span class="p">,</span> <span class="n">myclose</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="skip-callback" class="headerLink">
+    <a href="#skip-callback" class="header-mark"></a>skip callback</h4><p>Libarhive 提供了和 <code>open</code> 类似的函数 <code>open2</code>，额外提供了 skip 回调函数。一般来说时用不到该回调的，但有时 libarchive 可以利用该回调优化某些格式的读取，快速搜索整个正文条目。当然也必须满足一些必要条件：</p>
+<ul>
+<li>必须返回实际跳过的字节数，如果不能跳过则应该返回一个负数</li>
+<li>可以跳过比请求更少的字节，但不能跳过超过请求的字节数</li>
+<li>只有向前 (正向) 跳过才被允许</li>
+<li>如果未提供 skip 回调或失败，libarchive 将调用 read() 简单地忽略不需要的数据</li>
+</ul>
+<h4 id="seek-callback" class="headerLink">
+    <a href="#seek-callback" class="header-mark"></a>seek callback</h4><p>Libarchive 3.0 支持了 <code>seek</code> 回调，该回调用于读取不适合流式传输的格式，如 7zip 和某些 zip 的变种。</p>
+<h3 id="写入文件" class="headerLink">
+    <a href="#%e5%86%99%e5%85%a5%e6%96%87%e4%bb%b6" class="header-mark"></a>写入文件</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">archive</span> <span class="o">*</span><span class="n">a</span> <span class="o">=</span> <span class="n">archive_write_new</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_write_add_filter_gzip</span><span class="p">(</span><span class="n">a</span><span class="p">);</span> <span class="c1">// gzip compression
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">archive_write_add_format_pax_restricted</span><span class="p">(</span><span class="n">a</span><span class="p">);</span> <span class="c1">// tar format (pax extensions)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// archive_write_add_format_ustar(a); // tar format (POSIX.1-1988)
+</span></span></span><span class="line"><span class="cl"><span class="c1">// archive_write_add_format_gnutar(a); // tar format (GNU extensions)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">archive_write_open_filename</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">outname</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">char</span> <span class="n">buff</span><span class="p">[</span><span class="mi">8192</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="o">*</span><span class="n">filelist</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">stat</span> <span class="n">st</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">stat</span><span class="p">(</span><span class="o">*</span><span class="n">filelist</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">st</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">archive_entry</span> <span class="o">*</span><span class="n">entry</span> <span class="o">=</span> <span class="n">archive_entry_new</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">archive_entry_set_pathname</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="o">*</span><span class="n">filelist</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">archive_entry_set_size</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">st</span><span class="p">.</span><span class="n">st_size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">archive_entry_set_filetype</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">AE_IFREG</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">archive_entry_set_perm</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="mo">0644</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">archive_write_header</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">entry</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="o">*</span><span class="n">filename</span><span class="p">,</span> <span class="n">O_RDONLY</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ssize_t</span> <span class="n">len</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">buff</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buff</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">archive_write_data</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">buff</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">len</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">buff</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buff</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">archive_entry_free</span><span class="p">(</span><span class="n">entry</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">filename</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_write_free</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>将文件加入归档时，每次都会申请一份新的 entry 结构，而在处理下一个文件前会释放掉它。如果为了更高的性能，可以不释放掉该结构，而是采用 <code>archive_entry_clear</code> 来清除掉其中的数据，以安全地复用该结构。</p>
+<p>对于写入归档的 entry 来说，文件的大小、类型和路径是必要属性。如果比较懒也可以使用 <code>archive_entry_copy_stat</code> 从文件的 struct stat 中来拷贝属性，也包括 ACL 与
+xattr。拷贝属性这个函数也可以在 Windows 下使用。</p>
+<h3 id="在磁盘上构造对象" class="headerLink">
+    <a href="#%e5%9c%a8%e7%a3%81%e7%9b%98%e4%b8%8a%e6%9e%84%e9%80%a0%e5%af%b9%e8%b1%a1" class="header-mark"></a>在磁盘上构造对象</h3><p>Libarchive 提供了一个 <code>archive_write_disk</code> 这样的直接在磁盘上构建文件对象的方式，而不是将文件构造在归档中。并且对于如常规文件 (regular)、目录 (directory)、符号链接 (symlink)、硬链接 (hard link) 等不同的磁盘对象都可以正确处理。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">archive</span> <span class="o">*</span><span class="n">a</span> <span class="o">=</span> <span class="n">archive_write_disk_new</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_write_disk_set_options</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">ARCHIVE_EXTRACT_TIME</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">archive_entry</span> <span class="o">*</span><span class="n">entry</span> <span class="o">=</span> <span class="n">archive_entry_new</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_entry_set_pathname</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="s">&#34;my_file.txt&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_entry_set_filetype</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">AE_IFREG</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_entry_set_size</span><span class="p">(</span><span class="n">ae</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_entry_set_mtime</span><span class="p">(</span><span class="n">ae</span><span class="p">,</span> <span class="mi">123456789</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_write_header</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">entry</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_write_data</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s">&#34;abcde&#34;</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_write_finish_entry</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_write_free</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">archive_entry_free</span><span class="p">(</span><span class="n">entry</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果在 entry 中使用 <code>archive_entry_set_size</code> 设置了大小的话，写入磁盘将会强制使用该大小。如果对数据实际的写入 <code>archive_write_data</code> 大小多于 entry 中设置的大小，那会将后面的数据强制截取掉；如果不足 entry 设置的大小的话，那也会填充 0 补齐文件大小。</p>
+<p>虽然可以处理不同的磁盘对象，但是对于符号链接和硬链接还是需要特殊的操作：</p>
+<ul>
+<li>符号链接需要设置文件类型为 <code>AE_IFLNK</code> 并使用 <code>archive_entry_set_symlink</code></li>
+<li>硬链接同样需要使用 <code>archive_entry_set_hardlink</code>。调用了该函数的话，常规文件类型会被忽略；如果设置了大小，那么需要写入文件数据，如果不希望覆盖文件内容则不要设置硬链接大小。</li>
+</ul>
+<h3 id="错误处理" class="headerLink">
+    <a href="#%e9%94%99%e8%af%af%e5%a4%84%e7%90%86" class="header-mark"></a>错误处理</h3><ul>
+<li>
+<p><strong>ARCHIVE_EOF</strong> 只会在 <code>archive_read_data</code> 到达数据结尾时，或
+<code>archive_read_next_header</code> 词条到达归档文件末尾时，被返回。</p>
+</li>
+<li>
+<p><strong>ARCHIVE_OK</strong> 在操作成功时被返回</p>
+</li>
+<li>
+<p><strong>ARCHIVE_WARN</strong> 在操作完成并有些问题时返回。你可以将这个问题报告给用户，<code>archive_error_string</code> 可以获取到对应的字符串信息，而 <code>archive_errno</code> 可以返回关联的系统 errno 值。（并非所有错误都有系统调用引起，因此 archive_errno 并不总是返回有效值）</p>
+</li>
+<li>
+<p><strong>ARCHIVE_FAILED</strong> 在操作失败时返回。通常来说该状态意味着目前的词条无法再进行下一步操作。比如写不支持的归档格式。通常恢复的手段就是操作下一个词条。</p>
+</li>
+<li>
+<p><strong>ARCHIVE_FATAL</strong> 通常在 archive 对象无法使用时返回，典型原因就是 IO 错误或内存分配失败。通常你需要调用 <code>archive_write_free</code> 来释放掉这个对象。</p>
+</li>
+</ul>
+<p>通常一些极端情况下 libarchive 会调用 <code>abort</code> 终止程序，这通常只发生 libarchive 的内部一致性检查检测到自身存在严重错误时才会发生。</p>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 01-30</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span><a class="link-to-mardown" href=/2023/libarchive_development_001/index.md target="_blank" rel="noopener noreferrer">阅读原始文档</a>
+                    </span><span>|&nbsp;<a class="link-to-report" href=https://gitlab.com/GinShio/ginshio.gitlab.io/issues/new?issue[title]=[BUG]%20libarchive+%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%85%A5%E9%97%A8&issue[description]=[POST](https://blog.ginshio.org/2023/libarchive_development_001/)%0A%0A##%20Isseus%0A target="_blank" rel="noopener noreferrer">报告问题</a>
+                    </span></div>
+            <div class="post-info-share">
+                <span><a href="#" onclick="return false;" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.ginshio.org/2023/libarchive_development_001/" data-title="libarchive 介绍与入门" data-hashtags="C,Archive,Library"><i class="fab fa-twitter fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.ginshio.org/2023/libarchive_development_001/" data-hashtag="C"><i class="fab fa-facebook-square fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Linkedin" data-sharer="linkedin" data-url="https://blog.ginshio.org/2023/libarchive_development_001/"><i class="fab fa-linkedin fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://blog.ginshio.org/2023/libarchive_development_001/" data-title="libarchive 介绍与入门" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.ginshio.org/2023/libarchive_development_001/" data-title="libarchive 介绍与入门"><i class="fab fa-hacker-news fa-fw"></i></a><a href="#" onclick="return false;" title="分享到 Line" data-sharer="line" data-url="https://blog.ginshio.org/2023/libarchive_development_001/" data-title="libarchive 介绍与入门"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="#" onclick="return false;" title="分享到 Telegram" data-sharer="telegram" data-url="https://blog.ginshio.org/2023/libarchive_development_001/" data-title="libarchive 介绍与入门" data-web><i class="fab fa-telegram-plane fa-fw"></i></a><a href="#" class="weixin" onclick="return false;" title="分享到 微信" data-sharer="weixin" data-url="https://blog.ginshio.org/2023/libarchive_development_001/" data-title="libarchive 介绍与入门" data-web><i class="fab fa-weixin fa-fw"></i><img src="https://api.oick.cn/qrcode/api.php?size=256&amp;text=https://blog.ginshio.org/2023/libarchive_development_001/" title="libarchive 介绍与入门">
+    </a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/c/">C</a>,&nbsp;<a href="/tags/archive/">Archive</a>,&nbsp;<a href="/tags/library/">Library</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2022/data_strucures_and_algorithm_analysis_008_graph/" class="prev" rel="prev" title="图结构"><i class="fas fa-angle-left fa-fw"></i>图结构</a></div>
+</div>
+<div id="comments"><div id="gitalk" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://github.com/gitalk/gitalk"></a>Gitalk</a>.
+            </noscript></div></article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.102.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div><script>
+                    if('serviceWorker' in navigator) {
+                        navigator.serviceWorker
+                            .register('/sw.min.js', { scope: '/' })
+                            .then(function(registration) {
+                            });
+                
+                        navigator.serviceWorker
+                            .ready
+                            .then(function(registration) {
+                            });
+                    }
+                </script></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2023-01-28T19:09:45+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"libarchive 介绍与入门"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.dd4cfdb9c1bcaa687c9794e0620c478af43dec711c465b0560c274a0c20d6023bc183b8817015eb778ab746927905d6e.js" integrity="sha384-3Uz9ucG8qmh8l5TgYgxHivQ97HEcRlsFYMJ0oMINYCO8GDuIFwFet3irdGknkF1u"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.cd363f7498fd08d5e75d97ca1f2510d87d073b35592ba69016728082f8e5e9db33b432643010810a6e88152c4f650059.js" integrity="sha384-zTY/dJj9CNXnXZfKHyUQ2H0HOzVZK6aQFnKAgvjl6dsztDJkMBCBCm6IFSxPZQBZ"></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-J5NHMZLLDX" async></script><script>
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?9370523af547bac6b97e9c3b1461cd16";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script></div>
+</body>
+
+</html>
