@@ -4,7 +4,7 @@ define rwildcard
 endef
 
 ### VARIABLES
-BEANSRCDIR := $(ORGMODE_DIRECTORY)/cashjournal
+BEANSRCDIR := $(ORGMODE_DIRECTORY)/ledger
 
 decryptobjects := $(call rwildcard,$(BEANSRCDIR),*.beancount)
 encryptobjects :=
@@ -30,7 +30,7 @@ cleanall:
 	@rm -rf $(call rwildcard,$(BEANSRCDIR),*.beancrypt)
 
 $(encryptobjects): %.beancrypt: %.beancount
-	@openssl enc -aes-256-cbc -e -k "$(PASSPHRASE)" -salt -pbkdf2 -iter 100000 -in $< -out $@
+	@openssl enc -aes-256-cbc -e -a -k "$(PASSPHRASE)" -salt -pbkdf2 -iter 100000 -in $< -out $@
 
 $(decryptobjects): %.beancount: %.beancrypt
-	@openssl enc -aes-256-cbc -d -k "$(PASSPHRASE)" -pbkdf2 -iter 100000 -in $< -out $@
+	@openssl enc -aes-256-cbc -d -a -k "$(PASSPHRASE)" -pbkdf2 -iter 100000 -in $< -out $@
