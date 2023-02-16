@@ -23,16 +23,18 @@
 
 #+begin_src C
 #include <stdio.h>
-
-#define print_position(type, n)                 \
-    type n;                                     \
-    printf(#n ": %p\n", &n);
-
+#include <stdlib.h>
+#define __print_position(type, CNT)             \
+    type VAR##CNT;                              \
+    printf("VAR"#CNT " (" #type ")\t: %p\n", &VAR##CNT);
+#define _print_position(type, CNT) __print_position(type, CNT)
+#define print_position(type) _print_position(type, __COUNTER__)
 int main(void) {
-  print_position(int, a);    // a: 0x7ffe84765408
-  print_position(double, b); // b: 0x7ffe84765410
-  print_position(char, c);   // c: 0x7ffe84765407
-  print_position(float, d);  // d: 0x7ffe8476540c
+    print_position(int);    // VAR0 (int)   : 0x7ffe84765470
+    print_position(double); // VAR1 (double): 0x7ffe84765478
+    print_position(char);   // VAR2 (char)  : 0x7ffe8476546f
+    print_position(float);  // VAR3 (float) : 0x7ffe84765474
+    print_position(div_t);  // VAR4 (div_t) : 0x7ffe84765480
 }
 #+end_src
 

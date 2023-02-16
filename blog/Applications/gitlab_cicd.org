@@ -54,34 +54,113 @@ sudo gitlab-runner register \
   --cache-s3-insecure="true"
 
 
+#+end_comment
+
+* 部署
+
+gitlab runner 可以在 [[https://gitlab-runner-downloads.s3.amazonaws.com/latest/index.html][downloads]] 页面中下载你需要的版本，下载安装即可。在 Linux 中
+runner 的配置文件在 =/etc/gitlab-runner/config.toml= 中。
+
+
+** 注册 runner
+
+安装好之后，只需要通过命令注册新的 runner 即可。我常用的 runner 是 docker 和
+shell 模式的。相对的非交互模式更适合脚本快速注册大量 runner。
+
+#+begin_src shell
+sudo gitlab-runner register \
+  --non-interactive \
+  --url "https://gitlab.com" \
+  --registration-token "_enP21Kw5zsaSiYiys6k" \
+  --executor "shell" \
+  --shell "bash" \
+  --description "myself shell runner" \
+  --tag-list "shell,amd64" \
+  --run-untagged="true"
+
 sudo gitlab-runner register \
   --non-interactive \
   --url "https://gitlab.com/" \
-  --registration-token "GR1348941nGv3a8oFtpbgtZiGFXx5" \
+  --registration-token "_enP21Kw5zsaSiYiys6k" \
   --executor "docker" \
   --docker-image alpine:latest \
   --docker-network-mode "host" \
   --docker-volumes /var/lib/gitlab-runner/builds:/builds \
   --docker-volumes /var/lib/gitlab-runner/cache:/cache \
-  --description "gitlab ginshio local docker runner $i" \
-  --tag-list "docker,ginshio,local,amd64" \
-  --run-untagged="true" \
+  --description "myself docker runner $i" \
+  --tag-list "docker,amd64" \
+  --run-untagged="true"
+#+end_src
+
+** 缓存
+
+如果你不配置缓存的话，是没办法下载 CI 产生的结果的，也就是 artifacts。当然
+gitlab-runner 提供了 cahce 接口，即使用 s3 进行缓存，强力推荐 s3 cache 应用
+*MinIO*​。
+
+#+begin_src shell
+minio_volumes=/home/minio
+minio_access_key=YOUR_ACCESS_KEY
+minio_secret_key=YOUR_SECRET_KEY
+#+end_src
+
++ install
+  #+begin_src shell
+sudo apt update -y
+cd /tmp
+curl -O https://dl.minio.io/server/minio/release/linux-amd64/minio
+sudo cp minio /usr/local/bin
+sudo chmod +x /usr/local/bin/minio
+  #+end_src
+
++ require
+  #+begin_src shell
+sudo useradd -r minio -s /sbin/nologin --create-home
+sudo chown minio:minio /usr/local/bin/minio
+sudo mkdir -p /etc/minio
+sudo chown minio:minio -R /etc/minio
+cat <<-EOF |tee -a /etc/default/minio
+MINIO_VOLUMES=\"$minio_volumes\"
+MINIO_OPTS=\"-C /etc/minio --address 0.0.0.0:9000 --console-address :9001\"
+MINIO_ACCESS_KEY=\"$minio_access_key\"
+MINIO_SECRET_KEY=\"$minio_secret_key\"
+EOF
+sudo chown minio:minio /etc/default/minio
+  #+end_src
+
++ systemd
+  #+begin_src shell
+curl -o /etc/systemd/system/minio.service -SL  https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/minio.service
+sudo systemctl daemon-reload && sudo systemctl enable minio --now
+  #+end_src
+
+在面板中配置好 bucket 就可以开始愉快的使用了。
+#+begin_src shell
+sudo gitlab-runner register \
+  --non-interactive \
+  --url "https://gitlab.com" \
+  --registration-token "_enP21Kw5zsaSiYiys6k" \
+  --executor "shell" \
+  --shell "bash" \
+  --description "myself artifact runner" \
+  --tag-list "shell,amd64,artifact" \
+  --run-untagged="true"
   --locked="false" \
   --access-level "not_protected" \
   --cache-type "s3" \
   --cache-shared="true" \
-  --cache-s3-server-address "cache.ginshio.org:6196" \
+  --cache-s3-server-address "cache.example.com:8080" \
   --cache-s3-access-key "eUu1prOD1J6Q1lQh" \
   --cache-s3-secret-key "aLVeAMvA5nrOB8PXPeZUXyssd4sLtX2a" \
   --cache-s3-bucket-name "gitlab-runner" \
   --cache-s3-insecure="true"
+#+end_src
 
-pI11BXwWTG1LudY7
-yUWqSnWo7p8VrbFeUguMUBvqjX99I1za
-#+end_comment
+-----
 
 
 * 流水线 Pipelines
+
 Pipelines 是 CI / CD 的最高级组件，由 Jobs 和 Stages 组成。Jobs 定义了做哪些工作，
 而 Stage 定义了何时做这些 Jobs。
 
@@ -148,6 +227,7 @@ deploy_b:
 #+end_src
 
 ** 资源组 Resource group
+
 #+begin_info
 [[https://gitlab.com/gitlab-org/gitlab/-/issues/15536][Introduced]] in GitLab 12.7.
 #+end_info
@@ -156,6 +236,7 @@ deploy_b:
 可以安全的对应用进行部署。
 
 *** 添加 resource group
+
 首先从一份简单的基础流水线配置开始
 #+begin_src yaml
 build:
@@ -181,6 +262,7 @@ deploy:
 resource group 可以保证构建作业最大程度地使用 runner，也可以保证部署作业的安全。
 
 *** 流程模式 Process mode
+
 #+begin_info
 [[https://gitlab.com/gitlab-org/gitlab/-/issues/202186][Introduced]] in GitLab 14.3.
 [[https://gitlab.com/gitlab-org/gitlab/-/issues/202186][Generally available]] in GitLab 14.4.
@@ -199,6 +281,7 @@ resource group 可以保证构建作业最大程度地使用 runner，也可以�
 当然修改 Process mode 挺麻烦的，需要使用 [[https://docs.gitlab.com/ee/api/resource_groups.html][resource group API]]。
 
 ** 有向无环图
+
 #+begin_info
 [[https://gitlab.com/gitlab-org/gitlab-foss/-/issues/47063][Introduced]] in GitLab 12.2.
 #+end_info
@@ -268,6 +351,7 @@ deploy_b:
 不会进行等待从而快速完成构建。
 
 ** 多项目流水线 Multi-project pipelines
+
 #+begin_info
 [[https://gitlab.com/gitlab-org/gitlab/-/issues/199224][Moved]] to GitLab Free in 12.8.
 #+end_info
@@ -339,6 +423,7 @@ test:
     #+end_src
 
 ** 父子流水线
+
 DAG 流水线上，我们可以明显的将其分为两个部分。因此父子流水线可以将其配置分为多个
 部分，使每个子流水线可以独自维护，也更简单实现。
 
@@ -421,16 +506,17 @@ deploy_b:
     - echo "This job deploys something else."
 #+end_src
 
+-----
+
+
 * Docker build
+
 Docker 19.03 or newer
 
-#+begin_src fish
-set buildx_version 0.8.2
-#+end_src
-
 + download
-  #+begin_src fish
-cd /tmp
+  #+begin_src shell
+buildx_version=0.10.2
+cd $(mktemp -d)
 wget https://github.com/docker/buildx/releases/download/v$buildx_version/buildx-v$buildx_version.linux-amd64
   #+end_src
 
@@ -447,48 +533,4 @@ docker pull docker:latest
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 docker buildx create --use
 docker buildx inspect --bootstrap
-  #+end_src
-
-
-* Caching
-Minio
-
-#+begin_src fish
-set minio_volumes /home/minio
-set minio_access_key YOUR_ACCESS_KEY
-set minio_secret_key YOUR_SECRET_KEY
-#+end_src
-
-+ install
-  #+begin_src fish
-sudo apt update -y
-cd /tmp
-curl -O https://dl.minio.io/server/minio/release/linux-amd64/minio
-sudo cp minio /usr/local/bin
-sudo chmod +x /usr/local/bin/minio
-  #+end_src
-
-+ require
-  #+begin_src fish
-sudo useradd -r minio -s /sbin/nologin --create-home
-sudo chown minio:minio /usr/local/bin/minio
-sudo mkdir -p /etc/minio
-sudo chown minio:minio -R /etc/minio
-bash -c "cat <<-EOF |tee -a /etc/default/minio
-MINIO_VOLUMES=\"$minio_volumes\"
-MINIO_OPTS=\"-C /etc/minio --address 0.0.0.0:9000\"
-MINIO_ACCESS_KEY=\"$minio_access_key\"
-MINIO_SECRET_KEY=\"$minio_secret_key\"
-EOF
-"
-sudo chown minio:minio /etc/default/minio
-  #+end_src
-
-+ systemd
-  #+begin_src fish
-cd /tmp
-curl -O https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/minio.service
-sudo cp minio.service /etc/systemd/system
-sudo systemctl daemon-reload
-sudo systemctl enable minio --now
   #+end_src
