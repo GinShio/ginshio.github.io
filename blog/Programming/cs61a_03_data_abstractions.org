@@ -1,14 +1,14 @@
 #+hugo_categories: Programming
 #+hugo_tags: Note CS61A SICP
-#+hugo_draft: true
+#+hugo_draft: false
 #+hugo_locale: zh
-#+hugo_lastmod: 2022-12-18T14:41:28+08:00
+#+hugo_lastmod: 2023-02-17T23:44:19+08:00
 #+hugo_auto_set_lastmod: nil
 #+hugo_front_matter_key_replace: author>authors
 #+hugo_custom_front_matter: :series ["CS61A Note"] :series_weight 3
 #+title: 数据抽象
 #+author: GinShio
-#+date: 2022-12-18T14:41:28+08:00
+#+date: 2023-02-12T14:41:28+08:00
 #+email: ginshio78@gmail.com
 #+description: GinShio | CS61A Study Notes - Sequences and Containers
 #+keywords: Programming Note CS61A SICP
@@ -205,7 +205,7 @@ Vector 同样是异构结构
 有时我们需要对基本数据进行更高层次的抽象，处理与数据相关的各种问题。因此数据抽象
 就显得尤为重要了。
 
-** 示例：有理数表示
+** 抽象屏障
 
 比方说，要实现一个有理数的计算，首先要有对有理数这一数据的抽象。
  + ~(make-rat n d)~​，构造一个分子为 n 分母为 d 的有理数
@@ -266,9 +266,132 @@ Vector 同样是异构结构
 (define denom cdr)
 #+end_src
 
-** 抽象屏障
-
 比如示例中的有理数，使用了 ~make-rat~ 等方法对有理数进行构造，而使用 ~add-rat~ 等方
 法对有理数进行操作，而这些操作使用 ~make-rat~​ 进行构造。也就是说，从上层看没有任何
 与 pair 相关的操作，使用时并不需要关心这些有理数是如何构建、使用的，因此这种方式
 也被称作 *抽象屏障*​。
+
+** 程序接口
+
+一般来说，可以将 ​*数据*​ 定义为一组适当的选择函数与构造函数，以及为这些过程合法表示
+而指定的一组特定规则。数据抽象在复合数据的使用上是十分重要的，可以利用数据抽象的
+理论设计出不会被实现细节纠缠的程序。另一个重要原则就是​*程序接口*​。
+
+如计算一棵树中，值为奇数的结点的平方和。
+#+begin_src scheme
+(define (sum-odd-squares tree)
+  (cond ((null? tree) 0)
+        ((not (pair? tree)) (if (odd? tree) (square tree) 0))
+        (else (+ (sum-odd-squares (car tree))
+                 (sum-odd-squares (cdr tree))))))
+#+end_src
+
+实际上这与级联处理中处理信号的方式相似，是从一个​_枚举器_​(enumerate) 开始，它产生出
+所有给定树的树叶的信号；接下来信号经过​_过滤器_​(filter)，将不是奇数的叶结点全部去除；
+之后信号会进入一个​_转换器_​(converter) 对其进行结果​_映射_​(map)；最终信号被输入到​_累
+加器_​(accumulator) 将所有元素组合起来。
+
+不过 ~sum-odd-squares~ 并没有展现出这种信号流结构，其中一部分 enumerate 是由 ~null?~
+和 ~pair?~ 实现的，而另一部分是由树形递归实现的，这种结构并不如信号流清晰。
+
+首先最简单的是 [[Mapping-Reduction]] 以及 filter，这是 scheme 原本就提供的。我们只需
+要实现对应的枚举操作即可
+#+begin_src scheme
+(define (enumerate tree)
+  (cond ((null? tree) '())
+        ((not (pair? tree)) (list tree))
+        (else (append (enumerate (car tree))
+                      (enumerate (cdr tree))))))
+#+end_src
+
+最终可以用这些操作组合起来，实现我们需要的求和函数。可以看到组合而来的函数既简单
+又清晰
+#+begin_src scheme
+(define (sum-odd-squares tree)
+  (reduce + 0
+          (map square
+               (filter odd? (enumerate tree)))))
+#+end_src
+
+** 多重表示
+
+有时一个抽象数据可以有多种表示方法，如复数，就可以有直角坐标形式 (实部和虚部) 或
+者极坐标形式 (模和幅角)。
+
+如果同时使用多种表示，那么就需要一个标志来确定当前数据是被哪种形式所表示的。另外，
+由选择函数和构造函数形成的抽象屏障，可以将选择具体形式的时间向后拖延，并保持系统
+设计的灵活性。
+
+对此，我们只需提供从对象中提取类型标志以及对应的谓词，就可以方便分辨出现在到底使
+用的是哪种形式的抽象。
+#+begin_src scheme
+(define (type-tag datum)
+  (if (pair? datum)
+      (car datum)
+      (error "Bad tagged datum -- TYPE_TAG" datum)))
+(define (contents datum)
+  (if (pair? datum)
+      (cdr datum)
+      (error "Bad tagged datum -- CONTENTS" datum)))
+(define (rectangular? complex)
+  (eq? (type-tag complex) 'rectangular))
+(define (polar? complex)
+  (eq? (type-tag complex) 'polar))
+#+end_src
+
+这样我们可以很轻松地在系统中对复数多重表示进行不同的实现。
+#+begin_src scheme
+(define (real-part complex)
+  (cond ((rectangular? complex) (real-part-rectangular (contents complex)))
+        ((polar? complex) (real-part-polar (contents complex)))
+        (else (error "Unknow type -- REAL-PART" complex))))
+(define (real-part-rectangular complex) (car complex))
+(define (real-part-polar complex)
+  (* (mangnitude-polar complex) (cos (angle-polar complex))))
+(define (mangnitude-polar complex) (car complex))
+(define (angle-polar complex) (cdr complex))
+#+end_src
+
+如果用 C++ 实现，可以用泛型的方式
+#+begin_src c++
+template <Form f> auto real_part(Complex<f> const&) -> double {
+    static_assert(false, "Unknow type -- REAL-PART");
+}
+template <> auto real_part(Complex<Form::Rectangular> const& z) -> double {
+    return ::std::get<0>(z);
+}
+template <> auto real_part(Complex<Form::Polar> const& z) -> double {
+    return ::std::get<0>(z) * ::std::cos(::std::get<1>(z));
+}
+#+end_src
+
+显然，使用泛型实现的 ~real_part~ 比 scheme 中的 ~real_part~ 要清晰的多。在 scheme 中
+我们实现了基于形式的派发，很明显接口中需要知道所有已知的形式；而 C++ 中，完全可
+以通过类型区分形式，即​*基于类型*​的派发。但是在 scheme 中，这是不现实的，需要手动测
+试传入接口的类型，并且保证每个形式的实现不会重名。而 C++ 中使用泛型的缺点就是，
+类型系统不认为这两个形式的复数是同一种类型，也就是说如果想用容器来存储复数类型的
+数据是不可能的。
+
+因此在 scheme 中，以​*数据导向*​的程序设计方法进一步将系统模块化。好的方法是做一个类
+似注册的做法，用类似 get / set 的方法将每个模块的函数注册到表中。
+
+|-------------+-----------------+-----------------------|
+| 操作 / 类型 | Polar           | Rectangular           |
+|-------------+-----------------+-----------------------|
+| real-part   | real-part-polar | real-part-rectangular |
+| imag-part   | imag-part-polar | imag-part-rectangular |
+| magnitude   | magnitude-polar | magnitude-rectangular |
+| angle       | angle-polar     | angle-rectangular     |
+
+这样只需要在对应模块中进行操作，这样不但不会造成名称污染，还方便对代码进行扩展。
+
+#+begin_src scheme
+(define (apply-generic op . args)
+  (let* ((type-args (map type-tag args))
+         (proc (get op type-tags)))
+    (if proc
+        (apply proc (map contents args))
+        (error "No method for these types -- APPLY-GENERIC"
+               (list op type-tags)))))
+(define (real-part complex) (apply-generic 'real-part complex))
+#+end_src
