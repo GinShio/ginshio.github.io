@@ -1,0 +1,388 @@
+# 数据抽象
+
+
+## 容器 {#容器}
+
+
+### Lists {#lists}
+
+在 scheme 中一类最基础的异构数据结构即 **list**
+
+```scheme
+(list 1 2 3 "str")
+'(1 2 3 "str")
+```
+
+当然 list 可以看作是个二元组 **pair**，也有称作 dotlist
+
+```scheme
+(cons 1 2)            ;; '(1 . 2)
+(cons 1 '(2))         ;; '(1 2)
+(cons* 1 2 3 4)       ;; '(1 2 3 . 4)  '(1 . (2 . (3 . 4)))
+(cons* 1 2 '(3 4))    ;; '(1 2 3 4)
+'(1 . ())             ;; '(1)
+'(1 . (2 . (3 . ()))) ;; '(1 2 3)
+'(1 . (2 3))          ;; '(1 2 3)
+'((1 2) . (3 4))      ;; '((1 2) 3 4)
+```
+
+访问 list 的首个元素使用 **car**，而获取尾元素使用 **cdr**
+
+```scheme
+(car '(1 2 3)) ;; 1
+(cdr '(1 2 3)) ;; (2 3)
+(car '(1))     ;; 1
+(car '(1))     ;; ()
+```
+
+获取整个 list 的长度则是使用 **length** 方法
+
+```scheme
+(length '())          ;; 0
+(length '(1 2))       ;; 2
+(length '(1 . (2 3))) ;; 3
+```
+
+随机访问 list 中的元素
+
+```scheme
+(list-ref '(1 2 3 4 5) 3)    ;; 4
+(list-ref '(1 . (a . ())) 1) ;; a
+```
+
+更多 list 的操作可以翻阅 [Lists](https://groups.csail.mit.edu/mac/ftpdir/scheme-7.4/doc-html/scheme_8.html)
+
+
+### Mapping-Reduction {#mapping-reduction}
+
+Google 大名鼎鼎的 MapReduce 就是来源于此。Mapping / Reduction 是一类高阶函数，其作用是抽象针对 List 的不同操作。
+
+-   Map: 对容器中的每个元素进行一个相同的操作
+-   Reduce: 根据一个相同的规则对容器中的元素进行规约
+
+
+#### Mapping {#mapping}
+
+-   `map` 无副作用的对 lists 进行从左至右计算，但是对每个元素的操作顺序是未指定的
+    ```scheme
+    (map (lambda (n) (expt n n)) '(1 2 3 4)) ;; (1 4 27 256)
+    (map + '(1 2 3) '(4 5 6) '(7 8 9))   ;; (12 15 18)
+    ```
+-   `map*` 将初值附加在结果之后的 map
+    ```scheme
+    (map* '() + '(1 2 3) '(4 5 6)) ;; (5 7 9)
+    (map* '(1 2 3) + '(4 5 6))     ;; (4 5 6 1 2 3)
+    ```
+
+-   `for-each` 是可以带有副作用的 map，因为保证每个元素按顺序执行
+    ```scheme
+    (let ((v '((1 2) (3 4) (5 6))))
+      (for-each (lambda (x)
+    	      (set-cdr! x (list (+ (car x) (cadr x))
+    				(* (car x) (cadr x)))))
+    	    v)
+      v) ;; ((1 3 2) (3 7 12) (5 11 30))
+    ```
+
+
+#### Reduction {#reduction}
+
+规约通常有一个初始值，并将集合中的每个元素与初始值进行一定操作
+
+-   `reduce` 左结合地进行规约操作，仅在 list 为空时使用初始值
+    ```scheme
+    (reduce + 0 '(1 2 3 4))      ;; 10
+    (reduce + 0 '(foo))          ;; foo
+    (reduce + 0 '())             ;; 0
+    (reduce list '() '(1 2 3 4)) ;; (4 (3 (2 1)))
+    ```
+
+-   `reduce-right` 右结合地进行规约操作，仅在 list 为空时使用初始值
+    ```scheme
+    (reduce-right + 0 '(1 2 3 4))      ;; 10
+    (reduce-right + 0 '(foo))          ;; foo
+    (reduce-right + 0 '())             ;; 0
+    (reduce-right list '() '(1 2 3 4)) ;; (1 (2 (3 4)))
+    ```
+
+-   `fold-left` 左结合地进行规约操作，且总是使用初始值
+    ```scheme
+    (fold-left + 0 '(1 2 3 4))      ;; 10
+    ;; (fold-left + 0 '(foo))          ;; Error: is not the correct type
+    (fold-left + 0 '())             ;; 0
+    (fold-left list '() '(1 2 3 4)) ;; ((((() 1) 2) 3) 4)
+    ```
+
+-   `fold-right` 右结合地进行规约操作，且总是使用初始值
+    ```scheme
+    (fold-right + 0 '(1 2 3 4))      ;; 10
+    ;; (fold-right + 0 '(foo))          ;; Error: is not the correct type
+    (fold-right + 0 '())             ;; 0
+    (fold-right list '() '(1 2 3 4)) ;; (1 (2 (3 (4 ()))))
+    ```
+
+-   `there-exists?` 类似其他语言中的 **any?**
+    ```scheme
+    (define (any? set predicate)
+      (fold-left (lambda (acc v) (or acc (predicate v))) #f set))
+    (there-exists? '(1 2 3) (lambda (v) (= 0 (remainder v 2)))) ;; #t
+    (there-exists? '(1 3 5) (lambda (v) (= 0 (remainder v 2)))) ;; #f
+    ```
+
+-   `for-all?` 类似于其他语言中的 **all?**
+    ```scheme
+    (define (all? set predicate)
+      (fold-left (lambda (acc v) (and acc (predicate v))) #t set))
+    (for-all? '(1 2 3) (lambda (v) (= 1 (remainder v 2)))) ;; #f
+    (for-all? '(1 3 5) (lambda (v) (= 1 (remainder v 2)))) ;; #t
+    ```
+
+
+### Vector {#vector}
+
+Vector 同样是异构结构
+
+```scheme
+(vector 1 2 3 "str")                        ;; #(1 2 3 "str")
+(make-vector 3 1)                           ;; #(1 1 1)
+(make-vector 3 '(1 2))                      ;; #((1 2) (1 2) (1 2))
+'#(1 #\A "str")                             ;; #(1 #\A "str")
+(make-initialized-vector 5 -)               ;; #(0 -1 -2 -3 -4)
+(make-initialized-vector 5 (lambda (x) (* x x))) ;; #(0 1 4 9 16)
+```
+
+当然 list 和 vector 是可以互相转换的
+
+```scheme
+(vector->list '#(1 2 3)) ;; (1 2 3)
+(list->vector '(1 2 3))  ;; #(1 2 3)
+```
+
+根据 MIT-scheme 的说法，vector 性能更好，且占用的内存更少。不过其[操作方法](https://groups.csail.mit.edu/mac/ftpdir/scheme-7.4/doc-html/scheme_9.html)也更少。
+
+
+### Bit Strings {#bit-strings}
+
+在某些语言中 BitStrings 也被称作 bitmap (位图)。
+
+```scheme
+'#*11001100             ;; #*11001100
+(make-bit-string 7 #t)  ;; #*1111111
+(bit-string-allocate 7) ;; #*0000000
+```
+
+通常位图都支持按位运算
+
+```scheme
+(bit-string-not  #*0011)        ;; #*1100
+(bit-string-and  #*0011 #*1010) ;; #*0010
+(bit-string-andc #*0011 #*1010) ;; #*0001 (and #*0011 (not #*1010))
+(bit-string-or   #*0011 #*1010) ;; #*1011
+(bit-string-xor  #*0011 #*1010) ;; #*1001
+```
+
+常见的修改操作也是支持的
+
+```scheme
+(let ((x #*1010)) (bit-string-set! x 2) x)   ;; #*1110
+(let ((x #*1010)) (bit-string-clear! x 1) x) ;; #*1000
+(let ((x #*1010)) (bit-string-fill! x #f) x) ;; #*0000
+(let ((x #*1010)) (bit-string-move! x #*0011) x) ;; #*0000
+```
+
+由于 lisp 中整型是无上限的，因此可以将任意大的整型与位图进行互转换
+
+```scheme
+(unsigned-integer->bit-string 16  10000) ;; #*0010011100010000
+(signed-integer->bit-string   16 -10000) ;; #*1101100011110000
+(bit-string->unsigned-integer #*0010011100010000) ;;  10000
+(bit-string->signed-integer   #*1101100011110000) ;; -10000
+```
+
+---
+
+
+## 数据抽象 {#数据抽象}
+
+有时我们需要对基本数据进行更高层次的抽象，处理与数据相关的各种问题。因此数据抽象就显得尤为重要了。
+
+
+### 抽象屏障 {#抽象屏障}
+
+比方说，要实现一个有理数的计算，首先要有对有理数这一数据的抽象。
+
+-   `(make-rat n d)`，构造一个分子为 n 分母为 d 的有理数
+-   `(numer x)` 获取有理数的分子
+-   `(denom x)` 获取有理数的分母
+
+现在我们可以轻松实现有理数的相关运算
+
+-   `(add-rat x y)` 两个有理数相加
+    \\[\frac{n\_{1}}{d\_{1}}+\frac{n\_{2}}{d\_{2}}=\frac{n\_{1}d\_{2}+n\_{2}d\_{1}}{d\_{1}d\_{2}}\\]
+    ```scheme
+    (define (add-rat x y)
+      (make-rat (+ (* (numer x) (denom y))
+    	       (* (numer y) (denom x)))
+    	    (* (denom x) (denom y))))
+    ```
+
+-   `(sub-rat x y)` 两个有理数相减
+    \\[\frac{n\_{1}}{d\_{1}}-\frac{n\_{2}}{d\_{2}}=\frac{n\_{1}d\_{2}-n\_{2}d\_{1}}{d\_{1}d\_{2}}\\]
+    ```scheme
+    (define (sub-rat x y)
+      (make-rat (- (* (numer x) (denom y))
+    	       (* (numer y) (denom x)))
+    	    (* (denom x) (denom y))))
+    ```
+
+-   `(mul-rat x y)` 两有理数相乘
+    \\[\frac{n\_{1}}{d\_{1}}\cdot\frac{n\_{2}}{d\_{2}}=\frac{n\_{1}n\_{2}}{d\_{1}d\_{2}}\\]
+    ```scheme
+    (define (mul-rat x y)
+      (make-rat (* (numer x) (numer y))
+    	    (* (denom x) (denom y))))
+    ```
+
+-   `(div-rat x y)` 两有理数相除
+    \\[\frac{n\_{1}}{d\_{1}}\div\frac{n\_{2}}{d\_{2}}=\frac{n\_{1}d\_{2}}{d\_{1}n\_{2}}\\]
+    ```scheme
+    (define (div-rat x y)
+      (make-rat (* (numer x) (denom y))
+    	    (* (denom x) (numer y))))
+    ```
+
+-   `(eq-rat x y)` 判断两有理数是否相等
+    \\[\frac{n\_{1}}{d\_{1}}=\frac{n\_{2}}{d\_{2}},\ \texttt{if}\\
+       n\_{1}d\_{2}=n\_{2}d\_{1}\\]
+    ```scheme
+    (define (eq-rat? x y)
+      (= (* (numer x) (denom y))
+         (* (numer y) (denom x))))
+    ```
+
+现在只抽象了方法，甚至还没考虑如何实现有理数，但已经将各个有理数的使用方法完成了。
+
+构造有理数可以选用 pair 进行构建
+
+```scheme
+(define make-rat cons)
+(define numer car)
+(define denom cdr)
+```
+
+比如示例中的有理数，使用了 `make-rat` 等方法对有理数进行构造，而使用 `add-rat` 等方法对有理数进行操作，而这些操作使用 `make-rat` 进行构造。也就是说，从上层看没有任何与 pair 相关的操作，使用时并不需要关心这些有理数是如何构建、使用的，因此这种方式也被称作 **抽象屏障**。
+
+
+### 程序接口 {#程序接口}
+
+一般来说，可以将 **数据** 定义为一组适当的选择函数与构造函数，以及为这些过程合法表示而指定的一组特定规则。数据抽象在复合数据的使用上是十分重要的，可以利用数据抽象的理论设计出不会被实现细节纠缠的程序。另一个重要原则就是**程序接口**。
+
+如计算一棵树中，值为奇数的结点的平方和。
+
+```scheme
+(define (sum-odd-squares tree)
+  (cond ((null? tree) 0)
+	((not (pair? tree)) (if (odd? tree) (square tree) 0))
+	(else (+ (sum-odd-squares (car tree))
+		 (sum-odd-squares (cdr tree))))))
+```
+
+实际上这与级联处理中处理信号的方式相似，是从一个<span class="underline">枚举器</span>(enumerate) 开始，它产生出所有给定树的树叶的信号；接下来信号经过<span class="underline">过滤器</span>(filter)，将不是奇数的叶结点全部去除；之后信号会进入一个<span class="underline">转换器</span>(converter) 对其进行结果<span class="underline">映射</span>(map)；最终信号被输入到<span class="underline">累加器</span>(accumulator) 将所有元素组合起来。
+
+不过 `sum-odd-squares` 并没有展现出这种信号流结构，其中一部分 enumerate 是由 `null?`
+和 `pair?` 实现的，而另一部分是由树形递归实现的，这种结构并不如信号流清晰。
+
+首先最简单的是 [Mapping-Reduction](#mapping-reduction) 以及 filter，这是 scheme 原本就提供的。我们只需要实现对应的枚举操作即可
+
+```scheme
+(define (enumerate tree)
+  (cond ((null? tree) '())
+	((not (pair? tree)) (list tree))
+	(else (append (enumerate (car tree))
+		      (enumerate (cdr tree))))))
+```
+
+最终可以用这些操作组合起来，实现我们需要的求和函数。可以看到组合而来的函数既简单又清晰
+
+```scheme
+(define (sum-odd-squares tree)
+  (reduce + 0
+	  (map square
+	       (filter odd? (enumerate tree)))))
+```
+
+
+### 多重表示 {#多重表示}
+
+有时一个抽象数据可以有多种表示方法，如复数，就可以有直角坐标形式 (实部和虚部) 或者极坐标形式 (模和幅角)。
+
+如果同时使用多种表示，那么就需要一个标志来确定当前数据是被哪种形式所表示的。另外，由选择函数和构造函数形成的抽象屏障，可以将选择具体形式的时间向后拖延，并保持系统设计的灵活性。
+
+对此，我们只需提供从对象中提取类型标志以及对应的谓词，就可以方便分辨出现在到底使用的是哪种形式的抽象。
+
+```scheme
+(define (type-tag datum)
+  (if (pair? datum)
+      (car datum)
+      (error "Bad tagged datum -- TYPE_TAG" datum)))
+(define (contents datum)
+  (if (pair? datum)
+      (cdr datum)
+      (error "Bad tagged datum -- CONTENTS" datum)))
+(define (rectangular? complex)
+  (eq? (type-tag complex) 'rectangular))
+(define (polar? complex)
+  (eq? (type-tag complex) 'polar))
+```
+
+这样我们可以很轻松地在系统中对复数多重表示进行不同的实现。
+
+```scheme
+(define (real-part complex)
+  (cond ((rectangular? complex) (real-part-rectangular (contents complex)))
+	((polar? complex) (real-part-polar (contents complex)))
+	(else (error "Unknow type -- REAL-PART" complex))))
+(define (real-part-rectangular complex) (car complex))
+(define (real-part-polar complex)
+  (* (mangnitude-polar complex) (cos (angle-polar complex))))
+(define (mangnitude-polar complex) (car complex))
+(define (angle-polar complex) (cdr complex))
+```
+
+如果用 C++ 实现，可以用泛型的方式
+
+```c++
+template <Form f> auto real_part(Complex<f> const&) -> double {
+    static_assert(false, "Unknow type -- REAL-PART");
+}
+template <> auto real_part(Complex<Form::Rectangular> const& z) -> double {
+    return ::std::get<0>(z);
+}
+template <> auto real_part(Complex<Form::Polar> const& z) -> double {
+    return ::std::get<0>(z) * ::std::cos(::std::get<1>(z));
+}
+```
+
+显然，使用泛型实现的 `real_part` 比 scheme 中的 `real_part` 要清晰的多。在 scheme 中我们实现了基于形式的派发，很明显接口中需要知道所有已知的形式；而 C++ 中，完全可以通过类型区分形式，即**基于类型**的派发。但是在 scheme 中，这是不现实的，需要手动测试传入接口的类型，并且保证每个形式的实现不会重名。而 C++ 中使用泛型的缺点就是，类型系统不认为这两个形式的复数是同一种类型，也就是说如果想用容器来存储复数类型的数据是不可能的。
+
+因此在 scheme 中，以**数据导向**的程序设计方法进一步将系统模块化。好的方法是做一个类似注册的做法，用类似 get / set 的方法将每个模块的函数注册到表中。
+
+| 操作 / 类型 | Polar           | Rectangular           |
+|---------|-----------------|-----------------------|
+| real-part | real-part-polar | real-part-rectangular |
+| imag-part | imag-part-polar | imag-part-rectangular |
+| magnitude | magnitude-polar | magnitude-rectangular |
+| angle     | angle-polar     | angle-rectangular     |
+
+这样只需要在对应模块中进行操作，这样不但不会造成名称污染，还方便对代码进行扩展。
+
+```scheme
+(define (apply-generic op . args)
+  (let* ((type-args (map type-tag args))
+	 (proc (get op type-tags)))
+    (if proc
+	(apply proc (map contents args))
+	(error "No method for these types -- APPLY-GENERIC"
+	       (list op type-tags)))))
+(define (real-part complex) (apply-generic 'real-part complex))
+```

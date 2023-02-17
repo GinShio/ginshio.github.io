@@ -204,13 +204,13 @@ Unix 世界中，<code>EDITOR</code> 往往是 <code>Vi</code> 或 <code>Vim</co
 <figure><img src="/images/wingit-configuring-eol.png" width="40%"/>
     </figure>
 
-<p>这是重中之重，也是经常出问题的地方。个人推建设置为 git 不管换行符 (<code>checkout as-is, commit as-is</code>)，由自己根据项目要求手动关理换行符。可以用
+<p>这是重中之重，也是经常出问题的地方。个人推建设置为 git 不管换行符 (<code>checkout as-is, commit as-is</code>)，由自己根据项目要求手动管理换行符。可以用
 <code>core.autocrlf=false</code> 来指定这种方式。</p>
 <p>其中，<code>as-is</code> 的意思是<strong>原本是什么样就是什么样，Git 不会转换换行符</strong>。以下这两种方式是最容易出问题的，当原本的换行符被替换时，整个文件将发生冲突。</p>
 <ul>
 <li><strong>Checkout Windows-style, commit Unix-style:</strong> 拉取时转换为 Windows 换行符，和用户本地一致，提交时自动转换为 Unix 风格换行符。可以用
 <code>core.autocrlf=true</code> 来指定这种方式。</li>
-<li><strong>Checkout as-is, commit Unix-style:</strong> 拉取时包持不变，提交时全部转换为 Unix
+<li><strong>Checkout as-is, commit Unix-style:</strong> 拉取时保持不变，提交时全部转换为 Unix
 风格换行符。可以用 <code>core.autocrlf=input</code> 来指定这种方式。</li>
 </ul>
 </li>

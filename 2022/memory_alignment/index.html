@@ -37,7 +37,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/memory_alignment\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "C\u002b\u002b, GLSLang, Memory","wordcount":  7840 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "C\u002b\u002b, GLSLang, Memory","wordcount":  7865 ,
         "url": "https:\/\/blog.ginshio.org\/2022\/memory_alignment\/","datePublished": "2022-09-03T17:41:38+08:00","dateModified": "2022-09-05T04:51:57+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -162,7 +162,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programming/"><i class="far fa-folder fa-fw"></i>Programming</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="09-03">09-03</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="09-05">09-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7840 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="09-03">09-03</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="09-05">09-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7865 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 16 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -225,19 +225,23 @@
 </span><span class="lnt">10
 </span><span class="lnt">11
 </span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="cp">#define print_position(type, n)                 \
-</span></span></span><span class="line"><span class="cl"><span class="cp">    type n;                                     \
-</span></span></span><span class="line"><span class="cl"><span class="cp">    printf(#n &#34;: %p\n&#34;, &amp;n);
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="n">print_position</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="n">a</span><span class="p">);</span>    <span class="c1">// a: 0x7ffe84765408
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">print_position</span><span class="p">(</span><span class="kt">double</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span> <span class="c1">// b: 0x7ffe84765410
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">print_position</span><span class="p">(</span><span class="kt">char</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>   <span class="c1">// c: 0x7ffe84765407
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">print_position</span><span class="p">(</span><span class="kt">float</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>  <span class="c1">// d: 0x7ffe8476540c
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define __print_position(type, CNT)             \
+</span></span></span><span class="line"><span class="cl"><span class="cp">    type VAR##CNT;                              \
+</span></span></span><span class="line"><span class="cl"><span class="cp">    printf(&#34;VAR&#34;#CNT &#34; (&#34; #type &#34;)\t: %p\n&#34;, &amp;VAR##CNT);
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define _print_position(type, CNT) __print_position(type, CNT)
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define print_position(type) _print_position(type, __COUNTER__)
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print_position</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>    <span class="c1">// VAR0 (int)   : 0x7ffe84765470
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">print_position</span><span class="p">(</span><span class="kt">double</span><span class="p">);</span> <span class="c1">// VAR1 (double): 0x7ffe84765478
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">print_position</span><span class="p">(</span><span class="kt">char</span><span class="p">);</span>   <span class="c1">// VAR2 (char)  : 0x7ffe8476546f
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">print_position</span><span class="p">(</span><span class="kt">float</span><span class="p">);</span>  <span class="c1">// VAR3 (float) : 0x7ffe84765474
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">print_position</span><span class="p">(</span><span class="n">div_t</span><span class="p">);</span>  <span class="c1">// VAR4 (div_t) : 0x7ffe84765480
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
