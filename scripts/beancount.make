@@ -14,11 +14,6 @@ ifeq ($(strip $(decryptobjects)),)
 else
 	encryptobjects := $(patsubst %.beancount,%.beancrypt,$(decryptobjects))
 endif
-ifndef PASSPHRASE
-	ifneq ($(EXECTARGET),CLEANALL)
-		$(error "PASSPHRASE NOT DEFINED")
-	endif
-endif
 
 ### TARGETS
 .PHONY: encrypt decrypt cleanall
@@ -30,7 +25,7 @@ cleanall:
 	@rm -rf $(call rwildcard,$(BEANSRCDIR),*.beancrypt)
 
 $(encryptobjects): %.beancrypt: %.beancount
-	@openssl enc -aes-256-cbc -e -a -k "$(PASSPHRASE)" -salt -pbkdf2 -iter 100000 -in $< -out $@
+	@openssl enc -aes-256-cbc -e -a -kfile $(ORGMODE_DIRECTORY)/.kfile -salt -pbkdf2 -iter 100000 -in $< -out $@
 
 $(decryptobjects): %.beancount: %.beancrypt
-	@openssl enc -aes-256-cbc -d -a -k "$(PASSPHRASE)" -pbkdf2 -iter 100000 -in $< -out $@
+	@openssl enc -aes-256-cbc -d -a -kfile $(ORGMODE_DIRECTORY)/.kfile -pbkdf2 -iter 100000 -in $< -out $@
