@@ -57,7 +57,7 @@ DoIt 主题增加了许多新的功能与配置项，查看[变更日志](https:
 * 一些美观的 **CSS 动画**
 * 易用和自动展开的**文章目录**
 * 支持更多的**社交链接**、**网站分享**和**评论系统**
-* 支持基于 [Lunr.js](https://lunrjs.com/) 或 [algolia](https://www.algolia.com/) 或 [Fuse.js](https://fusejs.io/) 的**搜索**
+* 支持基于 [algolia](https://www.algolia.com/) 或 [Fuse.js](https://fusejs.io/) 的**搜索**
 * 一键**复制代码**到剪贴板
 * 支持基于 **[Font Awesome](https://fontawesome.com/) 图标**的扩展 Markdown 语法
 * 支持**上标注释**的扩展 Markdown 语法
@@ -126,7 +126,7 @@ DoIt 主题增加了许多新的功能与配置项，查看[变更日志](https:
 
 ### 扩展功能
 
-* 支持基于 [Lunr.js](https://lunrjs.com/) 或 [algolia](https://www.algolia.com/) 或 [Fuse.js](https://fusejs.io/) 的**搜索**
+* 支持基于 [algolia](https://www.algolia.com/) 或 [Fuse.js](https://fusejs.io/) 的**搜索**
 * 支持 **Twemoji**
 * 支持**代码高亮**
 * 一键**复制代码**到剪贴板
@@ -147,6 +147,7 @@ DoIt 主题增加了许多新的功能与配置项，查看[变更日志](https:
 * 支持基于 [TypeIt](https://typeitjs.com/) 的**打字动画** shortcode
 * 支持基于原生CSS的**滚动动画**
 * 支持基于 [cookieconsent](https://github.com/osano/cookieconsent) 的 **Cookie 许可横幅**
+* 支持本地**缓存远程图床图片**
 * ...
 
 ## [文档](https://hugodoit.pages.dev/zh-cn/categories/documentation/)
@@ -196,7 +197,6 @@ DoIt 主题中用到了以下项目，感谢它们的作者：
 * [Simple Icons](https://github.com/simple-icons/simple-icons)
 * [Animate.css](https://daneden.github.io/animate.css/)
 * [autocomplete.js](https://github.com/algolia/autocomplete.js)
-* [Lunr.js](https://lunrjs.com/)
 * [algoliasearch](https://github.com/algolia/algoliasearch-client-javascript)
 * [Fuse.js](https://fusejs.io/)
 * [object-fit-images](https://github.com/fregante/object-fit-images)

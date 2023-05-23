@@ -197,7 +197,7 @@ hugo
 ```toml
 [params]
   # {{< version 0.2.0 changed >}} DoIt 主题版本
-  version = "0.2.X"
+  version = "0.3.X"
   # 网站名称
   title = "我的全新 Hugo 网站"
   # 网站描述
@@ -217,6 +217,8 @@ hugo
   images = ["/logo.png"]
   # {{< version 0.2.11 >}} 开启 PWA 支持
   enablePWA = false
+  # [试验性功能] 缓存图床图片，详情请见：https://github.com/HEIGE-PCloud/DoIt/pull/860#issue-1574342372
+  cacheRemoteImages = false
   # {{< version 0.2.14 >}} 版权信息
   license = '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
   # {{< version 0.2.0 >}} 应用图标配置
@@ -235,7 +237,7 @@ hugo
   # {{< version 0.2.0 >}} 搜索配置
   [params.search]
     enable = true
-    # 搜索引擎的类型 ("lunr", "algolia", "fuse")
+    # 搜索引擎的类型 ("algolia", "fuse")
     type = "fuse"
     # 文章内容最长索引长度
     contentLength = 4000
@@ -469,8 +471,6 @@ hugo
     # "https://github.com/user/repo/issues/new?title=[bug]%20{title}&body=|Field|Value|%0A|-|-|%0A|Title|{title}|%0A|Url|{url}|%0A|Filename|https://github.com/user/repo/blob/main/{path}|"
     # {{< version 0.2.4 >}} 是否在 RSS 中显示全文内容
     rssFullText = false
-    # {{< version 0.2.11 >}} 页面样式 ("normal", "wide")
-    pageStyle = "normal"
     # {{< version 0.2.13 >}} 是否在文章开头显示系列导航
     seriesNavigation = true
     # {{< version 0.2.13 >}} 过时文章提示
@@ -1018,20 +1018,20 @@ $code-font-family: Fira Mono, Source Code Pro, Menlo, Consolas, Monaco, monospac
 
 {{< version 0.2.10 changed >}}
 
-| 语言 | Hugo 代码 | HTML `lang` 属性 | 主题文档 | Lunr.js 支持 |
-|:---- |:----:|:----:|:----:|:----:|
-| 英语 | `en` | `en` | :(far fa-check-square fa-fw): | :(far fa-check-square fa-fw): |
-| 简体中文 | `zh-cn` | `zh-CN` | :(far fa-check-square fa-fw): | :(far fa-check-square fa-fw): |
-| 法语 | `fr` | `fr` | :(far fa-square fa-fw): | :(far fa-check-square fa-fw): |
-| 波兰语 | `pl` | `pl` | :(far fa-square fa-fw): | :(far fa-square fa-fw): |
-| 巴西葡萄牙语 | `pt-br` | `pt-BR` | :(far fa-square fa-fw): | :(far fa-check-square fa-fw): |
-| 意大利语 | `it` | `it` | :(far fa-square fa-fw): | :(far fa-check-square fa-fw): |
-| 西班牙语 | `es` | `es` | :(far fa-square fa-fw): | :(far fa-check-square fa-fw): |
-| 德语 | `de` | `de` | :(far fa-square fa-fw): | :(far fa-check-square fa-fw): |
-| 塞尔维亚语 | `pl` | `pl` | :(far fa-square fa-fw): | :(far fa-square fa-fw): |
-| 俄语 | `ru` | `ru` | :(far fa-square fa-fw): | :(far fa-check-square fa-fw): |
-| 罗马尼亚语 | `ro` | `ro` | :(far fa-square fa-fw): | :(far fa-check-square fa-fw): |
-| 越南语 | `vi` | `vi` | :(far fa-square fa-fw): | :(far fa-check-square fa-fw): |
+| 语言         | Hugo 代码 | HTML `lang` 属性 |           主题文档            | 
+| :----------- | :-------: | :--------------: | :---------------------------: |
+| 英语         |   `en`    |       `en`       | :(far fa-check-square fa-fw): |
+| 简体中文     |  `zh-cn`  |     `zh-CN`      | :(far fa-check-square fa-fw): |
+| 法语         |   `fr`    |       `fr`       |    :(far fa-square fa-fw):    |
+| 波兰语       |   `pl`    |       `pl`       |    :(far fa-square fa-fw):    | 
+| 巴西葡萄牙语 |  `pt-br`  |     `pt-BR`      |    :(far fa-square fa-fw):    |
+| 意大利语     |   `it`    |       `it`       |    :(far fa-square fa-fw):    |
+| 西班牙语     |   `es`    |       `es`       |    :(far fa-square fa-fw):    |
+| 德语         |   `de`    |       `de`       |    :(far fa-square fa-fw):    |
+| 塞尔维亚语   |   `pl`    |       `pl`       |    :(far fa-square fa-fw):    |
+| 俄语         |   `ru`    |       `ru`       |    :(far fa-square fa-fw):    |
+| 罗马尼亚语   |   `ro`    |       `ro`       |    :(far fa-square fa-fw):    |
+| 越南语       |   `vi`    |       `vi`       |    :(far fa-square fa-fw):    |
 
 ### 基本配置
 
@@ -1156,7 +1156,7 @@ defaultContentLanguage = "zh-cn"
 ```toml
 [params.search]
   enable = true
-  # 搜索引擎的类型 ("lunr", "algolia", "fuse")
+  # 搜索引擎的类型 ("algolia", "fuse")
   type = "fuse"
   # 文章内容最长索引长度
   contentLength = 4000
@@ -1191,7 +1191,6 @@ defaultContentLanguage = "zh-cn"
 以下是两种搜索引擎的对比:
 
 * `fuse`: 简单, 无需同步 `index.json`, 没有 `contentLength` 的限制, 性能高
-* `lunr`: 简单, 无需同步 `index.json`, 没有 `contentLength` 的限制, 但占用带宽大且性能低 (特别是中文需要一个较大的分词依赖库)
 * `algolia`: 高性能并且占用带宽低, 但需要同步 `index.json` 且有 `contentLength` 的限制
 
 {{< version 0.2.3 >}} 文章内容被 `h2` 和 `h3` HTML 标签切分来提高查询效果并且基本实现全文搜索.
