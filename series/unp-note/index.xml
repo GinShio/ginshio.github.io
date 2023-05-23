@@ -5,23 +5,11 @@
         <description>UNP Note - 系列 - iris</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com ( )</managingEditor>
             <webMaster>ginshio78@gmail.com ( )</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 26 Feb 2022 14:35:50 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/series/unp-note/" rel="self" type="application/rss+xml" /><item>
-    <title>I/O 复用</title>
-    <link>https://blog.ginshio.org/2022/unixnetworkprogramming_005/</link>
-    <pubDate>Sat, 26 Feb 2022 14:35:50 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/unixnetworkprogramming_005/</guid>
-    <description><![CDATA[在客户端阻塞在 read 等待用户输入时，服务器关闭会导致向客户端发送 FIN，这是客户端的另一个输入。但由于客户端阻塞在 read 从而无法立即接受这个输入，直]]></description>
-</item><item>
-    <title>基本 TCP 编程</title>
-    <link>https://blog.ginshio.org/2022/unixnetworkprogramming_004/</link>
-    <pubDate>Sat, 19 Feb 2022 15:31:05 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/unixnetworkprogramming_004/</guid>
-    <description><![CDATA[基本 TCP 套接字函数 socket 函数在网络编程中第一步往往调用 socket 函数，以指定通讯协议的详情。 1 2 3 // sys/socket.h int socket(int domain, int type, int protocol); // return socket fd, or -1 and set errno on error domain 指协议族，ty]]></description>
-</item><item>
-    <title>Unix 套接字 API</title>
-    <link>https://blog.ginshio.org/2022/unixnetworkprogramming_003/</link>
-    <pubDate>Thu, 17 Feb 2022 14:28:37 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/unixnetworkprogramming_003/</guid>
-    <description><![CDATA[套接字地址数据结构套接字函数基本都需要一个指向套接字地址结构的指针作为参数，每个协议族都有自己的套接字定义，均以 sockaddr_ 开头，并有协议族的唯一后缀]]></description>
+    <title>UNP 简介</title>
+    <link>https://blog.ginshio.org/2022/unixnetworkprogramming_001/</link>
+    <pubDate>Mon, 17 Jan 2022 13:46:50 &#43;0800</pubDate><author>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/unixnetworkprogramming_001/</guid>
+    <description><![CDATA[信息 关于 UNP 的所有代码可以在 https://github.com/unpbook/unpv13e 上找到 从一个简单的时间获取客户端开始接下来，将从一个使用 TCP 连接的获取时间的客户端开始。 1 2 3 4 5 6 7 8 9 10 11 12 13]]></description>
 </item><item>
     <title>传输层总述</title>
     <link>https://blog.ginshio.org/2022/unixnetworkprogramming_002/</link>
@@ -29,10 +17,22 @@
                         <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/unixnetworkprogramming_002/</guid>
     <description><![CDATA[在传输层中，主要学习三种协议 User Datagram Protocol (UDP, 用户数据报协议) 是一种简单 (simple)、不可靠 (unreliable) 的数据报协议 Transmission Control Protocol (TCP, 传输控制协议) 是一种复杂的 (so]]></description>
 </item><item>
-    <title>UNP 简介</title>
-    <link>https://blog.ginshio.org/2022/unixnetworkprogramming_001/</link>
-    <pubDate>Mon, 17 Jan 2022 13:46:50 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/unixnetworkprogramming_001/</guid>
-    <description><![CDATA[信息 关于 UNP 的所有代码可以在 https://github.com/unpbook/unpv13e 上找到 从一个简单的时间获取客户端开始接下来，将从一个使用 TCP 连接的获取时间的客户端开始。 1 2 3 4 5 6 7 8 9 10 11 12 13]]></description>
+    <title>Unix 套接字 API</title>
+    <link>https://blog.ginshio.org/2022/unixnetworkprogramming_003/</link>
+    <pubDate>Thu, 17 Feb 2022 14:28:37 &#43;0800</pubDate><author>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/unixnetworkprogramming_003/</guid>
+    <description><![CDATA[套接字地址数据结构套接字函数基本都需要一个指向套接字地址结构的指针作为参数，每个协议族都有自己的套接字定义，均以 sockaddr_ 开头，并有协议族的唯一后缀]]></description>
+</item><item>
+    <title>基本 TCP 编程</title>
+    <link>https://blog.ginshio.org/2022/unixnetworkprogramming_004/</link>
+    <pubDate>Sat, 19 Feb 2022 15:31:05 &#43;0800</pubDate><author>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/unixnetworkprogramming_004/</guid>
+    <description><![CDATA[基本 TCP 套接字函数 socket 函数在网络编程中第一步往往调用 socket 函数，以指定通讯协议的详情。 1 2 3 // sys/socket.h int socket(int domain, int type, int protocol); // return socket fd, or -1 and set errno on error domain 指协议族，ty]]></description>
+</item><item>
+    <title>I/O 复用</title>
+    <link>https://blog.ginshio.org/2022/unixnetworkprogramming_005/</link>
+    <pubDate>Sat, 26 Feb 2022 14:35:50 &#43;0800</pubDate><author>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/unixnetworkprogramming_005/</guid>
+    <description><![CDATA[在客户端阻塞在 read 等待用户输入时，服务器关闭会导致向客户端发送 FIN，这是客户端的另一个输入。但由于客户端阻塞在 read 从而无法立即接受这个输入，直]]></description>
 </item></channel>
 </rss>
