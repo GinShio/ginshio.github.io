@@ -44,4 +44,10 @@
   (unless (org-export-derived-backend-p 'org)
     (replace-regexp-in-string "\u200B" "" text)))
 (add-to-list 'org-export-filter-final-output-functions #'+org-export-remove-zero-width-space t)
+
+(defun +blog-export/assets-copy (targetdir)
+  "Copy assets to TARGETDIR diretory"
+  (copy-directory (expand-file-name "assets" (getenv "ORGMODE_DIRECTORY"))
+                  targetdir
+                  t t t))
 ;;; batch-export-publisher.el ends here

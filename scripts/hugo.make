@@ -8,7 +8,7 @@ export HUGOBASEDIR := $(ORGMODE_DIRECTORY)/publisher/hugo
 export HUGOPOSTDIR := $(HUGOBASEDIR)/content/posts
 export HUGOIMAGEDIR := $(HUGOBASEDIR)/static/images
 
-HUGOGENDIR := $(ORGMODE_BUILDIR)/hugogen
+export HUGOGENDIR := $(ORGMODE_BUILDIR)/hugogen
 orgobjects := $(call rwildcard,$(ORGMODE_FILEDIR),*.org)
 
 ### TARGETS

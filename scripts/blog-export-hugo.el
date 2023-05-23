@@ -57,4 +57,5 @@ Args SPECIAL-BLOCK, CONTENTS, and _INFO, see `org-hugo-special-block'."
   (while (< counter argc)
     (hugo/export-one (elt argv counter))
     (setq counter (1+ counter))))
+(+blog-export/assets-copy (expand-file-name "private-assets" (getenv "HUGOGENDIR")))
 ;;; blog-export-hugo.el ends here
