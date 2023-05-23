@@ -19,6 +19,16 @@ post:
 	@bash $(ORGMODE_SCRIPTDIR)/blog-export-hugo.el $(orgobjects)
 
 site:
+	@if ! [ -e $(HUGOGENDIR) ]; then \
+		mkdir -p $(HUGOGENDIR); \
+		git -C $(HUGOGENDIR) init; \
+		git -C $(HUGOGENDIR) remote add origin gitlab:GinShio/ginshio.gitlab.io.git; \
+		git -C $(HUGOGENDIR) remote set-url --add --push origin github:GinShio/ginshio.github.io.git; \
+		git -C $(HUGOGENDIR) remote set-url --add --push origin bitbucket:GinShio/GinShio.bitbucket.io.git; \
+		git -C $(HUGOGENDIR) remote set-url --add --push origin gitlab:GinShio/ginshio.gitlab.io.git; \
+		git -C $(HUGOGENDIR) pull origin hugo; \
+	fi
+	@cp -rf $(ORGMODE_DIRECTORY)/assets $(HUGOGENDIR)/private-assets
 	@hugo -e production -v --gc -s $(HUGOBASEDIR) -d $(HUGOGENDIR)
 
 clean:
