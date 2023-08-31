@@ -1,0 +1,340 @@
+#+hugo_categories: GPU Mesa
+#+hugo_tags: HowTo openSUSE
+#+hugo_draft: false
+#+hugo_locale: en
+#+hugo_lastmod: 2023-08-31T23:44:22+08:00
+#+hugo_auto_set_lastmod: nil
+#+hugo_front_matter_key_replace: author>authors
+#+hugo_custom_front_matter: :outdatedArticleReminder '((enable . true))
+#+title: How To Build Mesa for AMD
+#+author: GinShio
+#+date: 2023-08-28T22:25:22+08:00
+#+email: ginshio78@gmail.com
+#+description: GinShio | how to build mesa on openSUSE
+#+keywords: GPU Mesa HowTo AMD openSUSE
+#+export_file_name: how-to-build-mesa.md
+
+* What
+
+copy from [[https://en.wikipedia.org/wiki/Mesa_(computer_graphics)][Wikipidia]]:
+
+Mesa is an open source implementation of OpenGL, Vulkan, and other graphics API
+specifications. Mesa translates these specifications to vendor-specific graphics
+hardware drivers.
+
+** Vendor Drivers
+
+Mesa is UMD (User mode driver), provides implementation of graphics API and
+shader compiler. Mesa is like a mono repository, different vendor drivers and
+graphics APIs are in different directories.
+
+*Gallium* is a driver project in mesa, includes many backends for hardwares:
+ + AMD driver for GCN & Navi (/radeonsi/)
+ + Intel driver for iris (/i965/)
+ + Intel driver (/i915/)
+ + Nvidia driver (/nouveau/)
+ + Software implementation (/swrast/)
+ + OpenGL over Vulkan (/zink/)
+ + DirectX3D 12 driver (/d3d12/)
+ + OpenCL frontend (/clover/)
+ + new OpenCL frontend by rust (/rusticl/, 23.1)
+
+libgl only provides APIs, and dispatch call to vendor implementation (e.g.
+radeonsi).
+
+Vulkan's driver includes:
+ + AMD driver (/RADV/)
+ + Intel driver (/ANV/)
+ + Nvidia driver (/NVK/, 23.3)
+ + Windows driver (/dzn/)
+
+** Internal Representation
+
+NIR (NIR Internal Representation) is shader language intermediate representation
+in Mesa. Input is spir-v or glslang, output is vendor ISA code. NIR is used in
+all drivers on OpenGL 4.6.
+
+TGSI (the Tungsten Graphics Shader Infrastructure) is used all gallium drivers,
+now NIR is main development ir. GLSL-to-TGSI is removed from Mesa, NIR-To-TGSI
+will be deprecated for native NIR drivers only.
+
+[[https://upload.wikimedia.org/wikipedia/commons/f/fc/Mesa_layers_of_crap_2016.svg]]
+
+in AMD drivers, shader compilation flows following picture (outdated, now
+radeonsi supports spirv to nir):
+
+[[file:../images/shader-compilation-flows-for-amd.png]]
+
+** Repository
+
+a brief summary of part of Mesa's directory tree.
+
+ + *docs* - Documentation
+ + *include* - Public OpenGL header files
+ + *src*
+   * *amd* - AMD-specific sources
+     - *addrlib* - common sources for creating images
+     - *ci* - devops for RADV, RadeonSI and ACO
+     - *common* - common code between RADV, RadeonSI and ACO
+     - *compiler* - ACO shader compiler
+     - *llvm* - common code between RADV and RadeonSI for compiling shaders using
+       LLVM
+     - *registers* - register definitions
+     - *vulkan* - RADV Vulkan implementation for AMD Southern Island and newer
+   * *compiler* - Common utility sources for different compilers
+     - *clc* - the OpenCL C language compiler
+     - *glsl* - the GLSL IR and compiler
+     - *nir* - the NIR IR and compiler
+     - *spirv* - the SPIR-V compiler
+   * *gallium* - Gallium3D source code
+     - *auxiliary* - Gallium support code
+     - *drivers* - Gallium3D device drivers
+     - *frontends* - These implement various libraries using the device drivers
+   * *gbm* - Generic Buffer Manager is a memory allocator for device buffers
+   * *microsoft* - Microsoft Graphics Stack
+     - *clc* - compile clc to dxil / nir
+     - *compiler* - the dxil and nir compiler
+     - *spirv_to_dxil* - cross spir-v to dxil
+     - *vulkan* - Microsoft vulkan driver on Windows for WSL
+   * *vulkan* - Common code for Vulkan drivers
+
+
+* Build
+
+if you want to build 32-bit mesa, please install 32-bit development packages.
+e.g. zlib-devel-32bit
+
+some packages haven't 32-bit package on openSUSE, you need to copy 64-bit
+pkg-config file (.pc in =/usr/lib64/pkgconfig=) to =/usr/lib/pkgconfig=, and modify
+~prefix~ variable.
+
+** Dependencies
+
+ + base tools
+   #+begin_src shell
+zypper install python3 python3-Mako meson ninja gcc gcc-c++ binutils-gold clang lld ccache bison flex
+   #+end_src
+
+ + minimize dependencies
+   #+begin_src shell
+zypper install zlib-devel libzstd-devel llvm-devel libexpat-devel libdrm-devel libudev-devel libelf-devel glslang-devel spirv-tools
+zypper install -t pattern devel_vulkan
+   #+end_src
+
+ + window manager dependencies
+   * X11
+     #+begin_src shell
+zypper install libX11-devel libXext-devel libxcb-devel libXfixes-devel libXxf86vm-devel libXrandr-devel libxshmfence-devel
+     #+end_src
+   * wayland
+     #+begin_src shell
+zypper install wayland-devel wayland-protocols-devel
+     #+end_src
+
+ + video codecs dependencies
+   #+begin_src shell
+zypper install libvdpau-devel libva-devel
+   #+end_src
+
+ + opencl dependencies
+   #+begin_src shell
+zypper install libclc libLLVMSPIRVLib-devel clang-devel
+zypper install rust rust-bindgen # if enable new opencl frontend -- rusticl
+   #+end_src
+
+** configuration and compilation
+
+ + common build
+   #+begin_src shell
+meson setup /path/to/mesa _build --libdir=lib64 --prefix $HOME/.local/lib/mesa \
+    -Dbuildtype=debug -Dosmesa=false -Dgallium-drivers=radeonsi -Dvulkan-drivers=amd
+   #+end_src
+ + build with video codecs
+   #+begin_src shell
+meson setup /path/to/mesa _build --libdir=lib64 --prefix $HOME/.local/lib/mesa \
+    -Dbuildtype=debug -Dosmesa=false -Dgallium-drivers=radeonsi -Dvulkan-drivers=amd \
+    -Dvideo-codecs=vc1dec,h264dec,h264enc,h265dec,h265enc
+   #+end_src
+ + build only for wayland
+   #+begin_src shell
+meson setup /path/to/mesa _build --libdir=lib64 --prefix $HOME/.local/lib/mesa \
+    -Dbuildtype=debug -Dosmesa=false -Dgallium-drivers=radeonsi -Dvulkan-drivers=amd \
+    -Dplatforms=wayland -Dglx=disabled
+   #+end_src
+ + build with opencl frontend (clover)
+   #+begin_src shell
+meson setup /path/to/mesa _build --libdir=lib64 --prefix $HOME/.local/lib/mesa \
+    -Dbuildtype=debug -Dosmesa=false -Dgallium-drivers=radeonsi \
+    -Dgallium-opencl=icd
+   #+end_src
+ + build with opencl frontend (rusticl)
+   #+begin_src shell
+meson setup /path/to/mesa _build --libdir=lib64 --prefix $HOME/.local/lib/mesa \
+    -Dbuildtype=debug -Dosmesa=false -Dgallium-drivers=radeonsi \
+    -Dgallium-opencl=disabled -Dgallium-rusticl=true
+   #+end_src
+ + specifying compiler toolchain & 32-bit build
+   #+begin_src shell
+CC='ccache clang -m32' CXX='ccache clang++ -m32' LDFLAGS='-fuse-ld=lld -m32' \
+meson setup /path/to/mesa _build --libdir=lib --prefix $HOME/.local/lib/mesa \
+    -Dbuildtype=debug -Dosmesa=false -Dgallium-drivers=radeonsi -Dvulkan-drivers=amd
+   #+end_src
+
+compile mesa if configure successfully
+#+begin_src shell
+meson compile -C_build
+#+end_src
+
+after compilation, install mesa. that is, copy shared libraries, icd files,
+header files, and so on into prefix directory.
+
+installed directory tree looks like:
+#+begin_example
+prefix-dir
+├── lib64
+│   ├── dri
+│   │   ├── kms_swrast_dri.so
+│   │   ├── radeonsi_dri.so
+│   │   ├── radeonsi_drv_video.so
+│   │   ├── swrast_dri.so
+│   │   └── zink_dri.so
+│   ├── libEGL.so -> libEGL.so.1
+│   ├── libEGL.so.1 -> libEGL.so.1.0.0
+│   ├── libEGL.so.1.0.0
+│   ├── libgbm.so -> libgbm.so.1
+│   ├── libgbm.so.1 -> libgbm.so.1.0.0
+│   ├── libgbm.so.1.0.0
+│   ├── libglapi.so -> libglapi.so.0
+│   ├── libglapi.so.0 -> libglapi.so.0.0.0
+│   ├── libglapi.so.0.0.0
+│   ├── libGLESv1_CM.so -> libGLESv1_CM.so.1
+│   ├── libGLESv1_CM.so.1 -> libGLESv1_CM.so.1.1.0
+│   ├── libGLESv1_CM.so.1.1.0
+│   ├── libGLESv2.so -> libGLESv2.so.2
+│   ├── libGLESv2.so.2 -> libGLESv2.so.2.0.0
+│   ├── libGLESv2.so.2.0.0
+│   ├── libGL.so -> libGL.so.1
+│   ├── libGL.so.1 -> libGL.so.1.2.0
+│   ├── libGL.so.1.2.0
+│   ├── libvulkan_radeon.so
+│   └── pkgconfig
+│       ├── dri.pc
+│       ├── egl.pc
+│       ├── gbm.pc
+│       ├── glesv1_cm.pc
+│       ├── glesv2.pc
+│       └── gl.pc
+└── share
+    └── vulkan
+        └── icd.d
+            └── radeon_icd.x86_64.json
+#+end_example
+
+
+* Usage
+
+** OpenGL command
+
+for 64-bit driver, running glxgears (for gl) and vkcube (for vulkan) to test
+that mesa is installed successfully.
+#+begin_src shell
+# test for 64-bit OpenGL driver
+MESA=$HOME/.local/lib/mesa LD_LIBRARY=$MESA/lib64:$MESA/lib \
+    LIBGL_DRIVERS_PATH=$MESA/lib64/dri:$MESA/lib/dri MESA_LOADER_DRIVER_OVERRIDE=radeonsi \
+    /usr/bin/glxgears
+#+end_src
+
+environment variable ~LIBGL_DRIVERS_PATH~ means where to find =*_dri.so=
+library, environment variable ~MESA_LOADER_DRIVER_OVERRIDE~ means that the driver
+you want to use is what. If setup the multiple gallium drivers, we can
+determinate which driver is used by ~MESA_LOADER_DRIVER_OVERRIDE~.
+
+likes 64-bit command, test 32-bit driver following command:
+#+begin_src shell
+# test for 32-bit OpenGL driver
+MESA=$HOME/.local/lib/mesa LD_LIBRARY=$MESA/lib64:$MESA/lib \
+    LIBGL_DRIVERS_PATH=$MESA/lib64/dri:$MESA/lib/dri MESA_LOADER_DRIVER_OVERRIDE=radeonsi \
+    /usr/lib/mesa-demos/xdemos/glxgears
+#+end_src
+
+** Vulkan command
+
+test vulkan driver
+#+begin_src shell
+MESA=$HOME/.local/lib/mesa ICDDIR=$MESA/share/vulkan/icd.d \
+    VK_ICD_FILENAMES=$ICDDIR/radeon_icd.x86_64.json:$ICDDIR/radeon_icd.x86.json \
+    /usr/bin/vkcube
+#+end_src
+
+ACO (/A/​MD /Co/​mpiler) is a new shader compiler in RADV, developed by Valve. Since
+mesa version 20.2, the ACO compiler is enabled by default.
+
+for debugging, maybe we want to change the behavior of driver and shader
+compiler, environment variables ~RADV_DEBUG~ and ~ACO_DEBUG~ can help us.
+
+do various things for RADV:
+ + *llvm*: enable LLVM compiler backend
+ + *img*: Print image info
+ + *info*: show GPU-related information
+ + *metashaders*: dump internal meta shaders
+ + *nocache*: disable shaders cache
+ + *nomemorycache*: disable memory shaders cache
+ + *nongg*: disable NGG for GFX10 (navi1 & navi2)
+ + *nonggc*: disable NGG culling on GPUs where it's enabled by default (GFX10.3+
+   only).
+ + *nort*: skip executing vkCmdTraceRays and ray queries (RT extensions will still
+   be advertised)
+ + *shaders*: dump shaders
+ + *shaderstats*: dump shader statistics
+ + *spirv*: dump SPIR-V
+
+do various things for ACO:
+ + *perfwarn*: abort on some suboptimal code generation
+ + *force-waitcnt*: force emitting waitcnt states if there is something to wait
+   for
+ + *force-waitdeps*: force emitting waitcnt dependencies for debugging hazards on
+   GFX10+
+ + *novn*: disable value numbering
+ + *noopt*: disable various optimizations
+ + *nosched*: disable instructions scheduling
+ + *perfinfo*: print information used to calculate some pipeline statistics
+
+learn more in Mesa documation.
+
+for example, debugging will disable cache and dump shaders.
+#+begin_src shell
+MESA=$HOME/.local/lib/mesa ICDDIR=$MESA/share/vulkan/icd.d \
+    VK_ICD_FILENAMES=$ICDDIR/radeon_icd.x86_64.json:$ICDDIR/radeon_icd.x86.json \
+    RADV_DEBUG=nocache,shaders ACO_DEBUG=force-waitcnt,force-waitdeps \
+    /usr/bin/vkcube --c 1
+#+end_src
+
+lucky, RGP (Radeon GPU Profiler) support vulkan on linux. we can create RGP
+capture with radv in ~/tmp~.
+#+begin_src shell
+touch /tmp/trigger
+MESA=$HOME/.local/lib/mesa ICDDIR=$MESA/share/vulkan/icd.d \
+    VK_ICD_FILENAMES=$ICDDIR/radeon_icd.x86_64.json:$ICDDIR/radeon_icd.x86.json \
+    RADV_THREAD_TRACE_PIPELINE=1 RADV_THREAD_TRACE_TRIGGER=/tmp/trigger \
+    /usr/bin/vkcube --c 1
+#+end_src
+
+
+#+begin_comment
+,** OpenCL command
+TODO: running OpenCL
+#+end_comment
+
+-----
+
+
+* Useful links
+
+ + [[https://www.phoronix.com/news/Mesa-Stripping-GLSL-To-TGSI][Mesa Prepares To Drop Old GLSL-To-TGSI - Big Code Removal, Win For
+   Performance & Fixes]]
+ + [[https://archive.fosdem.org/2018/schedule/event/radeonsi/attachments/slides/2253/export/events/attachments/radeonsi/slides/2253/fosdem2018_shaders.pdf][NIR in RadeonSI]]
+ + [[https://docs.mesa3d.org/sourcetree.html][Source Code Tree]]
+ + [[https://gist.github.com/Venemo/a9483106565df3a83fc67a411191edbd][How to build and use mesa from source]]
+ + [[https://steamcommunity.com/games/221410/announcements/detail/1602634609636894200][Help us test ACO, a new Mesa shader compiler for AMD graphics!]]
+ + [[https://docs.mesa3d.org/envvars.html][Environment Variables for Mesa]]
+ + [[https://gpuopen.com/gdc-presentations/2019/gdc-2019-s6-gpu-performance-revealed.pdf][AMD GPU Performance Revealed]]
