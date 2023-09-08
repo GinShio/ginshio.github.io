@@ -324,6 +324,23 @@ MESA=$HOME/.local/lib/mesa ICDDIR=$MESA/share/vulkan/icd.d \
     /usr/bin/vkcube --c 1
 ```
 
+
+### OpenCL command {#opencl-command}
+
+test OpenCL
+
+```shell
+MESA=$HOME/.local/lib/mesa LD_LIBRARY_PATH=$MESA/lib64 clinfo
+```
+
+using rusticl
+
+```shell
+MESA=$HOME/.local/lib/mesa LD_LIBRARY_PATH=$MESA/lib64 \
+    RUSTICL_ENABLE=radeonsi \
+    clinfo
+```
+
 ---
 
 

@@ -12,7 +12,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.ginshio.org/2023/how-to-build-mesa/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-08-28T22:25:22+08:00" />
-<meta property="article:modified_time" content="2023-08-31T23:44:22+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+<meta property="article:modified_time" content="2023-09-01T19:16:42+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
@@ -39,8 +39,8 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2023\/how-to-build-mesa\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "HowTo, openSUSE","wordcount":  1277 ,
-        "url": "https:\/\/blog.ginshio.org\/2023\/how-to-build-mesa\/","datePublished": "2023-08-28T22:25:22+08:00","dateModified": "2023-08-31T23:44:22+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "HowTo, openSUSE","wordcount":  1295 ,
+        "url": "https:\/\/blog.ginshio.org\/2023\/how-to-build-mesa\/","datePublished": "2023-08-28T22:25:22+08:00","dateModified": "2023-09-01T19:16:42+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
                         "@type": "Person",
@@ -140,6 +140,7 @@
       <ul>
         <li><a href="#opengl-command">OpenGL command</a></li>
         <li><a href="#vulkan-command">Vulkan command</a></li>
+        <li><a href="#opencl-command">OpenCL command</a></li>
       </ul>
     </li>
     <li><a href="#useful-links">Useful links</a></li>
@@ -149,8 +150,8 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/gpu/"><i class="far fa-folder fa-fw"></i>GPU</a>&nbsp;<a href="/categories/mesa/"><i class="far fa-folder fa-fw"></i>Mesa</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-28">08-28</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="08-31">08-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1277 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-28">08-28</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="09-01">09-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1295 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>目录</span>
@@ -175,6 +176,7 @@
       <ul>
         <li><a href="#opengl-command">OpenGL command</a></li>
         <li><a href="#vulkan-command">Vulkan command</a></li>
+        <li><a href="#opencl-command">OpenCL command</a></li>
       </ul>
     </li>
     <li><a href="#useful-links">Useful links</a></li>
@@ -651,6 +653,29 @@ capture with radv in <code>/tmp</code>.</p>
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    /usr/bin/vkcube --c <span class="m">1</span>
 </span></span></code></pre></td></tr></table>
 </div>
+</div><h3 id="opencl-command" class="headerLink">
+    <a href="#opencl-command" class="header-mark"></a>OpenCL command</h3><p>test OpenCL</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">MESA</span><span class="o">=</span><span class="nv">$HOME</span>/.local/lib/mesa <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$MESA</span>/lib64 clinfo
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>using rusticl</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">MESA</span><span class="o">=</span><span class="nv">$HOME</span>/.local/lib/mesa <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$MESA</span>/lib64 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">RUSTICL_ENABLE</span><span class="o">=</span>radeonsi <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    clinfo
+</span></span></code></pre></td></tr></table>
+</div>
 </div><hr>
 <h2 id="useful-links" class="headerLink">
     <a href="#useful-links" class="header-mark"></a>Useful links</h2><ul>
@@ -669,7 +694,7 @@ Performance &amp; Fixes</a></li>
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>更新于 08-31</span>
+                <span>更新于 09-01</span>
             </div>
             <div class="post-info-license"></div>
         </div>
