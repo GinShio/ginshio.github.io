@@ -2,7 +2,7 @@
 #+hugo_tags: HowTo openSUSE
 #+hugo_draft: false
 #+hugo_locale: en
-#+hugo_lastmod: 2023-08-31T23:44:22+08:00
+#+hugo_lastmod: 2023-09-01T19:16:42+08:00
 #+hugo_auto_set_lastmod: nil
 #+hugo_front_matter_key_replace: author>authors
 #+hugo_custom_front_matter: :outdatedArticleReminder '((enable . true))
@@ -319,11 +319,19 @@ MESA=$HOME/.local/lib/mesa ICDDIR=$MESA/share/vulkan/icd.d \
     /usr/bin/vkcube --c 1
 #+end_src
 
+** OpenCL command
 
-#+begin_comment
-,** OpenCL command
-TODO: running OpenCL
-#+end_comment
+test OpenCL
+#+begin_src shell
+MESA=$HOME/.local/lib/mesa LD_LIBRARY_PATH=$MESA/lib64 clinfo
+#+end_src
+
+using rusticl
+#+begin_src shell
+MESA=$HOME/.local/lib/mesa LD_LIBRARY_PATH=$MESA/lib64 \
+    RUSTICL_ENABLE=radeonsi \
+    clinfo
+#+end_src
 
 -----
 
