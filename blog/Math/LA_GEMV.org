@@ -1,0 +1,595 @@
+#+hugo_categories: Math
+#+hugo_tags: LinearAlgebra Matrix Vector
+#+hugo_draft: true
+#+hugo_locale: zh
+#+hugo_lastmod: 2023-10-05T19:37:03+08:00
+#+hugo_auto_set_lastmod: nil
+#+hugo_front_matter_key_replace: author>authors
+#+title: 矩阵-向量乘法 (GEMV)
+#+author: GinShio
+#+date: 2023-10-05T19:37:03+08:00
+#+email: ginshio78@gmail.com
+#+description: GinShio | OpenBLAS 学习 - 稠密矩阵向量乘法 (GEMV)
+#+keywords: Math LinearAlgebra Matrix Vector
+#+export_file_name: LA_GEMV.zh-cn.txt
+
+
+* 概念
+
+矩阵向量乘法 \(\mathit{A}\mathbf{x}\) 所表示的是将向量经过矩阵所表示的线性变换后
+所表示的向量。
+
+[[https://www.bilibili.com/video/BV1ys411472E?p=4][3Blue1Brown - 线性代数的本质 - 矩阵与线性变换]]
+
+因此 \(\mathit{A}\mathbf{x} = \mathbf{b}\)，其中 \(\mathit{A}\) 是大小为
+\(m\times{}n\) 的矩阵 (m rows, n cols)，\(\mathbf{x}\) 是 n 维向量，它们的结果是 m 维
+向量 \(\mathbf{b}\)。
+
+计算如下：
+
+\[\begin{aligned}
+\mathit{A}\mathrm{x} &= \begin{bmatrix}
+                          a_{11}   & a_{12}   & \dots{}  & a_{1n}   \\
+                          a_{21}   & a_{22}   & \dots{}  & a_{2n}   \\
+                          \vdots{} & \vdots{} & \ddots{} & \vdots{} \\
+                          a_{m1}   & a_{m2}   & \dots{}  & a_{mn}
+                        \end{bmatrix}\begin{bmatrix}
+                          x_{1} \\ x_{2} \\ \vdots \\ x_{n}
+                        \end{bmatrix}\\
+                     &= \begin{bmatrix}
+                          a_{11}x_{1}+a_{12}x_{2}+\cdots{}+a_{1n}x_{n}\\
+                          a_{21}x_{1}+a_{22}x_{2}+\cdots{}+a_{2n}x_{n}\\
+                          \vdots{}\\
+                          a_{m1}x_{1}+a_{m2}x_{2}+\cdots{}+a_{mn}x_{n}
+                        \end{bmatrix}
+\end{aligned}\]
+
+如果将矩阵 \(\mathit{A}\) 看作由 n 个列向量组成的矩阵，那么矩阵向量乘也可以这么
+算：
+
+\[\begin{aligned}
+\mathit{A}\mathrm{x} &= \begin{bmatrix}
+                          a_{11}   & a_{12}   & \dots{}  & a_{1n}   \\
+                          a_{21}   & a_{22}   & \dots{}  & a_{2n}   \\
+                          \vdots{} & \vdots{} & \ddots{} & \vdots{} \\
+                          a_{m1}   & a_{m2}   & \dots{}  & a_{mn}
+                        \end{bmatrix}\begin{bmatrix}
+                          x_{1} \\ x_{2} \\ \vdots \\ x_{n}
+                        \end{bmatrix}\\
+                     &= x_{1}\begin{bmatrix}a_{11}\\ a_{21}\\ \vdots{}\\ a_{m1}\end{bmatrix}+
+                        x_{2}\begin{bmatrix}a_{12}\\ a_{22}\\ \vdots{}\\ a_{m2}\end{bmatrix}+
+                        \cdots{}+
+                        x_{n}\begin{bmatrix}a_{1n}\\ a_{2n}\\ \vdots{}\\ a_{mn}\end{bmatrix}
+\end{aligned}\]
+
+
+
+* BLAS 中的定义
+
+在 BLAS 中计算一个​*通用*​ (*GE*​neral) 矩阵 (Matrix) 与向量 (Vector) 的乘积被称作
+*GEMV*​。可以用表达式表示这一运算：
+\[\mathbf{y} \leftarrow \alpha{}\mathtt{op}\left(\mathit{A}\right)\mathbf{x}+\beta\mathbf{y}\]
+
+#+attr_html: :width 60%
+[[file:../../_build/tikzgen/blas-gemv.svg]]
+
+函数声明如下
+#+begin_src C
+void cblas_?gemv(const enum CBLAS_ORDER order,
+                 const enum CBLAS_TRANSPOSE TransA, const int M, const int N,
+                 const float alpha, const float *A, const int lda,
+                 const float *X, const int incX, const float beta,
+                 float *Y, const int incY);
+#+end_src
+
+** GEMV 在做什么
+
+通过表达式我们可知这是一个矩阵向量乘运算。
+
+其中 \(\alpha\) 与 \(\beta\) 是控制权重的标量。如果我们希望只计算矩阵向量乘，可以将 \(\beta\)
+设置为 0 或将 \(\mathbf{y}\) 初始化为 0 向量。相应地，如果只计算向量的数乘，只需
+要将 \(\alpha\) 设置为 0。
+
+其中 \(\texttt{op}\) 是对矩阵的操作，在 BLAS 中通常被称作 /trans/​。通常有以下操作：
+
+| 短名称 | 长名称   | 英文名称  | 描述                                |
+|--------+----------+-----------+-------------------------------------|
+| N      | 不操作   | NonTrans  | 矩阵不进行操作                      |
+| T      | 转置矩阵 | Trans     | 矩阵进行转置操作                    |
+| C      | 共轭矩阵 | Conjtrans | 矩阵进行共轭操作 (只对复数矩阵有效) |
+
+因此在一个 BLAS 算子中，我们通常可以发现其支持 4 种基本数据类型：
+
+| 类型名称     | 英文名称       | 对应数据类型        | 符号 |
+|--------------+----------------+---------------------+------|
+| 单精度浮点型 | Single         | ~float~               | *S*    |
+| 双精度浮点型 | Double         | ~double~              | *D*    |
+| 单精度复数型 | Complex        | ~std::complex<float>~  | *C*    |
+| 双精度复数型 | Double Complex | ~std::complex<double>~ | *Z*    |
+
+** BLAS 如何存储数据
+
+对于一个 \(m\times{}n\) 维的矩阵 (GEneral Matrix)，BLAS 采用一维数组进行存储。需要根
+据 *列主序* (column major) 和 *行主序* (row major) 进行存储矩阵。
+
+由于矩阵可能超大，在计算时可能需要分块计算，因此产生了 *主维度* (LD, Leading
+Dimension) 的概念，也就是说整个矩阵逻辑主序上的元素数量，也就是在一维数组上从一
+个元素到下一逻辑行同一列元素的跨度。因此 LD 满足 \(LD \ge M\, (\texttt{Column})\
+\textbf{or}\ LD \ge N\, (\texttt{Row})\)。
+
+如图是一个列主序矩阵 M 的 *LD* 与其中的分块矩阵 A、B 之间的关系：
+
+#+attr_html: :width 75%
+[[file:~/cyberlive/_build/tikzgen/blas-general-matrix-storage.svg]]
+
+对于一个 n 维向量，同样采用一维数组存储。与矩阵类似的是，向量的存储同样需要 *inc*
+来表示其跨度，因为 BLAS 允许每个元素之间间隔 \(inc - 1\) 个元素。因此整个数组的
+大小为 \(1 + (n - 1) \times \left|inc\right|\)。
+
+因此对于向量
+\(\mathbf{x}=\begin{pmatrix}X_{1},X_{2},X_{3},\dots,X_{n}\end{pmatrix}^{T}\)，存
+储方式如下：
+
+\[\begin{aligned}
+\mathbf{x}=[\underbrace{\underbrace{X_{1},*,\dots,*}_{inc},\underbrace{X_{2},*,\dots,*}_{inc},\dots,\underbrace{X_{n-1},*,\dots,*}_{inc},X_{n}}_{1+(n-1)\times{}inc}],\,if\ inc \gt 0\\
+\\
+\mathbf{x}=[\underbrace{\underbrace{X_{n},*,\dots,*}_{\lvert{}inc\rvert{}},\underbrace{X_{n-1},*,\dots,*}_{\lvert{}inc\rvert{}},\dots,\underbrace{X_{2},*,\dots,*}_{\lvert{}inc\rvert{}},X_{1}}_{{1+(1-n)\times{}inc}}],\,if\ inc \lt 0
+\end{aligned}\]
+
+另外，inc 可以实现将列主序矩阵中的行取出操作，我们不必拷贝一份向量即可完成该运算。
+
+
+
+* GEMV 实现
+
+简单实现 GEMV，我们限定只考虑不转置且列主序的矩阵，且如 M、N、LDA、INC 等参数都
+是有效的。
+
+详细的内容可以查看 OpenBLAS 中的 sgemv 实现。
+ + *interface/gemv.c* 实现了 blas 接口
+ + *kernel/x86_64/sgemv_n.c* 是 gemv 在 x86_64 芯片上的通用实现
+ + *driver/level2/gemv_thread.c* 是 gemv 的多线程实现，将矩阵分块后在每个线程上执
+   行 kernel
+
+
+** 基础实现 (naive)
+
+一个最基础 GEMV 只需要两个循环即可。
+
+#+begin_src C++
+void sgemv(const int M, const int N,
+           const float alpha, const float *A, const int lda, const float *X, const int incX,
+           const float beta, float *Y, const int incY) {
+    for (int i = 0; i < M; ++i) {
+        Y[i * incY] *= beta;
+    }
+    for (int m = 0; m < M; ++m) {
+        for (int n = 0; n < N; ++n) {
+            Y[m * incY] += alpha * A[m + n * lda] * X[n * incX];
+        }
+    }
+}
+#+end_src
+
+当然这有个小问题，随着使用次数与矩阵大小的增加，运算量也会大幅增加。一个简单且有
+用的优化方式是根据​*局部性*​原则，将两层循环交换位置。也就是前文提到的第二个计算
+gemv 的方法。
+
+另外在 O3 优化下，上下两段代码性能差异巨大。
+
+#+begin_src C++
+void sgemv(const int M, const int N,
+           const float alpha, const float *A, const int lda, const float *X, const int incX,
+           const float beta, float *Y, const int incY) {
+    for (int i = 0; i < M; ++i) {
+        Y[i * incY] *= beta;
+    }
+    for (int n = 0; n < N; ++n) {
+        for (int m = 0; m < M; ++m) {
+            Y[m * incY] += alpha * A[m + n * lda] * X[n * incX];
+        }
+    }
+}
+#+end_src
+
+** 循环展开实现 (unroll)
+
+循环展开是一种常用优化手段，以二进制程序大小为代价加速程序运行速度。一个好的循环
+展开，可以揭示潜在的语句并行化，减少分支惩罚。
+
+#+begin_src C++
+void sgemv(const int M, const int N,
+           const float alpha, const float *A, const int lda, const float *X, const int incX,
+           const float beta, float *Y, const int incY) {
+    for (int i = 0; i < M; ++i) {
+        Y[i * incY] *= beta;
+    }
+    const int unroll_num = 4;
+    const int n1 = N / unroll_num;
+    const int n2 = N % unroll_num;
+    for (int n = 0, it_n = 0; it_n < n1; n += 4, ++it_n) {
+        for (int m = 0; m < M; ++m) {
+            Y[m * incY] += alpha * (A[m + (n + 0) * lda] * X[(n + 0) * incX] +
+                                    A[m + (n + 1) * lda] * X[(n + 1) * incX] +
+                                    A[m + (n + 2) * lda] * X[(n + 2) * incX] +
+                                    A[m + (n + 3) * lda] * X[(n + 3) * incX]);
+        }
+    }
+SKIP_UNROLL_N:
+}
+#+end_src
+
+在不足 4 个的情况下，也就是 ~SKIP_UNROLL_N~ 的情况下，我们只能像基础实现一样对其进
+行运算。
+#+begin_src C
+for (int n = 0; n < n2; ++n) {
+    for (int m = 0; m < M; ++m) {
+        Y[m * incY] += alpha * A[m + (N - n2 + n) * lda] * X[(N - n2 + n) * incX];
+    }
+}
+#+end_src
+
+** 分块矩阵 (divide)
+
+经过循环展开后，我们对矩阵 A 的访问已经不再具有局部性。因此我们可以尝试将矩阵分
+块，分块的中间过程依次累加到最终结果上。
+
+最简单的实现就是按 M 进行拆分，每次取一个 4x4 矩阵与 x 向量进行运算。简单的替换
+循环展开部分即可。
+
+#+begin_src C
+// mat4x4 x vec4
+static void sgemv_kernel_4x4x4(const int m, const float **a, const float alpha,
+                               const float *x, const int incX, float *y, const int incY) {
+    const float *a0 = a[0];
+    const float *a1 = a[1];
+    const float *a2 = a[2];
+    const float *a3 = a[3];
+    const float x0 = alpha * x[0 * incX];
+    const float x1 = alpha * x[1 * incX];
+    const float x2 = alpha * x[2 * incX];
+    const float x3 = alpha * x[3 * incX];
+    for (int i = 0; i < m; i += 4) {
+        y[(i + 0) * incY] += a0[i + 0] * x0 + a1[i + 0] * x1 + a2[i + 0] * x2 + a3[i + 0] * x3;
+        y[(i + 1) * incY] += a0[i + 1] * x0 + a1[i + 1] * x1 + a2[i + 1] * x2 + a3[i + 1] * x3;
+        y[(i + 2) * incY] += a0[i + 2] * x0 + a1[i + 2] * x1 + a2[i + 2] * x2 + a3[i + 2] * x3;
+        y[(i + 3) * incY] += a0[i + 3] * x0 + a1[i + 3] * x1 + a2[i + 3] * x2 + a3[i + 3] * x3;
+    }
+}
+
+// const float *abuf[4] = {
+//   A + 0 * lda,
+//   A + 1 * lda,
+//   A + 2 * lda,
+//   A + 3 * lda,
+// };
+// const float *xptr = X;
+for (int n = 0; n < n1; ++n) {
+    sgemv_kernel_4x4x4(M - M % unroll_num, abuf, alpha, xptr, incX, Y, incY);
+    abuf[0] += 4 * lda;
+    abuf[1] += 4 * lda;
+    abuf[2] += 4 * lda;
+    abuf[3] += 4 * lda;
+    xptr += 4 * incX;
+}
+#+end_src
+
+在 N 不足以展开的时候，我们可以尝试展开 M。并且在 M 上进行展开是连续的，有助于保
+持程序的局部性。
+
+#+begin_src C
+static void sgemv_kernel_4x1x1(const int m, const float **a, const float alpha, const float *x, float *y, const int incY) {
+    const float xval = alpha * x[0];
+    const float *a0 = a[0];
+    for (int i = 0; i < m; i += 4) {
+        y[(i + 0) * incY] += a0[i + 0] * xval;
+        y[(i + 1) * incY] += a0[i + 1] * xval;
+        y[(i + 2) * incY] += a0[i + 2] * xval;
+        y[(i + 3) * incY] += a0[i + 3] * xval;
+    }
+}
+
+SKIP_UNROLL_N:
+if (M < 4) {
+    goto SKIP_UNROLL_M;
+}
+for (int n = 0; n < n2; ++n) {
+    sgemv_kernel_4x1x1(M - M % unroll_num, abuf, alpha, xptr, Y, incY);
+    abuf[0] += lda;
+    xptr += incX;
+}
+#+end_src
+
+最终需要重新实现一下基础部分，因为在此之前，已经将 M 以 4 个一组进行了展开。现在
+只剩下矩阵的最后 \((M \mod 4) \times{} N\) 大小的矩阵没有运算。
+
+#+begin_src C
+Y += (M - M % unroll_num) * incY;
+A += M - M % unroll_num;
+SKIP_UNROLL_M:
+for (int m = 0; m < M % unroll_num; ++m) {
+    float ans = 0.f;
+    xptr = X;
+    abuf[0] = A;
+    for (int n = 0; n < N; ++n) {
+        ans += abuf[0][0] * xptr[0];
+        abuf[0] += lda;
+        xptr += incX;
+    }
+    ,*Y += alpha * ans;
+    Y += incY;
+    A++;
+}
+#+end_src
+
+** 自动矢量化 (SIMD)
+
+自动矢量化指的是我们编写的正常代码，在支持 SIMD 指令集的芯片上，编译器可以自动帮
+助我们使用 SIMD 指令进行优化。在这一过程中，局部性的重要性被进一步放大，其中​*连续*​
+与​*对齐*​是指令并行中最重要的两个因素。
+
+因此我们创建一个临时的、128 bit 对齐的 buffer 来存储 \(\mathit{A}\mathbf{x}\) 的
+中间结果。
+
+#+begin_src C
+int ybuf_size = (M + 32 + 3) & ~3; // alignment 128 bit
+float* ybuf = alloca(ybuf_size * sizeof(float));
+memset(ybuf, 0, ybuf_size * sizeof(float));
+#+end_src
+
+同样的 X 向量也由于 incX 的因素可能不连续。考虑分块采用 128 bit 对齐，因此 X 向
+量在每次运算时也对齐到该大小。可以将 ~kernel_4x4x4~ 以及对 N 的展开改写为以下部分。
+
+#+begin_src C
+// mat4x4 x vec4
+static void sgemv_kernel_4x4x4(const int m, const float **a, const float *x, float *y) {
+    const float *a0 = a[0];
+    const float *a1 = a[1];
+    const float *a2 = a[2];
+    const float *a3 = a[3];
+    for (int i = 0; i < m; i += 4) {
+        y[i + 0] += a0[i + 0] * x[0] + a1[i + 0] * x[1] + a2[i + 0] * x[2] + a3[i + 0] * x[3];
+        y[i + 1] += a0[i + 1] * x[0] + a1[i + 1] * x[1] + a2[i + 1] * x[2] + a3[i + 1] * x[3];
+        y[i + 2] += a0[i + 2] * x[0] + a1[i + 2] * x[1] + a2[i + 2] * x[2] + a3[i + 2] * x[3];
+        y[i + 3] += a0[i + 3] * x[0] + a1[i + 3] * x[1] + a2[i + 3] * x[2] + a3[i + 3] * x[3];
+    }
+}
+
+// const float *abuf[4] = {
+//   A + 0 * lda,
+//   A + 1 * lda,
+//   A + 2 * lda,
+//   A + 3 * lda,
+// };
+// const float *xptr = X;
+// float xbuf[4];
+for (int n = 0; n < N; n += 4) {
+    xbuf[0] = xptr[0];
+    xptr += incX;
+    xbuf[1] = xptr[0];
+    xptr += incX;
+    xbuf[2] = xptr[0];
+    xptr += incX;
+    xbuf[3] = xptr[0];
+    xptr += incX;
+    sgemv_kernel_4x4x4(M - M % unroll_num, abuf, xbuf, ybuf);
+    abuf[0] += 4 * lda;
+    abuf[1] += 4 * lda;
+    abuf[2] += 4 * lda;
+    abuf[3] += 4 * lda;
+}
+#+end_src
+
+同理修改在 N 不足时对 M 的展开
+#+begin_src C
+static void sgemv_kernel_4x1x1(const int m, const float **a, const float *x, float *y) {
+    const float *a0 = a[0];
+    for (int i = 0; i < m; i += 4) {
+        y[i + 0] += a0[i + 0] * x[0];
+        y[i + 1] += a0[i + 1] * x[0];
+        y[i + 2] += a0[i + 2] * x[0];
+        y[i + 3] += a0[i + 3] * x[0];
+    }
+}
+
+SKIP_UNROLL_N:
+if (M < 4) {
+    goto SKIP_UNROLL_M;
+}
+for (int n = 0; n < N % unroll_num; ++n) {
+    sgemv_kernel_4x1x1(M - M % unroll_num, abuf, xptr, ybuf);
+    abuf[0] += lda;
+    xptr += incX;
+}
+#+end_src
+
+在所有展开运算结束后，我们需要将 ybuf 累加到真正的 Y 向量上。
+
+#+begin_src C
+static void add_y(const int M, const float alpha, float *Y, const float *ybuf, const int incY) {
+    if (incY == 1) {
+        for (int i = 0; i < M; i += 4) {
+            Y[i + 0] += alpha * ybuf[i + 0];
+            Y[i + 1] += alpha * ybuf[i + 1];
+            Y[i + 2] += alpha * ybuf[i + 2];
+            Y[i + 3] += alpha * ybuf[i + 3];
+        }
+    } else {
+        for (int i = 0; i < M; i++) {
+            *Y += alpha * *ybuf;
+            Y += incY;
+            ybuf++;
+        }
+    }
+}
+
+add_y(M - M % unroll_num, alpha, Y, ybuf, incY);
+#+end_src
+
+
+
+* 并行化优化 (parallel)
+
+除了指令并行化，我们还可以充分利用多核心进行优化，也就是进一步拆分矩阵，将每一块
+大型矩阵分发到不同核心上计算，最终合并结果。通常计算密集型任务在多核心上，性能会
+有显著提升。
+
+在上一节中我们实现了单线程的 gemv，我们在其基础上进行优化。
+
+实现多线程的难点主要是
+ 1. 将矩阵合理分块，从而最大限度的减少数据竞争，如此可以减少临界区带来的性能开销。
+ 2. 线程数量应该适中，防止线程切换带来的性能开销。
+
+可以确定的是，矩阵元素在一定范围内，那么我们可以让其只运行一个线程。
+
+#+begin_src C++
+if (1llu * M * N < 2048 * 4) {
+    sgemv_kernel(M, N, alpha, A, lda, X, incX, Y, incY);
+} else {
+    sgemv_thread(M, N, alpha, A, lda, X, incX, Y, incY, NUM_CPU);
+}
+#+end_src
+
+** 分块操作
+
+在分块操作上，基本上根据运行的线程数对 M、N 进行均分，但至少对齐到 4。也就是说，
+分块的最小大小 4xM (除非达到矩阵边界)。
+
+#+begin_src C
+unsigned long long m = M;
+unsigned long long range_m[MAX_CPU_NUMBER + 1] = {0};
+int num_cpu = 0;
+while (m > 0) {
+    unsigned long long width = (m + nthreads - num_cpu - 1) / (nthreads - num_cpu);
+    if (width < 4) {
+        width = 4;
+    }
+    if (m < width) {
+        width = m;
+    }
+    range_m[num_cpu + 1] = range_m[num_cpu] + width;
+    ++num_cpu;
+    m -= width;
+}
+#+end_src
+
+对于 M 较小不足以以 4 个一组填满所有线程时，继续以 M 进行划分矩阵将导致局部性极
+差。此时意味着 N 是极大的，因此重新对 N 进行划分是更好的选择。如果对 N 进行划分，
+意味着在不同线程上对 Y 向量进行写入操作，我们需要一个仅线程可见的 buffer 进行操
+作，在计算完成后再将 Y 向量各部分累加。
+
+** pthread 实现
+
+在多线程下，需要使用助手函数调用 kernel，以及一个数据结构用于传递参数。
+
+#+begin_src C
+struct sgemv_thread_arg_t {
+    void* A,* X,* Y;
+    int M, N;
+    float alpha;
+    int lda, incX;
+    const unsigned long long* m_ranges;
+    const unsigned long long* n_ranges;
+};
+
+static void* sgemv_thread_aux(void* routine_args) {
+    struct sgemv_thread_arg_t* args = (struct sgemv_thread_arg_t*) routine_args;
+    const float* A = (const float*) args->A;
+    const float* X = (const float*) args->X;
+    float* Y = (float*) args->Y;
+
+    unsigned long long m_start = 0;
+    unsigned long long m_end = args->M;
+    if (args->m_ranges != NULL) {
+        m_start = *(args->m_ranges + 0);
+        m_end   = *(args->m_ranges + 1);
+        A += m_start;
+        Y += m_start * args->incY;
+    }
+
+    unsigned long long n_start = 0;
+    unsigned long long n_end = args->N;
+    if (args->n_ranges != NULL) {
+        n_start = *(args->n_ranges + 0);
+        n_end = *(args->n_ranges + 1);
+        A += n_start * args->lda;
+        X += n_start * args->incX;
+    }
+
+    sgemv_kernel(m_end - m_start, n_end - n_start,
+                 args->alpha, A, args->lda,
+                 X, args->incX, Y, args->incY);
+}
+#+end_src
+
+最终只需要在 thread 函数中补完创建线程。
+
+#+begin_src C
+// #include <pthread.h>
+pthread_t threads[MAX_CPU_NUMBER];
+struct sgemv_thread_arg_t args[MAX_CPU_NUMBER];
+struct sgemv_thread_arg_t arg_stencil = {
+    .A = (void*) A,
+    .X = (void*) X,
+    .Y = (void*) Y,
+    .M = M,
+    .N = N,
+    .alpha = alpha,
+    .lda = lda,
+    .incX = incX,
+    .m_ranges = NULL,
+    .n_ranges = NULL,
+};
+for (int i = 0; i < num_cpu; ++i) {
+    memcpy(&args[i], &arg_stencil, sizeof(struct sgemv_thread_arg_t));
+    args[i].m_ranges = &range_m[i];
+    pthread_create(&threads[i], NULL, sgemv_thread_aux, &args[i]);
+}
+for (int i = 0; i < num_cpu; ++i) {
+    pthread_join(threads[i], NULL);
+}
+#+end_src
+
+不过这种方式相对暴力，且频繁创建线程是一个很耗时的操作。因此更推荐使用线程池等手
+段，优化线程创建，尽可能少的陷入内核态。
+
+** OpenMP 实现
+
+OpenMP 有了内建线程池和方便的语法，性能相对 pthread 有了极大提升。OpenMP yyds
+
+#+begin_src C
+// #include <omp.h>
+struct sgemv_thread_arg_t args[MAX_CPU_NUMBER];
+struct sgemv_thread_arg_t arg_stencil = {
+    .A = (void*) A,
+    .X = (void*) X,
+    .Y = (void*) Y,
+    .M = M,
+    .N = N,
+    .alpha = alpha,
+    .lda = lda,
+    .incX = incX,
+    .m_ranges = NULL,
+    .n_ranges = NULL,
+};
+#pragma omp parallel for num_threads(num_cpu) schedule(dynamic)
+for (int i = 0; i < num_cpu; ++i) {
+    memcpy(&args[i], &arg_stencil, sizeof(struct sgemv_thread_arg_t));
+    args[i].m_ranges = &range_m[i];
+    pthread_create(&threads[i], NULL, sgemv_thread_aux, &args[i]);
+}
+#+end_src
+
+#+begin_comment
+TODO: gemv on GPU
+#+end_comment
+
+
+-----
+
+
+* Useful links
+
+ + [[https://spec.oneapi.io/versions/latest/elements/oneMKL/source/domains/blas/gemv.html][MKL BLAS - GEMV]]
+ + [[https://spec.oneapi.io/versions/latest/elements/oneMKL/source/domains/matrix-storage.html][MKL BLAS - 矩阵存储 (Matrix Storage)]]
+ + [[https://en.wikipedia.org/wiki/OpenMP][Wikipedia - OpenMP]]

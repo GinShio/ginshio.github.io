@@ -25,6 +25,6 @@ cleanall:
 $(svgobjects): %.svg: %.tex
 	@latexmk -use-make -silent -lualatex \
 		-outdir=$(TIKZGENDIR) $<
-	@inkscape --pdf-poppler --pdf-page=1 \
+	@inkscape --pdf-poppler \
 		--export-type=svg --export-text-to-path --export-area-drawing \
 		--export-filename $(TIKZGENDIR)/$@ $(TIKZGENDIR)/$(@:.svg=.pdf)
