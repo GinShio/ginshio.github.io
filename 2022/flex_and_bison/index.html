@@ -2025,7 +2025,7 @@ RISC 架构上获取和操作长字比使用较小尺寸的短字更有效。</l
 </span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">tok1</span> <span class="o">=</span> <span class="nf">yylex</span><span class="p">(</span><span class="n">scanner_1</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">tok2</span> <span class="o">=</span> <span class="nf">yylex</span><span class="p">(</span><span class="n">scanner_2</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">tok1</span> <span class="o">!=</span> <span class="n">tok2</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Files are different.</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Files are different.</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">tok1</span> <span class="o">&amp;&amp;</span> <span class="n">tok2</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
@@ -3133,9 +3133,9 @@ YYLTYPE 定义位置的类型，默认 Bison 指定的类型为</p>
 </span></span></span><span class="line"><span class="cl"><span class="cp">      (Cur).last_column  = YYRHSLOC(Rhs, N).last_column;  \
 </span></span></span><span class="line"><span class="cl"><span class="cp">    } else {                                              \
 </span></span></span><span class="line"><span class="cl"><span class="cp">      (Cur).first_line   = (Cur).last_line   =            \
-</span></span></span><span class="line"><span class="cl"><span class="cp">	YYRHSLOC(Rhs, 0).last_line;                       \
+</span></span></span><span class="line"><span class="cl"><span class="cp">        YYRHSLOC(Rhs, 0).last_line;                       \
 </span></span></span><span class="line"><span class="cl"><span class="cp">      (Cur).first_column = (Cur).last_column =            \
-</span></span></span><span class="line"><span class="cl"><span class="cp">	YYRHSLOC(Rhs, 0).last_column;                     \
+</span></span></span><span class="line"><span class="cl"><span class="cp">        YYRHSLOC(Rhs, 0).last_column;                     \
 </span></span></span><span class="line"><span class="cl"><span class="cp">    }                                                     \
 </span></span></span><span class="line"><span class="cl"><span class="cp">while (0)
 </span></span></span></code></pre></td></tr></table>
@@ -3626,10 +3626,10 @@ yyerror 将生成不一样的签名。</p>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">yylex</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="n">EOF</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="sc">&#39;+&#39;</span> <span class="o">||</span> <span class="n">c</span> <span class="o">==</span> <span class="sc">&#39;-&#39;</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">c</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">c</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// ...
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="n">INT</span><span class="p">;</span>
@@ -3656,10 +3656,10 @@ token 的名字用双引号 (&rdquo;) 包围并记录在表中。
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">YYNTOKENS</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">yytname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">yytname</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;&#34;&#39;</span> <span class="o">&amp;&amp;</span>
-</span></span><span class="line"><span class="cl">	<span class="o">!</span><span class="nf">strncmp</span><span class="p">(</span><span class="n">yytname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">token_buffer</span><span class="p">,</span> <span class="nf">strlen</span><span class="p">(</span><span class="n">token_buffer</span><span class="p">))</span> <span class="o">&amp;&amp;</span>
-</span></span><span class="line"><span class="cl">	<span class="n">yytname</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="nf">strlen</span><span class="p">(</span><span class="n">token_buffer</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;&#34;&#39;</span> <span class="o">&amp;&amp;</span>
-</span></span><span class="line"><span class="cl">	<span class="n">yytname</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="nf">strlen</span><span class="p">(</span><span class="n">token_buffer</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">!</span><span class="nf">strncmp</span><span class="p">(</span><span class="n">yytname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">token_buffer</span><span class="p">,</span> <span class="nf">strlen</span><span class="p">(</span><span class="n">token_buffer</span><span class="p">))</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">yytname</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="nf">strlen</span><span class="p">(</span><span class="n">token_buffer</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;&#34;&#39;</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">yytname</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="nf">strlen</span><span class="p">(</span><span class="n">token_buffer</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
@@ -4800,8 +4800,8 @@ Number   ::= INT_CONST;<br /></p>
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.111.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
             </div>

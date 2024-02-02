@@ -287,7 +287,7 @@ int node_height(BinaryTreeBaseNode* node) {
     return -1;
   }
   return max(binary_tree_height(node->left),
-	     binary_tree_height(node->right)) + 1;
+             binary_tree_height(node->right)) + 1;
 }
 // 求解结点 node 在树 root 中的深度
 int node_depth(BinaryTreeBaseNode* root, const BinaryTreeBaseNode* node) {
@@ -480,10 +480,10 @@ void levelorder(BinaryTreeBaseNode* root) {
       q.pop();
       process(root);
       if (root->left != nullptr) {
-	q.push(root->left);
+        q.push(root->left);
       }
       if (root->right != nullptr) {
-	q.push(root->right);
+        q.push(root->right);
       }
     }
   }
@@ -521,12 +521,12 @@ void postorderTraversal(BinaryTreeBaseNode* root) {
     prev = cur->left;
     if (prev != nullptr) {
       while (prev->right != nullptr && prev->right != cur) {
-	prev = prev->right;
+        prev = prev->right;
       }
       if (prev->right == nullptr) {
-	prev->right = cur;
-	cur = cur->left;
-	continue;
+        prev->right = cur;
+        cur = cur->left;
+        continue;
       }
       prev->right = nullptr;
       __reverse_process(cur->left);
@@ -888,3 +888,4 @@ void inorder_threading(ThreadedBinaryTreeNode<Element>* root) {
 
 由 \\(m (m \in \mathbb{N})\\) 棵互不相交的树的集合，称之为森林，即这些树没有公共
 ancestor。我们可以将不同的树的根看作是 sibling，那么我们可以很轻松的将森林转换为一棵二叉树。
+

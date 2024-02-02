@@ -65,7 +65,7 @@ void bubble_sort(Array& arr) {
   for (int i = 0; i < len; ++i) {
     for (int j = 0; j < len - i - 1; ++j) {
       if (arr[j + 1] < arr[j]) {
-	swap(arr[j], arr[j + 1]);
+        swap(arr[j], arr[j + 1]);
       }
     }
   }
@@ -156,7 +156,7 @@ void shell_sort(Array& arr) {
   for (const auto& gap : SHELL_SORT_GAPS) {
     for (std::size_t i = gap; i < len; ++i) {
       for (std::size_t j{i}; j >= gap and arr[j - gap] > arr[j]; j -= gap) {
-	std::swap(arr[j], arr[j - gap]);
+        std::swap(arr[j], arr[j - gap]);
       }
     }
   }
@@ -447,7 +447,7 @@ void shell_sort(Array& arr, std::size_t l, std::size_t r) {
   std::size_t base{l + gap};
     for (std::size_t i = base; i <= r; ++i) {
       for (std::size_t j{i}; j >= base and arr[j - gap] > arr[j]; j -= gap) {
-	std::swap(arr[j], arr[j - gap]);
+        std::swap(arr[j], arr[j - gap]);
       }
     }
   }
@@ -631,3 +631,4 @@ radix sort 不止可以对整数进行排序，还可以用于字符串或特定
 4.  最终序列为已排序序列
 
 基数排序的时间复杂度是 \\(\mathcal{O}(kN)\\) ，其中 \\(N\\) 是排序元素个数， \\(k\\) 是数字位数。当然 \\(k > \log\_{}{N}\\) 时 radix sort 并不比比较排序更优秀。
+

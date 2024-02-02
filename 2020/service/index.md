@@ -521,9 +521,9 @@ Gitlab基本配置完成，登录网站设置默认管理员密码即可登录�
 ```fish
 function check_and_print_command_status
     if test 0 -eq $argv[1]
-	echo "$argv[2]: "(set_color green)"consistency"(set_color normal)
+        echo "$argv[2]: "(set_color green)"consistency"(set_color normal)
     else
-	echo "$argv[2]: "(set_color red)"difference"(set_color normal)
+        echo "$argv[2]: "(set_color red)"difference"(set_color normal)
     end
 end
 
@@ -539,14 +539,14 @@ end
 function check_configuration_files
     cd $gitlab_path
     set files \
-	"config/gitlab.yml.example" "lib/support/nginx/gitlab-ssl" \
-	"lib/support/systemd/gitlab-gitaly.service" "lib/support/systemd/gitlab-pages.service" \
-	"lib/support/systemd/gitlab-sidekiq.service" "lib/support/systemd/gitlab-mailroom.service" \
-	"lib/support/systemd/gitlab-puma.service" "lib/support/systemd/gitlab-workhorse.service" \
-	"lib/support/systemd/gitlab.target" "lib/support/systemd/gitlab.slice"
+        "config/gitlab.yml.example" "lib/support/nginx/gitlab-ssl" \
+        "lib/support/systemd/gitlab-gitaly.service" "lib/support/systemd/gitlab-pages.service" \
+        "lib/support/systemd/gitlab-sidekiq.service" "lib/support/systemd/gitlab-mailroom.service" \
+        "lib/support/systemd/gitlab-puma.service" "lib/support/systemd/gitlab-workhorse.service" \
+        "lib/support/systemd/gitlab.target" "lib/support/systemd/gitlab.slice"
     for f in $files
-	git diff --exit-code origin/$curr_branch:$f origin/$next_branch:$f
-	check_and_print_command_status $status "$f"
+        git diff --exit-code origin/$curr_branch:$f origin/$next_branch:$f
+        check_and_print_command_status $status "$f"
     end
 end
 
@@ -822,3 +822,4 @@ sudo -u www-data php artisan key:generate
 ```
 
 最后只需要配置 Nginx 相关内容即可
+

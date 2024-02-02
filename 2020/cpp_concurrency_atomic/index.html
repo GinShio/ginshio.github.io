@@ -349,7 +349,7 @@
 </span></span><span class="line"><span class="cl"><span class="n">TestCas</span> <span class="n">a</span> <span class="o">=</span> <span class="p">{</span><span class="mi">65536</span><span class="p">};</span> <span class="c1">// 假设对象表示 [0,0,1,0,1,0,0,0]
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="n">TestCas</span><span class="o">&gt;</span> <span class="n">aa</span><span class="p">{{</span><span class="mi">65536</span><span class="p">}};</span> <span class="c1">// 假设对象表示 [0,0,1,0,0,0,0,0]
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">aa</span><span class="p">.</span><span class="n">compare_exchange_strong</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">{</span><span class="mi">1024</span><span class="p">});</span> <span class="c1">// 修改失败，对象表示不一致
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				       <span class="c1">// C++20开始，修改成功，值表示一致
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                       <span class="c1">// C++20开始，修改成功，值表示一致
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>我们常使用 <strong>用户定义类型</strong> (UDT)，原子类型会进行逐位比较或复制操作，所以 UDT 应该是 <strong>可平凡复制</strong> 的类型。通常 UDT 类型的原子类型会使用锁来完成原子操作，不过好消息是大多数平台对于 UDT 大小如同一个 int 或 void* 时，将使用原子指令实现原子操作
@@ -642,10 +642,10 @@
 </span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">a</span><span class="p">;</span>     <span class="c1">// 内存位置 #1
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="nl">b</span> <span class="p">:</span> <span class="mi">5</span><span class="p">;</span>  <span class="c1">// 内存位置 #2
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="nl">c</span> <span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="c1">// 内存位置 #2 （延续）
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nl">d</span> <span class="p">:</span> <span class="mi">8</span><span class="p">;</span>  <span class="c1">// 内存位置 #3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nl">d</span> <span class="p">:</span> <span class="mi">8</span><span class="p">;</span>  <span class="c1">// 内存位置 #3
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">struct</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="nl">ee</span> <span class="p">:</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">// 内存位置 #4
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="nl">ee</span> <span class="p">:</span> <span class="mi">8</span><span class="p">;</span> <span class="c1">// 内存位置 #4
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span> <span class="n">e</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">obj</span><span class="p">;</span> <span class="c1">// 对象 &#39;obj&#39; 由 4 个分离的内存位置组成
 </span></span></span></code></pre></td></tr></table>
@@ -883,13 +883,13 @@ A 写入内存的所有内容。此顺序的典型使用场景是 <strong>互斥
 </span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">read_x_then_y</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">x</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_seq_cst</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_seq_cst</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="o">++</span><span class="n">z</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">++</span><span class="n">z</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">read_y_then_x</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">y</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_seq_cst</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_seq_cst</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="o">++</span><span class="n">z</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">++</span><span class="n">z</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="n">assert</span><span class="p">(</span><span class="n">z</span><span class="p">.</span><span class="n">load</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// 断言成功
@@ -971,8 +971,8 @@ A 写入内存的所有内容。此顺序的典型使用场景是 <strong>互斥
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.111.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
             </div>

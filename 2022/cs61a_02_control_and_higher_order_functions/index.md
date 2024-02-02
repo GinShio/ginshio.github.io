@@ -20,11 +20,11 @@ else 引导假分支，其中还可能会有零或多个 elif 进行嵌套。
 ```python
 def absolute_value(n):
     if n < 0:
-	return -n
+        return -n
     elif n == 0:
-	return 0
+        return 0
     else:
-	return n
+        return n
 ```
 
 在 scheme 中 `#t` 和 `#f` 分别表示真或假，语法的话就不能 elif 进行嵌套了 `(if test
@@ -48,9 +48,9 @@ FP 中一般都会提供一套类似 guard 的语法，即该条件语句可以�
 ```erlang
 absolute_value(N) ->
     if
-	N < 0 -> -N;
-	N =:= 0 -> N;
-	true -> N
+        N < 0 -> -N;
+        N =:= 0 -> N;
+        true -> N
     end.
 ```
 
@@ -112,27 +112,27 @@ loop(I, Total) -> loop(I + 1, Total + I).
   (let ((bits (make-vector (+ n 1) #t)))
     (let loop ((p 2) (ps '()))
       (cond ((< n p) (reverse ps))
-	    ((vector-ref bits p)
-	     (do ((i (+ p p) (+ i p))) ((< n i))
-	       (vector-set! bits i #f))
-	     (loop (+ p 1) (cons p ps)))
-	    (else (loop (+ p 1) ps))))))
+            ((vector-ref bits p)
+             (do ((i (+ p p) (+ i p))) ((< n i))
+               (vector-set! bits i #f))
+             (loop (+ p 1) (cons p ps)))
+            (else (loop (+ p 1) ps))))))
 
 (define (get-factorization n primes)
   (let ((prime (car primes))
-	(others (cdr primes)))
+        (others (cdr primes)))
     (if (= (remainder n prime) 0)
-	prime
-	(get-factorization n others))))
+        prime
+        (get-factorization n others))))
 
 (define (prime-factorization n)
   (if (< n 3)
       (list n)
       (let ((primes (get-primes n)))
-	(let loop ((num n) (ans '()))
-	  (cond ((= num 1) (reverse ans))
-		(else (let ((prime (get-factorization num primes)))
-			(loop (quotient num prime) (cons prime ans)))))))))
+        (let loop ((num n) (ans '()))
+          (cond ((= num 1) (reverse ans))
+                (else (let ((prime (get-factorization num primes)))
+                        (loop (quotient num prime) (cons prime ans)))))))))
 ```
 
 ---
@@ -159,7 +159,7 @@ Factorial(N) &= N \times Factorial(N - 1).
 ```scheme
 (define (factorial n)
   (cond ((= n 0) 1)
-	(else (* n (factorial (- n 1))))))
+        (else (* n (factorial (- n 1))))))
 ```
 
 这个计算过程中，通过代换模型可以看出计算是一种先逐步展开而后收缩的形状，计算过程构造起一个`推迟进行的操作`所形成的链条，收缩阶段表现为这些运算的实际执行，这种计算过程被称为`递归计算过程`。如果要执行这个过程，解释器就必须维护好以后要执行的操作的轨迹，这个例子中推迟执行的乘法链条的长度也就是为保存其轨迹需要保存的信息量，这个长度随着 n 值的增加而线性增长，这个过程被称为**线性递归计算**。
@@ -185,9 +185,9 @@ Factorial(N) &= N \times Factorial(N - 1).
 (define (factorial n)
   (let factorial-iter ((product 1) (counter 1))
     (if (> counter n)
-	product
-	(factorial-iter (* counter product)
-			(1+ counter)))))
+        product
+        (factorial-iter (* counter product)
+                        (1+ counter)))))
 ```
 
 这个计算过程中没有任何增长或收缩，计算过程的每一步，需要保存的轨迹就是变量
@@ -217,9 +217,9 @@ Fibonacci(N) &= Fibonacci(N - 1) + Fibonacci(N - 2).
 ```scheme
 (define (fibonacci n)
   (cond ((= n 0) 0)
-	((= n 1) 1)
-	(else (+ (fibonacci (- n 1))
-		 (fibonacci (- n 2))))))
+        ((= n 1) 1)
+        (else (+ (fibonacci (- n 1))
+                 (fibonacci (- n 2))))))
 ```
 
 如果将 fibonacci 函数的调用图画出来，可以看到它就像一棵树一样，这样的递归被称为
@@ -233,8 +233,8 @@ Fibonacci(N) &= Fibonacci(N - 1) + Fibonacci(N - 2).
 (define (fibonacci n)
   (let fibonacci-iter ((a 1) (b 0) (counter 1))
     (if (> counter n)
-	b
-	(fibonacci-iter (+ a b) a (+ counter 1)))))
+        b
+        (fibonacci-iter (+ a b) a (+ counter 1)))))
 ```
 
 树形递归计算过程并不是无用的，当考虑在层次结构性的数据上操作，而不是对数操作时，树形递归计算过程是一种自然、威力强大的工具，可以帮助我们理解与设计程序。
@@ -306,8 +306,8 @@ lambda 中捕获的环境变量是可以直接使用的
 (define (summation start end term)
   (let summation-iter ((counter start) (value 0))
     (if (> counter end)
-	value
-	(summation-iter (+ counter 1) (+ value (term counter))))))
+        value
+        (summation-iter (+ counter 1) (+ value (term counter))))))
 (summation 0 10 (lambda (x) x))  ;; sum (i), 55
 (summation 0 10 (lambda (x) (* x x))) ;; sum (i^2), 385
 (summation 0 10 (lambda (x) (sqrt x))) ;; sum (sqrt(i)), 22.4682
@@ -353,8 +353,8 @@ x &= g(a)(b)(c)
       (define factorial
         (lambda (n)
           (cond ((= n 0) 1)
-    	    ((= n 1) 1)
-    	    (else (* n (factorial (- n 1)))))))
+                ((= n 1) 1)
+                (else (* n (factorial (- n 1)))))))
       (/ (factorial n)
          (factorial (- n k))))
     ```
@@ -365,8 +365,8 @@ x &= g(a)(b)(c)
       "Sum all the digits of y."
       (let sum-digits-iter ((num n) (val 0))
         (if (= num 0)
-    	val
-    	(sum-digits-iter (quotient num 10) (+ val (remainder num 10))))))
+            val
+            (sum-digits-iter (quotient num 10) (+ val (remainder num 10))))))
     ```
 
 -   查询整数 n 是否有两个连续的 8
@@ -375,10 +375,10 @@ x &= g(a)(b)(c)
       "Return true if n has two eights in a row."
       (let double-eights-iter ((num n) (prev #f))
         (if (= num 0)
-    	#f
-    	(let ((curr (= (remainder num 10) 8)))
-    	  (or (and curr prev)
-    	      (double-eights-iter (quotient num 10) curr))))))
+            #f
+            (let ((curr (= (remainder num 10) 8)))
+              (or (and curr prev)
+                  (double-eights-iter (quotient num 10) curr))))))
     ```
 
 ---
@@ -393,8 +393,8 @@ product
       "Return the product of the first n terms in a sequence."
       (let product-iter ((counter 1) (init 1))
         (if (> counter n)
-    	init
-    	(product-iter (+ counter 1) (* init (term counter))))))
+            init
+            (product-iter (+ counter 1) (* init (term counter))))))
     ```
 
 
@@ -407,8 +407,8 @@ accumulate
         two-argument commutative function."
       (let accumulate-iter ((counter 1) (value init))
         (if (> counter n)
-    	value
-    	(accumulate-iter (+ counter 1) (merger value (term counter))))))
+            value
+            (accumulate-iter (+ counter 1) (merger value (term counter))))))
     ```
 
 ---

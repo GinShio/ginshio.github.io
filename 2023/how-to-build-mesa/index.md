@@ -237,7 +237,7 @@ that mesa is installed successfully.
 
 ```shell
 # test for 64-bit OpenGL driver
-MESA=$HOME/.local/lib/mesa LD_LIBRARY=$MESA/lib64:$MESA/lib \
+MESA=$HOME/.local/lib/mesa LD_LIBRARY_PATH=$MESA/lib64:$MESA/lib \
     LIBGL_DRIVERS_PATH=$MESA/lib64/dri:$MESA/lib/dri MESA_LOADER_DRIVER_OVERRIDE=radeonsi \
     /usr/bin/glxgears
 ```
@@ -251,7 +251,7 @@ likes 64-bit command, test 32-bit driver following command:
 
 ```shell
 # test for 32-bit OpenGL driver
-MESA=$HOME/.local/lib/mesa LD_LIBRARY=$MESA/lib64:$MESA/lib \
+MESA=$HOME/.local/lib/mesa LD_LIBRARY_PATH=$MESA/lib64:$MESA/lib \
     LIBGL_DRIVERS_PATH=$MESA/lib64/dri:$MESA/lib/dri MESA_LOADER_DRIVER_OVERRIDE=radeonsi \
     /usr/lib/mesa-demos/xdemos/glxgears
 ```
@@ -354,3 +354,4 @@ MESA=$HOME/.local/lib/mesa LD_LIBRARY_PATH=$MESA/lib64 \
 -   [Help us test ACO, a new Mesa shader compiler for AMD graphics!](https://steamcommunity.com/games/221410/announcements/detail/1602634609636894200)
 -   [Environment Variables for Mesa](https://docs.mesa3d.org/envvars.html)
 -   [AMD GPU Performance Revealed](https://gpuopen.com/gdc-presentations/2019/gdc-2019-s6-gpu-performance-revealed.pdf)
+

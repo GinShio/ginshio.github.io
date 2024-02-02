@@ -199,23 +199,23 @@ int main(int argc, char *argv[]) {
     int domain, s;
     char str[INET6_ADDRSTRLEN];
     if (argc != 3) {
-	fprintf(stderr, "Usage: %s {i4|i6|<num>} string\n", argv[0]);
-	exit(EXIT_FAILURE);
+        fprintf(stderr, "Usage: %s {i4|i6|<num>} string\n", argv[0]);
+        exit(EXIT_FAILURE);
     }
     domain = (strcmp(argv[1], "i4") == 0) ? AF_INET :
-	     (strcmp(argv[1], "i6") == 0) ? AF_INET6 : atoi(argv[1]);
+             (strcmp(argv[1], "i6") == 0) ? AF_INET6 : atoi(argv[1]);
     s = inet_pton(domain, argv[2], buf);
     if (s <= 0) {
-	if (s == 0) {
-	    fprintf(stderr, "Not in presentation format");
-	} else {
-	    perror("inet_pton");
-	}
-	exit(EXIT_FAILURE);
+        if (s == 0) {
+            fprintf(stderr, "Not in presentation format");
+        } else {
+            perror("inet_pton");
+        }
+        exit(EXIT_FAILURE);
     }
     if (inet_ntop(domain, buf, str, INET6_ADDRSTRLEN) == NULL) {
-	perror("inet_ntop");
-	exit(EXIT_FAILURE);
+        perror("inet_ntop");
+        exit(EXIT_FAILURE);
     }
     printf("%s\n", str);
     exit(EXIT_SUCCESS);
@@ -379,3 +379,4 @@ X/Open 公司与开放软件基金会 (OSF) 合并成了 The Open Group，这是
 
 再之后，单一 UNIX 规范与 POSIX.1 逐渐统一起来，UNP 主要介绍 POSIX.1-2001 (即
 IEEE Std 1003.1-2001)。
+

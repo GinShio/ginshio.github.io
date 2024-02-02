@@ -629,3 +629,4 @@ print("main", coroutine.resume(co, "x", "y"))
 print("main", coroutine.resume(co, "x", "y"))
 -- main    false   cannot resume dead coroutine
 ```
+

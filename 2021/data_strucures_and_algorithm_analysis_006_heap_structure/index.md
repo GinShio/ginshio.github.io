@@ -294,41 +294,41 @@ void merge(BinomialQueue& a, BinomialQueue& b) {
     which_case += carry == nullptr ? 0 : 4;
     switch (which_case) {
       case 0: {  // no tree
-	[[fallthrough]];
+        [[fallthrough]];
       }
       case 1: {  // only t1
-	break;
+        break;
       }
       case 2: {  // only t2
-	a.forest[i] = t2;
-	b.forest[i] = nullptr;
-	break;
+        a.forest[i] = t2;
+        b.forest[i] = nullptr;
+        break;
       }
       case 3: {  // t1 and t2 exist
-	carry = merge_tree(t1, t2);
-	a.forest[i] = b.forest[i] = nullptr;
-	break;
+        carry = merge_tree(t1, t2);
+        a.forest[i] = b.forest[i] = nullptr;
+        break;
       }
       case 4: {  // Only carry
-	a.forest[i] = carry;
-	carry = nullptr;
-	break;
+        a.forest[i] = carry;
+        carry = nullptr;
+        break;
       }
       case 5: {  // t1 and carry exist
-	carry = merge_tree(t1, carry);
-	a.forest[i] = nullptr;
-	break;
+        carry = merge_tree(t1, carry);
+        a.forest[i] = nullptr;
+        break;
       }
       case 6: {  // t2 and carry exist
-	carry = merge_tree(t2, carry);
-	b.forest[i] = nullptr;
-	break;
+        carry = merge_tree(t2, carry);
+        b.forest[i] = nullptr;
+        break;
       }
       case 7: { // all exist
-	a.forest[i] = carry;
-	carry = merge_tree(t1, t2);
-	b.forest[i] = nullptr;
-	break;
+        a.forest[i] = carry;
+        carry = merge_tree(t1, t2);
+        b.forest[i] = nullptr;
+        break;
       }
     }
   }
@@ -336,3 +336,4 @@ void merge(BinomialQueue& a, BinomialQueue& b) {
   b.size = 0;
 }
 ```
+

@@ -793,3 +793,4 @@ smtm &\rightarrow\ \textbf{if}\ expr\ \textbf{then}\ stmt\ \textbf{else}\ stmt\\
 | 8  | 022456 | \\(ii\textit{S}e\textit{S}\\) | \\(\\$\\)      | 归约 \\(\textit{S}\rightarrow{}i\textit{S}e\textit{S}\\) |
 | 9  | 024    | \\(i\textit{S}\\)             | \\(\\$\\)      | 归约 \\(\textit{S}\rightarrow{}i\textit{S}\\)          |
 | 10 | 01     | \\(\textit{S}\\)              | \\(\\$\\)      | 接受                                                   |
+

@@ -326,10 +326,10 @@ def show(conn, %{"id" => id}) do
   html(conn, """
   <html>
       <head>
-	  <title>Passing an Id</title>
+          <title>Passing an Id</title>
       </head>
       <body>
-	  <p>You sent in id #{id}</p>
+          <p>You sent in id #{id}</p>
       </body>
   </html>
   """)
@@ -350,3 +350,4 @@ end
 ```elixir
 def index(conn, _params), do: conn |> send_resp(201, "")
 ```
+

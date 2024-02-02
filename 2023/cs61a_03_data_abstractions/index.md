@@ -78,9 +78,9 @@ Google 大名鼎鼎的 MapReduce 就是来源于此。Mapping / Reduction 是一
     ```scheme
     (let ((v '((1 2) (3 4) (5 6))))
       (for-each (lambda (x)
-    	      (set-cdr! x (list (+ (car x) (cadr x))
-    				(* (car x) (cadr x)))))
-    	    v)
+                  (set-cdr! x (list (+ (car x) (cadr x))
+                                    (* (car x) (cadr x)))))
+                v)
       v) ;; ((1 3 2) (3 7 12) (5 11 30))
     ```
 
@@ -222,8 +222,8 @@ Vector 同样是异构结构
     ```scheme
     (define (add-rat x y)
       (make-rat (+ (* (numer x) (denom y))
-    	       (* (numer y) (denom x)))
-    	    (* (denom x) (denom y))))
+                   (* (numer y) (denom x)))
+                (* (denom x) (denom y))))
     ```
 
 -   `(sub-rat x y)` 两个有理数相减
@@ -231,8 +231,8 @@ Vector 同样是异构结构
     ```scheme
     (define (sub-rat x y)
       (make-rat (- (* (numer x) (denom y))
-    	       (* (numer y) (denom x)))
-    	    (* (denom x) (denom y))))
+                   (* (numer y) (denom x)))
+                (* (denom x) (denom y))))
     ```
 
 -   `(mul-rat x y)` 两有理数相乘
@@ -240,7 +240,7 @@ Vector 同样是异构结构
     ```scheme
     (define (mul-rat x y)
       (make-rat (* (numer x) (numer y))
-    	    (* (denom x) (denom y))))
+                (* (denom x) (denom y))))
     ```
 
 -   `(div-rat x y)` 两有理数相除
@@ -248,7 +248,7 @@ Vector 同样是异构结构
     ```scheme
     (define (div-rat x y)
       (make-rat (* (numer x) (denom y))
-    	    (* (denom x) (numer y))))
+                (* (denom x) (numer y))))
     ```
 
 -   `(eq-rat x y)` 判断两有理数是否相等
@@ -282,9 +282,9 @@ Vector 同样是异构结构
 ```scheme
 (define (sum-odd-squares tree)
   (cond ((null? tree) 0)
-	((not (pair? tree)) (if (odd? tree) (square tree) 0))
-	(else (+ (sum-odd-squares (car tree))
-		 (sum-odd-squares (cdr tree))))))
+        ((not (pair? tree)) (if (odd? tree) (square tree) 0))
+        (else (+ (sum-odd-squares (car tree))
+                 (sum-odd-squares (cdr tree))))))
 ```
 
 实际上这与级联处理中处理信号的方式相似，是从一个<span class="underline">枚举器</span>(enumerate) 开始，它产生出所有给定树的树叶的信号；接下来信号经过<span class="underline">过滤器</span>(filter)，将不是奇数的叶结点全部去除；之后信号会进入一个<span class="underline">转换器</span>(converter) 对其进行结果<span class="underline">映射</span>(map)；最终信号被输入到<span class="underline">累加器</span>(accumulator) 将所有元素组合起来。
@@ -297,9 +297,9 @@ Vector 同样是异构结构
 ```scheme
 (define (enumerate tree)
   (cond ((null? tree) '())
-	((not (pair? tree)) (list tree))
-	(else (append (enumerate (car tree))
-		      (enumerate (cdr tree))))))
+        ((not (pair? tree)) (list tree))
+        (else (append (enumerate (car tree))
+                      (enumerate (cdr tree))))))
 ```
 
 最终可以用这些操作组合起来，实现我们需要的求和函数。可以看到组合而来的函数既简单又清晰
@@ -307,8 +307,8 @@ Vector 同样是异构结构
 ```scheme
 (define (sum-odd-squares tree)
   (reduce + 0
-	  (map square
-	       (filter odd? (enumerate tree)))))
+          (map square
+               (filter odd? (enumerate tree)))))
 ```
 
 
@@ -340,8 +340,8 @@ Vector 同样是异构结构
 ```scheme
 (define (real-part complex)
   (cond ((rectangular? complex) (real-part-rectangular (contents complex)))
-	((polar? complex) (real-part-polar (contents complex)))
-	(else (error "Unknow type -- REAL-PART" complex))))
+        ((polar? complex) (real-part-polar (contents complex)))
+        (else (error "Unknow type -- REAL-PART" complex))))
 (define (real-part-rectangular complex) (car complex))
 (define (real-part-polar complex)
   (* (mangnitude-polar complex) (cos (angle-polar complex))))
@@ -379,10 +379,11 @@ template <> auto real_part(Complex<Form::Polar> const& z) -> double {
 ```scheme
 (define (apply-generic op . args)
   (let* ((type-args (map type-tag args))
-	 (proc (get op type-tags)))
+         (proc (get op type-tags)))
     (if proc
-	(apply proc (map contents args))
-	(error "No method for these types -- APPLY-GENERIC"
-	       (list op type-tags)))))
+        (apply proc (map contents args))
+        (error "No method for these types -- APPLY-GENERIC"
+               (list op type-tags)))))
 (define (real-part complex) (apply-generic 'real-part complex))
 ```
+

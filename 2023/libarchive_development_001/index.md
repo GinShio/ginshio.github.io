@@ -238,7 +238,7 @@ ssize_t myread(struct archive *a, void *client_data, const void **buff) {
 int myclose(struct archive *a, void *client_data) {
     struct mydata *mydata = (struct mydata *) client_data;
     if (mydata->fd > 0) {
-	close(mydata->fd);
+        close(mydata->fd);
     }
     free(mydata);
     return (ARCHIVE_OK);
@@ -288,8 +288,8 @@ while (*filelist) {
     int fd = open(*filename, O_RDONLY);
     ssize_t len = read(fd, buff, sizeof(buff));
     while (len > 0) {
-	archive_write_data(a, buff, len);
-	len = read(fd, buff, sizeof(buff));
+        archive_write_data(a, buff, len);
+        len = read(fd, buff, sizeof(buff));
     }
     close(fd);
     archive_entry_free(entry);
@@ -345,3 +345,4 @@ archive_entry_free(entry);
 -   **ARCHIVE_FATAL** 通常在 archive 对象无法使用时返回，典型原因就是 IO 错误或内存分配失败。通常你需要调用 `archive_write_free` 来释放掉这个对象。
 
 通常一些极端情况下 libarchive 会调用 `abort` 终止程序，这通常只发生 libarchive 的内部一致性检查检测到自身存在严重错误时才会发生。
+

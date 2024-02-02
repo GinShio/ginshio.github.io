@@ -271,3 +271,4 @@ abbr -a Pve  "pacman -Dk"
     -   [tcsh](https://www.tcsh.org)
     -   [Zsh](https://www.zsh.org)
     -   [fish](https://fishshell.com)
+

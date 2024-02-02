@@ -317,9 +317,9 @@
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">v</span> <span class="o">&#39;</span><span class="p">((</span><span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="mi">3</span> <span class="mi">4</span><span class="p">)</span> <span class="p">(</span><span class="mi">5</span> <span class="mi">6</span><span class="p">))))</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nb">for-each </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	      <span class="p">(</span><span class="nb">set-cdr! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">car </span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">x</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">				<span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nb">car </span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">x</span><span class="p">)))))</span>
-</span></span><span class="line"><span class="cl">	    <span class="nv">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">              <span class="p">(</span><span class="nb">set-cdr! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">car </span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">x</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                                <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nb">car </span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">x</span><span class="p">)))))</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">v</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="nv">v</span><span class="p">)</span> <span class="c1">;; ((1 3 2) (3 7 12) (5 11 30))</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -549,8 +549,8 @@
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">add-rat</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nf">make-rat</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">y</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">	       <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">numer</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)))</span>
-</span></span><span class="line"><span class="cl">	    <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">y</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl">               <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">numer</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">y</span><span class="p">))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -567,8 +567,8 @@
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sub-rat</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nf">make-rat</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">y</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">	       <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">numer</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)))</span>
-</span></span><span class="line"><span class="cl">	    <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">y</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl">               <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">numer</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">y</span><span class="p">))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -584,7 +584,7 @@
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">mul-rat</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nf">make-rat</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">numer</span> <span class="nv">y</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">	    <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">y</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">y</span><span class="p">))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -600,7 +600,7 @@
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">div-rat</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nf">make-rat</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">numer</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">denom</span> <span class="nv">y</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">	    <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">numer</span> <span class="nv">y</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">denom</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">numer</span> <span class="nv">y</span><span class="p">))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -651,9 +651,9 @@ n_{1}d_{2}=n_{2}d_{1}\]</p>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sum-odd-squares</span> <span class="nv">tree</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">tree</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="p">((</span><span class="nb">not </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">tree</span><span class="p">))</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">odd? </span><span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">tree</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">sum-odd-squares</span> <span class="p">(</span><span class="nb">car </span><span class="nv">tree</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">		 <span class="p">(</span><span class="nf">sum-odd-squares</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">tree</span><span class="p">))))))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">((</span><span class="nb">not </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">tree</span><span class="p">))</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">odd? </span><span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nf">square</span> <span class="nv">tree</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">sum-odd-squares</span> <span class="p">(</span><span class="nb">car </span><span class="nv">tree</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                 <span class="p">(</span><span class="nf">sum-odd-squares</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">tree</span><span class="p">))))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>实际上这与级联处理中处理信号的方式相似，是从一个<span class="underline">枚举器</span>(enumerate) 开始，它产生出所有给定树的树叶的信号；接下来信号经过<span class="underline">过滤器</span>(filter)，将不是奇数的叶结点全部去除；之后信号会进入一个<span class="underline">转换器</span>(converter) 对其进行结果<span class="underline">映射</span>(map)；最终信号被输入到<span class="underline">累加器</span>(accumulator) 将所有元素组合起来。</p>
@@ -671,9 +671,9 @@ n_{1}d_{2}=n_{2}d_{1}\]</p>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">enumerate</span> <span class="nv">tree</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">tree</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">())</span>
-</span></span><span class="line"><span class="cl">	<span class="p">((</span><span class="nb">not </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">tree</span><span class="p">))</span> <span class="p">(</span><span class="nb">list </span><span class="nv">tree</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">append </span><span class="p">(</span><span class="nf">enumerate</span> <span class="p">(</span><span class="nb">car </span><span class="nv">tree</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">		      <span class="p">(</span><span class="nf">enumerate</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">tree</span><span class="p">))))))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">((</span><span class="nb">not </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">tree</span><span class="p">))</span> <span class="p">(</span><span class="nb">list </span><span class="nv">tree</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">append </span><span class="p">(</span><span class="nf">enumerate</span> <span class="p">(</span><span class="nb">car </span><span class="nv">tree</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                      <span class="p">(</span><span class="nf">enumerate</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">tree</span><span class="p">))))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>最终可以用这些操作组合起来，实现我们需要的求和函数。可以看到组合而来的函数既简单又清晰</p>
@@ -687,8 +687,8 @@ n_{1}d_{2}=n_{2}d_{1}\]</p>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">sum-odd-squares</span> <span class="nv">tree</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nf">reduce</span> <span class="nv">+</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">	  <span class="p">(</span><span class="nb">map </span><span class="nv">square</span>
-</span></span><span class="line"><span class="cl">	       <span class="p">(</span><span class="nf">filter</span> <span class="nv">odd?</span> <span class="p">(</span><span class="nf">enumerate</span> <span class="nv">tree</span><span class="p">)))))</span>
+</span></span><span class="line"><span class="cl">          <span class="p">(</span><span class="nb">map </span><span class="nv">square</span>
+</span></span><span class="line"><span class="cl">               <span class="p">(</span><span class="nf">filter</span> <span class="nv">odd?</span> <span class="p">(</span><span class="nf">enumerate</span> <span class="nv">tree</span><span class="p">)))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="多重表示" class="headerLink">
@@ -741,8 +741,8 @@ n_{1}d_{2}=n_{2}d_{1}\]</p>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">real-part </span><span class="nv">complex</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nf">rectangular?</span> <span class="nv">complex</span><span class="p">)</span> <span class="p">(</span><span class="nf">real-part-rectangular</span> <span class="p">(</span><span class="nf">contents</span> <span class="nv">complex</span><span class="p">)))</span>
-</span></span><span class="line"><span class="cl">	<span class="p">((</span><span class="nf">polar?</span> <span class="nv">complex</span><span class="p">)</span> <span class="p">(</span><span class="nf">real-part-polar</span> <span class="p">(</span><span class="nf">contents</span> <span class="nv">complex</span><span class="p">)))</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">error</span> <span class="s">&#34;Unknow type -- REAL-PART&#34;</span> <span class="nv">complex</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">((</span><span class="nf">polar?</span> <span class="nv">complex</span><span class="p">)</span> <span class="p">(</span><span class="nf">real-part-polar</span> <span class="p">(</span><span class="nf">contents</span> <span class="nv">complex</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">error</span> <span class="s">&#34;Unknow type -- REAL-PART&#34;</span> <span class="nv">complex</span><span class="p">))))</span>
 </span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">real-part-rectangular</span> <span class="nv">complex</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">complex</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">real-part-polar</span> <span class="nv">complex</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">mangnitude-polar</span> <span class="nv">complex</span><span class="p">)</span> <span class="p">(</span><span class="nb">cos </span><span class="p">(</span><span class="nf">angle-polar</span> <span class="nv">complex</span><span class="p">))))</span>
@@ -823,11 +823,11 @@ n_{1}d_{2}=n_{2}d_{1}\]</p>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">apply-generic</span> <span class="nv">op</span> <span class="o">.</span> <span class="nv">args</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let* </span><span class="p">((</span><span class="nf">type-args</span> <span class="p">(</span><span class="nb">map </span><span class="nv">type-tag</span> <span class="nv">args</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">	 <span class="p">(</span><span class="nf">proc</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">op</span> <span class="nv">type-tags</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">         <span class="p">(</span><span class="nf">proc</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">op</span> <span class="nv">type-tags</span><span class="p">)))</span>
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="nv">proc</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nb">apply </span><span class="nv">proc</span> <span class="p">(</span><span class="nb">map </span><span class="nv">contents</span> <span class="nv">args</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">error</span> <span class="s">&#34;No method for these types -- APPLY-GENERIC&#34;</span>
-</span></span><span class="line"><span class="cl">	       <span class="p">(</span><span class="nb">list </span><span class="nv">op</span> <span class="nv">type-tags</span><span class="p">)))))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nb">apply </span><span class="nv">proc</span> <span class="p">(</span><span class="nb">map </span><span class="nv">contents</span> <span class="nv">args</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nf">error</span> <span class="s">&#34;No method for these types -- APPLY-GENERIC&#34;</span>
+</span></span><span class="line"><span class="cl">               <span class="p">(</span><span class="nb">list </span><span class="nv">op</span> <span class="nv">type-tags</span><span class="p">)))))</span>
 </span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nb">real-part </span><span class="nv">complex</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-generic</span> <span class="ss">&#39;real-part</span> <span class="nv">complex</span><span class="p">))</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -867,8 +867,8 @@ n_{1}d_{2}=n_{2}d_{1}\]</p>
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.111.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
             </div>

@@ -1220,9 +1220,9 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">check_and_print_command_status</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="k">test</span> <span class="m">0</span> <span class="na">-eq</span> <span class="nv">$argv</span><span class="o">[</span><span class="m">1</span><span class="o">]</span>
-</span></span><span class="line"><span class="cl">	<span class="k">echo</span> <span class="s2">&#34;</span><span class="nv">$argv</span><span class="s2">[2]: &#34;</span><span class="o">(</span><span class="nb">set_color </span>green<span class="o">)</span><span class="s2">&#34;consistency&#34;</span><span class="o">(</span><span class="nb">set_color </span>normal<span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s2">&#34;</span><span class="nv">$argv</span><span class="s2">[2]: &#34;</span><span class="o">(</span><span class="nb">set_color </span>green<span class="o">)</span><span class="s2">&#34;consistency&#34;</span><span class="o">(</span><span class="nb">set_color </span>normal<span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">else</span>
-</span></span><span class="line"><span class="cl">	<span class="k">echo</span> <span class="s2">&#34;</span><span class="nv">$argv</span><span class="s2">[2]: &#34;</span><span class="o">(</span><span class="nb">set_color </span>red<span class="o">)</span><span class="s2">&#34;difference&#34;</span><span class="o">(</span><span class="nb">set_color </span>normal<span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">echo</span> <span class="s2">&#34;</span><span class="nv">$argv</span><span class="s2">[2]: &#34;</span><span class="o">(</span><span class="nb">set_color </span>red<span class="o">)</span><span class="s2">&#34;difference&#34;</span><span class="o">(</span><span class="nb">set_color </span>normal<span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">end</span>
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span><span class="line"><span class="cl">
@@ -1238,14 +1238,14 @@ Gitlab 相较消耗资源，官方推荐的最低要求为 <strong>4C4G</strong>
 </span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">check_configuration_files</span>
 </span></span><span class="line"><span class="cl">    <span class="k">cd</span> <span class="nv">$gitlab_path</span>
 </span></span><span class="line"><span class="cl">    <span class="k">set</span> <span class="nv">files</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="s2">&#34;config/gitlab.yml.example&#34;</span> <span class="s2">&#34;lib/support/nginx/gitlab-ssl&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="s2">&#34;lib/support/systemd/gitlab-gitaly.service&#34;</span> <span class="s2">&#34;lib/support/systemd/gitlab-pages.service&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="s2">&#34;lib/support/systemd/gitlab-sidekiq.service&#34;</span> <span class="s2">&#34;lib/support/systemd/gitlab-mailroom.service&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="s2">&#34;lib/support/systemd/gitlab-puma.service&#34;</span> <span class="s2">&#34;lib/support/systemd/gitlab-workhorse.service&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="s2">&#34;lib/support/systemd/gitlab.target&#34;</span> <span class="s2">&#34;lib/support/systemd/gitlab.slice&#34;</span>
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>        <span class="s2">&#34;config/gitlab.yml.example&#34;</span> <span class="s2">&#34;lib/support/nginx/gitlab-ssl&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>        <span class="s2">&#34;lib/support/systemd/gitlab-gitaly.service&#34;</span> <span class="s2">&#34;lib/support/systemd/gitlab-pages.service&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>        <span class="s2">&#34;lib/support/systemd/gitlab-sidekiq.service&#34;</span> <span class="s2">&#34;lib/support/systemd/gitlab-mailroom.service&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>        <span class="s2">&#34;lib/support/systemd/gitlab-puma.service&#34;</span> <span class="s2">&#34;lib/support/systemd/gitlab-workhorse.service&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>        <span class="s2">&#34;lib/support/systemd/gitlab.target&#34;</span> <span class="s2">&#34;lib/support/systemd/gitlab.slice&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="nv">f</span> <span class="k">in</span> <span class="nv">$files</span>
-</span></span><span class="line"><span class="cl">	git diff <span class="na">--exit-code</span> origin/<span class="nv">$curr_branch</span>:<span class="nv">$f</span> origin/<span class="nv">$next_branch</span>:<span class="nv">$f</span>
-</span></span><span class="line"><span class="cl">	check_and_print_command_status <span class="nv">$status</span> <span class="s2">&#34;</span><span class="nv">$f</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">git</span> diff <span class="na">--exit-code</span> origin/<span class="nv">$curr_branch</span>:<span class="nv">$f</span> origin/<span class="nv">$next_branch</span>:<span class="nv">$f</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">check_and_print_command_status</span> <span class="nv">$status</span> <span class="s2">&#34;</span><span class="nv">$f</span><span class="s2">&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">end</span>
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span><span class="line"><span class="cl">
@@ -1647,8 +1647,8 @@ PostgreSQL (&gt; 9.2)，我们继续使用 PostgreSQL 就好</p>
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.111.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
             </div>

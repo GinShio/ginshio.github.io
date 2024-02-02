@@ -276,8 +276,8 @@ int main(int argc, char **argv) {
     }
     char buffer[MAXLINE] = {0};
     printf("connection from %s, port %d\n",
-	   inet_ntop(AF_INET, &cliaddr.sin_addr, buffer, INET_ADDRSTRLEN),
-	   ntohs(cliaddr.sin_port));
+           inet_ntop(AF_INET, &cliaddr.sin_addr, buffer, INET_ADDRSTRLEN),
+           ntohs(cliaddr.sin_port));
     time_t ticks = time(NULL);
     snprintf(buffer, sizeof(buffer), "%.24s\r\n", ctime(&ticks));
     if (write(connfd, buffer, strlen(buffer)) < 0) {
@@ -991,3 +991,4 @@ void sig_chld(int signo) {
 
     当 Unix 系统关机时，init 进程会给所有进程发送 SIGTERM 信号，并等待一段时间
     (一般是 5 ~ 20 秒)，然后对仍在运行的进程发送 SIGKILL 信号。这么做是为了让进程得知将要关机，而捕获 SIGTERM 信号做相关的数据保存工作，相应的 SIGKILL 则是强制所有进程结束，进入关机状态。之后的情况与服务端主动断开类似。
+

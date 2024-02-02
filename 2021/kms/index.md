@@ -421,3 +421,4 @@ Office 的 GVLK 可以在 [官方文档](https://docs.microsoft.com/en-us/Deploy
     | Publisher                |              | F47MM-N3XJP-TQXJ9-BP99D-8K837 |
     | Skype for Business       | Skype 商业版 | 869NQ-FJ69K-466HW-QYCP2-DDBV6 |
     | Word                     |              | WXY84-JN2Q9-RBCCQ-3Q3J3-3PFJ6 |
+

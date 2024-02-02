@@ -616,41 +616,41 @@ heap 中的每一个结点 X，左孩子的 NPL 至少与右孩子的 NPL 相等
 </span></span><span class="line"><span class="cl">    <span class="n">which_case</span> <span class="o">+=</span> <span class="n">carry</span> <span class="o">==</span> <span class="k">nullptr</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mi">4</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">switch</span> <span class="p">(</span><span class="n">which_case</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">0</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// no tree
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="na">[[fallthrough]]</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="na">[[fallthrough]]</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">      <span class="p">}</span>
 </span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">1</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// only t1
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">break</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">break</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">      <span class="p">}</span>
 </span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">2</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// only t2
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">t2</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	<span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	<span class="k">break</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">t2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">      <span class="p">}</span>
 </span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">3</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// t1 and t2 exist
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">	<span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	<span class="k">break</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">      <span class="p">}</span>
 </span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">4</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// Only carry
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">carry</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	<span class="n">carry</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	<span class="k">break</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">carry</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">carry</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">      <span class="p">}</span>
 </span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">5</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// t1 and carry exist
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">carry</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">	<span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	<span class="k">break</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">carry</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">      <span class="p">}</span>
 </span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">6</span><span class="o">:</span> <span class="p">{</span>  <span class="c1">// t2 and carry exist
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">carry</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">	<span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	<span class="k">break</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">carry</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">      <span class="p">}</span>
 </span></span><span class="line"><span class="cl">      <span class="k">case</span> <span class="mi">7</span><span class="o">:</span> <span class="p">{</span> <span class="c1">// all exist
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">carry</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	<span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">	<span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	<span class="k">break</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">a</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">carry</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">carry</span> <span class="o">=</span> <span class="n">merge_tree</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="p">.</span><span class="n">forest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">      <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
@@ -695,8 +695,8 @@ heap 中的每一个结点 X，左孩子的 NPL 至少与右孩子的 NPL 相等
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.111.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
             </div>

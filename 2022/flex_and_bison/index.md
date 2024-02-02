@@ -1130,7 +1130,7 @@ do {
     int tok1 = yylex(scanner_1);
     int tok2 = yylex(scanner_2);
     if (tok1 != tok2) {
-	printf("Files are different.\n");
+        printf("Files are different.\n");
     }
 } while (tok1 && tok2);
 ```
@@ -1877,9 +1877,9 @@ EPILOGUE
           (Cur).last_column  = YYRHSLOC(Rhs, N).last_column;  \
         } else {                                              \
           (Cur).first_line   = (Cur).last_line   =            \
-    	YYRHSLOC(Rhs, 0).last_line;                       \
+            YYRHSLOC(Rhs, 0).last_line;                       \
           (Cur).first_column = (Cur).last_column =            \
-    	YYRHSLOC(Rhs, 0).last_column;                     \
+            YYRHSLOC(Rhs, 0).last_column;                     \
         }                                                     \
     while (0)
     ```
@@ -2225,10 +2225,10 @@ exp: ... { ...; *randomness += 1; ... }
     ```c
     int yylex(void) {
         if (c == EOF) {
-    	return 0;
+            return 0;
         }
         if (c == '+' || c == '-') {
-    	return c;
+            return c;
         }
         // ...
         return INT;
@@ -2244,10 +2244,10 @@ exp: ... { ...; *randomness += 1; ... }
         ```c
         for (i = 0; i < YYNTOKENS; i++) {
             if (yytname[i] != 0 && yytname[i][0] == '"' &&
-        	!strncmp(yytname[i] + 1, token_buffer, strlen(token_buffer)) &&
-        	yytname[i][strlen(token_buffer) + 1] == '"' &&
-        	yytname[i][strlen(token_buffer) + 2] == 0) {
-        	break;
+                !strncmp(yytname[i] + 1, token_buffer, strlen(token_buffer)) &&
+                yytname[i][strlen(token_buffer) + 1] == '"' &&
+                yytname[i][strlen(token_buffer) + 2] == 0) {
+                break;
             }
         }
         ```
@@ -2972,3 +2972,4 @@ cmake -S. -Bcmake_build_debug -DCMAKE_BUILD_TYPE=Debug
 cd cmake_build_debug/ && make -j
 ./sysyc main.sy
 ```
+

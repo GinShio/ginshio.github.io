@@ -309,14 +309,14 @@ void insert_help(Node* node, Node* head) {
     // 判断 zig-zig 或 zig-zag 类型，进行相应的旋转
     if (parent == grandparent->left) {
       if (node == parent->right) { // l-r 的 zig-zag
-	node = parent;
-	parent = rotate_left(parent);
+        node = parent;
+        parent = rotate_left(parent);
       }
       rotate_right(grandparent); // l-l 的 zig-zig
     } else {
       if (node == node->parent->left) { // r-l 的 zig-zag
-	node = parent;
-	parent = rotate_right(parent);
+        node = parent;
+        parent = rotate_right(parent);
       }
       ratate_left(grandparent); // r-r 的 zig-zig
     }
@@ -357,12 +357,12 @@ void insert(Node* node, Node* head, T& value, Node** pos = nullptr) {
     // 判断 zig-zig 或 zig-zag 类型，进行相应的旋转
     if (parent == gp->left) {
       if (node == parent->right) { // l-r 的 zig-zag
-	parent = rotate_left(parent);
+        parent = rotate_left(parent);
       }
       rotate_right(gp); // l-l 的 zig-zig
     } else {
       if (node == parent->left) { // r-l 的 zig-zag
-	parent = rotate_right(parent);
+        parent = rotate_right(parent);
       }
       ratate_left(gp); // r-r 的 zig-zig
     }
@@ -493,9 +493,9 @@ void remove(const Comparable& val, AANode* root) {
   } else {
     // 不是树的底部，需要对其进行平衡
     if (root->left->level < root->level - 1 ||
-	root->right->level < root->level - 1) {
+        root->right->level < root->level - 1) {
       if (root->right->level > --root->level) {
-	root->right->level = root->level;
+        root->right->level = root->level;
       }
       skew(root);
       skew(root->right);
@@ -506,3 +506,4 @@ void remove(const Comparable& val, AANode* root) {
   }
 }
 ```
+

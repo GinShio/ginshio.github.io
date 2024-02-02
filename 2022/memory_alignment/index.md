@@ -426,7 +426,7 @@ struct T {
 ```C++
 struct S {
  public:  int s;
-	  int t;
+          int t;
  private: int u;
  public:  int v;
 };
@@ -711,3 +711,4 @@ layout(push_constant) uniform PCO {
 -   [C++ Disambiguation: subobject and subclass object](https://stackoverflow.com/questions/18451683/c-disambiguation-subobject-and-subclass-object)
 -   [Simple features I’m missing in GLSL: enums and sizeof](https://community.khronos.org/t/simple-features-im-missing-in-glsl-enums-and-sizeof/104947)
 -   [OpenGL Wiki](https://www.khronos.org/opengl/wiki/Main_Page)
+

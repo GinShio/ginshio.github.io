@@ -106,10 +106,10 @@ _PyCharm_ 还要分，太麻烦了，就问你能加 `Erlang` 、 `Elixir` 、 `
 (setq! undo-limit 104857600         ; 重置撤销限制到 100 MiB
        auto-save-default t          ; 没有人喜欢丢失工作，我也是如此
        truncate-string-ellipsis "…" ; Unicode 省略号相比 ascii 更好
-				    ; 同时节省 /宝贵的/ 空间
+                                    ; 同时节省 /宝贵的/ 空间
        password-cache-expiry nil    ; 我能信任我的电脑 ... 或不能?
        ; scroll-preserve-screen-position 'always
-				    ; 不要让 `点' (光标) 跳来跳去
+                                    ; 不要让 `点' (光标) 跳来跳去
        scroll-margin 2              ; 适当保持一点点边距
        gc-cons-threshold 1073741824
        read-process-output-max 1048576
@@ -118,13 +118,13 @@ _PyCharm_ 还要分，太麻烦了，就问你能加 `Erlang` 、 `Elixir` 、 `
 (remove-hook 'text-mode-hook #'visual-line-mode)
 (add-hook 'text-mode-hook #'auto-fill-mode)
 (add-hook! 'window-setup-hook #'toggle-frame-fullscreen)
-				    ; 设置最大化启动
+                                    ; 设置最大化启动
 ;;(display-time-mode t)             ; 开启时间状态栏
 (require 'battery)
 (when (and battery-status-function
-	   (not (string-match-p "N/A"
-				(battery-format "%B"
-						(funcall battery-status-function)))))
+           (not (string-match-p "N/A"
+                                (battery-format "%B"
+                                                (funcall battery-status-function)))))
   (display-battery-mode 1))         ; 知道还剩多少 ⚡️ 很重要
 
 (global-subword-mode 1)             ; 识别驼峰，而不是傻瓜前进
@@ -136,15 +136,15 @@ _PyCharm_ 还要分，太麻烦了，就问你能加 `Erlang` 、 `Elixir` 、 `
   (setq-default buffer-file-coding-system 'utf-8-unix)
   (set-default-coding-systems 'utf-8-unix)
   (prefer-coding-system 'utf-8-unix))
-				    ; 将 Windows 上的编码改为 UTF-8 Unix 换行
+                                    ; 将 Windows 上的编码改为 UTF-8 Unix 换行
 
 (custom-set-variables '(delete-selection-mode t) ;; delete when you select region and modify
-		      '(delete-by-moving-to-trash t) ;; delete && move to transh
-		      '(inhibit-compacting-font-caches t) ;; don’t compact font caches during GC.
-		      '(gc-cons-percentage 1))
+                      '(delete-by-moving-to-trash t) ;; delete && move to transh
+                      '(inhibit-compacting-font-caches t) ;; don’t compact font caches during GC.
+                      '(gc-cons-percentage 1))
 
 (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace 1)))
-				    ; 编程模式下让结尾的空白符亮起
+                                    ; 编程模式下让结尾的空白符亮起
 ```
 
 定义一个自己的 key leader，或许没什么用
@@ -385,7 +385,7 @@ _PyCharm_ 还要分，太麻烦了，就问你能加 `Erlang` 、 `Elixir` 、 `
         ```emacs-lisp
         syntax              ; tasing you for every semicolon you forget
         (:if (or (executable-find "hunspell")
-        	 (executable-find "aspell")) spell) ; tasing you for misspelling mispelling
+                 (executable-find "aspell")) spell) ; tasing you for misspelling mispelling
         ;;grammar           ; tasing grammar mistake every you make
         ```
 
@@ -579,13 +579,13 @@ _PyCharm_ 还要分，太麻烦了，就问你能加 `Erlang` 、 `Elixir` 、 `
 
     ```emacs-lisp
     (setq doom-theme (let ((themes '(doom-vibrant
-    				 doom-fairy-floss
-    				 doom-dracula
-    				 doom-Iosvkem
-    				 doom-moonlight
-    				 doom-monokai-pro
-    				 doom-tokyo-night)))
-    		   (elt themes (random (length themes)))))
+                                     doom-fairy-floss
+                                     doom-dracula
+                                     doom-Iosvkem
+                                     doom-moonlight
+                                     doom-monokai-pro
+                                     doom-tokyo-night)))
+                       (elt themes (random (length themes)))))
     ```
 
     当然你不喜欢这样，可以直接指定一款。
@@ -599,8 +599,8 @@ _PyCharm_ 还要分，太麻烦了，就问你能加 `Erlang` 、 `Elixir` 、 `
     ```emacs-lisp
     (after! doom-modeline
       (custom-set-variables '(doom-modeline-buffer-file-name-style 'relative-to-project)
-    			'(doom-modeline-major-mode-icon t)
-    			'(doom-modeline-modal-icon nil))
+                            '(doom-modeline-major-mode-icon t)
+                            '(doom-modeline-modal-icon nil))
       (nyan-mode t))
     ```
 
@@ -635,17 +635,17 @@ _PyCharm_ 还要分，太麻烦了，就问你能加 `Erlang` 、 `Elixir` 、 `
       <<doom-dashboard-layout>>
       (if (display-graphic-p)
           (progn
-    	;; NOTE: ONLY GUI
-    	;; set font
-    	(dolist (charset '(kana han symbol cjk-misc bopomofo gb18030))
-    	  (set-fontset-font (frame-parameter nil 'font) charset
-    			    (font-spec :family "Source Han Mono")))
-    	(appendq! face-font-rescale-alist
-    		  '(("Source Han Mono" . 1.2)
-    		    ))
-    	<<doom-image-banner>>
-    	;; random banner image from bing.com, NOTE: https://emacs-china.org/t/topic/264/33
-    	)
+            ;; NOTE: ONLY GUI
+            ;; set font
+            (dolist (charset '(kana han symbol cjk-misc bopomofo gb18030))
+              (set-fontset-font (frame-parameter nil 'font) charset
+                                (font-spec :family "Source Han Mono")))
+            (appendq! face-font-rescale-alist
+                      '(("Source Han Mono" . 1.2)
+                        ))
+            <<doom-image-banner>>
+            ;; random banner image from bing.com, NOTE: https://emacs-china.org/t/topic/264/33
+            )
         (progn
           ;; NOTE: ONLY TUI
           <<doom-ascii-banner>>
@@ -678,8 +678,8 @@ _PyCharm_ 还要分，太麻烦了，就问你能加 `Erlang` 、 `Elixir` 、 `
 ;;; cli.el -*- lexical-binding: t; -*-
 (setq! org-confirm-babel-evaluate nil)
 (advice-add 'org-babel-execute-src-block
-	    :around #'(lambda (orig-fn &rest args)
-			(quiet! (apply orig-fn args))))
+            :around #'(lambda (orig-fn &rest args)
+                        (quiet! (apply orig-fn args))))
 ```
 
 
@@ -712,9 +712,9 @@ Dashboard 是打开 Emacs 的主页，在这里添加一些常用命令是很舒
 <a id="code-snippet--doom-dashboard-layout"></a>
 ```emacs-lisp
 (remove-hook '+doom-dashboard-functions
-	     #'doom-dashboard-widget-shortmenu)
+             #'doom-dashboard-widget-shortmenu)
 (add-hook! '+doom-dashboard-mode-hook (hide-mode-line-mode 1)
-	   (hl-line-mode 1))
+           (hl-line-mode 1))
 ```
 
 
@@ -728,10 +728,10 @@ Dashboard 是打开 Emacs 的主页，在这里添加一些常用命令是很舒
 ```emacs-lisp
 (setq! frame-title-format
       '("%b – Doom Emacs"
-	(:eval
-	 (let ((project-name (projectile-project-name)))
-	   (unless (string= "-" project-name)
-	     (format "  -  [%s]" project-name))))))
+        (:eval
+         (let ((project-name (projectile-project-name)))
+           (unless (string= "-" project-name)
+             (format "  -  [%s]" project-name))))))
 ```
 
 
@@ -743,8 +743,8 @@ Dashboard 是打开 Emacs 的主页，在这里添加一些常用命令是很舒
 ```emacs-lisp
 (setq! fancy-splash-image
        (let ((banners (directory-files (expand-file-name "banners" doom-private-dir)
-				       'full (rx ".png" eos))))
-	 (elt banners (random (length banners)))))
+                                       'full (rx ".png" eos))))
+         (elt banners (random (length banners)))))
 ```
 
 当然，不要忘记 ASCII banner
@@ -753,18 +753,18 @@ Dashboard 是打开 Emacs 的主页，在这里添加一些常用命令是很舒
 ```emacs-lisp
 (setq! ginshio/+doom-dashbord-ascii-banner
        (split-string (with-output-to-string
-		       (call-process "cat" nil standard-output nil
-				     (let ((banners (directory-files (expand-file-name "banners" doom-private-dir)
-								     'full (rx ".txt" eos))))
-				       (elt banners (random (length banners))))))
-		     "\n" t))
+                       (call-process "cat" nil standard-output nil
+                                     (let ((banners (directory-files (expand-file-name "banners" doom-private-dir)
+                                                                     'full (rx ".txt" eos))))
+                                       (elt banners (random (length banners))))))
+                     "\n" t))
 (setq! +doom-dashboard-ascii-banner-fn
        #'(lambda ()
-	   (mapc (lambda (line)
-		   (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
-				       'face 'doom-dashboard-banner) " ")
-		   (insert "\n"))
-		 ginshio/+doom-dashbord-ascii-banner)))
+           (mapc (lambda (line)
+                   (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
+                                       'face 'doom-dashboard-banner) " ")
+                   (insert "\n"))
+                 ginshio/+doom-dashbord-ascii-banner)))
 ```
 
 
@@ -907,56 +907,56 @@ rc.d (Linux, Maybe WSL)
 
     case "$1" in
         start)
-    	#check whether already started
-    	if [ -e "$socket_file" ]
-    	then
-    	    echo "Error: emacsd already started."
-    	    exit $EE_EMACSD_ALREADY_STARTED
-    	fi
+            #check whether already started
+            if [ -e "$socket_file" ]
+            then
+                echo "Error: emacsd already started."
+                exit $EE_EMACSD_ALREADY_STARTED
+            fi
 
-    	echo "Start emacs daemon ..."
-    	if sudo -u"#"$emacsd_uid $emacs --daemon
-    	then
-    	    echo "emacsd is up."
-    	    exit 0
-    	else
-    	    echo "Error: emacsd failed to start."
-    	    exit $EE_EMACS_FAIL_TO_START
-    	fi
-    	;;
+            echo "Start emacs daemon ..."
+            if sudo -u"#"$emacsd_uid $emacs --daemon
+            then
+                echo "emacsd is up."
+                exit 0
+            else
+                echo "Error: emacsd failed to start."
+                exit $EE_EMACS_FAIL_TO_START
+            fi
+            ;;
 
         stop)
-    	#options="-s $socket_file"
-    	options=""
-    	lispcode="(kill-emacs)"
+            #options="-s $socket_file"
+            options=""
+            lispcode="(kill-emacs)"
 
-    	if sudo -u"#"$emacsd_uid $emacsclient $options --eval $lispcode
-    	then
-    	    echo "emacsd is down."
-    	    exit 0
-    	else
-    	    echo "Error: emacsd failed to stop."
-    	    exit $EE_EMACS_FAIL_TO_STOP
-    	fi
-    	;;
+            if sudo -u"#"$emacsd_uid $emacsclient $options --eval $lispcode
+            then
+                echo "emacsd is down."
+                exit 0
+            else
+                echo "Error: emacsd failed to stop."
+                exit $EE_EMACS_FAIL_TO_STOP
+            fi
+            ;;
 
         restart|force-reload)
-    	if [ -e "$socket_file" ]
-    	then
-    	    $0 stop
-    	fi
-    	$0 start
-    	exit $?
-    	;;
+            if [ -e "$socket_file" ]
+            then
+                $0 stop
+            fi
+            $0 start
+            exit $?
+            ;;
 
         *)
-    	echo "Usage: /etc/init.d/emacsd {start|stop|restart|force-reload}"
-    	if ! [ -z "$1" ]
-    	then
-    	    echo "No such option:" $*
-    	    exit $EE_INVALID_OPTION
-    	fi
-    	;;
+            echo "Usage: /etc/init.d/emacsd {start|stop|restart|force-reload}"
+            if ! [ -z "$1" ]
+            then
+                echo "No such option:" $*
+                exit $EE_INVALID_OPTION
+            fi
+            ;;
     esac
     ```
 
@@ -1011,17 +1011,17 @@ args=()
 
 while :; do
     case "$1" in
-	-t | -nw | --tty)
-	    force_tty=true
-	    shift ;;
-	-w | --wait)
-	    force_wait=true
-	    shift ;;
-	-m | --mode)
-	    stdin_mode=" ($2-mode)"
-	    shift 2 ;;
-	-h | --help)
-	    echo -e "\033[1mUsage: e [-t] [-m MODE] [OPTIONS] FILE [-]\033[0m
+        -t | -nw | --tty)
+            force_tty=true
+            shift ;;
+        -w | --wait)
+            force_wait=true
+            shift ;;
+        -m | --mode)
+            stdin_mode=" ($2-mode)"
+            shift 2 ;;
+        -h | --help)
+            echo -e "\033[1mUsage: e [-t] [-m MODE] [OPTIONS] FILE [-]\033[0m
 
 Emacs client convenience wrapper.
 
@@ -1033,15 +1033,15 @@ Emacs client convenience wrapper.
 \033[0;34m-m MODE, --mode MODE\033[0m  Mode to open \033[0;33mstdin\033[0m with
 
 Run \033[0;32memacsclient --help\033[0m to see help for the emacsclient."
-	    exit 0 ;;
-	--*=*)
-	    set -- "$@" "${1%%=*}" "${1#*=}"
-	    shift ;;
-	*)
-	    if [ "$#" = 0 ]; then
-		break; fi
-	    args+=("$1")
-	    shift ;;
+            exit 0 ;;
+        --*=*)
+            set -- "$@" "${1%%=*}" "${1#*=}"
+            shift ;;
+        *)
+            if [ "$#" = 0 ]; then
+                break; fi
+            args+=("$1")
+            shift ;;
     esac
 done
 
@@ -1055,18 +1055,18 @@ fi
 if [ -z "$DISPLAY" ] || $force_tty; then
     # detect terminals with sneaky 24-bit support
     if { [ "$COLORTERM" = truecolor ] || [ "$COLORTERM" = 24bit ]; } \
-	&& [ "$(tput colors 2>/dev/null)" -lt 257 ]; then
-	if echo "$TERM" | grep -q "^\w\+-[0-9]"; then
-	    termstub="${TERM%%-*}"; else
-	    termstub="${TERM#*-}"; fi
-	if infocmp "$termstub-direct" >/dev/null 2>&1; then
-	    TERM="$termstub-direct"; else
-	    TERM="xterm-direct"; fi # should be fairly safe
+        && [ "$(tput colors 2>/dev/null)" -lt 257 ]; then
+        if echo "$TERM" | grep -q "^\w\+-[0-9]"; then
+            termstub="${TERM%%-*}"; else
+            termstub="${TERM#*-}"; fi
+        if infocmp "$termstub-direct" >/dev/null 2>&1; then
+            TERM="$termstub-direct"; else
+            TERM="xterm-direct"; fi # should be fairly safe
     fi
     emacsclient --tty -create-frame --alternate-editor="" "${args[@]}"
 else
     if ! $force_wait; then
-	args+=(--no-wait); fi
+        args+=(--no-wait); fi
     emacsclient -create-frame --alternate-editor="" "${args[@]}"
 fi
 ```
@@ -1107,7 +1107,7 @@ doom 通过 `packages.el` 来安装包，非常简单，只需要 `package!` 就
     ```emacs-lisp
     (package! some-package
       :recipe (:host github :repo "username/repo"
-    	   :files ("some-file.el" "src/elisp/*.el")))
+               :files ("some-file.el" "src/elisp/*.el")))
     ```
     如果需要指定某个 `commit` 或某个 `branch`
     ```emacs-lisp
@@ -1131,9 +1131,9 @@ Emacs Stack Exchange 上的[在多种模式下使用统一的缩写表](https://
 
 ```emacs-lisp
 (add-hook 'doom-first-buffer-hook
-	  (defun +abbrev-file-name ()
-	    (setq-default abbrev-mode t)
-	    (setq abbrev-file-name (expand-file-name "abbrev.el" doom-private-dir))))
+          (defun +abbrev-file-name ()
+            (setq-default abbrev-mode t)
+            (setq abbrev-file-name (expand-file-name "abbrev.el" doom-private-dir))))
 ```
 
 
@@ -1174,39 +1174,39 @@ emacs 自带的强大文件管理器，和之后提到的 [Magit](#magit)、[TRA
 see: https://oremacs.com/2017/03/18/dired-ediff/"
     (let ((files (dired-get-marked-files)))
       (cond ((= (length files) 0))
-	    ((= (length files) 1)
-	     (let ((file1 (nth 0 files))
-		   (file2 (read-file-name "file: " (dired-dwim-target-directory))))
-	       (ediff-files file1 file2)))
-	    ((= (length files) 2)
-	     (let ((file1 (nth 0 files)) (file2 (nth 1 files)))
-	       (ediff-files file1 file2)))
-	    ((= (length files) 3)
-	     (let ((file1 (car files)) (file2 (nth 1 files)) (file3 (nth 2 files)))
-	       (ediff-files3 file1 file2 file3)))
-	    (t (error "no more than 3 files should be marked")))))
+            ((= (length files) 1)
+             (let ((file1 (nth 0 files))
+                   (file2 (read-file-name "file: " (dired-dwim-target-directory))))
+               (ediff-files file1 file2)))
+            ((= (length files) 2)
+             (let ((file1 (nth 0 files)) (file2 (nth 1 files)))
+               (ediff-files file1 file2)))
+            ((= (length files) 3)
+             (let ((file1 (car files)) (file2 (nth 1 files)) (file3 (nth 2 files)))
+               (ediff-files3 file1 file2 file3)))
+            (t (error "no more than 3 files should be marked")))))
   (define-advice dired-do-print (:override (&optional _))
     "show/hide dotfiles in current dired
 see: https://www.emacswiki.org/emacs/DiredOmitMode"
     (cond ((or (not (boundp 'dired-dotfiles-show-p)) dired-dotfiles-show-p)
-	   (setq-local dired-dotfiles-show-p nil)
-	   (dired-mark-files-regexp "^\\.")
-	   (dired-do-kill-lines))
-	  (t (revert-buffer)
-	     (setq-local dired-dotfiles-show-p t))))
+           (setq-local dired-dotfiles-show-p nil)
+           (dired-mark-files-regexp "^\\.")
+           (dired-do-kill-lines))
+          (t (revert-buffer)
+             (setq-local dired-dotfiles-show-p t))))
   (define-advice dired-up-directory (:override (&optional _))
     "goto up directory in this buffer"
     (find-alternate-file ".."))
   (define-advice dired-do-compress-to (:override (&optional _))
     "Compress selected files and directories to an archive."
     (let* ((output (read-file-name "Compress to: "))
-	   (command-assoc (assoc output dired-compress-files-alist 'string-match))
-	   (files-str (mapconcat 'identity (dired-get-marked-files t) " ")))
+           (command-assoc (assoc output dired-compress-files-alist 'string-match))
+           (files-str (mapconcat 'identity (dired-get-marked-files t) " ")))
       (when (and command-assoc (not (string= "" files-str)))
-	(let ((command (format-spec (cdr command-assoc)
-				    `((?o . ,output)
-				      (?i . ,files-str)))))
-	  (async-start (lambda () (shell-command command)) nil))))))
+        (let ((command (format-spec (cdr command-assoc)
+                                    `((?o . ,output)
+                                      (?i . ,files-str)))))
+          (async-start (lambda () (shell-command command)) nil))))))
 ```
 
 
@@ -1289,8 +1289,8 @@ see: https://www.emacswiki.org/emacs/DiredOmitMode"
 ```emacs-lisp
 (after! company
   (setq! company-idle-delay 0.3
-	 company-minimum-prefix-length 2
-	 company-show-numbers t)
+         company-minimum-prefix-length 2
+         company-show-numbers t)
   ) ;; make aborting less annoying.
 ```
 
@@ -1298,7 +1298,7 @@ see: https://www.emacswiki.org/emacs/DiredOmitMode"
 
 ```emacs-lisp
 (setq-default history-length 1024
-	      prescient-history-length 1024)
+              prescient-history-length 1024)
 ```
 
 还有最要紧的事，让待选选项有数字提示，方便直接 `Alt+num` 选择
@@ -1401,14 +1401,14 @@ extra lists (额外列表)
   :defer t
   :init
   (map! :leader :prefix ("cS" . "naming convention")
-	:desc "cycle" "~" #'string-inflection-all-cycle
-	:desc "toggle" "t" #'string-inflection-toggle
-	:desc "CamelCase" "c" #'string-inflection-camelcase
-	:desc "downCase" "d" #'string-inflection-lower-camelcase
-	:desc "kebab-case" "k" #'string-inflection-kebab-case
-	:desc "under_score" "u" #'string-inflection-underscore
-	:desc "Upper_Score" "_" #'string-inflection-capital-underscore
-	:desc "UP_CASE" "U" #'string-inflection-upcase))
+        :desc "cycle" "~" #'string-inflection-all-cycle
+        :desc "toggle" "t" #'string-inflection-toggle
+        :desc "CamelCase" "c" #'string-inflection-camelcase
+        :desc "downCase" "d" #'string-inflection-lower-camelcase
+        :desc "kebab-case" "k" #'string-inflection-kebab-case
+        :desc "under_score" "u" #'string-inflection-underscore
+        :desc "Upper_Score" "_" #'string-inflection-capital-underscore
+        :desc "UP_CASE" "U" #'string-inflection-upcase))
 ```
 
 
@@ -1429,7 +1429,7 @@ Access, Multiple Protocol_) 工具。简单说这是简单访问其他主机文�
     (after! tramp
       (setenv "SHELL" "/bin/bash")
       (setq tramp-shell-prompt-pattern
-    	"\\(?:^\\|
+            "\\(?:^\\|
     \\)[^]#$%>\n]*#?[]#$%>] *\\(\\[[0-9;]*[a-zA-Z] *\\)*"))  ;; default + 
     ```
 
@@ -1442,9 +1442,9 @@ Access, Multiple Protocol_) 工具。简单说这是简单访问其他主机文�
     ```emacs-lisp
     (after! tramp
       (appendq! tramp-remote-path
-    	    '("~/.guix-profile/bin" "~/.guix-profile/sbin"
-    	      "/run/current-system/profile/bin"
-    	      "/run/current-system/profile/sbin")))
+                '("~/.guix-profile/bin" "~/.guix-profile/sbin"
+                  "/run/current-system/profile/bin"
+                  "/run/current-system/profile/sbin")))
     ```
 
 
@@ -1507,74 +1507,74 @@ screenshot 依赖于 [ImageMagick](https://imagemagick.org/index.php)
   :defer t
   :init
   (setq! calibredb-root-dir "~/library/ebooks"
-	 calibredb-db-dir '((expand-file-name "metadata.db" calibredb-root-dir))
-	 calibredb-library-alist '(("~/library/ebooks")
-				   ("~/library/papers"))
-	 calibredb-format-all-the-icons t)
+         calibredb-db-dir '((expand-file-name "metadata.db" calibredb-root-dir))
+         calibredb-library-alist '(("~/library/ebooks")
+                                   ("~/library/papers"))
+         calibredb-format-all-the-icons t)
   :config
   (map! :map calibredb-show-mode-map
-	"?" #'calibredb-entry-dispatch
-	"o" #'calibredb-find-file
-	"O" #'calibredb-find-file-other-frame
-	"V" #'calibredb-open-file-with-default-tool
-	"s" #'calibredb-set-metadata-dispatch
-	"e" #'calibredb-export-dispatch
-	"q" #'calibredb-entry-quit
-	"y" #'calibredb-yank-dispatch
-	"." #'calibredb-open-dired
-	[tab] #'calibredb-toggle-view-at-point
-	"M-t" #'calibredb-set-metadata--tags
-	"M-a" #'calibredb-set-metadata--author_sort
-	"M-A" #'calibredb-set-metadata--authors
-	"M-T" #'calibredb-set-metadata--title
-	"M-c" #'calibredb-set-metadata--comments)
+        "?" #'calibredb-entry-dispatch
+        "o" #'calibredb-find-file
+        "O" #'calibredb-find-file-other-frame
+        "V" #'calibredb-open-file-with-default-tool
+        "s" #'calibredb-set-metadata-dispatch
+        "e" #'calibredb-export-dispatch
+        "q" #'calibredb-entry-quit
+        "y" #'calibredb-yank-dispatch
+        "." #'calibredb-open-dired
+        [tab] #'calibredb-toggle-view-at-point
+        "M-t" #'calibredb-set-metadata--tags
+        "M-a" #'calibredb-set-metadata--author_sort
+        "M-A" #'calibredb-set-metadata--authors
+        "M-T" #'calibredb-set-metadata--title
+        "M-c" #'calibredb-set-metadata--comments)
   (map! :map calibredb-search-mode-map
-	[mouse-3] #'calibredb-search-mouse
-	"RET" #'calibredb-find-file
-	"?" #'calibredb-dispatch
-	"a" #'calibredb-add
-	"A" #'calibredb-add-dir
-	"c" #'calibredb-clone
-	"d" #'calibredb-remove
-	"D" #'calibredb-remove-marked-items
-	"j" #'calibredb-next-entry
-	"k" #'calibredb-previous-entry
-	"l" #'calibredb-virtual-library-list
-	"L" #'calibredb-library-list
-	"n" #'calibredb-virtual-library-next
-	"N" #'calibredb-library-next
-	"p" #'calibredb-virtual-library-previous
-	"P" #'calibredb-library-previous
-	"s" #'calibredb-set-metadata-dispatch
-	"S" #'calibredb-switch-library
-	"o" #'calibredb-find-file
-	"O" #'calibredb-find-file-other-frame
-	"v" #'calibredb-view
-	"V" #'calibredb-open-file-with-default-tool
-	"." #'calibredb-open-dired
-	"y" #'calibredb-yank-dispatch
-	"b" #'calibredb-catalog-bib-dispatch
-	"e" #'calibredb-export-dispatch
-	"r" #'calibredb-search-refresh-and-clear-filter
-	"R" #'calibredb-search-clear-filter
-	"q" #'calibredb-search-quit
-	"m" #'calibredb-mark-and-forward
-	"f" #'calibredb-toggle-favorite-at-point
-	"x" #'calibredb-toggle-archive-at-point
-	"h" #'calibredb-toggle-highlight-at-point
-	"u" #'calibredb-unmark-and-forward
-	"i" #'calibredb-edit-annotation
-	"DEL" #'calibredb-unmark-and-backward
-	[backtab] #'calibredb-toggle-view
-	[tab] #'calibredb-toggle-view-at-point
-	"M-n" #'calibredb-show-next-entry
-	"M-p" #'calibredb-show-previous-entry
-	"/" #'calibredb-search-live-filter
-	"M-t" #'calibredb-set-metadata--tags
-	"M-a" #'calibredb-set-metadata--author_sort
-	"M-A" #'calibredb-set-metadata--authors
-	"M-T" #'calibredb-set-metadata--title
-	"M-c" #'calibredb-set-metadata--comments))
+        [mouse-3] #'calibredb-search-mouse
+        "RET" #'calibredb-find-file
+        "?" #'calibredb-dispatch
+        "a" #'calibredb-add
+        "A" #'calibredb-add-dir
+        "c" #'calibredb-clone
+        "d" #'calibredb-remove
+        "D" #'calibredb-remove-marked-items
+        "j" #'calibredb-next-entry
+        "k" #'calibredb-previous-entry
+        "l" #'calibredb-virtual-library-list
+        "L" #'calibredb-library-list
+        "n" #'calibredb-virtual-library-next
+        "N" #'calibredb-library-next
+        "p" #'calibredb-virtual-library-previous
+        "P" #'calibredb-library-previous
+        "s" #'calibredb-set-metadata-dispatch
+        "S" #'calibredb-switch-library
+        "o" #'calibredb-find-file
+        "O" #'calibredb-find-file-other-frame
+        "v" #'calibredb-view
+        "V" #'calibredb-open-file-with-default-tool
+        "." #'calibredb-open-dired
+        "y" #'calibredb-yank-dispatch
+        "b" #'calibredb-catalog-bib-dispatch
+        "e" #'calibredb-export-dispatch
+        "r" #'calibredb-search-refresh-and-clear-filter
+        "R" #'calibredb-search-clear-filter
+        "q" #'calibredb-search-quit
+        "m" #'calibredb-mark-and-forward
+        "f" #'calibredb-toggle-favorite-at-point
+        "x" #'calibredb-toggle-archive-at-point
+        "h" #'calibredb-toggle-highlight-at-point
+        "u" #'calibredb-unmark-and-forward
+        "i" #'calibredb-edit-annotation
+        "DEL" #'calibredb-unmark-and-backward
+        [backtab] #'calibredb-toggle-view
+        [tab] #'calibredb-toggle-view-at-point
+        "M-n" #'calibredb-show-next-entry
+        "M-p" #'calibredb-show-previous-entry
+        "/" #'calibredb-search-live-filter
+        "M-t" #'calibredb-set-metadata--tags
+        "M-a" #'calibredb-set-metadata--author_sort
+        "M-A" #'calibredb-set-metadata--authors
+        "M-T" #'calibredb-set-metadata--title
+        "M-c" #'calibredb-set-metadata--comments))
 ```
 
 其实建立自己的书库相当快乐，当然在搜索解决方案时还在神社看到了用 calibre
@@ -1612,7 +1612,7 @@ screenshot 依赖于 [ImageMagick](https://imagemagick.org/index.php)
       :mode ("\\.epub\\'" . nov-mode)
       :config
       (map! :map nov-mode-map
-    	:n "RET" #'nov-scroll-up)
+            :n "RET" #'nov-scroll-up)
 
       (defun doom-modeline-segment--nov-info ()
         (concat
@@ -1625,52 +1625,52 @@ screenshot 依赖于 [ImageMagick](https://imagemagick.org/index.php)
          " "
          (propertize
           (format "%d/%d"
-    	      (1+ nov-documents-index)
-    	      (length nov-documents))
+                  (1+ nov-documents-index)
+                  (length nov-documents))
           'face 'doom-modeline-info)))
 
       (advice-add 'nov-render-title :override #'ignore)
 
       (defun +nov-mode-setup ()
         (face-remap-add-relative 'variable-pitch
-    			     :family "Merriweather"
-    			     :height 1.4
-    			     :width 'semi-expanded)
+                                 :family "Merriweather"
+                                 :height 1.4
+                                 :width 'semi-expanded)
         (face-remap-add-relative 'default :height 1.3)
         (setq-local line-spacing 0.2
-    		next-screen-context-lines 4
-    		shr-use-colors nil)
+                    next-screen-context-lines 4
+                    shr-use-colors nil)
         (require 'visual-fill-column nil t)
         (setq-local visual-fill-column-center-text t
-    		visual-fill-column-width 81
-    		nov-text-width 80)
+                    visual-fill-column-width 81
+                    nov-text-width 80)
         (visual-fill-column-mode 1)
         (hl-line-mode -1)
 
         (add-to-list '+lookup-definition-functions #'+lookup/dictionary-definition)
 
         (setq-local mode-line-format
-    		`((:eval
-    		   (doom-modeline-segment--workspace-name))
-    		  (:eval
-    		   (doom-modeline-segment--window-number))
-    		  (:eval
-    		   (doom-modeline-segment--nov-info))
-    		  ,(propertize
-    		    " %P "
-    		    'face 'doom-modeline-buffer-minor-mode)
-    		  ,(propertize
-    		    " "
-    		    'face (if (doom-modeline--active) 'mode-line 'mode-line-inactive)
-    		    'display `((space
-    				:align-to
-    				(- (+ right right-fringe right-margin)
-    				   ,(* (let ((width (doom-modeline--font-width)))
-    					 (or (and (= width 1) 1)
-    					     (/ width (frame-char-width) 1.0)))
-    				       (string-width
-    					(format-mode-line (cons "" '(:eval (doom-modeline-segment--major-mode))))))))))
-    		  (:eval (doom-modeline-segment--major-mode)))))
+                    `((:eval
+                       (doom-modeline-segment--workspace-name))
+                      (:eval
+                       (doom-modeline-segment--window-number))
+                      (:eval
+                       (doom-modeline-segment--nov-info))
+                      ,(propertize
+                        " %P "
+                        'face 'doom-modeline-buffer-minor-mode)
+                      ,(propertize
+                        " "
+                        'face (if (doom-modeline--active) 'mode-line 'mode-line-inactive)
+                        'display `((space
+                                    :align-to
+                                    (- (+ right right-fringe right-margin)
+                                       ,(* (let ((width (doom-modeline--font-width)))
+                                             (or (and (= width 1) 1)
+                                                 (/ width (frame-char-width) 1.0)))
+                                           (string-width
+                                            (format-mode-line (cons "" '(:eval (doom-modeline-segment--major-mode))))))))))
+                      (:eval (doom-modeline-segment--major-mode)))))
 
       (add-hook 'nov-mode-hook #'+nov-mode-setup))
     ```
@@ -1691,10 +1691,10 @@ screenshot 依赖于 [ImageMagick](https://imagemagick.org/index.php)
 (use-package! nyan-mode
   :config
   (setq nyan-animate-nyancat t
-	nyan-wavy-trail t
-	nyan-cat-face-number 4
-	nyan-bar-length 16
-	nyan-minimum-window-width 64)
+        nyan-wavy-trail t
+        nyan-cat-face-number 4
+        nyan-bar-length 16
+        nyan-minimum-window-width 64)
   (add-hook! 'doom-modeline-hook #'nyan-mode))
 ```
 
@@ -1800,10 +1800,10 @@ OOTB 的 emoji 模块！麻烦的一点是设置的有些默认字符，可能�
   (centaur-tabs-group-by-projectile-project)
   (centaur-tabs-mode t)
   (setq! centaur-tabs-style "bar"
-	 centaur-tabs-set-icons t
-	 centaur-tabs-set-modified-marker t
-	 centaur-tabs-show-navigation-buttons t
-	 centaur-tabs-gray-out-icons 'buffer))
+         centaur-tabs-set-icons t
+         centaur-tabs-set-modified-marker t
+         centaur-tabs-show-navigation-buttons t
+         centaur-tabs-gray-out-icons 'buffer))
 ```
 
 如果想要 tabs 底下显示 `bar` ，需要开启 `x-underline-at-descent-line`，但是它在 `(after! ...)` 中不起作用。
@@ -1821,10 +1821,10 @@ OOTB 的 emoji 模块！麻烦的一点是设置的有些默认字符，可能�
 ```emacs-lisp
 (after! treemacs
   (setq! treemacs-indent-guide-mode t
-	 treemacs-show-hidden-files t
-	 doom-themes-treemacs-theme "doom-colors"
-	 treemacs-file-event-delay 1000
-	 treemacs-file-follow-delay 0.1)
+         treemacs-show-hidden-files t
+         doom-themes-treemacs-theme "doom-colors"
+         treemacs-file-event-delay 1000
+         treemacs-file-follow-delay 0.1)
   (treemacs-follow-mode t)
   ;; (treemacs-filewatch-mode t)
   (treemacs-git-mode 'deferred)
@@ -1841,15 +1841,15 @@ OOTB 的 emoji 模块！麻烦的一点是设置的有些默认字符，可能�
 ```emacs-lisp
 (custom-set-variables
  '(hl-todo-keyword-faces '(("NOTE" font-lock-builtin-face bold) ;; needs discussion or further investigation.
-			   ("REVIEW" font-lock-keyword-face bold) ;; review was conducted.
-			   ("HACK" font-lock-variable-name-face bold) ;; workaround a known problem.
-			   ("DEPRECATED" region bold) ;; why it was deprecated and to suggest an alternative.
-			   ("XXX+" font-lock-constant-face bold) ;; warn other programmers of problematic or misguiding code.
-			   ("TODO" font-lock-function-name-face bold) ;; tasks/features to be done.
-			   ("FIXME" font-lock-warning-face bold) ;; problematic or ugly code needing refactoring or cleanup.
-			   ("KLUDGE" font-lock-preprocessor-face bold )
-			   ("BUG" error bold) ;; a known bug that should be corrected.
-			   )))
+                           ("REVIEW" font-lock-keyword-face bold) ;; review was conducted.
+                           ("HACK" font-lock-variable-name-face bold) ;; workaround a known problem.
+                           ("DEPRECATED" region bold) ;; why it was deprecated and to suggest an alternative.
+                           ("XXX+" font-lock-constant-face bold) ;; warn other programmers of problematic or misguiding code.
+                           ("TODO" font-lock-function-name-face bold) ;; tasks/features to be done.
+                           ("FIXME" font-lock-warning-face bold) ;; problematic or ugly code needing refactoring or cleanup.
+                           ("KLUDGE" font-lock-preprocessor-face bold )
+                           ("BUG" error bold) ;; a known bug that should be corrected.
+                           )))
 ```
 
 
@@ -1867,7 +1867,7 @@ OOTB 的 emoji 模块！麻烦的一点是设置的有些默认字符，可能�
 ```emacs-lisp
 (after! xkcd
   (setq xkcd-cache-dir (expand-file-name "xkcd/" doom-cache-dir)
-	xkcd-cache-latest (concat xkcd-cache-dir "latest"))
+        xkcd-cache-latest (concat xkcd-cache-dir "latest"))
   (unless (file-exists-p xkcd-cache-dir)
     (make-directory xkcd-cache-dir)))
 ```
@@ -1879,16 +1879,16 @@ OOTB 的 emoji 模块！麻烦的一点是设置的有些默认字符，可能�
 ```emacs-lisp
 (after! org
   (org-link-set-parameters "xkcd"
-			   :image-data-fun #'+org-xkcd-image-fn
-			   :follow #'+org-xkcd-open-fn
-			   :export #'+org-xkcd-export))
+                           :image-data-fun #'+org-xkcd-image-fn
+                           :follow #'+org-xkcd-open-fn
+                           :export #'+org-xkcd-export))
 
 ;;;###autoload
 (defun ginshio/xkcd-file-info (&optional num)
   "Get xkcd image info"
   (require 'xkcd)
   (let* ((url (format "https://xkcd.com/%d/info.0.json" num))
-	 (json-assoc (json-read-from-string (xkcd-get-json url num))))
+         (json-assoc (json-read-from-string (xkcd-get-json url num))))
     `(:img ,(cdr (assoc 'img json-assoc))
       :alt ,(cdr (assoc 'alt json-assoc))
       :title ,(cdr (assoc 'title json-assoc)))))
@@ -1901,34 +1901,34 @@ OOTB 的 emoji 模块！麻烦的一点是设置的有些默认字符，可能�
 (defun +org-xkcd-image-fn (protocol link description)
   "Get image data for xkcd num LINK"
   (let* ((xkcd-info (ginshio/xkcd-file-info (string-to-number link)))
-	 (img (plist-get xkcd-info :img))
-	 (alt (plist-get xkcd-info :alt)))
+         (img (plist-get xkcd-info :img))
+         (alt (plist-get xkcd-info :alt)))
     (+org-image-file-data-fn protocol (xkcd-download img (string-to-number link)) description)))
 
 ;;;###autoload
 (defun +org-xkcd-export (num desc backend _com)
   "Convert xkcd to html/LaTeX/Markdown form"
   (let* ((xkcd-info (ginshio/xkcd-file-info (string-to-number num)))
-	 (img (plist-get xkcd-info :img))
-	 (alt (plist-get xkcd-info :alt))
-	 (title (plist-get xkcd-info :title))
-	 (file (xkcd-download img (string-to-number num))))
+         (img (plist-get xkcd-info :img))
+         (alt (plist-get xkcd-info :alt))
+         (title (plist-get xkcd-info :title))
+         (file (xkcd-download img (string-to-number num))))
     (cond ((org-export-derived-backend-p backend 'hugo)
-	   (format "{{< figure src=\"%s\" alt=\"%s\" >}}" img (subst-char-in-string ?\" ?“ alt)))
-	  ((org-export-derived-backend-p backend 'html)
-	   (format "<img class='invertible' src='%s' title=\"%s\" alt='%s'>" img (subst-char-in-string ?\" ?“ alt) title))
-	  ((org-export-derived-backend-p backend 'latex)
-	   (format "\\begin{figure}[!htb]
+           (format "{{</* figure src=\"%s\" alt=\"%s\" */>}}" img (subst-char-in-string ?\" ?“ alt)))
+          ((org-export-derived-backend-p backend 'html)
+           (format "<img class='invertible' src='%s' title=\"%s\" alt='%s'>" img (subst-char-in-string ?\" ?“ alt) title))
+          ((org-export-derived-backend-p backend 'latex)
+           (format "\\begin{figure}[!htb]
   \\centering
   \\includegraphics[scale=0.4]{%s}%s
 \\end{figure}" file (if (equal desc (format "xkcd:%s" num)) ""
-		      (format "\n  \\caption*{\\label{xkcd:%s} %s}"
-			      num
-			      (or desc
-				  (format "\\textbf{%s} %s" title alt))))))
-	  ((org-export-derived-backend-p backend 'markdown)
-	   (format "![%s](https://xkcd.com/%s)" (subst-char-in-string ?\" ?“ alt) num))
-	  (t (format "https://xkcd.com/%s" num)))))
+                      (format "\n  \\caption*{\\label{xkcd:%s} %s}"
+                              num
+                              (or desc
+                                  (format "\\textbf{%s} %s" title alt))))))
+          ((org-export-derived-backend-p backend 'markdown)
+           (format "![%s](https://xkcd.com/%s)" (subst-char-in-string ?\" ?“ alt) num))
+          (t (format "https://xkcd.com/%s" num)))))
 ```
 
 
@@ -2010,9 +2010,9 @@ Emacs 可以显示 ANSI 颜色代码。然而，在 Emacs 28 之前，如果不�
 ```emacs-lisp
 (after! text-mode
   (add-hook! 'text-mode-hook
-	     ;; Apply ANSI color codes
-	     (with-silent-modifications
-	       (ansi-color-apply-on-region (point-min) (point-max) t))))
+             ;; Apply ANSI color codes
+             (with-silent-modifications
+               (ansi-color-apply-on-region (point-min) (point-max) t))))
 ```
 
 
@@ -2143,8 +2143,8 @@ figure.png╶─╧─▶ PROJECT.ORG ▶───╴filters╶───╧─�
       :after org
       :config
       (map! :map org-mode-map
-    	:localleader
-    	:desc "Outline" "O" #'org-ol-tree))
+            :localleader
+            :desc "Outline" "O" #'org-ol-tree))
     ```
 
 <!--list-separator-->
@@ -2159,13 +2159,13 @@ figure.png╶─╧─▶ PROJECT.ORG ▶───╴filters╶───╧─�
       ;;urgancy|soon|as soon as possible|at some point|eventually
       ;;
       (setq! org-agenda-files `(,org-agenda-todo-file
-    			    ,org-agenda-project-file)
-    	 org-agenda-skip-scheduled-if-done t
-    	 org-agenda-skip-deadline-if-done t
-    	 org-agenda-include-deadlines t
-    	 org-agenda-block-separator nil
-    	 org-agenda-tags-column 100 ;; from testing this seems to be a good value
-    	 org-agenda-compact-blocks t))
+                                ,org-agenda-project-file)
+             org-agenda-skip-scheduled-if-done t
+             org-agenda-skip-deadline-if-done t
+             org-agenda-include-deadlines t
+             org-agenda-block-separator nil
+             org-agenda-tags-column 100 ;; from testing this seems to be a good value
+             org-agenda-compact-blocks t))
     ```
 
 <!--list-separator-->
@@ -2180,87 +2180,87 @@ figure.png╶─╧─▶ PROJECT.ORG ▶───╴filters╶───╧─�
         "find or create project headline
     https://www.zmonster.me/2018/02/28/org-mode-capture.html"
         (let* ((hl (let ((headlines (org-element-map (org-element-parse-buffer 'headline) 'headline
-    				  (lambda (hl) (and (= (org-element-property :level hl) 1)
-    					       (org-element-property :title hl))))))
-    		 (completing-read "Project Name: " headlines))))
+                                      (lambda (hl) (and (= (org-element-property :level hl) 1)
+                                                   (org-element-property :title hl))))))
+                     (completing-read "Project Name: " headlines))))
           (goto-char (point-min))
           (if (re-search-forward
-    	   (format org-complex-heading-regexp-format (regexp-quote hl)) nil t)
-    	  (goto-char (point-at-bol))
-    	(progn
-    	  (or (bolp) (insert "\n"))
-    	  (if (/= (point) (point-min)) (org-end-of-subtree))
-    	  (insert (format "* %s :project:%s:\n:properties:\n:homepage: %s\n:repo: \
+               (format org-complex-heading-regexp-format (regexp-quote hl)) nil t)
+              (goto-char (point-at-bol))
+            (progn
+              (or (bolp) (insert "\n"))
+              (if (/= (point) (point-min)) (org-end-of-subtree))
+              (insert (format "* %s :project:%s:\n:properties:\n:homepage: %s\n:repo: \
     %s\n:end:\n\n** urgancy :urgancy:\n\n** soon :soon:\n\n** as soon as\
      possible :asap:\n\n** at some point :asp:\n\n** eventually :eventually:\n"
-    			  hl hl (read-string "homepage: ") (read-string "repo: ")))
-    	  (beginning-of-line 0)
-    	  (org-up-heading-safe))))
+                              hl hl (read-string "homepage: ") (read-string "repo: ")))
+              (beginning-of-line 0)
+              (org-up-heading-safe))))
         (re-search-forward
          (format org-complex-heading-regexp-format
-    	     (regexp-quote priority))
+                 (regexp-quote priority))
          (save-excursion (org-end-of-subtree t t)) t)
         (org-end-of-subtree))
       (setq! org-capture-dir (expand-file-name "capture" org-directory)
-    	 org-capture-snippet-file (expand-file-name "snippets.org" org-capture-dir)
-    	 org-capture-comment-file (expand-file-name "comments.org" org-capture-dir)
-    	 org-capture-note-file (expand-file-name "notes.org" org-capture-dir))
+             org-capture-snippet-file (expand-file-name "snippets.org" org-capture-dir)
+             org-capture-comment-file (expand-file-name "comments.org" org-capture-dir)
+             org-capture-note-file (expand-file-name "notes.org" org-capture-dir))
       ;; http://www.howardism.org/Technical/Emacs/journaling-org.html
       ;; https://www.zmonster.me/2018/02/28/org-mode-capture.html
       (setq org-capture-templates
-    	`(("c" "Comment")
-    	  ("cb" "Book" entry (file+weektree ,org-capture-comment-file)
-    	   "* %^{book} :book:%\\1:\n%?" :empty-lines 1)
-    	  ("cm" "Movie" entry (file+weektree ,org-capture-comment-file)
-    	   "* %^{movie} :movie:%\\1:\n%?" :empty-lines 1)
-    	  ("g" "GTD")
-    	  ("gt" "Todo" entry (file+headline org-agenda-todo-file "Personal")
-    	   "* TODO [#%^{priority|A|B|C|D|E}] %^{task}\n  SCHEDULED: %^T DEADLINE: %^T\n:properties:\n:end:\n%?"
-    	   :empty-lines 1)
-    	  ("gi" "Interview" entry (file+headline ,org-agenda-todo-file "Interview")
-    	   "* WAIT [#%^{priority|B|A|C|D}] %^{company} - %^{position}\t:%\\2:\nSCHEDULED: %^T DEADLINE: %^T\n:properties:\n:url: %^{link}\n:end:\n%?"
-    	   :prepend t :empty-lines 1)
-    	  ("gd" "Daily" entry (file+headline ,org-agenda-todo-file "Daily")
-    	   "* TODO [#%^{priority|C|A|B|D|E}] %^{task}\n SCHEDULED:  %<<%Y-%m-%d %a %H:%M ++1d>>\n:properties:\n:end:\n%?"
-    	   :empty-lines 1)
-    	  ("gw" "Weekly" entry (file+headline ,org-agenda-todo-file "Weekly")
-    	   "* TODO [#%^{priority|B|A|C|D|E}] %^{task}\n SCHEDULED: %<<%Y-%m-%d %a %H:%M ++1w>>\n:properties:\n:end:\n%?"
-    	   :empty-lines 1)
-    	  ("gm" "Monthly" entry (file+headline ,org-agenda-todo-file "Monthly")
-    	   "* TODO [#%^{priority|C|A|B|D|E}] %^{task}\n SCHEDULED: %<<%Y-%m-%d %a %H:%M ++1m>>\n:properties:\n:end:\n%?"
-    	   :empty-lines 1)
-    	  ("n" "Note")
-    	  ("nc" "Computer" entry (file+headline ,org-capture-note-file "Computer")
-    	   "* %^{heading} %^g\n%?\n" :empty-lines 1)
-    	  ("ne" "Emacs" entry (file+headline ,org-capture-note-file "Emacs")
-    	   "* %^{heading} %^g\n%?\n" :empty-lines 1)
-    	  ("ng" "Game" entry (file+headline ,org-capture-note-file "Game")
-    	   "* %^{heading} %^g\n%?\n" :empty-lines 1)
-    	  ;; ("p" "Project")
-    	  ;; ("pa" "Urgance" entry (file+function ,org-agenda-project-file
-    	  ;;                                      (lambda () (ginshio/find-project-tree "urgancy")))
-    	  ;;  "*** TODO [#A] %^{task}\n SCHEDULED: %<<%Y-%m-%d %a %H:%M>> DEADLINE: %^T\n    :properties:\n    :end:\n%?"
-    	  ;;  :empty-lines 1)
-    	  ;; ("pb" "Soon" entry (file+function ,org-agenda-project-file
-    	  ;;                                   (lambda () (ginshio/find-project-tree "soon")))
-    	  ;;  "*** TODO [#B] %^{task}\n SCHEDULED: %<<%Y-%m-%d %a %H:%M>> DEADLINE: %^T\n    :properties:\n    :end:\n%?"
-    	  ;;  :empty-lines 1)
-    	  ;; ("pc" "As Soon As Possiple" entry (file+function ,org-agenda-project-file
-    	  ;;                                                  (lambda () (ginshio/find-project-tree "as soon as possiple")))
-    	  ;;  "*** TODO [#C] %^{task}\n SCHEDULED: %<<%Y-%m-%d %a %H:%M>> DEADLINE: %^T\n    :properties:\n    :end:\n%?"
-    	  ;;  :empty-lines 1)
-    	  ;; ("pd" "At Some Point" entry (file+function ,org-agenda-project-file
-    	  ;;                                            (lambda () (ginshio/find-project-tree "at some point")))
-    	  ;;  "*** TODO [#D] %^{task}\n SCHEDULED: %<<%Y-%m-%d %a %H:%M>> DEADLINE: %^T\n    :properties:\n    :end:\n%?"
-    	  ;;  :empty-lines 1)
-    	  ;; ("pe" "Eventually" entry (file+function ,org-agenda-project-file
-    	  ;;                                         (lambda () (ginshio/find-project-tree "eventually")))
-    	  ;;  "*** TODO [#E] %^{task}\n SCHEDULED: %<<%Y-%m-%d %a %H:%M>> DEADLINE: %^T\n    :properties:\n    :end:\n%?"
-    	  ;;  :empty-lines 1)
-    	  ("s" "Code Snippet" entry (file ,org-capture-snippet-file)
-    	   "* %^{heading} :code:%\\2:\n:properties:\n:language: %^{language}\n:end:\n\n#+begin_src %\\2\n%?\n#+end_src"
-    	   :empty-lines 1)
-    	  )))
+            `(("c" "Comment")
+              ("cb" "Book" entry (file+weektree ,org-capture-comment-file)
+               "* %^{book} :book:%\\1:\n%?" :empty-lines 1)
+              ("cm" "Movie" entry (file+weektree ,org-capture-comment-file)
+               "* %^{movie} :movie:%\\1:\n%?" :empty-lines 1)
+              ("g" "GTD")
+              ("gt" "Todo" entry (file+headline org-agenda-todo-file "Personal")
+               "* TODO [#%^{priority|A|B|C|D|E}] %^{task}\n  SCHEDULED: %^T DEADLINE: %^T\n:properties:\n:end:\n%?"
+               :empty-lines 1)
+              ("gi" "Interview" entry (file+headline ,org-agenda-todo-file "Interview")
+               "* WAIT [#%^{priority|B|A|C|D}] %^{company} - %^{position}\t:%\\2:\nSCHEDULED: %^T DEADLINE: %^T\n:properties:\n:url: %^{link}\n:end:\n%?"
+               :prepend t :empty-lines 1)
+              ("gd" "Daily" entry (file+headline ,org-agenda-todo-file "Daily")
+               "* TODO [#%^{priority|C|A|B|D|E}] %^{task}\n SCHEDULED:  %<<%Y-%m-%d %a %H:%M ++1d>>\n:properties:\n:end:\n%?"
+               :empty-lines 1)
+              ("gw" "Weekly" entry (file+headline ,org-agenda-todo-file "Weekly")
+               "* TODO [#%^{priority|B|A|C|D|E}] %^{task}\n SCHEDULED: %<<%Y-%m-%d %a %H:%M ++1w>>\n:properties:\n:end:\n%?"
+               :empty-lines 1)
+              ("gm" "Monthly" entry (file+headline ,org-agenda-todo-file "Monthly")
+               "* TODO [#%^{priority|C|A|B|D|E}] %^{task}\n SCHEDULED: %<<%Y-%m-%d %a %H:%M ++1m>>\n:properties:\n:end:\n%?"
+               :empty-lines 1)
+              ("n" "Note")
+              ("nc" "Computer" entry (file+headline ,org-capture-note-file "Computer")
+               "* %^{heading} %^g\n%?\n" :empty-lines 1)
+              ("ne" "Emacs" entry (file+headline ,org-capture-note-file "Emacs")
+               "* %^{heading} %^g\n%?\n" :empty-lines 1)
+              ("ng" "Game" entry (file+headline ,org-capture-note-file "Game")
+               "* %^{heading} %^g\n%?\n" :empty-lines 1)
+              ;; ("p" "Project")
+              ;; ("pa" "Urgance" entry (file+function ,org-agenda-project-file
+              ;;                                      (lambda () (ginshio/find-project-tree "urgancy")))
+              ;;  "*** TODO [#A] %^{task}\n SCHEDULED: %<<%Y-%m-%d %a %H:%M>> DEADLINE: %^T\n    :properties:\n    :end:\n%?"
+              ;;  :empty-lines 1)
+              ;; ("pb" "Soon" entry (file+function ,org-agenda-project-file
+              ;;                                   (lambda () (ginshio/find-project-tree "soon")))
+              ;;  "*** TODO [#B] %^{task}\n SCHEDULED: %<<%Y-%m-%d %a %H:%M>> DEADLINE: %^T\n    :properties:\n    :end:\n%?"
+              ;;  :empty-lines 1)
+              ;; ("pc" "As Soon As Possiple" entry (file+function ,org-agenda-project-file
+              ;;                                                  (lambda () (ginshio/find-project-tree "as soon as possiple")))
+              ;;  "*** TODO [#C] %^{task}\n SCHEDULED: %<<%Y-%m-%d %a %H:%M>> DEADLINE: %^T\n    :properties:\n    :end:\n%?"
+              ;;  :empty-lines 1)
+              ;; ("pd" "At Some Point" entry (file+function ,org-agenda-project-file
+              ;;                                            (lambda () (ginshio/find-project-tree "at some point")))
+              ;;  "*** TODO [#D] %^{task}\n SCHEDULED: %<<%Y-%m-%d %a %H:%M>> DEADLINE: %^T\n    :properties:\n    :end:\n%?"
+              ;;  :empty-lines 1)
+              ;; ("pe" "Eventually" entry (file+function ,org-agenda-project-file
+              ;;                                         (lambda () (ginshio/find-project-tree "eventually")))
+              ;;  "*** TODO [#E] %^{task}\n SCHEDULED: %<<%Y-%m-%d %a %H:%M>> DEADLINE: %^T\n    :properties:\n    :end:\n%?"
+              ;;  :empty-lines 1)
+              ("s" "Code Snippet" entry (file ,org-capture-snippet-file)
+               "* %^{heading} :code:%\\2:\n:properties:\n:language: %^{language}\n:end:\n\n#+begin_src %\\2\n%?\n#+end_src"
+               :empty-lines 1)
+              )))
     ```
 
 <!--list-separator-->
@@ -2311,14 +2311,14 @@ figure.png╶─╧─▶ PROJECT.ORG ▶───╴filters╶───╧─�
       :after (:any org TeX markdown)
       :init
       (setq! citar-symbols
-    	 `((file ,(all-the-icons-faicon "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
-    	   (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
-    	   (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " "))
-    	 citar-symbol-separator "  ")
+             `((file ,(all-the-icons-faicon "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
+               (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
+               (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " "))
+             citar-symbol-separator "  ")
       (map! :map (org-mode-map TeX-mode-map markdown-mode-map)
-    	"C-c b" #'citar-insert-citation)
+            "C-c b" #'citar-insert-citation)
       (map! :map minibuffer-local-map
-    	"M-b" #'citar-insert-preset)
+            "M-b" #'citar-insert-preset)
       :custom
       ;; (org-cite-global-bibliography '("~/library/ebooks/catalog.bib"
       ;;                                 "~/library/papers/catalog.bib"))
@@ -2328,13 +2328,13 @@ figure.png╶─╧─▶ PROJECT.ORG ▶───╴filters╶───╧─�
       (citar-bibliography org-cite-global-bibliography)
       :config
       (add-to-list 'citar-major-mode-functions
-    	       '((gfm-mode)
-    		 (insert-keys . citar-markdown-insert-keys)
-    		 (insert-citation . citar-markdown-insert-citation)
-    		 (insert-edit . citar-markdown-insert-edit)
-    		 (key-at-point . citar-markdown-key-at-point)
-    		 (citation-at-point . citar-markdown-citation-at-point)
-    		 (list-keys . citar-markdown-list-keys))))
+                   '((gfm-mode)
+                     (insert-keys . citar-markdown-insert-keys)
+                     (insert-citation . citar-markdown-insert-citation)
+                     (insert-edit . citar-markdown-insert-edit)
+                     (key-at-point . citar-markdown-key-at-point)
+                     (citation-at-point . citar-markdown-citation-at-point)
+                     (list-keys . citar-markdown-list-keys))))
     ```
 
     主要为了引用的灵活性，这里并没有设置全局 bib，如果想在 Org 里引用某些 bib 文件可以采用以下方法。
@@ -2382,12 +2382,12 @@ figure.png╶─╧─▶ PROJECT.ORG ▶───╴filters╶───╧─�
       :config
       (org-crypt-use-before-save-magic) ;; encrypt when writing back to the hard disk
       (map! :map org-mode-map
-    	:leader
-    	:desc "org-encrypt" "C" nil
-    	:desc "encrypt current" "C e" #'org-encrypt-entry
-    	:desc "encrypt all" "C E" #'org-encrypt-entries
-    	:desc "decrypt current" "C d" #'org-decrypt-entry
-    	:desc "decrypt all" "C D" #'org-decrypt-entries))
+            :leader
+            :desc "org-encrypt" "C" nil
+            :desc "encrypt current" "C e" #'org-encrypt-entry
+            :desc "encrypt all" "C E" #'org-encrypt-entries
+            :desc "decrypt current" "C d" #'org-decrypt-entry
+            :desc "decrypt all" "C D" #'org-decrypt-entries))
     ```
 
     如果想用其他密钥加密，可以设置 `cryptkey` 属性。
@@ -2411,7 +2411,7 @@ figure.png╶─╧─▶ PROJECT.ORG ▶───╴filters╶───╧─�
     ```emacs-lisp
     (after! org-superstar
       (setq! org-superstar-headline-bullets-list '("♇" "♆" "♅" "♄" "♃" "♂" "♀" "☿")
-    	 org-superstar-prettify-item-bullets t))
+             org-superstar-prettify-item-bullets t))
     (after! org-fancy-priorities
       (custom-set-variables '(org-lowest-priority ?E))
       (setq! org-fancy-priorities-list '("⚡" "↑" "↓" "☕" "❓")))
@@ -2424,55 +2424,55 @@ figure.png╶─╧─▶ PROJECT.ORG ▶───╴filters╶───╧─�
            org-priority-lowest ?E
            org-priority-faces
            '((?A . 'all-the-icons-red)
-    	 (?B . 'all-the-icons-orange)
-    	 (?C . 'all-the-icons-yellow)
-    	 (?D . 'all-the-icons-green)
-    	 (?E . 'all-the-icons-blue)))
+             (?B . 'all-the-icons-orange)
+             (?C . 'all-the-icons-yellow)
+             (?D . 'all-the-icons-green)
+             (?E . 'all-the-icons-blue)))
     ```
 
     将 Unicode 字符用于复选框和其他命令也很好。
 
     ```emacs-lisp
     (appendq! +ligatures-extra-symbols
-    	  `(:checkbox      "☐"
-    	    :pending       "◼"
-    	    :checkedbox    "☑"
-    	    :list_property "∷"
-    	    :em_dash       "—"
-    	    :ellipses      "…"
-    	    :arrow_right   "→"
-    	    :arrow_left    "←"
-    	    :title         "𝙏"
-    	    :subtitle      "𝙩"
-    	    :author        "𝘼"
-    	    :date          "𝘿"
-    	    :property      "☸"
-    	    :options       "⌥"
-    	    :startup       "⏻"
-    	    :macro         "𝓜"
-    	    :html_head     "🅷"
-    	    :html          "🅗"
-    	    :latex_class   "🄻"
-    	    :latex_header  "🅻"
-    	    :beamer_header "🅑"
-    	    :latex         "🅛"
-    	    :attr_latex    "🄛"
-    	    :attr_html     "🄗"
-    	    :attr_org      "⒪"
-    	    :begin_quote   "❝"
-    	    :end_quote     "❞"
-    	    :caption       "☰"
-    	    :header        "›"
-    	    :results       "🠶"
-    	    :begin_export  "⏩"
-    	    :end_export    "⏪"
-    	    :properties    "⚙"
-    	    :end           "∎"
-    	    :priority_a   ,(propertize "⚑" 'face 'all-the-icons-red)
-    	    :priority_b   ,(propertize "⬆" 'face 'all-the-icons-orange)
-    	    :priority_c   ,(propertize "■" 'face 'all-the-icons-yellow)
-    	    :priority_d   ,(propertize "⬇" 'face 'all-the-icons-green)
-    	    :priority_e   ,(propertize "❓" 'face 'all-the-icons-blue)))
+              `(:checkbox      "☐"
+                :pending       "◼"
+                :checkedbox    "☑"
+                :list_property "∷"
+                :em_dash       "—"
+                :ellipses      "…"
+                :arrow_right   "→"
+                :arrow_left    "←"
+                :title         "𝙏"
+                :subtitle      "𝙩"
+                :author        "𝘼"
+                :date          "𝘿"
+                :property      "☸"
+                :options       "⌥"
+                :startup       "⏻"
+                :macro         "𝓜"
+                :html_head     "🅷"
+                :html          "🅗"
+                :latex_class   "🄻"
+                :latex_header  "🅻"
+                :beamer_header "🅑"
+                :latex         "🅛"
+                :attr_latex    "🄛"
+                :attr_html     "🄗"
+                :attr_org      "⒪"
+                :begin_quote   "❝"
+                :end_quote     "❞"
+                :caption       "☰"
+                :header        "›"
+                :results       "🠶"
+                :begin_export  "⏩"
+                :end_export    "⏪"
+                :properties    "⚙"
+                :end           "∎"
+                :priority_a   ,(propertize "⚑" 'face 'all-the-icons-red)
+                :priority_b   ,(propertize "⬆" 'face 'all-the-icons-orange)
+                :priority_c   ,(propertize "■" 'face 'all-the-icons-yellow)
+                :priority_d   ,(propertize "⬇" 'face 'all-the-icons-green)
+                :priority_e   ,(propertize "❓" 'face 'all-the-icons-blue)))
     (set-ligatures! 'org-mode
       :merge t
       :checkbox      "[ ]"
@@ -2553,29 +2553,29 @@ figure.png╶─╧─▶ PROJECT.ORG ▶───╴filters╶───╧─�
     (setq! org-preview-latex-default-process 'dvisvgm
            org-preview-latex-process-alist
            '((dvipng :programs
-    		 ("lualatex" "dvipng")
-    		 :description "dvi > png" :message "you need to install the programs: latex and dvipng." :image-input-type "dvi" :image-output-type "png" :image-size-adjust
-    		 (1.0 . 1.0)
-    		 :latex-compiler
-    		 ("lualatex -output-format dvi -interaction nonstopmode -output-directory %o %f")
-    		 :image-converter
-    		 ("dvipng -D %D -T tight -bg Transparent -o %O %f"))
-    	 (dvisvgm :programs
-    		  ("latex" "dvisvgm")
-    		  :description "dvi > svg" :message "you need to install the programs: latex and dvisvgm." :use-xcolor t :image-input-type "xdv" :image-output-type "svg" :image-size-adjust
-    		  (1.7 . 1.5)
-    		  :latex-compiler
-    		  ("xelatex -no-pdf -interaction nonstopmode -output-directory %o %f")
-    		  :image-converter
-    		  ("dvisvgm %f -n -b min -c %S -o %O"))
-    	 (imagemagick :programs
-    		      ("latex" "convert")
-    		      :description "pdf > png" :message "you need to install the programs: latex and imagemagick." :use-xcolor t :image-input-type "pdf" :image-output-type "png" :image-size-adjust
-    		      (1.0 . 1.0)
-    		      :latex-compiler
-    		      ("xelatex -no-pdf -interaction nonstopmode -output-directory %o %f")
-    		      :image-converter
-    		      ("convert -density %D -trim -antialias %f -quality 100 %O"))))
+                     ("lualatex" "dvipng")
+                     :description "dvi > png" :message "you need to install the programs: latex and dvipng." :image-input-type "dvi" :image-output-type "png" :image-size-adjust
+                     (1.0 . 1.0)
+                     :latex-compiler
+                     ("lualatex -output-format dvi -interaction nonstopmode -output-directory %o %f")
+                     :image-converter
+                     ("dvipng -D %D -T tight -bg Transparent -o %O %f"))
+             (dvisvgm :programs
+                      ("latex" "dvisvgm")
+                      :description "dvi > svg" :message "you need to install the programs: latex and dvisvgm." :use-xcolor t :image-input-type "xdv" :image-output-type "svg" :image-size-adjust
+                      (1.7 . 1.5)
+                      :latex-compiler
+                      ("xelatex -no-pdf -interaction nonstopmode -output-directory %o %f")
+                      :image-converter
+                      ("dvisvgm %f -n -b min -c %S -o %O"))
+             (imagemagick :programs
+                          ("latex" "convert")
+                          :description "pdf > png" :message "you need to install the programs: latex and imagemagick." :use-xcolor t :image-input-type "pdf" :image-output-type "png" :image-size-adjust
+                          (1.0 . 1.0)
+                          :latex-compiler
+                          ("xelatex -no-pdf -interaction nonstopmode -output-directory %o %f")
+                          :image-converter
+                          ("convert -density %D -trim -antialias %f -quality 100 %O"))))
     (setq! org-format-latex-header "\\documentclass{article}
     \\usepackage[usenames]{xcolor}
     \\usepackage[T1]{fontenc}
@@ -2637,11 +2637,11 @@ the vast majority of the change in behaviour comes from switch statements in:
   :init-value t
   (if org-fancy-html-export-mode
       (setq org-html-style-default org-html-style-fancy
-	    org-html-meta-tags #'org-html-meta-tags-fancy
-	    org-html-checkbox-type 'html-span)
+            org-html-meta-tags #'org-html-meta-tags-fancy
+            org-html-checkbox-type 'html-span)
     (setq org-html-style-default org-html-style-plain
-	  org-html-meta-tags #'org-html-meta-tags-default
-	  org-html-checkbox-type 'html)))
+          org-html-meta-tags #'org-html-meta-tags-default
+          org-html-checkbox-type 'html)))
 ```
 
 <!--list-separator-->
@@ -2663,28 +2663,28 @@ the vast majority of the change in behaviour comes from switch statements in:
         (concat
          (when (and (not (org-html-html5-p info)) (org-html-xhtml-p info))
            (let* ((xml-declaration (plist-get info :html-xml-declaration))
-    	      (decl (or (and (stringp xml-declaration) xml-declaration)
-    			(cdr (assoc (plist-get info :html-extension)
-    				    xml-declaration))
-    			(cdr (assoc "html" xml-declaration))
-    			"")))
-    	 (when (not (or (not decl) (string= "" decl)))
-    	   (format "%s\n"
-    		   (format decl
-    			   (or (and org-html-coding-system
-    				    (fboundp 'coding-system-get)
-    				    (coding-system-get org-html-coding-system 'mime-charset))
-    			       "utf-8"))))))
+                  (decl (or (and (stringp xml-declaration) xml-declaration)
+                            (cdr (assoc (plist-get info :html-extension)
+                                        xml-declaration))
+                            (cdr (assoc "html" xml-declaration))
+                            "")))
+             (when (not (or (not decl) (string= "" decl)))
+               (format "%s\n"
+                       (format decl
+                               (or (and org-html-coding-system
+                                        (fboundp 'coding-system-get)
+                                        (coding-system-get org-html-coding-system 'mime-charset))
+                                   "utf-8"))))))
          (org-html-doctype info)
          "\n"
          (concat "<html"
-    	     (cond ((org-html-xhtml-p info)
-    		    (format
-    		     " xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"%s\" xml:lang=\"%s\""
-    		     (plist-get info :language) (plist-get info :language)))
-    		   ((org-html-html5-p info)
-    		    (format " lang=\"%s\"" (plist-get info :language))))
-    	     ">\n")
+                 (cond ((org-html-xhtml-p info)
+                        (format
+                         " xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"%s\" xml:lang=\"%s\""
+                         (plist-get info :language) (plist-get info :language)))
+                       ((org-html-html5-p info)
+                        (format " lang=\"%s\"" (plist-get info :language))))
+                 ">\n")
          "<head>\n"
          (org-html--build-meta-info info)
          (org-html--build-head info)
@@ -2692,11 +2692,11 @@ the vast majority of the change in behaviour comes from switch statements in:
          "</head>\n"
          "<body>\n<input type='checkbox' id='theme-switch'><div id='page'><label id='switch-label' for='theme-switch'></label>"
          (let ((link-up (org-trim (plist-get info :html-link-up)))
-    	   (link-home (org-trim (plist-get info :html-link-home))))
+               (link-home (org-trim (plist-get info :html-link-home))))
            (unless (and (string= link-up "") (string= link-home ""))
-    	 (format (plist-get info :html-home/up-format)
-    		 (or link-up link-home)
-    		 (or link-home link-up))))
+             (format (plist-get info :html-home/up-format)
+                     (or link-up link-home)
+                     (or link-home link-up))))
          ;; Preamble.
          (org-html--build-pre/postamble 'preamble info)
          ;; Document contents.
@@ -2705,33 +2705,33 @@ the vast majority of the change in behaviour comes from switch statements in:
          ;; Document title.
          (when (plist-get info :with-title)
            (let ((title (and (plist-get info :with-title)
-    			 (plist-get info :title)))
-    	     (subtitle (plist-get info :subtitle))
-    	     (html5-fancy (org-html--html5-fancy-p info)))
-    	 (when title
-    	   (format
-    	    (if html5-fancy
-    		"<header class=\"page-header\">%s\n<h1 class=\"title\">%s</h1>\n%s</header>"
-    	      "<h1 class=\"title\">%s%s</h1>\n")
-    	    (if (or (plist-get info :with-date)
-    		    (plist-get info :with-author))
-    		(concat "<div class=\"page-meta\">"
-    			(when (plist-get info :with-date)
-    			  (org-export-data (plist-get info :date) info))
-    			(when (and (plist-get info :with-date) (plist-get info :with-author)) ", ")
-    			(when (plist-get info :with-author)
-    			  (org-export-data (plist-get info :author) info))
-    			"</div>\n")
-    	      "")
-    	    (org-export-data title info)
-    	    (if subtitle
-    		(format
-    		 (if html5-fancy
-    		     "<p class=\"subtitle\" role=\"doc-subtitle\">%s</p>\n"
-    		   (concat "\n" (org-html-close-tag "br" nil info) "\n"
-    			   "<span class=\"subtitle\">%s</span>\n"))
-    		 (org-export-data subtitle info))
-    	      "")))))
+                             (plist-get info :title)))
+                 (subtitle (plist-get info :subtitle))
+                 (html5-fancy (org-html--html5-fancy-p info)))
+             (when title
+               (format
+                (if html5-fancy
+                    "<header class=\"page-header\">%s\n<h1 class=\"title\">%s</h1>\n%s</header>"
+                  "<h1 class=\"title\">%s%s</h1>\n")
+                (if (or (plist-get info :with-date)
+                        (plist-get info :with-author))
+                    (concat "<div class=\"page-meta\">"
+                            (when (plist-get info :with-date)
+                              (org-export-data (plist-get info :date) info))
+                            (when (and (plist-get info :with-date) (plist-get info :with-author)) ", ")
+                            (when (plist-get info :with-author)
+                              (org-export-data (plist-get info :author) info))
+                            "</div>\n")
+                  "")
+                (org-export-data title info)
+                (if subtitle
+                    (format
+                     (if html5-fancy
+                         "<p class=\"subtitle\" role=\"doc-subtitle\">%s</p>\n"
+                       (concat "\n" (org-html-close-tag "br" nil info) "\n"
+                               "<span class=\"subtitle\">%s</span>\n"))
+                     (org-export-data subtitle info))
+                  "")))))
          contents
          (format "</%s>\n" (nth 1 (assq 'content (plist-get info :html-divs))))
          ;; Postamble.
@@ -2739,10 +2739,10 @@ the vast majority of the change in behaviour comes from switch statements in:
          ;; Possibly use the Klipse library live code blocks.
          (when (plist-get info :html-klipsify-src)
            (concat "<script>" (plist-get info :html-klipse-selection-script)
-    	       "</script><script src=\""
-    	       org-html-klipse-js
-    	       "\"></script><link rel=\"stylesheet\" type=\"text/css\" href=\""
-    	       org-html-klipse-css "\"/>"))
+                   "</script><script src=\""
+                   org-html-klipse-js
+                   "\"></script><link rel=\"stylesheet\" type=\"text/css\" href=\""
+                   org-html-klipse-css "\"/>"))
          ;; Closing document.
          "</div>\n</body>\n</html>")))
     ```
@@ -2772,12 +2772,12 @@ the vast majority of the change in behaviour comes from switch statements in:
     (defun org-html-reload-fancy-style ()
       (interactive)
       (setq org-html-style-fancy
-    	(concat (f-read-text (expand-file-name "misc/org-export-header.html" doom-private-dir))
-    		"<script>\n"
-    		(f-read-text (expand-file-name "misc/org-css/main.js" doom-private-dir))
-    		"</script>\n<style>\n"
-    		(f-read-text (expand-file-name "misc/org-css/main.min.css" doom-private-dir))
-    		"</style>"))
+            (concat (f-read-text (expand-file-name "misc/org-export-header.html" doom-private-dir))
+                    "<script>\n"
+                    (f-read-text (expand-file-name "misc/org-css/main.js" doom-private-dir))
+                    "</script>\n<style>\n"
+                    (f-read-text (expand-file-name "misc/org-css/main.min.css" doom-private-dir))
+                    "</style>"))
       (when org-fancy-html-export-mode
         (setq org-html-style-default org-html-style-fancy)))
     (org-html-reload-fancy-style)
@@ -2797,7 +2797,7 @@ the vast majority of the change in behaviour comes from switch statements in:
     ```emacs-lisp
     (defvar org-html-export-collapsed nil)
     (eval '(cl-pushnew '(:collapsed "COLLAPSED" "collapsed" org-html-export-collapsed t)
-    		   (org-export-backend-options (org-export-get-backend 'html))))
+                       (org-export-backend-options (org-export-get-backend 'html))))
     (add-to-list 'org-default-properties "EXPORT_COLLAPSED")
     ```
 
@@ -2810,13 +2810,13 @@ the vast majority of the change in behaviour comes from switch statements in:
       (if (or (not org-fancy-html-export-mode) (bound-and-true-p org-msg-export-in-progress))
           (funcall orig-fn src-block contents info)
         (let* ((properties (cadr src-block))
-    	   (lang (mode-name-to-lang-name
-    		  (plist-get properties :language)))
-    	   (name (plist-get properties :name))
-    	   (ref (org-export-get-reference src-block info))
-    	   (collapsed-p (member (or (org-export-read-attribute :attr_html src-block :collapsed)
-    				    (plist-get info :collapsed))
-    				'("y" "yes" "t" t "true" "all"))))
+               (lang (mode-name-to-lang-name
+                      (plist-get properties :language)))
+               (name (plist-get properties :name))
+               (ref (org-export-get-reference src-block info))
+               (collapsed-p (member (or (org-export-read-attribute :attr_html src-block :collapsed)
+                                        (plist-get info :collapsed))
+                                    '("y" "yes" "t" t "true" "all"))))
           (format
            "<details id='%s' class='code'%s><summary%s>%s</summary>
     <div class='gutter'>
@@ -2829,97 +2829,97 @@ the vast majority of the change in behaviour comes from switch statements in:
            (if collapsed-p "" " open")
            (if name " class='named'" "")
            (concat
-    	(when name (concat "<span class=\"name\">" name "</span>"))
-    	"<span class=\"lang\">" lang "</span>")
+            (when name (concat "<span class=\"name\">" name "</span>"))
+            "<span class=\"lang\">" lang "</span>")
            ref
            (if name
-    	   (replace-regexp-in-string (format "<pre\\( class=\"[^\"]+\"\\)? id=\"%s\">" ref) "<pre\\1>"
-    				     (funcall orig-fn src-block contents info))
-    	 (funcall orig-fn src-block contents info))))))
+               (replace-regexp-in-string (format "<pre\\( class=\"[^\"]+\"\\)? id=\"%s\">" ref) "<pre\\1>"
+                                         (funcall orig-fn src-block contents info))
+             (funcall orig-fn src-block contents info))))))
 
     (defun mode-name-to-lang-name (mode)
       (or (cadr (assoc mode
-    		   '(("asymptote" "Asymptote")
-    		     ("awk" "Awk")
-    		     ("C" "C")
-    		     ("clojure" "Clojure")
-    		     ("css" "CSS")
-    		     ("D" "D")
-    		     ("ditaa" "ditaa")
-    		     ("dot" "Graphviz")
-    		     ("calc" "Emacs Calc")
-    		     ("emacs-lisp" "Emacs Lisp")
-    		     ("fortran" "Fortran")
-    		     ("gnuplot" "gnuplot")
-    		     ("haskell" "Haskell")
-    		     ("hledger" "hledger")
-    		     ("java" "Java")
-    		     ("js" "Javascript")
-    		     ("latex" "LaTeX")
-    		     ("ledger" "Ledger")
-    		     ("lisp" "Lisp")
-    		     ("lilypond" "Lilypond")
-    		     ("lua" "Lua")
-    		     ("matlab" "MATLAB")
-    		     ("mscgen" "Mscgen")
-    		     ("ocaml" "Objective Caml")
-    		     ("octave" "Octave")
-    		     ("org" "Org mode")
-    		     ("oz" "OZ")
-    		     ("plantuml" "Plantuml")
-    		     ("processing" "Processing.js")
-    		     ("python" "Python")
-    		     ("R" "R")
-    		     ("ruby" "Ruby")
-    		     ("sass" "Sass")
-    		     ("scheme" "Scheme")
-    		     ("screen" "Gnu Screen")
-    		     ("sed" "Sed")
-    		     ("sh" "shell")
-    		     ("sql" "SQL")
-    		     ("sqlite" "SQLite")
-    		     ("forth" "Forth")
-    		     ("io" "IO")
-    		     ("J" "J")
-    		     ("makefile" "Makefile")
-    		     ("maxima" "Maxima")
-    		     ("perl" "Perl")
-    		     ("picolisp" "Pico Lisp")
-    		     ("scala" "Scala")
-    		     ("shell" "Shell Script")
-    		     ("ebnf2ps" "ebfn2ps")
-    		     ("cpp" "C++")
-    		     ("abc" "ABC")
-    		     ("coq" "Coq")
-    		     ("groovy" "Groovy")
-    		     ("bash" "bash")
-    		     ("csh" "csh")
-    		     ("ash" "ash")
-    		     ("dash" "dash")
-    		     ("ksh" "ksh")
-    		     ("mksh" "mksh")
-    		     ("posh" "posh")
-    		     ("ada" "Ada")
-    		     ("asm" "Assembler")
-    		     ("caml" "Caml")
-    		     ("delphi" "Delphi")
-    		     ("html" "HTML")
-    		     ("idl" "IDL")
-    		     ("mercury" "Mercury")
-    		     ("metapost" "MetaPost")
-    		     ("modula-2" "Modula-2")
-    		     ("pascal" "Pascal")
-    		     ("ps" "PostScript")
-    		     ("prolog" "Prolog")
-    		     ("simula" "Simula")
-    		     ("tcl" "tcl")
-    		     ("tex" "LaTeX")
-    		     ("plain-tex" "TeX")
-    		     ("verilog" "Verilog")
-    		     ("vhdl" "VHDL")
-    		     ("xml" "XML")
-    		     ("nxml" "XML")
-    		     ("conf" "Configuration File"))))
+                       '(("asymptote" "Asymptote")
+                         ("awk" "Awk")
+                         ("C" "C")
+                         ("clojure" "Clojure")
+                         ("css" "CSS")
+                         ("D" "D")
+                         ("ditaa" "ditaa")
+                         ("dot" "Graphviz")
+                         ("calc" "Emacs Calc")
+                         ("emacs-lisp" "Emacs Lisp")
+                         ("fortran" "Fortran")
+                         ("gnuplot" "gnuplot")
+                         ("haskell" "Haskell")
+                         ("hledger" "hledger")
+                         ("java" "Java")
+                         ("js" "Javascript")
+                         ("latex" "LaTeX")
+                         ("ledger" "Ledger")
+                         ("lisp" "Lisp")
+                         ("lilypond" "Lilypond")
+                         ("lua" "Lua")
+                         ("matlab" "MATLAB")
+                         ("mscgen" "Mscgen")
+                         ("ocaml" "Objective Caml")
+                         ("octave" "Octave")
+                         ("org" "Org mode")
+                         ("oz" "OZ")
+                         ("plantuml" "Plantuml")
+                         ("processing" "Processing.js")
+                         ("python" "Python")
+                         ("R" "R")
+                         ("ruby" "Ruby")
+                         ("sass" "Sass")
+                         ("scheme" "Scheme")
+                         ("screen" "Gnu Screen")
+                         ("sed" "Sed")
+                         ("sh" "shell")
+                         ("sql" "SQL")
+                         ("sqlite" "SQLite")
+                         ("forth" "Forth")
+                         ("io" "IO")
+                         ("J" "J")
+                         ("makefile" "Makefile")
+                         ("maxima" "Maxima")
+                         ("perl" "Perl")
+                         ("picolisp" "Pico Lisp")
+                         ("scala" "Scala")
+                         ("shell" "Shell Script")
+                         ("ebnf2ps" "ebfn2ps")
+                         ("cpp" "C++")
+                         ("abc" "ABC")
+                         ("coq" "Coq")
+                         ("groovy" "Groovy")
+                         ("bash" "bash")
+                         ("csh" "csh")
+                         ("ash" "ash")
+                         ("dash" "dash")
+                         ("ksh" "ksh")
+                         ("mksh" "mksh")
+                         ("posh" "posh")
+                         ("ada" "Ada")
+                         ("asm" "Assembler")
+                         ("caml" "Caml")
+                         ("delphi" "Delphi")
+                         ("html" "HTML")
+                         ("idl" "IDL")
+                         ("mercury" "Mercury")
+                         ("metapost" "MetaPost")
+                         ("modula-2" "Modula-2")
+                         ("pascal" "Pascal")
+                         ("ps" "PostScript")
+                         ("prolog" "Prolog")
+                         ("simula" "Simula")
+                         ("tcl" "tcl")
+                         ("tex" "LaTeX")
+                         ("plain-tex" "TeX")
+                         ("verilog" "Verilog")
+                         ("vhdl" "VHDL")
+                         ("xml" "XML")
+                         ("nxml" "XML")
+                         ("conf" "Configuration File"))))
           mode))
     ```
 
@@ -2954,18 +2954,18 @@ the vast majority of the change in behaviour comes from switch statements in:
       (if (or (not org-fancy-html-export-mode) (bound-and-true-p org-msg-export-in-progress))
           (funcall orig-fn table contents info)
         (let* ((name (plist-get (cadr table) :name))
-    	   (ref (org-export-get-reference table info)))
+               (ref (org-export-get-reference table info)))
           (format "<div id='%s' class='table'>
     <div class='gutter'><a href='#%s'>#</a></div>
     <div class='tabular'>
     %s
     </div>\
     </div>"
-    	      ref ref
-    	      (if name
-    		  (replace-regexp-in-string (format "<table id=\"%s\"" ref) "<table"
-    					    (funcall orig-fn table contents info))
-    		(funcall orig-fn table contents info))))))
+                  ref ref
+                  (if name
+                      (replace-regexp-in-string (format "<table id=\"%s\"" ref) "<table"
+                                                (funcall orig-fn table contents info))
+                    (funcall orig-fn table contents info))))))
     ```
 
 <!--list-separator-->
@@ -2987,9 +2987,9 @@ the vast majority of the change in behaviour comes from switch statements in:
       (if (or (not org-fancy-html-export-mode) (bound-and-true-p org-msg-export-in-progress))
           (funcall orig-fn headline info)
         (let ((id (or (org-element-property :CUSTOM_ID headline)
-    		  (org-export-get-reference headline info))))
+                      (org-export-get-reference headline info))))
           (format "<input type='checkbox' id='toc--%s'/><label for='toc--%s'>%s</label>"
-    	      id id (funcall orig-fn headline info)))))
+                  id id (funcall orig-fn headline info)))))
     ```
 
     现在，叶子 (没有子标题的标题) 不应该有 `标签项` 。实现这一点的明显方法是在
@@ -3002,7 +3002,7 @@ the vast majority of the change in behaviour comes from switch statements in:
       (if (or (not org-fancy-html-export-mode) (bound-and-true-p org-msg-export-in-progress))
           (funcall orig-fn toc-entries)
         (replace-regexp-in-string "<input [^>]+><label [^>]+>\\(.+?\\)</label></li>" "\\1</li>"
-    			      (funcall orig-fn toc-entries))))
+                                  (funcall orig-fn toc-entries))))
     ```
 
 <!--list-separator-->
@@ -3019,11 +3019,11 @@ the vast majority of the change in behaviour comes from switch statements in:
     ```emacs-lisp
     (setq org-html-text-markup-alist
           '((bold . "<b>%s</b>")
-    	(code . "<code>%s</code>")
-    	(italic . "<i>%s</i>")
-    	(strike-through . "<del>%s</del>")
-    	(underline . "<span class=\"underline\">%s</span>")
-    	(verbatim . "<kbd>%s</kbd>")))
+            (code . "<code>%s</code>")
+            (italic . "<i>%s</i>")
+            (strike-through . "<del>%s</del>")
+            (underline . "<span class=\"underline\">%s</span>")
+            (verbatim . "<kbd>%s</kbd>")))
     ```
 
 <!--list-separator-->
@@ -3034,10 +3034,10 @@ the vast majority of the change in behaviour comes from switch statements in:
 
     ```emacs-lisp
     (appendq! org-html-checkbox-types
-    	  '((html-span
-    	     (on . "<span class='checkbox'></span>")
-    	     (off . "<span class='checkbox'></span>")
-    	     (trans . "<span class='checkbox'></span>"))))
+              '((html-span
+                 (on . "<span class='checkbox'></span>")
+                 (off . "<span class='checkbox'></span>")
+                 (trans . "<span class='checkbox'></span>"))))
     (setq org-html-checkbox-type 'html-span)
     ```
 
@@ -3063,8 +3063,8 @@ the vast majority of the change in behaviour comes from switch statements in:
 
     ```emacs-lisp
     (pushnew! org-html-special-string-regexps
-    	  '("-&gt;" . "&#8594;")
-    	  '("&lt;-" . "&#8592;"))
+              '("-&gt;" . "&#8594;")
+              '("&lt;-" . "&#8592;"))
     ```
 
 <!--list-separator-->
@@ -3076,8 +3076,8 @@ the vast majority of the change in behaviour comes from switch statements in:
     ```emacs-lisp
     (defun org-export-html-headline-anchor (text backend info)
       (when (and (org-export-derived-backend-p backend 'html)
-    	     (not (org-export-derived-backend-p backend 're-reveal))
-    	     org-fancy-html-export-mode)
+                 (not (org-export-derived-backend-p backend 're-reveal))
+                 org-fancy-html-export-mode)
         (unless (bound-and-true-p org-msg-export-in-progress)
           (replace-regexp-in-string
            "<h\\([0-9]\\) id=\"\\([a-z0-9-]+\\)\">\\(.*[^ ]\\)<\\/h[0-9]>" ; this is quite restrictive, but due to `org-reference-contraction' I can do this
@@ -3085,7 +3085,7 @@ the vast majority of the change in behaviour comes from switch statements in:
            text))))
 
     (add-to-list 'org-export-filter-headline-functions
-    	     'org-export-html-headline-anchor)
+                 'org-export-html-headline-anchor)
     ```
 
 <!--list-separator-->
@@ -3098,8 +3098,8 @@ the vast majority of the change in behaviour comes from switch statements in:
 
     ```emacs-lisp
     (org-link-set-parameters "Https"
-    			 :follow (lambda (url arg) (browse-url (concat "https:" url) arg))
-    			 :export #'org-url-fancy-export)
+                             :follow (lambda (url arg) (browse-url (concat "https:" url) arg))
+                             :export #'org-url-fancy-export)
     ```
 
     ```emacs-lisp
@@ -3111,14 +3111,14 @@ the vast majority of the change in behaviour comes from switch statements in:
            "<div class=\"link-preview\">"
            (format "<a href=\"%s\">" (concat "https:" url))
            (when (plist-get metadata :image)
-    	 (format "<img src=\"%s\"/>" (plist-get metadata :image)))
+             (format "<img src=\"%s\"/>" (plist-get metadata :image)))
            "<small>"
            (replace-regexp-in-string "//\\(?:www\\.\\)?\\([^/]+\\)/?.*" "\\1" url)
            "</small><p>"
            (when (plist-get metadata :title)
-    	 (concat "<b>" (org-html-encode-plain-text (plist-get metadata :title)) "</b></br>"))
+             (concat "<b>" (org-html-encode-plain-text (plist-get metadata :title)) "</b></br>"))
            (when (plist-get metadata :description)
-    	 (org-html-encode-plain-text (plist-get metadata :description)))
+             (org-html-encode-plain-text (plist-get metadata :description)))
            "</p></a></div>"))
          (t url))))
     ```
@@ -3129,48 +3129,48 @@ the vast majority of the change in behaviour comes from switch statements in:
     (setq! org-url-unfurl-metadata--cache nil)
     (defun org-url-unfurl-metadata (url)
       (cdr (or (assoc url org-url-unfurl-metadata--cache)
-    	   (car (push
-    		 (cons
-    		  url
-    		  (let* ((head-data
-    			  (-filter #'listp
-    				   (cdaddr
-    				    (with-current-buffer (progn (message "Fetching metadata from %s" url)
-    								(url-retrieve-synchronously url t t 5))
-    				      (goto-char (point-min))
-    				      (delete-region (point-min) (- (search-forward "<head") 6))
-    				      (delete-region (search-forward "</head>") (point-max))
-    				      (goto-char (point-min))
-    				      (while (re-search-forward "<script[^\u2800]+?</script>" nil t)
-    					(replace-match ""))
-    				      (goto-char (point-min))
-    				      (while (re-search-forward "<style[^\u2800]+?</style>" nil t)
-    					(replace-match ""))
-    				      (libxml-parse-html-region (point-min) (point-max))))))
-    			 (meta (delq nil
-    				     (mapcar
-    				      (lambda (tag)
-    					(when (eq 'meta (car tag))
-    					  (cons (or (cdr (assoc 'name (cadr tag)))
-    						    (cdr (assoc 'property (cadr tag))))
-    						(cdr (assoc 'content (cadr tag))))))
-    				      head-data))))
-    		    (let ((title (or (cdr (assoc "og:title" meta))
-    				     (cdr (assoc "twitter:title" meta))
-    				     (nth 2 (assq 'title head-data))))
-    			  (description (or (cdr (assoc "og:description" meta))
-    					   (cdr (assoc "twitter:description" meta))
-    					   (cdr (assoc "description" meta))))
-    			  (image (or (cdr (assoc "og:image" meta))
-    				     (cdr (assoc "twitter:image" meta)))))
-    		      (when image
-    			(setq image (replace-regexp-in-string
-    				     "^/" (concat "https://" (replace-regexp-in-string "//\\([^/]+\\)/?.*" "\\1" url) "/")
-    				     (replace-regexp-in-string
-    				      "^//" "https://"
-    				      image))))
-    		      (list :title title :description description :image image))))
-    		 org-url-unfurl-metadata--cache)))))
+               (car (push
+                     (cons
+                      url
+                      (let* ((head-data
+                              (-filter #'listp
+                                       (cdaddr
+                                        (with-current-buffer (progn (message "Fetching metadata from %s" url)
+                                                                    (url-retrieve-synchronously url t t 5))
+                                          (goto-char (point-min))
+                                          (delete-region (point-min) (- (search-forward "<head") 6))
+                                          (delete-region (search-forward "</head>") (point-max))
+                                          (goto-char (point-min))
+                                          (while (re-search-forward "<script[^\u2800]+?</script>" nil t)
+                                            (replace-match ""))
+                                          (goto-char (point-min))
+                                          (while (re-search-forward "<style[^\u2800]+?</style>" nil t)
+                                            (replace-match ""))
+                                          (libxml-parse-html-region (point-min) (point-max))))))
+                             (meta (delq nil
+                                         (mapcar
+                                          (lambda (tag)
+                                            (when (eq 'meta (car tag))
+                                              (cons (or (cdr (assoc 'name (cadr tag)))
+                                                        (cdr (assoc 'property (cadr tag))))
+                                                    (cdr (assoc 'content (cadr tag))))))
+                                          head-data))))
+                        (let ((title (or (cdr (assoc "og:title" meta))
+                                         (cdr (assoc "twitter:title" meta))
+                                         (nth 2 (assq 'title head-data))))
+                              (description (or (cdr (assoc "og:description" meta))
+                                               (cdr (assoc "twitter:description" meta))
+                                               (cdr (assoc "description" meta))))
+                              (image (or (cdr (assoc "og:image" meta))
+                                         (cdr (assoc "twitter:image" meta)))))
+                          (when image
+                            (setq image (replace-regexp-in-string
+                                         "^/" (concat "https://" (replace-regexp-in-string "//\\([^/]+\\)/?.*" "\\1" url) "/")
+                                         (replace-regexp-in-string
+                                          "^//" "https://"
+                                          image))))
+                          (list :title title :description description :image image))))
+                     org-url-unfurl-metadata--cache)))))
     ```
 
 <!--list-separator-->
@@ -3182,11 +3182,11 @@ the vast majority of the change in behaviour comes from switch statements in:
     ```emacs-lisp
     (setq! org-html-mathjax-options
           '((path "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" )
-    	(scale "1")
-    	(autonumber "ams")
-    	(multlinewidth "85%")
-    	(tagindent ".8em")
-    	(tagside "right")))
+            (scale "1")
+            (autonumber "ams")
+            (multlinewidth "85%")
+            (tagindent ".8em")
+            (tagside "right")))
 
     (setq! org-html-mathjax-template
           "<script>
@@ -3211,7 +3211,7 @@ the vast majority of the change in behaviour comes from switch statements in:
     };
     </script>
     <script id=\"MathJax-script\" async
-    	src=\"%PATH\"></script>")
+            src=\"%PATH\"></script>")
     ```
 
 
@@ -3250,14 +3250,14 @@ the vast majority of the change in behaviour comes from switch statements in:
          "\\\\item\\[{$\\\\\\(\\w+\\)$}\\]"
          (lambda (fullmatch)
            (concat "\\\\item[" (pcase (substring fullmatch 9 -3) ; content of capture group
-    			     ("square"   "\\\\checkboxUnchecked")
-    			     ("boxminus" "\\\\checkboxTransitive")
-    			     ("boxtimes" "\\\\checkboxChecked")
-    			     (_ (substring fullmatch 9 -3))) "]"))
+                                 ("square"   "\\\\checkboxUnchecked")
+                                 ("boxminus" "\\\\checkboxTransitive")
+                                 ("boxtimes" "\\\\checkboxChecked")
+                                 (_ (substring fullmatch 9 -3))) "]"))
          text)))
 
     (add-to-list 'org-export-filter-item-functions
-    	     '+org-export-latex-fancy-item-checkboxes)
+                 '+org-export-latex-fancy-item-checkboxes)
     ```
 
 <!--list-separator-->
@@ -3298,12 +3298,12 @@ the vast majority of the change in behaviour comes from switch statements in:
 
     ```emacs-lisp
     (let* ((article-sections '(("\\section{%s}" . "\\section*{%s}")
-    			   ("\\subsection{%s}" . "\\subsection*{%s}")
-    			   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-    			   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-    			   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+                               ("\\subsection{%s}" . "\\subsection*{%s}")
+                               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
            (book-sections (append '(("\\chapter{%s}" . "\\chapter*{%s}"))
-    			      article-sections))
+                                  article-sections))
            (hanging-secnum-preamble "
     <<latex-hanging-secnum>>
     ")
@@ -3311,18 +3311,18 @@ the vast majority of the change in behaviour comes from switch statements in:
     <<latex-big-chapter>>
     "))
       (setcdr (assoc "article" org-latex-classes)
-    	  `(,(concat "\\documentclass{scrartcl}" hanging-secnum-preamble)
-    	    ,@article-sections))
+              `(,(concat "\\documentclass{scrartcl}" hanging-secnum-preamble)
+                ,@article-sections))
       (setcdr (assoc "article" org-latex-classes)
-    	  `(,(concat "\\documentclass{scrartcl}" hanging-secnum-preamble)
-    	    ,@article-sections))
+              `(,(concat "\\documentclass{scrartcl}" hanging-secnum-preamble)
+                ,@article-sections))
       (setcdr (assoc "report" org-latex-classes)
-    	  `(,(concat "\\documentclass{scrartcl}" hanging-secnum-preamble)
-    	    ,@article-sections))
+              `(,(concat "\\documentclass{scrartcl}" hanging-secnum-preamble)
+                ,@article-sections))
       (setcdr (assoc "book" org-latex-classes)
-    	  `(,(concat "\\documentclass[twoside=false]{scrbook}"
-    		     big-chap-preamble hanging-secnum-preamble)
-    	    ,@book-sections)))
+              `(,(concat "\\documentclass[twoside=false]{scrbook}"
+                         big-chap-preamble hanging-secnum-preamble)
+                ,@book-sections)))
 
     (setq! org-latex-tables-booktabs t
            org-latex-hyperref-template "
@@ -3538,9 +3538,9 @@ the vast majority of the change in behaviour comes from switch statements in:
             (.pifont       :snippet "\\usepackage{pifont}")
             (.xcoffins     :snippet "\\usepackage{xcoffins}")
             (checkbox      :requires .pifont :order 3
-        		   :snippet (concat (unless (memq 'maths features)
-        				      "\\usepackage{amssymb} % provides \\square")
-        				    org-latex-checkbox-preamble))
+                           :snippet (concat (unless (memq 'maths features)
+                                              "\\usepackage{amssymb} % provides \\square")
+                                            org-latex-checkbox-preamble))
             (.fancy-box    :requires (.pifont .xcoffins) :snippet org-latex-box-preamble :order 3.9)
             (box-warning   :requires .fancy-box :snippet "\\defsimplebox{warning}{e66100}{Warning}" :order 4)
             (box-info      :requires .fancy-box :snippet "\\defsimplebox{info}{3584e4}{Information}" :order 4)
@@ -3581,19 +3581,19 @@ the vast majority of the change in behaviour comes from switch statements in:
             (with-current-buffer (or buffer (current-buffer))
               (delete-dups
                (mapcan (lambda (construct-feature)
-        		 (when (let ((out (pcase (car construct-feature)
-        				    ((pred stringp) (car construct-feature))
-        				    ((pred functionp) (funcall (car construct-feature) info))
-        				    ((pred listp) (eval (car construct-feature)))
-        				    ((pred symbolp) (symbol-value (car construct-feature)))
-        				    (_ (user-error "org-latex-conditional-features key %s unable to be used" (car construct-feature))))))
-        			 (if (stringp out)
-        			     (save-excursion
-        			       (goto-char (point-min))
-        			       (re-search-forward out nil t))
-        			   out))
-        		   (if (listp (cdr construct-feature)) (cdr construct-feature) (list (cdr construct-feature)))))
-        	       org-latex-conditional-features)))))
+                         (when (let ((out (pcase (car construct-feature)
+                                            ((pred stringp) (car construct-feature))
+                                            ((pred functionp) (funcall (car construct-feature) info))
+                                            ((pred listp) (eval (car construct-feature)))
+                                            ((pred symbolp) (symbol-value (car construct-feature)))
+                                            (_ (user-error "org-latex-conditional-features key %s unable to be used" (car construct-feature))))))
+                                 (if (stringp out)
+                                     (save-excursion
+                                       (goto-char (point-min))
+                                       (re-search-forward out nil t))
+                                   out))
+                           (if (listp (cdr construct-feature)) (cdr construct-feature) (list (cdr construct-feature)))))
+                       org-latex-conditional-features)))))
         ```
 
     <!--list-separator-->
@@ -3624,28 +3624,28 @@ the vast majority of the change in behaviour comes from switch statements in:
           (while current
             (when-let ((requirements (plist-get (cdr (assq (car current) org-latex-feature-implementations)) :requires)))
               (setcdr current (if (listp requirements)
-        			  (append requirements (cdr current))
-        			(cons requirements (cdr current)))))
+                                  (append requirements (cdr current))
+                                (cons requirements (cdr current)))))
             (setq current (cdr current)))
           (dolist (potential-feature
-        	   (append features (delq nil (mapcar (lambda (feat)
-        						(when (plist-get (cdr feat) :eager)
-        						  (car feat)))
-        					      org-latex-feature-implementations))))
+                   (append features (delq nil (mapcar (lambda (feat)
+                                                        (when (plist-get (cdr feat) :eager)
+                                                          (car feat)))
+                                                      org-latex-feature-implementations))))
             (when-let ((prerequisites (plist-get (cdr (assoc potential-feature org-latex-feature-implementations)) :when)))
               (setf features (if (if (listp prerequisites)
-        			     (cl-every (lambda (preq) (memq preq features)) prerequisites)
-        			   (memq prerequisites features))
-        			 (append (list potential-feature) features)
-        		       (delq potential-feature features)))))
+                                     (cl-every (lambda (preq) (memq preq features)) prerequisites)
+                                   (memq prerequisites features))
+                                 (append (list potential-feature) features)
+                               (delq potential-feature features)))))
           (dolist (feature features)
             (when-let ((prevents (plist-get (cdr (assoc feature org-latex-feature-implementations)) :prevents)))
               (setf features (cl-set-difference features (if (listp prevents) prevents (list prevents))))))
           (sort (delete-dups features)
-        	(lambda (feat1 feat2)
-        	  (if (< (or (plist-get (cdr (assoc feat1 org-latex-feature-implementations)) :order) 1)
-        		 (or (plist-get (cdr (assoc feat2 org-latex-feature-implementations)) :order) 1))
-        	      t nil))))
+                (lambda (feat1 feat2)
+                  (if (< (or (plist-get (cdr (assoc feat1 org-latex-feature-implementations)) :order) 1)
+                         (or (plist-get (cdr (assoc feat2 org-latex-feature-implementations)) :order) 1))
+                      t nil))))
         ```
 
         现在我们有一个很好的最终要使用的特性列表，可以提取它们的片段并将结果连接在一起。
@@ -3658,17 +3658,17 @@ the vast majority of the change in behaviour comes from switch statements in:
             (concat
              (format "\n%% features: %s\n" expanded-features)
              (mapconcat (lambda (feature)
-        		  (when-let ((snippet (plist-get (cdr (assoc feature org-latex-feature-implementations)) :snippet)))
-        		    (concat
-        		     (pcase snippet
-        		       ((pred stringp) snippet)
-        		       ((pred functionp) (funcall snippet features))
-        		       ((pred listp) (eval `(let ((features ',features)) (,@snippet))))
-        		       ((pred symbolp) (symbol-value snippet))
-        		       (_ (user-error "org-latex-feature-implementations :snippet value %s unable to be used" snippet)))
-        		     "\n")))
-        		expanded-features
-        		"")
+                          (when-let ((snippet (plist-get (cdr (assoc feature org-latex-feature-implementations)) :snippet)))
+                            (concat
+                             (pcase snippet
+                               ((pred stringp) snippet)
+                               ((pred functionp) (funcall snippet features))
+                               ((pred listp) (eval `(let ((features ',features)) (,@snippet))))
+                               ((pred symbolp) (symbol-value snippet))
+                               (_ (user-error "org-latex-feature-implementations :snippet value %s unable to be used" snippet)))
+                             "\n")))
+                        expanded-features
+                        "")
              "% end features\n")))
         ```
 
@@ -3687,8 +3687,8 @@ the vast majority of the change in behaviour comes from switch statements in:
           (let ((header (funcall orig-fn tpl def-pkg pkg snippets-p extra)))
             (if snippets-p header
               (concat header
-        	      (org-latex-generate-features-preamble (org-latex-detect-features nil info--tmp))
-        	      "\n"))))
+                      (org-latex-generate-features-preamble (org-latex-detect-features nil info--tmp))
+                      "\n"))))
         ```
 
         我对 `info--tmp` 的使用有点老套。 当我尝试将其上游化时，这应该会变得更加清晰，因为我可以通过直接修改 `org-latex-make-preamble` 来传递信息。
@@ -3709,9 +3709,9 @@ the vast majority of the change in behaviour comes from switch statements in:
         ```emacs-lisp
         (setq! org-latex-default-packages-alist
                '(("AUTO" "inputenc" t ("pdflatex"))
-        	 ("T1" "fontenc" t ("pdflatex"))
-        	 ("" "xcolor" nil) ; Generally useful
-        	 ("" "hyperref" nil)))
+                 ("T1" "fontenc" t ("pdflatex"))
+                 ("" "xcolor" nil) ; Generally useful
+                 ("" "hyperref" nil)))
         ```
 
 <!--list-separator-->
@@ -3740,7 +3740,7 @@ the vast majority of the change in behaviour comes from switch statements in:
     If \"nil\" no custom fonts will ever be used.")
 
     (eval '(cl-pushnew '(:latex-font-set nil "fontset" org-latex-default-fontset)
-    		   (org-export-backend-options (org-export-get-backend 'latex))))
+                       (org-export-backend-options (org-export-get-backend 'latex))))
     ```
 
     然后需要一个函数来生成应用字体集的 LaTeX 片段。如果可以为单个样式完成此操作并使用不同样式作为主要文档字体，那就太好了。如果字体集的各个字体分别定义为
@@ -3754,35 +3754,35 @@ the vast majority of the change in behaviour comes from switch statements in:
     Has format \"name\" or \"name-style\" where 'name' is one of
     the cars in `org-latex-fontsets'."
       (let ((fontset-spec
-    	 (symbol-name
-    	  (or (car (delq nil
-    			 (mapcar
-    			  (lambda (opt-line)
-    			    (plist-get (org-export--parse-option-keyword opt-line 'latex)
-    				       :latex-font-set))
-    			  (cdar (org-collect-keywords '("OPTIONS"))))))
-    	      org-latex-default-fontset))))
+             (symbol-name
+              (or (car (delq nil
+                             (mapcar
+                              (lambda (opt-line)
+                                (plist-get (org-export--parse-option-keyword opt-line 'latex)
+                                           :latex-font-set))
+                              (cdar (org-collect-keywords '("OPTIONS"))))))
+                  org-latex-default-fontset))))
         (cons (intern (car (split-string fontset-spec "-")))
-    	  (when (cadr (split-string fontset-spec "-"))
-    	    (intern (concat ":" (cadr (split-string fontset-spec "-"))))))))
+              (when (cadr (split-string fontset-spec "-"))
+                (intern (concat ":" (cadr (split-string fontset-spec "-"))))))))
 
     (defun org-latex-fontset (&rest desired-styles)
       "Generate a LaTeX preamble snippet which applies the current fontset for DESIRED-STYLES."
       (let* ((fontset-spec (org-latex-fontset-entry))
-    	 (fontset (alist-get (car fontset-spec) org-latex-fontsets)))
+             (fontset (alist-get (car fontset-spec) org-latex-fontsets)))
         (if fontset
-    	(concat
-    	 (mapconcat
-    	  (lambda (style)
-    	    (when (plist-get fontset style)
-    	      (concat (plist-get fontset style) "\n")))
-    	  desired-styles
-    	  "")
-    	 (when (memq (cdr fontset-spec) desired-styles)
-    	   (pcase (cdr fontset-spec)
-    	     (:serif "\\renewcommand{\\familydefault}{\\rmdefault}\n")
-    	     (:sans "\\renewcommand{\\familydefault}{\\sfdefault}\n")
-    	     (:mono "\\renewcommand{\\familydefault}{\\ttdefault}\n"))))
+            (concat
+             (mapconcat
+              (lambda (style)
+                (when (plist-get fontset style)
+                  (concat (plist-get fontset style) "\n")))
+              desired-styles
+              "")
+             (when (memq (cdr fontset-spec) desired-styles)
+               (pcase (cdr fontset-spec)
+                 (:serif "\\renewcommand{\\familydefault}{\\rmdefault}\n")
+                 (:sans "\\renewcommand{\\familydefault}{\\sfdefault}\n")
+                 (:mono "\\renewcommand{\\familydefault}{\\ttdefault}\n"))))
           (error "Font-set %s is not provided in org-latex-fontsets" (car fontset-spec)))))
     ```
 
@@ -3931,16 +3931,16 @@ the vast majority of the change in behaviour comes from switch statements in:
       "LaTeX snippet for the preamble that sets \\maketitle to produce a cover page.")
 
     (eval '(cl-pushnew '(:latex-cover-page nil "coverpage" org-latex-cover-page)
-    		   (org-export-backend-options (org-export-get-backend 'latex))))
+                       (org-export-backend-options (org-export-get-backend 'latex))))
 
     (defun org-latex-cover-page-p ()
       "Whether a cover page should be used when exporting this Org file."
       (pcase (car
-    	  (delq nil
-    		(mapcar
-    		 (lambda (opt-line)
-    		   (plist-get (org-export--parse-option-keyword opt-line 'latex) :latex-cover-page))
-    		 (cdar (org-collect-keywords '("OPTIONS"))))))
+              (delq nil
+                    (mapcar
+                     (lambda (opt-line)
+                       (plist-get (org-export--parse-option-keyword opt-line 'latex) :latex-cover-page))
+                     (cdar (org-collect-keywords '("OPTIONS"))))))
         ('t t)
         ('auto (when (> (count-words (point-min) (point-max)) org-latex-cover-page-wordcount-threshold) t))
         (_ nil)))
@@ -4044,70 +4044,70 @@ the vast majority of the change in behaviour comes from switch statements in:
 
     (defun ginshio/org-latex-scr-block (src-block contents info)
       (let* ((lang (org-element-property :language src-block))
-    	 (attributes (org-export-read-attribute :attr_latex src-block))
-    	 (float (plist-get attributes :float))
-    	 (num-start (org-export-get-loc src-block info))
-    	 (retain-labels (org-element-property :retain-labels src-block))
-    	 (caption (org-element-property :caption src-block))
-    	 (caption-above-p (org-latex--caption-above-p src-block info))
-    	 (caption-str (org-latex--caption/label-string src-block info))
-    	 (placement (or (org-unbracket-string "[" "]" (plist-get attributes :placement))
-    			(plist-get info :latex-default-figure-position)))
-    	 (float-env
-    	  (cond
-    	   ((string= "multicolumn" float)
-    	    (format "\\begin{listing*}[%s]\n%s%%s\n%s\\end{listing*}"
-    		    placement
-    		    (if caption-above-p caption-str "")
-    		    (if caption-above-p "" caption-str)))
-    	   (caption
-    	    (format "\\begin{listing}[%s]\n%s%%s\n%s\\end{listing}"
-    		    placement
-    		    (if caption-above-p caption-str "")
-    		    (if caption-above-p "" caption-str)))
-    	   ((string= "t" float)
-    	    (concat (format "\\begin{listing}[%s]\n" placement)
-    		    "%s\n\\end{listing}"))
-    	   (t "%s")))
-    	 (options (plist-get info :latex-minted-options))
-    	 (body
-    	  (format
-    	   "\\begin{orglisting}[%s]{%s}\n%s\\end{orglisting}"
-    	   ;; Options.
-    	   (concat
-    	    (org-latex--make-option-string
-    	     (if (or (not num-start) (assoc "linenos" options))
-    		 options
-    	       (append
-    		`(("linenos")
-    		  ("firstnumber" ,(number-to-string (1+ num-start))))
-    		options)))
-    	    (let ((local-options (plist-get attributes :options)))
-    	      (and local-options (concat "," local-options))))
-    	   ;; Language.
-    	   (or (cadr (assq (intern lang)
-    			   (plist-get info :latex-minted-langs)))
-    	       (downcase lang))
-    	   ;; Source code.
-    	   (let* ((code-info (org-export-unravel-code src-block))
-    		  (max-width
-    		   (apply 'max
-    			  (mapcar 'length
-    				  (org-split-string (car code-info)
-    						    "\n")))))
-    	     (org-export-format-code
-    	      (car code-info)
-    	      (lambda (loc _num ref)
-    		(concat
-    		 loc
-    		 (when ref
-    		   ;; Ensure references are flushed to the right,
-    		   ;; separated with 6 spaces from the widest line
-    		   ;; of code.
-    		   (concat (make-string (+ (- max-width (length loc)) 6)
-    					?\s)
-    			   (format "(%s)" ref)))))
-    	      nil (and retain-labels (cdr code-info)))))))
+             (attributes (org-export-read-attribute :attr_latex src-block))
+             (float (plist-get attributes :float))
+             (num-start (org-export-get-loc src-block info))
+             (retain-labels (org-element-property :retain-labels src-block))
+             (caption (org-element-property :caption src-block))
+             (caption-above-p (org-latex--caption-above-p src-block info))
+             (caption-str (org-latex--caption/label-string src-block info))
+             (placement (or (org-unbracket-string "[" "]" (plist-get attributes :placement))
+                            (plist-get info :latex-default-figure-position)))
+             (float-env
+              (cond
+               ((string= "multicolumn" float)
+                (format "\\begin{listing*}[%s]\n%s%%s\n%s\\end{listing*}"
+                        placement
+                        (if caption-above-p caption-str "")
+                        (if caption-above-p "" caption-str)))
+               (caption
+                (format "\\begin{listing}[%s]\n%s%%s\n%s\\end{listing}"
+                        placement
+                        (if caption-above-p caption-str "")
+                        (if caption-above-p "" caption-str)))
+               ((string= "t" float)
+                (concat (format "\\begin{listing}[%s]\n" placement)
+                        "%s\n\\end{listing}"))
+               (t "%s")))
+             (options (plist-get info :latex-minted-options))
+             (body
+              (format
+               "\\begin{orglisting}[%s]{%s}\n%s\\end{orglisting}"
+               ;; Options.
+               (concat
+                (org-latex--make-option-string
+                 (if (or (not num-start) (assoc "linenos" options))
+                     options
+                   (append
+                    `(("linenos")
+                      ("firstnumber" ,(number-to-string (1+ num-start))))
+                    options)))
+                (let ((local-options (plist-get attributes :options)))
+                  (and local-options (concat "," local-options))))
+               ;; Language.
+               (or (cadr (assq (intern lang)
+                               (plist-get info :latex-minted-langs)))
+                   (downcase lang))
+               ;; Source code.
+               (let* ((code-info (org-export-unravel-code src-block))
+                      (max-width
+                       (apply 'max
+                              (mapcar 'length
+                                      (org-split-string (car code-info)
+                                                        "\n")))))
+                 (org-export-format-code
+                  (car code-info)
+                  (lambda (loc _num ref)
+                    (concat
+                     loc
+                     (when ref
+                       ;; Ensure references are flushed to the right,
+                       ;; separated with 6 spaces from the widest line
+                       ;; of code.
+                       (concat (make-string (+ (- max-width (length loc)) 6)
+                                            ?\s)
+                               (format "(%s)" ref)))))
+                  nil (and retain-labels (cdr code-info)))))))
         ;; Return value.
         (format float-env body)))
     ```
@@ -4125,16 +4125,16 @@ the vast majority of the change in behaviour comes from switch statements in:
 
     (defun ginshio/org-latex-inline-src-block (inline-src-block _contents info)
       (let* ((code (org-element-property :value inline-src-block))
-    	 (separator (org-latex--find-verb-separator code))
-    	 (org-lang (org-element-property :language inline-src-block))
-    	 (mint-lang (or (cadr (assq (intern org-lang)
-    				    (plist-get info :latex-minted-langs)))
-    			(downcase org-lang)))
-    	 (options (org-latex--make-option-string
-    		   (plist-get info :latex-minted-options))))
+             (separator (org-latex--find-verb-separator code))
+             (org-lang (org-element-property :language inline-src-block))
+             (mint-lang (or (cadr (assq (intern org-lang)
+                                        (plist-get info :latex-minted-langs)))
+                            (downcase org-lang)))
+             (options (org-latex--make-option-string
+                       (plist-get info :latex-minted-options))))
         (format "\\mintinline%s{%s}{%s}"
-    	    (if (string= options "") "" (format "[%s]" options))
-    	    mint-lang code)))
+                (if (string= options "") "" (format "[%s]" options))
+                mint-lang code)))
     ```
 
     最终将其添加到智能序言中
@@ -4155,11 +4155,11 @@ the vast majority of the change in behaviour comes from switch statements in:
     ```emacs-lisp
     (setq! org-latex-text-markup-alist
            '((bold . "\\textbf{%s}")
-    	 (code . protectedtexttt)
-    	 (italic . "\\emph{%s}")
-    	 (strike-through . "\\sout{%s}")
-    	 (underline . "\\uline{%s}")
-    	 (verbatim . verb)))
+             (code . protectedtexttt)
+             (italic . "\\emph{%s}")
+             (strike-through . "\\sout{%s}")
+             (underline . "\\uline{%s}")
+             (verbatim . verb)))
     ```
 
 
@@ -4214,12 +4214,12 @@ information."
     (when (plist-get info :with-latex)
       (org-ascii--justify-element
        (org-remove-indentation
-	(let* ((latex (org-element-property :value latex-environment))
-	       (unicode (and (eq (plist-get info :ascii-charset) 'utf-8)
-			     org-ascii-convert-latex
-			     (doom-call-process "latex2text" "-q" "--code" latex))))
-	  (if (= (car unicode) 0) ; utf-8 set, and sucessfully ran latex2text
-	      (cdr unicode) latex)))
+        (let* ((latex (org-element-property :value latex-environment))
+               (unicode (and (eq (plist-get info :ascii-charset) 'utf-8)
+                             org-ascii-convert-latex
+                             (doom-call-process "latex2text" "-q" "--code" latex))))
+          (if (= (car unicode) 0) ; utf-8 set, and sucessfully ran latex2text
+              (cdr unicode) latex)))
        latex-environment info)))
 
   (defadvice! org-ascii-latex-fragment-unicode-a (latex-fragment _contents info)
@@ -4229,11 +4229,11 @@ information."
     :override #'org-ascii-latex-fragment
     (when (plist-get info :with-latex)
       (let* ((latex (org-element-property :value latex-fragment))
-	     (unicode (and (eq (plist-get info :ascii-charset) 'utf-8)
-			   org-ascii-convert-latex
-			     (doom-call-process "latex2text" "-q" "--code" latex))))
-	(if (and unicode (= (car unicode) 0)) ; utf-8 set, and sucessfully ran latex2text
-	    (cdr unicode) latex)))))
+             (unicode (and (eq (plist-get info :ascii-charset) 'utf-8)
+                           org-ascii-convert-latex
+                             (doom-call-process "latex2text" "-q" "--code" latex))))
+        (if (and unicode (= (car unicode) 0)) ; utf-8 set, and sucessfully ran latex2text
+            (cdr unicode) latex)))))
 ```
 
 
@@ -4250,17 +4250,17 @@ information."
     (let ((frag (org-element-property :value latex-fragment)))
       (cond
        ((string-match-p "^\\\\(" frag)
-	(concat "$" (substring frag 2 -2) "$"))
+        (concat "$" (substring frag 2 -2) "$"))
        ((string-match-p "^\\\\\\[" frag)
-	(concat "$$" (substring frag 2 -2) "$$"))
+        (concat "$$" (substring frag 2 -2) "$$"))
        (t (message "unrecognised fragment: %s" frag)
-	  frag))))
+          frag))))
 
   (defun org-md-latex-environment (latex-environment contents info)
     "Transcode a LATEX-ENVIRONMENT object from Org to Markdown."
     (concat "$$\n"
-	    (org-html-latex-environment latex-environment contents info)
-	    "$$\n"))
+            (org-html-latex-environment latex-environment contents info)
+            "$$\n"))
 
   (defun org-utf8-entity (entity _contents _info)
     "Transcode an ENTITY object from Org to utf-8.
@@ -4274,23 +4274,23 @@ contextual information."
   ;; NOTE in the near future this shouldn't be required
   (eval
    '(dolist (extra-transcoder
-	     '((latex-fragment . org-md-latex-fragment)
-	       (latex-environment . org-md-latex-environment)
-	       (entity . org-utf8-entity)))
+             '((latex-fragment . org-md-latex-fragment)
+               (latex-environment . org-md-latex-environment)
+               (entity . org-utf8-entity)))
       (unless (member extra-transcoder (org-export-backend-transcoders
-					(org-export-get-backend 'md)))
-	(push extra-transcoder (org-export-backend-transcoders
-				(org-export-get-backend 'md))))))
+                                        (org-export-get-backend 'md)))
+        (push extra-transcoder (org-export-backend-transcoders
+                                (org-export-get-backend 'md))))))
   (defadvice! org-md-plain-text-unicode-a (orig-fn text info)
     "Locally rebind `org-html-special-string-regexps'"
     :around #'org-md-plain-text
     (let ((org-html-special-string-regexps
-	   '(("\\\\-" . "-")
-	     ("---\\([^-]\\|$\\)" . "—\\1")
-	     ("--\\([^-]\\|$\\)" . "–\\1")
-	     ("\\.\\.\\." . "…")
-	     ("->" . "→")
-	     ("<-" . "←"))))
+           '(("\\\\-" . "-")
+             ("---\\([^-]\\|$\\)" . "—\\1")
+             ("--\\([^-]\\|$\\)" . "–\\1")
+             ("\\.\\.\\." . "…")
+             ("->" . "→")
+             ("<-" . "←"))))
       (funcall orig-fn text (plist-put info :with-smart-quotes nil)))))
 ```
 
@@ -4318,12 +4318,12 @@ contextual information."
 ```emacs-lisp
 (setq! LaTeX-biblatex-use-Biber t)
 (custom-set-variables '(LaTeX-section-label '(("part" . "part:")
-					      ("chapter" . "chap:")
-					      ("section" . "sec:")
-					      ("subsection" . "subsec:")
-					      ("subsubsection" . "subsubsec:")))
-		      '(TeX-auto-local "auto")
-		      '(TeX-command-extra-options "-shell-escape"))
+                                              ("chapter" . "chap:")
+                                              ("section" . "sec:")
+                                              ("subsection" . "subsec:")
+                                              ("subsubsection" . "subsubsec:")))
+                      '(TeX-auto-local "auto")
+                      '(TeX-command-extra-options "-shell-escape"))
 (after! latex
   <<tex-conf>>
   )
@@ -4336,11 +4336,11 @@ contextual information."
 (setq! TeX-save-query nil
        TeX-show-compilation t
        LaTeX-clean-intermediate-suffixes (append TeX-clean-default-intermediate-suffixes
-						 '("\\.acn" "\\.acr" "\\.alg" "\\.glg"
-						   "\\.ist" "\\.listing" "\\.fdb_latexmk")))
+                                                 '("\\.acn" "\\.acr" "\\.alg" "\\.glg"
+                                                   "\\.ist" "\\.listing" "\\.fdb_latexmk")))
 (add-to-list 'TeX-command-list '("LatexMk (XeLaTeX)" "latexmk -pdf -xelatex -8bit %S%(mode) %(file-line-error) %(extraopts) %t" TeX-run-latexmk nil
-				 (plain-tex-mode latex-mode doctex-mode)
-				 :help "Run LatexMk (XeLaTeX)"))
+                                 (plain-tex-mode latex-mode doctex-mode)
+                                 :help "Run LatexMk (XeLaTeX)"))
 ```
 
 
@@ -4374,81 +4374,81 @@ contextual information."
 
 (setq! TeX-fold-math-spec-list
        `(;; missing/better symbols
-	 ("≤" ("le"))
-	 ("≥" ("ge"))
-	 ("≠" ("ne"))
-	 ;; convenience shorts -- these don't work nicely ATM
-	 ;; ("‹" ("left"))
-	 ;; ("›" ("right"))
-	 ;; private macros
-	 ("ℝ" ("RR"))
-	 ("ℕ" ("NN"))
-	 ("ℤ" ("ZZ"))
-	 ("ℚ" ("QQ"))
-	 ("ℂ" ("CC"))
-	 ("ℙ" ("PP"))
-	 ("ℍ" ("HH"))
-	 ("𝔼" ("EE"))
-	 ("𝑑" ("dd"))
-	 ;; known commands
-	 ("" ("phantom"))
-	 (,(lambda (num den) (if (and (TeX-string-single-token-p num) (TeX-string-single-token-p den))
-				 (concat num "／" den)
-			       (concat "❪" num "／" den "❫"))) ("frac"))
-	 (,(lambda (arg) (concat "√" (TeX-fold-parenthesize-as-necessary arg))) ("sqrt"))
-	 (,(lambda (arg) (concat "⭡" (TeX-fold-parenthesize-as-necessary arg))) ("vec"))
-	 ("‘{1}’" ("text"))
-	 ;; private commands
-	 ("|{1}|" ("abs"))
-	 ("‖{1}‖" ("norm"))
-	 ("⌊{1}⌋" ("floor"))
-	 ("⌈{1}⌉" ("ceil"))
-	 ("⌊{1}⌉" ("round"))
-	 ("𝑑{1}/𝑑{2}" ("dv"))
-	 ("∂{1}/∂{2}" ("pdv"))
-	 ;; fancification
-	 ("{1}" ("mathrm"))
-	 (,(lambda (word) (string-offset-roman-chars 119743 word)) ("mathbf"))
-	 (,(lambda (word) (string-offset-roman-chars 119951 word)) ("mathcal"))
-	 (,(lambda (word) (string-offset-roman-chars 120003 word)) ("mathfrak"))
-	 (,(lambda (word) (string-offset-roman-chars 120055 word)) ("mathbb"))
-	 (,(lambda (word) (string-offset-roman-chars 120159 word)) ("mathsf"))
-	 (,(lambda (word) (string-offset-roman-chars 120367 word)) ("mathtt"))
-	 )
+         ("≤" ("le"))
+         ("≥" ("ge"))
+         ("≠" ("ne"))
+         ;; convenience shorts -- these don't work nicely ATM
+         ;; ("‹" ("left"))
+         ;; ("›" ("right"))
+         ;; private macros
+         ("ℝ" ("RR"))
+         ("ℕ" ("NN"))
+         ("ℤ" ("ZZ"))
+         ("ℚ" ("QQ"))
+         ("ℂ" ("CC"))
+         ("ℙ" ("PP"))
+         ("ℍ" ("HH"))
+         ("𝔼" ("EE"))
+         ("𝑑" ("dd"))
+         ;; known commands
+         ("" ("phantom"))
+         (,(lambda (num den) (if (and (TeX-string-single-token-p num) (TeX-string-single-token-p den))
+                                 (concat num "／" den)
+                               (concat "❪" num "／" den "❫"))) ("frac"))
+         (,(lambda (arg) (concat "√" (TeX-fold-parenthesize-as-necessary arg))) ("sqrt"))
+         (,(lambda (arg) (concat "⭡" (TeX-fold-parenthesize-as-necessary arg))) ("vec"))
+         ("‘{1}’" ("text"))
+         ;; private commands
+         ("|{1}|" ("abs"))
+         ("‖{1}‖" ("norm"))
+         ("⌊{1}⌋" ("floor"))
+         ("⌈{1}⌉" ("ceil"))
+         ("⌊{1}⌉" ("round"))
+         ("𝑑{1}/𝑑{2}" ("dv"))
+         ("∂{1}/∂{2}" ("pdv"))
+         ;; fancification
+         ("{1}" ("mathrm"))
+         (,(lambda (word) (string-offset-roman-chars 119743 word)) ("mathbf"))
+         (,(lambda (word) (string-offset-roman-chars 119951 word)) ("mathcal"))
+         (,(lambda (word) (string-offset-roman-chars 120003 word)) ("mathfrak"))
+         (,(lambda (word) (string-offset-roman-chars 120055 word)) ("mathbb"))
+         (,(lambda (word) (string-offset-roman-chars 120159 word)) ("mathsf"))
+         (,(lambda (word) (string-offset-roman-chars 120367 word)) ("mathtt"))
+         )
        TeX-fold-macro-spec-list
        '(;; as the defaults
-	 ("[f]" ("footnote" "marginpar"))
-	 ("[c]" ("cite"))
-	 ("[l]" ("label"))
-	 ("[r]" ("ref" "pageref" "eqref"))
-	 ("[i]" ("index" "glossary"))
-	 ("..." ("dots"))
-	 ("{1}" ("emph" "textit" "textsl" "textmd" "textrm" "textsf" "texttt"
-		 "textbf" "textsc" "textup"))
-	 ;; tweaked defaults
-	 ("©" ("copyright"))
-	 ("®" ("textregistered"))
-	 ("™"  ("texttrademark"))
-	 ("[1]:||►" ("item"))
-	 ("❡❡ {1}" ("part" "part*"))
-	 ("❡ {1}" ("chapter" "chapter*"))
-	 ("§ {1}" ("section" "section*"))
-	 ("§§ {1}" ("subsection" "subsection*"))
-	 ("§§§ {1}" ("subsubsection" "subsubsection*"))
-	 ("¶ {1}" ("paragraph" "paragraph*"))
-	 ("¶¶ {1}" ("subparagraph" "subparagraph*"))
-	 ;; extra
-	 ("⬖ {1}" ("begin"))
-	 ("⬗ {1}" ("end"))
-	 ))
+         ("[f]" ("footnote" "marginpar"))
+         ("[c]" ("cite"))
+         ("[l]" ("label"))
+         ("[r]" ("ref" "pageref" "eqref"))
+         ("[i]" ("index" "glossary"))
+         ("..." ("dots"))
+         ("{1}" ("emph" "textit" "textsl" "textmd" "textrm" "textsf" "texttt"
+                 "textbf" "textsc" "textup"))
+         ;; tweaked defaults
+         ("©" ("copyright"))
+         ("®" ("textregistered"))
+         ("™"  ("texttrademark"))
+         ("[1]:||►" ("item"))
+         ("❡❡ {1}" ("part" "part*"))
+         ("❡ {1}" ("chapter" "chapter*"))
+         ("§ {1}" ("section" "section*"))
+         ("§§ {1}" ("subsection" "subsection*"))
+         ("§§§ {1}" ("subsubsection" "subsubsection*"))
+         ("¶ {1}" ("paragraph" "paragraph*"))
+         ("¶¶ {1}" ("subparagraph" "subparagraph*"))
+         ;; extra
+         ("⬖ {1}" ("begin"))
+         ("⬗ {1}" ("end"))
+         ))
 
 (defun string-offset-roman-chars (offset word)
   "Shift the codepoint of each character in WORD by OFFSET with an extra -6 shift if the letter is lowercase"
   (apply 'string
-	 (mapcar (lambda (c)
-		   (string-offset-apply-roman-char-exceptions
-		    (+ (if (>= c 97) (- c 6) c) offset)))
-		 word)))
+         (mapcar (lambda (c)
+                   (string-offset-apply-roman-char-exceptions
+                    (+ (if (>= c 97) (- c 6) c) offset)))
+                 word)))
 
 (defvar string-offset-roman-char-exceptions
   '(;; lowercase serif
@@ -4494,8 +4494,8 @@ Such special cases should be remapped to another value, as given in `string-offs
   "Add ❪ ❫ parenthesis as if multiple LaTeX tokens appear to be present"
   (if (TeX-string-single-token-p tokens) tokens
     (concat (if suppress-left "" "❪")
-	    tokens
-	    (if suppress-right "" "❫"))))
+            tokens
+            (if suppress-right "" "❫"))))
 
 (defun TeX-string-single-token-p (teststring)
   "Return t if TESTSTRING appears to be a single token, nil otherwise"
@@ -4552,3 +4552,4 @@ tcc 也是 C++
 ```emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.tcc\\'" . c++-mode))
 ```
+

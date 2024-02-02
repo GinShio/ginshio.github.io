@@ -184,3 +184,4 @@ cp alpha.asc.sig alpha.txt.sig
 gpg --verify alpha.txt.sig # 验证文件 'alpha.txt'，签名完好
 gpg --verify alpha.bin.sig alpha.txt # 指定数据文件为 'alpha.txt'，使用 'alpha.bin.sig' 进行验证
 ```
+

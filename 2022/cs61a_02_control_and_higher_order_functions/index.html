@@ -226,11 +226,11 @@ else 引导假分支，其中还可能会有零或多个 elif 进行嵌套。</p
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">absolute_value</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="o">-</span><span class="n">n</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">-</span><span class="n">n</span>
 </span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">0</span>
 </span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">n</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>在 scheme 中 <code>#t</code> 和 <code>#f</code> 分别表示真或假，语法的话就不能 elif 进行嵌套了 <code>(if test consequent alternative)</code></p>
@@ -270,9 +270,9 @@ else 引导假分支，其中还可能会有零或多个 elif 进行嵌套。</p
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="nf">absolute_value</span><span class="p">(</span><span class="nv">N</span><span class="p">)</span> <span class="o">-&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span>
-</span></span><span class="line"><span class="cl">	<span class="nv">N</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">-&gt;</span> <span class="o">-</span><span class="nv">N</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	<span class="nv">N</span> <span class="o">=:=</span> <span class="mi">0</span> <span class="o">-&gt;</span> <span class="nv">N</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	<span class="n">true</span> <span class="o">-&gt;</span> <span class="nv">N</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">N</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">-&gt;</span> <span class="o">-</span><span class="nv">N</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">N</span> <span class="o">=:=</span> <span class="mi">0</span> <span class="o">-&gt;</span> <span class="nv">N</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">true</span> <span class="o">-&gt;</span> <span class="nv">N</span>
 </span></span><span class="line"><span class="cl">    <span class="k">end</span><span class="p">.</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -384,27 +384,27 @@ else 引导假分支，其中还可能会有零或多个 elif 进行嵌套。</p
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">bits</span> <span class="p">(</span><span class="nb">make-vector </span><span class="p">(</span><span class="nb">+ </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="no">#t</span><span class="p">)))</span>
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">let </span><span class="nv">loop</span> <span class="p">((</span><span class="nf">p</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">ps</span> <span class="o">&#39;</span><span class="p">()))</span>
 </span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">&lt; </span><span class="nv">n</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">reverse </span><span class="nv">ps</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">	    <span class="p">((</span><span class="nb">vector-ref </span><span class="nv">bits</span> <span class="nv">p</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	     <span class="p">(</span><span class="k">do </span><span class="p">((</span><span class="nf">i</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">p</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">i</span> <span class="nv">p</span><span class="p">)))</span> <span class="p">((</span><span class="nb">&lt; </span><span class="nv">n</span> <span class="nv">i</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">	       <span class="p">(</span><span class="nb">vector-set! </span><span class="nv">bits</span> <span class="nv">i</span> <span class="no">#f</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">	     <span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">p</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">p</span> <span class="nv">ps</span><span class="p">)))</span>
-</span></span><span class="line"><span class="cl">	    <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">p</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">ps</span><span class="p">))))))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">((</span><span class="nb">vector-ref </span><span class="nv">bits</span> <span class="nv">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">             <span class="p">(</span><span class="k">do </span><span class="p">((</span><span class="nf">i</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">p</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">i</span> <span class="nv">p</span><span class="p">)))</span> <span class="p">((</span><span class="nb">&lt; </span><span class="nv">n</span> <span class="nv">i</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">               <span class="p">(</span><span class="nb">vector-set! </span><span class="nv">bits</span> <span class="nv">i</span> <span class="no">#f</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">             <span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">p</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">p</span> <span class="nv">ps</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">p</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">ps</span><span class="p">))))))</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">get-factorization</span> <span class="nv">n</span> <span class="nv">primes</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">prime</span> <span class="p">(</span><span class="nb">car </span><span class="nv">primes</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">others</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">primes</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nf">others</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">primes</span><span class="p">)))</span>
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">n</span> <span class="nv">prime</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="nv">prime</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">get-factorization</span> <span class="nv">n</span> <span class="nv">others</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">prime</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nf">get-factorization</span> <span class="nv">n</span> <span class="nv">others</span><span class="p">))))</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">prime-factorization</span> <span class="nv">n</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&lt; </span><span class="nv">n</span> <span class="mi">3</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="nb">list </span><span class="nv">n</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">primes</span> <span class="p">(</span><span class="nf">get-primes</span> <span class="nv">n</span><span class="p">)))</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="k">let </span><span class="nv">loop</span> <span class="p">((</span><span class="nf">num</span> <span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nf">ans</span> <span class="o">&#39;</span><span class="p">()))</span>
-</span></span><span class="line"><span class="cl">	  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">num</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">reverse </span><span class="nv">ans</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">		<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">prime</span> <span class="p">(</span><span class="nf">get-factorization</span> <span class="nv">num</span> <span class="nv">primes</span><span class="p">)))</span>
-</span></span><span class="line"><span class="cl">			<span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nb">quotient </span><span class="nv">num</span> <span class="nv">prime</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">prime</span> <span class="nv">ans</span><span class="p">)))))))))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">let </span><span class="nv">loop</span> <span class="p">((</span><span class="nf">num</span> <span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nf">ans</span> <span class="o">&#39;</span><span class="p">()))</span>
+</span></span><span class="line"><span class="cl">          <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">num</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">reverse </span><span class="nv">ans</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">prime</span> <span class="p">(</span><span class="nf">get-factorization</span> <span class="nv">num</span> <span class="nv">primes</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nb">quotient </span><span class="nv">num</span> <span class="nv">prime</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">prime</span> <span class="nv">ans</span><span class="p">)))))))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><hr>
@@ -430,7 +430,7 @@ Factorial(N) &amp;= N \times Factorial(N - 1).
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">factorial</span> <span class="nv">n</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">* </span><span class="nv">n</span> <span class="p">(</span><span class="nf">factorial</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">* </span><span class="nv">n</span> <span class="p">(</span><span class="nf">factorial</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这个计算过程中，通过代换模型可以看出计算是一种先逐步展开而后收缩的形状，计算过程构造起一个<code>推迟进行的操作</code>所形成的链条，收缩阶段表现为这些运算的实际执行，这种计算过程被称为<code>递归计算过程</code>。如果要执行这个过程，解释器就必须维护好以后要执行的操作的轨迹，这个例子中推迟执行的乘法链条的长度也就是为保存其轨迹需要保存的信息量，这个长度随着 n 值的增加而线性增长，这个过程被称为<strong>线性递归计算</strong>。</p>
@@ -478,9 +478,9 @@ Factorial(N) &amp;= N \times Factorial(N - 1).
 <pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">factorial</span> <span class="nv">n</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="nv">factorial-iter</span> <span class="p">((</span><span class="nf">product</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">counter</span> <span class="mi">1</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">counter</span> <span class="nv">n</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="nv">product</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">factorial-iter</span> <span class="p">(</span><span class="nb">* </span><span class="nv">counter</span> <span class="nv">product</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">			<span class="p">(</span><span class="mi">1</span><span class="nv">+</span> <span class="nv">counter</span><span class="p">)))))</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">product</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nf">factorial-iter</span> <span class="p">(</span><span class="nb">* </span><span class="nv">counter</span> <span class="nv">product</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">(</span><span class="mi">1</span><span class="nv">+</span> <span class="nv">counter</span><span class="p">)))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这个计算过程中没有任何增长或收缩，计算过程的每一步，需要保存的轨迹就是变量
@@ -523,9 +523,9 @@ Fibonacci(N) &amp;= Fibonacci(N - 1) + Fibonacci(N - 2).
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fibonacci</span> <span class="nv">n</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">fibonacci</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">		 <span class="p">(</span><span class="nf">fibonacci</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">2</span><span class="p">))))))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">fibonacci</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                 <span class="p">(</span><span class="nf">fibonacci</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">2</span><span class="p">))))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>如果将 fibonacci 函数的调用图画出来，可以看到它就像一棵树一样，这样的递归被称为
@@ -546,8 +546,8 @@ Fibonacci(N) &amp;= Fibonacci(N - 1) + Fibonacci(N - 2).
 <pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fibonacci</span> <span class="nv">n</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="nv">fibonacci-iter</span> <span class="p">((</span><span class="nf">a</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">b</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">counter</span> <span class="mi">1</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">counter</span> <span class="nv">n</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="nv">b</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">fibonacci-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="nv">a</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">counter</span> <span class="mi">1</span><span class="p">)))))</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">b</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nf">fibonacci-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="nv">a</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">counter</span> <span class="mi">1</span><span class="p">)))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>树形递归计算过程并不是无用的，当考虑在层次结构性的数据上操作，而不是对数操作时，树形递归计算过程是一种自然、威力强大的工具，可以帮助我们理解与设计程序。</p>
@@ -633,8 +633,8 @@ Fibonacci(N) &amp;= Fibonacci(N - 1) + Fibonacci(N - 2).
 <pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">summation</span> <span class="nv">start</span> <span class="nv">end</span> <span class="nv">term</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="nv">summation-iter</span> <span class="p">((</span><span class="nf">counter</span> <span class="nv">start</span><span class="p">)</span> <span class="p">(</span><span class="nf">value</span> <span class="mi">0</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">counter</span> <span class="nv">end</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="nv">value</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">summation-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">counter</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">value</span> <span class="p">(</span><span class="nf">term</span> <span class="nv">counter</span><span class="p">))))))</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">value</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nf">summation-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">counter</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">value</span> <span class="p">(</span><span class="nf">term</span> <span class="nv">counter</span><span class="p">))))))</span>
 </span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">summation</span> <span class="mi">0</span> <span class="mi">10</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">))</span>  <span class="c1">;; sum (i), 55</span>
 </span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">summation</span> <span class="mi">0</span> <span class="mi">10</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">x</span><span class="p">)))</span> <span class="c1">;; sum (i^2), 385</span>
 </span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">summation</span> <span class="mi">0</span> <span class="mi">10</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">sqrt </span><span class="nv">x</span><span class="p">)))</span> <span class="c1">;; sum (sqrt(i)), 22.4682</span>
@@ -694,8 +694,8 @@ x &= g(a)(b)(c)
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">define </span><span class="nv">factorial</span>
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">n</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	    <span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	    <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">* </span><span class="nv">n</span> <span class="p">(</span><span class="nf">factorial</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))))))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">* </span><span class="nv">n</span> <span class="p">(</span><span class="nf">factorial</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))))))</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">factorial</span> <span class="nv">n</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">     <span class="p">(</span><span class="nf">factorial</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="nv">k</span><span class="p">))))</span>
 </span></span></code></pre></td></tr></table>
@@ -717,8 +717,8 @@ x &= g(a)(b)(c)
 </span></span><span class="line"><span class="cl">  <span class="s">&#34;Sum all the digits of y.&#34;</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="nv">sum-digits-iter</span> <span class="p">((</span><span class="nf">num</span> <span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nf">val</span> <span class="mi">0</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">num</span> <span class="mi">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="nv">val</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">sum-digits-iter</span> <span class="p">(</span><span class="nb">quotient </span><span class="nv">num</span> <span class="mi">10</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">val</span> <span class="p">(</span><span class="nb">remainder </span><span class="nv">num</span> <span class="mi">10</span><span class="p">))))))</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">val</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nf">sum-digits-iter</span> <span class="p">(</span><span class="nb">quotient </span><span class="nv">num</span> <span class="mi">10</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">val</span> <span class="p">(</span><span class="nb">remainder </span><span class="nv">num</span> <span class="mi">10</span><span class="p">))))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -740,10 +740,10 @@ x &= g(a)(b)(c)
 </span></span><span class="line"><span class="cl">  <span class="s">&#34;Return true if n has two eights in a row.&#34;</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="nv">double-eights-iter</span> <span class="p">((</span><span class="nf">num</span> <span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nf">prev</span> <span class="no">#f</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">num</span> <span class="mi">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="no">#f</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">curr</span> <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">num</span> <span class="mi">10</span><span class="p">)</span> <span class="mi">8</span><span class="p">)))</span>
-</span></span><span class="line"><span class="cl">	  <span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="k">and </span><span class="nv">curr</span> <span class="nv">prev</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	      <span class="p">(</span><span class="nf">double-eights-iter</span> <span class="p">(</span><span class="nb">quotient </span><span class="nv">num</span> <span class="mi">10</span><span class="p">)</span> <span class="nv">curr</span><span class="p">))))))</span>
+</span></span><span class="line"><span class="cl">        <span class="no">#f</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">curr</span> <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">remainder </span><span class="nv">num</span> <span class="mi">10</span><span class="p">)</span> <span class="mi">8</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">          <span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="k">and </span><span class="nv">curr</span> <span class="nv">prev</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">              <span class="p">(</span><span class="nf">double-eights-iter</span> <span class="p">(</span><span class="nb">quotient </span><span class="nv">num</span> <span class="mi">10</span><span class="p">)</span> <span class="nv">curr</span><span class="p">))))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div></li>
@@ -767,8 +767,8 @@ x &= g(a)(b)(c)
 </span></span><span class="line"><span class="cl">  <span class="s">&#34;Return the product of the first n terms in a sequence.&#34;</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="nv">product-iter</span> <span class="p">((</span><span class="nf">counter</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">init</span> <span class="mi">1</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">counter</span> <span class="nv">n</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="nv">init</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">product-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">counter</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">init</span> <span class="p">(</span><span class="nf">term</span> <span class="nv">counter</span><span class="p">))))))</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">init</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nf">product-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">counter</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">init</span> <span class="p">(</span><span class="nf">term</span> <span class="nv">counter</span><span class="p">))))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div></dd>
@@ -792,8 +792,8 @@ x &= g(a)(b)(c)
 </span></span></span><span class="line"><span class="cl"><span class="s">    two-argument commutative function.&#34;</span>
 </span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">let </span><span class="nv">accumulate-iter</span> <span class="p">((</span><span class="nf">counter</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">value</span> <span class="nv">init</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">counter</span> <span class="nv">n</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="nv">value</span>
-</span></span><span class="line"><span class="cl">	<span class="p">(</span><span class="nf">accumulate-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">counter</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">merger</span> <span class="nv">value</span> <span class="p">(</span><span class="nf">term</span> <span class="nv">counter</span><span class="p">))))))</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">value</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="nf">accumulate-iter</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">counter</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">merger</span> <span class="nv">value</span> <span class="p">(</span><span class="nf">term</span> <span class="nv">counter</span><span class="p">))))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div></dd>
@@ -864,8 +864,8 @@ ones}\rvert + 1\) 分。其中 <code>tens</code> 和 <code>ones</code> 指对手
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.111.3">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
             </div>

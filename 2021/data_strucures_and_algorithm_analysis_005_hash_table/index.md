@@ -113,3 +113,4 @@ rehashing 的操作无疑是昂贵的，它需要 \\(\mathcal{O}(N)\\) 的时间
 一种聪明的方法是 **可扩散列** (extendible hashing)，它允许用两次磁盘访问执行一次查找，插入操作也需要很少的磁盘访问。这种算法与 B 树的思想相当。
 
 {{< figure src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Extendible_hashing_5.svg" width="45%" >}}
+

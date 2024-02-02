@@ -112,7 +112,7 @@ int main(int argc, char** argv) {
   printf("%s: ", CPU_VENDOR_OS);
   if (sizeof(short) == 2) {
     puts(un.c[0] == 1 && un.c[1] == 2 ? "big-endian"
-	 : (un.c[0] == 2 && un.c[1] == 1 ? "little-endian" : "unknown"));
+         : (un.c[0] == 2 && un.c[1] == 1 ? "little-endian" : "unknown"));
   } else {
     printf("sizeof(short) = %d\n", sizeof(short));
   }
@@ -273,11 +273,11 @@ char* sock_ntop(const struct sockaddr* sa, socklen_t salen) {
     case AF_INET: {
       struct sockaddr_in *sin = (struct sockaddr_in *) sa;
       if (inet_ntop(AF_INET, &sin->sin_addr, str, sizeof(str)) == NULL) {
-	return NULL;
+        return NULL;
       }
       if (ntohs(sin->sin_port) != 0) {
-	snprintf(portstr, sizeof(portstr), ":%d", ntohs(sin->sin_port));
-	strcat(str, portstr);
+        snprintf(portstr, sizeof(portstr), ":%d", ntohs(sin->sin_port));
+        strcat(str, portstr);
       }
       return str;
     }
@@ -286,12 +286,12 @@ char* sock_ntop(const struct sockaddr* sa, socklen_t salen) {
       struct sockaddr_in6 *sin6 = (struct sockaddr_in6 *) sa;
       str[0] = '[';
       if (inet_ntop(AF_INET6, &sin6->sin6_addr, str + 1, sizeof(str) - 1) == NULL) {
-	return NULL;
+        return NULL;
       }
       if (ntohs(sin6->sin6_port) != 0) {
-	snprintf(portstr, sizeof(portstr), "]:%d", ntohs(sin6->sin6_port));
-	strcat(str, portstr);
-	return str;
+        snprintf(portstr, sizeof(portstr), "]:%d", ntohs(sin6->sin6_port));
+        strcat(str, portstr);
+        return str;
       }
       return str + 1;
     }
@@ -300,9 +300,9 @@ char* sock_ntop(const struct sockaddr* sa, socklen_t salen) {
     case AF_UNIX: {
       struct sockaddr_un *unp = (struct sockaddr_un *) sa;
       if (unp->sun_path[0] == 0) {
-	strcpy(str, "(no pathname bound)");
+        strcpy(str, "(no pathname bound)");
       } else {
-	snprintf(str, sizeof(str), "%s", unp->sun_path);
+        snprintf(str, sizeof(str), "%s", unp->sun_path);
       }
       return str;
     }
@@ -311,17 +311,17 @@ char* sock_ntop(const struct sockaddr* sa, socklen_t salen) {
     case AF_LINK: {
       struct sockaddr_dl *sdl = (struct sockaddr_dl *) sa;
       if (sdl->sdl_nlen > 0) {
-	snprintf(str, sizeof(str), "%*s (index %d)",
-		 sdl->sdl_nlen, &sdl->sdl_data[0], sdl->sdl_index);
+        snprintf(str, sizeof(str), "%*s (index %d)",
+                 sdl->sdl_nlen, &sdl->sdl_data[0], sdl->sdl_index);
       } else {
-	snprintf(str, sizeof(str), "AF_LINK, index=%d", sdl->sdl_index);
+        snprintf(str, sizeof(str), "AF_LINK, index=%d", sdl->sdl_index);
       }
       return str;
     }
 #endif  // AF_LINK
     default: {
       snprintf(str, sizeof(str), "sock_ntop: unknown AF_xxxx: %d, len %d",
-	       sa->sa_family, salen);
+               sa->sa_family, salen);
       return str;
     }
   }
@@ -336,3 +336,4 @@ char* sock_ntop(const struct sockaddr* sa, socklen_t salen) {
 -   `sock_set_addr` 与 `sock_set_port` 实现对地址结构的地址与端口的设置
 -   `sock_get_port` 与 `sock_ntop_host` 实现将地址结构中的端口和主机部分转换为字符串形式
 -   `sock_set_wild` 则是将套接字地址结构的地址部分置为通配地址
+

@@ -26,9 +26,9 @@
 template <class T, class Iter>
 concept sequence_container =
     requires(T a, const T& b, typename T::const_iterator pos,
-	     Iter first, Iter last,
-	     typename T::iterator self_first, typename T::iterator self_last,
-	     size_type count, const typename T::value_type& value) {
+             Iter first, Iter last,
+             typename T::iterator self_first, typename T::iterator self_last,
+             size_type count, const typename T::value_type& value) {
     requires container<T>;
     requires input_iterator<Iter>;
     // iterator
@@ -183,7 +183,7 @@ struct SequenceList {
     }
     // 由实现范围 [first, last) 上迭代器到单链表的构造，接收单链表 [first, last) 并插入
     void insert(ForwardListBaseNode* pos,
-    	    ForwardListBaseNode* first, ForwardListBaseNode* last) {
+                ForwardListBaseNode* first, ForwardListBaseNode* last) {
       last->next = pos->next;
       pos->next = first;
     }
@@ -270,7 +270,7 @@ struct SequenceList {
     }
     // 将 [first, last) 插入到 pos 之前，并将 first - 1 与 last 重新连接
     void insert(BidirectionalListBaseNode* pos,
-    	    BidirectionalListBaseNode* first, BidirectionalListBaseNode* last) {
+                BidirectionalListBaseNode* first, BidirectionalListBaseNode* last) {
       BidirectionalListBaseNode* first_prev = first->prev;
       first->prev->next = last;
       last->prev->next = pos;
@@ -534,20 +534,20 @@ expression 有个好处，那就是并不需要括号的支持，在序列中的
         if (!s.empty() && is_right_bracket(symbol)) {
           // 将运算符弹出到 postfix 序列中，直到运算符为左括号或空栈为止
           while (!s.empty() && !is_left_bracket(s.top())) {
-    	postfix.push_back(s.top());
-    	s.pop();
+            postfix.push_back(s.top());
+            s.pop();
           }
           // 将左括号移除
           if (!s.empty() && is_left_bracket(s.top())) {
-    	s.pop();
+            s.pop();
           }
           continue;
         }
         // 当前元素优先级小于栈顶元素，弹出运算符，直到元素优先级大于栈顶或空栈为止
         if (!s.empty() && !compare(symbol, s.top())) {
           while (!s.empty() && compare(s.top(), symbol)) {
-    	postfix.push_back(s.top());
-    	s.pop();
+            postfix.push_back(s.top());
+            s.pop();
           }
         }
         s.push(symbol);
@@ -792,8 +792,8 @@ int strstr(const string& source, const string& pattern) {
     bool flag = true;
     for (int j = 0; j < n; j++) {
       if (source[i + j] != pattern[j]) {
-	flag = false;
-	break;
+        flag = false;
+        break;
       }
     }
     if (flag) {
@@ -908,7 +908,7 @@ int strstr(const string& source, const string& pattern) {
     while (source[i + j] == pattern[j]) {
       ++j;
       if (j == m) {
-	return i;
+        return i;
       }
     }
     i += shift[source[i + m]] == 0 ? m + 1 : shift[source[i + m]];
@@ -916,3 +916,4 @@ int strstr(const string& source, const string& pattern) {
   return -1;
 }
 ```
+

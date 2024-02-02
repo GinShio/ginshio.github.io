@@ -322,17 +322,17 @@ DST 服务器最复杂的是世界设置文件，可以先在自己电脑上配�
         year_of_the_beefalo="default",  --- 皮弗娄牛之年: default (自动); enabled (启用)
         year_of_the_catcoon="default",  --- 浣猫之年: default (自动); enabled (启用)
         autumn="default",  --- 秋季: noseason (无季节, 0); veryshortseason (非常短, 5); shortseason (较短, 12);
-    		       ---       default (默认长度, 20); longseason (较长, 30); verylongseason (非常长, 50); random
+                           ---       default (默认长度, 20); longseason (较长, 30); verylongseason (非常长, 50); random
         winter="default",  --- 冬季: noseason (无季节, 0); veryshortseason (非常短, 5); shortseason (较短, 10);
-    		       ---       default (默认长度, 15); longseason (较长, 22); verylongseason (非常长, 40); random
+                           ---       default (默认长度, 15); longseason (较长, 22); verylongseason (非常长, 40); random
         spring="default",  --- 春季: noseason (无季节, 0); veryshortseason (非常短, 5); shortseason (较短, 12);
-    		       ---       default (默认长度, 20); longseason (较长, 30); verylongseason (非常长, 50); random
+                           ---       default (默认长度, 20); longseason (较长, 30); verylongseason (非常长, 50); random
         summer="default",  --- 夏季, noseason (无季节, 0); veryshortseason (非常短, 5); shortseason (较短, 10);
-    		       ---       default (默认长度, 15); longseason (较长, 22); verylongseason (非常长, 40); random
+                           ---       default (默认长度, 15); longseason (较长, 22); verylongseason (非常长, 40); random
         day="default",     --- 天类型: default (默认);
-    		       ---         longday (加长白天); longdusk (加长黄昏); longnight (加长黑夜);
-    		       ---         noday (无白天); nodusk (无黄昏); nonight (无黑夜);
-    		       ---         onlyday (只有白天); onlydusk (只有黄昏); onlynight (只有黑夜)
+                           ---         longday (加长白天); longdusk (加长黄昏); longnight (加长黑夜);
+                           ---         noday (无白天); nodusk (无黄昏); nonight (无黑夜);
+                           ---         onlyday (只有白天); onlydusk (只有黄昏); onlynight (只有黑夜)
         spawnmode="fixed",          --- 出生点: fixed (固定大门); scatter (随机)
         ghostenabled="always",      --- 死亡变为鬼魂: none (关闭); always (启用)
         portalresurection="none",   --- 大门复活: none (关闭); always (启用)
@@ -628,17 +628,17 @@ DST 服务器最复杂的是世界设置文件，可以先在自己电脑上配�
         year_of_the_beefalo="default",  --- 皮弗娄牛之年: default (自动); enabled (启用)
         year_of_the_catcoon="default",  --- 浣猫之年: default (自动); enabled (启用)
         autumn="default",  --- 秋季: noseason (无季节, 0); veryshortseason (非常短, 5); shortseason (较短, 12);
-    		       ---       default (默认长度, 20); longseason (较长, 30); verylongseason (非常长, 50); random
+                           ---       default (默认长度, 20); longseason (较长, 30); verylongseason (非常长, 50); random
         winter="default",  --- 冬季: noseason (无季节, 0); veryshortseason (非常短, 5); shortseason (较短, 10);
-    		       ---       default (默认长度, 15); longseason (较长, 22); verylongseason (非常长, 40); random
+                           ---       default (默认长度, 15); longseason (较长, 22); verylongseason (非常长, 40); random
         spring="default",  --- 春季: noseason (无季节, 0); veryshortseason (非常短, 5); shortseason (较短, 12);
-    		       ---       default (默认长度, 20); longseason (较长, 30); verylongseason (非常长, 50); random
+                           ---       default (默认长度, 20); longseason (较长, 30); verylongseason (非常长, 50); random
         summer="default",  --- 夏季, noseason (无季节, 0); veryshortseason (非常短, 5); shortseason (较短, 10);
-    		       ---       default (默认长度, 15); longseason (较长, 22); verylongseason (非常长, 40); random
+                           ---       default (默认长度, 15); longseason (较长, 22); verylongseason (非常长, 40); random
         day="default",     --- 天类型: default (默认);
-    		       ---         longday (加长白天); longdusk (加长黄昏); longnight (加长黑夜);
-    		       ---         noday (无白天); nodusk (无黄昏); nonight (无黑夜);
-    		       ---         onlyday (只有白天); onlydusk (只有黄昏); onlynight (只有黑夜)
+                           ---         longday (加长白天); longdusk (加长黄昏); longnight (加长黑夜);
+                           ---         noday (无白天); nodusk (无黄昏); nonight (无黑夜);
+                           ---         onlyday (只有白天); onlydusk (只有黄昏); onlynight (只有黑夜)
         spawnmode="fixed",          --- 出生点: fixed (固定大门); scatter (随机)
         ghostenabled="always",      --- 死亡变为鬼魂: none (关闭); always (启用)
         portalresurection="none",   --- 大门复活: none (关闭); always (启用)
@@ -871,13 +871,13 @@ end
 
 function mylist
     for s in (get_servers)
-	echo -n (set_color magenta)"$s"(set_color normal)
-	set get_status (ps aux |grep -P "^(?=.*dontstarve_dedicated)(?=.*$s)"|grep -v "grep")
-	if test "" = "$get_status"
-	    echo -e "\t\t\t" (set_color red)"stop"(set_color normal)
-	else
-	    echo -e "\t\t\t" (set_color green)"run"(set_color normal)
-	end
+        echo -n (set_color magenta)"$s"(set_color normal)
+        set get_status (ps aux |grep -P "^(?=.*dontstarve_dedicated)(?=.*$s)"|grep -v "grep")
+        if test "" = "$get_status"
+            echo -e "\t\t\t" (set_color red)"stop"(set_color normal)
+        else
+            echo -e "\t\t\t" (set_color green)"run"(set_color normal)
+        end
     end
 end
 
@@ -885,16 +885,16 @@ function mybackup
     cd $conf_path
     set --local flag
     if test "" = "$argv"
-	set flag false
+        set flag false
     else
-	set flag true
+        set flag true
     end
     set --local time_string (date --iso-8601=seconds |sed "s/:/-/g" -)
     for s in (get_servers)
-	if $flag; and test "$s" != "$argv"
-	    continue
-	end
-	echo "tar -cvf - $s/* |xz -9 --threads=0 --block-size=128MiB --lzma2=dict=768MiB -c > DST_$s""_$time_string.tar.xz" |sudo -u steam fish
+        if $flag; and test "$s" != "$argv"
+            continue
+        end
+        echo "tar -cvf - $s/* |xz -9 --threads=0 --block-size=128MiB --lzma2=dict=768MiB -c > DST_$s""_$time_string.tar.xz" |sudo -u steam fish
     end
 end
 
@@ -928,49 +928,50 @@ end
 function myparse
     argparse 'h/help' 'r/run=!' 's/stop=?' 'u/update' 'l/list' 'b/backup=?' 'C/clean=!' -- $argv
     if set --query _flag_h
-	printf "Usage: script [OPTIONS]\n\n"
-	printf "Options:\n"
-	printf "    -h/--help               Prints help and exits\n"
-	printf "    -r/--run=STRING         Run A Server\n"
-	printf "    -s/--stop[=STRING]      Stop Servers\n"
-	printf "    -u/--update             Stop && Update Servers\n"
-	printf "    -l/--list               List All Servers\n"
-	printf "    -b/--backup[=STRING]    Backup Server[s]\n"
-	printf "    -C/--clean=STRING       Clean A Server\n"
-	return 0
+        printf "Usage: script [OPTIONS]\n\n"
+        printf "Options:\n"
+        printf "    -h/--help               Prints help and exits\n"
+        printf "    -r/--run=STRING         Run A Server\n"
+        printf "    -s/--stop[=STRING]      Stop Servers\n"
+        printf "    -u/--update             Stop && Update Servers\n"
+        printf "    -l/--list               List All Servers\n"
+        printf "    -b/--backup[=STRING]    Backup Server[s]\n"
+        printf "    -C/--clean=STRING       Clean A Server\n"
+        return 0
     end
 
     if set --query _flag_list
-	mylist
-	return 0
+        mylist
+        return 0
     end
 
     if set --query _flag_backup
-	mybackup $_flag_backup
-	return 0
+        mybackup $_flag_backup
+        return 0
     end
 
     if set --query _flag_run
-	myrun $_flag_run
-	return 0
+        myrun $_flag_run
+        return 0
     end
 
     if set --query _flag_stop
-	mystop $_flag_stop
-	return 0
+        mystop $_flag_stop
+        return 0
     end
 
     if set --query _flag_update
-	mystop
-	myupdate
-	return 0
+        mystop
+        myupdate
+        return 0
     end
 
     if set --query _flag_clean
-	myclean $_flag_clean
-	return 0
+        myclean $_flag_clean
+        return 0
     end
 end
 
 myparse $argv
 ```
+

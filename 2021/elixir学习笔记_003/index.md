@@ -507,3 +507,4 @@ children = [
 ```elixir
 {:ok, pid} = Task.Supervisor.start_child(ExampleApp.TaskSupervisor, fn -> background_work() end)
 ```
+

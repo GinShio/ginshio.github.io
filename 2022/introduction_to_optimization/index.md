@@ -63,22 +63,22 @@ dmxpy 是一个经典的能够说明上下文作用的例子。源码可以在[�
 jmin = (n2 % 16) + 16;
 for (j = jmin - 1; j < n2; j = j + 16) {
     for (i = 0; i < n1; i++)
-	y[i] = ((((((((((((((((y[i]) + x[j - 15] * m[ldm * (j - 15) + i]) +
-			     x[j - 14] * m[ldm * (j - 14) + i]) +
-			    x[j - 13] * m[ldm * (j - 13) + i]) +
-			   x[j - 12] * m[ldm * (j - 12) + i]) +
-			  x[j - 11] * m[ldm * (j - 11) + i]) +
-			 x[j - 10] * m[ldm * (j - 10) + i]) +
-			x[j - 9] * m[ldm * (j - 9) + i]) +
-		       x[j - 8] * m[ldm * (j - 8) + i]) +
-		      x[j - 7] * m[ldm * (j - 7) + i]) +
-		     x[j - 6] * m[ldm * (j - 6) + i]) +
-		    x[j - 5] * m[ldm * (j - 5) + i]) +
-		   x[j - 4] * m[ldm * (j - 4) + i]) +
-		  x[j - 3] * m[ldm * (j - 3) + i]) +
-		 x[j - 2] * m[ldm * (j - 2) + i]) +
-		x[j - 1] * m[ldm * (j - 1) + i]) +
-	    x[j] * m[ldm * j + i];
+        y[i] = ((((((((((((((((y[i]) + x[j - 15] * m[ldm * (j - 15) + i]) +
+                             x[j - 14] * m[ldm * (j - 14) + i]) +
+                            x[j - 13] * m[ldm * (j - 13) + i]) +
+                           x[j - 12] * m[ldm * (j - 12) + i]) +
+                          x[j - 11] * m[ldm * (j - 11) + i]) +
+                         x[j - 10] * m[ldm * (j - 10) + i]) +
+                        x[j - 9] * m[ldm * (j - 9) + i]) +
+                       x[j - 8] * m[ldm * (j - 8) + i]) +
+                      x[j - 7] * m[ldm * (j - 7) + i]) +
+                     x[j - 6] * m[ldm * (j - 6) + i]) +
+                    x[j - 5] * m[ldm * (j - 5) + i]) +
+                   x[j - 4] * m[ldm * (j - 4) + i]) +
+                  x[j - 3] * m[ldm * (j - 3) + i]) +
+                 x[j - 2] * m[ldm * (j - 2) + i]) +
+                x[j - 1] * m[ldm * (j - 1) + i]) +
+            x[j] * m[ldm * j + i];
 }
 ```
 
@@ -90,7 +90,7 @@ for (j = jmin - 1; j < n2; j = j + 16) {
 ```c
 for (j = 0; j < n2; j++) {
     for (i = 0; i < n1; i++)
-	y[i] = y[i] + x[j] * m[ldm * j + i];
+        y[i] = y[i] + x[j] * m[ldm * j + i];
 }
 ```
 
@@ -555,7 +555,7 @@ end<br />
 ```lua
 for j = 1, n2, 1 do
     for i = 1, n1, 1 do
-	y[i] = y[i] + x[j] * m[i][j]
+        y[i] = y[i] + x[j] * m[i][j]
     end
 end
 ```
@@ -819,3 +819,4 @@ b4:
 
 -   **扩大编译单元**，这是最简单的一种解决方法
 -   **链接时优化** (Link-Time Optimization)，直接地将过程间优化移动到链接器中，其中可以访问所有的静态链接代码。
+

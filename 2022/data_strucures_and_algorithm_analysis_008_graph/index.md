@@ -241,7 +241,7 @@ void garbow(Vertex &v) {
       garbow(w);
     } else if (!w.in_scc) {
       while (s2.top()->low > w.low) {
-	s2.pop();
+        s2.pop();
       }
     }
   }
@@ -294,7 +294,7 @@ v\_{i}>\\)，无法同时满足 \\(v\_{i}\\) 在 \\(v\_{j}\\) 之前且 \\(v\_{j
     for (auto &w : v.neighbors) {
       --w.indegree;
       if (w.indegree == 0) {
-	starts.emplace(&w);
+        starts.emplace(&w);
       }
     }
     v.neighbors.clear();
@@ -304,3 +304,4 @@ v\_{i}>\\)，无法同时满足 \\(v\_{i}\\) 在 \\(v\_{j}\\) 之前且 \\(v\_{j
   return ans;
 }
 ```
+

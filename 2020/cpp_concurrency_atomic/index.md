@@ -96,7 +96,7 @@ struct TestCas {
 TestCas a = {65536}; // 假设对象表示 [0,0,1,0,1,0,0,0]
 ::std::atomic<TestCas> aa{{65536}}; // 假设对象表示 [0,0,1,0,0,0,0,0]
 aa.compare_exchange_strong(a, {1024}); // 修改失败，对象表示不一致
-				       // C++20开始，修改成功，值表示一致
+                                       // C++20开始，修改成功，值表示一致
 ```
 
 我们常使用 **用户定义类型** (UDT)，原子类型会进行逐位比较或复制操作，所以 UDT 应该是 **可平凡复制** 的类型。通常 UDT 类型的原子类型会使用锁来完成原子操作，不过好消息是大多数平台对于 UDT 大小如同一个 int 或 void\* 时，将使用原子指令实现原子操作
@@ -248,10 +248,10 @@ struct S {
     char a;     // 内存位置 #1
     int b : 5;  // 内存位置 #2
     int c : 11, // 内存位置 #2 （延续）
-	  : 0,
-	d : 8;  // 内存位置 #3
+          : 0,
+        d : 8;  // 内存位置 #3
     struct {
-	int ee : 8; // 内存位置 #4
+        int ee : 8; // 内存位置 #4
     } e;
 } obj; // 对象 'obj' 由 4 个分离的内存位置组成
 ```
@@ -433,13 +433,13 @@ void write_y() {
 void read_x_then_y() {
     while (!x.load(::std::memory_order_seq_cst));
     if (y.load(::std::memory_order_seq_cst)) {
-	++z;
+        ++z;
     }
 }
 void read_y_then_x() {
     while (!y.load(::std::memory_order_seq_cst));
     if (x.load(::std::memory_order_seq_cst)) {
-	++z;
+        ++z;
     }
 }
 assert(z.load() != 0); // 断言成功
@@ -471,3 +471,4 @@ void consumer() {
     assert(data == 42); // 断言成功
 }
 ```
+

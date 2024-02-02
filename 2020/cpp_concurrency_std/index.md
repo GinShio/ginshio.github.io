@@ -12,7 +12,7 @@
 ::std::thread my_thread0{do_something};
 struct Task {
     void operator()() const {
-	do_something();
+        do_something();
     }
 };
 ::std::thread my_thread1{Task()};
@@ -106,8 +106,8 @@ if (master_thread_id == ::std::this_thread::get_id()) {
 ::std::mutex mu;
 void add_n(const long long& n, long long& result) {
     for (long long i = 1ll; i <= n; ++i) {
-	::std::lock_guard<::std::mutex> guard(mu);
-	result += i;
+        ::std::lock_guard<::std::mutex> guard(mu);
+        result += i;
     }
 }
 ```
@@ -151,7 +151,7 @@ if (!s.empty()) {
 ```C++
 void swap(X& lhs, X& rhs) {
     if (&lhs == &rhs) {
-	return;
+        return;
     }
     ::std::lock(lhs.mu, rhs.mu);
     ::std::lock_guard<::std::mutex> lockl{lhs.mu, ::std::adopt_lock};
@@ -165,7 +165,7 @@ C++17 中提供了RAII模板类 `::std::scoped_lock` (头文件 _mutex_ 中) 用
 ```C++
 void swap(X& lhs, X& rhs) {
     if (&lhs == &rhs) {
-	return;
+        return;
     }
     ::std::scoped_lock guard{lhs.mu, rhs.mu};
     // 等价于:
@@ -196,7 +196,7 @@ void swap(X& lhs, X& rhs) {
 ```C++
 void swap(X& lhs, X& rhs) {
     if (&lhs == &rhs) {
-	return;
+        return;
     }
     ::std::unique_lock<::std::mutex> lockl{lhs.mu, ::std::defer_lock};
     ::std::unique_lock<::std::mutex> lockr{rhs.mu, ::std::defer_lock};
@@ -236,7 +236,7 @@ void other() {
 void foo() {
     ::std::unique_lock<::std::mutex> lk{mu};
     if (data.empty()) {
-	data = new element();
+        data = new element();
     }
     lk.lock();
     do_something();
@@ -251,10 +251,10 @@ C++11开始我们也可以实现安全的DCLP。详细可以阅读 [C++与双重
 // DCLP
 void bar() {
     if (data.empty()) {
-	::std::lock_guard<::std::mutex> lk{mu};
-	if (data.empty()) {
-	    data = new element();
-	}
+        ::std::lock_guard<::std::mutex> lk{mu};
+        if (data.empty()) {
+            data = new element();
+        }
     }
     do_something(); // 数据竞争
 }
@@ -267,7 +267,7 @@ void bar() {
 ::std::once_flag once;
 void func() {
     ::std::call_once(once，[]() {
-	data = new element();
+        data = new element();
     });
     do_something();
 }
@@ -334,23 +334,23 @@ C++标准库实现了条件变量 (头文件 _condition_variable_ 中)
 ::std::condition_variable cond;
 void preparation() {
     while (more()) {
-	const data_chunk data = get_data();
-	::std::lock_guard<::std::mutex> lk{mu};
-	q.push(data);
-	cond.notify_one();
+        const data_chunk data = get_data();
+        ::std::lock_guard<::std::mutex> lk{mu};
+        q.push(data);
+        cond.notify_one();
     }
 }
 void processing() {
     while (true) {
-	::std::unique_lock<::std::mutex> lk{mu};
-	cond.wait(lk, [] { return !q.empty(); });
-	data_chunk data = q.front();
-	q.pop();
-	lk.unlock();
-	process(data);
-	if (is_last_chunk(data)) {
-	    break;
-	}
+        ::std::unique_lock<::std::mutex> lk{mu};
+        cond.wait(lk, [] { return !q.empty(); });
+        data_chunk data = q.front();
+        q.pop();
+        lk.unlock();
+        process(data);
+        if (is_last_chunk(data)) {
+            break;
+        }
     }
 }
 ```
@@ -386,7 +386,7 @@ int main(void) {
     ::std::future<int> ret = ::std::async(async_func); // 异步执行 async_func
     do_something();
     ::std::cout << "Return: " << ::std::flush // 立即打印
-		<< ret.get() << ::std::endl; // 阻塞，直到 future 就绪
+                << ret.get() << ::std::endl; // 阻塞，直到 future 就绪
 }
 ```
 
@@ -427,8 +427,8 @@ std::promise 只应当使用一次。
 
 ```C++
 void accumulate(::std::vector<int>::iterator first,
-		::std::vector<int>::iterator last,
-		::std::promise<int> accumulate_promise) {
+                ::std::vector<int>::iterator last,
+                ::std::promise<int> accumulate_promise) {
     int sum = ::std::accumulate(first, last, 0);
     accumulate_promise.set_value(sum);
 }
@@ -437,7 +437,7 @@ int main(void) {
     ::std::promise<int> accumulate_promise;
     ::std::future<int> accumulate_future = accumulate_promise.get_future();
     ::std::thread work_thread(accumulate, numbers.begin(), numbers.end(),
-			      ::std::move(accumulate_promise));
+                              ::std::move(accumulate_promise));
     ::std::cout << accumulate_future.get() << ::std::endl; // 等待结果
     work_thread.join();
 }
@@ -453,25 +453,25 @@ using high_resolution_clock = ::std::chrono::high_resolution_clock;
 using milli = ::std::chrono::duration<double, ::std::milli>;
 ::std::chrono::time_point<high_resolution_clock> start;
 auto result1 = ::std::async(::std::launch::async,
-			    [&, ready_future]() -> milli {
-				t1_promise.set_value();
-				ready_future.wait(); // 等待来自 main() 的信号
-				return high_resolution_clock::now() - start;
-			    });
+                            [&, ready_future]() -> milli {
+                                t1_promise.set_value();
+                                ready_future.wait(); // 等待来自 main() 的信号
+                                return high_resolution_clock::now() - start;
+                            });
 auto result2 = ::std::async(::std::launch::async,
-			    [&, ready_future]() -> milli {
-				t2_promise.set_value();
-				ready_future.wait(); // 等待来自 main() 的信号
-				return high_resolution_clock::now() - start;
-			    });
+                            [&, ready_future]() -> milli {
+                                t2_promise.set_value();
+                                ready_future.wait(); // 等待来自 main() 的信号
+                                return high_resolution_clock::now() - start;
+                            });
 t1_promise.get_future().wait();
 t2_promise.get_future().wait();
 start = std::chrono::high_resolution_clock::now();
 ready_promise.set_value();
 std::cout << "Thread 1 received the signal "
-	  << result1.get().count() << " ms after start\n"
-	  << "Thread 2 received the signal "
-	  << result2.get().count() << " ms after start\n";
+          << result1.get().count() << " ms after start\n"
+          << "Thread 2 received the signal "
+          << result2.get().count() << " ms after start\n";
 ```
 
 
@@ -526,14 +526,15 @@ Duration 类型的 **时钟间隔** 组成，并且可以通过算术运算调�
 std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
 std::time_t now_c = std::chrono::system_clock::to_time_t(now - std::chrono::hours(24));
 std::cout << "24 hours ago, the time was "
-	  << std::put_time(std::localtime(&now_c), "%F %T") << ::std::endl;
+          << std::put_time(std::localtime(&now_c), "%F %T") << ::std::endl;
 std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 std::cout << "Hello World\n";
 std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 std::cout << "Printing took "
-	  << std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()
-	  << "us.\n";
+          << std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()
+          << "us.\n";
 // 24 hours ago, the time was 2020-12-03 23:47:43
 // Hello World
 // Printing took 4us.
 ```
+

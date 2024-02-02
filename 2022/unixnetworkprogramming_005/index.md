@@ -91,7 +91,7 @@ select 允许进程指示内核等待多个事件中任何一个发生，在只�
 // sys/select.h
 // sys/time.h
 int select(int nfds, fd_set *readfds, fd_set *writefds,
-	   fd_set *exceptfds, struct timeval *timeout);
+           fd_set *exceptfds, struct timeval *timeout);
 // positive count of ready descriptors, 0 on timeout, -1 on error
 ```
 
@@ -211,7 +211,7 @@ void str_cli(FILE *fp, int sockfd) {
     if (FD_ISSET(sockfd, &rset)) {
       // socket is readable
       if (fgets(recvline, MAXLINE, sockfd_fp) == NULL) {
-	err_quit("str_cli: server terminated prematurely");
+        err_quit("str_cli: server terminated prematurely");
       }
       fputs(recvline, stdout);
       bzero(recvline, MAXLINE);
@@ -219,7 +219,7 @@ void str_cli(FILE *fp, int sockfd) {
     if (FD_ISSET(fileno(fp), &rset)) {
       // standard input
       if (fgets(sendline, MAXLINE, fp) == NULL) {
-	return;
+        return;
       }
       fputs(sendline, sockfd_fp);
       bzero(sendline, MAXLINE);
@@ -263,41 +263,41 @@ int main(int argc, char **argv) {
       struct sockaddr_in cliaddr;
       int connfd = accept(listenfd, (struct sockaddr *) &cliaddr, &addrlen);
       for (i = 0; i < FD_SETSIZE; i++) {
-	if (client[i] < 0) {
-	  client[i] = connfd;
-	  break;
-	}
+        if (client[i] < 0) {
+          client[i] = connfd;
+          break;
+        }
       }
       if (i == FD_SETSIZE) {
-	err_quit("too many clients");
+        err_quit("too many clients");
       }
       FD_SET(connfd, &allset);
       if (connfd > maxfd) {
-	maxfd = connfd;
+        maxfd = connfd;
       }
       if (i > maxi) {
-	maxi = i;
+        maxi = i;
       }
       if (--nready <= 0) {
-	continue;
+        continue;
       }
     }
     for (int i = 0; i <= maxi; i++) {
       int n, sockfd;
       if ((sockfd = client[i]) < 0) {
-	continue;
+        continue;
       }
       if (FD_ISSET(sockfd, &rset)) {
-	if ((n = read(sockfd, buffer, MAXLINE)) == 0) {
-	  close(sockfd);
-	  FD_CLR(sockfd, &allset);
-	  client[i] = -1;
-	} else {
-	  write(sockfd, buffer, n);
-	}
-	if (--nready <= 0) {
-	  break;
-	}
+        if ((n = read(sockfd, buffer, MAXLINE)) == 0) {
+          close(sockfd);
+          FD_CLR(sockfd, &allset);
+          client[i] = -1;
+        } else {
+          write(sockfd, buffer, n);
+        }
+        if (--nready <= 0) {
+          break;
+        }
       }
     }
   }
@@ -382,33 +382,33 @@ void str_cli(FILE *fp, int sockfd) {
     int fpfd = fileno(fp);
     char buffer[MAXLINE] = {0};
     while (true) {
-	if (!iseof) {
-	    FD_SET(fpfd, &rset);
-	}
-	FD_SET(sockfd, &rset);
-	select(nfds, &rset, NULL, NULL, NULL);
-	int n;
-	if (FD_ISSET(sockfd, &rset)) {
-	    // socket is readable
-	    if ((n = read(sockfd, buffer, MAXLINE)) == 0) {
-		if (iseof) {
-		    return; // normal termination
-		} else {
-		    err_quit("str_cli: server terminated prematurely");
-		}
-	    }
-	    write(fileno(stdout), buffer, n);
-	}
-	if (FD_ISSET(fpfd, &rset)) {
-	    // input is readable
-	    if ((n = read(fpfd, buffer, MAXLINE)) == 0) {
-		iseof = true;
-		shutdown(sockfd, SHUT_WR);
-		FD_CLR(fpfd, &rset);
-		continue;
-	    }
-	    write(sockfd, buffer, n);
-	}
+        if (!iseof) {
+            FD_SET(fpfd, &rset);
+        }
+        FD_SET(sockfd, &rset);
+        select(nfds, &rset, NULL, NULL, NULL);
+        int n;
+        if (FD_ISSET(sockfd, &rset)) {
+            // socket is readable
+            if ((n = read(sockfd, buffer, MAXLINE)) == 0) {
+                if (iseof) {
+                    return; // normal termination
+                } else {
+                    err_quit("str_cli: server terminated prematurely");
+                }
+            }
+            write(fileno(stdout), buffer, n);
+        }
+        if (FD_ISSET(fpfd, &rset)) {
+            // input is readable
+            if ((n = read(fpfd, buffer, MAXLINE)) == 0) {
+                iseof = true;
+                shutdown(sockfd, SHUT_WR);
+                FD_CLR(fpfd, &rset);
+                continue;
+            }
+            write(sockfd, buffer, n);
+        }
     }
 }
 ```
@@ -495,9 +495,9 @@ int poll(struct pollfd *fds, nfds_t nfds, int timeout);
 int main(int argc, char **argv) {
     int listenfd = socket(AF_INET, SOCK_STREAM, 0);
     struct sockaddr_in servaddr = {
-	.sin_family = AF_INET,
-	.sin_addr.s_addr = htonl(INADDR_ANY),
-	.sin_port = htons(7),
+        .sin_family = AF_INET,
+        .sin_addr.s_addr = htonl(INADDR_ANY),
+        .sin_port = htons(7),
     };
     const socklen_t addrlen = sizeof(servaddr);
     bind(listenfd, (struct sockaddr *) &servaddr, addrlen);
@@ -510,52 +510,52 @@ int main(int argc, char **argv) {
     struct sockaddr_in cliaddr;
     char buffer[MAXLINE] = {0};
     while (true) {
-	int nready = poll(clients, maxi + 1, INFTIM);
-	int connfd;
-	if (clients[0].revents & POLLRDNORM) {
-	    connfd = accept(listenfd, (struct sockaddr *) &cliaddr, &addrlen);
-	    int i;
-	    for (i = 1; i < LISTENQ; i++) {
-		if (clients[i].fd <= 0) {
-		    clients[i].fd = connfd;
-		    clients[i].events = POLLRDNORM;
-		    break;
-		}
-	    }
-	    if (i == LISTENQ) {
-		err_quit("too many clients");
-	    }
-	    if (i > maxi) {
-		maxi = i;
-	    }
-	    if (--nready <= 0) {
-		continue;
-	    }
-	}
-	for (int i = 1; i <= maxi; i++) {
-	    if ((connfd = clients[i].fd) <= 0) {
-		continue;
-	    }
-	    int n;
-	    if (clients[i].revents & (POLLRDNORM | POLLERR)) {
-		if ((n = read(connfd, buffer, MAXLINE)) < 0) {
-		    if (errno == ECONNRESET) {
-			close(connfd);
-			clients[i].fd = -1;
-		    } else {
-			err_sys("read error");
-		    }
-		} else if (n == 0) {
-		    close(connfd);
-		    clients[i].fd = -1;
-		} else {
-		    write(connfd, buffer, n);
-		}
-		if (--nready <= 0) {
-		    break;
-		}
-	    }
-	}
+        int nready = poll(clients, maxi + 1, INFTIM);
+        int connfd;
+        if (clients[0].revents & POLLRDNORM) {
+            connfd = accept(listenfd, (struct sockaddr *) &cliaddr, &addrlen);
+            int i;
+            for (i = 1; i < LISTENQ; i++) {
+                if (clients[i].fd <= 0) {
+                    clients[i].fd = connfd;
+                    clients[i].events = POLLRDNORM;
+                    break;
+                }
+            }
+            if (i == LISTENQ) {
+                err_quit("too many clients");
+            }
+            if (i > maxi) {
+                maxi = i;
+            }
+            if (--nready <= 0) {
+                continue;
+            }
+        }
+        for (int i = 1; i <= maxi; i++) {
+            if ((connfd = clients[i].fd) <= 0) {
+                continue;
+            }
+            int n;
+            if (clients[i].revents & (POLLRDNORM | POLLERR)) {
+                if ((n = read(connfd, buffer, MAXLINE)) < 0) {
+                    if (errno == ECONNRESET) {
+                        close(connfd);
+                        clients[i].fd = -1;
+                    } else {
+                        err_sys("read error");
+                    }
+                } else if (n == 0) {
+                    close(connfd);
+                    clients[i].fd = -1;
+                } else {
+                    write(connfd, buffer, n);
+                }
+                if (--nready <= 0) {
+                    break;
+                }
+            }
+        }
     }
 }
 ```
@@ -728,29 +728,29 @@ if (epoll_ctl(epollfd, EPOLL_CTL_ADD, listen_sock, &ev) == -1) {
 while (true) {
     nfds = epoll_wait(epollfd, events, MAX_EVENTS, -1);
     if (nfds == -1) {
-	perror("epoll_wait");
-	exit(EXIT_FAILURE);
+        perror("epoll_wait");
+        exit(EXIT_FAILURE);
     }
 
     for (n = 0; n < nfds; ++n) {
-	if (events[n].data.fd == listen_sock) {
-	    conn_sock = accept(listen_sock,
-			       (struct sockaddr *) &addr, &addrlen);
-	    if (conn_sock == -1) {
-		perror("accept");
-		exit(EXIT_FAILURE);
-	    }
-	    setnonblocking(conn_sock);
-	    ev.events = EPOLLIN | EPOLLET;
-	    ev.data.fd = conn_sock;
-	    if (epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock,
-			  &ev) == -1) {
-		perror("epoll_ctl: conn_sock");
-		exit(EXIT_FAILURE);
-	    }
-	} else {
-	    do_use_fd(events[n].data.fd);
-	}
+        if (events[n].data.fd == listen_sock) {
+            conn_sock = accept(listen_sock,
+                               (struct sockaddr *) &addr, &addrlen);
+            if (conn_sock == -1) {
+                perror("accept");
+                exit(EXIT_FAILURE);
+            }
+            setnonblocking(conn_sock);
+            ev.events = EPOLLIN | EPOLLET;
+            ev.data.fd = conn_sock;
+            if (epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock,
+                          &ev) == -1) {
+                perror("epoll_ctl: conn_sock");
+                exit(EXIT_FAILURE);
+            }
+        } else {
+            do_use_fd(events[n].data.fd);
+        }
     }
 }
 ```
@@ -770,49 +770,49 @@ while (true) {
 int main(int argc, char **argv) {
     int listenfd = socket(AF_INET, SOCK_STREAM, 0);
     struct sockaddr_in servaddr = {
-	.sin_family = AF_INET,
-	.sin_addr.s_addr = htonl(INADDR_ANY),
-	.sin_port = htons(7),
+        .sin_family = AF_INET,
+        .sin_addr.s_addr = htonl(INADDR_ANY),
+        .sin_port = htons(7),
     };
     const socklen_t addrlen = sizeof(servaddr);
     bind(listenfd, (struct sockaddr *) &servaddr, addrlen);
     listen(listenfd, LISTENQ);
     int epollfd = epoll_create1(0);
     struct epoll_event ev = {
-	.events = EPOLLIN,
-	.data = {
-	    .fd = listenfd,
-	},
+        .events = EPOLLIN,
+        .data = {
+            .fd = listenfd,
+        },
     };
     epoll_ctl(epollfd, EPOLL_CTL_ADD, listenfd, &ev);
     struct epoll_event events[MAX_EVENTS];
     struct sockaddr_in cliaddr;
     char buffer[MAXLINE] = {0};
     while (true) {
-	int nready = epoll_wait(epollfd, events, MAX_EVENTS, -1);
-	for (int i = 0; i < nready; i++) {
-	    if (events[i].data.fd == listenfd) {
-		int connfd = accept(listenfd, (struct sockaddr *) &cliaddr, &addrlen);
-		ev.events = EPOLLIN;
-		ev.data.fd = connfd;
-		epoll_ctl(epollfd, EPOLL_CTL_ADD, connfd, &ev);
-	    } else {
-		int n;
-		if ((n = read(events[i].data.fd, buffer, MAXLINE)) < 0) {
-		    if (errno == ECONNRESET) {
-			close(events[i].data.fd);
-			epoll_ctl(epollfd, EPOLL_CTL_DEL, events[i].data.fd, &ev);
-		    } else {
-			err_sys("read error");
-		    }
-		} else if (n == 0) {
-		    close(events[i].data.fd);
-		    epoll_ctl(epollfd, EPOLL_CTL_DEL, events[i].data.fd, &ev);
-		} else {
-		    write(events[i].data.fd, buffer, n);
-		}
-	    }
-	}
+        int nready = epoll_wait(epollfd, events, MAX_EVENTS, -1);
+        for (int i = 0; i < nready; i++) {
+            if (events[i].data.fd == listenfd) {
+                int connfd = accept(listenfd, (struct sockaddr *) &cliaddr, &addrlen);
+                ev.events = EPOLLIN;
+                ev.data.fd = connfd;
+                epoll_ctl(epollfd, EPOLL_CTL_ADD, connfd, &ev);
+            } else {
+                int n;
+                if ((n = read(events[i].data.fd, buffer, MAXLINE)) < 0) {
+                    if (errno == ECONNRESET) {
+                        close(events[i].data.fd);
+                        epoll_ctl(epollfd, EPOLL_CTL_DEL, events[i].data.fd, &ev);
+                    } else {
+                        err_sys("read error");
+                    }
+                } else if (n == 0) {
+                    close(events[i].data.fd);
+                    epoll_ctl(epollfd, EPOLL_CTL_DEL, events[i].data.fd, &ev);
+                } else {
+                    write(events[i].data.fd, buffer, n);
+                }
+            }
+        }
     }
 }
 ```
@@ -831,8 +831,8 @@ pselect 是 POSIX.1-2001 函数，原型如下
 // sys/types.h
 // unistd.h
 int pselect(int nfds, fd_set *readfds, fd_set *writefds,
-	    fd_set *exceptfds, const struct timespec *timeout,
-	    const sigset_t *sigmask);
+            fd_set *exceptfds, const struct timespec *timeout,
+            const sigset_t *sigmask);
 // return count of ready descriptors, 0 on timeout, -1 on error
 ```
 
@@ -866,8 +866,9 @@ ppoll 是 poll 的仿 POSIX 变种，而非 POSIX 规范的函数，因此该函
 // sys/time.h
 // sys/types.h
 int ppoll(struct pollfd *fds, nfds_t nfds,
-	  const struct timespec *timeout, const sigset_t *sigmask);
+          const struct timespec *timeout, const sigset_t *sigmask);
 // return count of ready descriptors, 0 on timeout, -1 on error
 ```
 
 ppoll 参数 fds 与 nfds 与 poll 一致，参数 timeout 与 sigmask 与 pselect 一致
+

@@ -179,9 +179,9 @@ n 个 fibonacci 数时，我们需要对第 \\(n - 1\\) 个和第 \\(n - 2\\) �
 ```scheme
 (define (fib n)
   (cond ((= n 0) 1)
-	((= n 1) 1)
-	(else (+ (fib (- n 1))
-		 (fib (- n 2))))))
+        ((= n 1) 1)
+        (else (+ (fib (- n 1))
+                 (fib (- n 2))))))
 ```
 
 
@@ -205,10 +205,10 @@ n 个 fibonacci 数时，我们需要对第 \\(n - 1\\) 个和第 \\(n - 2\\) �
         for (int j = i; j < len; j++) {
           int sum = 0;
           for (int k = i; k <= j; k++) {
-    	sum += arr[k];
+            sum += arr[k];
           }
           if (sum > ans) {
-    	ans = sum;
+            ans = sum;
           }
         }
       }
@@ -229,7 +229,7 @@ n 个 fibonacci 数时，我们需要对第 \\(n - 1\\) 个和第 \\(n - 2\\) �
         for (int j = i; j < len; j++) {
           sum += arr[j];
           if (sum > ans) {
-    	ans = sum;
+            ans = sum;
           }
         }
       }
@@ -349,10 +349,10 @@ container 的 concept 依赖于 iterator，但 iterator 的具体实现依赖于
         std::constructible_from<I> &&                                // 2
         std::is_lvalue_reference_v<std::iter_reference_t<I>> &&      // 3
         std::same_as<std::remove_cvref_t<std::iter_reference_t<I>>,  // 4
-    		 typename std::indirectly_readable_traits<I>::value_type> &&
+                     typename std::indirectly_readable_traits<I>::value_type> &&
         requires(I i) {
-    	{  i++ } -> std::convertible_to<const I&>;
-    	{ *i++ } -> std::same_as<std::iter_reference_t<I>>;
+            {  i++ } -> std::convertible_to<const I&>;
+            { *i++ } -> std::same_as<std::iter_reference_t<I>>;
         };
     ```
     ForwardIterator 要求：
@@ -366,9 +366,9 @@ container 的 concept 依赖于 iterator，但 iterator 的具体实现依赖于
     template <class I>
     concept bidirectional_iterator = forward_iterator<I> &&  // 1
         requires(I i) {
-    	{  --i } -> std::same_as<I&>;                   // 2
-    	{  i-- } -> std::convertible_to<const I&>;
-    	{ *i-- } -> std::same_as<std::iter_reference_t<I>>;
+            {  --i } -> std::same_as<I&>;                   // 2
+            {  i-- } -> std::convertible_to<const I&>;
+            { *i-- } -> std::same_as<std::iter_reference_t<I>>;
         };
     ```
     BidirectionalIterator 要求：
@@ -381,13 +381,13 @@ container 的 concept 依赖于 iterator，但 iterator 的具体实现依赖于
     concept random_access_iterator = bidirectional_iterator<I> &&  // 1
         std::totally_ordered<I> &&                                 // 2
         requires(I i, typename std::incrementable_traits<I>::difference_type n) {  // 3
-    	{ i += n } -> std::same_as<I&>;                               // 3.1
-    	{ i -= n } -> std::same_as<I&>;                               // 3.2
-    	{ i +  n } -> std::same_as<I>;                                // 3.3
-    	{ n +  i } -> std::same_as<I>;                                // 3.4
-    	{ i -  n } -> std::same_as<I>;                                // 3.5
-    	{ i -  i } -> std::same_as<decltype(n)>;                      // 3.6
-    	{  i[n]  } -> std::convertible_to<std::iter_reference_t<I>>;  // 3.7
+            { i += n } -> std::same_as<I&>;                               // 3.1
+            { i -= n } -> std::same_as<I&>;                               // 3.2
+            { i +  n } -> std::same_as<I>;                                // 3.3
+            { n +  i } -> std::same_as<I>;                                // 3.4
+            { i -  n } -> std::same_as<I>;                                // 3.5
+            { i -  i } -> std::same_as<decltype(n)>;                      // 3.6
+            {  i[n]  } -> std::convertible_to<std::iter_reference_t<I>>;  // 3.7
         };
     ```
     RandomAccessIterator 要求：
@@ -407,8 +407,8 @@ container 的 concept 依赖于 iterator，但 iterator 的具体实现依赖于
     template <class I>
     concept contiguous_iterator = std::random_access_iterator<I> &&
         requires(const I& i) {
-    	{ std::to_address(i) } ->
-    	    std::same_as<std::add_pointer_t<std::iter_reference_t<I>>>;
+            { std::to_address(i) } ->
+                std::same_as<std::add_pointer_t<std::iter_reference_t<I>>>;
         };
     ```
     ContiguousIterator 要求：设 a 与 b 为 I 类型的可解引用迭代器，c 为 I 类型的不可解引用迭代器，使得 b
@@ -431,9 +431,9 @@ concept container = requires(T a, const T b) {
     requires unsigned<typename T::size_type>; // 6
     requires signed<typename T::difference_type>; // 7
     requires same<typename T::difference_type,
-		  typename std::iterator_traits<typename T::iterator>::difference_type>; // 8
+                  typename std::iterator_traits<typename T::iterator>::difference_type>; // 8
     requires same<typename T::difference_type,
-		  typename std::iterator_traits<typename T::const_iterator>::difference_type>; // 8
+                  typename std::iterator_traits<typename T::const_iterator>::difference_type>; // 8
     { a.begin() } -> typename T::iterator;
     { a.end() } -> typename T::iterator;
     { b.begin() } -> typename T::const_iterator;
@@ -473,3 +473,4 @@ concept container = requires(T a, const T b) {
     | empty()      | 判断容器是否为空           |
     | clear()      | 将容器内元素清空           |
     | swap(a)      | 将当前容器内容与容器 a 交换 |
+
