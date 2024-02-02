@@ -239,7 +239,7 @@ for 64-bit driver, running glxgears (for gl) and vkcube (for vulkan) to test
 that mesa is installed successfully.
 #+begin_src shell
 # test for 64-bit OpenGL driver
-MESA=$HOME/.local/lib/mesa LD_LIBRARY=$MESA/lib64:$MESA/lib \
+MESA=$HOME/.local/lib/mesa LD_LIBRARY_PATH=$MESA/lib64:$MESA/lib \
     LIBGL_DRIVERS_PATH=$MESA/lib64/dri:$MESA/lib/dri MESA_LOADER_DRIVER_OVERRIDE=radeonsi \
     /usr/bin/glxgears
 #+end_src
@@ -252,7 +252,7 @@ determinate which driver is used by ~MESA_LOADER_DRIVER_OVERRIDE~.
 likes 64-bit command, test 32-bit driver following command:
 #+begin_src shell
 # test for 32-bit OpenGL driver
-MESA=$HOME/.local/lib/mesa LD_LIBRARY=$MESA/lib64:$MESA/lib \
+MESA=$HOME/.local/lib/mesa LD_LIBRARY_PATH=$MESA/lib64:$MESA/lib \
     LIBGL_DRIVERS_PATH=$MESA/lib64/dri:$MESA/lib/dri MESA_LOADER_DRIVER_OVERRIDE=radeonsi \
     /usr/lib/mesa-demos/xdemos/glxgears
 #+end_src
