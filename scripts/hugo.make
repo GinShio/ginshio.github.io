@@ -28,7 +28,6 @@ site:
 		git -C $(HUGOGENDIR) remote set-url --add --push origin gitlab:GinShio/ginshio.gitlab.io.git; \
 		git -C $(HUGOGENDIR) pull origin hugo; \
 	fi
-	@cp -rf $(ORGMODE_DIRECTORY)/assets/* $(HUGOGENDIR)/private-assets
 	@hugo -e production -v --gc -s $(HUGOBASEDIR) -d $(HUGOGENDIR)
 
 clean:
