@@ -1,23 +1,70 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>openSUSE - 标签 - iris</title>
+        <title>OpenSUSE - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/opensuse/</link>
-        <description>openSUSE - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com ( )</managingEditor>
-            <webMaster>ginshio78@gmail.com ( )</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 28 Aug 2023 22:25:22 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/opensuse/" rel="self" type="application/rss+xml" /><item>
+        <description>OpenSUSE - 标签 - iris</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Mon, 28 Aug 2023 22:25:22 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/opensuse/" rel="self" type="application/rss+xml" /><item>
     <title>How To Build Mesa for AMD</title>
     <link>https://blog.ginshio.org/2023/how-to-build-mesa/</link>
     <pubDate>Mon, 28 Aug 2023 22:25:22 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2023/how-to-build-mesa/</guid>
-    <description><![CDATA[Whatcopy from Wikipidia:
-Mesa is an open source implementation of OpenGL, Vulkan, and other graphics API specifications. Mesa translates these specifications to vendor-specific graphics hardware drivers.
-Vendor DriversMesa is UMD (User mode driver), provides implementation of graphics API and shader compiler. Mesa is like a mono repository, different vendor drivers and graphics APIs are in different directories.
-Gallium is a driver project in mesa, includes many backends for hardwares:]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2023/how-to-build-mesa/</guid>
+    <description><![CDATA[<h2 id="what" class="headerLink">
+    <a href="#what" class="header-mark"></a>What</h2><p>copy from <a href="https://en.wikipedia.org/wiki/Mesa_%28computer_graphics%29" target="_blank" rel="noopener noreferrer">Wikipidia</a>:</p>
+<p>Mesa is an open source implementation of OpenGL, Vulkan, and other graphics API
+specifications. Mesa translates these specifications to vendor-specific graphics
+hardware drivers.</p>
+<h3 id="vendor-drivers" class="headerLink">
+    <a href="#vendor-drivers" class="header-mark"></a>Vendor Drivers</h3><p>Mesa is UMD (User mode driver), provides implementation of graphics API and
+shader compiler. Mesa is like a mono repository, different vendor drivers and
+graphics APIs are in different directories.</p>
+<p><strong>Gallium</strong> is a driver project in mesa, includes many backends for hardwares:</p>
+<ul>
+<li>AMD driver for GCN &amp; Navi (<em>radeonsi</em>)</li>
+<li>Intel driver for iris (<em>i965</em>)</li>
+<li>Intel driver (<em>i915</em>)</li>
+<li>Nvidia driver (<em>nouveau</em>)</li>
+<li>Software implementation (<em>swrast</em>)</li>
+<li>OpenGL over Vulkan (<em>zink</em>)</li>
+<li>DirectX3D 12 driver (<em>d3d12</em>)</li>
+<li>OpenCL frontend (<em>clover</em>)</li>
+<li>new OpenCL frontend by rust (<em>rusticl</em>, 23.1)</li>
+</ul>
+<p>libgl only provides APIs, and dispatch call to vendor implementation (e.g.
+radeonsi).</p>]]></description>
 </item><item>
     <title>openSUSE 下 HP 打印机配置</title>
     <link>https://blog.ginshio.org/2022/hp_printer_driver/</link>
     <pubDate>Sun, 27 Feb 2022 18:49:18 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/hp_printer_driver/</guid>
-    <description><![CDATA[正好家里买了打印机，HP 4800 系列，耗材是真便宜，喷墨是真慢啊。不过正好记录一下 Linux 下的 HP 打印机配置过程。 另外 HP 对开源的态度真不错，估计也是因为自]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/hp_printer_driver/</guid>
+    <description><![CDATA[<p>正好家里买了打印机，HP 4800 系列，耗材是真便宜，喷墨是真慢啊。不过正好记录一下
+Linux 下的 HP 打印机配置过程。</p>
+<p>另外 HP 对开源的态度真不错，估计也是因为自家是开源大厂的缘故吧。</p>
+<div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">本文主要是 openSUSE 配置 HP 打印机的过程</div>
+        </div>
+    </div>
+<h2 id="安装驱动" class="headerLink">
+    <a href="#%e5%ae%89%e8%a3%85%e9%a9%b1%e5%8a%a8" class="header-mark"></a>安装驱动</h2><p>Linux 下有 HP 官方的打印机驱动，称为 HPLIP (HP&rsquo;s Linux Imaging and Printing
+software)，可以查看 <a href="https://developers.hp.com/hp-linux-imaging-and-printing/features" target="_blank" rel="noopener noreferrer">HPLIP 文档</a> 或者 <a href="https://developers.hp.com/hp-linux-imaging-and-printing/gethplip" target="_blank" rel="noopener noreferrer">下载</a>。</p>
+<p>对于 HPLIP 可以在以下 Linux 发行版进行自动安装</p>
+<ul>
+<li>SUSE Linux (13.2, 42.1, 42.2, 42.3, 15.0, 15.1, 15.2, 15.3)</li>
+<li>Fedora (22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35)</li>
+<li>Linux Mint (18, 18.1, 18.2, 18.3, 19, 19.1, 19.2, 19.3, 20.04, 20.1, 20.2, 20.3)</li>
+<li>Red Hat Enterprise Linux (6.0, 7.0, 7.2, 7.6, 7.7, 7.8, 7.9, 8.0, 8.2, 8.3, 8.4, 8.5)</li>
+<li>Boss (5.0)</li>
+<li>Ubuntu (12.04, 14.04, 15.10, 16.xx, 17.xx, 18.xx, 19.xx, 20.xx, 21.xx)</li>
+<li>Debian (7.0 ~ 7.9, 8.0 ~ 8.8, 9.1 ~ 9.9, 10.0 ~ 10.9, 11)</li>
+<li>Manjaro Linux (17.1.4, 18.0, 18.0.4, 18.1.0, 18.1.2, 19.0, 20.0, 20.2, 21.0.7)</li>
+<li>Zorin (15, 16)</li>
+<li>MX Linux (21)</li>
+<li>Elementary OS (6, 6.1)</li>
+</ul>
+<p>比如说 FreeBSD、Gentoo 等发行版，可以采用手动安装。</p>]]></description>
 </item></channel>
 </rss>

@@ -1,25 +1,35 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cn">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
-    <title>散列表 - iris</title><meta name="Description" content="GinShio | 数据结构与算法分析第五章笔记"><meta property="og:title" content="散列表" />
-<meta property="og:description" content="GinShio | 数据结构与算法分析第五章笔记" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_005_hash_table/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-08-25T00:09:23+08:00" />
-<meta property="article:modified_time" content="2022-04-07T18:16:29+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+    <title>散列表 - iris</title><meta name="Description" content="GinShio | 数据结构与算法分析第五章笔记"><meta property="og:url" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_005_hash_table/">
+  <meta property="og:site_name" content="iris">
+  <meta property="og:title" content="散列表">
+  <meta property="og:description" content="GinShio | 数据结构与算法分析第五章笔记">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-08-25T00:09:23+08:00">
+    <meta property="article:modified_time" content="2022-04-07T18:16:29+08:00">
+    <meta property="article:tag" content="Note">
+    <meta property="article:tag" content="HashTable">
+    <meta property="og:image" content="https://blog.ginshio.org/avatar.webp">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_001_introduction/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_002_linear_data_structure/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_003_tree_structure/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/">
 
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
-
-<meta name="twitter:title" content="散列表"/>
-<meta name="twitter:description" content="GinShio | 数据结构与算法分析第五章笔记"/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp">
+  <meta name="twitter:title" content="散列表">
+  <meta name="twitter:description" content="GinShio | 数据结构与算法分析第五章笔记">
 <meta name="application-name" content="iris">
 <meta name="apple-mobile-web-app-title" content="iris">
 
@@ -36,12 +46,12 @@
         "@context": "http://schema.org",
         "@type": "BlogPosting",
         "headline": "散列表",
-        "inLanguage": "zh-CN",
+        "inLanguage": "zh-cn",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_005_hash_table\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, HashTable","wordcount":  3177 ,
-        "url": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_005_hash_table\/","datePublished": "2021-08-25T00:09:23+08:00","dateModified": "2022-04-07T18:16:29+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, HashTable","wordcount":  454 ,
+        "url": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_005_hash_table\/","datePublished": "2021-08-25T00:09:23+08:00","dateModified": "2022-04-07T18:16:29+08:00","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
                         "@type": "Person",
@@ -140,9 +150,9 @@
     </div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">散列表</h1><div class="post-meta">
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/algorithmdatastructure/"><i class="far fa-folder fa-fw"></i>Algorithm⁄DataStructure</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/"><i class="far fa-list-alt fa-fw"></i>数据结构与算法分析</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-25">08-25</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3177 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href=""><i class="far fa-folder fa-fw"></i></a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/"><i class="far fa-list-alt fa-fw"></i>数据结构与算法分析</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-25">08-25</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 454 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
                                     <span>系列 - 数据结构与算法分析</span>
@@ -195,7 +205,7 @@
 <p>这是一个不错的算法，但并不完美，如果键过长的话可能导致计算时间的增加，你可以使用奇数位字符或者其他方法来优化函数。选定了 hash function，那么接下来的主要问题就是如何解决 collision。</p>
 <h2 id="分离链接法" class="headerLink">
     <a href="#%e5%88%86%e7%a6%bb%e9%93%be%e6%8e%a5%e6%b3%95" class="header-mark"></a>分离链接法</h2><p><strong>分离链接法</strong> (separate chaining) 也被称为拉链法，这种做法是将散列到同一个值的所有元素保存到一个链表中，或者一个 BST 甚至另一个散列表。</p>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Hash_table_5_0_1_1_1_1_1_LL.svg" width="60%"/>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Hash_table_5_0_1_1_1_1_1_LL.svg" width="60%">
 </figure>
 
 <p>我们假定散列表的 <strong>装填因子</strong> (load factor) \(\lambda\) 为散列表中的元素个数与散列表大小的比值。执行一次查找操作所需要的工作是：计算散列函数值 (\(\mathcal{O}(1)\)) 并遍历冲突所组成的表。在一次不成功的查找中，要访问的结点数平均为 \(\lambda + e^{-\lambda} \approx \lambda\) ；成功的查找则需要遍历大约 \(1 + (\lambda / 2)\) 个链。</p>
@@ -209,13 +219,13 @@ factor。使用 separate chaining 时，我们往往认为 \(\lambda \approx 1\)
     <a href="#%e7%ba%bf%e6%80%a7%e6%8e%a2%e6%b5%8b" class="header-mark"></a>线性探测</h3><p>线性探测时 \(f\) 是关于 \(i\) 的线性函数，一般情况下 \(f(i) = i\) ，即当冲突发生时从下一个单元开始依次测试是否为空单元，直到找到相应空单元为止。</p>
 <p>我们以序列 <code>{89, 18, 49, 58, 69}</code> 为例，散列函数为 \(f(i) = i \mod 10\)：前两次插入都是开放单元，直接插入即可；插入 <code>49</code> 时将与 89 发生冲突，将其放入下一开放地址
 <code>0</code> 中；插入 <code>58</code> 时将先后与 18、89、49 发生冲突，最终经过三次比较落入开放地址 <code>1</code> 中；等等。</p>
-<figure><img src="/images/algo-linear-probing-hash-table.svg" width="64%"/>
+<figure><img src="/images/algo-linear-probing-hash-table.svg" width="64%">
 </figure>
 
 <p>由此可见当表足够大时，总能找到一个开放单元，但需要花费相当多的时间。更糟的是，即使表较为空，这些占据的单元也会形成一些区块，其结果被称为 <strong>一次聚集</strong> (primary
 clustering)。于是，需要尝试多次才能解决冲突。线性探测的预期探测次数对于插入和不成功的查找来说，大约需要 \(\frac{1}{2}(1 + 1 / (1 - \lambda)^{2})\) ，对于成功的查找来说则是 \(\frac{1}{2}(1 + 1 / (1 - \lambda))\) 。</p>
 <p>在 Weiss 的书中为我们介绍了如何使用积分计算插入时间平均值的方法来估计平均值，并将线性探测的性能与其他更随机的方法的期望性能做了比较，如下图所示。</p>
-<figure><img src="/images/algo-hash-table-of-benchmark-with-linear-probing-hash.png" width="80%"/>
+<figure><img src="/images/algo-hash-table-of-benchmark-with-linear-probing-hash.png" width="80%">
 </figure>
 
 <p>可以看到如果 \(\lambda = 0.75\) 时，使用线性探测进行插入预计需要 <code>8.5</code> 次探测；如果 \(\lambda =
@@ -224,7 +234,7 @@ clustering)。于是，需要尝试多次才能解决冲突。线性探测的预
     <a href="#%e5%b9%b3%e6%96%b9%e6%8e%a2%e6%b5%8b" class="header-mark"></a>平方探测</h3><p>平方探测是消除线性探测中 primary clustering 的解决方法，探测函数 \(f\) 是关于 \(i\)
 的二次函数，一般情况下 \(f(i) = i^{2}\) 。</p>
 <p>我们以相同的序列为例：当 49 与 89 冲突时，其下一个位置是一个开放单元，49 就被放置在这里；58 先后与 18、89 发生冲突，然后探测位置 \((8 + 2^{2})\,mod\,10\) ，由于该位置是开放的单元，因此 58 就放在这里。</p>
-<figure><img src="/images/algo-quadratic-probing-hash-table.svg" width="64%"/>
+<figure><img src="/images/algo-quadratic-probing-hash-table.svg" width="64%">
 </figure>
 
 <p>对于平方探测来说，散列表被近乎填满是一个糟糕的情况：当表被填满超过一半时，若表的大小不是素数，甚至可以在表未被填满一半前，就不能保证找到空单元了。因为最多只有一般的表可以用作被选单元。但是如果表的大小是素数，那么在表至少有一半是空的时候，总能够插入一个新的单元。</p>
@@ -248,7 +258,7 @@ clustering)。于是，需要尝试多次才能解决冲突。线性探测的预
 <p>如果使用 separate chaining 或 probing hashing，即使是理想分布的散列表，在一次查询操作中，都可能因冲突而引起对多个区块的访问。当表变得过满时，必须 rehashing 用
 \(\mathcal{O}(N)\) 的巨大代价来访问磁盘。</p>
 <p>一种聪明的方法是 <strong>可扩散列</strong> (extendible hashing)，它允许用两次磁盘访问执行一次查找，插入操作也需要很少的磁盘访问。这种算法与 B 树的思想相当。</p>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Extendible_hashing_5.svg" width="45%"/>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Extendible_hashing_5.svg" width="45%">
 </figure>
 
 </div>
@@ -287,8 +297,8 @@ clustering)。于是，需要尝试多次才能解决冲突。线性探测的预
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
             </div>
@@ -311,7 +321,7 @@ clustering)。于是，需要尝试多次才能解决冲突。线性探测的预
         </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
             <i class="fas fa-comment fa-fw"></i>
         </a>
-    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b82a526943533d0dde3eceea68e6d3879e8f766339a17d2c57bbde5421167ddeafa4734202e9950c16842cc6d27753b4.css" integrity="sha384-uCpSaUNTPQ3ePs7qaObTh56PdmM5oX0sV7veVCEWfd6vpHNCAumVDBaELMbSd1O0"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
         <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2021-08-25T00:09:23+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"散列表"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
             window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
             gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });

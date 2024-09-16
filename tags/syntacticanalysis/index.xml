@@ -3,30 +3,182 @@
         <title>SyntacticAnalysis - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/syntacticanalysis/</link>
         <description>SyntacticAnalysis - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com ( )</managingEditor>
-            <webMaster>ginshio78@gmail.com ( )</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 01 May 2022 15:29:43 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/syntacticanalysis/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Sun, 01 May 2022 15:29:43 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/syntacticanalysis/" rel="self" type="application/rss+xml" /><item>
     <title>词法分析软件 Flex 及语法分析软件 Bison 的用法</title>
     <link>https://blog.ginshio.org/2022/flex_and_bison/</link>
     <pubDate>Sun, 01 May 2022 15:29:43 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/flex_and_bison/</guid>
-    <description><![CDATA[正正规规地开始写实现一个编译器感觉压力还是蛮大的。初步选型是 基础工具 Git CMake gcc 编译器生成工具 Flex GNU Bison 其他工具 Clang Format CppLint EditConfig C++ 支持 17 简直太棒了！！！还不知]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/flex_and_bison/</guid>
+    <description><![CDATA[<p>正正规规地开始写实现一个编译器感觉压力还是蛮大的。初步选型是</p>
+<ul>
+<li>基础工具
+<ul>
+<li>Git</li>
+<li>CMake</li>
+<li>gcc</li>
+</ul>
+</li>
+<li>编译器生成工具
+<ul>
+<li>Flex</li>
+<li>GNU Bison</li>
+</ul>
+</li>
+<li>其他工具
+<ul>
+<li>Clang Format</li>
+<li>CppLint</li>
+<li>EditConfig</li>
+</ul>
+</li>
+</ul>
+<p><code>C++</code> 支持 17 简直太棒了！！！还不知道毕昇杯能不能用 CMake 去构建。</p>
+<p>由于是多人合作项目，代码风格暂时定的是 Google，估计啥都不知道。想想到时候 review
+代码就头大。</p>
+<p>这篇主要是记录下从 <a href="https://en.wikipedia.org/wiki/Info_%28Unix%29" target="_blank" rel="noopener noreferrer">info</a> (Emacs 看 info 真方便) 中学习的 Flex 和 GNU Bison 相关用法。</p>
+<p><strong>TL;DR.</strong>
+<a href="#main-%e5%87%bd%e6%95%b0%e7%a4%ba%e4%be%8b" rel="">main 函数示例</a> 或 <a href="https://pku-minic.github.io/online-doc" target="_blank" rel="noopener noreferrer">北大编译实践</a></p>
+<h2 id="flex" class="headerLink">
+    <a href="#flex" class="header-mark"></a>Flex</h2><p>Flex 可以理解为词法分析器生成工具 Lex 的开源版本，意为 fast lexical analyzer
+generator。根据描述的正则表达式与 C 代码 (这些被称为 <strong>规则</strong>)，来生成对应的分析器代码 (文件名默认为 <strong>lex.yy.c</strong>)，其中定义了接口 <code>yylex()</code> 用来启动分析器，函数原型如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">yylex</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Flex 默认会生成标准的 C99 代码，而非 <code>K&amp;R</code> 风格代码。在调用 yylex 时，它会持续从全局输入文件 yyin 中扫描 token，直到遇到 EOF 或 action 执行返回语句。如果 yylex
+因 return 停止扫描，可以再次调用扫描器，从中断处继续扫描。当扫描到 EOF 时，只有
+<code>yywrap()</code> 返回 0 才继续读取其他文件，返回非零时扫描器会终止并返回 0。如果你不实现 <code>yywrap()</code>,需要使用 <code>%option noyywrap</code> 或链接 <code>-lfl</code> 使用总返回 1 的默认版本。</p>]]></description>
 </item><item>
     <title>语法分析 3</title>
     <link>https://blog.ginshio.org/2022/compilerprinciple_006/</link>
     <pubDate>Wed, 20 Apr 2022 16:25:13 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/compilerprinciple_006/</guid>
-    <description><![CDATA[一个自底向上的语法分析过程对应于为输入字符串构造语法分析树的过程，它从叶节点开始开始逐渐向上构造。虽然大部分编译器前端不会显示构造语法分析树]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/compilerprinciple_006/</guid>
+    <description><![CDATA[<p>一个自底向上的语法分析过程对应于为输入字符串构造语法分析树的过程，它从叶节点开始开始逐渐向上构造。虽然大部分编译器前端不会显示构造语法分析树，而是直接翻译，但自底向上构建有些像构建语法分析树。</p>
+<p>移入归约语法分析是自底向上语法分析的通用框架。LR 文法就是采用移入-归约语法分析的文法。</p>
+<h2 id="移入-归约" class="headerLink">
+    <a href="#%e7%a7%bb%e5%85%a5-%e5%bd%92%e7%ba%a6" class="header-mark"></a>移入-归约</h2><h3 id="归约" class="headerLink">
+    <a href="#%e5%bd%92%e7%ba%a6" class="header-mark"></a>归约</h3><p>将语法分析过程，看作输入串 w <code>归约</code> (reduction) 为文法开始符号的过程， 在归约步骤中，一个与某产生式体相匹配的特定子串被替换为该产生式头部的非终结符。</p>
+<p>自底向上语法分析过程中，最关键的是何时进行归约，以及应用哪个产生式进行归约。</p>
+<p>当然归约是推导步骤的反向操作，不过可以是 <strong>最右</strong> 推导。</p>
+<h3 id="句柄剪枝" class="headerLink">
+    <a href="#%e5%8f%a5%e6%9f%84%e5%89%aa%e6%9e%9d" class="header-mark"></a>句柄剪枝</h3><p>对输入进行从左向右扫描，并在扫描过程中进行自底向上语法分析，就可以反向构造出最右推导。简单地说，<strong>句柄</strong> 是和某个产生式体匹配的子串，对它的归约代表了相应最右推导中的一个反向步骤。</p>
+<p>如果有 \(\textit{S}\xRightarrow[rm]{*}\alpha\textit{A}w\xRightarrow[rm]{}\alpha\beta{}w\)，那么紧跟 \(\alpha\) 的产生式 \(\textit{A}\rightarrow\beta\) 是 \(\alpha\beta{}w\) 的一个 <strong>句柄</strong> (handle)。换句话说，最右句型 \(\gamma\) 的一个句柄是满足以下条件的产生式 \(\textit{A}\rightarrow\beta\) 及串
+\(\beta\) 在 \(\gamma\) 中出现的位置：将这个位置上的 \(\beta\) 替换为 <em>A</em> 之后得到的串是
+\(\gamma\) 的某个最右推导序列中出现在位于 \(\gamma\) 之前的最右句型。</p>
+<figure>
+</figure>
+
+<p>句柄右边的串 w 一定只包含终结符，即产生式体 \(\beta\) 称为一个句柄 (而不是
+\(\textit{A}\rightarrow\beta\))，如果文法有二义性时可能存在多个最右推导，但无二义性的文法有且仅有一个句柄。通过<strong>句柄剪枝</strong>可以得到一个反向的最右推导。</p>
+<h3 id="移入-规约语法分析技术" class="headerLink">
+    <a href="#%e7%a7%bb%e5%85%a5-%e8%a7%84%e7%ba%a6%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e6%8a%80%e6%9c%af" class="header-mark"></a>移入-规约语法分析技术</h3><p>该语法分析使用栈来保存符号，并用一个输入缓冲区来存放将要进行语法分析的其余符号。句柄在被识别之前，总是出现在栈顶的。</p>
+<p>在栈中依然用 \(\$\) 标记栈底位置，在从左到右扫描输入串时，语法分析器将零个或多个输入符号移动到栈顶，直到对栈顶的一个文法符号串 \(\beta\) 进行归约为止。语法分析器将不断重复这个过程，直到检测到错误，或栈中包含了开始符号且输入缓冲区为空为止。此时宣告语法分析完成。</p>
+<p>语法分析器主要由四个动作构成</p>
+<dl>
+<dt>移入 (shift)</dt>
+<dd>将下一个输入符号移到栈顶</dd>
+<dt>归约 (reduce)</dt>
+<dd>被归约的符号串的右端必然是栈顶，语法分析器在栈中确定这个栈的左端，并决定用哪个非终结符来替换这个串</dd>
+<dt>接受 (accept)</dt>
+<dd>语法分析完成</dd>
+<dt>报错 (error)</dt>
+<dd>发现一个语法错误，调用错误恢复过程</dd>
+</dl>
+<p>使用栈主要是因为在语法分析过程中有个重要的性质：<strong>句柄总出现在栈顶，绝不会出现在栈中</strong>。</p>
+<h3 id="移入-归约语法分析中的冲突" class="headerLink">
+    <a href="#%e7%a7%bb%e5%85%a5-%e5%bd%92%e7%ba%a6%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e4%b8%ad%e7%9a%84%e5%86%b2%e7%aa%81" class="header-mark"></a>移入-归约语法分析中的冲突</h3><p>某些上下文无关文法无法使用移入-归约语法分析技术，对于这样的文法可能出现如下
+configuration：虽然知道栈中的所有内容以及接下来的 k 个输入符号，</p>]]></description>
 </item><item>
     <title>语法分析 2</title>
     <link>https://blog.ginshio.org/2022/compilerprinciple_005/</link>
     <pubDate>Tue, 12 Apr 2022 22:23:17 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/compilerprinciple_005/</guid>
-    <description><![CDATA[自顶向下语法可以被看作输入串构造语法分析树的问题，从语法分析树的根结点开始，深度优先创建这棵树的各个结点。 对于输入 id + id * id，可以根据最左]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/compilerprinciple_005/</guid>
+    <description><![CDATA[<p>自顶向下语法可以被看作输入串构造语法分析树的问题，从语法分析树的根结点开始，深度优先创建这棵树的各个结点。</p>
+<p>对于输入 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>，可以根据最左推导序列产生语法分析树序列：
+\[\begin{aligned}
+E &amp;\rightarrow TE^{&rsquo;}\\
+E^{&rsquo;} &amp;\rightarrow +\ T\ E^{&rsquo;}\,|\,\varepsilon\\
+T &amp;\rightarrow FT^{&rsquo;}\\
+T^{&rsquo;} &amp;\rightarrow *\ F\ T^{&rsquo;}\,|\,\varepsilon\\
+F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\
+\end{aligned}\]</p>
+<p>根据左推导有如下自顶向下分析过程</p>
+<figure>
+</figure>
+
+<h2 id="递归下降的语法分析" class="headerLink">
+    <a href="#%e9%80%92%e5%bd%92%e4%b8%8b%e9%99%8d%e7%9a%84%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90" class="header-mark"></a>递归下降的语法分析</h2><p>递归下降的语法分析由一组过程组成，每个非终结符有一个对应的过程，程序的执行从开始符号对应的过程开始，如果这个过程扫描了整个输入串，就停止执行并宣布语法分析完成。</p>
+<p>通用递归下降分析技术可能需要回溯，即重复扫描输入串。在 PL 构造进行语法分析时很少回溯，因此需要回溯的语法分析器并不常见。自然语言分析的场合，回溯也不高效，因此更加倾向基于表格的语法分析方法，如 DP 或 Earley 方法。</p>
+<h3 id="一个简单的示例" class="headerLink">
+    <a href="#%e4%b8%80%e4%b8%aa%e7%ae%80%e5%8d%95%e7%9a%84%e7%a4%ba%e4%be%8b" class="header-mark"></a>一个简单的示例</h3><p>考虑文法 \[\begin{aligned} S &amp;\rightarrow c\,A\,d\\ A &amp;\rightarrow a\,b \ |\ a\\ \end{aligned}\]
+自顶向下构造串 \(w=cad\)，初始结点指向 w 的第一个字符，即标号为 S 的结点指向 c，将会得到图 <a href="#figure--fig:top-down-parsing-process-example" rel="">1</a> (a) 中的树，字符c 匹配。</p>
+<p><a id="figure--fig:top-down-parsing-process-example"></a></p>
+<figure><figcaption>
+      <p><span class="figure-number">Figure 1: </span>自顶向下语法分析器过程</p>
+    </figcaption>
+</figure>
+
+<p>将 <em>A</em> 用 \(\textit{A} \rightarrow ab\) 展开得到图
+<a href="#figure--fig:top-down-parsing-process-example" rel="">1</a> (b) 的树，第二个字符 a 匹配，此时指针推进到第三个字符 d。由于 b 与 d 不匹配，将报告失败，并回到 A 开始尝试之前未进行的且有可能匹配的其他产生式，图 <a href="#figure--fig:top-down-parsing-process-example" rel="">1</a> (c) 所示。</p>]]></description>
 </item><item>
     <title>语法分析 1</title>
     <link>https://blog.ginshio.org/2020/compilerprinciple_004/</link>
     <pubDate>Tue, 03 Nov 2020 16:09:25 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2020/compilerprinciple_004/</guid>
-    <description><![CDATA[程序设计语言构造的语法可以使用 上下文无关文法 或者 BNF (巴库斯-瑙尔范式) 表示法来描述，文法为语言设计者和编译器编写者提供了很大便利: 文法给出了]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/compilerprinciple_004/</guid>
+    <description><![CDATA[<p>程序设计语言构造的语法可以使用 <strong>上下文无关文法</strong> 或者 <strong>BNF (巴库斯-瑙尔范式)</strong> 表示法来描述，文法为语言设计者和编译器编写者提供了很大便利:</p>
+<ul>
+<li>文法给出了一个程序设计语言的精确易懂的语法归约</li>
+<li>对于某些类型的文法，我们可以自动构造出高效的语法分析器，它能够确定一个源程序的语法结构。同时，语法分析器的构造过程可以揭示出语法的二义性，同时还可能发现一些容易在语言的初始设计阶段被忽略的问题</li>
+<li>一个正确设计的文法给出了一个语言的结构，该结构有助于把源程序翻译为正确的目标代码，也有助于检测错误</li>
+<li>一个文法支持逐步加入可以完成新任务的新语言构造，从而迭代地演化和开发程序语言。如果对语言的实现遵循语言的文法结构，那么在实现中加入这些新构造的工作就会变得更加容易</li>
+</ul>
+<p>语法分析器从词法分析器获得一个词法单元组成的串，并验证这个串可以由源语言的文法生成，我们期望语法分析器能够以易于理解的方式报告语法错误，并能够从常见的错误中恢复并继续处理程序的其余部分。从概念上来说，对于良构的程序，语法分析器构造出一棵 <strong>语法分析树</strong>，并把它传递给编译器的其他部分进一步处理。我们并不需要显式地构造出语法分析树，对于源程序的检查和翻译工作可以和语法分析过程交替完成，因此语法分析器和其他部分可以用一个模块实现。</p>
+<figure>
+</figure>
+
+<p>错误处理程序检测出错误后，必须报告在源程序的什么位置检测到错误，程序可能有不同层次的错误</p>
+<dl>
+<dt>词法错误</dt>
+<dd>包括标识符、关键字或运算符拼写错误，或没有在n字符串文本上正确的添加引号</dd>
+<dt>语法错误</dt>
+<dd>包括分号、花括号的多余、缺失等，或 <code>if-else</code> 语句不匹配等</dd>
+<dt>语义错误</dt>
+<dd>包括运算符和运算分量之间的类型不匹配</dd>
+<dt>逻辑错误</dt>
+<dd>因程序员的错误推理而引起的任何错误，包括良构程序但结果不符合预期</dd>
+</dl>
+<p>语法分析器在检测出错误后，一般将自己恢复到某个状态，且有理由预期从那里开始输入将提供有意义的诊断信息，通常也会发现更多的错误，而不是检测到一个错误就退出程序，当然如果错误过多最好让编译器在达到某个错误数量上限后退出</p>
+<dl>
+<dt>panic 的恢复</dt>
+<dd>语法分析器一旦发现错误就不断丢弃输入的符号，直到找到<code>同步词法单元</code>
+(<strong>synchronizing token</strong>) 为止，同步词法单元通常是界限符 (如 <code>;</code> 或 <code>}</code>)，它们在源程序中清晰、无二义性。panic 的错误纠正方法常常会跳过大量输入，不检查跳过部分可能包含的错误，但是实现足够简单且不会让语法分析陷入死循环</dd>
+<dt>短语层次的恢复</dt>
+<dd>当发现错误时，语法分析器可以在余下的输入上进行局部性纠正，即将余下输入的某个前缀替换为另一个串，使语法分析器可以继续分析。这个方法难以处理实际错误发生在检测位置之前的情况</dd>
+<dt>错误产生式</dt>
+<dd>通过预测可能遇到的常见错误，在当前语言的文法中加入特殊的产生式，这些产生式可以生产含有错误的构造，语法分析器就能检测到一个预期的错误，生成适当的错误诊断信息</dd>
+<dt>全局纠正</dt>
+<dd>处理一个错误的输入串时通过最少的改动将其转换为语法正确的串</dd>
+</dl>
+<h2 id="上下文无关文法" class="headerLink">
+    <a href="#%e4%b8%8a%e4%b8%8b%e6%96%87%e6%97%a0%e5%85%b3%e6%96%87%e6%b3%95" class="header-mark"></a>上下文无关文法</h2><p>一个上下文无关文法由 <strong>终结符</strong>、<strong>非终结符</strong>、一个 <strong>开始符号</strong> 和一组 <strong>产生式</strong> 组成</p>
+<ul>
+<li>终结符：组成串的基本符号，与术语 <strong>词法单元名</strong> 为同义词，如 <code>if-else</code> 结构中的 if 和 else</li>
+<li>非终结符：表示串的集合的语法变量，它们表示的串集合用于定义由文法生成的语言</li>
+<li>开始符号：某个非终结符号，这个符号表示的串集合就是这个文法生成的语言</li>
+<li>产生式：将终结符和非终结符组合为串的方法，每个产生式由以下元素组成
+<ul>
+<li>一个被成为产生式<code>头</code>或<code>左部</code>的<strong>非终结符</strong>，头代表串的集合</li>
+<li>符号 \(\rightarrow\)，有时也使用 <code>::=</code> 来表示</li>
+<li>一个由零或多个终结符与非终结符组成的<code>体</code>或<code>右部</code>，体代表头所对应的串的某种构造方法</li>
+</ul>
+</li>
+</ul>
+<p>例如有一组生成式它们的头都是 E，我们可以将其组合在一起成 <strong>E \(\rightarrow\) E + T | E - T |
+T</strong> 这种形式
+\[\begin{aligned} E &amp;\rightarrow E + T\\ E &amp;\rightarrow E - T \\ E &amp;\rightarrow T \end{aligned}\]</p>]]></description>
 </item></channel>
 </rss>

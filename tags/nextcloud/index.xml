@@ -3,12 +3,46 @@
         <title>NextCloud - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/nextcloud/</link>
         <description>NextCloud - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com ( )</managingEditor>
-            <webMaster>ginshio78@gmail.com ( )</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 13 Oct 2020 20:16:45 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/nextcloud/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Tue, 13 Oct 2020 20:16:45 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/nextcloud/" rel="self" type="application/rss+xml" /><item>
     <title>在服务器上部署一些服务</title>
     <link>https://blog.ginshio.org/2020/service/</link>
     <pubDate>Tue, 13 Oct 2020 20:16:45 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2020/service/</guid>
-    <description><![CDATA[个人使用的是腾讯云的轻量服务器，系统镜像选择的是 Debian 11，搭建的服务有 博客 HUGO 、私有网盘 Nextcloud 以及 Git服务器 GitLab 目前使用的是 Debian GNU/Linux 11 (bullseye) 搭建服务器，当然]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/service/</guid>
+    <description><![CDATA[<p>个人使用的是腾讯云的轻量服务器，系统镜像选择的是 Debian 11，搭建的服务有 博客
+<a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">HUGO</a> 、私有网盘 <a href="https://nextcloud.com/" target="_blank" rel="noopener noreferrer">Nextcloud</a> 以及 Git服务器 <a href="https://about.gitlab.com/" target="_blank" rel="noopener noreferrer">GitLab</a></p>
+<p>目前使用的是 Debian GNU/Linux 11 (bullseye) 搭建服务器，当然用的是 fish 作为
+shell</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fish" data-lang="fish"><span class="line"><span class="cl"><span class="nf">bash</span> <span class="na">-c</span> <span class="s2">&#34;cat &lt;&lt;- EOF | sudo tee /etc/apt/sources.list
+</span></span></span><span class="line"><span class="cl"><span class="s2">deb https://mirrors.ustc.edu.cn/debian/ bullseye main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2">deb https://mirrors.ustc.edu.cn/debian/ bullseye-updates main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2">deb https://mirrors.ustc.edu.cn/debian/ bullseye-backports main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2">deb https://mirrors.ustc.edu.cn/debian-security bullseye-security main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2"># deb-src https://mirrors.ustc.edu.cn/debian/ bullseye main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2"># deb-src https://mirrors.ustc.edu.cn/debian/ bullseye-updates main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2"># deb-src https://mirrors.ustc.edu.cn/debian/ bullseye-backports main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2"># deb-src https://mirrors.ustc.edu.cn/debian-security bullseye-security main contrib non-free
+</span></span></span><span class="line"><span class="cl"><span class="s2">EOF&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sudo</span> <span class="nf">apt</span> update <span class="na">-y</span> <span class="o">&amp;&amp;</span> <span class="nf">sudo</span> <span class="nf">apt</span> upgrade <span class="na">-y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>一下服务搭建时，域名统一使用 example.com，请根据自己的情况修改对应的配置，用到一些基础依赖请自行安装</p>]]></description>
 </item></channel>
 </rss>

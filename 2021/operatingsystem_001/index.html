@@ -1,25 +1,34 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cn">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
-    <title>进程与线程 - iris</title><meta name="Description" content="GinShio | 现代操作系统第二章读书笔记"><meta property="og:title" content="进程与线程" />
-<meta property="og:description" content="GinShio | 现代操作系统第二章读书笔记" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.ginshio.org/2021/operatingsystem_001/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-07-11T12:14:40+08:00" />
-<meta property="article:modified_time" content="2022-04-07T19:32:33+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
-<meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_002/" /><meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_003/" /><meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_004/" /><meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_005/" />
+    <title>进程与线程 - iris</title><meta name="Description" content="GinShio | 现代操作系统第二章读书笔记"><meta property="og:url" content="https://blog.ginshio.org/2021/operatingsystem_001/">
+  <meta property="og:site_name" content="iris">
+  <meta property="og:title" content="进程与线程">
+  <meta property="og:description" content="GinShio | 现代操作系统第二章读书笔记">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-07-11T12:14:40+08:00">
+    <meta property="article:modified_time" content="2022-04-07T19:32:33+08:00">
+    <meta property="article:tag" content="Note">
+    <meta property="article:tag" content="Process">
+    <meta property="article:tag" content="Thread">
+    <meta property="og:image" content="https://blog.ginshio.org/avatar.webp">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_002/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_003/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_004/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_005/">
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
-
-<meta name="twitter:title" content="进程与线程"/>
-<meta name="twitter:description" content="GinShio | 现代操作系统第二章读书笔记"/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp">
+  <meta name="twitter:title" content="进程与线程">
+  <meta name="twitter:description" content="GinShio | 现代操作系统第二章读书笔记">
 <meta name="application-name" content="iris">
 <meta name="apple-mobile-web-app-title" content="iris">
 
@@ -36,12 +45,12 @@
         "@context": "http://schema.org",
         "@type": "BlogPosting",
         "headline": "进程与线程",
-        "inLanguage": "zh-CN",
+        "inLanguage": "zh-cn",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_001\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Process, Thread","wordcount":  14541 ,
-        "url": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_001\/","datePublished": "2021-07-11T12:14:40+08:00","dateModified": "2022-04-07T19:32:33+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Process, Thread","wordcount":  1252 ,
+        "url": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_001\/","datePublished": "2021-07-11T12:14:40+08:00","dateModified": "2022-04-07T19:32:33+08:00","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
                         "@type": "Person",
@@ -182,8 +191,8 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/operatingsystem/"><i class="far fa-folder fa-fw"></i>OperatingSystem</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/operating-system-note/"><i class="far fa-list-alt fa-fw"></i>Operating System Note</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-11">07-11</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 14541 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 30 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-11">07-11</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1252 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
                                     <span>系列 - Operating System Note</span>
@@ -297,96 +306,96 @@ Windows 中没有层次结构概念，所有进程地位相同。创建进程时
     <a href="#%e8%bf%9b%e7%a8%8b%e7%9a%84%e7%8a%b6%e6%80%81" class="header-mark"></a>进程的状态</h3><p>进程虽然是独立的实体，但有时需要在进程之间相互作用。比如进程等待其他进程的输入时，则会被阻塞，进程的状态也变为阻塞态。正在运行的进程则是运行态进程，当一个进程被剥夺 CPU 的使用权而等待 CPU 的调度时，被称为就绪态。</p>
 <p>阻塞态与运行态相似，都是进程不在使用 CPU，但其完全不同。前者是需要一定条件才能继续运行，比如等待输入就绪或等待硬盘读取数据，这时进程阻塞并主动让出 CPU 以供其他进程使用。而后者则是可以继续运行，但操作系统将 CPU 调度给了其他进程，因此进入等待 CPU 的状态。因此阻塞态进程必须满足一定条件才能继续进行，而就绪态进程只需要等待操作系统的调度，CPU 暂时没有分配给它。</p>
 <p>这三种状态可以互相转换，如下图所示。当操作系统发现进程需要等待某些任务而不能继续执行时，将运行态转换为阻塞态；运行态与就绪态的转换，是由操作系统针对进程的调度引起的，对于进程来说无法察觉调度的存在；如果进程阻塞时，其等待的任务已完成，进程可以继续运行，则会转换为就绪态等待操作系统调度。</p>
-<figure><img src="/images/operatingsystem-process-status.svg"/>
+<figure><img src="/images/operatingsystem-process-status.svg">
 </figure>
 
 <h3 id="进程的实现" class="headerLink">
     <a href="#%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%ae%9e%e7%8e%b0" class="header-mark"></a>进程的实现</h3><p>操作系统使用进程表 (process table) 来维护进程模型，每个进程占用一个进程控制块。该控制块包含了进程状态的重要信息，包括程序计数器、堆栈指针、内存分配情况、打开的文件状态、调度信息等，从而保证该进程可以在之后调度中能再次启动，就像没有被中断过一样。下表展示了程序控制块中的关键字段。</p>
 <table>
-<thead>
-<tr>
-<th>进程管理</th>
-<th>存储管理</th>
-<th>文件管理</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>寄存器</td>
-<td>正文段指针</td>
-<td>根目录</td>
-</tr>
-<tr>
-<td>程序计数器</td>
-<td>数据段指针</td>
-<td>工作目录</td>
-</tr>
-<tr>
-<td>程序状态字</td>
-<td>堆栈段指针</td>
-<td>文件描述符</td>
-</tr>
-<tr>
-<td>堆栈指针</td>
-<td></td>
-<td>用户 ID</td>
-</tr>
-<tr>
-<td>进程状态</td>
-<td></td>
-<td>组 ID</td>
-</tr>
-<tr>
-<td>优先级</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>调度参数</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>进程 ID</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>父进程 ID</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>进程组</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>信号</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>进程开始时间</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>使用的 CPU 时间</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>子进程的 CPU 时间</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>下次定时器时间</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">进程管理</th>
+          <th style="text-align: left">存储管理</th>
+          <th style="text-align: left">文件管理</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">寄存器</td>
+          <td style="text-align: left">正文段指针</td>
+          <td style="text-align: left">根目录</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">程序计数器</td>
+          <td style="text-align: left">数据段指针</td>
+          <td style="text-align: left">工作目录</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">程序状态字</td>
+          <td style="text-align: left">堆栈段指针</td>
+          <td style="text-align: left">文件描述符</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">堆栈指针</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">用户 ID</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">进程状态</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">组 ID</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">优先级</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">调度参数</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">进程 ID</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">父进程 ID</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">进程组</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">信号</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">进程开始时间</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">使用的 CPU 时间</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">子进程的 CPU 时间</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">下次定时器时间</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+  </tbody>
 </table>
 <p>与每一 I/O 类关联的是一个称作 <strong>中断向量</strong> (interrupt vector) 的位置，这是靠近内存底部的固定区域，这些内存包含中断服务程序的入口地址。在中断发生时，操作系统会做一系列操作，保存当前进程的上下文，并执行中断程序服务。以下是中断的执行步骤：</p>
 <ol>
@@ -412,97 +421,97 @@ Windows 中没有层次结构概念，所有进程地位相同。创建进程时
 <h3 id="线程模型" class="headerLink">
     <a href="#%e7%ba%bf%e7%a8%8b%e6%a8%a1%e5%9e%8b" class="header-mark"></a>线程模型</h3><p>进程用某种方法将相关的资源集中在一起，包含程序正文、数据以及地址空间、打开的文件、定时器等。进程拥有一个执行线程 (thread)，thread 中存在一个程序计数器、寄存器和堆栈，用于记录指令、变量等信息。线程与传统进程一样，拥有若干个状态用于 CPU 的调度，线程的状态转换与进程是一致的。进程用于把资源集中到一起，线程则是 CPU 上被调度执行的实体。</p>
 <table>
-<thead>
-<tr>
-<th>进程独立的内容</th>
-<th>线程独立的内容</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>地址空间</td>
-<td>程序计数器</td>
-</tr>
-<tr>
-<td>全局变量</td>
-<td>寄存器</td>
-</tr>
-<tr>
-<td>打开文件</td>
-<td>堆栈</td>
-</tr>
-<tr>
-<td>子进程</td>
-<td>状态</td>
-</tr>
-<tr>
-<td>即将发生的定时器</td>
-<td></td>
-</tr>
-<tr>
-<td>信号与信号处理程序</td>
-<td></td>
-</tr>
-<tr>
-<td>账户信息</td>
-<td></td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">进程独立的内容</th>
+          <th style="text-align: left">线程独立的内容</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">地址空间</td>
+          <td style="text-align: left">程序计数器</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">全局变量</td>
+          <td style="text-align: left">寄存器</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">打开文件</td>
+          <td style="text-align: left">堆栈</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">子进程</td>
+          <td style="text-align: left">状态</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">即将发生的定时器</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">信号与信号处理程序</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">账户信息</td>
+          <td style="text-align: left"></td>
+      </tr>
+  </tbody>
 </table>
 <p>同一个进程环境中，允许彼此之间有较大独立性的多个线程同时执行，这是对多进程模型的一种模拟。由于多线程模型中，所有线程都具有完全相同的地址空间，意味着他们也共享同样的全局变量。线程之间是没有保护的，一个线程可以读、写、清除另一个线程的堆栈。这样便于线程为完成某一任务而共同工作。</p>
 <p>为实现可移植的线程程序，IEEE 1003.1c 中定义线程的标准，其被成为 <strong>pthread</strong>，大部分 UNIX 都支持该标准。所有 pthread 线程都有一些特性，包含一个 <strong>标识符</strong> 、一组 *
 寄存器* (包含程序计数器) 和一组存储于结构中的属性，包括堆栈大小、调度参数等。</p>
 <table>
-<thead>
-<tr>
-<th>POSIX 函数名称</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>pthread_create</td>
-<td>创建一个新线程</td>
-</tr>
-<tr>
-<td>pthread_exit</td>
-<td>结束调用的线程</td>
-</tr>
-<tr>
-<td>pthread_join</td>
-<td>等待一个特定的线程退出</td>
-</tr>
-<tr>
-<td>pthread_yield</td>
-<td>主动释放 CPU</td>
-</tr>
-<tr>
-<td>pthread_attr_init</td>
-<td>创建并初始化一个线程的属性结构</td>
-</tr>
-<tr>
-<td>pthread_attr_destroy</td>
-<td>删除一个线程的属性结构</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">POSIX 函数名称</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">pthread_create</td>
+          <td style="text-align: left">创建一个新线程</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">pthread_exit</td>
+          <td style="text-align: left">结束调用的线程</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">pthread_join</td>
+          <td style="text-align: left">等待一个特定的线程退出</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">pthread_yield</td>
+          <td style="text-align: left">主动释放 CPU</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">pthread_attr_init</td>
+          <td style="text-align: left">创建并初始化一个线程的属性结构</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">pthread_attr_destroy</td>
+          <td style="text-align: left">删除一个线程的属性结构</td>
+      </tr>
+  </tbody>
 </table>
 <p>创建一个新线程时使用 <code>pthread_create</code> 调用，线程的标识符会作为函数返回值返回。这么做看起来像 fork 调用，方便其他线程引用该线程。当线程完成它的工作时，可以通过调用 <code>pthread_exit</code> 来终止，这个调用类似于 <code>exit</code> 调用，这会终止线程并释放线程的栈。线程可以使用 <code>pthread_yield</code> 调用，主动地为其他线程让出 CPU。</p>
 <h3 id="内核态线程" class="headerLink">
     <a href="#%e5%86%85%e6%a0%b8%e6%80%81%e7%ba%bf%e7%a8%8b" class="header-mark"></a>内核态线程</h3><p>由内核实现线程以及调度、管理操作，当需要创建或操作一个线程时，会使用 syscall 完成相关的操作。内核使用线程表对系统中的所有线程进行记录，其中保存了每个线程的寄存器、状态与其他信息。</p>
-<figure><img src="/images/kernel-thread.svg"/>
+<figure><img src="/images/kernel-thread.svg">
 </figure>
 
 <p>由于内核中创建或撤销线程的代价较大，某些系统会采用 <strong>回收线程</strong> 的方式，减小开销。当某个线程被撤销时，将其标记为不可运行，但其内核数据结构完全不受影响，在需要创建新线程时就重新启用某个旧线程即可。</p>
 <h3 id="用户态线程" class="headerLink">
     <a href="#%e7%94%a8%e6%88%b7%e6%80%81%e7%ba%bf%e7%a8%8b" class="header-mark"></a>用户态线程</h3><p>用户态线程可以将整个线程包放在用户空间中，内核对线程包一无所知，内核仅需要管理单线程进程即可。可以在不支持线程的操作系统上以这种方式实现线程。在用户空间管理线程时，每个进程都需要专用的线程表，用以跟踪进程中的线程，该进程表及调度方法由运行时系统进行管理。</p>
-<figure><img src="/images/user-thread.svg"/>
+<figure><img src="/images/user-thread.svg">
 </figure>
 
 <p>用户态线程模型进行调度时，保存线程状态的过程与调度程序都是在本地进行，不需要陷入内核、上下文切换等操作，相较于内核态线程要快很多 (一个数量级或更多)。并且针对不同的进程，允许用户制定不同的调度算法。</p>
 <p>用户态线程有一个明显的问题，即如何实现 <strong>阻塞系统调用</strong>。当线程进行一个阻塞的系统调用时，将会阻塞整个进程直到等待就绪，导致其他线程也被迫停止运行。解决方法即：在运行时系统中使用 IO 多路复用进行阻塞系统调用，当阻塞时不进行调用并运行另一个线程，直到当前线程可以安全运行。这种方法需要改写一部分系统调用，对其进行包装，以保证用户态线程的正确运行。</p>
 <p>用户态线程的另一个问题，如果一个线程开始运行，那么在该进程中的其他线程就不能运行，除非第一个线程自动放弃 CPU。在一个单独的进程内部，没有时钟中断，所以不能使用轮转调度的方式调用线程。除非某个线程能够按照自己的意志进入运行时系统，否则调度程序就没有任何机会。可以考虑让运行时系统请求每秒一次的时钟信号 (中断)，但高频率的发生周期性的时钟中断开销客观，如果线程使用时钟中断时可能扰乱运行时系统的时钟。</p>
 <p>人们已经研究了各种试图将用户级线程的优点和内核级线程的优点结合起来的方法，其中一种方法即将用户态线程与一些/全部内核态线程多路复用起来，由编程人员决定使用多少内核线程与多少用户线程。内核只识别内核线程，并对内核线程进行调度；内核线程被用户线程多路复用，每个内核线程有一个可以轮流使用的用户线程。</p>
-<figure><img src="/images/mixed-thread.svg"/>
+<figure><img src="/images/mixed-thread.svg">
 </figure>
 
 <h2 id="进程间通信" class="headerLink">
@@ -683,54 +692,54 @@ Semaphore 只需要几毫秒。</p>
 包含两个部分，一个内核服务和一个用户库。内核服务提供一个等待队列，它允许多个进程在一个锁上等待。它们将不会运行，除非内核明确地对它们解除阻塞。将一个进程放到等待队列需要系统调用，因此我们尽可能地避免这么做。在没有竞争时，futex 完全工作在用户空间。</p>
 <p>pthread 提供了锁设施用于数据竞争，同时提供了同步机制：条件变量。在允许或阻塞对临界区的访问时互斥量是很有用的，而条件变量则是允许线程由于一些未达成的条件而阻塞。绝大多数情况下，这两种方法是合作使用的。</p>
 <table>
-<thead>
-<tr>
-<th>线程调用</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>pthread_mutex_init</td>
-<td>创建一个互斥量</td>
-</tr>
-<tr>
-<td>pthread_mutex_destroy</td>
-<td>撤销一个已存在的互斥量</td>
-</tr>
-<tr>
-<td>pthread_mutex_lock</td>
-<td>对互斥量加锁或阻塞</td>
-</tr>
-<tr>
-<td>pthread_mutex_trylock</td>
-<td>对互斥量加锁或失败</td>
-</tr>
-<tr>
-<td>pthread_mutex_unlock</td>
-<td>对互斥量解锁</td>
-</tr>
-<tr>
-<td>pthread_cond_init</td>
-<td>创建一个条件变量</td>
-</tr>
-<tr>
-<td>pthread_cond_destroy</td>
-<td>撤销一个已存在的条件变量</td>
-</tr>
-<tr>
-<td>pthread_cond_wait</td>
-<td>阻塞当前线程以等待一个信号</td>
-</tr>
-<tr>
-<td>pthread_cond_signal</td>
-<td>向一个线程发送信号来唤醒</td>
-</tr>
-<tr>
-<td>pthread_cond_broadcast</td>
-<td>向多个线程发送信号来唤醒</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">线程调用</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">pthread_mutex_init</td>
+          <td style="text-align: left">创建一个互斥量</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">pthread_mutex_destroy</td>
+          <td style="text-align: left">撤销一个已存在的互斥量</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">pthread_mutex_lock</td>
+          <td style="text-align: left">对互斥量加锁或阻塞</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">pthread_mutex_trylock</td>
+          <td style="text-align: left">对互斥量加锁或失败</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">pthread_mutex_unlock</td>
+          <td style="text-align: left">对互斥量解锁</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">pthread_cond_init</td>
+          <td style="text-align: left">创建一个条件变量</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">pthread_cond_destroy</td>
+          <td style="text-align: left">撤销一个已存在的条件变量</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">pthread_cond_wait</td>
+          <td style="text-align: left">阻塞当前线程以等待一个信号</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">pthread_cond_signal</td>
+          <td style="text-align: left">向一个线程发送信号来唤醒</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">pthread_cond_broadcast</td>
+          <td style="text-align: left">向多个线程发送信号来唤醒</td>
+      </tr>
+  </tbody>
 </table>
 <p>需要注意的是，条件变量与信号量不同的是，不会存在与内存中。因此一个将一个信号传递给一个没有线程在等待的条件变量，那么这个信号就会消失。</p>
 <h3 id="管程" class="headerLink">
@@ -750,7 +759,7 @@ barrier。</p>
 (scheduling algorithm)。</p>
 <p>在早期以磁带上的卡片作为输入的批处理系统时代，调度算法很简单，依次运行磁带上的每个作业。对于多道程序设计系统，调度算法要复杂一些，因为经常有多个用户等待服务。有些大型机系统仍将批处理和分时服务结合使用，需要调度程序决定下一个运行的是一个批处理任务还是终端上的一个交互用户。CPU 是稀缺资源，所以好的调度程序可以在提高性能与用户满意度方面取得很大的成果。对于个人计算机多数时间内只有一个活动进程，且主要限制的是用户当前的输入速率而不是 CPU 处理速率，因此调度程序在个人计算机中并不是很重要。目前个人计算机主要在绘制高精度视频时需要大量且高强度的计算。在网络服务器上，多个进程经常竞争 CPU，因此调度功能变得十分重要。在移动设备上资源并不充足，CPU 薄弱并且电量也是重要限制，因此调度算法主要在于优化电量损耗。</p>
 <p>为了选择正确的进程运行，调度程序还要考虑 CPU 的利用率，因为进程切换的代价是比较高的。首先用户态必须切换到内核态，然后要保存当前进程的状态，包括在进程表中存储的寄存器，在很多系统中内存映像 (页表内的内存访问位) 也会保存，接着将心进程的内存映像装入 MMU，最后新进程开始运行。进程切换还会使整个 Cache 失败，强迫缓存从内存中动态装入两次。</p>
-<figure><img src="/images/cpu-process-behavior.svg"/>
+<figure><img src="/images/cpu-process-behavior.svg">
 </figure>
 
 <p>在进程具有较长时间的 CPU 集中使用和较小的频度的 I/O 等待，这种进程被称为 <strong>CPU 密集型</strong> 进程。反之具有较短时间的 CPU 集中使用和频繁的 I/O 等待的进程，被称为 <strong>I/O
@@ -894,8 +903,8 @@ semaphore 进行 P 操作，并在结束用餐时进行 V 操作。此方法可�
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
             </div>
@@ -918,7 +927,7 @@ semaphore 进行 P 操作，并在结束用餐时进行 V 操作。此方法可�
         </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
             <i class="fas fa-comment fa-fw"></i>
         </a>
-    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b82a526943533d0dde3eceea68e6d3879e8f766339a17d2c57bbde5421167ddeafa4734202e9950c16842cc6d27753b4.css" integrity="sha384-uCpSaUNTPQ3ePs7qaObTh56PdmM5oX0sV7veVCEWfd6vpHNCAumVDBaELMbSd1O0"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
         <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2021-07-11T12:14:40+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"进程与线程"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
             window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
             gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });

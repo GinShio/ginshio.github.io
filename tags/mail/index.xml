@@ -3,12 +3,69 @@
         <title>Mail - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/mail/</link>
         <description>Mail - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com ( )</managingEditor>
-            <webMaster>ginshio78@gmail.com ( )</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 16 Nov 2020 22:43:53 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/mail/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Mon, 16 Nov 2020 22:43:53 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/mail/" rel="self" type="application/rss+xml" /><item>
     <title>搭建邮箱服务器</title>
     <link>https://blog.ginshio.org/2020/mail_server/</link>
     <pubDate>Mon, 16 Nov 2020 22:43:53 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2020/mail_server/</guid>
-    <description><![CDATA[搭建邮局服务器的想法之前一直都有，不过一直没有尝试，国庆的时候从阿里云换到了腾讯云的时候尝试直接使用 postfix 和 dovecot 搭建，尝试了大概3天被劝退了，重新]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/mail_server/</guid>
+    <description><![CDATA[<p>搭建邮局服务器的想法之前一直都有，不过一直没有尝试，国庆的时候从阿里云换到了腾讯云的时候尝试直接使用 <code>postfix</code> 和 <code>dovecot</code> 搭建，尝试了大概3天被劝退了，重新使用现成的解决方案也算终于搭建好了，可以愉快的使用自建邮箱了 (<del>可以愉快的装逼了</del></p>
+<div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">更新了 mailu 的搭建，虽然 mailu 相比 mailcow 可以使用宿主机的数据库，不过 mailu
+配置 SMTPS / IMAPS / POP3S 不如 mailcow 简单方便，也没怎么研究，目前没有切换到
+mailu 的打算</div>
+        </div>
+    </div>
+<div class="details admonition warning open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-exclamation-triangle fa-fw"></i>警告<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">打算在更换服务器之后不再维护邮箱服务，装逼不存在的</div>
+        </div>
+    </div>
+<h2 id="部署" class="headerLink">
+    <a href="#%e9%83%a8%e7%bd%b2" class="header-mark"></a>部署</h2><p>开始搭建服务器，以下采用域名 (<code>example.com</code>) 和 IP (<code>1.1.1.1</code>)，安装在
+<code>/mailcow</code>，使用主机的nginx反向代理，部署之前我们首先定义一些Shell变量，以便之后使用，请根据自己的需求更改</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">path_to</span><span class="o">=</span><span class="s2">&#34;/path/to&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">mailcow_path</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">path_to</span><span class="si">}</span><span class="s2">/mailcow&#34;</span> <span class="c1"># mailcow 所在目录</span>
+</span></span><span class="line"><span class="cl"><span class="nv">mailu_path</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">path_to</span><span class="si">}</span><span class="s2">/mailu&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">mail_host</span><span class="o">=</span><span class="s2">&#34;mail.example.com&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">mail_ip</span><span class="o">=</span><span class="s2">&#34;1.1.1.1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">db_user</span><span class="o">=</span><span class="s2">&#34;example_user&#34;</span> <span class="c1"># 数据库用户 (Mailu使用宿主机PostgreSQL时使用)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">db_passwd</span><span class="o">=</span><span class="s2">&#34;example_password&#34;</span> <span class="c1"># 数据库密码 (Mailu使用宿主机PostgreSQL时使用)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">db_name</span><span class="o">=</span><span class="s2">&#34;example_db&#34;</span> <span class="c1"># 数据库名称  (Mailu使用宿主机PostgreSQL时使用)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">http_port</span><span class="o">=</span><span class="s2">&#34;8080&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">https_port</span><span class="o">=</span><span class="s2">&#34;8443&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">cert_path</span><span class="o">=</span><span class="s2">&#34;/ssl/path/to/cert/&#34;</span> <span class="c1"># 证书存放目录</span>
+</span></span><span class="line"><span class="cl"><span class="nv">cert_file</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">cert_path</span><span class="si">}</span><span class="s2">/cert.pem&#34;</span> <span class="c1"># 域名证书</span>
+</span></span><span class="line"><span class="cl"><span class="nv">key_file</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">cert_path</span><span class="si">}</span><span class="s2">/key.pem&#34;</span> <span class="c1"># 域名证书密钥</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ca_file</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">cert_path</span><span class="si">}</span><span class="s2">/intermediate_CA.pem&#34;</span> <span class="c1"># 域名证书颁发者证书</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>另外，由于webmail对 <code>S/MIME</code> 与 <code>PGP/MIME</code> 的支持并不好，我们将在服务器上禁止
+webmail，使用本地的邮件客户端收发邮件，以便更好的使用加密、签名功能，如有需要请自行开启webmail。</p>]]></description>
 </item></channel>
 </rss>

@@ -3,15 +3,34 @@
         <title>HowTo - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/howto/</link>
         <description>HowTo - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com ( )</managingEditor>
-            <webMaster>ginshio78@gmail.com ( )</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 28 Aug 2023 22:25:22 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/howto/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Mon, 28 Aug 2023 22:25:22 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/howto/" rel="self" type="application/rss+xml" /><item>
     <title>How To Build Mesa for AMD</title>
     <link>https://blog.ginshio.org/2023/how-to-build-mesa/</link>
     <pubDate>Mon, 28 Aug 2023 22:25:22 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2023/how-to-build-mesa/</guid>
-    <description><![CDATA[Whatcopy from Wikipidia:
-Mesa is an open source implementation of OpenGL, Vulkan, and other graphics API specifications. Mesa translates these specifications to vendor-specific graphics hardware drivers.
-Vendor DriversMesa is UMD (User mode driver), provides implementation of graphics API and shader compiler. Mesa is like a mono repository, different vendor drivers and graphics APIs are in different directories.
-Gallium is a driver project in mesa, includes many backends for hardwares:]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2023/how-to-build-mesa/</guid>
+    <description><![CDATA[<h2 id="what" class="headerLink">
+    <a href="#what" class="header-mark"></a>What</h2><p>copy from <a href="https://en.wikipedia.org/wiki/Mesa_%28computer_graphics%29" target="_blank" rel="noopener noreferrer">Wikipidia</a>:</p>
+<p>Mesa is an open source implementation of OpenGL, Vulkan, and other graphics API
+specifications. Mesa translates these specifications to vendor-specific graphics
+hardware drivers.</p>
+<h3 id="vendor-drivers" class="headerLink">
+    <a href="#vendor-drivers" class="header-mark"></a>Vendor Drivers</h3><p>Mesa is UMD (User mode driver), provides implementation of graphics API and
+shader compiler. Mesa is like a mono repository, different vendor drivers and
+graphics APIs are in different directories.</p>
+<p><strong>Gallium</strong> is a driver project in mesa, includes many backends for hardwares:</p>
+<ul>
+<li>AMD driver for GCN &amp; Navi (<em>radeonsi</em>)</li>
+<li>Intel driver for iris (<em>i965</em>)</li>
+<li>Intel driver (<em>i915</em>)</li>
+<li>Nvidia driver (<em>nouveau</em>)</li>
+<li>Software implementation (<em>swrast</em>)</li>
+<li>OpenGL over Vulkan (<em>zink</em>)</li>
+<li>DirectX3D 12 driver (<em>d3d12</em>)</li>
+<li>OpenCL frontend (<em>clover</em>)</li>
+<li>new OpenCL frontend by rust (<em>rusticl</em>, 23.1)</li>
+</ul>
+<p>libgl only provides APIs, and dispatch call to vendor implementation (e.g.
+radeonsi).</p>]]></description>
 </item></channel>
 </rss>

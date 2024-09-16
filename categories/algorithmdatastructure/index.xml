@@ -3,54 +3,321 @@
         <title>Algorithm⁄DataStructure - 分类 - iris</title>
         <link>https://blog.ginshio.org/categories/algorithmdatastructure/</link>
         <description>Algorithm⁄DataStructure - 分类 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com ( )</managingEditor>
-            <webMaster>ginshio78@gmail.com ( )</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 07 Oct 2022 20:15:29 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/categories/algorithmdatastructure/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Fri, 07 Oct 2022 20:15:29 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/categories/algorithmdatastructure/" rel="self" type="application/rss+xml" /><item>
     <title>图结构</title>
     <link>https://blog.ginshio.org/2022/data_strucures_and_algorithm_analysis_008_graph/</link>
     <pubDate>Fri, 07 Oct 2022 20:15:29 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/data_strucures_and_algorithm_analysis_008_graph/</guid>
-    <description><![CDATA[Graphs stand or fall by their choice of nodes and edges. &mdash; Watts &amp; Strogatz 信息 对于图的学习推荐使用 Rocs。什么？你说你是 Windows？那也不知道用什么啊，欢迎推荐其他工具。另外，K]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/data_strucures_and_algorithm_analysis_008_graph/</guid>
+    <description><![CDATA[<blockquote>
+<p>Graphs stand or fall by their choice of nodes and edges.</p>
+<p>&mdash; Watts &amp; Strogatz</p>
+</blockquote>
+<div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">对于图的学习推荐使用 <a href="https://apps.kde.org/rocs" target="_blank" rel="noopener noreferrer">Rocs</a>。什么？你说你是 Windows？那也不知道用什么啊，欢迎推荐其他工具。另外，KDE 天下第一！</div>
+        </div>
+    </div>
+<h2 id="图的定义与表示" class="headerLink">
+    <a href="#%e5%9b%be%e7%9a%84%e5%ae%9a%e4%b9%89%e4%b8%8e%e8%a1%a8%e7%a4%ba" class="header-mark"></a>图的定义与表示</h2><p>图 (graph) 是有序对 \(G = (V, E)\)，其中 V 是点集 (Vertex)，点的个数用
+\(\lvert{V}\rvert\) 表示；\(E \subseteq \{ \{ x, y \}: (x, y) \in V^{2}, x \ne y \}\) 是边集
+(Edge)，边的个数用 \(\lvert{E}\rvert\) 表示。如果点对是有序的，那么这个图称为有向图 (directed graph / digraph)。当然有向图的边，如果去掉方向限制所对应的无向图，称为该有向图的基础图 (underlying graph)。有时边还有一个属性称为权重 (weight)，表示使用这条边的代价 (cost)。如果任意两个顶点之间都有一条边的话，那么这个图被称作完全图 (complete graph)。</p>
+<p>图中的一条路径 (path) 是一个顶点序列 \(v_{1}, v_{2}, \cdots, v_{n}\) (其中 \(v_{i},
+v_{i+1} \in E, i \le i &lt; n\))，一条路径的长 (length) 是这条路径上的边的数量。如果图中含有一个顶点到它自身的路径，则这个路径称为环 (loop)，另外环上所有顶点是互异的。有向图中的环通常被称为回路 (cycle)，没有回路的有向图是无环的 (acyclic)，也被称为<strong>有向无环图</strong> (DAG, Directed Acyclic Graph)。</p>]]></description>
 </item><item>
     <title>排序算法</title>
     <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/</link>
     <pubDate>Fri, 27 Aug 2021 08:26:23 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/</guid>
-    <description><![CDATA[Sorting something that you will never search is a complete waste; searching something you never sorted is merely inefficient. &mdash; Brian Christian 我们假设对数组进行排序，数组的所有位置都有元素，且长度为 N。对于排序，假设元素存在 \(&lt;\) 和 \(&gt;\) 用以将输]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/</guid>
+    <description><![CDATA[<blockquote>
+<p>Sorting something that you will never search is a complete waste; searching something you never sorted is merely inefficient.</p>
+<p>&mdash; Brian Christian</p>
+</blockquote>
+<p>我们假设对数组进行排序，数组的所有位置都有元素，且长度为 N。对于排序，假设元素存在 \(&lt;\) 和 \(&gt;\) 用以将输入按一致的次序放置，比较运算是除赋值运算外仅有的能对输入数据进行的操作。这种条件下的排序称之为 <strong>比较排序</strong> (comparison-based sorting)。另外对于已经排序完成的数组，如果可以保持原本的数据次序我们称之为 <strong>稳定排序</strong>
+(stable sorting)。</p>
+<p>当然这与 STL 的算法有一点点出入，sort 接收的是迭代器来表示待排序的范围，以及一个可选的比较器。而且 sort 的底层算法也更加复杂，这里只是简单地说明各个基础排序。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Iterator</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">sort</span><span class="p">(</span><span class="n">Iterator</span> <span class="n">begin</span><span class="p">,</span> <span class="n">Iterator</span> <span class="n">end</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Iterator</span><span class="p">,</span> <span class="k">class</span> <span class="nc">Comparator</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">sort</span><span class="p">(</span><span class="n">Iterator</span> <span class="n">begin</span><span class="p">,</span> <span class="n">Iterator</span> <span class="n">end</span><span class="p">,</span> <span class="n">Comparator</span> <span class="n">cmp</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>为了方便理解，将使用 Wikipedia 上关于排序的动图来帮助理解这种排序。先放个大招</p>
+<p>表格 <a href="#table--tbl:comparison-of-algorithm" rel="">排序算法简要比较</a> 摘自 <a href="https://en.wikipedia.org/wiki/Sorting_algorithm#Comparison_of_algorithms" target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
+<p><a id="table--tbl:comparison-of-algorithm"></a></p>
+<div class="table-caption">
+  <span class="table-number"><a href="#table--tbl:comparison-of-algorithm">Table 1</a>:</span>
+  排序算法简要比较
+</div>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">名称</th>
+          <th style="text-align: left">英文名称</th>
+          <th style="text-align: left">稳定性</th>
+          <th style="text-align: left">\(Time_{avg}\)</th>
+          <th style="text-align: left">\(Time_{bad}\)</th>
+          <th style="text-align: left">\(Mem\)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">冒泡排序</td>
+          <td style="text-align: left">bubble sort</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(1)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">选择排序</td>
+          <td style="text-align: left">selection sort</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(1)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">插入排序</td>
+          <td style="text-align: left">insertion sort</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(1)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">希尔排序</td>
+          <td style="text-align: left">shell sort</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{\frac{3}{2}})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(1)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">堆排序</td>
+          <td style="text-align: left">heap sort</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N\log_{}{N})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N\log_{}{N})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(1)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">归并排序</td>
+          <td style="text-align: left">merge sort</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N\log_{}{N})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N\log_{}{N})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">原地归并排序</td>
+          <td style="text-align: left">in-place merge sort</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N\log_{}^{2}{N})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N\log_{}^{2}{N})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(1)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">快速排序</td>
+          <td style="text-align: left">quick sort</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N\log_{}{N})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(\log_{}{N})\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">桶排序</td>
+          <td style="text-align: left">bucket sort</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N + k)\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2} + k)\)</td>
+          <td style="text-align: left">\(\mathcal{O}(2^{k})\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">计数排序</td>
+          <td style="text-align: left">counting sort</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N + r)\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N + r)\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N + r)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">基数排序 (LSD)</td>
+          <td style="text-align: left">lsd radix sort</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N \frac{k}{d})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N \dfrac{k}{d})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N + 2^{d})\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">基数排序 (MSD)</td>
+          <td style="text-align: left">msd radix sort</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N \frac{k}{d})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N \dfrac{k}{d})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N + 2^{d})\)</td>
+      </tr>
+  </tbody>
+</table>
+<p>其中 k 为键的大小，d 为数位大小，r 为排序的数字的范围大小。</p>]]></description>
 </item><item>
     <title>堆结构</title>
     <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/</link>
     <pubDate>Wed, 25 Aug 2021 13:26:23 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/</guid>
-    <description><![CDATA[模型优先队列 (priority queue) 的 ADT 与 queue 类似，它们都提供了基本的 enqueue 与 dequeue 操作。但是 priority queue 可以在 dequeue 时将数据按照一定顺序弹出队列，而不是 FIFO。我们这里主要讨论每]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/</guid>
+    <description><![CDATA[<h2 id="模型" class="headerLink">
+    <a href="#%e6%a8%a1%e5%9e%8b" class="header-mark"></a>模型</h2><p>优先队列 (priority queue) 的 ADT 与 queue 类似，它们都提供了基本的 <code>enqueue</code> 与
+<code>dequeue</code> 操作。但是 priority queue 可以在 dequeue 时将数据按照一定顺序弹出队列，而不是 FIFO。我们这里主要讨论每次出队最小的元素 (即 <code>delete_min</code>)，如果你希望进行其他一些有规范的操作，方法与这类似。</p>
+<p>显然 priority queue 有一个朴素解，那就是在每次 <code>delete_min</code> 时遍历整个存储单元，找到最小的元素并删除，其时间复杂度 \(\mathcal{O}(N)\) ，当然插入元素的时间复杂度会好很多，只需要 \(\mathcal{O}(1)\) 。当然你也可以将其反过来，在插入时就找到最小的元素。</p>
+<p>显然这是无法接受的，即使是利用前几篇中介绍过的 AVL 树都可以将其时间复杂度压缩到
+\(\mathcal{O}(\log_{}{N})\) 。不过这有点太过分了，平衡 BST 的很多操作可能是用不上的，而且为了优先队列再实现一个平衡树实在是太难为人了。</p>
+<p>我们将要介绍的工具叫做 <strong>二叉堆</strong> (binary heap)，用以实现有限队列。但是需要注意的是， <code>堆</code> (heap) 这里指的是一种数据结构，而非操作系统中用以分配动态内存的地方。</p>
+<h2 id="二叉堆" class="headerLink">
+    <a href="#%e4%ba%8c%e5%8f%89%e5%a0%86" class="header-mark"></a>二叉堆</h2><h3 id="结构性质" class="headerLink">
+    <a href="#%e7%bb%93%e6%9e%84%e6%80%a7%e8%b4%a8" class="header-mark"></a>结构性质</h3><p>binary heap 是一棵被完全填满的二叉树，或者说是一棵 complete binary tree。由于
+complete binary tree 的排列十分有规律，因此我们可以将其转化为数组，不再需要链来链接它。</p>
+<figure>
+</figure>
+
+<p>对于数组任一位置 \(i\) 上的元素，其左右儿子分别在在位置 \(2i + 1\) 和 \(2i +2\) 上，而它的父亲则在位置 \(\lfloor(i - 1)/2\rfloor\) 上。当然如果根从 \(1\) 开始，那么位置 \(i\) 上元素的左右儿子的位置分别为 \(2i\) 和 \(2i + 1\) ，而父亲的位置是 \(\lfloor i/2 \rfloor\) 。以下未说明的情况，我们将 1 作为 root 的下标。</p>]]></description>
 </item><item>
     <title>散列表</title>
     <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_005_hash_table/</link>
     <pubDate>Wed, 25 Aug 2021 00:09:23 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_005_hash_table/</guid>
-    <description><![CDATA[She made a hash of the proper names, to be sure. &mdash; Grant Allen 散列函数如果可以将存储的数据，其中某一项用于查找，则这个项被称为 键 (key)，而通过一定规则将键映射到表中的一个]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_005_hash_table/</guid>
+    <description><![CDATA[<blockquote>
+<p>She made a hash of the proper names, to be sure.</p>
+<p>&mdash; Grant Allen</p>
+</blockquote>
+<h2 id="散列函数" class="headerLink">
+    <a href="#%e6%95%a3%e5%88%97%e5%87%bd%e6%95%b0" class="header-mark"></a>散列函数</h2><p>如果可以将存储的数据，其中某一项用于查找，则这个项被称为 <strong>键</strong> (key)，而通过一定规则将键映射到表中的一个合适的单元，这个规则被称为 <strong>散列函数</strong> (hash function)。我们希望 hash 足够简单且保证两个不同的 key 映射到不同的单元，但是单元是有限的，因此我们需要寻找一个 hash function 尽量均匀的产生 hash value。当映射不是单射而是多射时，即发生了 <strong>冲突</strong> (collision)，有两个不同的 key 经过 hash function 得到了相同的 hash value，我们应该处理这个 collision。</p>
+<p>顺便一提，我们一般使用 hash value 对表长进行取模，从而确定数据在表中的位置，表长为素数是可以很好的让 hash value 取模后均匀分布在表中。</p>
+<p>我们假设一个简单的字符串 hash function，即将字符串中所有的字符的 ASCII 相加所得到的。如果表很大，就不能很好的平均分配数据。比如 \(TableSize = 10'007\) ，并设所有的键长度为 8，而这些键的最大 hash value 不超过 1016 (\(127 * 8\))，这显然不是平均分配的。</p>
+<p>如果假设 Key 至少有 3 个字符，并且设置一个只考虑前 3 个字符的 hash function：
+\(c_{0} + 27 * c_{1} + 27 * 27 * c_{2}\) 。我们假设键的前三个字符是随机的，表的大小依然是 10007，那么我们就会得到一个均匀分布的 hash value。但是英文实际上并不是随机的，虽然前三个字符有 \(26^{3} = 16576\) 种可能的组合，但是事实证明 3 个字母不同的组合数实际上只有 <code>2851</code> 。</p>]]></description>
 </item><item>
     <title>查找结构</title>
     <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/</link>
     <pubDate>Mon, 23 Aug 2021 22:26:23 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/</guid>
-    <description><![CDATA[如果给定一个序列，你将如何在这个序列中查找一个给定元素 target，当找到时返回该元素的迭代器，否则返回末尾迭代器。首先排除时间复杂度 \(\mathcal{O}(N)\) 的朴]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/</guid>
+    <description><![CDATA[<p>如果给定一个序列，你将如何在这个序列中查找一个给定元素 target，当找到时返回该元素的迭代器，否则返回末尾迭代器。首先排除时间复杂度 \(\mathcal{O}(N)\) 的朴素算法，这不是本文的重点。</p>
+<h2 id="二分查找" class="headerLink">
+    <a href="#%e4%ba%8c%e5%88%86%e6%9f%a5%e6%89%be" class="header-mark"></a>二分查找</h2><p><strong>二分法</strong> (Dichotomy) 是一种思想，将一个整体事物分割成两部分，这两部分必须是互补事件，即所有事物必须属于双方中的一方且互斥。如此我们就可以在 \(\mathcal{O}(1)\) 的时间内将问题大小减半。</p>
+<p><strong>二分查找</strong> (binary search)，又称折半查找，这是一种可以在
+\(\mathcal{O}(\log_{}{N})\) 时间复杂度下完成查找的算法。二分查找要求序列必须是有序的，才能正确执行：将序列划分为两部分，如果中间值大于 target，意味着这之后的值都大于 target，需要继续向前找；如果中间值小于 target，意味着这之前的所有值都小于
+target，需要继续向后找。</p>
+<h2 id="avl-树" class="headerLink">
+    <a href="#avl-%e6%a0%91" class="header-mark"></a>AVL 树</h2><p>上一篇介绍树时分析了 BST 中为什么很容易发生不平衡现象。在极端情况下，只有一个
+leaf 的树，在查找元素时其时间复杂度退化为 \(\mathcal{O}(N)\) 。</p>
+<p>为了防止 BST 退化为链表，必须保证其可以维持树的平衡，一次需要有一个 <strong>平衡条件</strong>
+(balanced condition)。如果每个结点都要求其左右子树具有相同的高度，显然是不可能的，因为这样实在是太难了。在 1962 年，由苏联计算机科学家 G.M.Adelson-Velsky 和
+Evgenii Landis 在其论文 <strong>An algorithm for the organization of information</strong> 中公开了数据结构 AVL (Adelson-Velsky and Landis) 树，这是计算机科学中 <code>最早被发现的</code>
+自平衡二叉树。</p>
+<h3 id="avl-的平衡因子" class="headerLink">
+    <a href="#avl-%e7%9a%84%e5%b9%b3%e8%a1%a1%e5%9b%a0%e5%ad%90" class="header-mark"></a>AVL 的平衡因子</h3><p>AVL 树将子树的高度限制在差为 1，即一个结点，如果其左子树与由子树的高度差
+\(|D_{h}| \leq 1\) ，则认为这棵树是平衡的。因此带有平衡因子 \(-1\) 、 \(0\) 或 \(1\) 的结点被认为是平衡的，而 \(-2\) 或 \(2\) 的平衡因子被认为是需要调整的。平衡因子可以直接存储于结点之中，也可以利用存储在结点中的子树高度计算得出。</p>]]></description>
 </item><item>
     <title>树结构</title>
     <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_003_tree_structure/</link>
     <pubDate>Thu, 19 Aug 2021 07:12:25 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_003_tree_structure/</guid>
-    <description><![CDATA[Not all roots are buried down in the ground, some are at the top of a tree. &mdash; Jinvirle 树 (tree)Tree 是一些结点的集合，这个集合可以是空集；若不是空集，则 Tree 是由称为 根 的结点 r 以及零或多个非空的子树 \(T_{1}, T_{2},]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_003_tree_structure/</guid>
+    <description><![CDATA[<blockquote>
+<p>Not all roots are buried down in the ground, some are at the top of a tree.</p>
+<p>&mdash; Jinvirle</p>
+</blockquote>
+<h2 id="树--tree" class="headerLink">
+    <a href="#%e6%a0%91--tree" class="header-mark"></a>树 (tree)</h2><p>Tree 是一些结点的集合，这个集合可以是空集；若不是空集，则 Tree 是由称为 <strong>根</strong> 的结点 r 以及零或多个非空的子树 \(T_{1}, T_{2}, \cdots, T_{N}\) 组成，这些子树的根都与 r 有一条有向边 (edge) 连接。这些子树的根被称为根 r 的孩子 (child)，而 r 是这些 child 的父亲 (parent)。</p>
+<h3 id="树的属性" class="headerLink">
+    <a href="#%e6%a0%91%e7%9a%84%e5%b1%9e%e6%80%a7" class="header-mark"></a>树的属性</h3><p>根据给出的树的递归定义，可以发现一个树是由 \(N\) 个 node 和 \(N - 1\) 条 edge 的集合。而除 root 外的所有 node 都有一个由其 parent 指向它的 edge。在树中有一些特殊的属性是需要注意的，这里先给出相关概念与示例，如果不是很理解，可以通过结合示例来理解这些概念。</p>
+<dl>
+<dt>结点的度 (degree)</dt>
+<dd>一个节点含有的子树的个数称为该节点的度</dd>
+<dt>树的度 (degree of tree)</dt>
+<dd>一棵树中最大的 node degree 称为树的度</dd>
+<dt>叶结点 (leaf)</dt>
+<dd>或称<strong>终端结点</strong>，如果结点满足 \(degree = 0\) 则该结点为叶结点</dd>
+<dt>分支结点 (branch node)</dt>
+<dd>或称<strong>内部结点</strong> (internal node)、<strong>非终端结点</strong>，度不为 0 的结点</dd>
+<dt>层次 (level)</dt>
+<dd>从 root 开始，root 所在的层为第 1 层，root 的 child 为第二层，以此类推</dd>
+<dt>关系</dt>
+<dd>树就像一本族谱，从 root 开始结点直接有一定的亲缘关系
+<ul>
+<li><strong>兄弟 (sibling):</strong> 具有相同父节点的节点互为兄弟节点</li>
+<li><strong>叔父 (uncle):</strong> 父结点的兄弟结点为该结点的叔父结点</li>
+<li><strong>堂兄弟:</strong> 父结点在同一层的结点互为堂兄弟</li>
+</ul>
+</dd>
+<dt>路径 (path)</dt>
+<dd>结点 \(n_{1}, n_{2}, \cdots, n_{k}\) 的一个序列，使得对于 \(1 \leq i &lt; k\) 满足 \(n_{i}\) 是 \(n_{i + 1}\) 的 parent，则这个序列被称为从 \(n_{1}\) 到结点 \(n_{k}\) 的 path。其路径长度 (length) 为路径上的 edge 的数量，即 \(k - 1\) 。特别地，每个结点到自己的 path lenth 为 <code>0</code></dd>
+<dt>深度 (depth)</dt>
+<dd>对于结点 \(n_{i}\) ，从 root 到 \(n_{i}\) 的唯一路径的长度 (\(Depth_{root} = 0\))</dd>
+<dt>高度 (height)</dt>
+<dd>对于结点 \(n_{i}\) ，从 \(n_{i}\) 到 leaf 的最长路径长度 (\(Height_{leaf} = 0\))</dd>
+<dt>树的高度</dt>
+<dd>或称树的深度，其总是等于根的高度，或最深的结点的深度，可以认为一棵空树的高度为 \(-1\)</dd>
+<dt>祖先 (ancestor)</dt>
+<dd>对于结点 \(n_{i}\) 与 \(n_{j}\) 存在一条 \(n_{i}\) 到 \(n_{j}\) 的路径，那么称 \(n_{i}\) 是 \(n_{j}\) 的祖先 (ancestor)，而 \(n_{j}\) 是 \(n_{i}\) 的 <strong>后裔</strong> (descendant)</dd>
+<dt>距离 (distance)</dt>
+<dd>对于结点 \(n_{i}\) 与 \(n_{j}\) ，从最近的公共祖先结点 \(n_{k}\) 分别到它们的路径长度之和被称为距离 (distance)。特别地，如果 \(n_{i} = n_{k}\) ，则 \(n_{i}\) 与 \(n_{j}\) 的距离为 \(n_{i}\) 到 \(n_{j}\) 的路径的长度</dd>
+</dl>
+<figure>
+</figure>
+
+<div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">严蔚敏老师的数据结构中，或者往常的实现中，根的高度为 1，而叶的深度也为 1，树的高度一般指其最大的层次，因此认为空树的高度为 0。</div>
+        </div>
+    </div>
+<h3 id="树的实现" class="headerLink">
+    <a href="#%e6%a0%91%e7%9a%84%e5%ae%9e%e7%8e%b0" class="header-mark"></a>树的实现</h3><p>实现树的一种方法是在每一个结点上，除数据外还需要一些链域来指向该结点的每个子结点，然而由于每个结点的子结点数量是不确定的，我们不能直接建立到各个子结点的直接链接。如果申请一定大小的空间以存放子结点，则可能会造成空间的浪费，或不足。因此我们链表的形式存储子结点，而父结点中只存储第一个子结点的指针，如果该链域为空则意味着该结点是叶结点 (\(degree = 0\))。每个结点中存在一个指向其下一个兄弟的指针，为遍历父结点的所有孩子提供了方法，当该结点 \(next\_sibling = nullptr\) 时意味着这是父结点的最后一个子结点。</p>]]></description>
 </item><item>
     <title>线性数据结构</title>
     <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_002_linear_data_structure/</link>
     <pubDate>Mon, 16 Aug 2021 20:22:24 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_002_linear_data_structure/</guid>
-    <description><![CDATA[Should array indices start at 0 or 1? My compromise of 0.5 was rejected without, I thought, proper consideration. &mdash; Stan Kelly-Bootle 表 (List)我们将形如 \(a_0, a_1, a_2, \cdots, a_{N-1}\) 组成的有限序列称为 list，这个 list 的大小是 \(N (N \in \mathbb{N})\) ，我们将大小]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_002_linear_data_structure/</guid>
+    <description><![CDATA[<blockquote>
+<p>Should array indices start at 0 or 1? My compromise of 0.5 was rejected without,
+I thought, proper consideration.</p>
+<p>&mdash; Stan Kelly-Bootle</p>
+</blockquote>
+<h2 id="表--list" class="headerLink">
+    <a href="#%e8%a1%a8--list" class="header-mark"></a>表 (List)</h2><p>我们将形如 \(a_0, a_1, a_2, \cdots, a_{N-1}\) 组成的有限序列称为 list，这个 list 的大小是 \(N (N \in \mathbb{N})\) ，我们将大小为 0 的表称之为 <strong>空表</strong> (empty list)。</p>
+<p>除空表外的任何表，我们从 <code>0</code> 开始标记元素，最后一个元素的下标为 \(N - 1\) ，那么第
+\(i (i \in \mathbb{N}^{*})\) 个元素是 \(a_{i-1}\) ，称 \(a_{i}\) 是 \(a_{i + 1}\) 的 <strong>前驱</strong> ，
+\(a_{i}\) 是 \(a_{i - 1}\) 的 <strong>后继</strong> 。</p>]]></description>
 </item><item>
     <title>数据结构与算法分析引论</title>
     <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_001_introduction/</link>
     <pubDate>Sun, 15 Aug 2021 20:01:41 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_001_introduction/</guid>
-    <description><![CDATA[I will, in fact, claim that the difference between a bad programmer and a good one is whether he considers his code or his data structures more important. Bad programmers worry about the code. Good programmers worry about data structures and their relationships. &mdash; Linus Torvalds 基本的数学知识首先我们需要复习一些在初高中可能学]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_001_introduction/</guid>
+    <description><![CDATA[<blockquote>
+<p>I will, in fact, claim that the difference between a bad programmer and a good
+one is whether he considers his code or his data structures more important. Bad
+programmers worry about the code. Good programmers worry about data structures
+and their relationships.</p>
+<p>&mdash; Linus Torvalds</p>
+</blockquote>
+<h2 id="基本的数学知识" class="headerLink">
+    <a href="#%e5%9f%ba%e6%9c%ac%e7%9a%84%e6%95%b0%e5%ad%a6%e7%9f%a5%e8%af%86" class="header-mark"></a>基本的数学知识</h2><p>首先我们需要复习一些在初高中可能学过的基础数学知识。</p>
+<h3 id="集合" class="headerLink">
+    <a href="#%e9%9b%86%e5%90%88" class="header-mark"></a>集合</h3><p><strong>集合</strong> (Set) 是基本的数学概念，指具体的某种性质的事物的总体，集合中的事物称之为
+<strong>元素</strong> (element)。</p>
+<p>element 通常使用小写字母表示，而 set 通常使用大写字母表示。若 \(x\) 是集合 \(A\) 中的元素，记作 \(x \in A\) ；反之不在集合中记作 \(x \notin A\) 。当两个 set 中所包含的
+element 完全一样时，就称这两个 set 相等，记作 \(A = B\) 。</p>]]></description>
 </item></channel>
 </rss>

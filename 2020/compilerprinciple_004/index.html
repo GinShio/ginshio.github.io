@@ -1,25 +1,36 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cn">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
-    <title>语法分析 1 - iris</title><meta name="Description" content="GinShio | 编译原理第四章 4.2 4.3 读书笔记"><meta property="og:title" content="语法分析 1" />
-<meta property="og:description" content="GinShio | 编译原理第四章 4.2 4.3 读书笔记" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.ginshio.org/2020/compilerprinciple_004/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2020-11-03T16:09:25+08:00" />
-<meta property="article:modified_time" content="2022-04-13T12:46:43+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+    <title>语法分析 1 - iris</title><meta name="Description" content="GinShio | 编译原理第四章 4.2 4.3 读书笔记"><meta property="og:url" content="https://blog.ginshio.org/2020/compilerprinciple_004/">
+  <meta property="og:site_name" content="iris">
+  <meta property="og:title" content="语法分析 1">
+  <meta property="og:description" content="GinShio | 编译原理第四章 4.2 4.3 读书笔记">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-11-03T16:09:25+08:00">
+    <meta property="article:modified_time" content="2022-04-13T12:46:43+08:00">
+    <meta property="article:tag" content="Note">
+    <meta property="article:tag" content="DragonBook">
+    <meta property="article:tag" content="SyntacticAnalysis">
+    <meta property="og:image" content="https://blog.ginshio.org/avatar.webp">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2020/compilerprinciple_001/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2020/compilerprinciple_002/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2020/compilerprinciple_003/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2022/compilerprinciple_005/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2022/compilerprinciple_006/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2022/compilerprinciple_007/">
 
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
-
-<meta name="twitter:title" content="语法分析 1"/>
-<meta name="twitter:description" content="GinShio | 编译原理第四章 4.2 4.3 读书笔记"/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp">
+  <meta name="twitter:title" content="语法分析 1">
+  <meta name="twitter:description" content="GinShio | 编译原理第四章 4.2 4.3 读书笔记">
 <meta name="application-name" content="iris">
 <meta name="apple-mobile-web-app-title" content="iris">
 
@@ -36,12 +47,12 @@
         "@context": "http://schema.org",
         "@type": "BlogPosting",
         "headline": "语法分析 1",
-        "inLanguage": "zh-CN",
+        "inLanguage": "zh-cn",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_004\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, SyntacticAnalysis","wordcount":  4156 ,
-        "url": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_004\/","datePublished": "2020-11-03T16:09:25+08:00","dateModified": "2022-04-13T12:46:43+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, SyntacticAnalysis","wordcount":  507 ,
+        "url": "https:\/\/blog.ginshio.org\/2020\/compilerprinciple_004\/","datePublished": "2020-11-03T16:09:25+08:00","dateModified": "2022-04-13T12:46:43+08:00","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
                         "@type": "Person",
@@ -144,8 +155,8 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="11-03">11-03</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-13">04-13</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4156 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="11-03">11-03</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-13">04-13</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 507 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
                                     <span>系列 - 龙书学习笔记</span>
@@ -194,7 +205,7 @@
 <li>一个文法支持逐步加入可以完成新任务的新语言构造，从而迭代地演化和开发程序语言。如果对语言的实现遵循语言的文法结构，那么在实现中加入这些新构造的工作就会变得更加容易</li>
 </ul>
 <p>语法分析器从词法分析器获得一个词法单元组成的串，并验证这个串可以由源语言的文法生成，我们期望语法分析器能够以易于理解的方式报告语法错误，并能够从常见的错误中恢复并继续处理程序的其余部分。从概念上来说，对于良构的程序，语法分析器构造出一棵 <strong>语法分析树</strong>，并把它传递给编译器的其他部分进一步处理。我们并不需要显式地构造出语法分析树，对于源程序的检查和翻译工作可以和语法分析过程交替完成，因此语法分析器和其他部分可以用一个模块实现。</p>
-<figure><img src="/images/sp4parsing.svg"/>
+<figure><img src="/images/sp4parsing.svg">
 </figure>
 
 <p>错误处理程序检测出错误后，必须报告在源程序的什么位置检测到错误，程序可能有不同层次的错误</p>
@@ -275,12 +286,12 @@ T</strong> 这种形式
 <p>如果 \(S \xRightarrow{*} \alpha\)，其中 S 是文法G的开始符号，我们说 \(\alpha\) 是 G 的一个 <strong>句型</strong> (句型可能即包含终结符又包含非终结符，也可以是空串)，文法生成的语言是它所有句子的集合 (句子是不包含非终结符的句型)，由文法生成的语言被成为上下文无关语言，如果两个文法生成的语言相同那么这两个文法等价。推导过程有多种，我们最关心的是 <strong>最左推导</strong> 和 <strong>最右推导</strong>，即总是选择句型的最左/最右的非终结符进行替换，直到推导出句子，最左推导与最右推导存在一对一的关系，最左推导写作 \(\alpha \xRightarrow[lm]{} \beta\)，最右推导写作 \(\alpha \xRightarrow[rm]{} \beta\)。</p>
 <p>语法分析树是推导过程的图形化表示，其中每个内部结点表示一个产生式的应用，标号为产生式的头，该结点的子结点的标号从左到右组成了推导过程中替换这个产生式的体。一棵树的叶子结点可以是终结符或非终结符， 从左到右将叶子结点排列起来就可以得到一个句型，这个句型被成为 <strong>结果</strong> (yield) 或 <strong>边缘</strong> (frontier)。例如产生式 E \(\rightarrow\) E + E | E *
 E | -E | (E) | <strong>id</strong> ，则 -(<strong>id</strong> + <strong>id</strong>) 的语法分析树如下</p>
-<figure><img src="/images/parse-tree.svg"/>
+<figure><img src="/images/parse-tree.svg">
 </figure>
 
 <h3 id="二义性" class="headerLink">
     <a href="#%e4%ba%8c%e4%b9%89%e6%80%a7" class="header-mark"></a>二义性</h3><p>如果一个文法可以为某个句子生成多棵语法分析树，那么它就是有 <strong>二义性</strong> (ambiguity)，即对同一个句子存在多个最左或最右推导文法。语法分析器都期望文法是无二义性的，需要消除文法中的二义性，可以选择抛弃不需要的语法生成树为每个句子留下一棵语法分析树。譬如上面产生式，可以推导出两种 <strong>id</strong> + <strong>id</strong> * <strong>id</strong> 的语法分析树，很明显第一棵树是正确的，乘法优先于加法进行计算，第二棵语法分析树错误的处理了加法与乘法的优先级。</p>
-<figure><img src="/images/ambiguity.svg"/>
+<figure><img src="/images/ambiguity.svg">
 </figure>
 
 <h2 id="设计文法" class="headerLink">
@@ -303,7 +314,7 @@ E | -E | (E) | <strong>id</strong> ，则 -(<strong>id</strong> + <strong>id</st
 \end{aligned}\]</p>
 <p>可以构造出条件语句 <strong>if</strong> \(E_{1}\) <strong>then if</strong> \(E_{2}\) <strong>then</strong> \(S_{1}\) <strong>else</strong> \(S_{2}\)
 的两棵不同的语法分析树，通常规则是每个 <strong>else</strong> 和最近且尚未匹配的 <strong>then</strong> 匹配，这个消除二义性规则可以用一个文法直接表示，但实践中很少用产生式表示这个规则。</p>
-<figure><img src="/images/complex-conditional-ambiguity-ast.svg"/>
+<figure><img src="/images/complex-conditional-ambiguity-ast.svg">
 </figure>
 
 <p>这里我们给出 <code>if-then-else</code> 结构无二义性的文法</p>
@@ -375,8 +386,8 @@ for i in (1, n):<br />
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
             </div>
@@ -399,7 +410,7 @@ for i in (1, n):<br />
         </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
             <i class="fas fa-comment fa-fw"></i>
         </a>
-    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b82a526943533d0dde3eceea68e6d3879e8f766339a17d2c57bbde5421167ddeafa4734202e9950c16842cc6d27753b4.css" integrity="sha384-uCpSaUNTPQ3ePs7qaObTh56PdmM5oX0sV7veVCEWfd6vpHNCAumVDBaELMbSd1O0"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
         <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2020-11-03T16:09:25+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"语法分析 1"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
             window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
             gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });

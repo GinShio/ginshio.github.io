@@ -1,25 +1,35 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cn">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
-    <title>堆结构 - iris</title><meta name="Description" content="GinShio | 数据结构与算法分析第六章笔记"><meta property="og:title" content="堆结构" />
-<meta property="og:description" content="GinShio | 数据结构与算法分析第六章笔记" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-08-25T13:26:23+08:00" />
-<meta property="article:modified_time" content="2022-04-07T18:16:33+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+    <title>堆结构 - iris</title><meta name="Description" content="GinShio | 数据结构与算法分析第六章笔记"><meta property="og:url" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/">
+  <meta property="og:site_name" content="iris">
+  <meta property="og:title" content="堆结构">
+  <meta property="og:description" content="GinShio | 数据结构与算法分析第六章笔记">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-08-25T13:26:23+08:00">
+    <meta property="article:modified_time" content="2022-04-07T18:16:33+08:00">
+    <meta property="article:tag" content="Note">
+    <meta property="article:tag" content="Heap">
+    <meta property="og:image" content="https://blog.ginshio.org/avatar.webp">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_001_introduction/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_002_linear_data_structure/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_003_tree_structure/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_005_hash_table/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/">
 
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
-
-<meta name="twitter:title" content="堆结构"/>
-<meta name="twitter:description" content="GinShio | 数据结构与算法分析第六章笔记"/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp">
+  <meta name="twitter:title" content="堆结构">
+  <meta name="twitter:description" content="GinShio | 数据结构与算法分析第六章笔记">
 <meta name="application-name" content="iris">
 <meta name="apple-mobile-web-app-title" content="iris">
 
@@ -36,12 +46,12 @@
         "@context": "http://schema.org",
         "@type": "BlogPosting",
         "headline": "堆结构",
-        "inLanguage": "zh-CN",
+        "inLanguage": "zh-cn",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_006_heap_structure\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Heap","wordcount":  4147 ,
-        "url": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_006_heap_structure\/","datePublished": "2021-08-25T13:26:23+08:00","dateModified": "2022-04-07T18:16:33+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Heap","wordcount":  1129 ,
+        "url": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_006_heap_structure\/","datePublished": "2021-08-25T13:26:23+08:00","dateModified": "2022-04-07T18:16:33+08:00","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
                         "@type": "Person",
@@ -157,9 +167,9 @@
     </div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">堆结构</h1><div class="post-meta">
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/algorithmdatastructure/"><i class="far fa-folder fa-fw"></i>Algorithm⁄DataStructure</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/"><i class="far fa-list-alt fa-fw"></i>数据结构与算法分析</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-25">08-25</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4147 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;</div>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href=""><i class="far fa-folder fa-fw"></i></a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/"><i class="far fa-list-alt fa-fw"></i>数据结构与算法分析</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-25">08-25</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1129 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
                                     <span>系列 - 数据结构与算法分析</span>
@@ -225,13 +235,13 @@
     <a href="#%e4%ba%8c%e5%8f%89%e5%a0%86" class="header-mark"></a>二叉堆</h2><h3 id="结构性质" class="headerLink">
     <a href="#%e7%bb%93%e6%9e%84%e6%80%a7%e8%b4%a8" class="header-mark"></a>结构性质</h3><p>binary heap 是一棵被完全填满的二叉树，或者说是一棵 complete binary tree。由于
 complete binary tree 的排列十分有规律，因此我们可以将其转化为数组，不再需要链来链接它。</p>
-<figure><img src="/images/algo-array-implement-for-complete-binary-tree.svg" width="64%"/>
+<figure><img src="/images/algo-array-implement-for-complete-binary-tree.svg" width="64%">
 </figure>
 
 <p>对于数组任一位置 \(i\) 上的元素，其左右儿子分别在在位置 \(2i + 1\) 和 \(2i +2\) 上，而它的父亲则在位置 \(\lfloor(i - 1)/2\rfloor\) 上。当然如果根从 \(1\) 开始，那么位置 \(i\) 上元素的左右儿子的位置分别为 \(2i\) 和 \(2i + 1\) ，而父亲的位置是 \(\lfloor i/2 \rfloor\) 。以下未说明的情况，我们将 1 作为 root 的下标。</p>
 <h3 id="堆序性质" class="headerLink">
     <a href="#%e5%a0%86%e5%ba%8f%e6%80%a7%e8%b4%a8" class="header-mark"></a>堆序性质</h3><p>保证 heap 可以快速执行的是 <strong>堆序性质</strong> (heap-order property)。我们希望找到的是最小的元素，因此最小的元素在根上，而它的任一子树也是 heap，那么可以得出任一结点小于其所有后裔，这种结构被称为 <strong>小顶堆</strong> (min heap)；而相反的，任一结点大于其所有后裔，则被称为 <strong>大顶堆</strong> (max heap)。</p>
-<figure><img src="/images/algo-example-of-heap.svg" width="85%"/>
+<figure><img src="/images/algo-example-of-heap.svg" width="85%">
 </figure>
 
 <p>heap-order 保证我们可以在 \(\mathcal{O}(1)\) 的时间复杂度内找到想要的元素。</p>
@@ -240,7 +250,7 @@ complete binary tree 的排列十分有规律，因此我们可以将其转化�
 <h4 id="binary-heap-的插入操作" class="headerLink">
     <a href="#binary-heap-%e7%9a%84%e6%8f%92%e5%85%a5%e6%93%8d%e4%bd%9c" class="header-mark"></a>binary heap 的插入操作</h4><p>要在堆中插入一个元素，我们首先需要在尾部建立一个空穴，用以存放元素。为了不破坏
 heap-order，我们比较插入元素与其父结点元素：如果元素可以放入空穴则插入完成，否则将父结点放入空穴，空穴转变为了父结点，自底向上递归直到元素插入。</p>
-<figure><img src="/images/algo-insert-op-for-binary-heap.svg" width="95%"/>
+<figure><img src="/images/algo-insert-op-for-binary-heap.svg" width="95%">
 </figure>
 
 <p>这个过程被称为 <strong>上滤</strong> (percolate up)。percolate up 的最坏时间复杂度是
@@ -278,7 +288,7 @@ percolate up n，则需要 \(3n\) 条赋值语句，采用直接赋值覆盖的�
     <a href="#binary-heap-%e7%9a%84%e7%a7%bb%e9%99%a4%e6%93%8d%e4%bd%9c" class="header-mark"></a>binary heap 的移除操作</h4><p>找出目标元素显然简单的多，因为 root 就是目标，但是如何将其从 heap 中移除。我们依然采取建立空穴的方法，只不过这次空穴建立在了 root。</p>
 <p>我们进行与 percolate up 类似的操作，只不过这次从上向下进行，这被称为 <strong>下滤</strong>
 (percolate down)。我们从 root 出发，将孩子中的较小元素移动到空穴，并继续向下找去，直到空穴成为 leaf。到达 leaf 后，我们将最后一个结点值赋值给空穴，并删除最后一个结点，这样就能让 heap 的长度减一。</p>
-<figure><img src="/images/algo-remove-op-for-binary-heap.svg" width="95%"/>
+<figure><img src="/images/algo-remove-op-for-binary-heap.svg" width="95%">
 </figure>
 
 <p>在实现时我们需要注意一个细节，当 heap 中元素的数量为偶数时，有的结点可能只有一个孩子。有一个小技巧，可以将一个大于任何 heap 元素的标识放在末尾，这样我们可以假设所有结点都有两个孩子，当然请小心处理。percolate down 的最坏与平均复杂度都是
@@ -341,7 +351,7 @@ binary heap 就是一种 2-堆。</p>
 <p>一个显而易见的结论，当 d 增大时，其深度也将减少，因此 insert 时间复杂度是
 \(\mathcal{O}(\log_{d}{N})\) ，但 erase 操作就会费时很多，erase 的时间复杂度是
 \(\mathcal{O}(d\log_{d}{N})\) 。当然在 insert 远多于 erase 的算法中，d-ary heap 可以有效降低时间复杂度。不过实践证明，4-ary heap 可以胜过 binary heap。</p>
-<figure><img src="/images/algo-example-of-d-ary-heap.svg" width="72%"/>
+<figure><img src="/images/algo-example-of-d-ary-heap.svg" width="72%">
 </figure>
 
 <h2 id="左式堆" class="headerLink">
@@ -352,7 +362,7 @@ leftist heap 也是二叉树，但区别是：leftist heap 并不是理想平衡
     <a href="#%e5%b7%a6%e5%bc%8f%e5%a0%86%e7%9a%84%e6%80%a7%e8%b4%a8" class="header-mark"></a>左式堆的性质</h3><p>将任一结点 X 的 <strong>零路径长</strong> (null path length) \(npl(X)\) 或 \(s(X)\) 定义为从 X 到一个布局有两个孩子的结点的最短路径长。因此具有 \(degree = 0 \lor 1\) 的结点 \(npl =
 1\) ，而 \(npl(null) = 0\) ，任意结点的 NPL 比其所有孩子的 NPL 的最小值加 1。对于
 heap 中的每一个结点 X，左孩子的 NPL 至少与右孩子的 NPL 相等，这样树的结构更偏向于向左子树添加深度，因此称之为 leftist heap。</p>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Leftist-trees-S-value.svg" width="36%"/>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Leftist-trees-S-value.svg" width="36%">
 </figure>
 
 <p>在右路径上有 r 个结点的左式树必然至少有 \(2^{r} - 1\) 个结点，而 N 个结点的左式树有一条右路径最多含有 \(\lfloor\log_{}{(N+1)}\rfloor\) 个结点。在左式堆上的操作，将所有工作都放在右路径上进行，以保证树不会过深。</p>
@@ -412,7 +422,7 @@ heap 中的每一个结点 X，左孩子的 NPL 至少与右孩子的 NPL 相等
 </div>
 </div><h3 id="斜堆" class="headerLink">
     <a href="#%e6%96%9c%e5%a0%86" class="header-mark"></a>斜堆</h3><p>斜堆 (skew heap) 是 leftist heap 的自调节形式，skew heap 与 leftist heap 的关系类似于 AVL tree 与 splay tree 之间的关系。skew heap 不对树的结构进行限制，右路径可以任意长，因此所有操作的最坏运行时间为 \(\mathcal{O}(N)\) 。但是正如 splay tree，它的 amortized 运行时间为 \(\mathcal{O}(\log_{}{N})\) 。skew heap 的基本操作也是合并，且操作与 leftist heap 是类似的，唯一的不同是 skew heap 不再存储 NPL，交换孩子是无条件的。</p>
-<figure><img src="https://userpages.umbc.edu/~cmarron/cs341.f19/projects/proj4files/merge.png" width="60%"/>
+<figure><img src="https://userpages.umbc.edu/~cmarron/cs341.f19/projects/proj4files/merge.png" width="60%">
 </figure>
 
 <div class="highlight"><div class="chroma">
@@ -458,14 +468,14 @@ heap 中的每一个结点 X，左孩子的 NPL 至少与右孩子的 NPL 相等
 \[\left(\begin{aligned} k \\ d \end{aligned}\right).\]</p>
 <p>如果将堆序施加于二项树上，并允许任意高度上最多一棵二项树，那么能够用二项树的集合唯一地表示任意大小的优先队列。例如，大小为 13 的优先队列可以用森林 \(B_3\) 、\(B_2\)
 、\(B_0\) 表示，将这种二项队列写作 \(1101\)。</p>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/6/61/Binomial-heap-13.svg" width="50%"/>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/6/61/Binomial-heap-13.svg" width="50%">
 </figure>
 
 <h3 id="二项队列操作" class="headerLink">
     <a href="#%e4%ba%8c%e9%a1%b9%e9%98%9f%e5%88%97%e6%93%8d%e4%bd%9c" class="header-mark"></a>二项队列操作</h3><p>最小元可以通过搜索所有树的根找出，最多有 \(\log_{}N\) 棵不同的树，因此最小元可以以
 \(\mathcal{O}(\log N)\) 时间找出。若记住当最小元在其他操作期间变化时更新它，那么可以保留最小元的信息并以 \(\mathcal{O}(1)\) 时间执行操作。</p>
 <p>合并两个二项队列在概念上很容易，对于两个同高度的二项树可以合并为更高的树，让值大的根成为值小的根的子树。有时合并后，可能出现三棵高度相同的树，在两个队列中各取一棵继续合并即可。直到没有高度相同的树为止，合并结束。</p>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Binomial_heap_merge2.svg" width="70%"/>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Binomial_heap_merge2.svg" width="70%">
 </figure>
 
 <p>插入可以看作合并的特殊情况，创建一棵单结点树，然后执行合并即可。删除操作由找到具有最小根的二项树来完成，将该树先从森林中移除，删除掉根后，拆解为新的二项队列，最后合并这两个队列即可。</p>
@@ -695,8 +705,8 @@ heap 中的每一个结点 X，左孩子的 NPL 至少与右孩子的 NPL 相等
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
             </div>
@@ -719,7 +729,7 @@ heap 中的每一个结点 X，左孩子的 NPL 至少与右孩子的 NPL 相等
         </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
             <i class="fas fa-comment fa-fw"></i>
         </a>
-    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b82a526943533d0dde3eceea68e6d3879e8f766339a17d2c57bbde5421167ddeafa4734202e9950c16842cc6d27753b4.css" integrity="sha384-uCpSaUNTPQ3ePs7qaObTh56PdmM5oX0sV7veVCEWfd6vpHNCAumVDBaELMbSd1O0"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
         <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2021-08-25T13:26:23+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"堆结构"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
             window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
             gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });

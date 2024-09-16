@@ -1,23 +1,25 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cn">
 
 <head>
-	<meta name="generator" content="Hugo 0.115.4">
+	<meta name="generator" content="Hugo 0.134.2">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
-    <title>iris</title><meta name="Description" content="iris | GinShio 的个人博客"><meta property="og:title" content="iris" />
-<meta property="og:description" content="iris | GinShio 的个人博客" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://blog.ginshio.org/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="og:site_name" content="iris | GinShio的个人博客" />
+    <title>iris</title><meta name="Description" content="iris | GinShio 的个人博客"><meta property="og:url" content="https://blog.ginshio.org/">
+  <meta property="og:site_name" content="iris">
+  <meta property="og:title" content="iris">
+  <meta property="og:description" content="iris | GinShio 的个人博客">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="website">
+    <meta property="og:image" content="https://blog.ginshio.org/avatar.webp">
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
-
-<meta name="twitter:title" content="iris"/>
-<meta name="twitter:description" content="iris | GinShio 的个人博客"/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp">
+  <meta name="twitter:title" content="iris">
+  <meta name="twitter:description" content="iris | GinShio 的个人博客">
 <meta name="application-name" content="iris">
 <meta name="apple-mobile-web-app-title" content="iris">
 
@@ -34,10 +36,10 @@
     {
         "@context": "http://schema.org",
         "@type": "WebSite",
-        "url": "https:\/\/blog.ginshio.org\/","inLanguage": "zh-CN","author": {
+        "url": "https:\/\/blog.ginshio.org\/","inLanguage": "zh-cn","author": {
                 "@type": "Person",
-                "name": " "
-            },"description": "iris | GinShio 的个人博客","image": "https:\/\/blog.ginshio.org\/screenshot.png","thumbnailUrl": "https:\/\/blog.ginshio.org\/screenshot.png","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","name": "iris"
+                "name": "GinShio"
+            },"description": "iris | GinShio 的个人博客","image": "https:\/\/blog.ginshio.org\/screenshot.png","thumbnailUrl": "https:\/\/blog.ginshio.org\/screenshot.png","name": "iris"
     }
     </script><script src="//instant.page/5.1.1" defer type="module" integrity="sha384-MWfCL6g1OTGsbSwfuMHc8+8J2u71/LA8dzlIN3ycajckxuZZmF+DNjdm7O6H3PSq"></script>
 </head>
@@ -123,87 +125,494 @@
         <a href="/2023/how-to-build-mesa/">How To Build Mesa for AMD</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="08-28">08-28</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/gpu/"><i class="far fa-folder fa-fw"></i>GPU</a>&nbsp;<a href="/categories/mesa/"><i class="far fa-folder fa-fw"></i>Mesa</a></span></div><div class="content">Whatcopy from Wikipidia:
-Mesa is an open source implementation of OpenGL, Vulkan, and other graphics API specifications. Mesa translates these specifications to vendor-specific graphics hardware drivers.
-Vendor DriversMesa is UMD (User mode driver), provides implementation of graphics API and shader compiler. Mesa is like a mono repository, different vendor drivers and graphics APIs are in different directories.
-Gallium is a driver project in mesa, includes many backends for hardwares:</div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="08-28">08-28</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/gpu/"><i class="far fa-folder fa-fw"></i>GPU</a>&nbsp;<a href="/categories/mesa/"><i class="far fa-folder fa-fw"></i>Mesa</a></span></div><div class="content"><h2 id="what" class="headerLink">
+    <a href="#what" class="header-mark"></a>What</h2><p>copy from <a href="https://en.wikipedia.org/wiki/Mesa_%28computer_graphics%29" target="_blank" rel="noopener noreferrer">Wikipidia</a>:</p>
+<p>Mesa is an open source implementation of OpenGL, Vulkan, and other graphics API
+specifications. Mesa translates these specifications to vendor-specific graphics
+hardware drivers.</p>
+<h3 id="vendor-drivers" class="headerLink">
+    <a href="#vendor-drivers" class="header-mark"></a>Vendor Drivers</h3><p>Mesa is UMD (User mode driver), provides implementation of graphics API and
+shader compiler. Mesa is like a mono repository, different vendor drivers and
+graphics APIs are in different directories.</p>
+<p><strong>Gallium</strong> is a driver project in mesa, includes many backends for hardwares:</p>
+<ul>
+<li>AMD driver for GCN &amp; Navi (<em>radeonsi</em>)</li>
+<li>Intel driver for iris (<em>i965</em>)</li>
+<li>Intel driver (<em>i915</em>)</li>
+<li>Nvidia driver (<em>nouveau</em>)</li>
+<li>Software implementation (<em>swrast</em>)</li>
+<li>OpenGL over Vulkan (<em>zink</em>)</li>
+<li>DirectX3D 12 driver (<em>d3d12</em>)</li>
+<li>OpenCL frontend (<em>clover</em>)</li>
+<li>new OpenCL frontend by rust (<em>rusticl</em>, 23.1)</li>
+</ul>
+<p>libgl only provides APIs, and dispatch call to vendor implementation (e.g.
+radeonsi).</p></div><div class="post-footer">
         <a href="/2023/how-to-build-mesa/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/howto/">HowTo</a>,&nbsp;<a href="/tags/opensuse/">openSUSE</a></div></div>
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/howto/">HowTo</a>,&nbsp;<a href="/tags/opensuse/">OpenSUSE</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2023/cs61a_03_data_abstractions/">数据抽象</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-12">02-12</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programming/"><i class="far fa-folder fa-fw"></i>Programming</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/cs61a-note/"><i class="far fa-list-alt fa-fw"></i>CS61A Note</a></span></div><div class="content">容器 Lists在 scheme 中一类最基础的异构数据结构即 list 1 2 (list 1 2 3 &#34;str&#34;) &#39;(1 2 3 &#34;str&#34;) 当然 list 可以看作是个二元组 pair，也有称作 dotlist 1 2 3 4 5 6 7 8 (cons 1 2) ;; &#39;(1</div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-12">02-12</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programming/"><i class="far fa-folder fa-fw"></i>Programming</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/cs61a-note/"><i class="far fa-list-alt fa-fw"></i>CS61A Note</a></span></div><div class="content"><h2 id="容器" class="headerLink">
+    <a href="#%e5%ae%b9%e5%99%a8" class="header-mark"></a>容器</h2><h3 id="lists" class="headerLink">
+    <a href="#lists" class="header-mark"></a>Lists</h3><p>在 scheme 中一类最基础的异构数据结构即 <strong>list</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="nb">list </span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="s">&#34;str&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="s">&#34;str&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当然 list 可以看作是个二元组 <strong>pair</strong>，也有称作 dotlist</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="nb">cons </span><span class="mi">1</span> <span class="mi">2</span><span class="p">)</span>            <span class="c1">;; &#39;(1 . 2)</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">cons </span><span class="mi">1</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>         <span class="c1">;; &#39;(1 2)</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">cons*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">)</span>       <span class="c1">;; &#39;(1 2 3 . 4)  &#39;(1 . (2 . (3 . 4)))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">cons*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">3</span> <span class="mi">4</span><span class="p">))</span>    <span class="c1">;; &#39;(1 2 3 4)</span>
+</span></span><span class="line"><span class="cl"><span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="o">.</span> <span class="p">())</span>             <span class="c1">;; &#39;(1)</span>
+</span></span><span class="line"><span class="cl"><span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="o">.</span> <span class="p">(</span><span class="mi">2</span> <span class="o">.</span> <span class="p">(</span><span class="mi">3</span> <span class="o">.</span> <span class="p">())))</span> <span class="c1">;; &#39;(1 2 3)</span>
+</span></span><span class="line"><span class="cl"><span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="o">.</span> <span class="p">(</span><span class="mi">2</span> <span class="mi">3</span><span class="p">))</span>          <span class="c1">;; &#39;(1 2 3)</span>
+</span></span><span class="line"><span class="cl"><span class="o">&#39;</span><span class="p">((</span><span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="o">.</span> <span class="p">(</span><span class="mi">3</span> <span class="mi">4</span><span class="p">))</span>      <span class="c1">;; &#39;((1 2) 3 4)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>访问 list 的首个元素使用 <strong>car</strong>，而获取尾元素使用 <strong>cdr</strong></p></div><div class="post-footer">
         <a href="/2023/cs61a_03_data_abstractions/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/cs61a/">CS61A</a>,&nbsp;<a href="/tags/sicp/">SICP</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2023/libarchive_development_001/">libarchive 介绍与入门</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="01-28">01-28</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/libarchive-%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/"><i class="far fa-list-alt fa-fw"></i>libarchive 学习与开发指南</a></span></div><div class="content">libarchive 是一个可以创建和读取多种不同流式归档格式的程序库，包含了最流行的 tar 格式变体、一些 cpio 格式，以及所有的 BSD 和 GNU ar 变体。bsdtar 是一个使用 libarchive 的</div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="01-28">01-28</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/libarchive-%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/"><i class="far fa-list-alt fa-fw"></i>Libarchive 学习与开发指南</a></span></div><div class="content"><p>libarchive 是一个可以创建和读取多种不同流式归档格式的程序库，包含了最流行的 tar
+格式变体、一些 cpio 格式，以及所有的 BSD 和 GNU ar 变体。bsdtar 是一个使用
+libarchive 的 tar 实现。</p>
+<hr>
+<h2 id="简介" class="headerLink">
+    <a href="#%e7%ae%80%e4%bb%8b" class="header-mark"></a>简介</h2><h3 id="为什么实现" class="headerLink">
+    <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e5%ae%9e%e7%8e%b0" class="header-mark"></a>为什么实现</h3><p>大约在 2001 年的某个时间，邮件列表中出现了一些关于 FreeBSD 打包工具的辩论，辩论主要涉及两个相关的问题：</p>
+<ul>
+<li>对打包工具来说什么是 <strong>正确</strong> (right) 的格式？</li>
+<li>为什么 FreeBSD 的打包工具比其他发行版的打包工具慢？</li>
+</ul>
+<p>在仔细研究之后，Kientzle 认为 <code>tar/gzip</code> 和 <code>tar/bzip2</code> 依然是很好的格式，性能问题纯粹是实现的原因。</p>
+<p>因此，Kientzle 开启了一个从 <code>pkg_add</code> 开始重写打包工具的项目，关键是这个项目是一个了解 <code>tar/gzip</code> 和 <code>tar/bzip2</code> 的库。他最终在 2003 年时完成了 <em>libtarfile</em>，并意识到许多核心的基础设施都要简单通用地处理其他格式，因此这个库被重命名为 <strong>libarchive</strong>。一次在 Kientzle 构建 libarchive 时，他意识到他早期测试套件更接近于一个 GNU tar 的完全 BSD 许可的替代品，即 bsdtar。FreeBSD 项目采用了 bsdtar 和 libarchive，并允许他继续在 FreeBSD 源码树中开发。大约在 2007 年，libarchive 被移植到其他平台，并将主要开发工作转移到了独立的仓库，刚开始在 GoogleCode，之后转到了 GitHub 直到今天。</p>
+<h3 id="谁在用" class="headerLink">
+    <a href="#%e8%b0%81%e5%9c%a8%e7%94%a8" class="header-mark"></a>谁在用</h3><ul>
+<li>
+<p>操作系统</p></div><div class="post-footer">
         <a href="/2023/libarchive_development_001/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/c/">C</a>,&nbsp;<a href="/tags/archive/">Archive</a>,&nbsp;<a href="/tags/library/">Library</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/data_strucures_and_algorithm_analysis_008_graph/">图结构</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="10-07">10-07</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/algorithmdatastructure/"><i class="far fa-folder fa-fw"></i>Algorithm⁄DataStructure</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/"><i class="far fa-list-alt fa-fw"></i>数据结构与算法分析</a></span></div><div class="content">Graphs stand or fall by their choice of nodes and edges. &mdash; Watts &amp; Strogatz 信息 对于图的学习推荐使用 Rocs。什么？你说你是 Windows？那也不知道用什么啊，欢迎推荐其他工具。另外，K</div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="10-07">10-07</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href=""><i class="far fa-folder fa-fw"></i></a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/"><i class="far fa-list-alt fa-fw"></i>数据结构与算法分析</a></span></div><div class="content"><blockquote>
+<p>Graphs stand or fall by their choice of nodes and edges.</p>
+<p>&mdash; Watts &amp; Strogatz</p>
+</blockquote>
+<div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">对于图的学习推荐使用 <a href="https://apps.kde.org/rocs" target="_blank" rel="noopener noreferrer">Rocs</a>。什么？你说你是 Windows？那也不知道用什么啊，欢迎推荐其他工具。另外，KDE 天下第一！</div>
+        </div>
+    </div>
+<h2 id="图的定义与表示" class="headerLink">
+    <a href="#%e5%9b%be%e7%9a%84%e5%ae%9a%e4%b9%89%e4%b8%8e%e8%a1%a8%e7%a4%ba" class="header-mark"></a>图的定义与表示</h2><p>图 (graph) 是有序对 \(G = (V, E)\)，其中 V 是点集 (Vertex)，点的个数用
+\(\lvert{V}\rvert\) 表示；\(E \subseteq \{ \{ x, y \}: (x, y) \in V^{2}, x \ne y \}\) 是边集
+(Edge)，边的个数用 \(\lvert{E}\rvert\) 表示。如果点对是有序的，那么这个图称为有向图 (directed graph / digraph)。当然有向图的边，如果去掉方向限制所对应的无向图，称为该有向图的基础图 (underlying graph)。有时边还有一个属性称为权重 (weight)，表示使用这条边的代价 (cost)。如果任意两个顶点之间都有一条边的话，那么这个图被称作完全图 (complete graph)。</p>
+<p>图中的一条路径 (path) 是一个顶点序列 \(v_{1}, v_{2}, \cdots, v_{n}\) (其中 \(v_{i},
+v_{i+1} \in E, i \le i &lt; n\))，一条路径的长 (length) 是这条路径上的边的数量。如果图中含有一个顶点到它自身的路径，则这个路径称为环 (loop)，另外环上所有顶点是互异的。有向图中的环通常被称为回路 (cycle)，没有回路的有向图是无环的 (acyclic)，也被称为<strong>有向无环图</strong> (DAG, Directed Acyclic Graph)。</p></div><div class="post-footer">
         <a href="/2022/data_strucures_and_algorithm_analysis_008_graph/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/graph/">Graph</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/cs61a_02_control_and_higher_order_functions/">控制流、递归、高阶函数</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="09-25">09-25</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programming/"><i class="far fa-folder fa-fw"></i>Programming</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/cs61a-note/"><i class="far fa-list-alt fa-fw"></i>CS61A Note</a></span></div><div class="content">控制流解释器所执行语句来执行某些操作。 比如这整个复合语句 (compound statement)，在 Python 中由 def 声明；标头 header 确定了一个简易语句 (clause) 的类型，这个语句中</div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="09-25">09-25</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programming/"><i class="far fa-folder fa-fw"></i>Programming</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/cs61a-note/"><i class="far fa-list-alt fa-fw"></i>CS61A Note</a></span></div><div class="content"><h2 id="控制流" class="headerLink">
+    <a href="#%e6%8e%a7%e5%88%b6%e6%b5%81" class="header-mark"></a>控制流</h2><p>解释器所执行语句来执行某些操作。</p>
+<figure><img src="/images/cs61a-compound-statements.png" width="64%">
+</figure>
+
+<p>比如这整个复合语句 (compound statement)，在 Python 中由 <code>def</code> 声明；标头 <code>header</code> 确定了一个简易语句 (clause) 的类型，这个语句中跟随了一个语句序列 (suite)。解释器会按一定顺序执行这个语句序列。</p>
+<h3 id="条件语句" class="headerLink">
+    <a href="#%e6%9d%a1%e4%bb%b6%e8%af%ad%e5%8f%a5" class="header-mark"></a>条件语句</h3><p>条件语句在大部分语言中以 <code>if</code> 关键字呈现。</p>
+<p>在 Python 中 <code>True</code> 和 <code>False</code> 分别表示真或假，if 引导条件语句及其真分支，零或一个
+else 引导假分支，其中还可能会有零或多个 elif 进行嵌套。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">absolute_value</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">-</span><span class="n">n</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">n</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在 scheme 中 <code>#t</code> 和 <code>#f</code> 分别表示真或假，语法的话就不能 elif 进行嵌套了 <code>(if test consequent alternative)</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">absolute-value</span> <span class="nv">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">positive? </span><span class="nv">n</span><span class="p">)</span> <span class="nv">n</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span><span class="p">)))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>FP 中一般都会提供一套类似 guard 的语法，即该条件语句可以接受任意多的条件判断，由上至下进行条件判断，在条件为真时执行语句块并退出条件语句，如果所有条件都不符合将有一个默认块进行兜底处理。其实这个语句更像是 <code>if-then-elif-else</code> 的变体。</p></div><div class="post-footer">
         <a href="/2022/cs61a_02_control_and_higher_order_functions/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/cs61a/">CS61A</a>,&nbsp;<a href="/tags/sicp/">SICP</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/introduction_to_optimization/">优化简介</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="09-23">09-23</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span></div><div class="content">优化背景上世纪 80 年代早期优化在编译器开发中还是一个可选特性，一般在其他部分都完成后才会添加到编译器中。因此出现了调试编译器和优化编译器的区别</div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="09-23">09-23</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span></div><div class="content"><h2 id="优化背景" class="headerLink">
+    <a href="#%e4%bc%98%e5%8c%96%e8%83%8c%e6%99%af" class="header-mark"></a>优化背景</h2><p>上世纪 80 年代早期优化在编译器开发中还是一个可选特性，一般在其他部分都完成后才会添加到编译器中。因此出现了<strong>调试编译器</strong>和<strong>优化编译器</strong>的区别，即前者强调编译速度，因此可执行代码与源码之间存在较强的对应关系；后者强调最小化或最大化可执行程序的某些属性。因此优化编译器会花费更多时间来编译，生成质量更好的代码，通常这个过程伴随着大量移动操作，使调试变得困难。</p>
+<p>从 RISC 开始流行，运行时性能开始需要编译器的优化。分支指令的延迟槽、非阻塞内存操作、流水线使用的增多以及功能单元数目的增加等，这些特性使得处理器性能不仅收程序布局和结构方面的制约，还受到指令调度和资源分配等底层细节的限制。</p>
+<p>优化编译器现在变得司空见惯 (反而 go 是异类)，进而使编译器改变成了前端、后端的架构，优化将前端与性能问题分割开来。优化假定后端会处理资源分配的问题，因而假定针对具有无限寄存器、内存和功能单元的理想机器进行优化。这也对编译器后端产生了更大压力。</p>
+<h3 id="示例-改进数组的地址计算" class="headerLink">
+    <a href="#%e7%a4%ba%e4%be%8b-%e6%94%b9%e8%bf%9b%e6%95%b0%e7%bb%84%e7%9a%84%e5%9c%b0%e5%9d%80%e8%ae%a1%e7%ae%97" class="header-mark"></a>示例：改进数组的地址计算</h3><p>如果编译器前端对数组的引用 <code>m[i, j]</code> 生成的 IR 没有关于 m、i、j 的信息或不了解外围的上下文，编译器如果按照默认的行主序处理地址。生成的表达式类似</p>
+<p>\[m + (i - low_{1}(m)) \times (high_{2}(m) - low_{2}(m) + 1) \times w + (j - low_{2}(m)) \times
+w.\]</p>
+<p>m 是数组的首地址，\(low_{i}(m)\) 和 \(high_{i}(m)\) 分别表示 m 的第 i 维的下界和上界，w 是 m 中一个元素的字节长度。如何降低该计算的代价，直接取决于对该数组变量极其上下文的分析。如果数组 m 是局部变量并各维度下界均从 1 开始，且上界已知，那么就可以将计算简化为
+\[m + (i - 1) \times high_{2}(m) \times w + (j - 1) \times w.\]</p>
+<p>如果引用出现在循环内部，且循环中 i 从 1 变动到 I，那么编译器可以使用<strong>运算符强度折减</strong> (OSR, Operator Strength Reduction) 将 \((i - 1) \times high_{2}(m) \times
+w\) 替换为 \(i^{&rsquo;}_{x} = i^{&rsquo;}_{x - 1} + high_{2}(m) \times w\) (其中 \(i^{&rsquo;}_{1} =
+0\))。同样地，如果 j 也是个循环的归纳变量 (IV, Induction Variable)，且 j 从 1 变动到 J，那么经过 OSR 后就有了 \(j^{&rsquo;}_{y} = j^{&rsquo;}_{y - 1} + w\) (其中
+\(j^{&rsquo;}_{1} = 0\))。经过两次 OSR 后，只需要计算此式
+\[m + i^{&rsquo;} + j^{&rsquo;}.\]</p></div><div class="post-footer">
         <a href="/2022/introduction_to_optimization/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/optimization/">Optimization</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/intermediate_representation/">中间表示</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="09-19">09-19</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span></div><div class="content">编译器通常组织为一连串的处理 pass，在每两个 pass 之间需要将已知的所有信息进行传递，因此编译器需要中间表示 (IR, Intermediate Representation) 表达信息。IR 在编译器中可能是</div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="09-19">09-19</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span></div><div class="content"><p>编译器通常组织为一连串的处理 pass，在每两个 pass 之间需要将已知的所有信息进行传递，因此编译器需要<strong>中间表示</strong> (IR, Intermediate Representation) 表达信息。IR 在编译器中可能是唯一的，也可能有多种。在转换期间，编译器不会回头查看源代码，而是只观察
+IR，因此 IR 的性质对编译器对代码的处理由决定性影响。</p>
+<p>除了词法分析器，大多数 pass 的输入都是 IR；除了代码生成器，大多数 pass 的输出都是 IR。大多数源代码并不足以支持编译器必须的信息，比如变量与常量的地址，或参数使用的寄存器等，为了记录所有信息，大多数编译器还会添加表和集合来记录额外信息，通常认为这也是 IR 的一部分。</p>
+<p>IR 的实现会迫使编译器的开发人员专注于实际问题，用廉价的方式来执行需要频繁进行的操作，并且简洁的表示编译器间可能出现的所有结构。除了这些，还需要可读的 IR 表示。当然，对于使用 IR 的编译器来说，总会在 IR 上进行多次处理，一个 pass 处理中收集信息，另一个 pass 处理中优化代码。</p>
+<h2 id="ir-的分类" class="headerLink">
+    <a href="#ir-%e7%9a%84%e5%88%86%e7%b1%bb" class="header-mark"></a>IR 的分类</h2><p>编译器使用过许多种 IR，主要是三个方面：<strong>结构性的组织</strong>、<strong>抽象层次</strong>和<strong>命名方案</strong>。一般来说，这三个属性是独立的。对于 IR 从结构上可以分为：</p>
+<dl>
+<dt>图 IR</dt>
+<dd>将编译器信息编码在图中。算法通过途中的对象来表述：结点、边、列表、树。</dd>
+<dt>线性 IR</dt>
+<dd>类似某些抽象机上的伪代码，相应算法将迭代遍历简单的线性操作序列。</dd>
+<dt>混合 IR</dt>
+<dd>混合前两种以获取优势，比如现代编译器中常见的 BasicBlock (BB) 内线性表示，而使用控制流图来表示 bb 之间的关系。</dd>
+</dl>
+<p>IR 的结构性组织对编译器的分析、优化、代码生成等有极大影响，比如树形 IR 得出的处理 pass 在结构上很自然的设计为某种形式的树遍历，而线性 IR 得出的处理 pass 一般顺序迭代遍历各个操作。</p>
+<p>IR 所处的抽象层次，如果接近源代码，可能只需要一个结点就可以表示数组访问或过程调用，而较底层的表示中，可能需要合并几个 IR 操作。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="n">uint</span><span class="p">[</span><span class="mi">100</span><span class="p">][</span><span class="mi">100</span><span class="p">]</span> <span class="n">arr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">arr</span><span class="p">[</span><span class="mi">50</span><span class="p">][</span><span class="mi">50</span><span class="p">]</span> <span class="o">=</span> <span class="mi">32</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elisp" data-lang="elisp"><span class="line"><span class="cl"><span class="c1">;; Spir-V</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%_var_arr</span> <span class="nf">=</span> <span class="nv">OpVariable</span> <span class="nv">%_ptr_arr_100_100</span> <span class="nv">Function</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">%elem</span> <span class="nf">=</span> <span class="nv">OpAccessChain</span> <span class="nv">%_ptr_int</span> <span class="nv">%_var_arr</span> <span class="nv">%uint_50</span> <span class="nv">%uint_50</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">OpStore</span> <span class="nv">%elem</span> <span class="nv">%uint_32</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elisp" data-lang="elisp"><span class="line"><span class="cl"><span class="c1">;; LLVM IR</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%1</span> <span class="nf">=</span> <span class="nv">alloca</span> <span class="p">[</span><span class="mi">100</span> <span class="nv">x</span> <span class="p">[</span><span class="mi">100</span> <span class="nv">x</span> <span class="nv">i32</span><span class="p">]]</span><span class="o">,</span> <span class="nv">align</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%2</span> <span class="nf">=</span> <span class="nv">getelementptr</span> <span class="nv">inbounds</span> <span class="p">[</span><span class="mi">100</span> <span class="nv">x</span> <span class="p">[</span><span class="mi">100</span> <span class="nv">x</span> <span class="nv">i32</span><span class="p">]]</span><span class="o">,</span> <span class="p">[</span><span class="mi">100</span> <span class="nv">x</span> <span class="p">[</span><span class="mi">100</span> <span class="nv">x</span> <span class="nv">i32</span><span class="p">]]</span><span class="nf">*</span> <span class="nv">%1,</span> <span class="nv">i64</span> <span class="mi">0</span><span class="o">,</span> <span class="nv">i64</span> <span class="mi">50</span>
+</span></span><span class="line"><span class="cl"><span class="nv">%3</span> <span class="nf">=</span> <span class="nv">getelementptr</span> <span class="nv">inbounds</span> <span class="p">[</span><span class="mi">100</span> <span class="nv">x</span> <span class="nv">i32</span><span class="p">]</span><span class="o">,</span> <span class="p">[</span><span class="mi">100</span> <span class="nv">x</span> <span class="nv">i32</span><span class="p">]</span><span class="nf">*</span> <span class="nv">%2,</span> <span class="nv">i64</span> <span class="mi">0</span><span class="o">,</span> <span class="nv">i64</span> <span class="mi">50</span>
+</span></span><span class="line"><span class="cl"><span class="nv">store</span> <span class="nv">i32</span> <span class="mi">32</span><span class="o">,</span> <span class="nv">i32*</span> <span class="nv">%3,</span> <span class="nv">align</span> <span class="mi">4</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>很明显，上面这三个不同层次的代码，对于简单的构造数组，并进行访问元素赋值，它们是不一样的。低层次的 IR 可以展现出更多源代码中所隐藏的细节，从而为编译器优化提供更多可能。</p></div><div class="post-footer">
         <a href="/2022/intermediate_representation/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/ir/">IR</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/cs61a_01_getting_started/">CS61A 入门</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="09-18">09-18</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programming/"><i class="far fa-folder fa-fw"></i>Programming</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/cs61a-note/"><i class="far fa-list-alt fa-fw"></i>CS61A Note</a></span></div><div class="content">虽然 CS61A 使用 Python 进行教学，但我希望好好学一下 Erlang 和 Scheme。如果想查看更多关于 CS61A 的信息，请访问 课程主页，当然我也会将一部分内容和实现放在自己的</div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="09-18">09-18</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programming/"><i class="far fa-folder fa-fw"></i>Programming</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/cs61a-note/"><i class="far fa-list-alt fa-fw"></i>CS61A Note</a></span></div><div class="content"><p>虽然 CS61A 使用 Python 进行教学，但我希望好好学一下 Erlang 和 Scheme。如果想查看更多关于 CS61A 的信息，请访问 <a href="https://cs61a.org/" target="_blank" rel="noopener noreferrer">课程主页</a>，当然我也会将一部分内容和实现放在自己的
+<a href="https://gitlab.com/GinShio/sicp-learn.git" target="_blank" rel="noopener noreferrer">repo</a> 中。</p>
+<p>scheme 有很多不同的实现，而大多实现不兼容。因此我使用的是 <a href="https://www.gnu.org/software/mit-scheme/" target="_blank" rel="noopener noreferrer">MIT/GNU Scheme</a>。</p>
+<h2 id="lab00-getting-startted--入门" class="headerLink">
+    <a href="#lab00-getting-startted--%e5%85%a5%e9%97%a8" class="header-mark"></a>Lab00: Getting Startted (入门)</h2><p>首先搭建一个环境，CS61A 中指 Python3 环境。</p>
+<ul>
+<li>Setup: 以下是本课程所用到的基础软件，也是重要的组件。
+<ul>
+<li>终端 (Terminal)：安装一个终端可以让你运行本课程的 OK 命令</li>
+<li>编程环境 (Environment)：编程环境是必须的，当然课程需要的是 Python3.7，这样你才可以运行 OK 命令</li>
+<li>文本编辑器 (Text Editor)：VSCode、Atom 什么都行，只要能用来写代码</li>
+</ul>
+</li>
+<li>练习使用终端，并组织你的项目文件</li>
+<li>学习 Python 基础</li>
+<li>做一个练习</li>
+</ul>
+<h3 id="安装" class="headerLink">
+    <a href="#%e5%ae%89%e8%a3%85" class="header-mark"></a>安装</h3><h4 id="安装终端" class="headerLink">
+    <a href="#%e5%ae%89%e8%a3%85%e7%bb%88%e7%ab%af" class="header-mark"></a>安装终端</h4><p>在 MacOS 和 Linux 中本身就自带了终端软件 (Terminal)，如果是 KDE，终端软件被称作
+Konsole。而 Windows 中，直接在 Store 中下载 Windows Terminal 即可。当然 Windows
+下推荐使用 WSL，但是系统不是关注的重点。</p>
+<h4 id="安装语言环境" class="headerLink">
+    <a href="#%e5%ae%89%e8%a3%85%e8%af%ad%e8%a8%80%e7%8e%af%e5%a2%83" class="header-mark"></a>安装语言环境</h4><p>最低要求 Python3.7，因为这是运行 OK 命令的必要条件。当然你也可以使用别的编程语言。</p>
+<p>Windows 下，你可以在这里下载 <a href="https://www.python.org/" target="_blank" rel="noopener noreferrer">Python3</a> 或 <a href="https://www.erlang.org/" target="_blank" rel="noopener noreferrer">erlang</a>。安装之后将路径添加到 PATH 系统环境变量中。如果你用 WSL 那和 Linux 下没什么区别。</p></div><div class="post-footer">
         <a href="/2022/cs61a_01_getting_started/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/cs61a/">CS61A</a>,&nbsp;<a href="/tags/sicp/">SICP</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/memory_alignment/">内存对齐</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="09-03">09-03</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programming/"><i class="far fa-folder fa-fw"></i>Programming</a></span></div><div class="content">众所周知，运行的程序是需要内存占用的，在编码时假定栈上的空间是连续的，且定义的所有变量都连续分布在栈上。 实际上，虽然变量是连续分布在栈上的，</div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="09-03">09-03</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programming/"><i class="far fa-folder fa-fw"></i>Programming</a></span></div><div class="content"><p>众所周知，运行的程序是需要内存占用的，在编码时假定栈上的空间是连续的，且定义的所有变量都连续分布在栈上。</p>
+<p>实际上，虽然变量是连续分布在栈上的，但编译器会根据不同类型与对齐方式，将变量重新排列，达到最优情况。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define __print_position(type, CNT)             \
+</span></span></span><span class="line"><span class="cl"><span class="cp">    type VAR##CNT;                              \
+</span></span></span><span class="line"><span class="cl"><span class="cp">    printf(&#34;VAR&#34;#CNT &#34; (&#34; #type &#34;)\t: %p\n&#34;, &amp;VAR##CNT);
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define _print_position(type, CNT) __print_position(type, CNT)
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define print_position(type) _print_position(type, __COUNTER__)
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">print_position</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>    <span class="c1">// VAR0 (int)   : 0x7ffe84765470
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">print_position</span><span class="p">(</span><span class="kt">double</span><span class="p">);</span> <span class="c1">// VAR1 (double): 0x7ffe84765478
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">print_position</span><span class="p">(</span><span class="kt">char</span><span class="p">);</span>   <span class="c1">// VAR2 (char)  : 0x7ffe8476546f
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">print_position</span><span class="p">(</span><span class="kt">float</span><span class="p">);</span>  <span class="c1">// VAR3 (float) : 0x7ffe84765474
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">print_position</span><span class="p">(</span><span class="kt">div_t</span><span class="p">);</span>  <span class="c1">// VAR4 (div_t) : 0x7ffe84765480
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>本文主要集中在结构体的对齐。</p></div><div class="post-footer">
         <a href="/2022/memory_alignment/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>,&nbsp;<a href="/tags/glslang/">GLSLang</a>,&nbsp;<a href="/tags/memory/">Memory</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/git_bash_with_pacman_on_windows/">在 Windows 的 Git Bash 中使用包管理器</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="08-27">08-27</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div><div class="content">Windows 中，在安装 Git Bash 时，会安装一个最小化的 Msys 环境，用于提供 Uinx 兼容层。单独安装一个 msys 不如直接使用 Git 引入的来的爽。 另外还有些好处，比如安装依赖只需要</div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="08-27">08-27</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div><div class="content"><p>Windows 中，在安装 Git Bash 时，会安装一个最小化的 Msys 环境，用于提供 Uinx 兼容层。单独安装一个 msys 不如直接使用 Git 引入的来的爽。</p>
+<p>另外还有些好处，比如安装依赖只需要从包管理器安装，而无需到处找官网安装配环境。</p>
+<h2 id="安装-git" class="headerLink">
+    <a href="#%e5%ae%89%e8%a3%85-git" class="header-mark"></a>安装 Git</h2><p>Git 的安装应该是都会的，但还是应该说以下，在 Windows 上安装 git 时，实际上是有很多细节需要注意的。</p>
+<ol>
+<li>
+<p>选择 git 使用的默认的编辑器</p>
+<figure><img src="/images/wingit-choosing-the-default-editor-used.png" width="40%">
+    </figure>
+
+<p>实际上，git 已经在这里说的很明白了，默认 vim 是一个历史原因，推建我们使用更现代的 GUI 编辑器。实际上，你可以使用 <code>core.editor</code> 来修改你想使用的编辑器。当然，如果你不设置这个值，git 会用环境变量中的 <code>EDITOR</code> 作为默认编辑器使用，而
+Unix 世界中，<code>EDITOR</code> 往往是 <code>Vi</code> 或 <code>Vim</code>。</p>
+<p>最后说一下我的习惯，我并不喜欢 Vim，但是配置了的 Emacs 打开太慢了，由其是简单的写一个 message (VSCode 人称小 emacs)，所以我更偏向于终端编辑器 GNU Nano，图形编辑器则更喜欢用 Kate。</p>
+</li>
+<li>
+<p>初始化新仓库时的默认分值名称</p>
+<figure><img src="/images/wingit-adjusting-default-branch-name-in-new-repositories.png" width="40%">
+    </figure>
+
+<p>你可以使用 <code>init.defaultbranch</code> 来更改默认的分支名称。</p>
+</li>
+<li>
+<p>环境变量的作用域</p>
+<figure><img src="/images/wingit-adjusting-path-for-environment-scope.png" width="40%">
+    </figure>
+
+<p>我更推建第一种使用方式，我们只会在 Git-Bash 中使用 Unix tools。这样现得我们的环境变量更为干净。其实在 Powershell 中还好，在 CMD Prompt 中使用 <code>[</code> 也太精分了。</p></div><div class="post-footer">
         <a href="/2022/git_bash_with_pacman_on_windows/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/windows/">Windows</a>,&nbsp;<a href="/tags/git/">Git</a>,&nbsp;<a href="/tags/msys/">Msys</a>,&nbsp;<a href="/tags/tool/">Tool</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/compilerprinciple_008/">中间代码生成</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="05-28">05-28</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div><div class="content">在将给定源语言的一个程序翻译成特定机器代码的过程中，一个编译器可能构造出一系列中间表示。高层的中间表示接近源语言，而底层的表示接近目标语言。</div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="05-28">05-28</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div><div class="content"><p>在将给定源语言的一个程序翻译成特定机器代码的过程中，一个编译器可能构造出一系列中间表示。高层的中间表示接近源语言，而底层的表示接近目标语言。语法树是高层表示，它刻画了源程序的自然层次性结构，且适用于静态类型检查。低层表示适用于机器相关处理，如寄存器分配、指令选择等。</p>
+<h2 id="语法树的变体" class="headerLink">
+    <a href="#%e8%af%ad%e6%b3%95%e6%a0%91%e7%9a%84%e5%8f%98%e4%bd%93" class="header-mark"></a>语法树的变体</h2><p>语法树中的各个结点代表了源程序的构造，一个结点的所有子结点反映了该结点对应构造的有意义的组成成分。为表达式构建的有向无环图 (Directed Acyclic Graph, DAG) 指出了表达式中的公共子表达式。</p>
+<p>与语法分析树有些不同的是，DAG 的结点可能有多个父结点，也就是说这个结点是个公共子结点。比如表达式 \(a + a * (b - c) + (b - c) * d\)</p>
+<figure><img src="/images/DAG-for-6.1-example.svg">
+</figure>
+
+<p>SDD 既可以构造语法树，也可以构造 DAG，在构造 DAG 结点时每次构造之前都会检查是否已存在这样的结点。如果已存在结点，就返回已有结点，否则构建新结点。</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">编号</th>
+          <th style="text-align: left">产生式</th>
+          <th style="text-align: left">语义规则</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">\(E\rightarrow{}E_{1}+T\)</td>
+          <td style="text-align: left">\(E.node=\textbf{new}\ Node(&rsquo;+&rsquo;,E_{1}.node,T.node)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">\(E\rightarrow{}E_{1}-T\)</td>
+          <td style="text-align: left">\(E.node=\textbf{new}\ Node(&rsquo;-&rsquo;,E_{1}.node,T.node)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">\(\begin{aligned}E&amp;\rightarrow{}T\\T&amp;\rightarrow{}T_{1}*F\end{aligned}\)</td>
+          <td style="text-align: left">\(\begin{aligned}E.node&amp;=T.node\\T.node&amp;=\textbf{new}\ Node(&rsquo;*&rsquo;,T_{1}.node,F.node)\end{aligned}\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">\(T\rightarrow{}(E)\)</td>
+          <td style="text-align: left">\(T.node=E.node\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">\(T\rightarrow{}\textbf{id}\)</td>
+          <td style="text-align: left">\(T.node=\textbf{new}\ Leaf(\textbf{id},\textbf{id}.entry)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left">\(T\rightarrow{}\textbf{num}\)</td>
+          <td style="text-align: left">\(T.node=\textbf{new}\ Leaf(\textbf{num},\textbf{num}.entry)\)</td>
+      </tr>
+  </tbody>
+</table>
+<p>通常语法树或 DAG 的结点存放在记录数组中，每个记录第一个字段是运算符代码，也是该结点的标号；叶结点可能有一个存放词法值的字段，而内部结点可能有两个指向其左右运算数的字段。</p>
+<p>在这样的一个数组中，我们只需要给定结点对应的整数下标就可以引用该结点了。而这个下标被称为表达式的<strong>值编码</strong> (value number)。通常为了防止结点太多所造成的巨大的搜索开销，可以用 Hash 的方法实现，加快创建结点时的搜索。</p>
+<h2 id="三地址码" class="headerLink">
+    <a href="#%e4%b8%89%e5%9c%b0%e5%9d%80%e7%a0%81" class="header-mark"></a>三地址码</h2><p>三地址码中一条指令的右侧最多有一个运算符，因此 \(x+y*z\) 这样的代码可能被翻译成
+\[\begin{aligned}
+t_{1} &amp;= y * z\\
+t_{2} &amp;= x + t_{1}
+\end{aligned}\]</p></div><div class="post-footer">
         <a href="/2022/compilerprinciple_008/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/dragonbook/">DragonBook</a>,&nbsp;<a href="/tags/ir/">IR</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/compilerprinciple_007/">语法制导翻译</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="05-19">05-19</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div><div class="content">最通用的语法制导翻译的方法是先通过构造一棵语法分析树，然后通过访问这棵树的各个结点来计算结点的属性值。在很多情况下，翻译可以在语法扫描分析期</div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="05-19">05-19</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div><div class="content"><p>最通用的语法制导翻译的方法是先通过构造一棵语法分析树，然后通过访问这棵树的各个结点来计算结点的属性值。在很多情况下，翻译可以在语法扫描分析期间完成，不需要构造出明确的语法分析树。语法制导翻译主要有两类：</p>
+<ul>
+<li>L 属性翻译 (从左到右)，可以在语法分析过程中完成的翻译方案</li>
+<li>S 属性翻译 (综合)，可以很容易与自底向上语法分析过程联系起来</li>
+</ul>
+<h2 id="语法制导定义" class="headerLink">
+    <a href="#%e8%af%ad%e6%b3%95%e5%88%b6%e5%af%bc%e5%ae%9a%e4%b9%89" class="header-mark"></a>语法制导定义</h2><p>语法制导定义 (Syntax-Directed Definition, SDD) 是一个上下文无关文法
+(Context-Free Grammar, CFG) 和属性及规则的结合，属性和文法符号相关联，而规则和产生式相关联。如果 X 是一个符号而 a 是 X 的一个属性，那么我们用 <code>X.a</code> 表示 a 在某个标号为 X 的分析树结点上的值。</p>
+<h3 id="继承属性与综合属性" class="headerLink">
+    <a href="#%e7%bb%a7%e6%89%bf%e5%b1%9e%e6%80%a7%e4%b8%8e%e7%bb%bc%e5%90%88%e5%b1%9e%e6%80%a7" class="header-mark"></a>继承属性与综合属性</h3><p>处理非终结符的两种属性：</p>
+<dl>
+<dt>综合属性 (synthesized attribute)</dt>
+<dd>在分析树结点 N 上的非终结符 A 的综合属性是由 N 上的产生式所关联的语义规则来定义的。这个产生式的头部一定是 A，结点 N 上的综合属性只能通过 N 的子结点或 N
+本身的属性值来定义。</dd>
+<dt>继承属性 (inherited attribute)</dt>
+<dd>在分析树结点 N 上的非终结符 B 的继承属性是由 N 的父结点上的产生式所关联的语义规则来定义的。这个产生式的体中必然包含符号 B，结点 N 上的继承属性只能通过
+N 的父结点、N 本身和 N 的兄弟结点上的属性来定义。</dd>
+</dl>
+<p>虽然不允许结点 N 的继承属性通过子结点上的属性来定义，但可以通过结点本身的继承属性定义综合属性。另外，终结符可以由综合属性，但不能有继承属性，它的属性值是由词法分析器提供的词法值，SDD 中没有计算终结符的属性值的语义规则。</p>
+<p>比如有一个简单的加乘计算器。</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">编号</th>
+          <th style="text-align: left">产生式</th>
+          <th style="text-align: left">语义规则</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">\(L\rightarrow{}E\textbf{n}\)</td>
+          <td style="text-align: left">\(L.val = E.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">\(E\rightarrow{}E_{1}+T\)</td>
+          <td style="text-align: left">\(E.val = E_{1}.val + T.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">\(E\rightarrow{}T\)</td>
+          <td style="text-align: left">\(E.val = T.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">\(T\rightarrow{}T_{1}*F\)</td>
+          <td style="text-align: left">\(T.val = T_{1}.val \times F.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">\(T\rightarrow{}F\)</td>
+          <td style="text-align: left">\(T.val = F.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left">\(F\rightarrow(E)\)</td>
+          <td style="text-align: left">\(F.val = E.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left">\(F\rightarrow{}\textbf{digit}\)</td>
+          <td style="text-align: left">\(F.val = \textbf{digit}.lexval\)</td>
+      </tr>
+  </tbody>
+</table>
+<p>产生式 1 设置了整个表达式的值，而产生式 2 的值由它的两个子结点的值求和得来，类似的产生式 4 的值由它的两个子结点的值求积得来。而产生式 7 的值由词法单元返回的数值得来。这个只包含综合属性的 SDD 被称作 S 属性 (S-attribute) SDD，它的头部的非终结符的值都由产生式的体的属性值计算得来。</p></div><div class="post-footer">
         <a href="/2022/compilerprinciple_007/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/dragonbook/">DragonBook</a>,&nbsp;<a href="/tags/ir/">IR</a></div></div>
 </article><ul class="pagination"><li class="page-item active">
@@ -227,8 +636,8 @@ Gallium is a driver project in mesa, includes many backends for hardwares:</div>
                 </li></ul></div></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
             </div>

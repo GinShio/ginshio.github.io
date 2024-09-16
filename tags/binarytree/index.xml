@@ -3,18 +3,85 @@
         <title>BinaryTree - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/binarytree/</link>
         <description>BinaryTree - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com ( )</managingEditor>
-            <webMaster>ginshio78@gmail.com ( )</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 23 Aug 2021 22:26:23 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/binarytree/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Mon, 23 Aug 2021 22:26:23 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/binarytree/" rel="self" type="application/rss+xml" /><item>
     <title>查找结构</title>
     <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/</link>
     <pubDate>Mon, 23 Aug 2021 22:26:23 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/</guid>
-    <description><![CDATA[如果给定一个序列，你将如何在这个序列中查找一个给定元素 target，当找到时返回该元素的迭代器，否则返回末尾迭代器。首先排除时间复杂度 \(\mathcal{O}(N)\) 的朴]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/</guid>
+    <description><![CDATA[<p>如果给定一个序列，你将如何在这个序列中查找一个给定元素 target，当找到时返回该元素的迭代器，否则返回末尾迭代器。首先排除时间复杂度 \(\mathcal{O}(N)\) 的朴素算法，这不是本文的重点。</p>
+<h2 id="二分查找" class="headerLink">
+    <a href="#%e4%ba%8c%e5%88%86%e6%9f%a5%e6%89%be" class="header-mark"></a>二分查找</h2><p><strong>二分法</strong> (Dichotomy) 是一种思想，将一个整体事物分割成两部分，这两部分必须是互补事件，即所有事物必须属于双方中的一方且互斥。如此我们就可以在 \(\mathcal{O}(1)\) 的时间内将问题大小减半。</p>
+<p><strong>二分查找</strong> (binary search)，又称折半查找，这是一种可以在
+\(\mathcal{O}(\log_{}{N})\) 时间复杂度下完成查找的算法。二分查找要求序列必须是有序的，才能正确执行：将序列划分为两部分，如果中间值大于 target，意味着这之后的值都大于 target，需要继续向前找；如果中间值小于 target，意味着这之前的所有值都小于
+target，需要继续向后找。</p>
+<h2 id="avl-树" class="headerLink">
+    <a href="#avl-%e6%a0%91" class="header-mark"></a>AVL 树</h2><p>上一篇介绍树时分析了 BST 中为什么很容易发生不平衡现象。在极端情况下，只有一个
+leaf 的树，在查找元素时其时间复杂度退化为 \(\mathcal{O}(N)\) 。</p>
+<p>为了防止 BST 退化为链表，必须保证其可以维持树的平衡，一次需要有一个 <strong>平衡条件</strong>
+(balanced condition)。如果每个结点都要求其左右子树具有相同的高度，显然是不可能的，因为这样实在是太难了。在 1962 年，由苏联计算机科学家 G.M.Adelson-Velsky 和
+Evgenii Landis 在其论文 <strong>An algorithm for the organization of information</strong> 中公开了数据结构 AVL (Adelson-Velsky and Landis) 树，这是计算机科学中 <code>最早被发现的</code>
+自平衡二叉树。</p>
+<h3 id="avl-的平衡因子" class="headerLink">
+    <a href="#avl-%e7%9a%84%e5%b9%b3%e8%a1%a1%e5%9b%a0%e5%ad%90" class="header-mark"></a>AVL 的平衡因子</h3><p>AVL 树将子树的高度限制在差为 1，即一个结点，如果其左子树与由子树的高度差
+\(|D_{h}| \leq 1\) ，则认为这棵树是平衡的。因此带有平衡因子 \(-1\) 、 \(0\) 或 \(1\) 的结点被认为是平衡的，而 \(-2\) 或 \(2\) 的平衡因子被认为是需要调整的。平衡因子可以直接存储于结点之中，也可以利用存储在结点中的子树高度计算得出。</p>]]></description>
 </item><item>
     <title>树结构</title>
     <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_003_tree_structure/</link>
     <pubDate>Thu, 19 Aug 2021 07:12:25 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_003_tree_structure/</guid>
-    <description><![CDATA[Not all roots are buried down in the ground, some are at the top of a tree. &mdash; Jinvirle 树 (tree)Tree 是一些结点的集合，这个集合可以是空集；若不是空集，则 Tree 是由称为 根 的结点 r 以及零或多个非空的子树 \(T_{1}, T_{2},]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_003_tree_structure/</guid>
+    <description><![CDATA[<blockquote>
+<p>Not all roots are buried down in the ground, some are at the top of a tree.</p>
+<p>&mdash; Jinvirle</p>
+</blockquote>
+<h2 id="树--tree" class="headerLink">
+    <a href="#%e6%a0%91--tree" class="header-mark"></a>树 (tree)</h2><p>Tree 是一些结点的集合，这个集合可以是空集；若不是空集，则 Tree 是由称为 <strong>根</strong> 的结点 r 以及零或多个非空的子树 \(T_{1}, T_{2}, \cdots, T_{N}\) 组成，这些子树的根都与 r 有一条有向边 (edge) 连接。这些子树的根被称为根 r 的孩子 (child)，而 r 是这些 child 的父亲 (parent)。</p>
+<h3 id="树的属性" class="headerLink">
+    <a href="#%e6%a0%91%e7%9a%84%e5%b1%9e%e6%80%a7" class="header-mark"></a>树的属性</h3><p>根据给出的树的递归定义，可以发现一个树是由 \(N\) 个 node 和 \(N - 1\) 条 edge 的集合。而除 root 外的所有 node 都有一个由其 parent 指向它的 edge。在树中有一些特殊的属性是需要注意的，这里先给出相关概念与示例，如果不是很理解，可以通过结合示例来理解这些概念。</p>
+<dl>
+<dt>结点的度 (degree)</dt>
+<dd>一个节点含有的子树的个数称为该节点的度</dd>
+<dt>树的度 (degree of tree)</dt>
+<dd>一棵树中最大的 node degree 称为树的度</dd>
+<dt>叶结点 (leaf)</dt>
+<dd>或称<strong>终端结点</strong>，如果结点满足 \(degree = 0\) 则该结点为叶结点</dd>
+<dt>分支结点 (branch node)</dt>
+<dd>或称<strong>内部结点</strong> (internal node)、<strong>非终端结点</strong>，度不为 0 的结点</dd>
+<dt>层次 (level)</dt>
+<dd>从 root 开始，root 所在的层为第 1 层，root 的 child 为第二层，以此类推</dd>
+<dt>关系</dt>
+<dd>树就像一本族谱，从 root 开始结点直接有一定的亲缘关系
+<ul>
+<li><strong>兄弟 (sibling):</strong> 具有相同父节点的节点互为兄弟节点</li>
+<li><strong>叔父 (uncle):</strong> 父结点的兄弟结点为该结点的叔父结点</li>
+<li><strong>堂兄弟:</strong> 父结点在同一层的结点互为堂兄弟</li>
+</ul>
+</dd>
+<dt>路径 (path)</dt>
+<dd>结点 \(n_{1}, n_{2}, \cdots, n_{k}\) 的一个序列，使得对于 \(1 \leq i &lt; k\) 满足 \(n_{i}\) 是 \(n_{i + 1}\) 的 parent，则这个序列被称为从 \(n_{1}\) 到结点 \(n_{k}\) 的 path。其路径长度 (length) 为路径上的 edge 的数量，即 \(k - 1\) 。特别地，每个结点到自己的 path lenth 为 <code>0</code></dd>
+<dt>深度 (depth)</dt>
+<dd>对于结点 \(n_{i}\) ，从 root 到 \(n_{i}\) 的唯一路径的长度 (\(Depth_{root} = 0\))</dd>
+<dt>高度 (height)</dt>
+<dd>对于结点 \(n_{i}\) ，从 \(n_{i}\) 到 leaf 的最长路径长度 (\(Height_{leaf} = 0\))</dd>
+<dt>树的高度</dt>
+<dd>或称树的深度，其总是等于根的高度，或最深的结点的深度，可以认为一棵空树的高度为 \(-1\)</dd>
+<dt>祖先 (ancestor)</dt>
+<dd>对于结点 \(n_{i}\) 与 \(n_{j}\) 存在一条 \(n_{i}\) 到 \(n_{j}\) 的路径，那么称 \(n_{i}\) 是 \(n_{j}\) 的祖先 (ancestor)，而 \(n_{j}\) 是 \(n_{i}\) 的 <strong>后裔</strong> (descendant)</dd>
+<dt>距离 (distance)</dt>
+<dd>对于结点 \(n_{i}\) 与 \(n_{j}\) ，从最近的公共祖先结点 \(n_{k}\) 分别到它们的路径长度之和被称为距离 (distance)。特别地，如果 \(n_{i} = n_{k}\) ，则 \(n_{i}\) 与 \(n_{j}\) 的距离为 \(n_{i}\) 到 \(n_{j}\) 的路径的长度</dd>
+</dl>
+<figure>
+</figure>
+
+<div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">严蔚敏老师的数据结构中，或者往常的实现中，根的高度为 1，而叶的深度也为 1，树的高度一般指其最大的层次，因此认为空树的高度为 0。</div>
+        </div>
+    </div>
+<h3 id="树的实现" class="headerLink">
+    <a href="#%e6%a0%91%e7%9a%84%e5%ae%9e%e7%8e%b0" class="header-mark"></a>树的实现</h3><p>实现树的一种方法是在每一个结点上，除数据外还需要一些链域来指向该结点的每个子结点，然而由于每个结点的子结点数量是不确定的，我们不能直接建立到各个子结点的直接链接。如果申请一定大小的空间以存放子结点，则可能会造成空间的浪费，或不足。因此我们链表的形式存储子结点，而父结点中只存储第一个子结点的指针，如果该链域为空则意味着该结点是叶结点 (\(degree = 0\))。每个结点中存在一个指向其下一个兄弟的指针，为遍历父结点的所有孩子提供了方法，当该结点 \(next\_sibling = nullptr\) 时意味着这是父结点的最后一个子结点。</p>]]></description>
 </item></channel>
 </rss>

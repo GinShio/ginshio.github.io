@@ -3,12 +3,60 @@
         <title>Atomic - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/atomic/</link>
         <description>Atomic - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com ( )</managingEditor>
-            <webMaster>ginshio78@gmail.com ( )</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 05 Dec 2020 17:46:52 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/atomic/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Sat, 05 Dec 2020 17:46:52 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/atomic/" rel="self" type="application/rss+xml" /><item>
     <title>原子操作</title>
     <link>https://blog.ginshio.org/2020/cpp_concurrency_atomic/</link>
     <pubDate>Sat, 05 Dec 2020 17:46:52 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2020/cpp_concurrency_atomic/</guid>
-    <description><![CDATA[原子操作原子操作是一个不可分割的操作，系统的所有线程不会观察到原子操作完成了一半。如果读取对象的加载操作是原子的，那么这个对象的所有修改操作]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/cpp_concurrency_atomic/</guid>
+    <description><![CDATA[<h2 id="原子操作" class="headerLink">
+    <a href="#%e5%8e%9f%e5%ad%90%e6%93%8d%e4%bd%9c" class="header-mark"></a>原子操作</h2><p>原子操作是一个不可分割的操作，系统的所有线程不会观察到原子操作完成了一半。如果读取对象的加载操作是原子的，那么这个对象的所有修改操作也是原子的。</p>
+<p>标准原子类型全部定义于头文件 <em>atomic</em> 中，这些类型的操作都是原子的，但是其内部实现可能使用原子操作或互斥量模拟，所以原子操作可以替代互斥量完成同步操作，但是如果内部使用互斥量实现那么不会有性能提升。</p>
+<p>通常标准原子类型不能进行拷贝和赋值，但是可以隐式转化成对应的内置类型，使用
+<code>load()</code>、<code>exchange()</code>、<code>compare_exchange_weak()</code> 和 <code>compare_exchange_strong()</code>，另外还有 <code>store()</code> 用以原子地赋值。每种函数类型的操作都有一个内存序参数，这个参数可以用来指定存储的顺序。</p>
+<h3 id="std-atomic-flag" class="headerLink">
+    <a href="#std-atomic-flag" class="header-mark"></a>::std::atomic_flag</h3><p>::std::atomic_flag 是最简单的原子类型，标准保证其实现是 <strong>lock-free</strong> 的，这个类型的对象可以在 <strong>设置</strong> 和 <strong>清除</strong> 间切换，对象必须被 <code>ATOMIC_FLAG_INIT</code>，初始化标志位为清除状态。初始化后，对象进可以执行销毁、清除、设置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic_flag</span> <span class="n">f</span> <span class="o">=</span> <span class="n">ATOMIC_FLAG_INIT</span><span class="p">;</span> <span class="c1">// 设置为清除状态 (false)
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>由于 <code>clear()</code> 清除操作原子地设置标志为 false，<code>test_and_set()</code> 设置操作原子地设置标志为 true 并获得其先前值，所以可以简单地实现一个自旋锁</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">spinlock_mutex</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="k">private</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic_flag</span> <span class="n">flag</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">spinlock_mutex</span><span class="p">()</span> <span class="o">:</span> <span class="n">flag</span><span class="p">(</span><span class="n">ATOMIC_FLAG_INIT</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">lock</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">flag</span><span class="p">.</span><span class="n">test_and_set</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_acquire</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">unlock</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">flag</span><span class="p">.</span><span class="n">clear</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_release</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="std-atomic" class="headerLink">
+    <a href="#std-atomic" class="header-mark"></a>::std::atomic</h3><p>::std::atomic 不再保证 <strong>lock-free</strong>，但相比 ::std::atomic_flag 有了更通用的操作，
+<code>store()</code> 是一个存储操作，<code>load()</code> 是一个加载操作，<code>exchange()</code> 是一个读-改-写操作。</p>]]></description>
 </item></channel>
 </rss>

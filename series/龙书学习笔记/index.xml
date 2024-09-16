@@ -3,54 +3,444 @@
         <title>龙书学习笔记 - 系列 - iris</title>
         <link>https://blog.ginshio.org/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
         <description>龙书学习笔记 - 系列 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com ( )</managingEditor>
-            <webMaster>ginshio78@gmail.com ( )</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 28 May 2022 18:18:47 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Sat, 28 May 2022 18:18:47 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="self" type="application/rss+xml" /><item>
     <title>编译器与程序设计语言</title>
     <link>https://blog.ginshio.org/2020/compilerprinciple_001/</link>
     <pubDate>Tue, 14 Jul 2020 15:47:02 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2020/compilerprinciple_001/</guid>
-    <description><![CDATA[编译器编译器是一个 程序，它可以阅读以某一 源语言 编写的程序，并把该程序翻译成一个 等价的、用 目标语言 编写的程序; 解释器是另一种语言处理器，它直接]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/compilerprinciple_001/</guid>
+    <description><![CDATA[<h2 id="编译器" class="headerLink">
+    <a href="#%e7%bc%96%e8%af%91%e5%99%a8" class="header-mark"></a>编译器</h2><p>编译器是一个 <strong>程序</strong>，它可以阅读以某一 <code>源语言</code> 编写的程序，并把该程序翻译成一个
+<strong>等价的</strong>、用 <code>目标语言</code> 编写的程序; 解释器是另一种语言处理器，它直接利用用户提供的输入执行源程序中指定的操作。</p>
+<figure>
+</figure>
+
+<p>编译器产生的机器语言目标程序通常比一个解释器 <strong>快</strong> 得多，但是解释器的 <strong>错误诊断效果</strong> 比编译器更好，因为解释器是逐个语句地执行源程序。</p>
+<h3 id="基本组成" class="headerLink">
+    <a href="#%e5%9f%ba%e6%9c%ac%e7%bb%84%e6%88%90" class="header-mark"></a>基本组成</h3><p>编译器是由 <strong>预处理器</strong> (preprocessor)、<strong>编译器</strong> (compiler)、<strong>汇编器</strong> (assembler)、<strong>链接器</strong> (linker) 这几大主要部分组成，最后生成一个可执行程序 (executable)。</p>
+<ul>
+<li>预处理器：主要负责文本替换或巨集展开</li>
+<li>编译器：可能产生一个汇编语言的中间代码作为其输出，因为汇编语言比较容易 <strong>输出</strong> 和 <strong>调试</strong></li>
+<li>汇编器：将编译器产生的中间结果生成 <strong>可重新定位的</strong> 机器代码</li>
+<li>链接器：将一个或多个由编译器或汇编器生成的目标文件外加库，链接为一个可执行文件</li>
+</ul>
+<figure>
+</figure>
+
+<p>现代编译器中，基本可以分步骤调用编译器的各个部分，生成所需要的阶段输出，以 gcc 和 clang 为例</p>
+<ul>
+<li>预处理 (-E)：输出文件经过预处理器生成的源代码，一般以 <code>.i</code> 作为文件扩展名</li>
+<li>编译 (-S)：将源代码或预处理文件编译生成汇编代码，汇编代码后缀名 <code>.s</code></li>
+<li>汇编 (-c)：将源代码或之前步骤生成的中间代码汇编生成可重新定位的机器码，文件后缀名为 <code>.o</code></li>
+<li>链接：将源文件或之前步骤生成的中间代码链接生成可执行程序</li>
+</ul>
+<h3 id="结构" class="headerLink">
+    <a href="#%e7%bb%93%e6%9e%84" class="header-mark"></a>结构</h3><p>编译器由两部分组成，<strong>分析</strong> 部分和 <strong>综合</strong> 部分</p>
+<ul>
+<li>分析：将源程序分解成为多个组成元素，并在要素之上加上语法结构。分析部分被称为编译器的 <strong>前端</strong></li>
+<li>综合：根据中间表示和符号表中的信息来构造用户期待的目标程序。综合部分被称为编译器的 <strong>后端</strong></li>
+</ul>
+<p>现代编译器，比如 <strong>LLVM</strong> 以设计精良的 <strong>IR</strong> 作为中端输出，语言只需要实现前端和中端，最终由 LLVM 实现 IR 到二进制的转换，可以做到只优化 LLVM 就完成对其上所有语言的优化。</p>
+<figure>
+</figure>
+
+<dl>
+<dt>词法分析 (lexical analysis)</dt>
+<dd>词法分析器读入组成源程序的字符流，并将它们组成成为有意义的 <strong>词素</strong> (lexeme)
+的序列。对于每个词素，词法分析器产生如下形式的 <code>词法单元</code> (token) 作为输出
+<code>&lt;token-name，attribute-value&gt;</code></dd>
+<dt>语法分析 (syntax analysis)</dt>
+<dd>语法分析器使用由词法分析器生成的各个词法单元的第一个分量来创建树形的中间表示，该中间表示给出了词法分析产生的词法单元流的语法结构。常用表示方法为 <strong>语法树</strong>
+(syntax tree)，树中的每个内部接点表示一个运算，而该结点的子结点表示该运算的分量</dd>
+<dt>语义分析 (semantic analysis)</dt>
+<dd>使用语法树和符号表中的信息来检查源程序是否和语言定义的语义一致。同时也会收集类型信息，并把这些信息存放在语法树或符号表中</dd>
+<dt>中间代码生成</dt>
+<dd>编译器一般在语法分析、语义分析结束之后，会生成一个明确的低级的或类机器语言的中间表示，该中间表示应该 <strong>易于生成</strong>、且可以被 <strong>轻松翻译</strong> 为目标机器语言</dd>
+<dt>代码优化</dt>
+<dd>机器无关的代码优化步骤试图改进中间代码，以便生成 <strong>更好</strong> 的目标代码</dd>
+<dt>代码生成</dt>
+<dd>以源程序的中间表示形式作为输入，并把它映射到目标语言，代码生成必须要
+<code>合理分配寄存器</code></dd>
+<dt>符号表管理</dt>
+<dd>记录源程序中使用的变量名称，并收集和每个名字的各种属性有关的信息，这些属性一般包含 <code>存储分配</code>、<code>类型</code>、<code>作用域</code> 等</dd>
+</dl>
+<h3 id="构造工具" class="headerLink">
+    <a href="#%e6%9e%84%e9%80%a0%e5%b7%a5%e5%85%b7" class="header-mark"></a>构造工具</h3><p>除通用软件开发工具外，编译器的实现一般需要专业的工具来实现，这些专用工具使用专用的语言来 <code>描述</code> 和 <code>实现</code> 特定的组件，这些生成器会隐藏相当复杂的生成算法细节，并生成易于与其他部分集成的组件</p>]]></description>
 </item><item>
     <title>词法分析 1</title>
     <link>https://blog.ginshio.org/2020/compilerprinciple_002/</link>
     <pubDate>Thu, 16 Jul 2020 16:47:49 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2020/compilerprinciple_002/</guid>
-    <description><![CDATA[词法分析是编译器的第一阶段，主要负责读取源程序的输入字符，将它们组成 词素，生成并输出一个词法单元序列，每个词法单元对应一个词素，这个词法单元]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/compilerprinciple_002/</guid>
+    <description><![CDATA[<p>词法分析是编译器的第一阶段，主要负责读取源程序的输入字符，将它们组成 <strong>词素</strong>，生成并输出一个词法单元序列，每个词法单元对应一个词素，这个词法单元序列将被语法分析器进行语法分析。除此之外，词法分析器还会过滤源程序中的注释和空白，生成错误信息与源程序的位置关联起来，有时还会进行宏扩展。</p>
+<figure>
+</figure>
+
+<p>学习词法分析时，需要分清以下三个相关但有区别的术语</p>
+<dl>
+<dt>词法单元</dt>
+<dd>由一个词法单元名和一个可选的属性值组成，词法单元名是一个表示某种词法单位的抽象符号，比如关键字，或标识符的输入字符序列</dd>
+<dt>词素</dt>
+<dd>源程序中的字符序列，它和某一词法单元的模式匹配，并被词法分析器识别为该词法单元的一个实例</dd>
+<dt>模式</dt>
+<dd>描述了一个词法单元的词素可能具有的形式。对于关键词它是组成关键字的字符序列；对于标识符和其他词法单元，模式是一个更加复杂的结构，可以和很多符号串匹配</dd>
+</dl>
+<p>比如 <code>printf(&quot;Total=%d\n&quot;，source);</code> 中，printf 和 source 都是和词法单元 id 的模式匹配的词素，而字符串则是一个和 literal 匹配的词素，以下表格为词法单元的示例</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">词法单元</th>
+          <th style="text-align: left">非正式描述</th>
+          <th style="text-align: left">词素示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">if</td>
+          <td style="text-align: left">关键字，字符 i/f</td>
+          <td style="text-align: left">if</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">else</td>
+          <td style="text-align: left">关键字，字符 e/l/s/e</td>
+          <td style="text-align: left">else</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">comparison</td>
+          <td style="text-align: left">比较运算符</td>
+          <td style="text-align: left">&lt;，&lt;=</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">id</td>
+          <td style="text-align: left">普通标识符</td>
+          <td style="text-align: left">pi，D2，source</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">number</td>
+          <td style="text-align: left">数字常量</td>
+          <td style="text-align: left">3.1415926，1024</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">literal</td>
+          <td style="text-align: left">字符串常量</td>
+          <td style="text-align: left">&ldquo;hello world!&rdquo;</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="词法单元的规约" class="headerLink">
+    <a href="#%e8%af%8d%e6%b3%95%e5%8d%95%e5%85%83%e7%9a%84%e8%a7%84%e7%ba%a6" class="header-mark"></a>词法单元的规约</h2><h3 id="串和语言" class="headerLink">
+    <a href="#%e4%b8%b2%e5%92%8c%e8%af%ad%e8%a8%80" class="header-mark"></a>串和语言</h3><p><strong>字母表</strong> (alphabet) 是一个有限的符号集合，符号的典型示例是包括字母、数字和标点符号，常见的字母表如 <em>ASCII</em> 和 <em>Unicode</em>。</p>
+<p><strong>串</strong> (string) 是某个字母表中符号的一个有穷序列，串 s 的长度，表示 s 中符号出现的次数，记作 \(|s|\)，长度为 0 的串被称为空串，记作 \(\varepsilon\)。</p>
+<p><strong>语言</strong> (language) 是某个给定字母表上一个任意的可数的串的集合，此外空集
+\(\varnothing\) 和 仅包含空串的集合都是语言。</p>
+<p>词法分析中，最重要的语言上的运算是 <code>并</code>、<code>连接</code> 和 <code>闭包</code>。连接是将一个串附加到另一个串的后面形成新串，例如 \(x=dog, y=house\)，那么 x、y 的连接 \(xy=doghouse\)
+；空串是连接运算的 <strong>单位元</strong>，即对于任意串 \(s\varepsilon = \varepsilon s = s\)。两个串的连接可以被看作乘积，那么可以定义串的指数运算： \(s^0=\varepsilon，s^i = s^{i-1}s(i &gt; 0)\) 。Kleene <strong>闭包</strong> (closure)，记作 \(L^{*}\)，即将 L 连接 0 次或多次后得到的串集；<strong>正闭包</strong> 与闭包基本相同，但不包括 \(L^0\)，也就是说，除非 \(\varepsilon\) 属于 L，否则 \(\varepsilon \notin L\)。</p>]]></description>
 </item><item>
     <title>词法分析 2</title>
     <link>https://blog.ginshio.org/2020/compilerprinciple_003/</link>
     <pubDate>Sat, 17 Oct 2020 22:33:04 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2020/compilerprinciple_003/</guid>
-    <description><![CDATA[NFA的重要状态如果一个 NFA 状态有一个标号非 \(\varepsilon\) 的离开转换，那么我们称这个状态为 重要状态 (important state)。子集构造法在计算 \(\varepsilo]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/compilerprinciple_003/</guid>
+    <description><![CDATA[<h2 id="nfa的重要状态" class="headerLink">
+    <a href="#nfa%e7%9a%84%e9%87%8d%e8%a6%81%e7%8a%b6%e6%80%81" class="header-mark"></a>NFA的重要状态</h2><p>如果一个 NFA 状态有一个标号非 \(\varepsilon\) 的离开转换，那么我们称这个状态为 <strong>重要状态</strong>
+(important state)。子集构造法在计算 \(\varepsilon-closure(move(T，a))\) 的时候，它只使用了集合T中的重要状态，也就是说只有当状态s是重要的，状态集合 \(move(s,a)\) 才可能是非空的。在子集构造法的应用过程中，两个NFA状态集合可以被认为是一致的条件是</p>
+<ol>
+<li>具有相同的重要状态，且</li>
+<li>要么都包含接受状态，要么都不包含接受状态</li>
+</ol>
+<p>如果 NFA 是使用 <code>McMaughton-Yamada-Thompson</code> 算法根据一个正则表达式生成的，那么我们可以获得更多重要状态的性质</p>
+<ul>
+<li>重要状态只包括在基础规则部分为正则表达式中某个特定符号位置引入的初始状态，即每个重要状态对应于正则表达式中的某个运算分量</li>
+<li>NFA 只有一个接受状态，但该接受状态不是重要状态。我们可以在正则表达式r的右端连接一个独特的结束标记符 <code>#</code>，使得r的接收状态增加一个在 <code>#</code> 上的转换，使其成为
+<code>(r)#</code> 的NFA的重要状态</li>
+<li>NFA 的重要状态直接对应于正则表达式中存放了字母表中符号的位置，使用抽象语法树来表示扩展的正则表达式是非常有用的</li>
+</ul>
+<h2 id="抽象语法树" class="headerLink">
+    <a href="#%e6%8a%bd%e8%b1%a1%e8%af%ad%e6%b3%95%e6%a0%91" class="header-mark"></a>抽象语法树</h2><p>抽象语法树的叶子结点对应于运算分量，内部结点表示运算符。标号为 <code>连接运算符</code>
+(\(\circ\)) 的内部结点被称为 <strong>cat结点</strong>，<code>并运算符</code> (\(|\)) 的内部结点被称为 <strong>or结点</strong>，=
+星号运算符= (\(*\)) 的内部结点被称为 <strong>star结点</strong>，我们构建正则表达式
+\((a|b)^{*}abb\#\) 的抽象语法树。</p>
+<figure>
+</figure>
+
+<p>抽象语法树的叶子结点可以标号为 \(\varepsilon\)，也可以用字母表中的符号作为标号，对于每个标号不为 \(\varepsilon\) 的叶子结点，我们赋予一个独立的整数，我们将这个整数称作叶子结点的 <strong>位置</strong>，同时也表示和它对应的符号的位置，当然一个符号可以有多个位置。抽象语法树中的这些位置对应构造出的 NFA 中的重要状态。</p>
+<figure>
+</figure>
+
+<h2 id="计算函数" class="headerLink">
+    <a href="#%e8%ae%a1%e7%ae%97%e5%87%bd%e6%95%b0" class="header-mark"></a>计算函数</h2><p>要从一个正则表达式直接构造出 DFA，我们要先构造出它的抽象语法树，然后计算如下四个函数：<code>nullable</code>、<code>firstpos</code>、<code>lastpos</code> 和 <code>followpos</code>，且这四个函数都用到了扩展正则表达式 <code>(r)#</code> 的抽象语法树。</p>
+<dl>
+<dt>nullable(n)</dt>
+<dd>当且仅当此结点代表的子表达式的语言中包含空串 \(\varepsilon\) 时抽象语法树结点n为真，即：这个子表达式可以生成空串或本身就是空串，即使它也可能表示其他串</dd>
+<dt>firstpos(n)</dt>
+<dd>定义了以结点n为根的子树中的位置集合，这些位置对应于以n为根的子表达式的语言中某个串的 <strong>第一个符号</strong></dd>
+<dt>lastpos(n)</dt>
+<dd>定义了以结点n为根的子树中的位置集合，这些位置对应于以n为根的子表达式的语言中某个串的 <strong>最后一个符号</strong></dd>
+<dt>followpos(p)</dt>
+<dd>定义了一个和位置p相关的、抽象语法树中的某些位置的集合。当且仅当存在 L((r)#)
+中的某个串 \(x=a_{1}a_{2}\cdots a_{n}\)，使得我们在解释为什么x属于 L((r)#) 时，可以将x中的某个 \(a_{i}\) 和抽象语法树中的位置p匹配，且将位置 \(a_{i+1}\) 和位置q
+匹配，那么位置q在 \(followpos(p)\) 中。简单地说，该函数计算出位置n之后可以跟随的其他位置</dd>
+</dl>
+<p>在计算函数时，我们先给出较为简单的 nullable 、 firstpos 和 lastpos 的计算方式，可以使用一个对树的高度直接进行递归的过程来计算它们，计算方式如下。</p>]]></description>
 </item><item>
     <title>语法分析 1</title>
     <link>https://blog.ginshio.org/2020/compilerprinciple_004/</link>
     <pubDate>Tue, 03 Nov 2020 16:09:25 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2020/compilerprinciple_004/</guid>
-    <description><![CDATA[程序设计语言构造的语法可以使用 上下文无关文法 或者 BNF (巴库斯-瑙尔范式) 表示法来描述，文法为语言设计者和编译器编写者提供了很大便利: 文法给出了]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/compilerprinciple_004/</guid>
+    <description><![CDATA[<p>程序设计语言构造的语法可以使用 <strong>上下文无关文法</strong> 或者 <strong>BNF (巴库斯-瑙尔范式)</strong> 表示法来描述，文法为语言设计者和编译器编写者提供了很大便利:</p>
+<ul>
+<li>文法给出了一个程序设计语言的精确易懂的语法归约</li>
+<li>对于某些类型的文法，我们可以自动构造出高效的语法分析器，它能够确定一个源程序的语法结构。同时，语法分析器的构造过程可以揭示出语法的二义性，同时还可能发现一些容易在语言的初始设计阶段被忽略的问题</li>
+<li>一个正确设计的文法给出了一个语言的结构，该结构有助于把源程序翻译为正确的目标代码，也有助于检测错误</li>
+<li>一个文法支持逐步加入可以完成新任务的新语言构造，从而迭代地演化和开发程序语言。如果对语言的实现遵循语言的文法结构，那么在实现中加入这些新构造的工作就会变得更加容易</li>
+</ul>
+<p>语法分析器从词法分析器获得一个词法单元组成的串，并验证这个串可以由源语言的文法生成，我们期望语法分析器能够以易于理解的方式报告语法错误，并能够从常见的错误中恢复并继续处理程序的其余部分。从概念上来说，对于良构的程序，语法分析器构造出一棵 <strong>语法分析树</strong>，并把它传递给编译器的其他部分进一步处理。我们并不需要显式地构造出语法分析树，对于源程序的检查和翻译工作可以和语法分析过程交替完成，因此语法分析器和其他部分可以用一个模块实现。</p>
+<figure>
+</figure>
+
+<p>错误处理程序检测出错误后，必须报告在源程序的什么位置检测到错误，程序可能有不同层次的错误</p>
+<dl>
+<dt>词法错误</dt>
+<dd>包括标识符、关键字或运算符拼写错误，或没有在n字符串文本上正确的添加引号</dd>
+<dt>语法错误</dt>
+<dd>包括分号、花括号的多余、缺失等，或 <code>if-else</code> 语句不匹配等</dd>
+<dt>语义错误</dt>
+<dd>包括运算符和运算分量之间的类型不匹配</dd>
+<dt>逻辑错误</dt>
+<dd>因程序员的错误推理而引起的任何错误，包括良构程序但结果不符合预期</dd>
+</dl>
+<p>语法分析器在检测出错误后，一般将自己恢复到某个状态，且有理由预期从那里开始输入将提供有意义的诊断信息，通常也会发现更多的错误，而不是检测到一个错误就退出程序，当然如果错误过多最好让编译器在达到某个错误数量上限后退出</p>
+<dl>
+<dt>panic 的恢复</dt>
+<dd>语法分析器一旦发现错误就不断丢弃输入的符号，直到找到<code>同步词法单元</code>
+(<strong>synchronizing token</strong>) 为止，同步词法单元通常是界限符 (如 <code>;</code> 或 <code>}</code>)，它们在源程序中清晰、无二义性。panic 的错误纠正方法常常会跳过大量输入，不检查跳过部分可能包含的错误，但是实现足够简单且不会让语法分析陷入死循环</dd>
+<dt>短语层次的恢复</dt>
+<dd>当发现错误时，语法分析器可以在余下的输入上进行局部性纠正，即将余下输入的某个前缀替换为另一个串，使语法分析器可以继续分析。这个方法难以处理实际错误发生在检测位置之前的情况</dd>
+<dt>错误产生式</dt>
+<dd>通过预测可能遇到的常见错误，在当前语言的文法中加入特殊的产生式，这些产生式可以生产含有错误的构造，语法分析器就能检测到一个预期的错误，生成适当的错误诊断信息</dd>
+<dt>全局纠正</dt>
+<dd>处理一个错误的输入串时通过最少的改动将其转换为语法正确的串</dd>
+</dl>
+<h2 id="上下文无关文法" class="headerLink">
+    <a href="#%e4%b8%8a%e4%b8%8b%e6%96%87%e6%97%a0%e5%85%b3%e6%96%87%e6%b3%95" class="header-mark"></a>上下文无关文法</h2><p>一个上下文无关文法由 <strong>终结符</strong>、<strong>非终结符</strong>、一个 <strong>开始符号</strong> 和一组 <strong>产生式</strong> 组成</p>
+<ul>
+<li>终结符：组成串的基本符号，与术语 <strong>词法单元名</strong> 为同义词，如 <code>if-else</code> 结构中的 if 和 else</li>
+<li>非终结符：表示串的集合的语法变量，它们表示的串集合用于定义由文法生成的语言</li>
+<li>开始符号：某个非终结符号，这个符号表示的串集合就是这个文法生成的语言</li>
+<li>产生式：将终结符和非终结符组合为串的方法，每个产生式由以下元素组成
+<ul>
+<li>一个被成为产生式<code>头</code>或<code>左部</code>的<strong>非终结符</strong>，头代表串的集合</li>
+<li>符号 \(\rightarrow\)，有时也使用 <code>::=</code> 来表示</li>
+<li>一个由零或多个终结符与非终结符组成的<code>体</code>或<code>右部</code>，体代表头所对应的串的某种构造方法</li>
+</ul>
+</li>
+</ul>
+<p>例如有一组生成式它们的头都是 E，我们可以将其组合在一起成 <strong>E \(\rightarrow\) E + T | E - T |
+T</strong> 这种形式
+\[\begin{aligned} E &amp;\rightarrow E + T\\ E &amp;\rightarrow E - T \\ E &amp;\rightarrow T \end{aligned}\]</p>]]></description>
 </item><item>
     <title>语法分析 2</title>
     <link>https://blog.ginshio.org/2022/compilerprinciple_005/</link>
     <pubDate>Tue, 12 Apr 2022 22:23:17 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/compilerprinciple_005/</guid>
-    <description><![CDATA[自顶向下语法可以被看作输入串构造语法分析树的问题，从语法分析树的根结点开始，深度优先创建这棵树的各个结点。 对于输入 id + id * id，可以根据最左]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/compilerprinciple_005/</guid>
+    <description><![CDATA[<p>自顶向下语法可以被看作输入串构造语法分析树的问题，从语法分析树的根结点开始，深度优先创建这棵树的各个结点。</p>
+<p>对于输入 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>，可以根据最左推导序列产生语法分析树序列：
+\[\begin{aligned}
+E &amp;\rightarrow TE^{&rsquo;}\\
+E^{&rsquo;} &amp;\rightarrow +\ T\ E^{&rsquo;}\,|\,\varepsilon\\
+T &amp;\rightarrow FT^{&rsquo;}\\
+T^{&rsquo;} &amp;\rightarrow *\ F\ T^{&rsquo;}\,|\,\varepsilon\\
+F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\
+\end{aligned}\]</p>
+<p>根据左推导有如下自顶向下分析过程</p>
+<figure>
+</figure>
+
+<h2 id="递归下降的语法分析" class="headerLink">
+    <a href="#%e9%80%92%e5%bd%92%e4%b8%8b%e9%99%8d%e7%9a%84%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90" class="header-mark"></a>递归下降的语法分析</h2><p>递归下降的语法分析由一组过程组成，每个非终结符有一个对应的过程，程序的执行从开始符号对应的过程开始，如果这个过程扫描了整个输入串，就停止执行并宣布语法分析完成。</p>
+<p>通用递归下降分析技术可能需要回溯，即重复扫描输入串。在 PL 构造进行语法分析时很少回溯，因此需要回溯的语法分析器并不常见。自然语言分析的场合，回溯也不高效，因此更加倾向基于表格的语法分析方法，如 DP 或 Earley 方法。</p>
+<h3 id="一个简单的示例" class="headerLink">
+    <a href="#%e4%b8%80%e4%b8%aa%e7%ae%80%e5%8d%95%e7%9a%84%e7%a4%ba%e4%be%8b" class="header-mark"></a>一个简单的示例</h3><p>考虑文法 \[\begin{aligned} S &amp;\rightarrow c\,A\,d\\ A &amp;\rightarrow a\,b \ |\ a\\ \end{aligned}\]
+自顶向下构造串 \(w=cad\)，初始结点指向 w 的第一个字符，即标号为 S 的结点指向 c，将会得到图 <a href="#figure--fig:top-down-parsing-process-example" rel="">1</a> (a) 中的树，字符c 匹配。</p>
+<p><a id="figure--fig:top-down-parsing-process-example"></a></p>
+<figure><figcaption>
+      <p><span class="figure-number">Figure 1: </span>自顶向下语法分析器过程</p>
+    </figcaption>
+</figure>
+
+<p>将 <em>A</em> 用 \(\textit{A} \rightarrow ab\) 展开得到图
+<a href="#figure--fig:top-down-parsing-process-example" rel="">1</a> (b) 的树，第二个字符 a 匹配，此时指针推进到第三个字符 d。由于 b 与 d 不匹配，将报告失败，并回到 A 开始尝试之前未进行的且有可能匹配的其他产生式，图 <a href="#figure--fig:top-down-parsing-process-example" rel="">1</a> (c) 所示。</p>]]></description>
 </item><item>
     <title>语法分析 3</title>
     <link>https://blog.ginshio.org/2022/compilerprinciple_006/</link>
     <pubDate>Wed, 20 Apr 2022 16:25:13 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/compilerprinciple_006/</guid>
-    <description><![CDATA[一个自底向上的语法分析过程对应于为输入字符串构造语法分析树的过程，它从叶节点开始开始逐渐向上构造。虽然大部分编译器前端不会显示构造语法分析树]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/compilerprinciple_006/</guid>
+    <description><![CDATA[<p>一个自底向上的语法分析过程对应于为输入字符串构造语法分析树的过程，它从叶节点开始开始逐渐向上构造。虽然大部分编译器前端不会显示构造语法分析树，而是直接翻译，但自底向上构建有些像构建语法分析树。</p>
+<p>移入归约语法分析是自底向上语法分析的通用框架。LR 文法就是采用移入-归约语法分析的文法。</p>
+<h2 id="移入-归约" class="headerLink">
+    <a href="#%e7%a7%bb%e5%85%a5-%e5%bd%92%e7%ba%a6" class="header-mark"></a>移入-归约</h2><h3 id="归约" class="headerLink">
+    <a href="#%e5%bd%92%e7%ba%a6" class="header-mark"></a>归约</h3><p>将语法分析过程，看作输入串 w <code>归约</code> (reduction) 为文法开始符号的过程， 在归约步骤中，一个与某产生式体相匹配的特定子串被替换为该产生式头部的非终结符。</p>
+<p>自底向上语法分析过程中，最关键的是何时进行归约，以及应用哪个产生式进行归约。</p>
+<p>当然归约是推导步骤的反向操作，不过可以是 <strong>最右</strong> 推导。</p>
+<h3 id="句柄剪枝" class="headerLink">
+    <a href="#%e5%8f%a5%e6%9f%84%e5%89%aa%e6%9e%9d" class="header-mark"></a>句柄剪枝</h3><p>对输入进行从左向右扫描，并在扫描过程中进行自底向上语法分析，就可以反向构造出最右推导。简单地说，<strong>句柄</strong> 是和某个产生式体匹配的子串，对它的归约代表了相应最右推导中的一个反向步骤。</p>
+<p>如果有 \(\textit{S}\xRightarrow[rm]{*}\alpha\textit{A}w\xRightarrow[rm]{}\alpha\beta{}w\)，那么紧跟 \(\alpha\) 的产生式 \(\textit{A}\rightarrow\beta\) 是 \(\alpha\beta{}w\) 的一个 <strong>句柄</strong> (handle)。换句话说，最右句型 \(\gamma\) 的一个句柄是满足以下条件的产生式 \(\textit{A}\rightarrow\beta\) 及串
+\(\beta\) 在 \(\gamma\) 中出现的位置：将这个位置上的 \(\beta\) 替换为 <em>A</em> 之后得到的串是
+\(\gamma\) 的某个最右推导序列中出现在位于 \(\gamma\) 之前的最右句型。</p>
+<figure>
+</figure>
+
+<p>句柄右边的串 w 一定只包含终结符，即产生式体 \(\beta\) 称为一个句柄 (而不是
+\(\textit{A}\rightarrow\beta\))，如果文法有二义性时可能存在多个最右推导，但无二义性的文法有且仅有一个句柄。通过<strong>句柄剪枝</strong>可以得到一个反向的最右推导。</p>
+<h3 id="移入-规约语法分析技术" class="headerLink">
+    <a href="#%e7%a7%bb%e5%85%a5-%e8%a7%84%e7%ba%a6%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e6%8a%80%e6%9c%af" class="header-mark"></a>移入-规约语法分析技术</h3><p>该语法分析使用栈来保存符号，并用一个输入缓冲区来存放将要进行语法分析的其余符号。句柄在被识别之前，总是出现在栈顶的。</p>
+<p>在栈中依然用 \(\$\) 标记栈底位置，在从左到右扫描输入串时，语法分析器将零个或多个输入符号移动到栈顶，直到对栈顶的一个文法符号串 \(\beta\) 进行归约为止。语法分析器将不断重复这个过程，直到检测到错误，或栈中包含了开始符号且输入缓冲区为空为止。此时宣告语法分析完成。</p>
+<p>语法分析器主要由四个动作构成</p>
+<dl>
+<dt>移入 (shift)</dt>
+<dd>将下一个输入符号移到栈顶</dd>
+<dt>归约 (reduce)</dt>
+<dd>被归约的符号串的右端必然是栈顶，语法分析器在栈中确定这个栈的左端，并决定用哪个非终结符来替换这个串</dd>
+<dt>接受 (accept)</dt>
+<dd>语法分析完成</dd>
+<dt>报错 (error)</dt>
+<dd>发现一个语法错误，调用错误恢复过程</dd>
+</dl>
+<p>使用栈主要是因为在语法分析过程中有个重要的性质：<strong>句柄总出现在栈顶，绝不会出现在栈中</strong>。</p>
+<h3 id="移入-归约语法分析中的冲突" class="headerLink">
+    <a href="#%e7%a7%bb%e5%85%a5-%e5%bd%92%e7%ba%a6%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e4%b8%ad%e7%9a%84%e5%86%b2%e7%aa%81" class="header-mark"></a>移入-归约语法分析中的冲突</h3><p>某些上下文无关文法无法使用移入-归约语法分析技术，对于这样的文法可能出现如下
+configuration：虽然知道栈中的所有内容以及接下来的 k 个输入符号，</p>]]></description>
 </item><item>
     <title>语法制导翻译</title>
     <link>https://blog.ginshio.org/2022/compilerprinciple_007/</link>
     <pubDate>Thu, 19 May 2022 13:26:43 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/compilerprinciple_007/</guid>
-    <description><![CDATA[最通用的语法制导翻译的方法是先通过构造一棵语法分析树，然后通过访问这棵树的各个结点来计算结点的属性值。在很多情况下，翻译可以在语法扫描分析期]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/compilerprinciple_007/</guid>
+    <description><![CDATA[<p>最通用的语法制导翻译的方法是先通过构造一棵语法分析树，然后通过访问这棵树的各个结点来计算结点的属性值。在很多情况下，翻译可以在语法扫描分析期间完成，不需要构造出明确的语法分析树。语法制导翻译主要有两类：</p>
+<ul>
+<li>L 属性翻译 (从左到右)，可以在语法分析过程中完成的翻译方案</li>
+<li>S 属性翻译 (综合)，可以很容易与自底向上语法分析过程联系起来</li>
+</ul>
+<h2 id="语法制导定义" class="headerLink">
+    <a href="#%e8%af%ad%e6%b3%95%e5%88%b6%e5%af%bc%e5%ae%9a%e4%b9%89" class="header-mark"></a>语法制导定义</h2><p>语法制导定义 (Syntax-Directed Definition, SDD) 是一个上下文无关文法
+(Context-Free Grammar, CFG) 和属性及规则的结合，属性和文法符号相关联，而规则和产生式相关联。如果 X 是一个符号而 a 是 X 的一个属性，那么我们用 <code>X.a</code> 表示 a 在某个标号为 X 的分析树结点上的值。</p>
+<h3 id="继承属性与综合属性" class="headerLink">
+    <a href="#%e7%bb%a7%e6%89%bf%e5%b1%9e%e6%80%a7%e4%b8%8e%e7%bb%bc%e5%90%88%e5%b1%9e%e6%80%a7" class="header-mark"></a>继承属性与综合属性</h3><p>处理非终结符的两种属性：</p>
+<dl>
+<dt>综合属性 (synthesized attribute)</dt>
+<dd>在分析树结点 N 上的非终结符 A 的综合属性是由 N 上的产生式所关联的语义规则来定义的。这个产生式的头部一定是 A，结点 N 上的综合属性只能通过 N 的子结点或 N
+本身的属性值来定义。</dd>
+<dt>继承属性 (inherited attribute)</dt>
+<dd>在分析树结点 N 上的非终结符 B 的继承属性是由 N 的父结点上的产生式所关联的语义规则来定义的。这个产生式的体中必然包含符号 B，结点 N 上的继承属性只能通过
+N 的父结点、N 本身和 N 的兄弟结点上的属性来定义。</dd>
+</dl>
+<p>虽然不允许结点 N 的继承属性通过子结点上的属性来定义，但可以通过结点本身的继承属性定义综合属性。另外，终结符可以由综合属性，但不能有继承属性，它的属性值是由词法分析器提供的词法值，SDD 中没有计算终结符的属性值的语义规则。</p>
+<p>比如有一个简单的加乘计算器。</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">编号</th>
+          <th style="text-align: left">产生式</th>
+          <th style="text-align: left">语义规则</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">\(L\rightarrow{}E\textbf{n}\)</td>
+          <td style="text-align: left">\(L.val = E.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">\(E\rightarrow{}E_{1}+T\)</td>
+          <td style="text-align: left">\(E.val = E_{1}.val + T.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">\(E\rightarrow{}T\)</td>
+          <td style="text-align: left">\(E.val = T.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">\(T\rightarrow{}T_{1}*F\)</td>
+          <td style="text-align: left">\(T.val = T_{1}.val \times F.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">\(T\rightarrow{}F\)</td>
+          <td style="text-align: left">\(T.val = F.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left">\(F\rightarrow(E)\)</td>
+          <td style="text-align: left">\(F.val = E.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left">\(F\rightarrow{}\textbf{digit}\)</td>
+          <td style="text-align: left">\(F.val = \textbf{digit}.lexval\)</td>
+      </tr>
+  </tbody>
+</table>
+<p>产生式 1 设置了整个表达式的值，而产生式 2 的值由它的两个子结点的值求和得来，类似的产生式 4 的值由它的两个子结点的值求积得来。而产生式 7 的值由词法单元返回的数值得来。这个只包含综合属性的 SDD 被称作 S 属性 (S-attribute) SDD，它的头部的非终结符的值都由产生式的体的属性值计算得来。</p>]]></description>
 </item><item>
     <title>中间代码生成</title>
     <link>https://blog.ginshio.org/2022/compilerprinciple_008/</link>
     <pubDate>Sat, 28 May 2022 18:18:47 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/compilerprinciple_008/</guid>
-    <description><![CDATA[在将给定源语言的一个程序翻译成特定机器代码的过程中，一个编译器可能构造出一系列中间表示。高层的中间表示接近源语言，而底层的表示接近目标语言。]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/compilerprinciple_008/</guid>
+    <description><![CDATA[<p>在将给定源语言的一个程序翻译成特定机器代码的过程中，一个编译器可能构造出一系列中间表示。高层的中间表示接近源语言，而底层的表示接近目标语言。语法树是高层表示，它刻画了源程序的自然层次性结构，且适用于静态类型检查。低层表示适用于机器相关处理，如寄存器分配、指令选择等。</p>
+<h2 id="语法树的变体" class="headerLink">
+    <a href="#%e8%af%ad%e6%b3%95%e6%a0%91%e7%9a%84%e5%8f%98%e4%bd%93" class="header-mark"></a>语法树的变体</h2><p>语法树中的各个结点代表了源程序的构造，一个结点的所有子结点反映了该结点对应构造的有意义的组成成分。为表达式构建的有向无环图 (Directed Acyclic Graph, DAG) 指出了表达式中的公共子表达式。</p>
+<p>与语法分析树有些不同的是，DAG 的结点可能有多个父结点，也就是说这个结点是个公共子结点。比如表达式 \(a + a * (b - c) + (b - c) * d\)</p>
+<figure>
+</figure>
+
+<p>SDD 既可以构造语法树，也可以构造 DAG，在构造 DAG 结点时每次构造之前都会检查是否已存在这样的结点。如果已存在结点，就返回已有结点，否则构建新结点。</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">编号</th>
+          <th style="text-align: left">产生式</th>
+          <th style="text-align: left">语义规则</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">\(E\rightarrow{}E_{1}+T\)</td>
+          <td style="text-align: left">\(E.node=\textbf{new}\ Node(&rsquo;+&rsquo;,E_{1}.node,T.node)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">\(E\rightarrow{}E_{1}-T\)</td>
+          <td style="text-align: left">\(E.node=\textbf{new}\ Node(&rsquo;-&rsquo;,E_{1}.node,T.node)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">\(\begin{aligned}E&amp;\rightarrow{}T\\T&amp;\rightarrow{}T_{1}*F\end{aligned}\)</td>
+          <td style="text-align: left">\(\begin{aligned}E.node&amp;=T.node\\T.node&amp;=\textbf{new}\ Node(&rsquo;*&rsquo;,T_{1}.node,F.node)\end{aligned}\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">\(T\rightarrow{}(E)\)</td>
+          <td style="text-align: left">\(T.node=E.node\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">\(T\rightarrow{}\textbf{id}\)</td>
+          <td style="text-align: left">\(T.node=\textbf{new}\ Leaf(\textbf{id},\textbf{id}.entry)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left">\(T\rightarrow{}\textbf{num}\)</td>
+          <td style="text-align: left">\(T.node=\textbf{new}\ Leaf(\textbf{num},\textbf{num}.entry)\)</td>
+      </tr>
+  </tbody>
+</table>
+<p>通常语法树或 DAG 的结点存放在记录数组中，每个记录第一个字段是运算符代码，也是该结点的标号；叶结点可能有一个存放词法值的字段，而内部结点可能有两个指向其左右运算数的字段。</p>
+<p>在这样的一个数组中，我们只需要给定结点对应的整数下标就可以引用该结点了。而这个下标被称为表达式的<strong>值编码</strong> (value number)。通常为了防止结点太多所造成的巨大的搜索开销，可以用 Hash 的方法实现，加快创建结点时的搜索。</p>
+<h2 id="三地址码" class="headerLink">
+    <a href="#%e4%b8%89%e5%9c%b0%e5%9d%80%e7%a0%81" class="header-mark"></a>三地址码</h2><p>三地址码中一条指令的右侧最多有一个运算符，因此 \(x+y*z\) 这样的代码可能被翻译成
+\[\begin{aligned}
+t_{1} &amp;= y * z\\
+t_{2} &amp;= x + t_{1}
+\end{aligned}\]</p>]]></description>
 </item></channel>
 </rss>

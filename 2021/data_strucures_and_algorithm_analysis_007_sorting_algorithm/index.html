@@ -1,25 +1,35 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cn">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
-    <title>排序算法 - iris</title><meta name="Description" content="GinShio | 数据结构与算法分析第七章笔记"><meta property="og:title" content="排序算法" />
-<meta property="og:description" content="GinShio | 数据结构与算法分析第七章笔记" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-08-27T08:26:23+08:00" />
-<meta property="article:modified_time" content="2022-04-07T18:16:36+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+    <title>排序算法 - iris</title><meta name="Description" content="GinShio | 数据结构与算法分析第七章笔记"><meta property="og:url" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/">
+  <meta property="og:site_name" content="iris">
+  <meta property="og:title" content="排序算法">
+  <meta property="og:description" content="GinShio | 数据结构与算法分析第七章笔记">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-08-27T08:26:23+08:00">
+    <meta property="article:modified_time" content="2022-04-07T18:16:36+08:00">
+    <meta property="article:tag" content="Note">
+    <meta property="article:tag" content="Sort">
+    <meta property="og:image" content="https://blog.ginshio.org/avatar.webp">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_001_introduction/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_002_linear_data_structure/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_003_tree_structure/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_005_hash_table/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/">
 
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
-
-<meta name="twitter:title" content="排序算法"/>
-<meta name="twitter:description" content="GinShio | 数据结构与算法分析第七章笔记"/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp">
+  <meta name="twitter:title" content="排序算法">
+  <meta name="twitter:description" content="GinShio | 数据结构与算法分析第七章笔记">
 <meta name="application-name" content="iris">
 <meta name="apple-mobile-web-app-title" content="iris">
 
@@ -36,12 +46,12 @@
         "@context": "http://schema.org",
         "@type": "BlogPosting",
         "headline": "排序算法",
-        "inLanguage": "zh-CN",
+        "inLanguage": "zh-cn",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_007_sorting_algorithm\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Sort","wordcount":  7663 ,
-        "url": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_007_sorting_algorithm\/","datePublished": "2021-08-27T08:26:23+08:00","dateModified": "2022-04-07T18:16:36+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Sort","wordcount":  2580 ,
+        "url": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_007_sorting_algorithm\/","datePublished": "2021-08-27T08:26:23+08:00","dateModified": "2022-04-07T18:16:36+08:00","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
                         "@type": "Person",
@@ -160,9 +170,9 @@
     </div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">排序算法</h1><div class="post-meta">
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/algorithmdatastructure/"><i class="far fa-folder fa-fw"></i>Algorithm⁄DataStructure</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/"><i class="far fa-list-alt fa-fw"></i>数据结构与算法分析</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-27">08-27</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7663 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 16 分钟&nbsp;</div>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href=""><i class="far fa-folder fa-fw"></i></a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/"><i class="far fa-list-alt fa-fw"></i>数据结构与算法分析</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-27">08-27</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2580 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 13 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
                                     <span>系列 - 数据结构与算法分析</span>
@@ -249,114 +259,114 @@
   排序算法简要比较
 </div>
 <table>
-<thead>
-<tr>
-<th>名称</th>
-<th>英文名称</th>
-<th>稳定性</th>
-<th>\(Time_{avg}\)</th>
-<th>\(Time_{bad}\)</th>
-<th>\(Mem\)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>冒泡排序</td>
-<td>bubble sort</td>
-<td>\(\checkmark\)</td>
-<td>\(\mathcal{O}(N^{2})\)</td>
-<td>\(\mathcal{O}(N^{2})\)</td>
-<td>\(\mathcal{O}(1)\)</td>
-</tr>
-<tr>
-<td>选择排序</td>
-<td>selection sort</td>
-<td>\(\times\)</td>
-<td>\(\mathcal{O}(N^{2})\)</td>
-<td>\(\mathcal{O}(N^{2})\)</td>
-<td>\(\mathcal{O}(1)\)</td>
-</tr>
-<tr>
-<td>插入排序</td>
-<td>insertion sort</td>
-<td>\(\checkmark\)</td>
-<td>\(\mathcal{O}(N^{2})\)</td>
-<td>\(\mathcal{O}(N^{2})\)</td>
-<td>\(\mathcal{O}(1)\)</td>
-</tr>
-<tr>
-<td>希尔排序</td>
-<td>shell sort</td>
-<td>\(\times\)</td>
-<td>\(\mathcal{O}(N^{\frac{3}{2}})\)</td>
-<td>\(\mathcal{O}(N^{2})\)</td>
-<td>\(\mathcal{O}(1)\)</td>
-</tr>
-<tr>
-<td>堆排序</td>
-<td>heap sort</td>
-<td>\(\times\)</td>
-<td>\(\mathcal{O}(N\log_{}{N})\)</td>
-<td>\(\mathcal{O}(N\log_{}{N})\)</td>
-<td>\(\mathcal{O}(1)\)</td>
-</tr>
-<tr>
-<td>归并排序</td>
-<td>merge sort</td>
-<td>\(\checkmark\)</td>
-<td>\(\mathcal{O}(N\log_{}{N})\)</td>
-<td>\(\mathcal{O}(N\log_{}{N})\)</td>
-<td>\(\mathcal{O}(N)\)</td>
-</tr>
-<tr>
-<td>原地归并排序</td>
-<td>in-place merge sort</td>
-<td>\(\checkmark\)</td>
-<td>\(\mathcal{O}(N\log_{}^{2}{N})\)</td>
-<td>\(\mathcal{O}(N\log_{}^{2}{N})\)</td>
-<td>\(\mathcal{O}(1)\)</td>
-</tr>
-<tr>
-<td>快速排序</td>
-<td>quick sort</td>
-<td>\(\times\)</td>
-<td>\(\mathcal{O}(N\log_{}{N})\)</td>
-<td>\(\mathcal{O}(N^{2})\)</td>
-<td>\(\mathcal{O}(\log_{}{N})\)</td>
-</tr>
-<tr>
-<td>桶排序</td>
-<td>bucket sort</td>
-<td>\(\checkmark\)</td>
-<td>\(\mathcal{O}(N + k)\)</td>
-<td>\(\mathcal{O}(N^{2} + k)\)</td>
-<td>\(\mathcal{O}(2^{k})\)</td>
-</tr>
-<tr>
-<td>计数排序</td>
-<td>counting sort</td>
-<td>\(\checkmark\)</td>
-<td>\(\mathcal{O}(N + r)\)</td>
-<td>\(\mathcal{O}(N + r)\)</td>
-<td>\(\mathcal{O}(N + r)\)</td>
-</tr>
-<tr>
-<td>基数排序 (LSD)</td>
-<td>lsd radix sort</td>
-<td>\(\checkmark\)</td>
-<td>\(\mathcal{O}(N \frac{k}{d})\)</td>
-<td>\(\mathcal{O}(N \dfrac{k}{d})\)</td>
-<td>\(\mathcal{O}(N + 2^{d})\)</td>
-</tr>
-<tr>
-<td>基数排序 (MSD)</td>
-<td>msd radix sort</td>
-<td>\(\checkmark\)</td>
-<td>\(\mathcal{O}(N \frac{k}{d})\)</td>
-<td>\(\mathcal{O}(N \dfrac{k}{d})\)</td>
-<td>\(\mathcal{O}(N + 2^{d})\)</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">名称</th>
+          <th style="text-align: left">英文名称</th>
+          <th style="text-align: left">稳定性</th>
+          <th style="text-align: left">\(Time_{avg}\)</th>
+          <th style="text-align: left">\(Time_{bad}\)</th>
+          <th style="text-align: left">\(Mem\)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">冒泡排序</td>
+          <td style="text-align: left">bubble sort</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(1)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">选择排序</td>
+          <td style="text-align: left">selection sort</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(1)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">插入排序</td>
+          <td style="text-align: left">insertion sort</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(1)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">希尔排序</td>
+          <td style="text-align: left">shell sort</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{\frac{3}{2}})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(1)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">堆排序</td>
+          <td style="text-align: left">heap sort</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N\log_{}{N})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N\log_{}{N})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(1)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">归并排序</td>
+          <td style="text-align: left">merge sort</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N\log_{}{N})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N\log_{}{N})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">原地归并排序</td>
+          <td style="text-align: left">in-place merge sort</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N\log_{}^{2}{N})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N\log_{}^{2}{N})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(1)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">快速排序</td>
+          <td style="text-align: left">quick sort</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N\log_{}{N})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(\log_{}{N})\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">桶排序</td>
+          <td style="text-align: left">bucket sort</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N + k)\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N^{2} + k)\)</td>
+          <td style="text-align: left">\(\mathcal{O}(2^{k})\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">计数排序</td>
+          <td style="text-align: left">counting sort</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N + r)\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N + r)\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N + r)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">基数排序 (LSD)</td>
+          <td style="text-align: left">lsd radix sort</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N \frac{k}{d})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N \dfrac{k}{d})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N + 2^{d})\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">基数排序 (MSD)</td>
+          <td style="text-align: left">msd radix sort</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N \frac{k}{d})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N \dfrac{k}{d})\)</td>
+          <td style="text-align: left">\(\mathcal{O}(N + 2^{d})\)</td>
+      </tr>
+  </tbody>
 </table>
 <p>其中 k 为键的大小，d 为数位大小，r 为排序的数字的范围大小。</p>
 <h2 id="冒泡排序" class="headerLink">
@@ -368,7 +378,7 @@
 <li>对每一对相邻元素做同样的工作，直到结尾。当这一步完成后，最后一个元素将会正确的回到末尾位置</li>
 <li>针对所有相邻元素重复以上步骤 (除了刚刚摆放正确的元素)，直到没有可比较的元素为止</li>
 </ol>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Bubble_sort_animation.gif" width="40%"/>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Bubble_sort_animation.gif" width="40%">
 </figure>
 
 <div class="highlight"><div class="chroma">
@@ -410,72 +420,72 @@
 <li>将取出的元素插入这里，并重复步骤 2 ~ 4 直到所有元素都被排序</li>
 </ol>
 <table>
-<thead>
-<tr>
-<th>初始状态</th>
-<th>34</th>
-<th>8</th>
-<th>64</th>
-<th>51</th>
-<th>32</th>
-<th>21</th>
-<th>当前取出元素</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>After \(p=1\)</td>
-<td>8</td>
-<td>34</td>
-<td>64</td>
-<td>51</td>
-<td>32</td>
-<td>21</td>
-<td>8</td>
-</tr>
-<tr>
-<td>After \(p=2\)</td>
-<td>8</td>
-<td>34</td>
-<td>64</td>
-<td>51</td>
-<td>32</td>
-<td>21</td>
-<td>64</td>
-</tr>
-<tr>
-<td>After \(p=3\)</td>
-<td>8</td>
-<td>34</td>
-<td>51</td>
-<td>64</td>
-<td>32</td>
-<td>21</td>
-<td>51</td>
-</tr>
-<tr>
-<td>After \(p=4\)</td>
-<td>8</td>
-<td>32</td>
-<td>34</td>
-<td>51</td>
-<td>64</td>
-<td>21</td>
-<td>32</td>
-</tr>
-<tr>
-<td>After \(p=5\)</td>
-<td>8</td>
-<td>21</td>
-<td>32</td>
-<td>34</td>
-<td>51</td>
-<td>64</td>
-<td>21</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">初始状态</th>
+          <th style="text-align: left">34</th>
+          <th style="text-align: left">8</th>
+          <th style="text-align: left">64</th>
+          <th style="text-align: left">51</th>
+          <th style="text-align: left">32</th>
+          <th style="text-align: left">21</th>
+          <th style="text-align: left">当前取出元素</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">After \(p=1\)</td>
+          <td style="text-align: left">8</td>
+          <td style="text-align: left">34</td>
+          <td style="text-align: left">64</td>
+          <td style="text-align: left">51</td>
+          <td style="text-align: left">32</td>
+          <td style="text-align: left">21</td>
+          <td style="text-align: left">8</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">After \(p=2\)</td>
+          <td style="text-align: left">8</td>
+          <td style="text-align: left">34</td>
+          <td style="text-align: left">64</td>
+          <td style="text-align: left">51</td>
+          <td style="text-align: left">32</td>
+          <td style="text-align: left">21</td>
+          <td style="text-align: left">64</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">After \(p=3\)</td>
+          <td style="text-align: left">8</td>
+          <td style="text-align: left">34</td>
+          <td style="text-align: left">51</td>
+          <td style="text-align: left">64</td>
+          <td style="text-align: left">32</td>
+          <td style="text-align: left">21</td>
+          <td style="text-align: left">51</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">After \(p=4\)</td>
+          <td style="text-align: left">8</td>
+          <td style="text-align: left">32</td>
+          <td style="text-align: left">34</td>
+          <td style="text-align: left">51</td>
+          <td style="text-align: left">64</td>
+          <td style="text-align: left">21</td>
+          <td style="text-align: left">32</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">After \(p=5\)</td>
+          <td style="text-align: left">8</td>
+          <td style="text-align: left">21</td>
+          <td style="text-align: left">32</td>
+          <td style="text-align: left">34</td>
+          <td style="text-align: left">51</td>
+          <td style="text-align: left">64</td>
+          <td style="text-align: left">21</td>
+      </tr>
+  </tbody>
 </table>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Insertion_sort_animation.gif" width="40%"/>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Insertion_sort_animation.gif" width="40%">
 </figure>
 
 <p>由于每个嵌套循环都花费 N 次迭代，因此插入排序时间复杂度为 \(\mathcal{O}(N^{2})\)
@@ -521,112 +531,112 @@
 \cdots, n)\) 进行的 insertion sort，在这一趟排序后，对于每个 i 则有 \(a[i] \leq a[i +
 h_{k}]\) ，即所有间隔为 \(h_{k}\) 的元素都被排序了，此时成为是 \(h_{k}\) 排序的
 (\(h_{k}\) sorted)。之后向前选取增量，直到增量为 1 的趟排序完，算法结束。</p>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/d/d8/Sorting_shellsort_anim.gif"/>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/d/d8/Sorting_shellsort_anim.gif">
 </figure>
 
 <table>
-<thead>
-<tr>
-<th></th>
-<th>\(a_{1}\)</th>
-<th>\(a_{2}\)</th>
-<th>\(a_{3}\)</th>
-<th>\(a_{4}\)</th>
-<th>\(a_{5}\)</th>
-<th>\(a_{6}\)</th>
-<th>\(a_{7}\)</th>
-<th>\(a_{8}\)</th>
-<th>\(a_{9}\)</th>
-<th>\(a_{10}\)</th>
-<th>\(a_{11}\)</th>
-<th>\(a_{12}\)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>input</td>
-<td>62</td>
-<td>83</td>
-<td>18</td>
-<td>53</td>
-<td>7</td>
-<td>17</td>
-<td>95</td>
-<td>86</td>
-<td>47</td>
-<td>69</td>
-<td>25</td>
-<td>28</td>
-</tr>
-<tr>
-<td>after step-5</td>
-<td>17</td>
-<td>28</td>
-<td>18</td>
-<td>47</td>
-<td>7</td>
-<td>25</td>
-<td>83</td>
-<td>86</td>
-<td>53</td>
-<td>69</td>
-<td>62</td>
-<td>95</td>
-</tr>
-<tr>
-<td>after step-3</td>
-<td>17</td>
-<td>7</td>
-<td>18</td>
-<td>47</td>
-<td>28</td>
-<td>25</td>
-<td>69</td>
-<td>62</td>
-<td>53</td>
-<td>83</td>
-<td>86</td>
-<td>95</td>
-</tr>
-<tr>
-<td>after step-1</td>
-<td>7</td>
-<td>17</td>
-<td>18</td>
-<td>25</td>
-<td>28</td>
-<td>47</td>
-<td>53</td>
-<td>62</td>
-<td>69</td>
-<td>83</td>
-<td>86</td>
-<td>95</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th style="text-align: left">\(a_{1}\)</th>
+          <th style="text-align: left">\(a_{2}\)</th>
+          <th style="text-align: left">\(a_{3}\)</th>
+          <th style="text-align: left">\(a_{4}\)</th>
+          <th style="text-align: left">\(a_{5}\)</th>
+          <th style="text-align: left">\(a_{6}\)</th>
+          <th style="text-align: left">\(a_{7}\)</th>
+          <th style="text-align: left">\(a_{8}\)</th>
+          <th style="text-align: left">\(a_{9}\)</th>
+          <th style="text-align: left">\(a_{10}\)</th>
+          <th style="text-align: left">\(a_{11}\)</th>
+          <th style="text-align: left">\(a_{12}\)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">input</td>
+          <td style="text-align: left">62</td>
+          <td style="text-align: left">83</td>
+          <td style="text-align: left">18</td>
+          <td style="text-align: left">53</td>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left">17</td>
+          <td style="text-align: left">95</td>
+          <td style="text-align: left">86</td>
+          <td style="text-align: left">47</td>
+          <td style="text-align: left">69</td>
+          <td style="text-align: left">25</td>
+          <td style="text-align: left">28</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">after step-5</td>
+          <td style="text-align: left">17</td>
+          <td style="text-align: left">28</td>
+          <td style="text-align: left">18</td>
+          <td style="text-align: left">47</td>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left">25</td>
+          <td style="text-align: left">83</td>
+          <td style="text-align: left">86</td>
+          <td style="text-align: left">53</td>
+          <td style="text-align: left">69</td>
+          <td style="text-align: left">62</td>
+          <td style="text-align: left">95</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">after step-3</td>
+          <td style="text-align: left">17</td>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left">18</td>
+          <td style="text-align: left">47</td>
+          <td style="text-align: left">28</td>
+          <td style="text-align: left">25</td>
+          <td style="text-align: left">69</td>
+          <td style="text-align: left">62</td>
+          <td style="text-align: left">53</td>
+          <td style="text-align: left">83</td>
+          <td style="text-align: left">86</td>
+          <td style="text-align: left">95</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">after step-1</td>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left">17</td>
+          <td style="text-align: left">18</td>
+          <td style="text-align: left">25</td>
+          <td style="text-align: left">28</td>
+          <td style="text-align: left">47</td>
+          <td style="text-align: left">53</td>
+          <td style="text-align: left">62</td>
+          <td style="text-align: left">69</td>
+          <td style="text-align: left">83</td>
+          <td style="text-align: left">86</td>
+          <td style="text-align: left">95</td>
+      </tr>
+  </tbody>
 </table>
 <p>Shell sort 虽然实现简单，但运行时间的分析却很难。Shell sort 的运行时间依赖于所选择的增量序列。</p>
 <table>
-<thead>
-<tr>
-<th>增量序列</th>
-<th>时间复杂度</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>\(\frac{N}{2^{i}}\)</td>
-<td>\(\Theta(N^{2})\)</td>
-</tr>
-<tr>
-<td>\(2^{i} - 1\)</td>
-<td>\(\Theta(N^{3/2})\)</td>
-</tr>
-<tr>
-<td>\(2^{i}3^{j}\)</td>
-<td>\(\Theta(N\log_{}^{2}{N})\)</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">增量序列</th>
+          <th style="text-align: left">时间复杂度</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">\(\frac{N}{2^{i}}\)</td>
+          <td style="text-align: left">\(\Theta(N^{2})\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">\(2^{i} - 1\)</td>
+          <td style="text-align: left">\(\Theta(N^{3/2})\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">\(2^{i}3^{j}\)</td>
+          <td style="text-align: left">\(\Theta(N\log_{}^{2}{N})\)</td>
+      </tr>
+  </tbody>
 </table>
 <p>已知最好的步长序列是 Sedgewick 提出的 \(1, 5, 19, 41, 109, \cdots\) ，这是一个下标从 0
 开始的序列，偶数下标对应的步长增量由 \(9 \times 4^{i} - 9 \times 2^{i} + 1\) 提供，奇数下标对应的步长增量由 \(2^{i+2} \times (2^{i+2} - 3) + 1\) 提供。在小数组中使用好的步长序列的 Shell sort 性能十分优秀。另外在大数组中，步长序列 \((fib(i+2))^{2}\) 表现优异。</p>
@@ -663,7 +673,7 @@ h_{k}]\) ，即所有间隔为 \(h_{k}\) 的元素都被排序了，此时成为
 </div><h2 id="堆排序" class="headerLink">
     <a href="#%e5%a0%86%e6%8e%92%e5%ba%8f" class="header-mark"></a>堆排序</h2><p>堆排序 (heap sort) 是基于上一篇中提到的 binary heap 的时间复杂度
 \(\mathcal{O}(N\log_{}{N})\) 的排序算法。如果我们要以升序排序数组，则将数组转换为一个 max heap，重复将 heap top 元素移除即可获取从大到小的序列。</p>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Sorting_heapsort_anim.gif" width="40%"/>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Sorting_heapsort_anim.gif" width="40%">
 </figure>
 
 <p>堆排序分为两个阶段，建立 max heap 与 N 次的移除操作。第一阶段建立 heap 需要最多
@@ -810,7 +820,7 @@ percolate down 恢复 heap-order。</p>
 \(\mathcal{O}(N\log_{}{N})\) 最坏情形运行时间运行，而所使用的比较次数几乎是最优解。
 mergesort 最基本的操作是合并两个已排序的表，而这个时间是线性的。递归地对前半部分数据和后半部分数据进行各自归并排序，将排序后的两部分合并得到最终的排序序列。</p>
 <p>mergesort 是典型的 <strong>divide-and-conquer</strong> (分而治之) 算法，将问题 divide (分) 为一些小问题递归求解，并 conquering (治) 的阶段将分的阶段的解修补在一起。</p>
-<figure><img src="/images/algo-example-of-merge-sort.svg" width="55%"/>
+<figure><img src="/images/algo-example-of-merge-sort.svg" width="55%">
 </figure>
 
 <p>递归操作是自顶向下的，具体操作方法：</p>
@@ -821,7 +831,7 @@ mergesort 最基本的操作是合并两个已排序的表，而这个时间是�
 <li>重复步骤 3 直到某一指针到达序列尾部</li>
 <li>将剩下的所有元素复制到合并空间</li>
 </ol>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Merge_sort_animation2.gif" width="40%"/>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Merge_sort_animation2.gif" width="40%">
 </figure>
 
 <div class="highlight"><div class="chroma">
@@ -913,26 +923,26 @@ mergesort 最基本的操作是合并两个已排序的表，而这个时间是�
     <a href="#%e5%9c%a8%e9%93%be%e8%a1%a8%e4%b8%8a%e8%bf%9b%e8%a1%8c%e5%bd%92%e5%b9%b6%e6%8e%92%e5%ba%8f" class="header-mark"></a>在链表上进行归并排序</h3><p>归并排序的递归实现是自顶向下的，而链表上常用自下向上的迭代思路。</p>
 <p>首先解释代码中所用到的额外函数：</p>
 <table>
-<thead>
-<tr>
-<th>函数</th>
-<th>释义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>splice(dest, src, iterator)</code></td>
-<td>将 src 中的元素 iterator 转移给 dest</td>
-</tr>
-<tr>
-<td><code>merge(dest, src)</code></td>
-<td>将有序的列表 dest 与 src 合并并转移到 dest 中</td>
-</tr>
-<tr>
-<td><code>swap(a, b)</code></td>
-<td>交换两个链表 a 与 b</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">函数</th>
+          <th style="text-align: left">释义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>splice(dest, src, iterator)</code></td>
+          <td style="text-align: left">将 src 中的元素 iterator 转移给 dest</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>merge(dest, src)</code></td>
+          <td style="text-align: left">将有序的列表 dest 与 src 合并并转移到 dest 中</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>swap(a, b)</code></td>
+          <td style="text-align: left">交换两个链表 a 与 b</td>
+      </tr>
+  </tbody>
 </table>
 <p>需要特别注意的是， <code>splice</code> 是将结点转移，也就是说它直接将结点链接进 dest 而不是复制结点的值到 dest，因此 src 将不再存在该结点。而 <code>merge</code> 是将 src 转移进 dest
 中，操作完成后 dest 是有序的 dest 与 src 的合并，而 src 中将不再有任何结点。代码的实现步骤如下：</p>
@@ -1002,7 +1012,7 @@ mergesort 最基本的操作是合并两个已排序的表，而这个时间是�
 arr-\{e\} | x \leq e\}\) 和 \(arr_{2} = \{x \in arr-\{e\} | x \geq e\}\)</li>
 <li>返回 \(\{quicksort(arr_{1}), e, quicksort(arr_{2})\}\)</li>
 </ol>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Sorting_quicksort_anim.gif" width="40%"/>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Sorting_quicksort_anim.gif" width="40%">
 </figure>
 
 <p>显然算法是成立的，可是为什么 quicksort 比 mergesort 快。quicksort 递归的解决两个子问题并需要线性的划分集合，但这两个子集的大小是不保证相等的，在划分是选择适当的位置将非常的高效，以至于弥补大小不等的递归带来的消耗甚至超过 mergesort。</p>
@@ -1331,8 +1341,8 @@ Significant Digital)，LSD 采用从最右位开始排序，MSD 采用从最左�
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
             </div>
@@ -1355,7 +1365,7 @@ Significant Digital)，LSD 采用从最右位开始排序，MSD 采用从最左�
         </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
             <i class="fas fa-comment fa-fw"></i>
         </a>
-    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b82a526943533d0dde3eceea68e6d3879e8f766339a17d2c57bbde5421167ddeafa4734202e9950c16842cc6d27753b4.css" integrity="sha384-uCpSaUNTPQ3ePs7qaObTh56PdmM5oX0sV7veVCEWfd6vpHNCAumVDBaELMbSd1O0"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
         <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2021-08-27T08:26:23+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"排序算法"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
             window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
             gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });

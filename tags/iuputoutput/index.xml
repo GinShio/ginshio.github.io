@@ -3,18 +3,149 @@
         <title>IuputOutput - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/iuputoutput/</link>
         <description>IuputOutput - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com ( )</managingEditor>
-            <webMaster>ginshio78@gmail.com ( )</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 26 Feb 2022 14:35:50 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/iuputoutput/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Sat, 26 Feb 2022 14:35:50 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/iuputoutput/" rel="self" type="application/rss+xml" /><item>
     <title>I/O 复用</title>
     <link>https://blog.ginshio.org/2022/unixnetworkprogramming_005/</link>
     <pubDate>Sat, 26 Feb 2022 14:35:50 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/unixnetworkprogramming_005/</guid>
-    <description><![CDATA[在客户端阻塞在 read 等待用户输入时，服务器关闭会导致向客户端发送 FIN，这是客户端的另一个输入。但由于客户端阻塞在 read 从而无法立即接受这个输入，直]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/unixnetworkprogramming_005/</guid>
+    <description><![CDATA[<p>在客户端阻塞在 read 等待用户输入时，服务器关闭会导致向客户端发送 FIN，这是客户端的另一个输入。但由于客户端阻塞在 read 从而无法立即接受这个输入，直到从套接字读入为止。这就需要进程提前告知内核，使得内核在进程指定的输入准备好后，或可以输出后，立即通知进程，这个能力被称为 I/O 复用 (I/O multiplexing)。</p>
+<p>I/O 复用有多个 syscall 可以实现，Unix 古老的函数 select 与 poll，POSIX 有一个比较新的变种为 pselect，而 Linux 与 freeBSD 独立发展出了 <strong>epoll</strong> 与 <strong>kqueue</strong>。</p>
+<p>I/O 复用典型适用于以下场合：</p>
+<ul>
+<li>当客户处理多个描述符时</li>
+<li>客户同时处理多个套接字时，不过这种场景比较少见</li>
+<li>如果 TCP 服务器既要监听套接字，又要处理已连接的套接字</li>
+<li>如果一个服务器既要处理 TCP 又要处理 UDP，或同时处理多个不同协议，或多个服务</li>
+</ul>
+<p>需要注意的是，并非只有网络编程需要用到 I/O 复用，I/O 复用是对文件描述符状态的监听，因此其他场景下也有其适用的空间。</p>
+<h2 id="i-o-模型" class="headerLink">
+    <a href="#i-o-%e6%a8%a1%e5%9e%8b" class="header-mark"></a>I/O 模型</h2><p>在 Unix 系统上，一个输入操作通常包含两个不同的阶段</p>
+<ol>
+<li>数据准备完成</li>
+<li>从内核向进程复制数据</li>
+</ol>
+<p>在等待数据准备到复制数据的过程，根据行为的不同，I/O 模型主要分为以下几种</p>
+<ul>
+<li>
+<p><strong>blocking I/O</strong> (阻塞式 I/O)</p>
+<p>阻塞式 I/O 模型是最常见、最简单、最好理解的 I/O 模型，目前为止所有的套接字函数都是阻塞式 I/O，另外 C 标准库所提供的 I/O 也是阻塞式 I/O，这样的模型符合初学函数时提及的运行流程。</p>
+<figure>
+    </figure>
+
+<p>在 recvfrom 这个示例中，只有数据报到达且复制到进程缓冲区中或错误发生才返回，而这段时间内进程是被阻塞的，不再向下运行代码。</p>
+</li>
+<li>
+<p><strong>nonblocking I/O</strong> (非阻塞式 I/O)</p>]]></description>
 </item><item>
     <title>输入输出</title>
     <link>https://blog.ginshio.org/2021/operatingsystem_004/</link>
     <pubDate>Sun, 25 Jul 2021 14:01:08 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2021/operatingsystem_004/</guid>
-    <description><![CDATA[除了提供抽象外，操作系统还要控制计算机的所有 IO (输入/输出) 设备，必须向设备发送命令、捕获中断并处理设备的各种错误。它还应该在设备和其他部分]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/operatingsystem_004/</guid>
+    <description><![CDATA[<p>除了提供抽象外，操作系统还要控制计算机的所有 IO (输入/输出) 设备，必须向设备发送命令、捕获中断并处理设备的各种错误。它还应该在设备和其他部分之间提供简单且易于使用的接口，且这些接口应该尽可能的对所有设备都相同，即设备无关。</p>
+<h2 id="单位" class="headerLink">
+    <a href="#%e5%8d%95%e4%bd%8d" class="header-mark"></a>单位</h2><p>在进行本篇之前，需要明确一下计算机领域常用单位，只有统一了单位，我们才能更好的交流。</p>
+<p>计算机领域以 bit (b，位) 和 byte (B，字节) 作为基本单位，bit 是只能表示 1 或 0
+的单位数据，\(1 \texttt{Byte} = 8 \texttt{bit}\)，即 1 Byte 可以表示 256 种不同的状态。另外在 IO 传输数据时，最常用的单位即 <strong>比特率</strong> (单位：bit/s 或 bps)，即每秒传输的 bit 数量，当然也可以对其进行除以 8 运算转变为 <code>Byte/s</code>。</p>
+<p>传统单位以 <a href="https://en.wikipedia.org/wiki/Metric_prefix" target="_blank" rel="noopener noreferrer">SI</a> (10 进制) 前缀为词头，而计算机领域多以 <a href="https://en.wikipedia.org/wiki/Binary_prefix" target="_blank" rel="noopener noreferrer">IEC 60027</a> (2 进制) 前缀为词头。一般内存与 CD 使用 IEC-60027 词头，而磁盘、闪存、DVD 常用 SI 词头表示容量。至于 Windows 系统对于容量的显示问题，内部转换为 IEC-60027 但显示的词头却是 SI，这也是历史原因所造成的。</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">词头</th>
+          <th style="text-align: left">prefix</th>
+          <th style="text-align: left">符号</th>
+          <th style="text-align: left">\(10^{n}\)</th>
+          <th style="text-align: left">prefix</th>
+          <th style="text-align: left">符号</th>
+          <th style="text-align: left">\(2^{n}\)</th>
+          <th style="text-align: left">\(16^{n}\)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">尧</td>
+          <td style="text-align: left">yotta</td>
+          <td style="text-align: left">Y</td>
+          <td style="text-align: left">\(10^{24}\)</td>
+          <td style="text-align: left">yobi</td>
+          <td style="text-align: left">Yi</td>
+          <td style="text-align: left">\(2^{80}\)</td>
+          <td style="text-align: left">\(16^{20}\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">泽</td>
+          <td style="text-align: left">zetta</td>
+          <td style="text-align: left">Z</td>
+          <td style="text-align: left">\(10^{21}\)</td>
+          <td style="text-align: left">zebi</td>
+          <td style="text-align: left">Zi</td>
+          <td style="text-align: left">\(2^{70}\)</td>
+          <td style="text-align: left">\(16^{17.5}\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">艾</td>
+          <td style="text-align: left">exa</td>
+          <td style="text-align: left">E</td>
+          <td style="text-align: left">\(10^{18}\)</td>
+          <td style="text-align: left">exbi</td>
+          <td style="text-align: left">Ei</td>
+          <td style="text-align: left">\(2^{60}\)</td>
+          <td style="text-align: left">\(16^{15}\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">拍</td>
+          <td style="text-align: left">peta</td>
+          <td style="text-align: left">P</td>
+          <td style="text-align: left">\(10^{15}\)</td>
+          <td style="text-align: left">pebi</td>
+          <td style="text-align: left">Pi</td>
+          <td style="text-align: left">\(2^{50}\)</td>
+          <td style="text-align: left">\(16^{12.5}\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">太</td>
+          <td style="text-align: left">tera</td>
+          <td style="text-align: left">T</td>
+          <td style="text-align: left">\(10^{12}\)</td>
+          <td style="text-align: left">tebi</td>
+          <td style="text-align: left">Ti</td>
+          <td style="text-align: left">\(2^{40}\)</td>
+          <td style="text-align: left">\(16^{10}\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">吉</td>
+          <td style="text-align: left">giga</td>
+          <td style="text-align: left">G</td>
+          <td style="text-align: left">\(10^{9}\)</td>
+          <td style="text-align: left">gibi</td>
+          <td style="text-align: left">Gi</td>
+          <td style="text-align: left">\(2^{30}\)</td>
+          <td style="text-align: left">\(16^{7.5}\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">兆</td>
+          <td style="text-align: left">mega</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">\(10^{6}\)</td>
+          <td style="text-align: left">mebi</td>
+          <td style="text-align: left">Mi</td>
+          <td style="text-align: left">\(2^{20}\)</td>
+          <td style="text-align: left">\(16^{5}\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">千</td>
+          <td style="text-align: left">kilo</td>
+          <td style="text-align: left">k</td>
+          <td style="text-align: left">\(10^{3}\)</td>
+          <td style="text-align: left">kibi</td>
+          <td style="text-align: left">Ki</td>
+          <td style="text-align: left">\(2^{10}\)</td>
+          <td style="text-align: left">\(16^{2.5}\)</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="io-硬件原理" class="headerLink">
+    <a href="#io-%e7%a1%ac%e4%bb%b6%e5%8e%9f%e7%90%86" class="header-mark"></a>IO 硬件原理</h2><p>对于不同角度观察的人，IO 硬件的理解是不同的。对于电子工程师而言，IO 硬件就是芯片、导线、电源、电机和其他组成硬件的物理部件。对程序员而言，则只注意 IO 硬件提供给软件的接口，如硬件能够接收的命令、实现的功能以及能够报告的错误。因此这里所描述的
+IO 设备仅限于对硬件的编程，而非其内部工作原理。</p>]]></description>
 </item></channel>
 </rss>

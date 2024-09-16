@@ -3,24 +3,168 @@
         <title>LexicalAnalysis - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/lexicalanalysis/</link>
         <description>LexicalAnalysis - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com ( )</managingEditor>
-            <webMaster>ginshio78@gmail.com ( )</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 01 May 2022 15:29:43 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/lexicalanalysis/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Sun, 01 May 2022 15:29:43 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/lexicalanalysis/" rel="self" type="application/rss+xml" /><item>
     <title>词法分析软件 Flex 及语法分析软件 Bison 的用法</title>
     <link>https://blog.ginshio.org/2022/flex_and_bison/</link>
     <pubDate>Sun, 01 May 2022 15:29:43 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/flex_and_bison/</guid>
-    <description><![CDATA[正正规规地开始写实现一个编译器感觉压力还是蛮大的。初步选型是 基础工具 Git CMake gcc 编译器生成工具 Flex GNU Bison 其他工具 Clang Format CppLint EditConfig C++ 支持 17 简直太棒了！！！还不知]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/flex_and_bison/</guid>
+    <description><![CDATA[<p>正正规规地开始写实现一个编译器感觉压力还是蛮大的。初步选型是</p>
+<ul>
+<li>基础工具
+<ul>
+<li>Git</li>
+<li>CMake</li>
+<li>gcc</li>
+</ul>
+</li>
+<li>编译器生成工具
+<ul>
+<li>Flex</li>
+<li>GNU Bison</li>
+</ul>
+</li>
+<li>其他工具
+<ul>
+<li>Clang Format</li>
+<li>CppLint</li>
+<li>EditConfig</li>
+</ul>
+</li>
+</ul>
+<p><code>C++</code> 支持 17 简直太棒了！！！还不知道毕昇杯能不能用 CMake 去构建。</p>
+<p>由于是多人合作项目，代码风格暂时定的是 Google，估计啥都不知道。想想到时候 review
+代码就头大。</p>
+<p>这篇主要是记录下从 <a href="https://en.wikipedia.org/wiki/Info_%28Unix%29" target="_blank" rel="noopener noreferrer">info</a> (Emacs 看 info 真方便) 中学习的 Flex 和 GNU Bison 相关用法。</p>
+<p><strong>TL;DR.</strong>
+<a href="#main-%e5%87%bd%e6%95%b0%e7%a4%ba%e4%be%8b" rel="">main 函数示例</a> 或 <a href="https://pku-minic.github.io/online-doc" target="_blank" rel="noopener noreferrer">北大编译实践</a></p>
+<h2 id="flex" class="headerLink">
+    <a href="#flex" class="header-mark"></a>Flex</h2><p>Flex 可以理解为词法分析器生成工具 Lex 的开源版本，意为 fast lexical analyzer
+generator。根据描述的正则表达式与 C 代码 (这些被称为 <strong>规则</strong>)，来生成对应的分析器代码 (文件名默认为 <strong>lex.yy.c</strong>)，其中定义了接口 <code>yylex()</code> 用来启动分析器，函数原型如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">yylex</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Flex 默认会生成标准的 C99 代码，而非 <code>K&amp;R</code> 风格代码。在调用 yylex 时，它会持续从全局输入文件 yyin 中扫描 token，直到遇到 EOF 或 action 执行返回语句。如果 yylex
+因 return 停止扫描，可以再次调用扫描器，从中断处继续扫描。当扫描到 EOF 时，只有
+<code>yywrap()</code> 返回 0 才继续读取其他文件，返回非零时扫描器会终止并返回 0。如果你不实现 <code>yywrap()</code>,需要使用 <code>%option noyywrap</code> 或链接 <code>-lfl</code> 使用总返回 1 的默认版本。</p>]]></description>
 </item><item>
     <title>词法分析 2</title>
     <link>https://blog.ginshio.org/2020/compilerprinciple_003/</link>
     <pubDate>Sat, 17 Oct 2020 22:33:04 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2020/compilerprinciple_003/</guid>
-    <description><![CDATA[NFA的重要状态如果一个 NFA 状态有一个标号非 \(\varepsilon\) 的离开转换，那么我们称这个状态为 重要状态 (important state)。子集构造法在计算 \(\varepsilo]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/compilerprinciple_003/</guid>
+    <description><![CDATA[<h2 id="nfa的重要状态" class="headerLink">
+    <a href="#nfa%e7%9a%84%e9%87%8d%e8%a6%81%e7%8a%b6%e6%80%81" class="header-mark"></a>NFA的重要状态</h2><p>如果一个 NFA 状态有一个标号非 \(\varepsilon\) 的离开转换，那么我们称这个状态为 <strong>重要状态</strong>
+(important state)。子集构造法在计算 \(\varepsilon-closure(move(T，a))\) 的时候，它只使用了集合T中的重要状态，也就是说只有当状态s是重要的，状态集合 \(move(s,a)\) 才可能是非空的。在子集构造法的应用过程中，两个NFA状态集合可以被认为是一致的条件是</p>
+<ol>
+<li>具有相同的重要状态，且</li>
+<li>要么都包含接受状态，要么都不包含接受状态</li>
+</ol>
+<p>如果 NFA 是使用 <code>McMaughton-Yamada-Thompson</code> 算法根据一个正则表达式生成的，那么我们可以获得更多重要状态的性质</p>
+<ul>
+<li>重要状态只包括在基础规则部分为正则表达式中某个特定符号位置引入的初始状态，即每个重要状态对应于正则表达式中的某个运算分量</li>
+<li>NFA 只有一个接受状态，但该接受状态不是重要状态。我们可以在正则表达式r的右端连接一个独特的结束标记符 <code>#</code>，使得r的接收状态增加一个在 <code>#</code> 上的转换，使其成为
+<code>(r)#</code> 的NFA的重要状态</li>
+<li>NFA 的重要状态直接对应于正则表达式中存放了字母表中符号的位置，使用抽象语法树来表示扩展的正则表达式是非常有用的</li>
+</ul>
+<h2 id="抽象语法树" class="headerLink">
+    <a href="#%e6%8a%bd%e8%b1%a1%e8%af%ad%e6%b3%95%e6%a0%91" class="header-mark"></a>抽象语法树</h2><p>抽象语法树的叶子结点对应于运算分量，内部结点表示运算符。标号为 <code>连接运算符</code>
+(\(\circ\)) 的内部结点被称为 <strong>cat结点</strong>，<code>并运算符</code> (\(|\)) 的内部结点被称为 <strong>or结点</strong>，=
+星号运算符= (\(*\)) 的内部结点被称为 <strong>star结点</strong>，我们构建正则表达式
+\((a|b)^{*}abb\#\) 的抽象语法树。</p>
+<figure>
+</figure>
+
+<p>抽象语法树的叶子结点可以标号为 \(\varepsilon\)，也可以用字母表中的符号作为标号，对于每个标号不为 \(\varepsilon\) 的叶子结点，我们赋予一个独立的整数，我们将这个整数称作叶子结点的 <strong>位置</strong>，同时也表示和它对应的符号的位置，当然一个符号可以有多个位置。抽象语法树中的这些位置对应构造出的 NFA 中的重要状态。</p>
+<figure>
+</figure>
+
+<h2 id="计算函数" class="headerLink">
+    <a href="#%e8%ae%a1%e7%ae%97%e5%87%bd%e6%95%b0" class="header-mark"></a>计算函数</h2><p>要从一个正则表达式直接构造出 DFA，我们要先构造出它的抽象语法树，然后计算如下四个函数：<code>nullable</code>、<code>firstpos</code>、<code>lastpos</code> 和 <code>followpos</code>，且这四个函数都用到了扩展正则表达式 <code>(r)#</code> 的抽象语法树。</p>
+<dl>
+<dt>nullable(n)</dt>
+<dd>当且仅当此结点代表的子表达式的语言中包含空串 \(\varepsilon\) 时抽象语法树结点n为真，即：这个子表达式可以生成空串或本身就是空串，即使它也可能表示其他串</dd>
+<dt>firstpos(n)</dt>
+<dd>定义了以结点n为根的子树中的位置集合，这些位置对应于以n为根的子表达式的语言中某个串的 <strong>第一个符号</strong></dd>
+<dt>lastpos(n)</dt>
+<dd>定义了以结点n为根的子树中的位置集合，这些位置对应于以n为根的子表达式的语言中某个串的 <strong>最后一个符号</strong></dd>
+<dt>followpos(p)</dt>
+<dd>定义了一个和位置p相关的、抽象语法树中的某些位置的集合。当且仅当存在 L((r)#)
+中的某个串 \(x=a_{1}a_{2}\cdots a_{n}\)，使得我们在解释为什么x属于 L((r)#) 时，可以将x中的某个 \(a_{i}\) 和抽象语法树中的位置p匹配，且将位置 \(a_{i+1}\) 和位置q
+匹配，那么位置q在 \(followpos(p)\) 中。简单地说，该函数计算出位置n之后可以跟随的其他位置</dd>
+</dl>
+<p>在计算函数时，我们先给出较为简单的 nullable 、 firstpos 和 lastpos 的计算方式，可以使用一个对树的高度直接进行递归的过程来计算它们，计算方式如下。</p>]]></description>
 </item><item>
     <title>词法分析 1</title>
     <link>https://blog.ginshio.org/2020/compilerprinciple_002/</link>
     <pubDate>Thu, 16 Jul 2020 16:47:49 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2020/compilerprinciple_002/</guid>
-    <description><![CDATA[词法分析是编译器的第一阶段，主要负责读取源程序的输入字符，将它们组成 词素，生成并输出一个词法单元序列，每个词法单元对应一个词素，这个词法单元]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/compilerprinciple_002/</guid>
+    <description><![CDATA[<p>词法分析是编译器的第一阶段，主要负责读取源程序的输入字符，将它们组成 <strong>词素</strong>，生成并输出一个词法单元序列，每个词法单元对应一个词素，这个词法单元序列将被语法分析器进行语法分析。除此之外，词法分析器还会过滤源程序中的注释和空白，生成错误信息与源程序的位置关联起来，有时还会进行宏扩展。</p>
+<figure>
+</figure>
+
+<p>学习词法分析时，需要分清以下三个相关但有区别的术语</p>
+<dl>
+<dt>词法单元</dt>
+<dd>由一个词法单元名和一个可选的属性值组成，词法单元名是一个表示某种词法单位的抽象符号，比如关键字，或标识符的输入字符序列</dd>
+<dt>词素</dt>
+<dd>源程序中的字符序列，它和某一词法单元的模式匹配，并被词法分析器识别为该词法单元的一个实例</dd>
+<dt>模式</dt>
+<dd>描述了一个词法单元的词素可能具有的形式。对于关键词它是组成关键字的字符序列；对于标识符和其他词法单元，模式是一个更加复杂的结构，可以和很多符号串匹配</dd>
+</dl>
+<p>比如 <code>printf(&quot;Total=%d\n&quot;，source);</code> 中，printf 和 source 都是和词法单元 id 的模式匹配的词素，而字符串则是一个和 literal 匹配的词素，以下表格为词法单元的示例</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">词法单元</th>
+          <th style="text-align: left">非正式描述</th>
+          <th style="text-align: left">词素示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">if</td>
+          <td style="text-align: left">关键字，字符 i/f</td>
+          <td style="text-align: left">if</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">else</td>
+          <td style="text-align: left">关键字，字符 e/l/s/e</td>
+          <td style="text-align: left">else</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">comparison</td>
+          <td style="text-align: left">比较运算符</td>
+          <td style="text-align: left">&lt;，&lt;=</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">id</td>
+          <td style="text-align: left">普通标识符</td>
+          <td style="text-align: left">pi，D2，source</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">number</td>
+          <td style="text-align: left">数字常量</td>
+          <td style="text-align: left">3.1415926，1024</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">literal</td>
+          <td style="text-align: left">字符串常量</td>
+          <td style="text-align: left">&ldquo;hello world!&rdquo;</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="词法单元的规约" class="headerLink">
+    <a href="#%e8%af%8d%e6%b3%95%e5%8d%95%e5%85%83%e7%9a%84%e8%a7%84%e7%ba%a6" class="header-mark"></a>词法单元的规约</h2><h3 id="串和语言" class="headerLink">
+    <a href="#%e4%b8%b2%e5%92%8c%e8%af%ad%e8%a8%80" class="header-mark"></a>串和语言</h3><p><strong>字母表</strong> (alphabet) 是一个有限的符号集合，符号的典型示例是包括字母、数字和标点符号，常见的字母表如 <em>ASCII</em> 和 <em>Unicode</em>。</p>
+<p><strong>串</strong> (string) 是某个字母表中符号的一个有穷序列，串 s 的长度，表示 s 中符号出现的次数，记作 \(|s|\)，长度为 0 的串被称为空串，记作 \(\varepsilon\)。</p>
+<p><strong>语言</strong> (language) 是某个给定字母表上一个任意的可数的串的集合，此外空集
+\(\varnothing\) 和 仅包含空串的集合都是语言。</p>
+<p>词法分析中，最重要的语言上的运算是 <code>并</code>、<code>连接</code> 和 <code>闭包</code>。连接是将一个串附加到另一个串的后面形成新串，例如 \(x=dog, y=house\)，那么 x、y 的连接 \(xy=doghouse\)
+；空串是连接运算的 <strong>单位元</strong>，即对于任意串 \(s\varepsilon = \varepsilon s = s\)。两个串的连接可以被看作乘积，那么可以定义串的指数运算： \(s^0=\varepsilon，s^i = s^{i-1}s(i &gt; 0)\) 。Kleene <strong>闭包</strong> (closure)，记作 \(L^{*}\)，即将 L 连接 0 次或多次后得到的串集；<strong>正闭包</strong> 与闭包基本相同，但不包括 \(L^0\)，也就是说，除非 \(\varepsilon\) 属于 L，否则 \(\varepsilon \notin L\)。</p>]]></description>
 </item></channel>
 </rss>

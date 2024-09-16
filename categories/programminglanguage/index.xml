@@ -3,42 +3,364 @@
         <title>ProgrammingLanguage - 分类 - iris</title>
         <link>https://blog.ginshio.org/categories/programminglanguage/</link>
         <description>ProgrammingLanguage - 分类 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com ( )</managingEditor>
-            <webMaster>ginshio78@gmail.com ( )</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 09 Feb 2022 22:03:41 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/categories/programminglanguage/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Wed, 09 Feb 2022 22:03:41 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/categories/programminglanguage/" rel="self" type="application/rss+xml" /><item>
     <title>Lua 语言学习</title>
     <link>https://blog.ginshio.org/2022/dst_lua_language_study/</link>
     <pubDate>Wed, 09 Feb 2022 22:03:41 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/dst_lua_language_study/</guid>
-    <description><![CDATA[Lua 是一个动态弱类型脚本语言，核心由 C 语言实现，执行效率高，可直接做 C / C++ 扩展。另外 Lua 另一个主流实现 Lua JIT 主要研究针对 Lua 的即时编译系统。 而 Lua 由于]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/dst_lua_language_study/</guid>
+    <description><![CDATA[<p>Lua 是一个动态弱类型脚本语言，核心由 C 语言实现，执行效率高，可直接做 C / C++ 扩展。另外 Lua 另一个主流实现 Lua JIT 主要研究针对 Lua 的即时编译系统。</p>
+<p>而 Lua 由于其高性能、小巧、简单、与 C 结合性好等特点，大量运用于游戏领域，而饥荒的实现以及扩展也基本使用 Lua 完成。</p>
+<p>本章主要描述 Lua 中的词法、语法和语义，语言结构将使用通常的扩展 <a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form" target="_blank" rel="noopener noreferrer">BNF</a> 表示，比如
+<code>{a}</code> 表示 0 或 多个 a， <code>[a]</code> 表示一个可选的 a。而关键字用黑体表示 (e.g.
+<strong>kword</strong>)，其他终结符使用反引号表示 (e.g. <code>`=`</code>)</p>
+<p>而 Lua 学习主要以 Lua 5.1 的 <a href="https://www.lua.org/manual/5.1/manual.html" target="_blank" rel="noopener noreferrer">官方文档</a> 为对象。</p>
+<h2 id="词法介绍" class="headerLink">
+    <a href="#%e8%af%8d%e6%b3%95%e4%bb%8b%e7%bb%8d" class="header-mark"></a>词法介绍</h2><p>在 Lua 中标识符可以是任意字母、数字、下划线所组成的字符串 (不能以数字开头)，而标识符可以用作变量的名称和表字段名。但是在标识符命名时不能使用以下名称，因为它们是关键字。</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">关键字</th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">and</td>
+          <td style="text-align: left">break</td>
+          <td style="text-align: left">do</td>
+          <td style="text-align: left">else</td>
+          <td style="text-align: left">elseif</td>
+          <td style="text-align: left">end</td>
+          <td style="text-align: left">false</td>
+          <td style="text-align: left">for</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">function</td>
+          <td style="text-align: left">if</td>
+          <td style="text-align: left">in</td>
+          <td style="text-align: left">local</td>
+          <td style="text-align: left">nil</td>
+          <td style="text-align: left">not</td>
+          <td style="text-align: left">or</td>
+          <td style="text-align: left">repeat</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">return</td>
+          <td style="text-align: left">then</td>
+          <td style="text-align: left">true</td>
+          <td style="text-align: left">until</td>
+          <td style="text-align: left">while</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+  </tbody>
+</table>
+<p>Lua 是一个大小写敏感的语言，因此 And 与 AND 是完全不同的两个标识符。一般约定，由一个下划线开头并跟随大写字母的标识符 (e.g. <code>_VERSION</code>) 是 Lua 内部所使用的全局变量，应避免使用。</p>]]></description>
 </item><item>
     <title>Elixir Intermediate</title>
     <link>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_003/</link>
     <pubDate>Sun, 21 Feb 2021 20:25:02 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_003/</guid>
-    <description><![CDATA[MixMix 是 Elixir 社区开发的集包管理、依赖管理、构建工具于一身的开发工具，扩展性极好，功能强大，自带对 Erlang 的支持，可以类比 Golang 自带的 go，详细的使用方式请参]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_003/</guid>
+    <description><![CDATA[<h2 id="mix" class="headerLink">
+    <a href="#mix" class="header-mark"></a>Mix</h2><p>Mix 是 Elixir 社区开发的集包管理、依赖管理、构建工具于一身的开发工具，扩展性极好，功能强大，自带对 Erlang 的支持，可以类比 Golang 自带的 go，详细的使用方式请参考
+<code>mix help</code> 以及 <a href="https://hexdocs.pm/mix/Mix.html" target="_blank" rel="noopener noreferrer">mix</a></p>
+<p>我们如果需要创建一个新项目，使用 <code>mix new</code> 命令即可，详细使用方法可以使用 <strong>mix
+help new</strong> 查看，对于新建项目，mix 会很友好的创建一系列文件 (其中还包含
+<code>.gitignore</code>)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mix new example
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们目前只需要关注其中的 <strong>mix.exs</strong> 就行了，它包含了配置应用、依赖、环境信息、版本等功能，<code>project</code> 函数设置项目相关信息， <code>application</code> 函数在生产应用文件的时候会用到，<code>deps</code> 函数则是定义项目的依赖项</p>
+<h3 id="管理依赖-环境" class="headerLink">
+    <a href="#%e7%ae%a1%e7%90%86%e4%be%9d%e8%b5%96-%e7%8e%af%e5%a2%83" class="header-mark"></a>管理依赖、环境</h3><p>我们需要把所需的依赖全部列入 deps 中，deps 返回一个列表，每一项依赖都写在元组中，格式如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="p">{</span><span class="n">app</span><span class="p">,</span> <span class="n">requirement</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="n">app</span><span class="p">,</span> <span class="n">opts</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="n">app</span><span class="p">,</span> <span class="n">requirement</span><span class="p">,</span> <span class="n">opts</span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>app</code> 是一个原子，是依赖项的名称</li>
+<li><code>requirement</code> 是一个字符串或正则表达式，用以设定版本</li>
+<li><code>opts</code> 是一个 keyword list，设置依赖相关操作</li>
+</ul>
+<p>下面列出常用的添加依赖方式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:plug</span><span class="p">,</span> <span class="s2">&#34;&gt;= 0.4.0&#34;</span><span class="p">},</span> <span class="c1"># 从 hex.pm 安装版本大于等于 0.4.0 的依赖</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:gettext</span><span class="p">,</span> <span class="ss">git</span><span class="p">:</span> <span class="s2">&#34;https://github.com/elixir-lang/gettext.git&#34;</span><span class="p">,</span> <span class="ss">tag</span><span class="p">:</span> <span class="s2">&#34;0.1&#34;</span><span class="p">},</span> <span class="c1"># 从指定git仓库下载依赖</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:local_dep</span><span class="p">,</span> <span class="ss">path</span><span class="p">:</span> <span class="s2">&#34;/path/to/local/deps&#34;</span><span class="p">},</span> <span class="c1"># 本地依赖项</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:telemetry</span><span class="p">,</span> <span class="s2">&#34;~&gt; 0.4&#34;</span><span class="p">},</span> <span class="c1"># 从 hex.pm 安装版本 0.4 的依赖项</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:phoenix_view</span><span class="p">,</span> <span class="ss">github</span><span class="p">:</span> <span class="s2">&#34;phoenixframework/phoenix_view&#34;</span><span class="p">,</span> <span class="ss">branch</span><span class="p">:</span> <span class="s2">&#34;master&#34;</span><span class="p">},</span> <span class="c1"># 从 github 下载依赖 master 分支</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:cowboy</span><span class="p">,</span> <span class="s2">&#34;~&gt; 1.0&#34;</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="p">[</span><span class="ss">:dev</span><span class="p">,</span> <span class="ss">:test</span><span class="p">]},</span> <span class="c1"># 安装依赖，并只在 dev 与 tst 环境启用</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当依赖项写好之后，我们只需要执行命令获取依赖就行</p>]]></description>
 </item><item>
     <title>Elixir 模块</title>
     <link>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_002/</link>
     <pubDate>Fri, 19 Feb 2021 14:31:54 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_002/</guid>
-    <description><![CDATA[模块之前函数的时候也简单的见过模块了，Elixir 允许嵌套模块，这样可以轻松定义多层命名空间 1 2 3 4 5 defmodule Greeter.Greeting do def morning(name), do: &#34;Good morning, #{name}&#34; def evening(name), do: &#34;Good evening, #{name}&#34; end Greeter.Greeting.morning(&#34;iris&#34;) # &#34;Good]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_002/</guid>
+    <description><![CDATA[<h2 id="模块" class="headerLink">
+    <a href="#%e6%a8%a1%e5%9d%97" class="header-mark"></a>模块</h2><p>之前函数的时候也简单的见过模块了，Elixir 允许嵌套模块，这样可以轻松定义多层命名空间</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Greeter.Greeting</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">morning</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="s2">&#34;Good morning, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">evening</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="s2">&#34;Good evening, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Greeter.Greeting</span><span class="o">.</span><span class="n">morning</span><span class="p">(</span><span class="s2">&#34;iris&#34;</span><span class="p">)</span> <span class="c1"># &#34;Good morning, iris&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>模块通常还会有一些属性，这些属性通常被用作常量</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="na">@greeting</span> <span class="s2">&#34;Hello&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">greeting</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="sx">~s(</span><span class="si">#{</span><span class="na">@greeting</span><span class="si">}</span><span class="sx">, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="sx">.)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Example</span><span class="o">.</span><span class="n">greeting</span><span class="p">(</span><span class="s2">&#34;iris&#34;</span><span class="p">)</span> <span class="c1"># &#34;Hello, iris.&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当然还有一些的属性，用于保留功能，比如 <code>moduledoc</code> 和 <code>doc</code> 作为文档，文档可以用
+<strong>ExDoc</strong> 生成 HTML，而 <strong>ExMark</strong> 是一个 Markdown 分析器，最终我们可以使用 mix 来生成文档</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="na">@moduledoc</span> <span class="sh">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sh">  This is the Hello module.
+</span></span></span><span class="line"><span class="cl"><span class="sh">  &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">@moduledoc</span> <span class="ss">since</span><span class="p">:</span> <span class="s2">&#34;1.0.0&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="na">@doc</span> <span class="sh">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sh">  Says hello to the given `name`.
+</span></span></span><span class="line"><span class="cl"><span class="sh">  Returns `:ok`.
+</span></span></span><span class="line"><span class="cl"><span class="sh">  </span><span class="err">##</span><span class="sh"> Examples
+</span></span></span><span class="line"><span class="cl"><span class="sh">      iex&gt; Example.world(:john)
+</span></span></span><span class="line"><span class="cl"><span class="sh">      :ok
+</span></span></span><span class="line"><span class="cl"><span class="sh">  &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">@doc</span> <span class="ss">since</span><span class="p">:</span> <span class="s2">&#34;1.3.0&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">world</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">IO</span><span class="o">.</span><span class="n">puts</span><span class="p">(</span><span class="s2">&#34;hello </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="结构体--struct" class="headerLink">
+    <a href="#%e7%bb%93%e6%9e%84%e4%bd%93--struct" class="header-mark"></a>结构体 (Struct)</h3><p>在 Elixir 中结构体 Struct 是 Map 的特殊形式，它的键是预定义的，一般都有默认值，不过有个限制，Struct 只能定义在 Module 中，一般一个模块定义一个结构体</p>]]></description>
 </item><item>
     <title>Elixir 基本语法</title>
     <link>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_001/</link>
     <pubDate>Tue, 16 Feb 2021 16:44:00 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_001/</guid>
-    <description><![CDATA[好久没学习，随便写点东西，一直想学FP来着，不过之前 Haskell 整的有点难受，好难啊不太会，下次静下心来好好学一学吧，不过先试试 Erlang / Elixir，听说]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_001/</guid>
+    <description><![CDATA[<p>好久没学习，随便写点东西，一直想学FP来着，不过之前 Haskell 整的有点难受，好难啊不太会，下次静下心来好好学一学吧，不过先试试 <strong>Erlang</strong> / <strong>Elixir</strong>，听说也很难？</p>
+<p>至于原因，莫名喜欢 Erlang，不知道为什么哈哈哈哈，得知有 Elixir 这个披着 Ruby 皮、用着 Beam 的 Lisp 觉得还不错？毕竟 <strong>Lisp</strong> 大法好！！ (虽然我不会 lisp) 不过
+Elixir 名字好听 Logo 也好看</p>
+<figure>
+</figure>
+
+<p>好了，前置吐槽就这么多吧，希望可以静下心好好学学 Elixir，呃，我也不知道可不可以啦，但是如果对 Elixir 感兴趣的话可以在 <a href="https://elixirschool.com/en/" target="_blank" rel="noopener noreferrer">Elixir School</a> 尝试学习一下，我也才开始从这里开始学习</p>
+<h2 id="基本类型" class="headerLink">
+    <a href="#%e5%9f%ba%e6%9c%ac%e7%b1%bb%e5%9e%8b" class="header-mark"></a>基本类型</h2><ul>
+<li>
+<p>整数类型：在 Erlang 和 Elixir 中，整数类型都是高精度类型，不区分类型所占的字节，有点类似 Python 中的整数
+Elixir 支持 二(0b)、八(0o)、十、十六(0x)进制的整数字面量，使用起来十分方便</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="mi">255</span> <span class="c1"># 十进制整数 255</span>
+</span></span><span class="line"><span class="cl"><span class="mb">0b10001000</span> <span class="c1"># 二进制整数 136</span>
+</span></span><span class="line"><span class="cl"><span class="mo">0o7654321</span> <span class="c1"># 八进制整数 2054353</span>
+</span></span><span class="line"><span class="cl"><span class="mh">0xFFFF</span> <span class="c1"># 十六进制整数 65535</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>浮点类型：嗯，它是 IEEE 754，好了就这样吧，介绍完了</p>
+</li>
+<li>
+<p>布尔类型：true 和 false，不过有一点需要注意，在 Elixir 中除了 false 和 nil 之外的所有值都为 true</p>]]></description>
 </item><item>
     <title>原子操作</title>
     <link>https://blog.ginshio.org/2020/cpp_concurrency_atomic/</link>
     <pubDate>Sat, 05 Dec 2020 17:46:52 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2020/cpp_concurrency_atomic/</guid>
-    <description><![CDATA[原子操作原子操作是一个不可分割的操作，系统的所有线程不会观察到原子操作完成了一半。如果读取对象的加载操作是原子的，那么这个对象的所有修改操作]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/cpp_concurrency_atomic/</guid>
+    <description><![CDATA[<h2 id="原子操作" class="headerLink">
+    <a href="#%e5%8e%9f%e5%ad%90%e6%93%8d%e4%bd%9c" class="header-mark"></a>原子操作</h2><p>原子操作是一个不可分割的操作，系统的所有线程不会观察到原子操作完成了一半。如果读取对象的加载操作是原子的，那么这个对象的所有修改操作也是原子的。</p>
+<p>标准原子类型全部定义于头文件 <em>atomic</em> 中，这些类型的操作都是原子的，但是其内部实现可能使用原子操作或互斥量模拟，所以原子操作可以替代互斥量完成同步操作，但是如果内部使用互斥量实现那么不会有性能提升。</p>
+<p>通常标准原子类型不能进行拷贝和赋值，但是可以隐式转化成对应的内置类型，使用
+<code>load()</code>、<code>exchange()</code>、<code>compare_exchange_weak()</code> 和 <code>compare_exchange_strong()</code>，另外还有 <code>store()</code> 用以原子地赋值。每种函数类型的操作都有一个内存序参数，这个参数可以用来指定存储的顺序。</p>
+<h3 id="std-atomic-flag" class="headerLink">
+    <a href="#std-atomic-flag" class="header-mark"></a>::std::atomic_flag</h3><p>::std::atomic_flag 是最简单的原子类型，标准保证其实现是 <strong>lock-free</strong> 的，这个类型的对象可以在 <strong>设置</strong> 和 <strong>清除</strong> 间切换，对象必须被 <code>ATOMIC_FLAG_INIT</code>，初始化标志位为清除状态。初始化后，对象进可以执行销毁、清除、设置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic_flag</span> <span class="n">f</span> <span class="o">=</span> <span class="n">ATOMIC_FLAG_INIT</span><span class="p">;</span> <span class="c1">// 设置为清除状态 (false)
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>由于 <code>clear()</code> 清除操作原子地设置标志为 false，<code>test_and_set()</code> 设置操作原子地设置标志为 true 并获得其先前值，所以可以简单地实现一个自旋锁</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">spinlock_mutex</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="k">private</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic_flag</span> <span class="n">flag</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">spinlock_mutex</span><span class="p">()</span> <span class="o">:</span> <span class="n">flag</span><span class="p">(</span><span class="n">ATOMIC_FLAG_INIT</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">lock</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">flag</span><span class="p">.</span><span class="n">test_and_set</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_acquire</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">unlock</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">flag</span><span class="p">.</span><span class="n">clear</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_release</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="std-atomic" class="headerLink">
+    <a href="#std-atomic" class="header-mark"></a>::std::atomic</h3><p>::std::atomic 不再保证 <strong>lock-free</strong>，但相比 ::std::atomic_flag 有了更通用的操作，
+<code>store()</code> 是一个存储操作，<code>load()</code> 是一个加载操作，<code>exchange()</code> 是一个读-改-写操作。</p>]]></description>
 </item><item>
     <title>并发标准库</title>
     <link>https://blog.ginshio.org/2020/cpp_concurrency_std/</link>
     <pubDate>Tue, 01 Dec 2020 19:42:25 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2020/cpp_concurrency_std/</guid>
-    <description><![CDATA[线程管理 创建线程新的线程会在 ::std::thread (头文件 thread 中) 对象创建的时候被启动，在函数执行完毕后，该线程也就结束了，提供的函数对象会复制到新线程的存储空间]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/cpp_concurrency_std/</guid>
+    <description><![CDATA[<h2 id="线程管理" class="headerLink">
+    <a href="#%e7%ba%bf%e7%a8%8b%e7%ae%a1%e7%90%86" class="header-mark"></a>线程管理</h2><h3 id="创建线程" class="headerLink">
+    <a href="#%e5%88%9b%e5%bb%ba%e7%ba%bf%e7%a8%8b" class="header-mark"></a>创建线程</h3><p>新的线程会在 <code>::std::thread</code> (头文件 <em>thread</em> 中) 对象创建的时候被启动，在函数执行完毕后，该线程也就结束了，提供的函数对象会复制到新线程的存储空间中，函数对象的执行与操作都在线程的内存空间中执行。在创建新线程时你可以指定一个函数作为任务，或者是 <strong>仿函数</strong>，当然也可以是 lambda 表达式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">my_thread0</span><span class="p">{</span><span class="n">do_something</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Task</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">operator</span><span class="p">()()</span> <span class="k">const</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">do_something</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">my_thread1</span><span class="p">{</span><span class="n">Task</span><span class="p">()};</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">my_thread2</span><span class="p">{[]()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">do_something</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>线程启动后，需要指定是<code>等待线程结束</code>还是<code>让其自主运行</code>，如果 <code>::std::thread</code> 对象销毁之前没有做出决定，程序就会终止，因此必须确保线程能够正确 <strong>汇入</strong> (joined)
+或 <strong>分离</strong> (detached)。调用 join() 可以等待线程完成，并在线程结束时清理相关的内存，使 ::std::thread 对象不再与已完成线程有任何关联，所以一个线程一旦被汇入将不能再次汇入。调用 detach() 会使线程在后台运行，不再与主线程进行直接交互， ::std::thread
+对象不再引用这个线程，分离的线程也不可被再次汇入，不过C++运行时库保证线程退出时可以正确回收相关资源。</p>
+<p>在C++中 ::std::thread 对象是一种 <strong>可移动但不可复制</strong> 的资源，它可以交出它的所有权，但不能与其他对象共享线程的所有权。如果你希望对一个已持有线程的对象更改其行为，那你必须先汇入或分离已关联的线程，或者将已关联的线程的所有权交出。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t1</span><span class="p">{</span><span class="n">do_something</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">t1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">t1</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">{</span><span class="n">some_other_function</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">t3</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">t2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// t1 = std::move(t3); // 错误
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="传递参数" class="headerLink">
+    <a href="#%e4%bc%a0%e9%80%92%e5%8f%82%e6%95%b0" class="header-mark"></a>传递参数</h3><p>向线程中传递参数十分简单，为 ::std::thread 构造函数附加参数即可，所有参数 将会拷贝到新线程的内存空间中，即使函数中的参数是引用</p>]]></description>
 </item></channel>
 </rss>

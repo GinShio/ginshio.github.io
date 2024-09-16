@@ -1,25 +1,36 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cn">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
-    <title>基本 TCP 编程 - iris</title><meta name="Description" content="GinShio | Unix 网络编程：卷一 (3rd) 第二部分第四章：基础 TCP 套接字编程、第五章：TCP 客户端/服务器示例"><meta property="og:title" content="基本 TCP 编程" />
-<meta property="og:description" content="GinShio | Unix 网络编程：卷一 (3rd) 第二部分第四章：基础 TCP 套接字编程、第五章：TCP 客户端/服务器示例" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.ginshio.org/2022/unixnetworkprogramming_004/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-02-19T15:31:05+08:00" />
-<meta property="article:modified_time" content="2022-04-07T19:45:03+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
-<meta property="og:see_also" content="https://blog.ginshio.org/2022/unixnetworkprogramming_001/" /><meta property="og:see_also" content="https://blog.ginshio.org/2022/unixnetworkprogramming_002/" /><meta property="og:see_also" content="https://blog.ginshio.org/2022/unixnetworkprogramming_003/" /><meta property="og:see_also" content="https://blog.ginshio.org/2022/unixnetworkprogramming_005/" />
+    <title>基本 TCP 编程 - iris</title><meta name="Description" content="GinShio | Unix 网络编程：卷一 (3rd) 第二部分第四章：基础 TCP 套接字编程、第五章：TCP 客户端/服务器示例"><meta property="og:url" content="https://blog.ginshio.org/2022/unixnetworkprogramming_004/">
+  <meta property="og:site_name" content="iris">
+  <meta property="og:title" content="基本 TCP 编程">
+  <meta property="og:description" content="GinShio | Unix 网络编程：卷一 (3rd) 第二部分第四章：基础 TCP 套接字编程、第五章：TCP 客户端/服务器示例">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-02-19T15:31:05+08:00">
+    <meta property="article:modified_time" content="2022-04-07T19:45:03+08:00">
+    <meta property="article:tag" content="Note">
+    <meta property="article:tag" content="Unix">
+    <meta property="article:tag" content="Network">
+    <meta property="article:tag" content="Posix">
+    <meta property="article:tag" content="TCP">
+    <meta property="og:image" content="https://blog.ginshio.org/avatar.webp">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2022/unixnetworkprogramming_001/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2022/unixnetworkprogramming_002/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2022/unixnetworkprogramming_003/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2022/unixnetworkprogramming_005/">
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
-
-<meta name="twitter:title" content="基本 TCP 编程"/>
-<meta name="twitter:description" content="GinShio | Unix 网络编程：卷一 (3rd) 第二部分第四章：基础 TCP 套接字编程、第五章：TCP 客户端/服务器示例"/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp">
+  <meta name="twitter:title" content="基本 TCP 编程">
+  <meta name="twitter:description" content="GinShio | Unix 网络编程：卷一 (3rd) 第二部分第四章：基础 TCP 套接字编程、第五章：TCP 客户端/服务器示例">
 <meta name="application-name" content="iris">
 <meta name="apple-mobile-web-app-title" content="iris">
 
@@ -36,12 +47,12 @@
         "@context": "http://schema.org",
         "@type": "BlogPosting",
         "headline": "基本 TCP 编程",
-        "inLanguage": "zh-CN",
+        "inLanguage": "zh-cn",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/unixnetworkprogramming_004\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Unix, Network, Posix, TCP","wordcount":  11782 ,
-        "url": "https:\/\/blog.ginshio.org\/2022\/unixnetworkprogramming_004\/","datePublished": "2022-02-19T15:31:05+08:00","dateModified": "2022-04-07T19:45:03+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Unix, Network, Posix, TCP","wordcount":  3427 ,
+        "url": "https:\/\/blog.ginshio.org\/2022\/unixnetworkprogramming_004\/","datePublished": "2022-02-19T15:31:05+08:00","dateModified": "2022-04-07T19:45:03+08:00","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
                         "@type": "Person",
@@ -166,8 +177,8 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="02-19">02-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 11782 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 24 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="02-19">02-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3427 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 17 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
                                     <span>系列 - UNP Note</span>
@@ -228,7 +239,7 @@
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="基本-tcp-套接字函数" class="headerLink">
-    <a href="#%e5%9f%ba%e6%9c%ac-tcp-%e5%a5%97%e6%8e%a5%e5%ad%97%e5%87%bd%e6%95%b0" class="header-mark"></a>基本 TCP 套接字函数</h2><figure><img src="/images/unp-socket-functions-for-elementary-tcp-client-and-server.svg" width="40%"/>
+    <a href="#%e5%9f%ba%e6%9c%ac-tcp-%e5%a5%97%e6%8e%a5%e5%ad%97%e5%87%bd%e6%95%b0" class="header-mark"></a>基本 TCP 套接字函数</h2><figure><img src="/images/unp-socket-functions-for-elementary-tcp-client-and-server.svg" width="40%">
 </figure>
 
 <h3 id="socket-函数" class="headerLink">
@@ -274,50 +285,50 @@
 </ul>
 <p>需要注意的是，不是所有的组合都是有效的，下表总结了有效的 socket 函数参数组合，空白意味着无效。</p>
 <table>
-<thead>
-<tr>
-<th></th>
-<th>AF_INET</th>
-<th>AF_INET6</th>
-<th>AF_LOCAL</th>
-<th>AF_ROUTE</th>
-<th>AF_KEY</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>SOCK_STREAM</td>
-<td>TCP or SCTP</td>
-<td>TCP or SCTP</td>
-<td>YES</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>SOCK_DGRAM</td>
-<td>UDP</td>
-<td>UDP</td>
-<td>YES</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>SOCK_SEQPACKET</td>
-<td>SCTP</td>
-<td>SCTP</td>
-<td>YES</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>SOCK_RAM</td>
-<td>IPv4</td>
-<td>IPv6</td>
-<td></td>
-<td>YES</td>
-<td>YES</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th style="text-align: left">AF_INET</th>
+          <th style="text-align: left">AF_INET6</th>
+          <th style="text-align: left">AF_LOCAL</th>
+          <th style="text-align: left">AF_ROUTE</th>
+          <th style="text-align: left">AF_KEY</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">SOCK_STREAM</td>
+          <td style="text-align: left">TCP or SCTP</td>
+          <td style="text-align: left">TCP or SCTP</td>
+          <td style="text-align: left">YES</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SOCK_DGRAM</td>
+          <td style="text-align: left">UDP</td>
+          <td style="text-align: left">UDP</td>
+          <td style="text-align: left">YES</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SOCK_SEQPACKET</td>
+          <td style="text-align: left">SCTP</td>
+          <td style="text-align: left">SCTP</td>
+          <td style="text-align: left">YES</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SOCK_RAM</td>
+          <td style="text-align: left">IPv4</td>
+          <td style="text-align: left">IPv6</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">YES</td>
+          <td style="text-align: left">YES</td>
+      </tr>
+  </tbody>
 </table>
 <p>参数 domain 与 type 还有一些其他值，必须 4.4BSD 支持的 AF_NS (Xerox NS protocols
 or XNS) 和 AF_ISO (OSI protocols)，而 Linux 表述了 SOCK_PACKET 这样的 type 参数来表示 BPF 类似的协议。AF_KEY 采用内核中密钥表的接口来实现的加密的。</p>
@@ -369,35 +380,35 @@ IP，由内核根据外出网络接口决定源 IP 地址；服务器没有绑�
 </ul>
 <p>下表总结了 bind 对于 ip 与 port 指定或不指定时的结果</p>
 <table>
-<thead>
-<tr>
-<th>指定 IP 地址</th>
-<th>指定 port</th>
-<th>结果</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>通配地址</td>
-<td>0</td>
-<td>内核选择 IP 与 port</td>
-</tr>
-<tr>
-<td>通配地址</td>
-<td>非 0</td>
-<td>内核选择 IP，进程指定 port</td>
-</tr>
-<tr>
-<td>本地 IP 地址</td>
-<td>0</td>
-<td>内核选择 port，进程指定 IP</td>
-</tr>
-<tr>
-<td>本地 IP 地址</td>
-<td>非 0</td>
-<td>进程指定 IP 和 port</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">指定 IP 地址</th>
+          <th style="text-align: left">指定 port</th>
+          <th style="text-align: left">结果</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">通配地址</td>
+          <td style="text-align: left">0</td>
+          <td style="text-align: left">内核选择 IP 与 port</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">通配地址</td>
+          <td style="text-align: left">非 0</td>
+          <td style="text-align: left">内核选择 IP，进程指定 port</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">本地 IP 地址</td>
+          <td style="text-align: left">0</td>
+          <td style="text-align: left">内核选择 port，进程指定 IP</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">本地 IP 地址</td>
+          <td style="text-align: left">非 0</td>
+          <td style="text-align: left">进程指定 IP 和 port</td>
+      </tr>
+  </tbody>
 </table>
 <p>对于 IPv4 来说，通配地址通常使用 <strong>INADDR_ANY</strong> 来指定，其值一般为 0 (0.0.0.0)，而
 IPv6 中使用结构变量 <strong>in6addr_any</strong>。</p>
@@ -451,7 +462,7 @@ backlog，需要认识到内核会为 TCP 连接维护两个队列：</p>
 <li>完成队列，这个队列中包含了完成三次握手的客户端套接字，这些套接字都是
 ESTABLISHED 状态</li>
 </ol>
-<figure><img src="/images/unp-the-two-queues-maintained-by-tcp-listening.svg" width="64%"/>
+<figure><img src="/images/unp-the-two-queues-maintained-by-tcp-listening.svg" width="64%">
 </figure>
 
 <p>当请求接入后，系统将自动地创建新连接并将监听的套接字信息复制到连接中，整个过程是自动化的，无需 server 进程插手。在 server 进行 SYN-ACK 回复后状态变为 SYN_RCVD，将连接放入半连接队列等待客户端回应。如果客户端连接超时则会将其从半连接队列中删除，连接完成后进入 ESTABLISHED 状态，并将该连接从半连接队列移至完成队列的末尾，等待
@@ -473,138 +484,138 @@ backlog 的最大值在 <code>/proc/sys/net/core/somaxconn</code> 中，通常�
 <p>下表是 unp 给出的各个操作系统下，backlog 参数取不同值时已排队连接的实际数目。可以看到 AIX 与 MacOS 遵循传统的 Berkeley 算法，Solaris 也有类似的算法，而 FreeBSD
 则是 backlog 值 \(+1\)。</p>
 <table>
-<thead>
-<tr>
-<th>backlog</th>
-<th>MaxOS 10.2.6 / AIX 5.1</th>
-<th>Linux 2.4.7</th>
-<th>HP-UX 11.11</th>
-<th>FreeBSD 5.1</th>
-<th>Solaris 2.9</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>1</td>
-<td>3</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr>
-<td>1</td>
-<td>2</td>
-<td>4</td>
-<td>1</td>
-<td>2</td>
-<td>2</td>
-</tr>
-<tr>
-<td>2</td>
-<td>4</td>
-<td>5</td>
-<td>3</td>
-<td>3</td>
-<td>4</td>
-</tr>
-<tr>
-<td>3</td>
-<td>5</td>
-<td>6</td>
-<td>4</td>
-<td>4</td>
-<td>5</td>
-</tr>
-<tr>
-<td>4</td>
-<td>7</td>
-<td>7</td>
-<td>6</td>
-<td>5</td>
-<td>6</td>
-</tr>
-<tr>
-<td>5</td>
-<td>8</td>
-<td>8</td>
-<td>7</td>
-<td>6</td>
-<td>8</td>
-</tr>
-<tr>
-<td>6</td>
-<td>10</td>
-<td>9</td>
-<td>9</td>
-<td>7</td>
-<td>10</td>
-</tr>
-<tr>
-<td>7</td>
-<td>11</td>
-<td>10</td>
-<td>10</td>
-<td>8</td>
-<td>11</td>
-</tr>
-<tr>
-<td>8</td>
-<td>13</td>
-<td>11</td>
-<td>12</td>
-<td>9</td>
-<td>13</td>
-</tr>
-<tr>
-<td>9</td>
-<td>14</td>
-<td>12</td>
-<td>13</td>
-<td>10</td>
-<td>14</td>
-</tr>
-<tr>
-<td>10</td>
-<td>16</td>
-<td>13</td>
-<td>15</td>
-<td>11</td>
-<td>16</td>
-</tr>
-<tr>
-<td>11</td>
-<td>17</td>
-<td>14</td>
-<td>16</td>
-<td>12</td>
-<td>17</td>
-</tr>
-<tr>
-<td>12</td>
-<td>19</td>
-<td>15</td>
-<td>18</td>
-<td>13</td>
-<td>19</td>
-</tr>
-<tr>
-<td>13</td>
-<td>20</td>
-<td>16</td>
-<td>19</td>
-<td>14</td>
-<td>20</td>
-</tr>
-<tr>
-<td>14</td>
-<td>22</td>
-<td>17</td>
-<td>21</td>
-<td>15</td>
-<td>22</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">backlog</th>
+          <th style="text-align: left">MaxOS 10.2.6 / AIX 5.1</th>
+          <th style="text-align: left">Linux 2.4.7</th>
+          <th style="text-align: left">HP-UX 11.11</th>
+          <th style="text-align: left">FreeBSD 5.1</th>
+          <th style="text-align: left">Solaris 2.9</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">0</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">2</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">4</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">5</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">6</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">8</td>
+          <td style="text-align: left">8</td>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left">8</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left">10</td>
+          <td style="text-align: left">9</td>
+          <td style="text-align: left">9</td>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left">10</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left">11</td>
+          <td style="text-align: left">10</td>
+          <td style="text-align: left">10</td>
+          <td style="text-align: left">8</td>
+          <td style="text-align: left">11</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">8</td>
+          <td style="text-align: left">13</td>
+          <td style="text-align: left">11</td>
+          <td style="text-align: left">12</td>
+          <td style="text-align: left">9</td>
+          <td style="text-align: left">13</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">9</td>
+          <td style="text-align: left">14</td>
+          <td style="text-align: left">12</td>
+          <td style="text-align: left">13</td>
+          <td style="text-align: left">10</td>
+          <td style="text-align: left">14</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">10</td>
+          <td style="text-align: left">16</td>
+          <td style="text-align: left">13</td>
+          <td style="text-align: left">15</td>
+          <td style="text-align: left">11</td>
+          <td style="text-align: left">16</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">11</td>
+          <td style="text-align: left">17</td>
+          <td style="text-align: left">14</td>
+          <td style="text-align: left">16</td>
+          <td style="text-align: left">12</td>
+          <td style="text-align: left">17</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">12</td>
+          <td style="text-align: left">19</td>
+          <td style="text-align: left">15</td>
+          <td style="text-align: left">18</td>
+          <td style="text-align: left">13</td>
+          <td style="text-align: left">19</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">13</td>
+          <td style="text-align: left">20</td>
+          <td style="text-align: left">16</td>
+          <td style="text-align: left">19</td>
+          <td style="text-align: left">14</td>
+          <td style="text-align: left">20</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">14</td>
+          <td style="text-align: left">22</td>
+          <td style="text-align: left">17</td>
+          <td style="text-align: left">21</td>
+          <td style="text-align: left">15</td>
+          <td style="text-align: left">22</td>
+      </tr>
+  </tbody>
 </table>
 <h3 id="accept-函数" class="headerLink">
     <a href="#accept-%e5%87%bd%e6%95%b0" class="header-mark"></a>accept 函数</h3><p>accept 是 TCP 服务端在 listen 之后的需要调用的函数，该函数返回一个完成队列中的连接，如果完成队列为空，则会阻塞服务器进程。</p>
@@ -981,7 +992,7 @@ program)。</p>
 </div>
 </div><p>这些函数只有错误时才返回到调用者，否则将从新程序的起始点 (通常为 main) 开始。一般 execve 是 syscall，而其他 5 个是调用 execve 的库函数，glibc 扩展了一个与
 execve 的库函数 execvpe，检测宏为 <strong>_GNU_SOURCE</strong>。</p>
-<figure><img src="/images/unp-relationship-between-exec-family-functions.svg" width="90%"/>
+<figure><img src="/images/unp-relationship-between-exec-family-functions.svg" width="90%">
 </figure>
 
 <p>需要注意几点：</p>
@@ -1560,287 +1571,287 @@ sigaction 来设定一个信号的处理，并有三种选择</p>
 </dl>
 <p>现在说说都有哪些 POSIX 信号吧</p>
 <table>
-<thead>
-<tr>
-<th>Signal</th>
-<th>Standard</th>
-<th>Value</th>
-<th>Action</th>
-<th>Comment</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>SIGHUP</td>
-<td>POSIX.1-1990</td>
-<td>1</td>
-<td>Term</td>
-<td>终端结束时，通知进程不再与终端关联</td>
-</tr>
-<tr>
-<td>SIGINT</td>
-<td>POSIX.1-1990</td>
-<td>2</td>
-<td>Term</td>
-<td>通过热键终止进程 (C-c)</td>
-</tr>
-<tr>
-<td>SIGQUIT</td>
-<td>POSIX.1-1990</td>
-<td>3</td>
-<td>Core</td>
-<td>通过热键终止进程并产生内存映像 (C-\)</td>
-</tr>
-<tr>
-<td>SIGILL</td>
-<td>POSIX.1-1990</td>
-<td>4</td>
-<td>Core</td>
-<td>执行了非法指令</td>
-</tr>
-<tr>
-<td>SIGTRAP</td>
-<td>POSIX.1-2001</td>
-<td>5</td>
-<td>Core</td>
-<td>追踪 / 断点陷阱</td>
-</tr>
-<tr>
-<td>SIGABRT</td>
-<td>POSIX.1-1990</td>
-<td>6</td>
-<td>Core</td>
-<td>调用 abort(3) 产生的信号</td>
-</tr>
-<tr>
-<td>SIGFPE</td>
-<td>POSIX.1-1990</td>
-<td>8</td>
-<td>Core</td>
-<td>浮点数异常</td>
-</tr>
-<tr>
-<td>SIGKILL</td>
-<td>POSIX.1-1990</td>
-<td>9</td>
-<td>Term</td>
-<td>终结进程</td>
-</tr>
-<tr>
-<td>SIGBUS</td>
-<td>POSIX.1-2001</td>
-<td>10,7,10</td>
-<td>Core</td>
-<td>总线错误 (内存错误)</td>
-</tr>
-<tr>
-<td>SIGSEGV</td>
-<td>POSIX.1-1990</td>
-<td>11</td>
-<td>Core</td>
-<td>无效内存引用</td>
-</tr>
-<tr>
-<td>SIGSYS</td>
-<td>POSIX.1-2001</td>
-<td>12,31,12</td>
-<td>Core</td>
-<td>错误系统调用，见 seccomp(2)</td>
-</tr>
-<tr>
-<td>SIGPIPE</td>
-<td>POSIX.1-1990</td>
-<td>13</td>
-<td>Term</td>
-<td>管道破裂：写入无读者管道，见 pipe(7)</td>
-</tr>
-<tr>
-<td>SIGALRM</td>
-<td>POSIX.1-1990</td>
-<td>14</td>
-<td>Term</td>
-<td>时钟信号，见 alarm(2)</td>
-</tr>
-<tr>
-<td>SIGTERM</td>
-<td>POSIX.1-1990</td>
-<td>15</td>
-<td>Term</td>
-<td>可捕获终止信号，要求程序自己正常退出</td>
-</tr>
-<tr>
-<td>SIGURG</td>
-<td>POSIX.1-2001</td>
-<td>16,23,21</td>
-<td>Ign</td>
-<td>套接字紧急情况</td>
-</tr>
-<tr>
-<td>SIGSTOP</td>
-<td>POSIX.1-1990</td>
-<td>17,19,23</td>
-<td>Stop</td>
-<td>停止进程，不可被忽略或处理</td>
-</tr>
-<tr>
-<td>SIGTSTP</td>
-<td>POSIX.1-1990</td>
-<td>18,20,24</td>
-<td>Stop</td>
-<td>停止进程，可以被忽略或处理</td>
-</tr>
-<tr>
-<td>SIGCONT</td>
-<td>POSIX.1-1990</td>
-<td>19,18,25</td>
-<td>Cont</td>
-<td>停止时继续进程</td>
-</tr>
-<tr>
-<td>SIGCHLD</td>
-<td>POSIX.1-1990</td>
-<td>20,17,18</td>
-<td>Ign</td>
-<td>子进程停止或终止</td>
-</tr>
-<tr>
-<td>SIGTTIN</td>
-<td>POSIX.1-1990</td>
-<td>21,21,26</td>
-<td>Stop</td>
-<td>后台进程等待用户从终端输入</td>
-</tr>
-<tr>
-<td>SIGTTOU</td>
-<td>POSIX.1-1990</td>
-<td>22,22,27</td>
-<td>Stop</td>
-<td>后台进程等待写入终端</td>
-</tr>
-<tr>
-<td>SIGXCPU</td>
-<td>POSIX.1-2001</td>
-<td>24,24,30</td>
-<td>Core</td>
-<td>超过 CPU 时间限制, 见 setrlimit(2)</td>
-</tr>
-<tr>
-<td>SIGXFSZ</td>
-<td>POSIX.1-2001</td>
-<td>25,25,21</td>
-<td>Core</td>
-<td>超过文件大小限制, 见 setrlimit(2)</td>
-</tr>
-<tr>
-<td>SIGVTALRM</td>
-<td>POSIX.1-2001</td>
-<td>26,26,28</td>
-<td>Term</td>
-<td>虚拟计时器时钟</td>
-</tr>
-<tr>
-<td>SIGPROF</td>
-<td>POSIX.1-2001</td>
-<td>27,27,29</td>
-<td>Term</td>
-<td>分析计时器过期</td>
-</tr>
-<tr>
-<td>SIGUSR1</td>
-<td>POSIX.1-1990</td>
-<td>30,10,16</td>
-<td>Term</td>
-<td>用户自定义 1 号信号</td>
-</tr>
-<tr>
-<td>SIGUSR2</td>
-<td>POSIX.1-1990</td>
-<td>31,12,17</td>
-<td>Term</td>
-<td>用户自定义 2 号信号</td>
-</tr>
-<tr>
-<td>SIGPOLL</td>
-<td>POSIX.1-2001</td>
-<td></td>
-<td>Term</td>
-<td>可轮询事件，等价于 SIGIO</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Signal</th>
+          <th style="text-align: left">Standard</th>
+          <th style="text-align: left">Value</th>
+          <th style="text-align: left">Action</th>
+          <th style="text-align: left">Comment</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">SIGHUP</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">Term</td>
+          <td style="text-align: left">终端结束时，通知进程不再与终端关联</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGINT</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">Term</td>
+          <td style="text-align: left">通过热键终止进程 (C-c)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGQUIT</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">Core</td>
+          <td style="text-align: left">通过热键终止进程并产生内存映像 (C-\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGILL</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">Core</td>
+          <td style="text-align: left">执行了非法指令</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGTRAP</td>
+          <td style="text-align: left">POSIX.1-2001</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">Core</td>
+          <td style="text-align: left">追踪 / 断点陷阱</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGABRT</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left">Core</td>
+          <td style="text-align: left">调用 abort(3) 产生的信号</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGFPE</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">8</td>
+          <td style="text-align: left">Core</td>
+          <td style="text-align: left">浮点数异常</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGKILL</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">9</td>
+          <td style="text-align: left">Term</td>
+          <td style="text-align: left">终结进程</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGBUS</td>
+          <td style="text-align: left">POSIX.1-2001</td>
+          <td style="text-align: left">10,7,10</td>
+          <td style="text-align: left">Core</td>
+          <td style="text-align: left">总线错误 (内存错误)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGSEGV</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">11</td>
+          <td style="text-align: left">Core</td>
+          <td style="text-align: left">无效内存引用</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGSYS</td>
+          <td style="text-align: left">POSIX.1-2001</td>
+          <td style="text-align: left">12,31,12</td>
+          <td style="text-align: left">Core</td>
+          <td style="text-align: left">错误系统调用，见 seccomp(2)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGPIPE</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">13</td>
+          <td style="text-align: left">Term</td>
+          <td style="text-align: left">管道破裂：写入无读者管道，见 pipe(7)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGALRM</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">14</td>
+          <td style="text-align: left">Term</td>
+          <td style="text-align: left">时钟信号，见 alarm(2)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGTERM</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">15</td>
+          <td style="text-align: left">Term</td>
+          <td style="text-align: left">可捕获终止信号，要求程序自己正常退出</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGURG</td>
+          <td style="text-align: left">POSIX.1-2001</td>
+          <td style="text-align: left">16,23,21</td>
+          <td style="text-align: left">Ign</td>
+          <td style="text-align: left">套接字紧急情况</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGSTOP</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">17,19,23</td>
+          <td style="text-align: left">Stop</td>
+          <td style="text-align: left">停止进程，不可被忽略或处理</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGTSTP</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">18,20,24</td>
+          <td style="text-align: left">Stop</td>
+          <td style="text-align: left">停止进程，可以被忽略或处理</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGCONT</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">19,18,25</td>
+          <td style="text-align: left">Cont</td>
+          <td style="text-align: left">停止时继续进程</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGCHLD</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">20,17,18</td>
+          <td style="text-align: left">Ign</td>
+          <td style="text-align: left">子进程停止或终止</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGTTIN</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">21,21,26</td>
+          <td style="text-align: left">Stop</td>
+          <td style="text-align: left">后台进程等待用户从终端输入</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGTTOU</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">22,22,27</td>
+          <td style="text-align: left">Stop</td>
+          <td style="text-align: left">后台进程等待写入终端</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGXCPU</td>
+          <td style="text-align: left">POSIX.1-2001</td>
+          <td style="text-align: left">24,24,30</td>
+          <td style="text-align: left">Core</td>
+          <td style="text-align: left">超过 CPU 时间限制, 见 setrlimit(2)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGXFSZ</td>
+          <td style="text-align: left">POSIX.1-2001</td>
+          <td style="text-align: left">25,25,21</td>
+          <td style="text-align: left">Core</td>
+          <td style="text-align: left">超过文件大小限制, 见 setrlimit(2)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGVTALRM</td>
+          <td style="text-align: left">POSIX.1-2001</td>
+          <td style="text-align: left">26,26,28</td>
+          <td style="text-align: left">Term</td>
+          <td style="text-align: left">虚拟计时器时钟</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGPROF</td>
+          <td style="text-align: left">POSIX.1-2001</td>
+          <td style="text-align: left">27,27,29</td>
+          <td style="text-align: left">Term</td>
+          <td style="text-align: left">分析计时器过期</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGUSR1</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">30,10,16</td>
+          <td style="text-align: left">Term</td>
+          <td style="text-align: left">用户自定义 1 号信号</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGUSR2</td>
+          <td style="text-align: left">POSIX.1-1990</td>
+          <td style="text-align: left">31,12,17</td>
+          <td style="text-align: left">Term</td>
+          <td style="text-align: left">用户自定义 2 号信号</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGPOLL</td>
+          <td style="text-align: left">POSIX.1-2001</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">Term</td>
+          <td style="text-align: left">可轮询事件，等价于 SIGIO</td>
+      </tr>
+  </tbody>
 </table>
 <p>有些信号的值可能有多个，这是由于不同架构对于信号的定义不同产生的，通常来说，第一列是 Alpha / SPARC，第二列是 x86 / ARM 或其他架构，第三列是 MIPS 架构。对应的值为 <code>-</code> 时表示该架构下没有此信号。</p>
 <p>当然除了 POSIX 信号，在 Linux 的 <strong>signal(7)</strong> 用户手册中还可以找到以下信号</p>
 <table>
-<thead>
-<tr>
-<th>Signal</th>
-<th>Value</th>
-<th>Action</th>
-<th>Comment</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>SIGIOT</td>
-<td>6</td>
-<td>Core</td>
-<td>IOT 陷阱，等价于 SIGABRT</td>
-</tr>
-<tr>
-<td>SIGEMT</td>
-<td>7,-,7</td>
-<td>Term</td>
-<td>模拟器陷阱 (Emulator trap)</td>
-</tr>
-<tr>
-<td>SIGSTKFLT</td>
-<td>-,16,-</td>
-<td>Term</td>
-<td>协处理器上的堆栈错误 (unused)</td>
-</tr>
-<tr>
-<td>SIGIO</td>
-<td>23,29,22</td>
-<td>Term</td>
-<td>当前 IO 可用</td>
-</tr>
-<tr>
-<td>SIGCLD</td>
-<td>-,-,18</td>
-<td>Ign</td>
-<td>等价于 SIGCHLD</td>
-</tr>
-<tr>
-<td>SIGPWR</td>
-<td>29,30,19</td>
-<td>Term</td>
-<td>断电信号</td>
-</tr>
-<tr>
-<td>SIGINFO</td>
-<td>29,-,-</td>
-<td></td>
-<td>等同于 SIGPWR</td>
-</tr>
-<tr>
-<td>SIGLOST</td>
-<td>-,-,-</td>
-<td>Term</td>
-<td>文件锁丢失 (unused)</td>
-</tr>
-<tr>
-<td>SIGWINCH</td>
-<td>28,28,20</td>
-<td>Ign</td>
-<td>窗口缩放信号</td>
-</tr>
-<tr>
-<td>SIGUNUSED</td>
-<td>-,31,-</td>
-<td>Core</td>
-<td>等同于 SIGSYS</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Signal</th>
+          <th style="text-align: left">Value</th>
+          <th style="text-align: left">Action</th>
+          <th style="text-align: left">Comment</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">SIGIOT</td>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left">Core</td>
+          <td style="text-align: left">IOT 陷阱，等价于 SIGABRT</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGEMT</td>
+          <td style="text-align: left">7,-,7</td>
+          <td style="text-align: left">Term</td>
+          <td style="text-align: left">模拟器陷阱 (Emulator trap)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGSTKFLT</td>
+          <td style="text-align: left">-,16,-</td>
+          <td style="text-align: left">Term</td>
+          <td style="text-align: left">协处理器上的堆栈错误 (unused)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGIO</td>
+          <td style="text-align: left">23,29,22</td>
+          <td style="text-align: left">Term</td>
+          <td style="text-align: left">当前 IO 可用</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGCLD</td>
+          <td style="text-align: left">-,-,18</td>
+          <td style="text-align: left">Ign</td>
+          <td style="text-align: left">等价于 SIGCHLD</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGPWR</td>
+          <td style="text-align: left">29,30,19</td>
+          <td style="text-align: left">Term</td>
+          <td style="text-align: left">断电信号</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGINFO</td>
+          <td style="text-align: left">29,-,-</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">等同于 SIGPWR</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGLOST</td>
+          <td style="text-align: left">-,-,-</td>
+          <td style="text-align: left">Term</td>
+          <td style="text-align: left">文件锁丢失 (unused)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGWINCH</td>
+          <td style="text-align: left">28,28,20</td>
+          <td style="text-align: left">Ign</td>
+          <td style="text-align: left">窗口缩放信号</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SIGUNUSED</td>
+          <td style="text-align: left">-,31,-</td>
+          <td style="text-align: left">Core</td>
+          <td style="text-align: left">等同于 SIGSYS</td>
+      </tr>
+  </tbody>
 </table>
 <h3 id="信号处理" class="headerLink">
     <a href="#%e4%bf%a1%e5%8f%b7%e5%a4%84%e7%90%86" class="header-mark"></a>信号处理</h3><p>对信号处理的方式相对简单，即调用 POSIX 方法 sigaction，但是相对复杂的是需要分配并填写相关结构。有一个相对简单的方式即 <strong>signal</strong> 函数，第一个参数是信号名，第二个参数就是指向回调函数的指针，或者宏定义 <code>SIG_IGN</code> 或 <code>SIG_DFL</code>。</p>
@@ -2051,8 +2062,8 @@ ECONNRESET 错误。</p>
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
             </div>
@@ -2075,7 +2086,7 @@ ECONNRESET 错误。</p>
         </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
             <i class="fas fa-comment fa-fw"></i>
         </a>
-    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b82a526943533d0dde3eceea68e6d3879e8f766339a17d2c57bbde5421167ddeafa4734202e9950c16842cc6d27753b4.css" integrity="sha384-uCpSaUNTPQ3ePs7qaObTh56PdmM5oX0sV7veVCEWfd6vpHNCAumVDBaELMbSd1O0"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
         <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2022-02-19T15:31:05+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"基本 TCP 编程"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
             window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
             gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });

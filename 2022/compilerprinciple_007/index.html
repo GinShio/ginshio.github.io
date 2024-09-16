@@ -1,25 +1,36 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cn">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
-    <title>语法制导翻译 - iris</title><meta name="Description" content="GinShio | 编译原理第五章读书笔记"><meta property="og:title" content="语法制导翻译" />
-<meta property="og:description" content="GinShio | 编译原理第五章读书笔记" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.ginshio.org/2022/compilerprinciple_007/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-05-19T13:26:43+08:00" />
-<meta property="article:modified_time" content="2022-06-02T11:19:33+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+    <title>语法制导翻译 - iris</title><meta name="Description" content="GinShio | 编译原理第五章读书笔记"><meta property="og:url" content="https://blog.ginshio.org/2022/compilerprinciple_007/">
+  <meta property="og:site_name" content="iris">
+  <meta property="og:title" content="语法制导翻译">
+  <meta property="og:description" content="GinShio | 编译原理第五章读书笔记">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-05-19T13:26:43+08:00">
+    <meta property="article:modified_time" content="2022-06-02T11:19:33+08:00">
+    <meta property="article:tag" content="Note">
+    <meta property="article:tag" content="DragonBook">
+    <meta property="article:tag" content="IR">
+    <meta property="og:image" content="https://blog.ginshio.org/avatar.webp">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2020/compilerprinciple_001/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2020/compilerprinciple_002/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2020/compilerprinciple_003/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2020/compilerprinciple_004/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2022/compilerprinciple_005/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2022/compilerprinciple_006/">
 
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
-
-<meta name="twitter:title" content="语法制导翻译"/>
-<meta name="twitter:description" content="GinShio | 编译原理第五章读书笔记"/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp">
+  <meta name="twitter:title" content="语法制导翻译">
+  <meta name="twitter:description" content="GinShio | 编译原理第五章读书笔记">
 <meta name="application-name" content="iris">
 <meta name="apple-mobile-web-app-title" content="iris">
 
@@ -36,12 +47,12 @@
         "@context": "http://schema.org",
         "@type": "BlogPosting",
         "headline": "语法制导翻译",
-        "inLanguage": "zh-CN",
+        "inLanguage": "zh-cn",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2022\/compilerprinciple_007\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, IR","wordcount":  7989 ,
-        "url": "https:\/\/blog.ginshio.org\/2022\/compilerprinciple_007\/","datePublished": "2022-05-19T13:26:43+08:00","dateModified": "2022-06-02T11:19:33+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, DragonBook, IR","wordcount":  1189 ,
+        "url": "https:\/\/blog.ginshio.org\/2022\/compilerprinciple_007\/","datePublished": "2022-05-19T13:26:43+08:00","dateModified": "2022-06-02T11:19:33+08:00","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
                         "@type": "Person",
@@ -167,8 +178,8 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="05-19">05-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="06-02">06-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7989 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 16 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="05-19">05-19</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="06-02">06-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1189 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
                                     <span>系列 - 龙书学习笔记</span>
@@ -253,50 +264,50 @@ N 的父结点、N 本身和 N 的兄弟结点上的属性来定义。</dd>
 <p>虽然不允许结点 N 的继承属性通过子结点上的属性来定义，但可以通过结点本身的继承属性定义综合属性。另外，终结符可以由综合属性，但不能有继承属性，它的属性值是由词法分析器提供的词法值，SDD 中没有计算终结符的属性值的语义规则。</p>
 <p>比如有一个简单的加乘计算器。</p>
 <table>
-<thead>
-<tr>
-<th>编号</th>
-<th>产生式</th>
-<th>语义规则</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>\(L\rightarrow{}E\textbf{n}\)</td>
-<td>\(L.val = E.val\)</td>
-</tr>
-<tr>
-<td>2</td>
-<td>\(E\rightarrow{}E_{1}+T\)</td>
-<td>\(E.val = E_{1}.val + T.val\)</td>
-</tr>
-<tr>
-<td>3</td>
-<td>\(E\rightarrow{}T\)</td>
-<td>\(E.val = T.val\)</td>
-</tr>
-<tr>
-<td>4</td>
-<td>\(T\rightarrow{}T_{1}*F\)</td>
-<td>\(T.val = T_{1}.val \times F.val\)</td>
-</tr>
-<tr>
-<td>5</td>
-<td>\(T\rightarrow{}F\)</td>
-<td>\(T.val = F.val\)</td>
-</tr>
-<tr>
-<td>6</td>
-<td>\(F\rightarrow(E)\)</td>
-<td>\(F.val = E.val\)</td>
-</tr>
-<tr>
-<td>7</td>
-<td>\(F\rightarrow{}\textbf{digit}\)</td>
-<td>\(F.val = \textbf{digit}.lexval\)</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">编号</th>
+          <th style="text-align: left">产生式</th>
+          <th style="text-align: left">语义规则</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">\(L\rightarrow{}E\textbf{n}\)</td>
+          <td style="text-align: left">\(L.val = E.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">\(E\rightarrow{}E_{1}+T\)</td>
+          <td style="text-align: left">\(E.val = E_{1}.val + T.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">\(E\rightarrow{}T\)</td>
+          <td style="text-align: left">\(E.val = T.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">\(T\rightarrow{}T_{1}*F\)</td>
+          <td style="text-align: left">\(T.val = T_{1}.val \times F.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">\(T\rightarrow{}F\)</td>
+          <td style="text-align: left">\(T.val = F.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left">\(F\rightarrow(E)\)</td>
+          <td style="text-align: left">\(F.val = E.val\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left">\(F\rightarrow{}\textbf{digit}\)</td>
+          <td style="text-align: left">\(F.val = \textbf{digit}.lexval\)</td>
+      </tr>
+  </tbody>
 </table>
 <p>产生式 1 设置了整个表达式的值，而产生式 2 的值由它的两个子结点的值求和得来，类似的产生式 4 的值由它的两个子结点的值求积得来。而产生式 7 的值由词法单元返回的数值得来。这个只包含综合属性的 SDD 被称作 S 属性 (S-attribute) SDD，它的头部的非终结符的值都由产生式的体的属性值计算得来。</p>
 <p>一个没有副作用的 SDD 也被称为<strong>属性文法</strong> (attribute grammar)，一个属性文法的规则仅仅通过其他属性值和常量值来定义一个属性值。</p>
@@ -304,7 +315,7 @@ N 的父结点、N 本身和 N 的兄弟结点上的属性来定义。</dd>
     <a href="#%e5%9c%a8%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e6%a0%91%e7%9a%84%e7%bb%93%e7%82%b9%e4%b8%8a%e5%af%b9-sdd-%e6%b1%82%e5%80%bc" class="header-mark"></a>在语法分析树的结点上对 SDD 求值</h3><p>在语法分析器上进行求值有助于将 SDD 翻译方案可视化，虽然实际上不需要构建语法分析树。在应用一个 SDD 规则之前首先构造出一棵语法分析树，并用这些规则对树上的各个结点上的所有属性进行求值。一个显示了各个属性值的语法分析树称作<strong>注释语法分析树</strong>
 (annotated parse tree)。</p>
 <p>根据上节的产生式和规则，可以构造出一棵语法分析树，对应的非终结符的每个结点都按照自底向上的顺序计算。</p>
-<figure><img src="/images/annotated-parse-tree-for-5.1-example.svg"/>
+<figure><img src="/images/annotated-parse-tree-for-5.1-example.svg">
 </figure>
 
 <p>在对某个结点的属性进行求值之前，需要先求出这个属性所依赖的所有属性值。比如上一节提到的计算器示例 S-attribute SSD，在求值结点的 val 属性之前就必须求值那个结点的所有子结点的属性值。对于综合属性，可以按照任何自底向上的书序计算属性值 (如
@@ -314,41 +325,41 @@ SDD 的一个有用子类，它能保证对每棵语法分析树都存在一个�
 <p>当一棵语法分析树的结构和源代码的抽象语法不匹配时，继承属性是很有用的。因为文法不是为了翻译而定义的，是为了语法分析而进行定义的，因此可能产生不匹配的情况。</p>
 <p>现在再实现一个无左递归的 SDD 文法，用于计算 <code>3*5</code> 这样的项。</p>
 <table>
-<thead>
-<tr>
-<th>编号</th>
-<th>产生式</th>
-<th>语义规则</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>\(T\rightarrow{}FT^{&rsquo;}\)</td>
-<td>\(T^{&rsquo;}.inh = F.val; T.val = T^{&rsquo;}.syn\)</td>
-</tr>
-<tr>
-<td>2</td>
-<td>\(T^{&rsquo;}\rightarrow{}*FT^{&rsquo;}_1\)</td>
-<td>\(T^{&rsquo;}_{1}.inh = T^{&rsquo;}.inh \times{} F.val; T^{&rsquo;}.syn = T^{&rsquo;}_{1}.syn\)</td>
-</tr>
-<tr>
-<td>3</td>
-<td>\(T^{&rsquo;}\rightarrow{}\varepsilon\)</td>
-<td>\(T^{&rsquo;}.syn=T^{&rsquo;}.inh\)</td>
-</tr>
-<tr>
-<td>4</td>
-<td>\(F\rightarrow{}\textbf{digit}\)</td>
-<td>\(F.val = \textbf{digit}.lexval\)</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">编号</th>
+          <th style="text-align: left">产生式</th>
+          <th style="text-align: left">语义规则</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">\(T\rightarrow{}FT^{&rsquo;}\)</td>
+          <td style="text-align: left">\(T^{&rsquo;}.inh = F.val; T.val = T^{&rsquo;}.syn\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">\(T^{&rsquo;}\rightarrow{}*FT^{&rsquo;}_1\)</td>
+          <td style="text-align: left">\(T^{&rsquo;}_{1}.inh = T^{&rsquo;}.inh \times{} F.val; T^{&rsquo;}.syn = T^{&rsquo;}_{1}.syn\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">\(T^{&rsquo;}\rightarrow{}\varepsilon\)</td>
+          <td style="text-align: left">\(T^{&rsquo;}.syn=T^{&rsquo;}.inh\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">\(F\rightarrow{}\textbf{digit}\)</td>
+          <td style="text-align: left">\(F.val = \textbf{digit}.lexval\)</td>
+      </tr>
+  </tbody>
 </table>
 <p>自顶向下的过程中，第一个输入 <code>3</code> 将与 \(\times\) 不在同一棵子树下，我们需要使用继承属性将运算分量传递给运算符 <code>*</code>。非终结符 T 和 F 各自有一个综合属性 val，终结符
 <strong>digit</strong> 有一个综合属性 lexval，非终结符 \(T^{&rsquo;}\) 有一个继承属性 inh 和一个综合属性 syn。</p>
 <p>这些语义规则基于如下思想：运算符 <code>*</code> 的做运算分量是通过继承得到的。也就是说，
 \(T^{&rsquo;}\rightarrow{}*FT^{&rsquo;}\) 的头部继承了产生体中的 <code>*</code> 左运算分量。当递归地处理完毕后，这个结果就通过综合属性传递到树的根部。</p>
-<figure><img src="/images/annotated-parse-tree-for-5.3-example.svg"/>
+<figure><img src="/images/annotated-parse-tree-for-5.3-example.svg">
 </figure>
 
 <h2 id="sdd-求值顺序" class="headerLink">
@@ -360,7 +371,7 @@ SDD 的一个有用子类，它能保证对每棵语法分析树都存在一个�
 <li>假设和产生式 p 关联的语义规则通过 X.c 的值定义了综合属性 A.b 的值 (还可能用到其他属性值)。那么相应依赖图中有一条从 X.c 到 A.b 的边。</li>
 <li>假设和产生式 p 关联的一个语义规则通过 X.a 的值定义了继承属性 B.c 的值。那么在相应依赖图中有一条从 X.a 到 B.c 的边。</li>
 </ul>
-<figure><img src="/images/dependency-graph-for-5.3-example.svg"/>
+<figure><img src="/images/dependency-graph-for-5.3-example.svg">
 </figure>
 
 <h3 id="属性求值顺序" class="headerLink">
@@ -394,40 +405,40 @@ S-attribute SDD 可以按照分析树的结点，以任何自底向上的顺序�
 </ul>
 <p>简单实现一个声明 D，可以声明基本类型 T (int 或 float)，后跟一个标识符列表。假设每个标识符录入符号表条目中。假设一个标识符的类型不会影响其他标识符对应的符号表条目，条目可以按照任意顺序进行更新。另外，SDD 也不检查标识符是否被声明了多次。</p>
 <table>
-<thead>
-<tr>
-<th>编号</th>
-<th>产生式</th>
-<th>语义规则</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>\(D\rightarrow{}TL\)</td>
-<td>\(L.inh=T.type\)</td>
-</tr>
-<tr>
-<td>2</td>
-<td>\(T\rightarrow{}\textbf{int}\)</td>
-<td>\(T.type=integer\)</td>
-</tr>
-<tr>
-<td>3</td>
-<td>\(T\rightarrow{}\textbf{float}\)</td>
-<td>\(T.type=float\)</td>
-</tr>
-<tr>
-<td>4</td>
-<td>\(L\rightarrow{}L_{1}\,\textit{,}\,\textbf{id}\)</td>
-<td>\(L_{1}.inh=L.inh; addType(\textbf{id}.entry, L.inh)\)</td>
-</tr>
-<tr>
-<td>5</td>
-<td>\(L\rightarrow{}\textbf{id}\)</td>
-<td>\(addType(\textbf{id}.entry, L.inh)\)</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">编号</th>
+          <th style="text-align: left">产生式</th>
+          <th style="text-align: left">语义规则</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">\(D\rightarrow{}TL\)</td>
+          <td style="text-align: left">\(L.inh=T.type\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">\(T\rightarrow{}\textbf{int}\)</td>
+          <td style="text-align: left">\(T.type=integer\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">\(T\rightarrow{}\textbf{float}\)</td>
+          <td style="text-align: left">\(T.type=float\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">\(L\rightarrow{}L_{1}\,\textit{,}\,\textbf{id}\)</td>
+          <td style="text-align: left">\(L_{1}.inh=L.inh; addType(\textbf{id}.entry, L.inh)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">\(L\rightarrow{}\textbf{id}\)</td>
+          <td style="text-align: left">\(addType(\textbf{id}.entry, L.inh)\)</td>
+      </tr>
+  </tbody>
 </table>
 <p>需要注意的是 addType 的参数</p>
 <ul>
@@ -436,7 +447,7 @@ S-attribute SDD 可以按照分析树的结点，以任何自底向上的顺序�
 </ul>
 <p>因此 addType 可以正确的将 <strong>id</strong> 所代表的标识符类型设置为 L.inh。也可以认为调用
 addType 是设置该结点的哑属性。比如输入串 <code>float f1, f2, f3</code>，我们依据此输入构建依赖图。</p>
-<figure><img src="/images/dependency-graph-for-5.10-example.svg"/>
+<figure><img src="/images/dependency-graph-for-5.10-example.svg">
 </figure>
 
 <h2 id="语法制导翻译的应用" class="headerLink">
@@ -452,48 +463,48 @@ addType 是设置该结点的哑属性。比如输入串 <code>float f1, f2, f3<
 <p>以下示例为 S 属性定义为一个简单的表达式文法构造出语法树，这个文法只有二元运算符
 \(+\) 和 \(-\)，通常这两个运算符具有相同优先级且都是左结合。所有非终结符都有一个综合属性 node，表示相应抽象语法树结点</p>
 <table>
-<thead>
-<tr>
-<th>编号</th>
-<th>产生式</th>
-<th>语义规则</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>\(E\rightarrow{}E_{1}+T\)</td>
-<td>\(E.node=\textbf{new}\ Node(&rsquo;+&rsquo;, E_{1}.node, T.node)\)</td>
-</tr>
-<tr>
-<td>2</td>
-<td>\(E\rightarrow{}E_{1}-T\)</td>
-<td>\(E.node=\textbf{new}\ Node(&rsquo;-&rsquo;, E_{1}.node,T.node)\)</td>
-</tr>
-<tr>
-<td>3</td>
-<td>\(E\rightarrow{}T\)</td>
-<td>\(E.node=T.node\)</td>
-</tr>
-<tr>
-<td>4</td>
-<td>\(T\rightarrow(E)\)</td>
-<td>\(T.node=E.node\)</td>
-</tr>
-<tr>
-<td>5</td>
-<td>\(T\rightarrow{}\textbf{id}\)</td>
-<td>\(T.node=\textbf{new}\ Leaf(\textbf{id}, \textbf{id}.entry)\)</td>
-</tr>
-<tr>
-<td>6</td>
-<td>\(T\rightarrow{}\textbf{num}\)</td>
-<td>\(T.node=\textbf{new}\ Leaf(\textbf{num}, \textbf{num}.val)\)</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">编号</th>
+          <th style="text-align: left">产生式</th>
+          <th style="text-align: left">语义规则</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">\(E\rightarrow{}E_{1}+T\)</td>
+          <td style="text-align: left">\(E.node=\textbf{new}\ Node(&rsquo;+&rsquo;, E_{1}.node, T.node)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">\(E\rightarrow{}E_{1}-T\)</td>
+          <td style="text-align: left">\(E.node=\textbf{new}\ Node(&rsquo;-&rsquo;, E_{1}.node,T.node)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">\(E\rightarrow{}T\)</td>
+          <td style="text-align: left">\(E.node=T.node\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">\(T\rightarrow(E)\)</td>
+          <td style="text-align: left">\(T.node=E.node\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">\(T\rightarrow{}\textbf{id}\)</td>
+          <td style="text-align: left">\(T.node=\textbf{new}\ Leaf(\textbf{id}, \textbf{id}.entry)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left">\(T\rightarrow{}\textbf{num}\)</td>
+          <td style="text-align: left">\(T.node=\textbf{new}\ Leaf(\textbf{num}, \textbf{num}.val)\)</td>
+      </tr>
+  </tbody>
 </table>
 <p>比如说输入 \(a-4+c\) 构造一棵抽象语法树，这棵抽象语法树的结点被显示为记录，这些记录的第一个字段是 op。现在抽象语法树的边用实线表示，基础的语法分析树的边用点状虚线表示 (并没有真的生成它)，最后一种线状虚线表示 \(E.node\) 和 \(T.node\) 的值，每条线都指向适当的抽象语法树的结点。</p>
-<figure><img src="/images/ast-5.11-example.svg"/>
+<figure><img src="/images/ast-5.11-example.svg">
 </figure>
 
 <p>在自底向上分析过程中，我们可以得到如下的抽象语法树构造步骤。
@@ -506,90 +517,90 @@ p_{5}&amp;={}\textbf{new}\ Node(&rsquo;+&rsquo;, p_{3}, p_{4});
 \end{aligned}\]</p>
 <p>如果改用自顶向下语法分析，得到的抽象语法树是相同的，其构造步骤也相同，但语法分析树的构造与抽象语法树的构造有极大不同。</p>
 <table>
-<thead>
-<tr>
-<th>编号</th>
-<th>产生式</th>
-<th>语义规则</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>\(E\rightarrow{}TE^{&rsquo;}\)</td>
-<td>\(E.node=E^{&rsquo;}.syn;\ E^{&rsquo;}.inh=T.node\)</td>
-</tr>
-<tr>
-<td>2</td>
-<td>\(E^{&rsquo;}\rightarrow{}+TE^{&rsquo;}_{1}\)</td>
-<td>\(E^{&rsquo;}_{1}.inh={}\textbf{new}\ Node(&rsquo;+&rsquo;,E^{&rsquo;}.inh,T.node); E^{&rsquo;}.syn=E^{&rsquo;}_{1}.syn\)</td>
-</tr>
-<tr>
-<td>3</td>
-<td>\(E^{&rsquo;}\rightarrow{}-TE^{&rsquo;}_{1}\)</td>
-<td>\(E^{&rsquo;}_{1}.inh={}\textbf{new}\ Node(&rsquo;-&rsquo;,E^{&rsquo;}.inh,T.node); E^{&rsquo;}.syn=E^{&rsquo;}_{1}.syn\)</td>
-</tr>
-<tr>
-<td>4</td>
-<td>\(E^{&rsquo;}\rightarrow{}\varepsilon\)</td>
-<td>\(E^{&rsquo;}.syn={}E^{&rsquo;}.inh\)</td>
-</tr>
-<tr>
-<td>5</td>
-<td>\(T\rightarrow{}(E)\)</td>
-<td>\(T.node=E.node\)</td>
-</tr>
-<tr>
-<td>6</td>
-<td>\(T\rightarrow{}\textbf{id}\)</td>
-<td>\(T.node={}\textbf{new}\ Leaf(\textbf{id},\textbf{id}.entry)\)</td>
-</tr>
-<tr>
-<td>7</td>
-<td>\(T\rightarrow{}\textbf{num}\)</td>
-<td>\(T.node={}\textbf{new}\ Leaf(\textbf{num},\textbf{num}.val)\)</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">编号</th>
+          <th style="text-align: left">产生式</th>
+          <th style="text-align: left">语义规则</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">\(E\rightarrow{}TE^{&rsquo;}\)</td>
+          <td style="text-align: left">\(E.node=E^{&rsquo;}.syn;\ E^{&rsquo;}.inh=T.node\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">\(E^{&rsquo;}\rightarrow{}+TE^{&rsquo;}_{1}\)</td>
+          <td style="text-align: left">\(E^{&rsquo;}_{1}.inh={}\textbf{new}\ Node(&rsquo;+&rsquo;,E^{&rsquo;}.inh,T.node); E^{&rsquo;}.syn=E^{&rsquo;}_{1}.syn\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">\(E^{&rsquo;}\rightarrow{}-TE^{&rsquo;}_{1}\)</td>
+          <td style="text-align: left">\(E^{&rsquo;}_{1}.inh={}\textbf{new}\ Node(&rsquo;-&rsquo;,E^{&rsquo;}.inh,T.node); E^{&rsquo;}.syn=E^{&rsquo;}_{1}.syn\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">\(E^{&rsquo;}\rightarrow{}\varepsilon\)</td>
+          <td style="text-align: left">\(E^{&rsquo;}.syn={}E^{&rsquo;}.inh\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">\(T\rightarrow{}(E)\)</td>
+          <td style="text-align: left">\(T.node=E.node\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left">\(T\rightarrow{}\textbf{id}\)</td>
+          <td style="text-align: left">\(T.node={}\textbf{new}\ Leaf(\textbf{id},\textbf{id}.entry)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left">\(T\rightarrow{}\textbf{num}\)</td>
+          <td style="text-align: left">\(T.node={}\textbf{new}\ Leaf(\textbf{num},\textbf{num}.val)\)</td>
+      </tr>
+  </tbody>
 </table>
 <p>这个<a href="#%e5%9c%a8%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e6%a0%91%e7%9a%84%e7%bb%93%e7%82%b9%e4%b8%8a%e5%af%b9-sdd-%e6%b1%82%e5%80%bc" rel="">在语法分析树的结点上对 SDD 求值</a>提到的简易乘加计算器类似，通过继承属性将左边的计算结果进行传递。对于同样的表达式 <code>a-4+c</code> 将有不一样的依赖图。</p>
-<figure><img src="/images/dependency-graph-for-5.12-example.svg"/>
+<figure><img src="/images/dependency-graph-for-5.12-example.svg">
 </figure>
 
 <h3 id="类型的结构" class="headerLink">
     <a href="#%e7%b1%bb%e5%9e%8b%e7%9a%84%e7%bb%93%e6%9e%84" class="header-mark"></a>类型的结构</h3><p>当语法分析树的结构与输入的抽象语法树结构不同时，继承属性是很有用的。这种情况下，继承属性可以用来将信息从语法分析树的一部分传递到另一部分。</p>
 <p>比如 C 语言中的 <code>int[2][3]</code>，相应的表达式可以是 <code>array(2, array(3, integer))</code>。因此我们可以尝试用以下的 SDD 来构造语法分析树。</p>
 <table>
-<thead>
-<tr>
-<th>产生式</th>
-<th>语义规则</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>\(T\rightarrow{}BC\)</td>
-<td>\(T.t=C.t;\ C.b=B.t\)</td>
-</tr>
-<tr>
-<td>\(B\rightarrow{}\textbf{int}\)</td>
-<td>\(B.t=integer\)</td>
-</tr>
-<tr>
-<td>\(B\rightarrow{}\textbf{float}\)</td>
-<td>\(B.t=float\)</td>
-</tr>
-<tr>
-<td>\(C\rightarrow{}[\textbf{num}]C_{1}\)</td>
-<td>\(C.t=array(\textbf{num}.val, C_{1}.t);\ C_{1}.b=C.b\)</td>
-</tr>
-<tr>
-<td>\(C\rightarrow{}\varepsilon\)</td>
-<td>\(C.t=C.b\)</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">产生式</th>
+          <th style="text-align: left">语义规则</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">\(T\rightarrow{}BC\)</td>
+          <td style="text-align: left">\(T.t=C.t;\ C.b=B.t\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">\(B\rightarrow{}\textbf{int}\)</td>
+          <td style="text-align: left">\(B.t=integer\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">\(B\rightarrow{}\textbf{float}\)</td>
+          <td style="text-align: left">\(B.t=float\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">\(C\rightarrow{}[\textbf{num}]C_{1}\)</td>
+          <td style="text-align: left">\(C.t=array(\textbf{num}.val, C_{1}.t);\ C_{1}.b=C.b\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">\(C\rightarrow{}\varepsilon\)</td>
+          <td style="text-align: left">\(C.t=C.b\)</td>
+      </tr>
+  </tbody>
 </table>
 <p>非终结符 B 和 T 有一个表示类型的综合属性 t，非终结符 C 有两个属性：继承属性 b 和综合属性 t。继承属性 b 将一个基本类型沿树向下传播，而综合属性 t 则收集最终得到的结果。</p>
-<figure><img src="/images/annotated-parse-tree-for-5.13-example.svg"/>
+<figure><img src="/images/annotated-parse-tree-for-5.13-example.svg">
 </figure>
 
 <h2 id="语法制导的翻译方案" class="headerLink">
@@ -616,42 +627,42 @@ p_{5}&amp;={}\textbf{new}\ Node(&rsquo;+&rsquo;, p_{3}, p_{4});
 L-attribute 定义 SDT。但不是所有的 SDT 都可以在语法分析过程中实现。</p>
 <p>作为 SDT 的极端例子，不能在自顶向下或自底向上的语法分析过程中实现这个 SDT。因此语法分析程序必须在它还不知道出现在输入中的运算符是 \(*\) 还是 \(+\) 的时候，就执行打印这些操作。</p>
 <table>
-<thead>
-<tr>
-<th>编号</th>
-<th>产生式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>\(L\rightarrow{}E\textbf{n}\)</td>
-</tr>
-<tr>
-<td>2</td>
-<td>\(E\rightarrow{}\texttt{\{\,print(&rsquo;+&rsquo;);\,\}}\ E_{1}+T\)</td>
-</tr>
-<tr>
-<td>3</td>
-<td>\(E\rightarrow{}T\)</td>
-</tr>
-<tr>
-<td>4</td>
-<td>\(T\rightarrow{}\texttt{\{\,print(&rsquo;-&rsquo;);\,\}}\ T_{1}*F\)</td>
-</tr>
-<tr>
-<td>5</td>
-<td>\(T\rightarrow{}F\)</td>
-</tr>
-<tr>
-<td>6</td>
-<td>\(F\rightarrow{}(E)\)</td>
-</tr>
-<tr>
-<td>7</td>
-<td>\(F\rightarrow{}\textbf{digit}\ \texttt{\{\,print(}\textbf{digit}\texttt{.lexval);\,\}}\)</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">编号</th>
+          <th style="text-align: left">产生式</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">\(L\rightarrow{}E\textbf{n}\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">\(E\rightarrow{}\texttt{\{\,print(&rsquo;+&rsquo;);\,\}}\ E_{1}+T\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">\(E\rightarrow{}T\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">\(T\rightarrow{}\texttt{\{\,print(&rsquo;-&rsquo;);\,\}}\ T_{1}*F\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">\(T\rightarrow{}F\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left">\(F\rightarrow{}(E)\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">7</td>
+          <td style="text-align: left">\(F\rightarrow{}\textbf{digit}\ \texttt{\{\,print(}\textbf{digit}\texttt{.lexval);\,\}}\)</td>
+      </tr>
+  </tbody>
 </table>
 <p>任何 SDT 都可以按照下列方法实现：</p>
 <ol>
@@ -662,7 +673,7 @@ L-attribute 定义 SDT。但不是所有的 SDT 都可以在语法分析过程�
 </ol>
 <p>现在构造表达式 \(3*5+4\) 的语法分析树，可以按照构造的语法分析树得到这个前缀形式
 \(+\,*\,3\,5\,4\)</p>
-<figure><img src="/images/parse-tree-with-actions-for-5.16-example.svg"/>
+<figure><img src="/images/parse-tree-with-actions-for-5.16-example.svg">
 </figure>
 
 <h3 id="从-sdt-中消除左递归" class="headerLink">
@@ -694,7 +705,7 @@ A &amp;\rightarrow{} XR\\
 R &amp;\rightarrow{} YR\,|\,\varepsilon
 \end{aligned}\]</p>
 <p>可以看出无论是在原文法上应用后缀 SDT 还是消除左递归后应用 SDT，其结果都是相同的。只不过消除左递归后，还需要一个综合属性 R.s 沿树向上拷贝。</p>
-<figure><img src="/images/eliminate-left-recursion-sdt.svg"/>
+<figure><img src="/images/eliminate-left-recursion-sdt.svg">
 </figure>
 
 <p>最终可以得到 SDT
@@ -797,11 +808,11 @@ C.true=L_{2};\ print(&ldquo;label&rdquo;, L_{1});\,\}\\
 <li>非终结符 A 的综合属性单独的存放在仅靠 A 的下面。</li>
 </ul>
 <p>还是用 while 的例子来说明</p>
-<figure><img src="/images/l-attribute-sdd-extension-parsing-stack-5.23-example.svg"/>
+<figure><img src="/images/l-attribute-sdd-extension-parsing-stack-5.23-example.svg">
 </figure>
 
 <p>对于 while 我们可以回到计算综合属性 S.next，来构建新的语法分析栈</p>
-<figure><img src="/images/l-attribute-sdd-extension-parsing-stack-5.24-example.svg"/>
+<figure><img src="/images/l-attribute-sdd-extension-parsing-stack-5.24-example.svg">
 </figure>
 
 <h3 id="l-属性的-sdd-的自底向上语法分析" class="headerLink">
@@ -861,8 +872,8 @@ N &amp;\rightarrow{} \varepsilon
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
             </div>
@@ -885,7 +896,7 @@ N &amp;\rightarrow{} \varepsilon
         </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
             <i class="fas fa-comment fa-fw"></i>
         </a>
-    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b82a526943533d0dde3eceea68e6d3879e8f766339a17d2c57bbde5421167ddeafa4734202e9950c16842cc6d27753b4.css" integrity="sha384-uCpSaUNTPQ3ePs7qaObTh56PdmM5oX0sV7veVCEWfd6vpHNCAumVDBaELMbSd1O0"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
         <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2022-05-19T13:26:43+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"语法制导翻译"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
             window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
             gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });

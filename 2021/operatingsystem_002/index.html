@@ -1,25 +1,33 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cn">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
-    <title>内存管理 - iris</title><meta name="Description" content="GinShio | 现代操作系统第三章读书笔记"><meta property="og:title" content="内存管理" />
-<meta property="og:description" content="GinShio | 现代操作系统第三章读书笔记" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.ginshio.org/2021/operatingsystem_002/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-07-14T12:14:40+08:00" />
-<meta property="article:modified_time" content="2022-04-08T17:29:27+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
-<meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_001/" /><meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_003/" /><meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_004/" /><meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_005/" />
+    <title>内存管理 - iris</title><meta name="Description" content="GinShio | 现代操作系统第三章读书笔记"><meta property="og:url" content="https://blog.ginshio.org/2021/operatingsystem_002/">
+  <meta property="og:site_name" content="iris">
+  <meta property="og:title" content="内存管理">
+  <meta property="og:description" content="GinShio | 现代操作系统第三章读书笔记">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-07-14T12:14:40+08:00">
+    <meta property="article:modified_time" content="2022-04-08T17:29:27+08:00">
+    <meta property="article:tag" content="Note">
+    <meta property="article:tag" content="Memory">
+    <meta property="og:image" content="https://blog.ginshio.org/avatar.webp">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_001/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_003/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_004/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/operatingsystem_005/">
 
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
-
-<meta name="twitter:title" content="内存管理"/>
-<meta name="twitter:description" content="GinShio | 现代操作系统第三章读书笔记"/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp">
+  <meta name="twitter:title" content="内存管理">
+  <meta name="twitter:description" content="GinShio | 现代操作系统第三章读书笔记">
 <meta name="application-name" content="iris">
 <meta name="apple-mobile-web-app-title" content="iris">
 
@@ -36,12 +44,12 @@
         "@context": "http://schema.org",
         "@type": "BlogPosting",
         "headline": "内存管理",
-        "inLanguage": "zh-CN",
+        "inLanguage": "zh-cn",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_002\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Memory","wordcount":  14317 ,
-        "url": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_002\/","datePublished": "2021-07-14T12:14:40+08:00","dateModified": "2022-04-08T17:29:27+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, Memory","wordcount":  1329 ,
+        "url": "https:\/\/blog.ginshio.org\/2021\/operatingsystem_002\/","datePublished": "2021-07-14T12:14:40+08:00","dateModified": "2022-04-08T17:29:27+08:00","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
                         "@type": "Person",
@@ -178,8 +186,8 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/operatingsystem/"><i class="far fa-folder fa-fw"></i>OperatingSystem</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/operating-system-note/"><i class="far fa-list-alt fa-fw"></i>Operating System Note</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-14">07-14</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 14317 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 29 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="07-14">07-14</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-08">04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1329 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
                                     <span>系列 - Operating System Note</span>
@@ -259,7 +267,7 @@ hierarchy) 的概念，即计算机拥有若干 MiB 快速、昂贵且易失性�
 <p>虽然直接使用物理内存，但还是有不同的模型，下图展示了三种模型。a 模型中操作系统位于 RAM 底部，这种模型曾被用于大型机与小型机；b 模型中操作系统位于内存顶端的 ROM
 (只读存储器) 中，这种模型被用于掌上电脑或嵌入式系统中；c 模型中设备驱动程序位于顶部的 ROM 中，而操作系统的其他部分位于 RAM 的底部，该方案被用于早期的个人计算机中 (如运行 MS-DOS 的计算机)，在 ROM 中的系统部分被称为 BIOS (基本输入输出系统，
 Basic Input Output System)。a 和 c 模型当用户程序出错时，可能会摧毁操作系统，引发灾难性后果。</p>
-<figure><img src="/images/no-abstract-memory-manager.svg"/>
+<figure><img src="/images/no-abstract-memory-manager.svg">
 </figure>
 
 <p>在无存储器抽象的系统中实现并行的方法是采用多线程编程。由于引入线程时假设一个进程中的所有线程对同一内存映像都可见，如此实现并行也就不是问题。虽然方法行得通，但没有被广泛使用，因为人们通常希望能够在同一时间运行没有关联的程序，而这正是线程抽象所不能提供的。因此一个无存储器抽象的系统也不大可能提供线程抽象的功能。</p>
@@ -280,12 +288,12 @@ CPU 以运行程序一样，地址空间为程序创造了一种抽象的内存�
 <h3 id="交换技术" class="headerLink">
     <a href="#%e4%ba%a4%e6%8d%a2%e6%8a%80%e6%9c%af" class="header-mark"></a>交换技术</h3><p>如果计算机物理内存足够大，可以保存所有进程，那么之前提及的所有方案或多或少都是可行的。但实际上，所有进程所需的 RAM 数量总和通常会远超出存储器能够支持的范围。有两种处理内存超载的通用方法，最简单的策略是 <strong>交换</strong> (swapping) 技术，即将一个进程完整调入内存，使该进程运行一段时间，然后把它存回磁盘。空闲进程主要存储在磁盘之上，所以当它们不运行时将不占用内存。另一种策略是 <strong>虚拟内存</strong> (virtual memory)，该策略甚至能使程序在只有一部分被调入内存的情况下运行。</p>
 <p>如下图所示一个交换系统。开始时内存中仅存在进程 A，之后创建进程 B、C，在 A 被交换到磁盘后载入 D 的内存映像，之后 B 被调出，最后 A 再次被调入。由于 A 的位置发生改变，所以在它换入的时候通过软件或程序运行期间通过硬件，对其地址进行重定位。</p>
-<figure><img src="/images/memory-page-swapping.svg"/>
+<figure><img src="/images/memory-page-swapping.svg">
 </figure>
 
 <p>交换在内存中产生了多个空闲区 (hole，或称 <strong>空洞</strong>)，通过把所有进程尽可能向下移动，有可能将这些小的 hole 合并成一大块，该技术被称为 <strong>内存紧缩</strong> (memory compaction)。通常不进行这个操作，因为将要消耗大量的 CPU 时间。</p>
 <p>在进程创建时应该分配多大的内存是一个重要问题。若进程创建时大小固定并不再改变，那么操作系统准确按其大小进行分配。但如果进程数据段可以增长 (多数编程语言允许从堆中动态分配内存)，那么进程增长时就会出现问题。假设大部分进程在运行时都会增长，为减少因内存区域不足而引起的进程交换和移动所产生的开销，可以在换入或移动进程时为其分配一些额外的内存。当进程被换出到磁盘上时，仅交换进程实际上使用的内存内容。如果进程有两个可增长的段 (堆所使用的数据段以及存放局部变量和返回地址的堆栈段)，则可以预留一部分区域，堆栈段占据进程内存的顶部并向下增长，数据段占据程序底部并向上增长，其间的内存为预留的空闲内存。如下图所示。</p>
-<figure><img src="/images/memory-reserved-space.svg"/>
+<figure><img src="/images/memory-reserved-space.svg">
 </figure>
 
 <h3 id="空闲内存管理" class="headerLink">
@@ -316,25 +324,25 @@ RAM 大小。在 20 世纪 60 年代采用的解决方法是：把程序分割�
 page 都必须在内存中才能运行程序。当程序引用到一部分在物理内存中的地址空间时，由硬件立刻执行必要的映射；而引用到不在物理内存中的地址空间，由操作系统负责将缺失的部分装入物理内存用重新执行失败的指令。</p>
 <h3 id="分页" class="headerLink">
     <a href="#%e5%88%86%e9%a1%b5" class="header-mark"></a>分页</h3><p>大多 VM 系统中都使用一种称为 <strong>分页</strong> (paging) 技术。地址可以通过索引、基址寄存器、段寄存器或其他方式产生。由程序产生的这些地址称为 <strong>虚拟地址</strong> (virtual address)，它们构成可一个 <strong>虚拟地址空间</strong> (virtual address space)。在没有 VM 的计算机上，系统直接将虚拟地址送到内存总线上，读写操作使用具有同样地址的物理内存字；存在 VM 的情况下，虚拟地址被送往 <strong>内存管理单元</strong> (Memory Management Unit, MMU) 中，MMU 将虚拟地址转换为物理地址。</p>
-<figure><img src="/images/mmu-example.svg"/>
+<figure><img src="/images/mmu-example.svg">
 </figure>
 
 <p>虚拟空间地址按照固定的大小划分为 page 的若干单元，在物理内存中对应的单元被称为 *
 页框* (page frame)，page 与 frame 的大小通常一样。page 的大小可以是 512B 到 1GB
 不等，RAM 与磁盘的交换总是以整个 page 为单位交换的，在某些处理器上根据操作系统认为合适的方式，支持对不同大小 page 的混合使用与匹配。</p>
-<figure><img src="/images/mmu-example.svg"/>
+<figure><img src="/images/mmu-example.svg">
 </figure>
 
 <p>由于虚拟内存大于物理内存，因此硬件会使用一个标志位用于记录 page 是否存在于 RAM
 中。当 MMU 注意到访问的虚拟内存不存在于 RAM 中，将会使 CPU 陷入到内核中，这个陷阱称为 <strong>缺页中断</strong> (page fault)。操作系统根据一定的策略将一个页面换出 RAM，并将需要访问的页面换入页框中，修改映射关系并重新启动引起中断的指令。</p>
 <h3 id="页表" class="headerLink">
     <a href="#%e9%a1%b5%e8%a1%a8" class="header-mark"></a>页表</h3><p>页表用于虚拟地址与物理内存之间的索引，以得出应用于该虚拟页面的页框号。虚拟地址被分为高位部分的虚拟页号和低位部分的偏移量，对于 16 位地址和 4KB 的 page，高四位可以指定 16 个虚拟页面中的 page，而低 12 位可以确定 page 内的字节偏移量。由页表项找到页框号，然后把页框号拼接到偏移量的高位端，以替换掉虚拟页号，形成送往内存的物理地址。</p>
-<figure><img src="/images/page-table-example.svg"/>
+<figure><img src="/images/page-table-example.svg">
 </figure>
 
 <p>页表项的结果与机器紧密相关，但存储的信息大致相同，示例如下图所示。<code>保护</code>
 (protection) 域指出 page 允许什么类型的访问，最简单的 protection 只有一位，其值一般为 0 (可读写) 和 1 (只读)；更复杂的情况是三位 protection，各位分别对应了读、写、执行标识。<code>修改</code> (modified) 域与 <code>访问</code> (referenced) 域记录 page 的使用情况，在写入 page 时由硬件自动设置 modified，该 field 在在操作系统重新分配页框时是非常有用的：如果 page 被修改过 (即脏内存) 则必须写回磁盘，而没有被修改过的 page 可以直接丢弃。modified 又是也被称为 <strong>脏位</strong> (dirty bit)。无论读写系统都会在 page 被访问时都会设置 referenced，其会在系统发生缺页中断时帮助管理策略淘汰无用 page。最后一位是用于禁用高速缓存的 field，对于映射到设备寄存器而非 RAM 的页面十分重要。</p>
-<figure><img src="/images/page-table-element-example.svg"/>
+<figure><img src="/images/page-table-element-example.svg">
 </figure>
 
 <h3 id="加速分页过程" class="headerLink">
@@ -388,46 +396,46 @@ page 的计数从而使计数器为 0，这些为 0 的 page 将是被换出 RAM
 在 1000 个时钟中断前被访问过，那么淘汰时将会从这两个 page 中随机选取一个淘汰，因为它们的计数器都为 0。</p>
 <h4 id="页面置换算法小结" class="headerLink">
     <a href="#%e9%a1%b5%e9%9d%a2%e7%bd%ae%e6%8d%a2%e7%ae%97%e6%b3%95%e5%b0%8f%e7%bb%93" class="header-mark"></a>页面置换算法小结</h4><table>
-<thead>
-<tr>
-<th>算法</th>
-<th>注释</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>OPT (最优)</td>
-<td>不可实现，但可作为性能基准</td>
-</tr>
-<tr>
-<td>NRU (最近未被访问)</td>
-<td>LRU 的很粗糙近似</td>
-</tr>
-<tr>
-<td>FIFO (先进先出)</td>
-<td>可能换出重要页面</td>
-</tr>
-<tr>
-<td>第二次机会算法</td>
-<td>防止重要页面被换出</td>
-</tr>
-<tr>
-<td>时钟算法</td>
-<td>使用循环链表，减少结点修改</td>
-</tr>
-<tr>
-<td>LRU (最近最少使用)</td>
-<td>优秀但难实现的算法</td>
-</tr>
-<tr>
-<td>LFU (最不常用)</td>
-<td>LRU 的相对粗略近似</td>
-</tr>
-<tr>
-<td>LFU aging</td>
-<td>非常近似 LRU 的有效算法</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">算法</th>
+          <th style="text-align: left">注释</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">OPT (最优)</td>
+          <td style="text-align: left">不可实现，但可作为性能基准</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">NRU (最近未被访问)</td>
+          <td style="text-align: left">LRU 的很粗糙近似</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">FIFO (先进先出)</td>
+          <td style="text-align: left">可能换出重要页面</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">第二次机会算法</td>
+          <td style="text-align: left">防止重要页面被换出</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">时钟算法</td>
+          <td style="text-align: left">使用循环链表，减少结点修改</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">LRU (最近最少使用)</td>
+          <td style="text-align: left">优秀但难实现的算法</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">LFU (最不常用)</td>
+          <td style="text-align: left">LRU 的相对粗略近似</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">LFU aging</td>
+          <td style="text-align: left">非常近似 LRU 的有效算法</td>
+      </tr>
+  </tbody>
 </table>
 <p>我们可以利用缺页中断的次数比总页面调度次数，得出缺页率，缺页率可以简单直观地衡量一个置换算法的好坏。其中最初 n 个空物理块的页面调用也算作缺页。</p>
 <p>假设现在有分配的物理块 4 个，页面 <code>4,3,2,1,4,3,5,4,3,2,1,5</code>，那么以 OPT、FIFO、
@@ -436,300 +444,300 @@ LFU 为例</p>
 <li>
 <p>OPT</p>
 <table>
-<thead>
-<tr>
-<th>物理页面</th>
-<th>4</th>
-<th>3</th>
-<th>2</th>
-<th>1</th>
-<th>4</th>
-<th>3</th>
-<th>5</th>
-<th>4</th>
-<th>3</th>
-<th>2</th>
-<th>1</th>
-<th>5</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>4</td>
-<td>4</td>
-<td>4</td>
-<td>4</td>
-<td>4</td>
-<td>4</td>
-<td>4</td>
-<td>4</td>
-<td>4</td>
-<td>4</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr>
-<td>2</td>
-<td></td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-</tr>
-<tr>
-<td>3</td>
-<td></td>
-<td></td>
-<td>2</td>
-<td>2</td>
-<td>2</td>
-<td>2</td>
-<td>2</td>
-<td>2</td>
-<td>2</td>
-<td>2</td>
-<td>2</td>
-<td>2</td>
-</tr>
-<tr>
-<td>4</td>
-<td></td>
-<td></td>
-<td></td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>5</td>
-<td>5</td>
-<td>5</td>
-<td>5</td>
-<td>5</td>
-<td>5</td>
-</tr>
-<tr>
-<td>是否缺页</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\times\)</td>
-<td>\(\times\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\times\)</td>
-<td>\(\times\)</td>
-<td>\(\times\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\times\)</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">物理页面</th>
+          <th style="text-align: left">4</th>
+          <th style="text-align: left">3</th>
+          <th style="text-align: left">2</th>
+          <th style="text-align: left">1</th>
+          <th style="text-align: left">4</th>
+          <th style="text-align: left">3</th>
+          <th style="text-align: left">5</th>
+          <th style="text-align: left">4</th>
+          <th style="text-align: left">3</th>
+          <th style="text-align: left">2</th>
+          <th style="text-align: left">1</th>
+          <th style="text-align: left">5</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">2</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">5</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">是否缺页</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\times\)</td>
+      </tr>
+  </tbody>
 </table>
 <p>缺页次数 6，总访问次数 12，缺页率 \(\frac{1}{2}\)</p>
 </li>
 <li>
 <p>FIFO</p>
 <table>
-<thead>
-<tr>
-<th>物理页面</th>
-<th>4</th>
-<th>3</th>
-<th>2</th>
-<th>1</th>
-<th>4</th>
-<th>3</th>
-<th>5</th>
-<th>4</th>
-<th>3</th>
-<th>2</th>
-<th>1</th>
-<th>5</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>4</td>
-<td>4</td>
-<td>4</td>
-<td>4</td>
-<td>4</td>
-<td>4</td>
-<td>3</td>
-<td>2</td>
-<td>1</td>
-<td>5</td>
-<td>4</td>
-<td>3</td>
-</tr>
-<tr>
-<td>2</td>
-<td></td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>2</td>
-<td>1</td>
-<td>5</td>
-<td>4</td>
-<td>3</td>
-<td>2</td>
-</tr>
-<tr>
-<td>3</td>
-<td></td>
-<td></td>
-<td>2</td>
-<td>2</td>
-<td>2</td>
-<td>2</td>
-<td>1</td>
-<td>5</td>
-<td>4</td>
-<td>3</td>
-<td>2</td>
-<td>1</td>
-</tr>
-<tr>
-<td>4</td>
-<td></td>
-<td></td>
-<td></td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>5</td>
-<td>4</td>
-<td>3</td>
-<td>2</td>
-<td>1</td>
-<td>5</td>
-</tr>
-<tr>
-<td>是否缺页</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\times\)</td>
-<td>\(\times\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">物理页面</th>
+          <th style="text-align: left">4</th>
+          <th style="text-align: left">3</th>
+          <th style="text-align: left">2</th>
+          <th style="text-align: left">1</th>
+          <th style="text-align: left">4</th>
+          <th style="text-align: left">3</th>
+          <th style="text-align: left">5</th>
+          <th style="text-align: left">4</th>
+          <th style="text-align: left">3</th>
+          <th style="text-align: left">2</th>
+          <th style="text-align: left">1</th>
+          <th style="text-align: left">5</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">3</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">2</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">5</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">是否缺页</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+      </tr>
+  </tbody>
 </table>
 <p>缺页次数 10，总访问次数 12，缺页率 \(\frac{5}{6}\)</p>
 </li>
 <li>
 <p>LFU</p>
 <table>
-<thead>
-<tr>
-<th>物理页面</th>
-<th>4</th>
-<th>3</th>
-<th>2</th>
-<th>1</th>
-<th>4</th>
-<th>3</th>
-<th>5</th>
-<th>4</th>
-<th>3</th>
-<th>2</th>
-<th>1</th>
-<th>5</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>4</td>
-<td>4</td>
-<td>4</td>
-<td>4</td>
-<td>3</td>
-<td>2</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>5</td>
-<td>4</td>
-<td>3</td>
-</tr>
-<tr>
-<td>2</td>
-<td></td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>2</td>
-<td>1</td>
-<td>4</td>
-<td>3</td>
-<td>5</td>
-<td>4</td>
-<td>3</td>
-<td>2</td>
-</tr>
-<tr>
-<td>3</td>
-<td></td>
-<td></td>
-<td>2</td>
-<td>2</td>
-<td>1</td>
-<td>4</td>
-<td>3</td>
-<td>5</td>
-<td>4</td>
-<td>3</td>
-<td>2</td>
-<td>1</td>
-</tr>
-<tr>
-<td>4</td>
-<td></td>
-<td></td>
-<td></td>
-<td>1</td>
-<td>4</td>
-<td>3</td>
-<td>5</td>
-<td>4</td>
-<td>3</td>
-<td>2</td>
-<td>1</td>
-<td>5</td>
-</tr>
-<tr>
-<td>是否缺页</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\times\)</td>
-<td>\(\times\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\times\)</td>
-<td>\(\times\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">物理页面</th>
+          <th style="text-align: left">4</th>
+          <th style="text-align: left">3</th>
+          <th style="text-align: left">2</th>
+          <th style="text-align: left">1</th>
+          <th style="text-align: left">4</th>
+          <th style="text-align: left">3</th>
+          <th style="text-align: left">5</th>
+          <th style="text-align: left">4</th>
+          <th style="text-align: left">3</th>
+          <th style="text-align: left">2</th>
+          <th style="text-align: left">1</th>
+          <th style="text-align: left">5</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">3</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">2</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">1</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">5</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">是否缺页</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+      </tr>
+  </tbody>
 </table>
 <p>LFU 算法可以使用链表实现，将刚刚访问过的结点置于表尾，表头即是将被淘汰的
 page，这与上面所介绍到计数器的方案有所不同。缺页次数 8，总访问次数 12，缺页率 \(\frac{2}{3}\)</p>
@@ -783,54 +791,54 @@ segment 长度可以不同，通常情况下也都不相同。segment 的长度�
 <p>segment 是一个逻辑实体，一个段可能包括一个过程、一个数组、一个堆栈、一个数值变量，但一般不会同时包含多种不同类型的内容。除了能简化对长度经常变动的数据结构的管理外，分段存储管理的每个过程都位于一个独立的段中并且起始位置为 0，那么把单独编译好的过程链接起来的操作就可以得到很大的简化。当组成一个程序的所有过程都被编译和链接好之后，一个对段 n 中过程的调用将使用由两个部分组成的地址 \((n, 0)\) 来寻址。在重新编译时，对比一维地址，不会受到过程大小的改变而影响其他无关过程的起始地址。</p>
 <p>由于 segment 可以时不同类型的内容，因此可以有不同种类的保护。一个过程段可以被指明为只执行的，从而禁止读写；读点数组可以读写但不允许执行，任何试图向这个段内的转跳都将被截获。这样的保护容易找到编程中的错误。</p>
 <table>
-<thead>
-<tr>
-<th>考察点</th>
-<th>分页</th>
-<th>分段</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>需要了解具体技术</td>
-<td>\(\times\)</td>
-<td>\(\checkmark\)</td>
-</tr>
-<tr>
-<td>存在多少线性空间</td>
-<td>1</td>
-<td>多个</td>
-</tr>
-<tr>
-<td>超出存储器大小</td>
-<td>\(\checkmark\)</td>
-<td>\(\checkmark\)</td>
-</tr>
-<tr>
-<td>过程和数据区分并保护</td>
-<td>\(\times\)</td>
-<td>\(\checkmark\)</td>
-</tr>
-<tr>
-<td>大小可变的表更易提供</td>
-<td>\(\times\)</td>
-<td>\(\checkmark\)</td>
-</tr>
-<tr>
-<td>用户间过程共享方便</td>
-<td>\(\times\)</td>
-<td>\(\checkmark\)</td>
-</tr>
-<tr>
-<td>发明的原因</td>
-<td>更大的地址空间</td>
-<td>数据、过程逻辑独立，有助于共享、保护</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">考察点</th>
+          <th style="text-align: left">分页</th>
+          <th style="text-align: left">分段</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">需要了解具体技术</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">存在多少线性空间</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">多个</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">超出存储器大小</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">过程和数据区分并保护</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">大小可变的表更易提供</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">用户间过程共享方便</td>
+          <td style="text-align: left">\(\times\)</td>
+          <td style="text-align: left">\(\checkmark\)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">发明的原因</td>
+          <td style="text-align: left">更大的地址空间</td>
+          <td style="text-align: left">数据、过程逻辑独立，有助于共享、保护</td>
+      </tr>
+  </tbody>
 </table>
 <p>page 是定长的但 segment 不是。系统运行一段时间后，内存会被分为许多块，一些块包含着 segment，而一些成了空闲区，这种现象称为 <strong>棋盘形碎片</strong> 或 <strong>外部碎片</strong> (external
 fragmentation)。空闲区的存被浪费，而这可以通过内存紧缩来解决。</p>
-<figure><img src="/images/memory-segment-swapping.svg"/>
+<figure><img src="/images/memory-segment-swapping.svg">
 </figure>
 
 <h2 id="段页式实现" class="headerLink">
@@ -841,7 +849,7 @@ MULTICS 一样几乎没有修改地持续运行那么长时间。更重要的是
 <p>MULTICS 运行在 Honeywell 6000 及后续机型上，为每个程序提供最多 \(2^{18}\) 个
 segment，每个 segment 的虚拟地址空间最长为 65536 个字长。为了实现它，MULTICS 的设计者决定把每个 segment 都看作一个虚拟内存并对其进行分页，以结合分页的优点 (固定的页大小和只需调用部分 page) 和分段的优点 (易于编程、模块化、保护和共享)。</p>
 <p>每个程序都有一个段表，每个 segment 对应一个描述符。因为段表可能有 25 万多表项，因此段表本身也是一个 segment 并被分页。一个段描述符包含了一个段是否在内存中的标志，只要 segment 的任一部分在内存中就认为其在内存中。如果 segment 在内存中，它的描述符将包含一个 18 位的指向它的页表指针。由于物理内存是 24 bit 并且页面按 64 字节的边界对齐 (页面地址的低 6 位使用 0 填充)，所以描述符只需要 18 bit 来存储页表地址。段描述符还包含了段大小、保护位以及其他一些条目。每个 segment 都是一个普通的虚拟地址空间，一般页面大小位 1024 字，MULTICS 自己使用的段可能不分页或以 64 字为长度分页。</p>
-<figure><img src="/images/segment-table-element-example-multics.svg"/>
+<figure><img src="/images/segment-table-element-example-multics.svg">
 </figure>
 
 <p>MULTICS 中一个地址由两部分构成：段和段内地址。段内地址又进一步分为页号和页内字。在进行内存访问时执行以下算法：</p>
@@ -852,7 +860,7 @@ segment，每个 segment 的虚拟地址空间最长为 65536 个字长。为了
 <li>将偏移量加到页面的起始地址得到目标地址</li>
 <li>进行读或写操作</li>
 </ol>
-<figure><img src="/images/memory-address-transform-multics.svg"/>
+<figure><img src="/images/memory-address-transform-multics.svg">
 </figure>
 
 <p>这里简单地展示了 MULTICS 虚拟地址到物理地址的转换，这里忽略了描述符段也需要分页的事实。实际上通过一个寄存器找到描述符段的页表，这个页表指向描述符段的页面。但是由操作系统实现以上算法将非常缓慢，MULTICS 使用了包含 16 个字的告诉 TLB 并行搜索所有表项。</p>
@@ -865,12 +873,12 @@ segment，每个 segment 的虚拟地址空间最长为 65536 个字长。为了
 selector，其他的段寄存器不太重要，每个 selector 是一个 16 bit 数。selector 中的
 1 bit 指出这个这个段是局部还是全局的，其他 13 bit 是 LDT 或 GDT 的表项编号。因此，这些表的长度被限制在最多容纳 8K 个段描述符。剩余的 2 bit 则是保护位，以后讨论。描述符 0 是禁止使用的，它可以被安全地装入一个段寄存器中用来表示这个段寄存器目前不可用，如果使用则会引发一次中断。selector 经过合理设计，使得根据选择字定位描述符十分方便。首先根据 selector 选择 LDT / GDT，随后 selector 被复制进一个内部擦除寄存器中并将其低 3 位清零，最后 LDT / GDT 表的地址被加到索引上，得出一个直接指向
 descriptor 的指针。</p>
-<figure><img src="/images/x86-segment-selector.svg"/>
+<figure><img src="/images/x86-segment-selector.svg">
 </figure>
 
 <p>被 selector 装入段寄存器时，对应的描述符被从 LDT 或 GDT 中取出装入微程序寄存器中，以便快速访问。一个描述符由 8 Byte 构成，包含了段的基址、大小和其他信息。下图描述了 x86 代码段的段描述符。在 descriptor 中应该有一个简单的 32 bit 域给出段大小，但实际上生育 20 bit 可用，因此采取了一种截然不同的方法：用粒度位域标明使用字节为单位还是页面为单位。处理器会将 32 bit 基址与偏移量相加形成 <strong>线性地址</strong> (liner
 address)，为了和只有 24 bit 基址的 286 兼容，基址被分为 3 片分布在 descriptor 上。实际上基址运行每个 segment 位于 32 bit 线性地址空间内的任何位置。</p>
-<figure><img src="/images/x86-code-segment-descriptor.svg"/>
+<figure><img src="/images/x86-code-segment-descriptor.svg">
 </figure>
 
 <p>如果禁止分页，线性地址将被解释为物理地址并送往存储器用于读写操作，因此禁止操作将是一个纯分段方案。另外段之间允许相互覆盖，这可能是由于验证段不重叠开销太大。如果允许分页，线性地址就被解释为与虚拟地址，并通过页表映射到物理地址。由于 32 位虚拟地址与 4 KB 页的情况下，segment 可能包含多达 100万个页面，因此使用两级映射以便在段较小时减小页表大小。每个进程都有一个 1024 个 32 bit 表项组成的 <strong>页目录</strong> (page
@@ -912,8 +920,8 @@ directory)，其通过全局寄存器来定位。page directory 中的每个目�
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
             </div>
@@ -936,7 +944,7 @@ directory)，其通过全局寄存器来定位。page directory 中的每个目�
         </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
             <i class="fas fa-comment fa-fw"></i>
         </a>
-    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b82a526943533d0dde3eceea68e6d3879e8f766339a17d2c57bbde5421167ddeafa4734202e9950c16842cc6d27753b4.css" integrity="sha384-uCpSaUNTPQ3ePs7qaObTh56PdmM5oX0sV7veVCEWfd6vpHNCAumVDBaELMbSd1O0"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
         <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2021-07-14T12:14:40+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"内存管理"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
             window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
             gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });

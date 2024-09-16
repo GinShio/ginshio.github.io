@@ -3,12 +3,21 @@
         <title>Deadlock - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/deadlock/</link>
         <description>Deadlock - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com ( )</managingEditor>
-            <webMaster>ginshio78@gmail.com ( )</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 06 Aug 2021 14:55:42 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/deadlock/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Fri, 06 Aug 2021 14:55:42 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/deadlock/" rel="self" type="application/rss+xml" /><item>
     <title>死锁</title>
     <link>https://blog.ginshio.org/2021/operatingsystem_005/</link>
     <pubDate>Fri, 06 Aug 2021 14:55:42 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2021/operatingsystem_005/</guid>
-    <description><![CDATA[计算机中有很多独占 resource，在任一时刻它们只能被一个进程使用，因此 OS 需要授权一个进程临时地、排他地访问某一 resource 的能力。一般进程会排他性]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/operatingsystem_005/</guid>
+    <description><![CDATA[<p>计算机中有很多独占 resource，在任一时刻它们只能被一个进程使用，因此 OS 需要授权一个进程临时地、排他地访问某一 resource 的能力。一般进程会排他性地访问若干资源，假设进程 A 在先使用扫描仪的情况请求蓝光光盘刻录机，而进程 B 在先使用蓝光光盘刻录机的情况下请求扫描仪，由于两个进程都占有一定 resouce 且不会释放，并且互相请求了对方的 Resource，而造成这两个进程无限阻塞下去，这样的状态被称为 <strong>死锁</strong>
+(deadlock)。请不要单纯理解只有一台机器才会产生 deadlock，在多台机器同时访问局域网下的多个独占 resource 时也可能发生。</p>
+<h2 id="资源" class="headerLink">
+    <a href="#%e8%b5%84%e6%ba%90" class="header-mark"></a>资源</h2><p>我们将需要排他访问的对象称为 <strong>资源</strong> (resource)，资源可以是硬件设备或一组信息，通常有多种资源同时存在，且一些类型的资源存在若干实例 (打印店在同一局域网下会存在多台打印机)。</p>
+<p>还记得学习进程与线程时所说的，scheduling algorithm 分为两类： <strong>抢占式</strong>
+(preemptable) 与 <strong>非抢占式</strong> (nonpreemptable)，这里我们也将 resource 分为这两类，且意义相同。比如说 RAM 就是 preemptable resource，一个进程可以在使用时被 OS 换出
+RAM；而蓝光刻录机则是 nonpreemptable resource，将正在刻录的蓝光刻录机分配给另一个进程可能造成蓝光光盘的损坏。不过需要思考一个问题，如果这台计算机不支持交换和页面调度，那么内存也就变为了 nonpreemptable resource。因此区分 preemptable /
+nonpreemptable resource 取决于上下文环境。</p>
+<p>preemptable resource 的 deadlock 可以通过 resource 的重新配分而化解，因此
+deadlock 主要与 nonpreemptable resource 有关。若 resource 变得不可用，则请求进程将不可用，有的 OS 在这时会阻塞该进程，直到 resource 可用时再次唤醒；有些 OS 则会返回一个错误代码，请求进程自己处理这个错误。但是大部分进程会选择请求、休眠、再请求的方式进行循环，这与被阻塞没什么两样，因此假设 OS 在 resource 不可用时阻塞进程。</p>]]></description>
 </item></channel>
 </rss>

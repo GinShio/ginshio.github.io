@@ -1,25 +1,35 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cn">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
-    <title>查找结构 - iris</title><meta name="Description" content="GinShio | 数据结构与算法分析第四章后半部分、高级数据结构笔记"><meta property="og:title" content="查找结构" />
-<meta property="og:description" content="GinShio | 数据结构与算法分析第四章后半部分、高级数据结构笔记" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/" /><meta property="og:image" content="https://blog.ginshio.org/avatar.webp"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-08-23T22:26:23+08:00" />
-<meta property="article:modified_time" content="2022-04-07T18:16:27+08:00" /><meta property="og:site_name" content="iris | GinShio的个人博客" />
+    <title>查找结构 - iris</title><meta name="Description" content="GinShio | 数据结构与算法分析第四章后半部分、高级数据结构笔记"><meta property="og:url" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/">
+  <meta property="og:site_name" content="iris">
+  <meta property="og:title" content="查找结构">
+  <meta property="og:description" content="GinShio | 数据结构与算法分析第四章后半部分、高级数据结构笔记">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-08-23T22:26:23+08:00">
+    <meta property="article:modified_time" content="2022-04-07T18:16:27+08:00">
+    <meta property="article:tag" content="Note">
+    <meta property="article:tag" content="BinaryTree">
+    <meta property="og:image" content="https://blog.ginshio.org/avatar.webp">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_001_introduction/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_002_linear_data_structure/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_003_tree_structure/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_005_hash_table/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/">
+      <meta property="og:see_also" content="https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/">
 
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp"/>
-
-<meta name="twitter:title" content="查找结构"/>
-<meta name="twitter:description" content="GinShio | 数据结构与算法分析第四章后半部分、高级数据结构笔记"/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://blog.ginshio.org/avatar.webp">
+  <meta name="twitter:title" content="查找结构">
+  <meta name="twitter:description" content="GinShio | 数据结构与算法分析第四章后半部分、高级数据结构笔记">
 <meta name="application-name" content="iris">
 <meta name="apple-mobile-web-app-title" content="iris">
 
@@ -36,12 +46,12 @@
         "@context": "http://schema.org",
         "@type": "BlogPosting",
         "headline": "查找结构",
-        "inLanguage": "zh-CN",
+        "inLanguage": "zh-cn",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_004_searching_structure\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, BinaryTree","wordcount":  7929 ,
-        "url": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_004_searching_structure\/","datePublished": "2021-08-23T22:26:23+08:00","dateModified": "2022-04-07T18:16:27+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Note, BinaryTree","wordcount":  1494 ,
+        "url": "https:\/\/blog.ginshio.org\/2021\/data_strucures_and_algorithm_analysis_004_searching_structure\/","datePublished": "2021-08-23T22:26:23+08:00","dateModified": "2022-04-07T18:16:27+08:00","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
                         "@type": "Person",
@@ -170,9 +180,9 @@
     </div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">查找结构</h1><div class="post-meta">
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/algorithmdatastructure/"><i class="far fa-folder fa-fw"></i>Algorithm⁄DataStructure</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/"><i class="far fa-list-alt fa-fw"></i>数据结构与算法分析</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-23">08-23</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7929 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 16 分钟&nbsp;</div>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href=""><i class="far fa-folder fa-fw"></i></a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/"><i class="far fa-list-alt fa-fw"></i>数据结构与算法分析</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="08-23">08-23</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="04-07">04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1494 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
                                     <span>系列 - 数据结构与算法分析</span>
@@ -256,7 +266,7 @@ Evgenii Landis 在其论文 <strong>An algorithm for the organization of informa
 <h3 id="avl-的平衡因子" class="headerLink">
     <a href="#avl-%e7%9a%84%e5%b9%b3%e8%a1%a1%e5%9b%a0%e5%ad%90" class="header-mark"></a>AVL 的平衡因子</h3><p>AVL 树将子树的高度限制在差为 1，即一个结点，如果其左子树与由子树的高度差
 \(|D_{h}| \leq 1\) ，则认为这棵树是平衡的。因此带有平衡因子 \(-1\) 、 \(0\) 或 \(1\) 的结点被认为是平衡的，而 \(-2\) 或 \(2\) 的平衡因子被认为是需要调整的。平衡因子可以直接存储于结点之中，也可以利用存储在结点中的子树高度计算得出。</p>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/AVL-tree-wBalance_K.svg" width="64%"/>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/AVL-tree-wBalance_K.svg" width="64%">
 </figure>
 
 <p>简单地计算，一棵 AVL 树的高度最多为 \(1.44 \log_{}{(N + 2)} - 1.328\) ，实际上的高度只比 \(\log_{}{N}\) 稍微多一些。一棵高度为 \(h\) 的 AVL 树，其最少结点数 \(S(h) =
@@ -275,7 +285,7 @@ S(h - 1) + S(h - 2) + 1\) ，\(S(0)=1, S(1) = 2\) 。而 AVL 的所有操作均�
 <p>情况 1 和 4 关于结点 \(\alpha\) 镜像对称，情况 2 和 3 关于结点 \(\alpha\) 镜像对称。因此从逻辑上来讲，我们只需要考虑两种情况，而编程时需要考虑上面介绍到的所有 4 种情况。</p>
 <h4 id="单旋转" class="headerLink">
     <a href="#%e5%8d%95%e6%97%8b%e8%bd%ac" class="header-mark"></a>单旋转</h4><p>情况 1 是插入发生在「外边」的情形，我们称之为 <strong>一字形</strong> (zig-zig)，可以用 <strong>单旋转</strong> (single rotation) 解决。假设结点 \(n\) 不满足 AVL 平衡性质，因为其左子树比右子树深 2 层，可以对其进行单旋转修正。修正的过程是：将左子树的根 \(l\) 向上移动一层，而将 \(n\) 向下移动一层， \(n\) 作为 \(l\) 的孩子出现在树中。下图展示了插入后出现不平衡的结点 (红色) 、如何旋转、多余子树如何处理以及子树的层数 (蓝字)。</p>
-<figure><img src="/images/algo-zigzig-rotation-example-of-avl-tree.svg" width="64%"/>
+<figure><img src="/images/algo-zigzig-rotation-example-of-avl-tree.svg" width="64%">
 </figure>
 
 <p>对应的情况 4 也是 zig-zig，只需要旋转的方向与操作相镜像即可处理。</p>
@@ -283,7 +293,7 @@ S(h - 1) + S(h - 2) + 1\) ，\(S(0)=1, S(1) = 2\) 。而 AVL 的所有操作均�
     <a href="#%e5%8f%8c%e6%97%8b%e8%bd%ac" class="header-mark"></a>双旋转</h4><p>对于情况 2 、 3 来说，插入在「树内」从而导致 AVL 树无效，这种情况被称为 <strong>之字形</strong>
 (zig-zag)，而子树太深通过 single rotation 无法让树平衡，解决这种内部的情形需要 *
 双旋转* (double rotation) 解决。</p>
-<figure><img src="/images/algo-zigzag-rotation-example-of-avl-tree.svg" width="64%"/>
+<figure><img src="/images/algo-zigzag-rotation-example-of-avl-tree.svg" width="64%">
 </figure>
 
 <p>对应的情况 3 也是 zig-zag，只需要旋转的方向与操作相镜像即可处理。</p>
@@ -291,7 +301,7 @@ S(h - 1) + S(h - 2) + 1\) ，\(S(0)=1, S(1) = 2\) 。而 AVL 的所有操作均�
     <a href="#%e5%af%b9-avl-%e6%a0%91%e6%8f%92%e5%85%a5%e7%9a%84%e6%80%bb%e7%bb%93" class="header-mark"></a>对 AVL 树插入的总结</h4><p>可以发现，无论单旋转与双旋转，它都由两个最基本的操作组成：将结点进行左旋 (left
 rotation) 或右旋 (right rotation)，并将多余的一棵子树挂载到下降结点上。Wikipedia
 用以下这幅图概括了 4 种情况。</p>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Tree_Rebalancing.png"/>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Tree_Rebalancing.png">
 </figure>
 
 <div class="highlight"><div class="chroma">
@@ -350,7 +360,7 @@ rotation) 或右旋 (right rotation)，并将多余的一棵子树挂载到下�
 </div>
 </div><p>在进行编程时，可以首先定义左右旋这两种基本操作，在根据情况判断如何组合。对于编程细节，远比理论多得多，编写正确的 loop 算法相对于 recursion 并不是一件容易的事，因此更多的会使用 recursion 进行实现。</p>
 <p>还有一个重要问题是如何高效的对高度信息进行存储，可以采用平衡因子作为存储而不是一个 int 类型的高度，或者更近一步，利用 2 bit 存储平衡因子 (毕竟只有 3 个状态)。如果你希望将其隐藏到指针中，也是个不错的选择。存储平衡因子将得到些许速度优势，但丧失了简明性，如果你使用隐藏于指针的方法，更加剧的这一问题，不过好消息是你能为此剩下不少内存空间。最后，以 Wikipedia 上一副构建 AVL 树的动图作为本小节的结束吧。</p>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/AVL_Tree_Example.gif" width="50%"/>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/AVL_Tree_Example.gif" width="50%">
 </figure>
 
 <h3 id="avl-的移除操作" class="headerLink">
@@ -373,7 +383,7 @@ tree 进行一个结点访问就会发生移动操作，它要经过一系列旋
 <li>之字形 (zig-zag)：只需要像 AVL 一样执行双旋转</li>
 <li>一字形 (zig-zig)：将 X 作为根，父结点和祖父结点分别是其孩子的结点，多余子结点向上过继</li>
 </ol>
-<figure><img src="/images/algo-splaying-op-for-splay-tree.svg"/>
+<figure><img src="/images/algo-splaying-op-for-splay-tree.svg">
 </figure>
 
 <h2 id="b树" class="headerLink">
@@ -393,7 +403,7 @@ Labs) 发现了自平衡的 <strong>B树</strong> (B-tree)。不过不像其他�
 <li>有 k 个子结点的非叶子结点拥有 \(k - 1\) 个键</li>
 <li>所有的叶子结点都在同一层</li>
 </ol>
-<figure><img src="/images/algo-example-of-b-tree.svg" width="90%"/>
+<figure><img src="/images/algo-example-of-b-tree.svg" width="90%">
 </figure>
 
 <p>我们定义一个结点最少拥有的子结点数 \(L = \lceil\frac{m}{2}\rceil\) ，而最多拥有的子结点数 \(U
@@ -414,7 +424,7 @@ Labs) 发现了自平衡的 <strong>B树</strong> (B-tree)。不过不像其他�
 <ol>
 <li>
 <p>如果结点拥有元素数量小于最大值，那么有空间容纳新元素，将元素插入到这一结点，并保持结点中的元素有序</p>
-<figure><img src="/images/algo-insert-example1-of-b-tree.svg" width="72%"/>
+<figure><img src="/images/algo-insert-example1-of-b-tree.svg" width="72%">
     </figure>
 
 </li>
@@ -425,7 +435,7 @@ Labs) 发现了自平衡的 <strong>B树</strong> (B-tree)。不过不像其他�
 <li>小于这一中位数的元素放入左边结点，大于的元素放入右边结点</li>
 <li>中位数元素将会被插入到父结点中，插入过程以同样的方法递归向上进行，直到元素被插入到树中。如果最终插入根结点但其已满，选出中位数作为新的根，将根结点分裂为两个结点作为新根的子结点</li>
 </ol>
-<figure><img src="/images/algo-insert-example1-of-b-tree.svg" width="72%"/>
+<figure><img src="/images/algo-insert-example1-of-b-tree.svg" width="72%">
     </figure>
 
 </li>
@@ -470,7 +480,7 @@ Labs) 发现了自平衡的 <strong>B树</strong> (B-tree)。不过不像其他�
 </ol>
 </li>
 </ul>
-<figure><img src="/images/algo-remove-example-of-b-tree.svg" width="90%"/>
+<figure><img src="/images/algo-remove-example-of-b-tree.svg" width="90%">
 </figure>
 
 <h3 id="b-plus-树" class="headerLink">
@@ -481,7 +491,7 @@ B-Tree 中的 <code>-</code> 是一个连字符。既然是变种，那就有差
 <li>叶结点之间采用指针相连，你可以顺序从叶结点的头部遍历到尾部，而不需要其他额外的操作</li>
 </ol>
 <p>如何选取键作为父结点的元素可以快速查找子结点，最简单的方法就是选取左子结点的最大值或右子结点的最小值，一般根据实现进行选择。</p>
-<figure><img src="/images/algo-example-of-bplus-tree.svg" width="64%"/>
+<figure><img src="/images/algo-example-of-bplus-tree.svg" width="64%">
 </figure>
 
 <p>对 B+ 树操作时，与 B 树几乎一致，但区别是 B+ 树需要从叶结点开始递归向上，且 B+
@@ -498,7 +508,7 @@ B-Tree 中的 <code>-</code> 是一个连字符。既然是变种，那就有差
 <li>从一个结点到一个 NULL 指针的每一条路径都必须包含相同数目的黑色结点</li>
 </ol>
 <p>根据着色规则，red-black tree 高度最多是 \(2\log_{}(N+1)\) ，因此查找保证是一种对数的操作。当然还有一条约定，空结点 nullptr 我们假设其为黑色，这样我们可以在不违反约定的情况下，方便操作。</p>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Red-black_tree_example_with_NIL.svg"/>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Red-black_tree_example_with_NIL.svg">
 </figure>
 
 <p>通常困难在于将一个插入一个新结点后，如果将结点涂为黑色将违反性质 4，因为这会让路径上的黑色结点数量加一，但其他路径上黑色结点数量不变。</p>
@@ -696,7 +706,7 @@ b. 新的 N 是黑色，对 S 和 P 进行旋转，S 成为 P 的父结点，重
 </ol>
 <h2 id="aa-树" class="headerLink">
     <a href="#aa-%e6%a0%91" class="header-mark"></a>AA 树</h2><p>二叉B树 (Binary B-tree) 是一种简单但颇有竞争力的实现，被称为 BB 树，可以理解为带有附加条件的红黑树：<strong>一个结点最多有一个红色的孩子</strong>。</p>
-<figure><img src="/images/algo-example-of-aa-tree.svg" width="64%"/>
+<figure><img src="/images/algo-example-of-aa-tree.svg" width="64%">
 </figure>
 
 <p>当然还有一些法则：</p>
@@ -735,7 +745,7 @@ c. 比父结点的层次少 1，该结点是黑色的</li>
 </div>
 </div><h3 id="aa树的插入操作" class="headerLink">
     <a href="#aa%e6%a0%91%e7%9a%84%e6%8f%92%e5%85%a5%e6%93%8d%e4%bd%9c" class="header-mark"></a>AA树的插入操作</h3><p>水平链接 (horizontal link) 是一个结点与同层次上的孩子所建立的链接，这种水平链接都是右链接，并且不含有两个连续的水平链接。</p>
-<figure><img src="/images/algo-horizontal-link-for-aa-tree.svg" width="72%"/>
+<figure><img src="/images/algo-horizontal-link-for-aa-tree.svg" width="72%">
 </figure>
 
 <p>不过这有一些情况需要注意，插入新结点时，可能导致左水平链 (插入 2) 或连续两个右水平链 (插入 45)。通过右旋可以消除掉左水平链，而左旋则可以消除多余的右水平链，这两个过程分别称为 skew 和 split。</p>
@@ -906,8 +916,8 @@ c. 比父结点的层次少 1，该结点是黑色的</li>
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer"> </a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
             </div>
@@ -930,7 +940,7 @@ c. 比父结点的层次少 1，该结点是黑色的</li>
         </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
             <i class="fas fa-comment fa-fw"></i>
         </a>
-    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b250718923eb2b3c2ba2de589fcc7f623ebf3efa17f0e501e7de204156024b108524ffafaf0958fd09d3b68cf0412999.css" integrity="sha384-slBxiSPrKzwrot5Yn8x/Yj6/PvoX8OUB594gQVYCSxCFJP&#43;vrwlY/QnTtozwQSmZ"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
+    </div><div class="assets"><link rel="stylesheet" href="/lib/gitalk/gitalk.min.b82a526943533d0dde3eceea68e6d3879e8f766339a17d2c57bbde5421167ddeafa4734202e9950c16842cc6d27753b4.css" integrity="sha384-uCpSaUNTPQ3ePs7qaObTh56PdmM5oX0sV7veVCEWfd6vpHNCAumVDBaELMbSd1O0"><link rel="stylesheet" href="/lib/katex/katex.min.bcaaee8fe6b5dd4f321c8900c8680ad49dc0ad32f3ac51816c1734b43a7869dfc4c9ec0449e5c4fc8bfaec08fc80a674.css" integrity="sha384-vKruj&#43;a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK">
         <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.1f5388069d157848068f2228e33a72016ef3233cfb0afc2940343e446a708357e5b391b470f94c0e1c80745c331651ca.css" integrity="sha384-H1OIBp0VeEgGjyIo4zpyAW7zIzz7CvwpQDQ&#43;RGpwg1fls5G0cPlMDhyAdFwzFlHK"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":12},"comment":{"gitalk":{"admin":["GinShio"],"clientID":"96cbbb15f26bebd9141b","clientSecret":"29c7df99d6e1806113996333163a9476027ff1fa","id":"2021-08-23T22:26:23+08:00","owner":"GinShio","repo":"ginshio.github.io","title":"查找结构"}},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"ABF13CGNA0","algoliaIndex":"ginshio_blog","algoliaSearchKey":"51cf3425aba132c091b477c3d5e06eea","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/gitalk/gitalk.min.1420a0c0459673bc6824e7ba713f1e0ec1540e86491daf1b6149a7af9cd3f396c86b9182d03e4c727faefae17b746033.js" integrity="sha384-FCCgwEWWc7xoJOe6cT8eDsFUDoZJHa8bYUmnr5zT85bIa5GC0D5Mcn&#43;u&#43;uF7dGAz"></script><script type="text/javascript" src="/js/gitalk.min.js" defer></script><script type="text/javascript" src="/lib/tablesort/tablesort.min.d120034e53740430f5243f8e25b646e7bdcca97780e02962c37e3adefb264c1b457f8fc397698851f42e32d7168bdd1e.js" integrity="sha384-0SADTlN0BDD1JD&#43;OJbZG573MqXeA4Cliw3463vsmTBtFf4/Dl2mIUfQuMtcWi90e"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.094758c1816ef1698123c876e7b739ac27751905f428bfb349857a93244d636b615bb42a43298a19f4c2235587c33bf2.js" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL&#43;zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy"></script><script type="text/javascript" src="/lib/sharer/sharer.min.0097b33812ac4873e9a2e0813de400c9ea9b07e223998d3cbc38a89bdfa3f45cc344689061a836fcd6f4c120eed429b4.js" integrity="sha384-AJezOBKsSHPpouCBPeQAyeqbB&#43;IjmY08vDiom9&#43;j9FzDRGiQYag2/Nb0wSDu1Cm0"></script><script type="text/javascript" src="/lib/katex/katex.min.3f04544ff62a6e71239193b4cd9c4da9cc400ab5defa3efae94d9a997720320e78e7baef7b663b23a6494a6d80d264b8.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe&#43;j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.f95071777afa5e0511c9caad675d7b9d8c38e0e39c21ac79e99e1d09159bc723edd0aa1a875b87a0ad28e3efd1444d39.js" integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.c30ff9f376878715a4cf90c4567e8e2ad36221a2e2da20513595df251898d408bbb6727d517a44b32bce2135694e5e00.js" integrity="sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.453374f1ad005c88a83c1715a2c12a3d47ca2beacfa7e875c7f8b347bc4c91d332bb091c64259dc4ef914b0205b495cd.js" integrity="sha384-RTN08a0AXIioPBcVosEqPUfKK&#43;rPp&#43;h1x/izR7xMkdMyuwkcZCWdxO&#43;RSwIFtJXN" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript">
             window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
             gtag('config', 'G-J5NHMZLLDX', { 'anonymize_ip': true });

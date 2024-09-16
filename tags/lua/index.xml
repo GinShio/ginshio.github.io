@@ -3,12 +3,66 @@
         <title>Lua - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/lua/</link>
         <description>Lua - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com ( )</managingEditor>
-            <webMaster>ginshio78@gmail.com ( )</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 09 Feb 2022 22:03:41 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/lua/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Wed, 09 Feb 2022 22:03:41 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/lua/" rel="self" type="application/rss+xml" /><item>
     <title>Lua 语言学习</title>
     <link>https://blog.ginshio.org/2022/dst_lua_language_study/</link>
     <pubDate>Wed, 09 Feb 2022 22:03:41 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/authors/ginshio</uri></author><guid>https://blog.ginshio.org/2022/dst_lua_language_study/</guid>
-    <description><![CDATA[Lua 是一个动态弱类型脚本语言，核心由 C 语言实现，执行效率高，可直接做 C / C++ 扩展。另外 Lua 另一个主流实现 Lua JIT 主要研究针对 Lua 的即时编译系统。 而 Lua 由于]]></description>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/dst_lua_language_study/</guid>
+    <description><![CDATA[<p>Lua 是一个动态弱类型脚本语言，核心由 C 语言实现，执行效率高，可直接做 C / C++ 扩展。另外 Lua 另一个主流实现 Lua JIT 主要研究针对 Lua 的即时编译系统。</p>
+<p>而 Lua 由于其高性能、小巧、简单、与 C 结合性好等特点，大量运用于游戏领域，而饥荒的实现以及扩展也基本使用 Lua 完成。</p>
+<p>本章主要描述 Lua 中的词法、语法和语义，语言结构将使用通常的扩展 <a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form" target="_blank" rel="noopener noreferrer">BNF</a> 表示，比如
+<code>{a}</code> 表示 0 或 多个 a， <code>[a]</code> 表示一个可选的 a。而关键字用黑体表示 (e.g.
+<strong>kword</strong>)，其他终结符使用反引号表示 (e.g. <code>`=`</code>)</p>
+<p>而 Lua 学习主要以 Lua 5.1 的 <a href="https://www.lua.org/manual/5.1/manual.html" target="_blank" rel="noopener noreferrer">官方文档</a> 为对象。</p>
+<h2 id="词法介绍" class="headerLink">
+    <a href="#%e8%af%8d%e6%b3%95%e4%bb%8b%e7%bb%8d" class="header-mark"></a>词法介绍</h2><p>在 Lua 中标识符可以是任意字母、数字、下划线所组成的字符串 (不能以数字开头)，而标识符可以用作变量的名称和表字段名。但是在标识符命名时不能使用以下名称，因为它们是关键字。</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">关键字</th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">and</td>
+          <td style="text-align: left">break</td>
+          <td style="text-align: left">do</td>
+          <td style="text-align: left">else</td>
+          <td style="text-align: left">elseif</td>
+          <td style="text-align: left">end</td>
+          <td style="text-align: left">false</td>
+          <td style="text-align: left">for</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">function</td>
+          <td style="text-align: left">if</td>
+          <td style="text-align: left">in</td>
+          <td style="text-align: left">local</td>
+          <td style="text-align: left">nil</td>
+          <td style="text-align: left">not</td>
+          <td style="text-align: left">or</td>
+          <td style="text-align: left">repeat</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">return</td>
+          <td style="text-align: left">then</td>
+          <td style="text-align: left">true</td>
+          <td style="text-align: left">until</td>
+          <td style="text-align: left">while</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+  </tbody>
+</table>
+<p>Lua 是一个大小写敏感的语言，因此 And 与 AND 是完全不同的两个标识符。一般约定，由一个下划线开头并跟随大写字母的标识符 (e.g. <code>_VERSION</code>) 是 Lua 内部所使用的全局变量，应避免使用。</p>]]></description>
 </item></channel>
 </rss>
