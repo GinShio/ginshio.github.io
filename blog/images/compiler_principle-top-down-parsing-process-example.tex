@@ -1,0 +1,62 @@
+\documentclass[border=0.8ex,svgnames,varwidth]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{subcaption}
+\captionsetup{
+  font=scriptsize,
+  labelfont=it,
+  textfont=rm,
+  labelformat=parens,
+  position=above,
+  labelsep=space,
+  justification=centering,
+}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\begin{document}
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{0.32\linewidth}
+    \centering
+    \begin{tikzpicture}
+      \node[circle]{\textit{S}}%[grow'=below]
+      child { node[circle]{c}
+        % node[above]{0}  % weight
+      }
+      child { node[circle]{\textit{A}} }
+      child { node[circle]{d} };
+    \end{tikzpicture}
+    \caption{}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.32\linewidth}
+    \centering
+    \begin{tikzpicture}
+      \node[circle]{\textit{S}}
+      child { node[circle]{c} }
+      child {
+        node[circle]{\textit{A}}
+        child { node[circle]{a} }
+        child { node[circle]{b} }
+      }
+      child { node[circle]{d} };
+    \end{tikzpicture}
+    \caption{}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.32\linewidth}
+    \centering
+    \begin{tikzpicture}
+      \node[circle]{\textit{S}}
+      child { node[circle]{c} }
+      child {
+        node[circle]{\textit{A}}
+        child { node[circle]{a} }
+      }
+      child { node[circle]{d} };
+    \end{tikzpicture}
+    \caption{}
+  \end{subfigure}
+\end{figure}
+\end{document}

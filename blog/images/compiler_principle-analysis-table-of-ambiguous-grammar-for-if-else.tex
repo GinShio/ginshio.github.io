@@ -1,0 +1,28 @@
+\documentclass[border=0.8ex,varwidth]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{booktabs}
+\usepackage{multirow}
+\begin{document}
+\begin{table}
+  \begin{tabular}{cccccc}
+    \toprule
+    \multirow{2}{*}{State} & \multicolumn{4}{c}{\texttt{ACTION}} &
+                                                                  \texttt{GOTO}\\
+    \cline{2-6}
+                          & i & e & a & \(\$\) & \textit{S}\\
+    \midrule
+    0 & s2  &     & s3  &     & 1\\
+    1 &     &     &     & acc &  \\
+    2 & s2  &     & s3  &     & 4\\
+    3 &     & r3  &     & r3  &  \\
+    4 &     & s5  &     & r2  &  \\
+    5 & s2  &     & s3  &     & 6\\
+    6 &     & r1  &     & r1  &  \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\end{document}

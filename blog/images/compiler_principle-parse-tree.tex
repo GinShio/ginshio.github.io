@@ -1,0 +1,34 @@
+\documentclass[border=0.8ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usetikzlibrary{calc,positioning}
+\begin{document}
+\begin{tikzpicture}
+  \node[](id1){\tiny \textbf{id}};
+  \node[right=21pt of id1](id2){\tiny \textbf{id}};
+  \node[above=4pt of id1](E1){\tiny E};
+  \node[above=4pt of id2](E2){\tiny E};
+  \node[above=-5pt of $(E1)!0.5!(E2)$](add){\tiny +};
+  \node[above=4pt of add](E3){\tiny E};
+  \node[left=10pt of E3](l_bracket){\tiny (};
+  \node[right=10pt of E3](r_bracket){\tiny )};
+  \node[above=4pt of E3](E4){\tiny E};
+  \node[left=42pt of E4](sub){\tiny -};
+  \node[above=4pt of $(sub)!0.5!(E4)$](E5){\tiny E};
+
+  \path[-]
+  (E5) edge (sub)
+  (E5) edge (E4)
+  (E4) edge (l_bracket)
+  (E4) edge (E3)
+  (E4) edge (r_bracket)
+  (E3) edge (E1)
+  (E3) edge (add)
+  (E3) edge (E2)
+  (E2) edge (id2)
+  (E1) edge (id1);
+\end{tikzpicture}
+\end{document}

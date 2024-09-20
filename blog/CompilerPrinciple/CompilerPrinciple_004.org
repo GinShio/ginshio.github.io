@@ -35,7 +35,7 @@
 分析树，对于源程序的检查和翻译工作可以和语法分析过程交替完成，因此语法分析器和其
 他部分可以用一个模块实现。
 
-[[file:../images/CompilerPrinciple/sp4parsing.svg]]
+[[file:../../_build/tikzgen/compiler_principle-sp4parsing.svg]]
 
 错误处理程序检测出错误后，必须报告在源程序的什么位置检测到错误，程序可能有不同层
 次的错误
@@ -134,7 +134,7 @@ $\xRightarrow{+}$ 表示，并且有以下推论
 这个句型被成为 *结果* (yield) 或 *边缘* (frontier)。例如产生式 E $\rightarrow$ E + E | E *
 E | -E | (E) | *id* ，则 -(*id* + *id*) 的语法分析树如下
 
-[[file:../images/CompilerPrinciple/parse-tree.svg]]
+[[file:../../_build/tikzgen/compiler_principle-parse-tree.svg]]
 
 
 ** 二义性
@@ -144,7 +144,7 @@ E | -E | (E) | *id* ，则 -(*id* + *id*) 的语法分析树如下
 譬如上面产生式，可以推导出两种 *id* + *id* * *id* 的语法分析树，很明显第一棵树是
 正确的，乘法优先于加法进行计算，第二棵语法分析树错误的处理了加法与乘法的优先级。
 
-[[file:../images/CompilerPrinciple/ambiguity.svg]]
+[[file:../../_build/tikzgen/compiler_principle-ambiguity.svg]]
 
 
 
@@ -179,7 +179,7 @@ E | -E | (E) | *id* ，则 -(*id* + *id*) 的语法分析树如下
 的两棵不同的语法分析树，通常规则是每个 *else* 和最近且尚未匹配的 *then* 匹配，这
 个消除二义性规则可以用一个文法直接表示，但实践中很少用产生式表示这个规则。
 
-[[file:../images/CompilerPrinciple/complex-conditional-ambiguity-ast.svg]]
+[[file:../../_build/tikzgen/compiler_principle-complex-conditional-ambiguity-ast.svg]]
 
 这里我们给出 =if-then-else= 结构无二义性的文法
 

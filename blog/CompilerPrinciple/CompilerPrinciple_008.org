@@ -28,7 +28,7 @@
 与语法分析树有些不同的是，DAG 的结点可能有多个父结点，也就是说这个结点是个公共子
 结点。比如表达式 \(a + a * (b - c) + (b - c) * d\)
 
-[[file:../images/CompilerPrinciple/DAG-for-6.1-example.svg]]
+[[file:../../_build/tikzgen/compiler_principle-DAG-for-6.1-example.svg]]
 
 SDD 既可以构造语法树，也可以构造 DAG，在构造 DAG 结点时每次构造之前都会检查是否
 已存在这样的结点。如果已存在结点，就返回已有结点，否则构建新结点。
@@ -396,7 +396,7 @@ t_{4} &= a\,[\,t_{3}\,]\\
 t_{5} &= c + t_{4}
 \end{aligned}\]
 
-[[file:../images/CompilerPrinciple/annotated-parse-tree-for-6.12-example.svg]]
+[[file:../../_build/tikzgen/compiler_principle-annotated-parse-tree-for-6.12-example.svg]]
 
 
 
@@ -440,7 +440,7 @@ else if (E1.type == float && E2.type == integer) E.type = float;
 不过不同语言的类型转换规则是不同的，Java 的转换规则分为​~拓宽~ (widening) 和​~窄化~
 (narrowing)，前者可以保持原有信息，而后者则可能丢失信息。
 
-[[file:../images/CompilerPrinciple/java-type-conversion-example.svg]]
+[[file:../../_build/tikzgen/compiler_principle-java-type-conversion-example.svg]]
 
 如果类型转换由编译器完成，那么称作隐式类型转换，或者自动类型转换 (conversion)，
 有些语言中只允许拓宽进行隐式转换。如果由程序员写出代码完成的类型转换称为显示类型
@@ -502,7 +502,7 @@ S &\rightarrow{} & \textbf{if}\ (\,B\,)\ S_{1}\\
 \end{array}\]
 
 控制流会出现类似以下的效果
-[[file:../images/CompilerPrinciple/control-flow-code.svg]]
+[[file:../../_build/tikzgen/compiler_principle-control-flow-code.svg]]
 
 以这种结构实现控制流语句的 SDD
 \[\begin{array}{llll}

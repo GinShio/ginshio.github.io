@@ -20,7 +20,7 @@
 *等价的*​、用 =目标语言= 编写的程序; 解释器是另一种语言处理器，它直接利用用户提供
 的输入执行源程序中指定的操作。
 
-[[file:../images/CompilerPrinciple/compiler.svg]]
+[[file:../../_build/tikzgen/compiler_principle-compiler.svg]]
 
 编译器产生的机器语言目标程序通常比一个解释器 *快* 得多，但是解释器的 *错误诊断效
 果* 比编译器更好，因为解释器是逐个语句地执行源程序。
@@ -34,7 +34,7 @@
   - 汇编器：将编译器产生的中间结果生成 *可重新定位的* 机器代码
   - 链接器：将一个或多个由编译器或汇编器生成的目标文件外加库，链接为一个可执行文件
 
-[[file:../images/CompilerPrinciple/language-processing-system.svg]]
+[[file:../../_build/tikzgen/compiler_principle-language-processing-system.svg]]
 
 现代编译器中，基本可以分步骤调用编译器的各个部分，生成所需要的阶段输出，以 gcc 和 clang 为例
   - 预处理 (-E)：输出文件经过预处理器生成的源代码，一般以 =.i= 作为文件扩展名
@@ -54,7 +54,7 @@
 最终由 LLVM 实现 IR 到二进制的转换，可以做到只优化 LLVM 就完成对其上所有语言的优
 化。
 
-[[file:../images/CompilerPrinciple/compiler-steps.svg]]
+[[file:../../_build/tikzgen/compiler_principle-compiler-steps.svg]]
 
   - 词法分析 (lexical analysis) ::
     词法分析器读入组成源程序的字符流，并将它们组成成为有意义的 *词素* (lexeme)
@@ -141,7 +141,7 @@
 语言中的右值；​*状态* (state)  是一个内存位置到它们值的映射，例如 C 语言中左值所
 对应的右值
 
-[[file:../images/CompilerPrinciple/name-to-value-map.svg]]
+[[file:../../_build/tikzgen/compiler_principle-name-to-value-map.svg]]
 
 大多数环境和状态是 =动态绑定= 的，一般全局变量的环境映射是静态的，编译器可以在生
 成目标代码的时候为其分配一个地址；常量的声明一般其状态是静态绑定的，我们看到这个

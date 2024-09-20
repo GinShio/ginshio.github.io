@@ -1,0 +1,32 @@
+\documentclass[border=0.8ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usetikzlibrary{positioning}
+\begin{document}
+\tikzstyle{empty}=[rectangle,inner sep=0pt,minimum height=0pt,minimum width=0pt]
+\begin{tikzpicture}
+  \node[circle](S){\textit{S}};
+  \node[circle,below left=1.8em of S](A){\textit{A}};
+  \node[circle,below right=1.8em of S](a){a};
+  \node[empty,left=3em of A](empty1){};
+  \node[empty,right=2em of empty1](empty2){};
+  \node[empty,right=3em of a](empty3){};
+  \node[empty,left=2em of empty3](empty4){};
+  \node[circle,below left=1.8em of A](c){c};
+  \node[empty,below right=1.8em of A](empty5){};
+  \node[empty,left=2em of empty5](empty6){};
+
+  \path
+  (S) edge (A)
+  (S) edge (a)
+  (A) edge (c);
+
+  \draw
+  (S) -- (empty1) -- node[below=-0.1ex]{\(\alpha\)} (empty2)
+  (S) -- (empty3) -- node[below=-0.1ex]{\(\beta\)} (empty4)
+  (A) -- (empty5) -- node[below=-0.1ex]{\(\gamma\)} (empty6);
+\end{tikzpicture}
+\end{document}

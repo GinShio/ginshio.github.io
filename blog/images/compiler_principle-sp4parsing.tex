@@ -1,0 +1,41 @@
+\documentclass[border=0.8ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+\usetikzlibrary{calc,positioning}
+\begin{document}
+\begin{tikzpicture}
+  \node[text width=-3em](start){\tiny};
+  \node[align=center, draw=black, right=2em of start](lexical_analyzer){\tiny{词法}\\ \tiny{分析器}};
+  \node[align=center, draw=black, right=3.6em of lexical_analyzer](parsing){\tiny{语法}\\ \tiny{分析器}};
+  \node[align=center, draw=black, right=3.2em of parsing](other){\tiny{其他}\\ \tiny{前端部分}};
+  \node[text width=-3em, right=2.5em of other](end){\tiny};
+  \node[align=center, draw=black, below=1em of parsing](symbol_table){\tiny 符号表};
+
+  \path[->]
+  (start) edge node[above=-2pt]{\tiny 源程序} (lexical_analyzer)
+  (other) edge node[above=-2pt]{\tiny 中间表示} (end);
+  \path[dashed, ->]
+  (parsing) edge node[above=-2pt]{\tiny 语法分析树} (other);
+
+  \draw (lexical_analyzer)
+  edge[bend left=20, draw=none] coordinate[at start](la2p_a) coordinate[at end](la2p_b) (parsing)
+  edge[bend right=20, draw=none] coordinate[at start](p2la_b) coordinate[at end](p2la_a) (parsing);
+  \path[->]
+  (la2p_a) edge node[above=-2pt]{\tiny 词法单元} (la2p_b)
+  (p2la_a) edge node[below=-2pt]{\tiny 获取词法单元} (p2la_b);
+
+
+  \draw (symbol_table)
+  edge[out=180, in=270, draw=none] coordinate[at start](st_start1) coordinate[at end](la_end) (lexical_analyzer)
+  edge[out=0, in=270, draw=none] coordinate[at start](st_start2) coordinate[at end](other_end) (other);
+  \path[<->]
+  (la_end) edge (st_start1)
+  (parsing) edge (symbol_table)
+  (other_end) edge (st_start2);
+\end{tikzpicture}
+\end{document}

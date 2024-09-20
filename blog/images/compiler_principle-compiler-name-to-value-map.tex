@@ -1,0 +1,22 @@
+\documentclass[border=0.8ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+\usetikzlibrary{positioning}
+\begin{document}
+\begin{tikzpicture}
+  \node[align=center, text width=2em](name){名字};
+  \node[align=center, text width=4em, right=4em of name](variable){内存位置\\(变量)};
+  \node[align=center, text width=0.9em, right=4em of variable](value){值};
+
+  \draw[->](name) -- (variable);
+  \draw[->](variable) -- (value);
+
+  \node at (1.24,0.2) {\small 环境};
+  \node at (4.45,0.2) {\small 状态};
+\end{tikzpicture}
+\end{document}
