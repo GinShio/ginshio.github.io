@@ -28,7 +28,7 @@ site:
 		git -C $(HUGOGENDIR) remote set-url --add --push origin gitlab:GinShio/ginshio.gitlab.io.git; \
 		git -C $(HUGOGENDIR) pull origin hugo; \
 	fi
-	@hugo -e production -v --gc -s $(HUGOBASEDIR) -d $(HUGOGENDIR)
+	@hugo --environment production --logLevel info --gc --source $(HUGOBASEDIR) --destination $(HUGOGENDIR)
 
 clean:
 	@rm -rf $(HUGOGENDIR)/*
