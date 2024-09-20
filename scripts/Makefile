@@ -17,9 +17,6 @@ cleanall:
 tikz:
 	@make -f $(ORGMODE_SCRIPTDIR)/tikz.make all
 
-cleantikz:
-	@make -f $(ORGMODE_SCRIPTDIR)/tikz.make clean
-
 .PHONY: hugo posthugo sitehugo cleanhugo
 hugo: tikz posthugo sitehugo
 
