@@ -202,7 +202,7 @@
   </ul>
 </nav></div>
             </div><div class="content" id="content"><p>词法分析是编译器的第一阶段，主要负责读取源程序的输入字符，将它们组成 <strong>词素</strong>，生成并输出一个词法单元序列，每个词法单元对应一个词素，这个词法单元序列将被语法分析器进行语法分析。除此之外，词法分析器还会过滤源程序中的注释和空白，生成错误信息与源程序的位置关联起来，有时还会进行宏扩展。</p>
-<figure><img src="/images/lexical-analyzer-and-syntax-analyzer.svg">
+<figure><img src="/images/compiler_principle-lexical-analyzer-and-syntax-analyzer.svg">
 </figure>
 
 <p>学习词法分析时，需要分清以下三个相关但有区别的术语</p>
@@ -216,45 +216,45 @@
 </dl>
 <p>比如 <code>printf(&quot;Total=%d\n&quot;，source);</code> 中，printf 和 source 都是和词法单元 id 的模式匹配的词素，而字符串则是一个和 literal 匹配的词素，以下表格为词法单元的示例</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">词法单元</th>
-          <th style="text-align: left">非正式描述</th>
-          <th style="text-align: left">词素示例</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">if</td>
-          <td style="text-align: left">关键字，字符 i/f</td>
-          <td style="text-align: left">if</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">else</td>
-          <td style="text-align: left">关键字，字符 e/l/s/e</td>
-          <td style="text-align: left">else</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">comparison</td>
-          <td style="text-align: left">比较运算符</td>
-          <td style="text-align: left">&lt;，&lt;=</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">id</td>
-          <td style="text-align: left">普通标识符</td>
-          <td style="text-align: left">pi，D2，source</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">number</td>
-          <td style="text-align: left">数字常量</td>
-          <td style="text-align: left">3.1415926，1024</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">literal</td>
-          <td style="text-align: left">字符串常量</td>
-          <td style="text-align: left">&ldquo;hello world!&rdquo;</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>词法单元</th>
+<th>非正式描述</th>
+<th>词素示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>if</td>
+<td>关键字，字符 i/f</td>
+<td>if</td>
+</tr>
+<tr>
+<td>else</td>
+<td>关键字，字符 e/l/s/e</td>
+<td>else</td>
+</tr>
+<tr>
+<td>comparison</td>
+<td>比较运算符</td>
+<td>&lt;，&lt;=</td>
+</tr>
+<tr>
+<td>id</td>
+<td>普通标识符</td>
+<td>pi，D2，source</td>
+</tr>
+<tr>
+<td>number</td>
+<td>数字常量</td>
+<td>3.1415926，1024</td>
+</tr>
+<tr>
+<td>literal</td>
+<td>字符串常量</td>
+<td>&ldquo;hello world!&rdquo;</td>
+</tr>
+</tbody>
 </table>
 <h2 id="词法单元的规约" class="headerLink">
     <a href="#%e8%af%8d%e6%b3%95%e5%8d%95%e5%85%83%e7%9a%84%e8%a7%84%e7%ba%a6" class="header-mark"></a>词法单元的规约</h2><h3 id="串和语言" class="headerLink">
@@ -265,30 +265,30 @@
 <p>词法分析中，最重要的语言上的运算是 <code>并</code>、<code>连接</code> 和 <code>闭包</code>。连接是将一个串附加到另一个串的后面形成新串，例如 \(x=dog, y=house\)，那么 x、y 的连接 \(xy=doghouse\)
 ；空串是连接运算的 <strong>单位元</strong>，即对于任意串 \(s\varepsilon = \varepsilon s = s\)。两个串的连接可以被看作乘积，那么可以定义串的指数运算： \(s^0=\varepsilon，s^i = s^{i-1}s(i &gt; 0)\) 。Kleene <strong>闭包</strong> (closure)，记作 \(L^{*}\)，即将 L 连接 0 次或多次后得到的串集；<strong>正闭包</strong> 与闭包基本相同，但不包括 \(L^0\)，也就是说，除非 \(\varepsilon\) 属于 L，否则 \(\varepsilon \notin L\)。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">运算</th>
-          <th style="text-align: left">定义和表示</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">L 和 M 的并</td>
-          <td style="text-align: left">\(L \cup M = \{s \mid  s \in L \ or\  s \in M\}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">L 和 M 的连接</td>
-          <td style="text-align: left">\(LM = \{st \mid s \in L \ and\  t \in M\}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">L 的 Kleene 闭包</td>
-          <td style="text-align: left">\(L^{*} = \cup_{i=0}^{\infty} L^i\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">L 的正闭包</td>
-          <td style="text-align: left">\(L^{+} = \cup_{i=1}^{\infty} L^i\)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>运算</th>
+<th>定义和表示</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L 和 M 的并</td>
+<td>\(L \cup M = \{s \mid  s \in L \ or\  s \in M\}\)</td>
+</tr>
+<tr>
+<td>L 和 M 的连接</td>
+<td>\(LM = \{st \mid s \in L \ and\  t \in M\}\)</td>
+</tr>
+<tr>
+<td>L 的 Kleene 闭包</td>
+<td>\(L^{*} = \cup_{i=0}^{\infty} L^i\)</td>
+</tr>
+<tr>
+<td>L 的正闭包</td>
+<td>\(L^{+} = \cup_{i=1}^{\infty} L^i\)</td>
+</tr>
+</tbody>
 </table>
 <div class="details admonition info open">
         <div class="details-summary admonition-title">
@@ -326,42 +326,42 @@ d. \(( r)\) 是一个正则表达式，表示语言 \(L( r)\)</li>
 </ol>
 <p>以下表格列出正则表达式中常用定律</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">定律</th>
-          <th style="text-align: left">描述</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">\(r\mid s = s\mid r\)</td>
-          <td style="text-align: left">\(\mid\) 满足交换律</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(r\mid(s \mid t) = (r \mid s) \mid t\)</td>
-          <td style="text-align: left">\(\mid\) 满足结合律</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(r(st) = (rs)t\)</td>
-          <td style="text-align: left">连接满足结合律</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(r(s \mid t) = rs \mid rt; (s \mid t)r = sr \mid tr\)</td>
-          <td style="text-align: left">连接对 \(\mid\) 满足分配率</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\varepsilon r = r\varepsilon = r\)</td>
-          <td style="text-align: left">\(\varepsilon\) 是连接的单位元</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(r^{*} = (r\mid\varepsilon)^{*}\)</td>
-          <td style="text-align: left">Kleene 闭包中一定包含 ε</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(r^{**} = r^{*}\)</td>
-          <td style="text-align: left">\(*\) 具有幂等性</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>定律</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\(r\mid s = s\mid r\)</td>
+<td>\(\mid\) 满足交换律</td>
+</tr>
+<tr>
+<td>\(r\mid(s \mid t) = (r \mid s) \mid t\)</td>
+<td>\(\mid\) 满足结合律</td>
+</tr>
+<tr>
+<td>\(r(st) = (rs)t\)</td>
+<td>连接满足结合律</td>
+</tr>
+<tr>
+<td>\(r(s \mid t) = rs \mid rt; (s \mid t)r = sr \mid tr\)</td>
+<td>连接对 \(\mid\) 满足分配率</td>
+</tr>
+<tr>
+<td>\(\varepsilon r = r\varepsilon = r\)</td>
+<td>\(\varepsilon\) 是连接的单位元</td>
+</tr>
+<tr>
+<td>\(r^{*} = (r\mid\varepsilon)^{*}\)</td>
+<td>Kleene 闭包中一定包含 ε</td>
+</tr>
+<tr>
+<td>\(r^{**} = r^{*}\)</td>
+<td>\(*\) 具有幂等性</td>
+</tr>
+</tbody>
 </table>
 <h3 id="正则定义" class="headerLink">
     <a href="#%e6%ad%a3%e5%88%99%e5%ae%9a%e4%b9%89" class="header-mark"></a>正则定义</h3><p>如果 \(\Sigma\) 是 <code>基本符号集</code>，那么一个 <strong>正则定义</strong> (regular definition) 是具有如下形式的定义序列</p>
@@ -396,47 +396,47 @@ diagram)，它有一组被称为 <code>状态</code> (state) 的结点，词法�
 </ol>
 <p>我们用 SQL 中的关系运算符来举个例子</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">词素</th>
-          <th style="text-align: left">词法单元名</th>
-          <th style="text-align: left">属性值</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">&lt;</td>
-          <td style="text-align: left">relop</td>
-          <td style="text-align: left">LT</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&lt;=</td>
-          <td style="text-align: left">relop</td>
-          <td style="text-align: left">LE</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">=</td>
-          <td style="text-align: left">relop</td>
-          <td style="text-align: left">EQ</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&lt;&gt;</td>
-          <td style="text-align: left">relop</td>
-          <td style="text-align: left">NE</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&gt;</td>
-          <td style="text-align: left">relop</td>
-          <td style="text-align: left">GT</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">&gt;=</td>
-          <td style="text-align: left">relop</td>
-          <td style="text-align: left">GE</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>词素</th>
+<th>词法单元名</th>
+<th>属性值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;</td>
+<td>relop</td>
+<td>LT</td>
+</tr>
+<tr>
+<td>&lt;=</td>
+<td>relop</td>
+<td>LE</td>
+</tr>
+<tr>
+<td>=</td>
+<td>relop</td>
+<td>EQ</td>
+</tr>
+<tr>
+<td>&lt;&gt;</td>
+<td>relop</td>
+<td>NE</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>relop</td>
+<td>GT</td>
+</tr>
+<tr>
+<td>&gt;=</td>
+<td>relop</td>
+<td>GE</td>
+</tr>
+</tbody>
 </table>
-<figure><img src="/images/relop-transition-diagram.svg">
+<figure><img src="/images/compiler_principle-relop-transition-diagram.svg">
 </figure>
 
 <p>对于符号来说很简单，但对于关键字来说，它们是被保留的，但它们看起来很像标识符，因此我们常常使用两种方法来处理长的很像标识符的关键字</p>
@@ -470,45 +470,45 @@ diagram)，它有一组被称为 <code>状态</code> (state) 的结点，词法�
 <li>同一个符号可以标记从同一状态出发到达多个目标状态的多条边</li>
 <li>一条边的符号不仅可以是输入字母表中的符号，也可以是空串</li>
 </ul>
-<figure><img src="/images/NFA-example.svg">
+<figure><img src="/images/compiler_principle-NFA-example.svg">
 </figure>
 
 <p>除了转换图，我们也可以将 NFA 表示为一张转换表，表的各行对应与状态，各列对应于输入符号和 \(\varepsilon\) 。对应于一个给定状态和给定输出的条目是将 NFA 的转换函数应用于这些参数后得到的值，如果转换函数没有没有相关信息，那么我们就将 \(\emptyset\) 填入相应的位置。如下表就是上图的转换表形式</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">状态</th>
-          <th style="text-align: left">a</th>
-          <th style="text-align: left">b</th>
-          <th style="text-align: left">\(\varepsilon\)</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">0</td>
-          <td style="text-align: left">{0, 1}</td>
-          <td style="text-align: left">{0}</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-          <td style="text-align: left">{2}</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-          <td style="text-align: left">{3}</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>状态</th>
+<th>a</th>
+<th>b</th>
+<th>\(\varepsilon\)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>{0, 1}</td>
+<td>{0}</td>
+<td>\(\emptyset\)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>\(\emptyset\)</td>
+<td>{2}</td>
+<td>\(\emptyset\)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>\(\emptyset\)</td>
+<td>{3}</td>
+<td>\(\emptyset\)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>\(\emptyset\)</td>
+<td>\(\emptyset\)</td>
+<td>\(\emptyset\)</td>
+</tr>
+</tbody>
 </table>
 <p>在转换表上，我们可以很容易确定，一个给定状态和一个输入符号相对应的转换；但是如果输入字母表很大，且大多数状态在大多数输入字符上没有转换时，转换表需要占用大量的空间</p>
 <h3 id="确定的有穷状态机" class="headerLink">
@@ -534,7 +534,7 @@ diagram)，它有一组被称为 <code>状态</code> (state) 的结点，词法�
 <dl>
 <dt>基本规则</dt>
 <dd>构造NFA，其中 i 是一个新状态，也是这个NFA的开始状态；f 是另一个新状态，也是这个NFA的接受状态。对于表达式 \(\varepsilon\) 以及字母表 \(\Sigma\) 中的子表达式 a，构造以下 NFA
-<figure><img src="/images/reg2NFA-basicrules.svg">
+<figure><img src="/images/compiler_principle-reg2NFA-basicrules.svg">
     </figure>
 
 </dd>
@@ -544,35 +544,35 @@ diagram)，它有一组被称为 <code>状态</code> (state) 的结点，词法�
 <li>假设 <code>r = s|t</code>，构造 N(r)，可以得到从 i 到 N(s) 或 N(t) 的开始状态各有一个
 \(\varepsilon\) 转换，从 N(s) 和 N(t) 的接受状态到 f 也各有一个 \(\varepsilon\) 转换。因为从 i 到 f
 的任何路径要么只通过 N(s)，要么只通过 N(t)，且离开 i 或进入 f 的 \(\varepsilon\) 转换都不会改变路径上的标号，因此我们可以判定 N(r) 识别 \(L(s) \cup L(t)\)，即 \(L( r)\)
-<figure><a class="lightgallery" href="/images/reg2NFA-inductiverules-or.svg" title="/images/reg2NFA-inductiverules-or.svg" data-thumbnail="/images/reg2NFA-inductiverules-or.svg">
+<figure><a class="lightgallery" href="/images/compiler_principle-reg2NFA-inductiverules-or.svg" title="/images/compiler_principle-reg2NFA-inductiverules-or.svg" data-thumbnail="/images/compiler_principle-reg2NFA-inductiverules-or.svg">
         <img
             
             loading="lazy"
-            src="/images/reg2NFA-inductiverules-or.svg"
-            srcset="/images/reg2NFA-inductiverules-or.svg, /images/reg2NFA-inductiverules-or.svg 1.5x, /images/reg2NFA-inductiverules-or.svg 2x"
+            src="/images/compiler_principle-reg2NFA-inductiverules-or.svg"
+            srcset="/images/compiler_principle-reg2NFA-inductiverules-or.svg, /images/compiler_principle-reg2NFA-inductiverules-or.svg 1.5x, /images/compiler_principle-reg2NFA-inductiverules-or.svg 2x"
             sizes="auto"
-            alt="/images/reg2NFA-inductiverules-or.svg">
+            alt="/images/compiler_principle-reg2NFA-inductiverules-or.svg">
     </a></figure></li>
 <li>假设 <code>r = st</code> ，构造 N(r)，N(s) 的开始状态变为了 N(r) 的开始状态，N(t) 的接受状态变成了 N(r) 唯一接受状态，N(s) 的接受状态和 N(t) 的开始状态合并为一个状态，合并后的状态拥有原来进入和离开合并前的两个状态的全部转换。
-<figure><a class="lightgallery" href="/images/reg2NFA-inductiverules-and.svg" title="/images/reg2NFA-inductiverules-and.svg" data-thumbnail="/images/reg2NFA-inductiverules-and.svg">
+<figure><a class="lightgallery" href="/images/compiler_principle-reg2NFA-inductiverules-and.svg" title="/images/compiler_principle-reg2NFA-inductiverules-and.svg" data-thumbnail="/images/compiler_principle-reg2NFA-inductiverules-and.svg">
         <img
             
             loading="lazy"
-            src="/images/reg2NFA-inductiverules-and.svg"
-            srcset="/images/reg2NFA-inductiverules-and.svg, /images/reg2NFA-inductiverules-and.svg 1.5x, /images/reg2NFA-inductiverules-and.svg 2x"
+            src="/images/compiler_principle-reg2NFA-inductiverules-and.svg"
+            srcset="/images/compiler_principle-reg2NFA-inductiverules-and.svg, /images/compiler_principle-reg2NFA-inductiverules-and.svg 1.5x, /images/compiler_principle-reg2NFA-inductiverules-and.svg 2x"
             sizes="auto"
-            alt="/images/reg2NFA-inductiverules-and.svg">
+            alt="/images/compiler_principle-reg2NFA-inductiverules-and.svg">
     </a></figure></li>
 <li>假设 r = \(s^{*}\)，构造 N(r)，i 和 f 是两个新状态，分别为 N(r) 的开始状态和唯一的接受状态。要从i到达f我们需要沿着新引入的标号为 \(\varepsilon\) 的路径前进，这个路径对应 \(L(s)^{0}\) 中的一个串。我们也可以到达 N(s) 的开始状态，然后经过该
 NFA，在零次或多次从它的接受状态回到它的开始状态并重复上述过程。
-<figure><a class="lightgallery" href="/images/reg2NFA-inductiverules-closure.svg" title="/images/reg2NFA-inductiverules-closure.svg" data-thumbnail="/images/reg2NFA-inductiverules-closure.svg">
+<figure><a class="lightgallery" href="/images/compiler_principle-reg2NFA-inductiverules-closure.svg" title="/images/compiler_principle-reg2NFA-inductiverules-closure.svg" data-thumbnail="/images/compiler_principle-reg2NFA-inductiverules-closure.svg">
         <img
             
             loading="lazy"
-            src="/images/reg2NFA-inductiverules-closure.svg"
-            srcset="/images/reg2NFA-inductiverules-closure.svg, /images/reg2NFA-inductiverules-closure.svg 1.5x, /images/reg2NFA-inductiverules-closure.svg 2x"
+            src="/images/compiler_principle-reg2NFA-inductiverules-closure.svg"
+            srcset="/images/compiler_principle-reg2NFA-inductiverules-closure.svg, /images/compiler_principle-reg2NFA-inductiverules-closure.svg 1.5x, /images/compiler_principle-reg2NFA-inductiverules-closure.svg 2x"
             sizes="auto"
-            alt="/images/reg2NFA-inductiverules-closure.svg">
+            alt="/images/compiler_principle-reg2NFA-inductiverules-closure.svg">
     </a></figure></li>
 <li><code>r = (s)</code> ，那么 L(r) = L(s)，我们可以直接把 N(s) 当作 N(r)。</li>
 </ol>
@@ -609,53 +609,53 @@ a)\) 中的任何状态。</p>
 <dd>从 T 中某个状态 s 出发通过标号 a 的转换到达的 NFA 状态的集合</dd>
 </dl>
 <p>简单的说，NFA 中起始状态与起始状态经过 \(\varepsilon\) 转换后所到达的所有状态，这些状态所组成的集合就是转换成 DFA 的起始状态，而这个集合中的所有状态分别经过某一路径转换和转换后再经过 \(\varepsilon\) 转换的状态组成了另一个 DFA 状态，以此下去构成了所有 DFA 中的所有状态</p>
-<figure><img src="/images/NFA2DFA.svg">
+<figure><img src="/images/compiler_principle-NFA2DFA.svg">
 </figure>
 
 <p>我们继续以上图 \((a|b)^{*}abb\) 为例进行从 NFA 到 DFA 的装换，起始状态 A 为
 \(\varepsilon-closure(0)\)，即 \(A=\{0，1，2，4，7\}\)，而输入字母表为 \(\{a，b\}\)，那么接下来分别计算 \(Dtran[A，a] = \varepsilon-closure(move(A,a))\) 以及 \(Dtran[A，b] =
 \varepsilon-closure(move(A,b))\) 分别得到 DFA 的状态 B 与状态 C，最终依次计算，我们会得到一张 NFA 与 DFA 对应关系表 (下表)，这样就可能很轻松的完成 NFA 向 DFA 的转换</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">DFA 状态</th>
-          <th style="text-align: left">NFA 状态集</th>
-          <th style="text-align: left">经过 a 转换得到的状态</th>
-          <th style="text-align: left">经过 b 转换得到的状态</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">A</td>
-          <td style="text-align: left">{0,1,2,4,7}</td>
-          <td style="text-align: left">B</td>
-          <td style="text-align: left">C</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">B</td>
-          <td style="text-align: left">{1,2,3,4,6,7,8}</td>
-          <td style="text-align: left">B</td>
-          <td style="text-align: left">D</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">C</td>
-          <td style="text-align: left">{1,2,4,5,6,7}</td>
-          <td style="text-align: left">B</td>
-          <td style="text-align: left">C</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">D</td>
-          <td style="text-align: left">{1,2,4,5,6,7,9}</td>
-          <td style="text-align: left">B</td>
-          <td style="text-align: left">E</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">E</td>
-          <td style="text-align: left">{1,2,4,5,6,7,10}</td>
-          <td style="text-align: left">B</td>
-          <td style="text-align: left">C</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>DFA 状态</th>
+<th>NFA 状态集</th>
+<th>经过 a 转换得到的状态</th>
+<th>经过 b 转换得到的状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>{0,1,2,4,7}</td>
+<td>B</td>
+<td>C</td>
+</tr>
+<tr>
+<td>B</td>
+<td>{1,2,3,4,6,7,8}</td>
+<td>B</td>
+<td>D</td>
+</tr>
+<tr>
+<td>C</td>
+<td>{1,2,4,5,6,7}</td>
+<td>B</td>
+<td>C</td>
+</tr>
+<tr>
+<td>D</td>
+<td>{1,2,4,5,6,7,9}</td>
+<td>B</td>
+<td>E</td>
+</tr>
+<tr>
+<td>E</td>
+<td>{1,2,4,5,6,7,10}</td>
+<td>B</td>
+<td>C</td>
+</tr>
+</tbody>
 </table>
 </div>
 
@@ -693,7 +693,7 @@ a)\) 中的任何状态。</p>
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.131.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

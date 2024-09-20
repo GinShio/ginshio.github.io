@@ -4,7 +4,7 @@
 <html lang="zh-cn">
 
 <head>
-	<meta name="generator" content="Hugo 0.134.2">
+	<meta name="generator" content="Hugo 0.131.0">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
@@ -125,691 +125,144 @@
         <a href="/2022/flex_and_bison/">词法分析软件 Flex 及语法分析软件 Bison 的用法</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="05-01">05-01</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span></div><div class="content"><p>正正规规地开始写实现一个编译器感觉压力还是蛮大的。初步选型是</p>
-<ul>
-<li>基础工具
-<ul>
-<li>Git</li>
-<li>CMake</li>
-<li>gcc</li>
-</ul>
-</li>
-<li>编译器生成工具
-<ul>
-<li>Flex</li>
-<li>GNU Bison</li>
-</ul>
-</li>
-<li>其他工具
-<ul>
-<li>Clang Format</li>
-<li>CppLint</li>
-<li>EditConfig</li>
-</ul>
-</li>
-</ul>
-<p><code>C++</code> 支持 17 简直太棒了！！！还不知道毕昇杯能不能用 CMake 去构建。</p>
-<p>由于是多人合作项目，代码风格暂时定的是 Google，估计啥都不知道。想想到时候 review
-代码就头大。</p>
-<p>这篇主要是记录下从 <a href="https://en.wikipedia.org/wiki/Info_%28Unix%29" target="_blank" rel="noopener noreferrer">info</a> (Emacs 看 info 真方便) 中学习的 Flex 和 GNU Bison 相关用法。</p>
-<p><strong>TL;DR.</strong>
-<a href="#main-%e5%87%bd%e6%95%b0%e7%a4%ba%e4%be%8b" rel="">main 函数示例</a> 或 <a href="https://pku-minic.github.io/online-doc" target="_blank" rel="noopener noreferrer">北大编译实践</a></p>
-<h2 id="flex" class="headerLink">
-    <a href="#flex" class="header-mark"></a>Flex</h2><p>Flex 可以理解为词法分析器生成工具 Lex 的开源版本，意为 fast lexical analyzer
-generator。根据描述的正则表达式与 C 代码 (这些被称为 <strong>规则</strong>)，来生成对应的分析器代码 (文件名默认为 <strong>lex.yy.c</strong>)，其中定义了接口 <code>yylex()</code> 用来启动分析器，函数原型如下</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">yylex</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>Flex 默认会生成标准的 C99 代码，而非 <code>K&amp;R</code> 风格代码。在调用 yylex 时，它会持续从全局输入文件 yyin 中扫描 token，直到遇到 EOF 或 action 执行返回语句。如果 yylex
-因 return 停止扫描，可以再次调用扫描器，从中断处继续扫描。当扫描到 EOF 时，只有
-<code>yywrap()</code> 返回 0 才继续读取其他文件，返回非零时扫描器会终止并返回 0。如果你不实现 <code>yywrap()</code>,需要使用 <code>%option noyywrap</code> 或链接 <code>-lfl</code> 使用总返回 1 的默认版本。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="05-01">05-01</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span></div><div class="content">正正规规地开始写实现一个编译器感觉压力还是蛮大的。初步选型是
+基础工具 Git CMake gcc 编译器生成工具 Flex GNU Bison 其他工具 Clang Format CppLint EditConfig C++ 支持 17 简直太棒了！！！还不知道毕昇杯能不能用 CMake 去构建。
+由于是多人合作项目，代码风格暂时定的是 Google，估计啥都不知道。想想到时候 review 代码就头大。
+这篇主要是记录下从 info (Emacs 看 info 真方便) 中学习的 Flex 和 GNU Bison 相关用法。
+TL;DR. main 函数示例 或 北大编译实践
+FlexFlex 可以理解为词法分析器生成工具 Lex 的开源版本，意为 fast lexical analyzer generator。根据描述的正则表达式与 C 代码 (这些被称为 规则)，来生成对应的分析器代码 (文件名默认为 lex.yy.c)，其中定义了接口 yylex() 用来启动分析器，函数原型如下
+1 int yylex(void); Flex 默认会生成标准的 C99 代码，而非 K&amp;R 风格代码。在调用 yylex 时，它会持续从全局输入文件 yyin 中扫描 token，直到遇到 EOF 或 action 执行返回语句。如果 yylex 因 return 停止扫描，可以再次调用扫描器，从中断处继续扫描。当扫描到 EOF 时，只有 yywrap() 返回 0 才继续读取其他文件，返回非零时扫描器会终止并返回 0。如果你不实现 yywrap(),需要使用 %option noyywrap 或链接 -lfl 使用总返回 1 的默认版本。</div><div class="post-footer">
         <a href="/2022/flex_and_bison/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/applications/">Applications</a>,&nbsp;<a href="/tags/syntacticanalysis/">SyntacticAnalysis</a>,&nbsp;<a href="/tags/lexicalanalysis/">LexicalAnalysis</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/compilerprinciple_006/">语法分析 3</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="04-20">04-20</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div><div class="content"><p>一个自底向上的语法分析过程对应于为输入字符串构造语法分析树的过程，它从叶节点开始开始逐渐向上构造。虽然大部分编译器前端不会显示构造语法分析树，而是直接翻译，但自底向上构建有些像构建语法分析树。</p>
-<p>移入归约语法分析是自底向上语法分析的通用框架。LR 文法就是采用移入-归约语法分析的文法。</p>
-<h2 id="移入-归约" class="headerLink">
-    <a href="#%e7%a7%bb%e5%85%a5-%e5%bd%92%e7%ba%a6" class="header-mark"></a>移入-归约</h2><h3 id="归约" class="headerLink">
-    <a href="#%e5%bd%92%e7%ba%a6" class="header-mark"></a>归约</h3><p>将语法分析过程，看作输入串 w <code>归约</code> (reduction) 为文法开始符号的过程， 在归约步骤中，一个与某产生式体相匹配的特定子串被替换为该产生式头部的非终结符。</p>
-<p>自底向上语法分析过程中，最关键的是何时进行归约，以及应用哪个产生式进行归约。</p>
-<p>当然归约是推导步骤的反向操作，不过可以是 <strong>最右</strong> 推导。</p>
-<h3 id="句柄剪枝" class="headerLink">
-    <a href="#%e5%8f%a5%e6%9f%84%e5%89%aa%e6%9e%9d" class="header-mark"></a>句柄剪枝</h3><p>对输入进行从左向右扫描，并在扫描过程中进行自底向上语法分析，就可以反向构造出最右推导。简单地说，<strong>句柄</strong> 是和某个产生式体匹配的子串，对它的归约代表了相应最右推导中的一个反向步骤。</p>
-<p>如果有 \(\textit{S}\xRightarrow[rm]{*}\alpha\textit{A}w\xRightarrow[rm]{}\alpha\beta{}w\)，那么紧跟 \(\alpha\) 的产生式 \(\textit{A}\rightarrow\beta\) 是 \(\alpha\beta{}w\) 的一个 <strong>句柄</strong> (handle)。换句话说，最右句型 \(\gamma\) 的一个句柄是满足以下条件的产生式 \(\textit{A}\rightarrow\beta\) 及串
-\(\beta\) 在 \(\gamma\) 中出现的位置：将这个位置上的 \(\beta\) 替换为 <em>A</em> 之后得到的串是
-\(\gamma\) 的某个最右推导序列中出现在位于 \(\gamma\) 之前的最右句型。</p>
-<figure><img src="/images/alpha-beta-w-parsing-tree-handle.svg">
-</figure>
-
-<p>句柄右边的串 w 一定只包含终结符，即产生式体 \(\beta\) 称为一个句柄 (而不是
-\(\textit{A}\rightarrow\beta\))，如果文法有二义性时可能存在多个最右推导，但无二义性的文法有且仅有一个句柄。通过<strong>句柄剪枝</strong>可以得到一个反向的最右推导。</p>
-<h3 id="移入-规约语法分析技术" class="headerLink">
-    <a href="#%e7%a7%bb%e5%85%a5-%e8%a7%84%e7%ba%a6%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e6%8a%80%e6%9c%af" class="header-mark"></a>移入-规约语法分析技术</h3><p>该语法分析使用栈来保存符号，并用一个输入缓冲区来存放将要进行语法分析的其余符号。句柄在被识别之前，总是出现在栈顶的。</p>
-<p>在栈中依然用 \(\$\) 标记栈底位置，在从左到右扫描输入串时，语法分析器将零个或多个输入符号移动到栈顶，直到对栈顶的一个文法符号串 \(\beta\) 进行归约为止。语法分析器将不断重复这个过程，直到检测到错误，或栈中包含了开始符号且输入缓冲区为空为止。此时宣告语法分析完成。</p>
-<p>语法分析器主要由四个动作构成</p>
-<dl>
-<dt>移入 (shift)</dt>
-<dd>将下一个输入符号移到栈顶</dd>
-<dt>归约 (reduce)</dt>
-<dd>被归约的符号串的右端必然是栈顶，语法分析器在栈中确定这个栈的左端，并决定用哪个非终结符来替换这个串</dd>
-<dt>接受 (accept)</dt>
-<dd>语法分析完成</dd>
-<dt>报错 (error)</dt>
-<dd>发现一个语法错误，调用错误恢复过程</dd>
-</dl>
-<p>使用栈主要是因为在语法分析过程中有个重要的性质：<strong>句柄总出现在栈顶，绝不会出现在栈中</strong>。</p>
-<h3 id="移入-归约语法分析中的冲突" class="headerLink">
-    <a href="#%e7%a7%bb%e5%85%a5-%e5%bd%92%e7%ba%a6%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e4%b8%ad%e7%9a%84%e5%86%b2%e7%aa%81" class="header-mark"></a>移入-归约语法分析中的冲突</h3><p>某些上下文无关文法无法使用移入-归约语法分析技术，对于这样的文法可能出现如下
-configuration：虽然知道栈中的所有内容以及接下来的 k 个输入符号，</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="04-20">04-20</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div><div class="content">一个自底向上的语法分析过程对应于为输入字符串构造语法分析树的过程，它从叶节点开始开始逐渐向上构造。虽然大部分编译器前端不会显示构造语法分析树，而是直接翻译，但自底向上构建有些像构建语法分析树。
+移入归约语法分析是自底向上语法分析的通用框架。LR 文法就是采用移入-归约语法分析的文法。
+移入-归约 归约将语法分析过程，看作输入串 w 归约 (reduction) 为文法开始符号的过程， 在归约步骤中，一个与某产生式体相匹配的特定子串被替换为该产生式头部的非终结符。
+自底向上语法分析过程中，最关键的是何时进行归约，以及应用哪个产生式进行归约。
+当然归约是推导步骤的反向操作，不过可以是 最右 推导。
+句柄剪枝对输入进行从左向右扫描，并在扫描过程中进行自底向上语法分析，就可以反向构造出最右推导。简单地说，句柄 是和某个产生式体匹配的子串，对它的归约代表了相应最右推导中的一个反向步骤。
+如果有 \(\textit{S}\xRightarrow[rm]{*}\alpha\textit{A}w\xRightarrow[rm]{}\alpha\beta{}w\)，那么紧跟 \(\alpha\) 的产生式 \(\textit{A}\rightarrow\beta\) 是 \(\alpha\beta{}w\) 的一个 句柄 (handle)。换句话说，最右句型 \(\gamma\) 的一个句柄是满足以下条件的产生式 \(\textit{A}\rightarrow\beta\) 及串 \(\beta\) 在 \(\gamma\) 中出现的位置：将这个位置上的 \(\beta\) 替换为 A 之后得到的串是 \(\gamma\) 的某个最右推导序列中出现在位于 \(\gamma\) 之前的最右句型。
+句柄右边的串 w 一定只包含终结符，即产生式体 \(\beta\) 称为一个句柄 (而不是 \(\textit{A}\rightarrow\beta\))，如果文法有二义性时可能存在多个最右推导，但无二义性的文法有且仅有一个句柄。通过句柄剪枝可以得到一个反向的最右推导。
+移入-规约语法分析技术该语法分析使用栈来保存符号，并用一个输入缓冲区来存放将要进行语法分析的其余符号。句柄在被识别之前，总是出现在栈顶的。
+在栈中依然用 \(\$\) 标记栈底位置，在从左到右扫描输入串时，语法分析器将零个或多个输入符号移动到栈顶，直到对栈顶的一个文法符号串 \(\beta\) 进行归约为止。语法分析器将不断重复这个过程，直到检测到错误，或栈中包含了开始符号且输入缓冲区为空为止。此时宣告语法分析完成。
+语法分析器主要由四个动作构成
+移入 (shift) 将下一个输入符号移到栈顶 归约 (reduce) 被归约的符号串的右端必然是栈顶，语法分析器在栈中确定这个栈的左端，并决定用哪个非终结符来替换这个串 接受 (accept) 语法分析完成 报错 (error) 发现一个语法错误，调用错误恢复过程 使用栈主要是因为在语法分析过程中有个重要的性质：句柄总出现在栈顶，绝不会出现在栈中。
+移入-归约语法分析中的冲突某些上下文无关文法无法使用移入-归约语法分析技术，对于这样的文法可能出现如下 configuration：虽然知道栈中的所有内容以及接下来的 k 个输入符号，</div><div class="post-footer">
         <a href="/2022/compilerprinciple_006/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/dragonbook/">DragonBook</a>,&nbsp;<a href="/tags/syntacticanalysis/">SyntacticAnalysis</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/compilerprinciple_005/">语法分析 2</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="04-12">04-12</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div><div class="content"><p>自顶向下语法可以被看作输入串构造语法分析树的问题，从语法分析树的根结点开始，深度优先创建这棵树的各个结点。</p>
-<p>对于输入 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>，可以根据最左推导序列产生语法分析树序列：
-\[\begin{aligned}
-E &amp;\rightarrow TE^{&rsquo;}\\
-E^{&rsquo;} &amp;\rightarrow +\ T\ E^{&rsquo;}\,|\,\varepsilon\\
-T &amp;\rightarrow FT^{&rsquo;}\\
-T^{&rsquo;} &amp;\rightarrow *\ F\ T^{&rsquo;}\,|\,\varepsilon\\
-F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\
-\end{aligned}\]</p>
-<p>根据左推导有如下自顶向下分析过程</p>
-<figure><img src="/images/id-plus-id-multi-id-example-lm-top-down.svg">
-</figure>
-
-<h2 id="递归下降的语法分析" class="headerLink">
-    <a href="#%e9%80%92%e5%bd%92%e4%b8%8b%e9%99%8d%e7%9a%84%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90" class="header-mark"></a>递归下降的语法分析</h2><p>递归下降的语法分析由一组过程组成，每个非终结符有一个对应的过程，程序的执行从开始符号对应的过程开始，如果这个过程扫描了整个输入串，就停止执行并宣布语法分析完成。</p>
-<p>通用递归下降分析技术可能需要回溯，即重复扫描输入串。在 PL 构造进行语法分析时很少回溯，因此需要回溯的语法分析器并不常见。自然语言分析的场合，回溯也不高效，因此更加倾向基于表格的语法分析方法，如 DP 或 Earley 方法。</p>
-<h3 id="一个简单的示例" class="headerLink">
-    <a href="#%e4%b8%80%e4%b8%aa%e7%ae%80%e5%8d%95%e7%9a%84%e7%a4%ba%e4%be%8b" class="header-mark"></a>一个简单的示例</h3><p>考虑文法 \[\begin{aligned} S &amp;\rightarrow c\,A\,d\\ A &amp;\rightarrow a\,b \ |\ a\\ \end{aligned}\]
-自顶向下构造串 \(w=cad\)，初始结点指向 w 的第一个字符，即标号为 S 的结点指向 c，将会得到图 <a href="#figure--fig:top-down-parsing-process-example" rel="">1</a> (a) 中的树，字符c 匹配。</p>
-<p><a id="figure--fig:top-down-parsing-process-example"></a></p>
-<figure><img src="/images/top-down-parsing-process-example.svg"
-    alt="Figure 1: 自顶向下语法分析器过程"><figcaption>
-      <p><span class="figure-number">Figure 1: </span>自顶向下语法分析器过程</p>
-    </figcaption>
-</figure>
-
-<p>将 <em>A</em> 用 \(\textit{A} \rightarrow ab\) 展开得到图
-<a href="#figure--fig:top-down-parsing-process-example" rel="">1</a> (b) 的树，第二个字符 a 匹配，此时指针推进到第三个字符 d。由于 b 与 d 不匹配，将报告失败，并回到 A 开始尝试之前未进行的且有可能匹配的其他产生式，图 <a href="#figure--fig:top-down-parsing-process-example" rel="">1</a> (c) 所示。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="04-12">04-12</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div><div class="content">自顶向下语法可以被看作输入串构造语法分析树的问题，从语法分析树的根结点开始，深度优先创建这棵树的各个结点。
+对于输入 id + id * id，可以根据最左推导序列产生语法分析树序列： \[\begin{aligned} E &amp;\rightarrow TE^{&rsquo;}\\ E^{&rsquo;} &amp;\rightarrow +\ T\ E^{&rsquo;}\,|\,\varepsilon\\ T &amp;\rightarrow FT^{&rsquo;}\\ T^{&rsquo;} &amp;\rightarrow *\ F\ T^{&rsquo;}\,|\,\varepsilon\\ F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\ \end{aligned}\]
+根据左推导有如下自顶向下分析过程
+递归下降的语法分析递归下降的语法分析由一组过程组成，每个非终结符有一个对应的过程，程序的执行从开始符号对应的过程开始，如果这个过程扫描了整个输入串，就停止执行并宣布语法分析完成。
+通用递归下降分析技术可能需要回溯，即重复扫描输入串。在 PL 构造进行语法分析时很少回溯，因此需要回溯的语法分析器并不常见。自然语言分析的场合，回溯也不高效，因此更加倾向基于表格的语法分析方法，如 DP 或 Earley 方法。
+一个简单的示例考虑文法 \[\begin{aligned} S &amp;\rightarrow c\,A\,d\\ A &amp;\rightarrow a\,b \ |\ a\\ \end{aligned}\] 自顶向下构造串 \(w=cad\)，初始结点指向 w 的第一个字符，即标号为 S 的结点指向 c，将会得到图 1 (a) 中的树，字符c 匹配。
+Figure 1: 自顶向下语法分析器过程
+将 A 用 \(\textit{A} \rightarrow ab\) 展开得到图 1 (b) 的树，第二个字符 a 匹配，此时指针推进到第三个字符 d。由于 b 与 d 不匹配，将报告失败，并回到 A 开始尝试之前未进行的且有可能匹配的其他产生式，图 1 (c) 所示。</div><div class="post-footer">
         <a href="/2022/compilerprinciple_005/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/dragonbook/">DragonBook</a>,&nbsp;<a href="/tags/syntacticanalysis/">SyntacticAnalysis</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/doom_emacs_configuration/">Doom Emacs 配置文件</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="04-08">04-08</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/emacs/"><i class="far fa-folder fa-fw"></i>Emacs</a></span></div><div class="content"><div class="details admonition info open">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content"><p>本篇是基于 <a href="http://tecosaur.com/" target="_blank" rel="noopener noreferrer">tecosaur</a> 的 <a href="https://github.com/tecosaur/emacs-config" target="_blank" rel="noopener noreferrer">Emacs 配置</a> 大幅缩减版本，如果你对 Org Mode 感兴趣可以看他制作的 <a href="https://blog.tecosaur.com/tmio/" target="_blank" rel="noopener noreferrer">This Month in Org</a>。</p>
-<p>本篇标题和副标题均采用原标题的中译</p>
-<ul>
-<li><strong>Title</strong>: Doom Emacs Configuration</li>
-<li><strong>Subtitle</strong>: The Methods, Management, and Menagerie of Madness &mdash; in meticulous detail</li>
-</ul>
-</div>
-        </div>
-    </div>
-<blockquote>
-<p>让我们改变对程序构建的传统态度：与其想象我们的主要任务是指导计算机做什么，不如专注于向人们解释我们想让计算机做什么。
-&mdash; 高德纳</p>
-</blockquote>
-<h2 id="引言" class="headerLink">
-    <a href="#%e5%bc%95%e8%a8%80" class="header-mark"></a>引言</h2><p>与其说不喜欢 IDE，倒不如说现在太菜了用不上 IDE，况且 Linux 下除了 JetBrains 家的也没其他能用的了。</p>
-<p>不过这都是后话了，最初用的是 <code>Dev-C++</code> 和 <code>VS 2017</code> ，说实话 VS 好看但太大了，对我这种写 <em>Hello World</em> 的人来说太浪费了。其实简单说就是，VS 太大不会用，JetBrains
-太贵买不起，虽然是学生可以申请免费全家桶，但 <code>CLion</code> 不像 <em>Intellij IDEA</em> 或者
-<em>PyCharm</em> 它没免费版啊。也就尝试着 <code>Notepad++</code> 了，当时并没什么政治倾向。也就当一个自带高亮的记事本， <code>Dev-C++</code> 改用还得用啊。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="04-08">04-08</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/emacs/"><i class="far fa-folder fa-fw"></i>Emacs</a></span></div><div class="content">信息 本篇是基于 tecosaur 的 Emacs 配置 大幅缩减版本，如果你对 Org Mode 感兴趣可以看他制作的 This Month in Org。
+本篇标题和副标题均采用原标题的中译
+Title: Doom Emacs Configuration Subtitle: The Methods, Management, and Menagerie of Madness &mdash; in meticulous detail 让我们改变对程序构建的传统态度：与其想象我们的主要任务是指导计算机做什么，不如专注于向人们解释我们想让计算机做什么。 &mdash; 高德纳
+引言与其说不喜欢 IDE，倒不如说现在太菜了用不上 IDE，况且 Linux 下除了 JetBrains 家的也没其他能用的了。
+不过这都是后话了，最初用的是 Dev-C++ 和 VS 2017 ，说实话 VS 好看但太大了，对我这种写 Hello World 的人来说太浪费了。其实简单说就是，VS 太大不会用，JetBrains 太贵买不起，虽然是学生可以申请免费全家桶，但 CLion 不像 Intellij IDEA 或者 PyCharm 它没免费版啊。也就尝试着 Notepad++ 了，当时并没什么政治倾向。也就当一个自带高亮的记事本， Dev-C++ 改用还得用啊。
+在用编辑器时听闻了 Vim 、 Linux 等软件，爷投 *nix 了！所以 Notepad++ 也用不上了，选来选去选了个 Emacs ，多少开始离谱起来了，因为我觉得 Vim 的且模式好麻烦。不过好在这种玩意一招鲜吃遍天，你可以为其添加任意语言的支持，什么 Intellij IDEA 、 PyCharm 还要分，太麻烦了，就问你能加 Erlang 、 Elixir 、 Haskell 等支持吗 (这不巧了吗，还都能加)。况且用 shell 时默认的快捷键也是和 Emacs 一致的。</div><div class="post-footer">
         <a href="/2022/doom_emacs_configuration/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/doom/">Doom</a>,&nbsp;<a href="/tags/orgmode/">OrgMode</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/hp_printer_driver/">openSUSE 下 HP 打印机配置</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-27">02-27</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div><div class="content"><p>正好家里买了打印机，HP 4800 系列，耗材是真便宜，喷墨是真慢啊。不过正好记录一下
-Linux 下的 HP 打印机配置过程。</p>
-<p>另外 HP 对开源的态度真不错，估计也是因为自家是开源大厂的缘故吧。</p>
-<div class="details admonition info open">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content">本文主要是 openSUSE 配置 HP 打印机的过程</div>
-        </div>
-    </div>
-<h2 id="安装驱动" class="headerLink">
-    <a href="#%e5%ae%89%e8%a3%85%e9%a9%b1%e5%8a%a8" class="header-mark"></a>安装驱动</h2><p>Linux 下有 HP 官方的打印机驱动，称为 HPLIP (HP&rsquo;s Linux Imaging and Printing
-software)，可以查看 <a href="https://developers.hp.com/hp-linux-imaging-and-printing/features" target="_blank" rel="noopener noreferrer">HPLIP 文档</a> 或者 <a href="https://developers.hp.com/hp-linux-imaging-and-printing/gethplip" target="_blank" rel="noopener noreferrer">下载</a>。</p>
-<p>对于 HPLIP 可以在以下 Linux 发行版进行自动安装</p>
-<ul>
-<li>SUSE Linux (13.2, 42.1, 42.2, 42.3, 15.0, 15.1, 15.2, 15.3)</li>
-<li>Fedora (22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35)</li>
-<li>Linux Mint (18, 18.1, 18.2, 18.3, 19, 19.1, 19.2, 19.3, 20.04, 20.1, 20.2, 20.3)</li>
-<li>Red Hat Enterprise Linux (6.0, 7.0, 7.2, 7.6, 7.7, 7.8, 7.9, 8.0, 8.2, 8.3, 8.4, 8.5)</li>
-<li>Boss (5.0)</li>
-<li>Ubuntu (12.04, 14.04, 15.10, 16.xx, 17.xx, 18.xx, 19.xx, 20.xx, 21.xx)</li>
-<li>Debian (7.0 ~ 7.9, 8.0 ~ 8.8, 9.1 ~ 9.9, 10.0 ~ 10.9, 11)</li>
-<li>Manjaro Linux (17.1.4, 18.0, 18.0.4, 18.1.0, 18.1.2, 19.0, 20.0, 20.2, 21.0.7)</li>
-<li>Zorin (15, 16)</li>
-<li>MX Linux (21)</li>
-<li>Elementary OS (6, 6.1)</li>
-</ul>
-<p>比如说 FreeBSD、Gentoo 等发行版，可以采用手动安装。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-27">02-27</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div><div class="content">正好家里买了打印机，HP 4800 系列，耗材是真便宜，喷墨是真慢啊。不过正好记录一下 Linux 下的 HP 打印机配置过程。
+另外 HP 对开源的态度真不错，估计也是因为自家是开源大厂的缘故吧。
+信息 本文主要是 openSUSE 配置 HP 打印机的过程 安装驱动Linux 下有 HP 官方的打印机驱动，称为 HPLIP (HP&rsquo;s Linux Imaging and Printing software)，可以查看 HPLIP 文档 或者 下载。
+对于 HPLIP 可以在以下 Linux 发行版进行自动安装
+SUSE Linux (13.2, 42.1, 42.2, 42.3, 15.0, 15.1, 15.2, 15.3) Fedora (22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35) Linux Mint (18, 18.1, 18.2, 18.3, 19, 19.1, 19.2, 19.</div><div class="post-footer">
         <a href="/2022/hp_printer_driver/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/driver/">Driver</a>,&nbsp;<a href="/tags/printer/">Printer</a>,&nbsp;<a href="/tags/opensuse/">OpenSUSE</a>,&nbsp;<a href="/tags/tool/">Tool</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/unixnetworkprogramming_005/">I/O 复用</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-26">02-26</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div><div class="content"><p>在客户端阻塞在 read 等待用户输入时，服务器关闭会导致向客户端发送 FIN，这是客户端的另一个输入。但由于客户端阻塞在 read 从而无法立即接受这个输入，直到从套接字读入为止。这就需要进程提前告知内核，使得内核在进程指定的输入准备好后，或可以输出后，立即通知进程，这个能力被称为 I/O 复用 (I/O multiplexing)。</p>
-<p>I/O 复用有多个 syscall 可以实现，Unix 古老的函数 select 与 poll，POSIX 有一个比较新的变种为 pselect，而 Linux 与 freeBSD 独立发展出了 <strong>epoll</strong> 与 <strong>kqueue</strong>。</p>
-<p>I/O 复用典型适用于以下场合：</p>
-<ul>
-<li>当客户处理多个描述符时</li>
-<li>客户同时处理多个套接字时，不过这种场景比较少见</li>
-<li>如果 TCP 服务器既要监听套接字，又要处理已连接的套接字</li>
-<li>如果一个服务器既要处理 TCP 又要处理 UDP，或同时处理多个不同协议，或多个服务</li>
-</ul>
-<p>需要注意的是，并非只有网络编程需要用到 I/O 复用，I/O 复用是对文件描述符状态的监听，因此其他场景下也有其适用的空间。</p>
-<h2 id="i-o-模型" class="headerLink">
-    <a href="#i-o-%e6%a8%a1%e5%9e%8b" class="header-mark"></a>I/O 模型</h2><p>在 Unix 系统上，一个输入操作通常包含两个不同的阶段</p>
-<ol>
-<li>数据准备完成</li>
-<li>从内核向进程复制数据</li>
-</ol>
-<p>在等待数据准备到复制数据的过程，根据行为的不同，I/O 模型主要分为以下几种</p>
-<ul>
-<li>
-<p><strong>blocking I/O</strong> (阻塞式 I/O)</p>
-<p>阻塞式 I/O 模型是最常见、最简单、最好理解的 I/O 模型，目前为止所有的套接字函数都是阻塞式 I/O，另外 C 标准库所提供的 I/O 也是阻塞式 I/O，这样的模型符合初学函数时提及的运行流程。</p>
-<figure><img src="/images/unp-blocking-io-model.svg" width="64%">
-    </figure>
-
-<p>在 recvfrom 这个示例中，只有数据报到达且复制到进程缓冲区中或错误发生才返回，而这段时间内进程是被阻塞的，不再向下运行代码。</p>
-</li>
-<li>
-<p><strong>nonblocking I/O</strong> (非阻塞式 I/O)</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-26">02-26</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div><div class="content">在客户端阻塞在 read 等待用户输入时，服务器关闭会导致向客户端发送 FIN，这是客户端的另一个输入。但由于客户端阻塞在 read 从而无法立即接受这个输入，直到从套接字读入为止。这就需要进程提前告知内核，使得内核在进程指定的输入准备好后，或可以输出后，立即通知进程，这个能力被称为 I/O 复用 (I/O multiplexing)。
+I/O 复用有多个 syscall 可以实现，Unix 古老的函数 select 与 poll，POSIX 有一个比较新的变种为 pselect，而 Linux 与 freeBSD 独立发展出了 epoll 与 kqueue。
+I/O 复用典型适用于以下场合：
+当客户处理多个描述符时 客户同时处理多个套接字时，不过这种场景比较少见 如果 TCP 服务器既要监听套接字，又要处理已连接的套接字 如果一个服务器既要处理 TCP 又要处理 UDP，或同时处理多个不同协议，或多个服务 需要注意的是，并非只有网络编程需要用到 I/O 复用，I/O 复用是对文件描述符状态的监听，因此其他场景下也有其适用的空间。
+I/O 模型在 Unix 系统上，一个输入操作通常包含两个不同的阶段
+数据准备完成 从内核向进程复制数据 在等待数据准备到复制数据的过程，根据行为的不同，I/O 模型主要分为以下几种
+blocking I/O (阻塞式 I/O)
+阻塞式 I/O 模型是最常见、最简单、最好理解的 I/O 模型，目前为止所有的套接字函数都是阻塞式 I/O，另外 C 标准库所提供的 I/O 也是阻塞式 I/O，这样的模型符合初学函数时提及的运行流程。
+在 recvfrom 这个示例中，只有数据报到达且复制到进程缓冲区中或错误发生才返回，而这段时间内进程是被阻塞的，不再向下运行代码。
+nonblocking I/O (非阻塞式 I/O)</div><div class="post-footer">
         <a href="/2022/unixnetworkprogramming_005/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/unix/">Unix</a>,&nbsp;<a href="/tags/network/">Network</a>,&nbsp;<a href="/tags/posix/">Posix</a>,&nbsp;<a href="/tags/iuputoutput/">IuputOutput</a>,&nbsp;<a href="/tags/multiplexing/">Multiplexing</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/unixnetworkprogramming_004/">基本 TCP 编程</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-19">02-19</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div><div class="content"><h2 id="基本-tcp-套接字函数" class="headerLink">
-    <a href="#%e5%9f%ba%e6%9c%ac-tcp-%e5%a5%97%e6%8e%a5%e5%ad%97%e5%87%bd%e6%95%b0" class="header-mark"></a>基本 TCP 套接字函数</h2><figure><img src="/images/unp-socket-functions-for-elementary-tcp-client-and-server.svg" width="40%">
-</figure>
-
-<h3 id="socket-函数" class="headerLink">
-    <a href="#socket-%e5%87%bd%e6%95%b0" class="header-mark"></a>socket 函数</h3><p>在网络编程中第一步往往调用 socket 函数，以指定通讯协议的详情。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// sys/socket.h
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">socket</span><span class="p">(</span><span class="kt">int</span> <span class="n">domain</span><span class="p">,</span> <span class="kt">int</span> <span class="n">type</span><span class="p">,</span> <span class="kt">int</span> <span class="n">protocol</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="c1">// return socket fd, or -1 and set errno on error
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><p>domain 指协议族，type 是套接字类型，protocol 参数应该设置为某个协议类型常量，或者为 0 表示对 domain 与 type 的系统默认值。</p>
-<ul>
-<li>domain
-<ul>
-<li><code>AF_INET</code>: IPv4 协议</li>
-<li><code>AF_INET6</code>: IPv6 协议</li>
-<li><code>AF_UNIX</code> or <code>AF_LOCAL</code>: Unix Domain Socket</li>
-<li><code>AF_ROUTE</code>: 路由套接字</li>
-<li><code>AF_KEY</code>: 密钥套接字</li>
-</ul>
-</li>
-<li>type
-<ul>
-<li><code>SOCK_STREAM</code>: 字节流套接字</li>
-<li><code>SOCK_DGRAM</code>: 数据报套接字</li>
-<li><code>SOCK_SEQPACKET</code>: 有序分组套接字</li>
-<li><code>SOCK_RAW</code>: 原始套接字</li>
-</ul>
-</li>
-<li>protocol (for IPv4 and IPv6)
-<ul>
-<li><code>IPPROTO_TCP</code></li>
-<li><code>IPPROTO_UDP</code></li>
-<li><code>IPPROTO_SCTP</code></li>
-</ul>
-</li>
-</ul>
-<p>需要注意的是，不是所有的组合都是有效的，下表总结了有效的 socket 函数参数组合，空白意味着无效。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-19">02-19</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div><div class="content">基本 TCP 套接字函数 socket 函数在网络编程中第一步往往调用 socket 函数，以指定通讯协议的详情。
+1 2 3 // sys/socket.h int socket(int domain, int type, int protocol); // return socket fd, or -1 and set errno on error domain 指协议族，type 是套接字类型，protocol 参数应该设置为某个协议类型常量，或者为 0 表示对 domain 与 type 的系统默认值。
+domain AF_INET: IPv4 协议 AF_INET6: IPv6 协议 AF_UNIX or AF_LOCAL: Unix Domain Socket AF_ROUTE: 路由套接字 AF_KEY: 密钥套接字 type SOCK_STREAM: 字节流套接字 SOCK_DGRAM: 数据报套接字 SOCK_SEQPACKET: 有序分组套接字 SOCK_RAW: 原始套接字 protocol (for IPv4 and IPv6) IPPROTO_TCP IPPROTO_UDP IPPROTO_SCTP 需要注意的是，不是所有的组合都是有效的，下表总结了有效的 socket 函数参数组合，空白意味着无效。</div><div class="post-footer">
         <a href="/2022/unixnetworkprogramming_004/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/unix/">Unix</a>,&nbsp;<a href="/tags/network/">Network</a>,&nbsp;<a href="/tags/posix/">Posix</a>,&nbsp;<a href="/tags/tcp/">TCP</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/unixnetworkprogramming_003/">Unix 套接字 API</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-17">02-17</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div><div class="content"><h2 id="套接字地址数据结构" class="headerLink">
-    <a href="#%e5%a5%97%e6%8e%a5%e5%ad%97%e5%9c%b0%e5%9d%80%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" class="header-mark"></a>套接字地址数据结构</h2><p>套接字函数基本都需要一个指向套接字地址结构的指针作为参数，每个协议族都有自己的套接字定义，均以 <code>sockaddr_</code> 开头，并有协议族的唯一后缀。</p>
-<h3 id="ipv4-套接字地址结构" class="headerLink">
-    <a href="#ipv4-%e5%a5%97%e6%8e%a5%e5%ad%97%e5%9c%b0%e5%9d%80%e7%bb%93%e6%9e%84" class="header-mark"></a>IPv4 套接字地址结构</h3><p>IPv4 套接字地址结构通常称之为 <strong>互联网套接字结构</strong> (Internet socket address
-structure)，结构体 <strong>sockaddr_in</strong>，定义于 <code>&lt;netinet/in.h&gt;</code> 中 (POSIX)。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">in_addr</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="kt">in_addr_t</span> <span class="n">s_addr</span><span class="p">;</span>    <span class="c1">// 32 bit IPv4 地址 (网络序)
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
-</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="kt">uint8_t</span>         <span class="n">sin_len</span><span class="p">;</span>      <span class="c1">// 结构体大小
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">sa_family_t</span>     <span class="n">sin_family</span><span class="p">;</span>   <span class="c1">// AF_INET
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">in_port_t</span>       <span class="n">sin_port</span><span class="p">;</span>     <span class="c1">// 16 bit 传输层端口号 (网络序)
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">struct</span> <span class="n">in_addr</span>  <span class="n">sin_addr</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="kt">char</span>            <span class="n">sin_zero</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>  <span class="c1">// unused
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>需要注意几点：</p>
-<ul>
-<li>长度字段 <code>sin_len</code> 是为了增加对 OSI 协议的支持而在 4.3BSD-Reno 添加的，但该字段并不是 POSIX 规范要求 (linux 实现并没有该字段)。数据类型 uint8_t 是典型符合 POSIX 系统提供的数据类型。
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">数据类型</th>
-          <th style="text-align: left">说明</th>
-          <th style="text-align: left">头文件</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">int8_t</td>
-          <td style="text-align: left">有符号 8 bit 整型</td>
-          <td style="text-align: left">sys/types.h</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">uint8_t</td>
-          <td style="text-align: left">无符号 8 bit 整型</td>
-          <td style="text-align: left">sys/types.h</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">int16_t</td>
-          <td style="text-align: left">有符号 16 bit 整型</td>
-          <td style="text-align: left">sys/types.h</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">uint16_t</td>
-          <td style="text-align: left">无符号 16 bit 整型</td>
-          <td style="text-align: left">sys/types.h</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">int32_t</td>
-          <td style="text-align: left">有符号 32 bit 整型</td>
-          <td style="text-align: left">sys/types.h</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">uint32_t</td>
-          <td style="text-align: left">无符号 32 bit 整型</td>
-          <td style="text-align: left">sys/types.h</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">sa_family_t</td>
-          <td style="text-align: left">套接字地址结构的地址族</td>
-          <td style="text-align: left">sys/socket.h</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">socklen_t</td>
-          <td style="text-align: left">套接字地址结构的长度 (一般 uint32_t)</td>
-          <td style="text-align: left">sys/socket.h</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">in_addr_t</td>
-          <td style="text-align: left">IPv4 地址 (一般 uint32_t)</td>
-          <td style="text-align: left">netinet/in.h</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">in_port_t</td>
-          <td style="text-align: left">端口号 (一般 uint16_t)</td>
-          <td style="text-align: left">netinet/in.h</td>
-      </tr>
-  </tbody>
-</table>
-</li>
-<li>除非使用路由 socket，一般情况下无需检查或设置长度字段。</li>
-</ul>
-<p>在 socket 函数中套接字地址结构总是被引用，为了增强对不同协议族的兼容性，定义了一个通用套接字地址结构来接受不同的协议族地址。当然现在可以使用 C 所提供的强制转换到 <code>void*</code> 来实现。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-17">02-17</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div><div class="content">套接字地址数据结构套接字函数基本都需要一个指向套接字地址结构的指针作为参数，每个协议族都有自己的套接字定义，均以 sockaddr_ 开头，并有协议族的唯一后缀。
+IPv4 套接字地址结构IPv4 套接字地址结构通常称之为 互联网套接字结构 (Internet socket address structure)，结构体 sockaddr_in，定义于 &lt;netinet/in.h&gt; 中 (POSIX)。
+1 2 3 4 5 6 7 8 9 10 struct in_addr { in_addr_t s_addr; // 32 bit IPv4 地址 (网络序) }; struct sockaddr_in { uint8_t sin_len; // 结构体大小 sa_family_t sin_family; // AF_INET in_port_t sin_port; // 16 bit 传输层端口号 (网络序) struct in_addr sin_addr; char sin_zero[8]; // unused }; 需要注意几点：
+长度字段 sin_len 是为了增加对 OSI 协议的支持而在 4.</div><div class="post-footer">
         <a href="/2022/unixnetworkprogramming_003/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/unix/">Unix</a>,&nbsp;<a href="/tags/network/">Network</a>,&nbsp;<a href="/tags/posix/">Posix</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/3in1_and_slotmachine/">三合一与恐怖抽奖机配置</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-15">02-15</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/dst/"><i class="far fa-folder fa-fw"></i>DST</a></span></div><div class="content"><p>本次介绍 mod 配置 <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1505270912" target="_blank" rel="noopener noreferrer">Tropical Experience | The Volcano Biome</a> (热带冒险 | 火山生态群)，版本 v2.70，这也就是常说的 3 合 1</p>
-<p>三合一是将单机版 DLC 巨人国、船难和哈姆雷特合并在一张地图上的 mod，大型但兼容性较差，请谨慎添加 mod。</p>
-<ul>
-<li>
-<p><strong>Kind of World</strong> (世界类型)：世界生成需要三合一还是单一世界</p>
-<ul>
-<li><span class="underline">custom</span> 表示三合一地图，这也是默认选项</li>
-<li><span class="underline">shipwrecked</span> 表示仅海难</li>
-<li><span class="underline">hamlet</span> 表示仅哈姆雷特</li>
-<li><span class="underline">Sea World</span> 表示世界都是海，仅出生点一点点陆地</li>
-</ul>
-</li>
-<li>
-<p><strong>for hamlet world</strong> (哈姆雷特世界设置)</p>
-<ul>
-<li><code>Hamlet Caves</code> (哈姆雷特洞穴): 是否启用 Hamlet 世界的 Hamlet 洞穴，需要开启世界洞穴设置</li>
-<li><code>Together Caves</code> (巨人国洞穴): 是否启用 Hamlet 世界的巨人国洞穴，需要开启世界洞穴设置</li>
-<li><code>Hamlet Clouds</code>: 是否采用 Hamlet 边界云质地</li>
-<li><code>Continent Size</code> (大陆大小)
-<ul>
-<li><span class="underline">Compact</span> 袖珍</li>
-<li><span class="underline">Default</span> 默认</li>
-<li><span class="underline">Bigger</span>  巨大</li>
-</ul>
-</li>
-<li><code>Filling the Biomes</code>: 生物密度</li>
-<li><code>Compact Pig Ruins</code>: 是否袖珍遗迹</li>
-</ul>
-</li>
-<li>
-<p><strong>for shipwrecked world</strong> (船难世界设置)</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-15">02-15</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/dst/"><i class="far fa-folder fa-fw"></i>DST</a></span></div><div class="content">本次介绍 mod 配置 Tropical Experience | The Volcano Biome (热带冒险 | 火山生态群)，版本 v2.70，这也就是常说的 3 合 1
+三合一是将单机版 DLC 巨人国、船难和哈姆雷特合并在一张地图上的 mod，大型但兼容性较差，请谨慎添加 mod。
+Kind of World (世界类型)：世界生成需要三合一还是单一世界
+custom 表示三合一地图，这也是默认选项 shipwrecked 表示仅海难 hamlet 表示仅哈姆雷特 Sea World 表示世界都是海，仅出生点一点点陆地 for hamlet world (哈姆雷特世界设置)
+Hamlet Caves (哈姆雷特洞穴): 是否启用 Hamlet 世界的 Hamlet 洞穴，需要开启世界洞穴设置 Together Caves (巨人国洞穴): 是否启用 Hamlet 世界的巨人国洞穴，需要开启世界洞穴设置 Hamlet Clouds: 是否采用 Hamlet 边界云质地 Continent Size (大陆大小) Compact 袖珍 Default 默认 Bigger 巨大 Filling the Biomes: 生物密度 Compact Pig Ruins: 是否袖珍遗迹 for shipwrecked world (船难世界设置)</div><div class="post-footer">
         <a href="/2022/3in1_and_slotmachine/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mod/">MOD</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/dst_lua_language_study/">Lua 语言学习</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-09">02-09</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span></div><div class="content"><p>Lua 是一个动态弱类型脚本语言，核心由 C 语言实现，执行效率高，可直接做 C / C++ 扩展。另外 Lua 另一个主流实现 Lua JIT 主要研究针对 Lua 的即时编译系统。</p>
-<p>而 Lua 由于其高性能、小巧、简单、与 C 结合性好等特点，大量运用于游戏领域，而饥荒的实现以及扩展也基本使用 Lua 完成。</p>
-<p>本章主要描述 Lua 中的词法、语法和语义，语言结构将使用通常的扩展 <a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form" target="_blank" rel="noopener noreferrer">BNF</a> 表示，比如
-<code>{a}</code> 表示 0 或 多个 a， <code>[a]</code> 表示一个可选的 a。而关键字用黑体表示 (e.g.
-<strong>kword</strong>)，其他终结符使用反引号表示 (e.g. <code>`=`</code>)</p>
-<p>而 Lua 学习主要以 Lua 5.1 的 <a href="https://www.lua.org/manual/5.1/manual.html" target="_blank" rel="noopener noreferrer">官方文档</a> 为对象。</p>
-<h2 id="词法介绍" class="headerLink">
-    <a href="#%e8%af%8d%e6%b3%95%e4%bb%8b%e7%bb%8d" class="header-mark"></a>词法介绍</h2><p>在 Lua 中标识符可以是任意字母、数字、下划线所组成的字符串 (不能以数字开头)，而标识符可以用作变量的名称和表字段名。但是在标识符命名时不能使用以下名称，因为它们是关键字。</p>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">关键字</th>
-          <th style="text-align: left"></th>
-          <th style="text-align: left"></th>
-          <th style="text-align: left"></th>
-          <th style="text-align: left"></th>
-          <th style="text-align: left"></th>
-          <th style="text-align: left"></th>
-          <th style="text-align: left"></th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">and</td>
-          <td style="text-align: left">break</td>
-          <td style="text-align: left">do</td>
-          <td style="text-align: left">else</td>
-          <td style="text-align: left">elseif</td>
-          <td style="text-align: left">end</td>
-          <td style="text-align: left">false</td>
-          <td style="text-align: left">for</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">function</td>
-          <td style="text-align: left">if</td>
-          <td style="text-align: left">in</td>
-          <td style="text-align: left">local</td>
-          <td style="text-align: left">nil</td>
-          <td style="text-align: left">not</td>
-          <td style="text-align: left">or</td>
-          <td style="text-align: left">repeat</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">return</td>
-          <td style="text-align: left">then</td>
-          <td style="text-align: left">true</td>
-          <td style="text-align: left">until</td>
-          <td style="text-align: left">while</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-  </tbody>
-</table>
-<p>Lua 是一个大小写敏感的语言，因此 And 与 AND 是完全不同的两个标识符。一般约定，由一个下划线开头并跟随大写字母的标识符 (e.g. <code>_VERSION</code>) 是 Lua 内部所使用的全局变量，应避免使用。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-09">02-09</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span></div><div class="content">Lua 是一个动态弱类型脚本语言，核心由 C 语言实现，执行效率高，可直接做 C / C++ 扩展。另外 Lua 另一个主流实现 Lua JIT 主要研究针对 Lua 的即时编译系统。
+而 Lua 由于其高性能、小巧、简单、与 C 结合性好等特点，大量运用于游戏领域，而饥荒的实现以及扩展也基本使用 Lua 完成。
+本章主要描述 Lua 中的词法、语法和语义，语言结构将使用通常的扩展 BNF 表示，比如 {a} 表示 0 或 多个 a， [a] 表示一个可选的 a。而关键字用黑体表示 (e.g. kword)，其他终结符使用反引号表示 (e.g. `=`)
+而 Lua 学习主要以 Lua 5.1 的 官方文档 为对象。
+词法介绍在 Lua 中标识符可以是任意字母、数字、下划线所组成的字符串 (不能以数字开头)，而标识符可以用作变量的名称和表字段名。但是在标识符命名时不能使用以下名称，因为它们是关键字。
+关键字 and break do else elseif end false for function if in local nil not or repeat return then true until while Lua 是一个大小写敏感的语言，因此 And 与 AND 是完全不同的两个标识符。一般约定，由一个下划线开头并跟随大写字母的标识符 (e.</div><div class="post-footer">
         <a href="/2022/dst_lua_language_study/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/lua/">Lua</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/unixnetworkprogramming_002/">传输层总述</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="01-18">01-18</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div><div class="content"><p>在传输层中，主要学习三种协议</p>
-<ul>
-<li>User Datagram Protocol (UDP, 用户数据报协议) 是一种简单 (simple)、不可靠
-(unreliable) 的数据报协议</li>
-<li>Transmission Control Protocol (TCP, 传输控制协议) 是一种复杂的
-(sophisticated)、可靠的 (reliable)、字节流协议</li>
-<li>Stream Control Transmission Protocol (SCTP, 流控制传输协议) 是一种较新的、可靠的协议，但它还提供消息边界 (message boundaries)、传输层级别的多宿
-(multihoming)、最小化头端阻塞 (head-of-line blocking)</li>
-</ul>
-<h2 id="总图" class="headerLink">
-    <a href="#%e6%80%bb%e5%9b%be" class="header-mark"></a>总图</h2><figure><img src="/images/unp-transport-layer-big-picture.svg" width="90%">
-</figure>
-
-<p>图中最左边的应用 tcpdump 直接使用数据链路层接口 BPF (BSD packet filter, BSD 分组过滤器) 或 Datalink provider interface (DLPI, 数据链路提供者接口) 进行通信。而其他应用都是用 API 所提供的 socket 或 XTI。当然在 Linux 上提供了 <code>SOCK_PACKET</code> 这种 socket 来访问数据链路。</p>
-<dl>
-<dt>IPv4</dt>
-<dd>Internet Protocol (IP, 网际协议)，版本 4。
-<p>这是自 1980 年代早期以来网际协议族中的主力协议，使用 32 bit 编码地址，为 TCP、
-UDP、SCTP、ICMP 和 IGMP 提供分组传递服务。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="01-18">01-18</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div><div class="content">在传输层中，主要学习三种协议
+User Datagram Protocol (UDP, 用户数据报协议) 是一种简单 (simple)、不可靠 (unreliable) 的数据报协议 Transmission Control Protocol (TCP, 传输控制协议) 是一种复杂的 (sophisticated)、可靠的 (reliable)、字节流协议 Stream Control Transmission Protocol (SCTP, 流控制传输协议) 是一种较新的、可靠的协议，但它还提供消息边界 (message boundaries)、传输层级别的多宿 (multihoming)、最小化头端阻塞 (head-of-line blocking) 总图 图中最左边的应用 tcpdump 直接使用数据链路层接口 BPF (BSD packet filter, BSD 分组过滤器) 或 Datalink provider interface (DLPI, 数据链路提供者接口) 进行通信。而其他应用都是用 API 所提供的 socket 或 XTI。当然在 Linux 上提供了 SOCK_PACKET 这种 socket 来访问数据链路。
+IPv4 Internet Protocol (IP, 网际协议)，版本 4。 这是自 1980 年代早期以来网际协议族中的主力协议，使用 32 bit 编码地址，为 TCP、 UDP、SCTP、ICMP 和 IGMP 提供分组传递服务。</div><div class="post-footer">
         <a href="/2022/unixnetworkprogramming_002/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/unix/">Unix</a>,&nbsp;<a href="/tags/network/">Network</a>,&nbsp;<a href="/tags/posix/">Posix</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/unixnetworkprogramming_001/">UNP 简介</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="01-17">01-17</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div><div class="content"><div class="details admonition info open">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content">关于 UNP 的所有代码可以在 <a href="https://github.com/unpbook/unpv13e" target="_blank" rel="noopener noreferrer">https://github.com/unpbook/unpv13e</a> 上找到</div>
-        </div>
-    </div>
-<h2 id="从一个简单的时间获取客户端开始" class="headerLink">
-    <a href="#%e4%bb%8e%e4%b8%80%e4%b8%aa%e7%ae%80%e5%8d%95%e7%9a%84%e6%97%b6%e9%97%b4%e8%8e%b7%e5%8f%96%e5%ae%a2%e6%88%b7%e7%ab%af%e5%bc%80%e5%a7%8b" class="header-mark"></a>从一个简单的时间获取客户端开始</h2><p>接下来，将从一个使用 TCP 连接的获取时间的客户端开始。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span><span class="lnt">52
-</span><span class="lnt">53
-</span><span class="lnt">54
-</span><span class="lnt">55
-</span><span class="lnt">56
-</span><span class="lnt">57
-</span><span class="lnt">58
-</span><span class="lnt">59
-</span><span class="lnt">60
-</span><span class="lnt">61
-</span><span class="lnt">62
-</span><span class="lnt">63
-</span><span class="lnt">64
-</span><span class="lnt">65
-</span><span class="lnt">66
-</span><span class="lnt">67
-</span><span class="lnt">68
-</span><span class="lnt">69
-</span><span class="lnt">70
-</span><span class="lnt">71
-</span><span class="lnt">72
-</span><span class="lnt">73
-</span><span class="lnt">74
-</span><span class="lnt">75
-</span><span class="lnt">76
-</span><span class="lnt">77
-</span><span class="lnt">78
-</span><span class="lnt">79
-</span><span class="lnt">80
-</span><span class="lnt">81
-</span><span class="lnt">82
-</span><span class="lnt">83
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 以下代码与 UNP intro/daytimetcpcli.c 等价
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;stdarg.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="c1">// inet_pton/3, htons/1
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="c1">// struct sockaddr_in
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;netinet/in.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="c1">// errno
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;errno.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="c1">// socket/3, connect/3
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/types.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="c1">// read/3
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="cp">#define MAXLINE 4096
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">err_sys</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="n">va_list</span> <span class="n">ap</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">va_start</span><span class="p">(</span><span class="n">ap</span><span class="p">,</span> <span class="n">fmt</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">vsnprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">ap</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="nf">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">snprintf</span><span class="p">(</span><span class="n">buffer</span> <span class="o">+</span> <span class="n">n</span><span class="p">,</span> <span class="n">MAXLINE</span> <span class="o">-</span> <span class="n">n</span><span class="p">,</span> <span class="s">&#34;:%s&#34;</span><span class="p">,</span> <span class="nf">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">strcat</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">fflush</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">fputs</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">stderr</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">fflush</span><span class="p">(</span><span class="n">stderr</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">va_end</span><span class="p">(</span><span class="n">ap</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">err_quit</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="n">va_list</span> <span class="n">ap</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">va_start</span><span class="p">(</span><span class="n">ap</span><span class="p">,</span> <span class="n">fmt</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">vsnprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">ap</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">strcat</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">fflush</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">fputs</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">stderr</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">fflush</span><span class="p">(</span><span class="n">stderr</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">va_end</span><span class="p">(</span><span class="n">ap</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">err_quit</span><span class="p">(</span><span class="s">&#34;usage: a.out &lt;IPaddress&gt;&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">sockfd</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">((</span><span class="n">sockfd</span> <span class="o">=</span> <span class="nf">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">err_sys</span><span class="p">(</span><span class="s">&#34;socket error&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">servaddr</span> <span class="o">=</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="nf">htons</span><span class="p">(</span><span class="mi">13</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">  <span class="p">};</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nf">inet_pton</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">err_quit</span><span class="p">(</span><span class="s">&#34;inet_pton error for %s&#34;</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nf">connect</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">servaddr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">servaddr</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">err_sys</span><span class="p">(</span><span class="s">&#34;connect error&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="kt">char</span> <span class="n">recvline</span><span class="p">[</span><span class="n">MAXLINE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="p">((</span><span class="n">n</span> <span class="o">=</span> <span class="nf">read</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">recvline</span><span class="p">,</span> <span class="n">MAXLINE</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">recvline</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nf">fputs</span><span class="p">(</span><span class="n">recvline</span><span class="p">,</span> <span class="n">stdout</span><span class="p">)</span> <span class="o">==</span> <span class="n">EOF</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nf">err_sys</span><span class="p">(</span><span class="s">&#34;read error&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">err_sys</span><span class="p">(</span><span class="s">&#34;read error&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>当然需要自行编译一下 daytimetcpsrv 并启动它，然后就可以顺利启动 client 就可以看到获取的时间了。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="01-17">01-17</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div><div class="content">信息 关于 UNP 的所有代码可以在 https://github.com/unpbook/unpv13e 上找到 从一个简单的时间获取客户端开始接下来，将从一个使用 TCP 连接的获取时间的客户端开始。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 // 以下代码与 UNP intro/daytimetcpcli.</div><div class="post-footer">
         <a href="/2022/unixnetworkprogramming_001/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/unix/">Unix</a>,&nbsp;<a href="/tags/network/">Network</a>,&nbsp;<a href="/tags/posix/">Posix</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
@@ -835,7 +288,7 @@ UDP、SCTP、ICMP 和 IGMP 提供分组传递服务。</p></div><div class="post
                 </li></ul></div></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.131.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

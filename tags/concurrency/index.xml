@@ -9,127 +9,29 @@
     <link>https://blog.ginshio.org/2021/operatingsystem_005/</link>
     <pubDate>Fri, 06 Aug 2021 14:55:42 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/operatingsystem_005/</guid>
-    <description><![CDATA[<p>计算机中有很多独占 resource，在任一时刻它们只能被一个进程使用，因此 OS 需要授权一个进程临时地、排他地访问某一 resource 的能力。一般进程会排他性地访问若干资源，假设进程 A 在先使用扫描仪的情况请求蓝光光盘刻录机，而进程 B 在先使用蓝光光盘刻录机的情况下请求扫描仪，由于两个进程都占有一定 resouce 且不会释放，并且互相请求了对方的 Resource，而造成这两个进程无限阻塞下去，这样的状态被称为 <strong>死锁</strong>
-(deadlock)。请不要单纯理解只有一台机器才会产生 deadlock，在多台机器同时访问局域网下的多个独占 resource 时也可能发生。</p>
-<h2 id="资源" class="headerLink">
-    <a href="#%e8%b5%84%e6%ba%90" class="header-mark"></a>资源</h2><p>我们将需要排他访问的对象称为 <strong>资源</strong> (resource)，资源可以是硬件设备或一组信息，通常有多种资源同时存在，且一些类型的资源存在若干实例 (打印店在同一局域网下会存在多台打印机)。</p>
-<p>还记得学习进程与线程时所说的，scheduling algorithm 分为两类： <strong>抢占式</strong>
-(preemptable) 与 <strong>非抢占式</strong> (nonpreemptable)，这里我们也将 resource 分为这两类，且意义相同。比如说 RAM 就是 preemptable resource，一个进程可以在使用时被 OS 换出
-RAM；而蓝光刻录机则是 nonpreemptable resource，将正在刻录的蓝光刻录机分配给另一个进程可能造成蓝光光盘的损坏。不过需要思考一个问题，如果这台计算机不支持交换和页面调度，那么内存也就变为了 nonpreemptable resource。因此区分 preemptable /
-nonpreemptable resource 取决于上下文环境。</p>
-<p>preemptable resource 的 deadlock 可以通过 resource 的重新配分而化解，因此
-deadlock 主要与 nonpreemptable resource 有关。若 resource 变得不可用，则请求进程将不可用，有的 OS 在这时会阻塞该进程，直到 resource 可用时再次唤醒；有些 OS 则会返回一个错误代码，请求进程自己处理这个错误。但是大部分进程会选择请求、休眠、再请求的方式进行循环，这与被阻塞没什么两样，因此假设 OS 在 resource 不可用时阻塞进程。</p>]]></description>
+    <description><![CDATA[计算机中有很多独占 resource，在任一时刻它们只能被一个进程使用，因此 OS 需要授权一个进程临时地、排他地访问某一 resource 的能力。一般进程会排他性地访问若干资源，假设进程 A 在先使用扫描仪的情况请求蓝光光盘刻录机，而进程 B 在先使用蓝光光盘刻录机的情况下请求扫描仪，由于两个进程都占有一定 resouce 且不会释放，并且互相请求了对方的 Resource，而造成这两个进程无限阻塞下去，这样的状态被称为 死锁 (deadlock)。请不要单纯理解只有一台机器才会产生 deadlock，在多台机器同时访问局域网下的多个独占 resource 时也可能发生。
+资源我们将需要排他访问的对象称为 资源 (resource)，资源可以是硬件设备或一组信息，通常有多种资源同时存在，且一些类型的资源存在若干实例 (打印店在同一局域网下会存在多台打印机)。
+还记得学习进程与线程时所说的，scheduling algorithm 分为两类： 抢占式 (preemptable) 与 非抢占式 (nonpreemptable)，这里我们也将 resource 分为这两类，且意义相同。比如说 RAM 就是 preemptable resource，一个进程可以在使用时被 OS 换出 RAM；而蓝光刻录机则是 nonpreemptable resource，将正在刻录的蓝光刻录机分配给另一个进程可能造成蓝光光盘的损坏。不过需要思考一个问题，如果这台计算机不支持交换和页面调度，那么内存也就变为了 nonpreemptable resource。因此区分 preemptable / nonpreemptable resource 取决于上下文环境。
+preemptable resource 的 deadlock 可以通过 resource 的重新配分而化解，因此 deadlock 主要与 nonpreemptable resource 有关。若 resource 变得不可用，则请求进程将不可用，有的 OS 在这时会阻塞该进程，直到 resource 可用时再次唤醒；有些 OS 则会返回一个错误代码，请求进程自己处理这个错误。但是大部分进程会选择请求、休眠、再请求的方式进行循环，这与被阻塞没什么两样，因此假设 OS 在 resource 不可用时阻塞进程。]]></description>
 </item><item>
     <title>原子操作</title>
     <link>https://blog.ginshio.org/2020/cpp_concurrency_atomic/</link>
     <pubDate>Sat, 05 Dec 2020 17:46:52 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/cpp_concurrency_atomic/</guid>
-    <description><![CDATA[<h2 id="原子操作" class="headerLink">
-    <a href="#%e5%8e%9f%e5%ad%90%e6%93%8d%e4%bd%9c" class="header-mark"></a>原子操作</h2><p>原子操作是一个不可分割的操作，系统的所有线程不会观察到原子操作完成了一半。如果读取对象的加载操作是原子的，那么这个对象的所有修改操作也是原子的。</p>
-<p>标准原子类型全部定义于头文件 <em>atomic</em> 中，这些类型的操作都是原子的，但是其内部实现可能使用原子操作或互斥量模拟，所以原子操作可以替代互斥量完成同步操作，但是如果内部使用互斥量实现那么不会有性能提升。</p>
-<p>通常标准原子类型不能进行拷贝和赋值，但是可以隐式转化成对应的内置类型，使用
-<code>load()</code>、<code>exchange()</code>、<code>compare_exchange_weak()</code> 和 <code>compare_exchange_strong()</code>，另外还有 <code>store()</code> 用以原子地赋值。每种函数类型的操作都有一个内存序参数，这个参数可以用来指定存储的顺序。</p>
-<h3 id="std-atomic-flag" class="headerLink">
-    <a href="#std-atomic-flag" class="header-mark"></a>::std::atomic_flag</h3><p>::std::atomic_flag 是最简单的原子类型，标准保证其实现是 <strong>lock-free</strong> 的，这个类型的对象可以在 <strong>设置</strong> 和 <strong>清除</strong> 间切换，对象必须被 <code>ATOMIC_FLAG_INIT</code>，初始化标志位为清除状态。初始化后，对象进可以执行销毁、清除、设置</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic_flag</span> <span class="n">f</span> <span class="o">=</span> <span class="n">ATOMIC_FLAG_INIT</span><span class="p">;</span> <span class="c1">// 设置为清除状态 (false)
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><p>由于 <code>clear()</code> 清除操作原子地设置标志为 false，<code>test_and_set()</code> 设置操作原子地设置标志为 true 并获得其先前值，所以可以简单地实现一个自旋锁</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">spinlock_mutex</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl"> <span class="k">private</span><span class="o">:</span>
-</span></span><span class="line"><span class="cl">  <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic_flag</span> <span class="n">flag</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"> <span class="k">public</span><span class="o">:</span>
-</span></span><span class="line"><span class="cl">  <span class="n">spinlock_mutex</span><span class="p">()</span> <span class="o">:</span> <span class="n">flag</span><span class="p">(</span><span class="n">ATOMIC_FLAG_INIT</span><span class="p">)</span> <span class="p">{}</span>
-</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">lock</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">flag</span><span class="p">.</span><span class="n">test_and_set</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_acquire</span><span class="p">));</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">unlock</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">flag</span><span class="p">.</span><span class="n">clear</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_release</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">};</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="std-atomic" class="headerLink">
-    <a href="#std-atomic" class="header-mark"></a>::std::atomic</h3><p>::std::atomic 不再保证 <strong>lock-free</strong>，但相比 ::std::atomic_flag 有了更通用的操作，
-<code>store()</code> 是一个存储操作，<code>load()</code> 是一个加载操作，<code>exchange()</code> 是一个读-改-写操作。</p>]]></description>
+    <description><![CDATA[原子操作原子操作是一个不可分割的操作，系统的所有线程不会观察到原子操作完成了一半。如果读取对象的加载操作是原子的，那么这个对象的所有修改操作也是原子的。
+标准原子类型全部定义于头文件 atomic 中，这些类型的操作都是原子的，但是其内部实现可能使用原子操作或互斥量模拟，所以原子操作可以替代互斥量完成同步操作，但是如果内部使用互斥量实现那么不会有性能提升。
+通常标准原子类型不能进行拷贝和赋值，但是可以隐式转化成对应的内置类型，使用 load()、exchange()、compare_exchange_weak() 和 compare_exchange_strong()，另外还有 store() 用以原子地赋值。每种函数类型的操作都有一个内存序参数，这个参数可以用来指定存储的顺序。
+::std::atomic_flag::std::atomic_flag 是最简单的原子类型，标准保证其实现是 lock-free 的，这个类型的对象可以在 设置 和 清除 间切换，对象必须被 ATOMIC_FLAG_INIT，初始化标志位为清除状态。初始化后，对象进可以执行销毁、清除、设置
+1 ::std::atomic_flag f = ATOMIC_FLAG_INIT; // 设置为清除状态 (false) 由于 clear() 清除操作原子地设置标志为 false，test_and_set() 设置操作原子地设置标志为 true 并获得其先前值，所以可以简单地实现一个自旋锁
+1 2 3 4 5 6 7 8 9 10 11 12 class spinlock_mutex { private: ::std::atomic_flag flag; public: spinlock_mutex() : flag(ATOMIC_FLAG_INIT) {} void lock() { while (flag.test_and_set(::std::memory_order_acquire)); } void unlock() { flag.clear(::std::memory_order_release); } }; ::std::atomic::std::atomic 不再保证 lock-free，但相比 ::std::atomic_flag 有了更通用的操作， store() 是一个存储操作，load() 是一个加载操作，exchange() 是一个读-改-写操作。]]></description>
 </item><item>
     <title>并发标准库</title>
     <link>https://blog.ginshio.org/2020/cpp_concurrency_std/</link>
     <pubDate>Tue, 01 Dec 2020 19:42:25 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/cpp_concurrency_std/</guid>
-    <description><![CDATA[<h2 id="线程管理" class="headerLink">
-    <a href="#%e7%ba%bf%e7%a8%8b%e7%ae%a1%e7%90%86" class="header-mark"></a>线程管理</h2><h3 id="创建线程" class="headerLink">
-    <a href="#%e5%88%9b%e5%bb%ba%e7%ba%bf%e7%a8%8b" class="header-mark"></a>创建线程</h3><p>新的线程会在 <code>::std::thread</code> (头文件 <em>thread</em> 中) 对象创建的时候被启动，在函数执行完毕后，该线程也就结束了，提供的函数对象会复制到新线程的存储空间中，函数对象的执行与操作都在线程的内存空间中执行。在创建新线程时你可以指定一个函数作为任务，或者是 <strong>仿函数</strong>，当然也可以是 lambda 表达式</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">my_thread0</span><span class="p">{</span><span class="n">do_something</span><span class="p">};</span>
-</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Task</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">operator</span><span class="p">()()</span> <span class="k">const</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">do_something</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">};</span>
-</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">my_thread1</span><span class="p">{</span><span class="n">Task</span><span class="p">()};</span>
-</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">my_thread2</span><span class="p">{[]()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">do_something</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl"><span class="p">}};</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>线程启动后，需要指定是<code>等待线程结束</code>还是<code>让其自主运行</code>，如果 <code>::std::thread</code> 对象销毁之前没有做出决定，程序就会终止，因此必须确保线程能够正确 <strong>汇入</strong> (joined)
-或 <strong>分离</strong> (detached)。调用 join() 可以等待线程完成，并在线程结束时清理相关的内存，使 ::std::thread 对象不再与已完成线程有任何关联，所以一个线程一旦被汇入将不能再次汇入。调用 detach() 会使线程在后台运行，不再与主线程进行直接交互， ::std::thread
-对象不再引用这个线程，分离的线程也不可被再次汇入，不过C++运行时库保证线程退出时可以正确回收相关资源。</p>
-<p>在C++中 ::std::thread 对象是一种 <strong>可移动但不可复制</strong> 的资源，它可以交出它的所有权，但不能与其他对象共享线程的所有权。如果你希望对一个已持有线程的对象更改其行为，那你必须先汇入或分离已关联的线程，或者将已关联的线程的所有权交出。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t1</span><span class="p">{</span><span class="n">do_something</span><span class="p">};</span>
-</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">t1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="n">t1</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">{</span><span class="n">some_other_function</span><span class="p">};</span>
-</span></span><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t3</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="n">t3</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">t2</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="c1">// t1 = std::move(t3); // 错误
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="传递参数" class="headerLink">
-    <a href="#%e4%bc%a0%e9%80%92%e5%8f%82%e6%95%b0" class="header-mark"></a>传递参数</h3><p>向线程中传递参数十分简单，为 ::std::thread 构造函数附加参数即可，所有参数 将会拷贝到新线程的内存空间中，即使函数中的参数是引用</p>]]></description>
+    <description><![CDATA[线程管理 创建线程新的线程会在 ::std::thread (头文件 thread 中) 对象创建的时候被启动，在函数执行完毕后，该线程也就结束了，提供的函数对象会复制到新线程的存储空间中，函数对象的执行与操作都在线程的内存空间中执行。在创建新线程时你可以指定一个函数作为任务，或者是 仿函数，当然也可以是 lambda 表达式
+1 2 3 4 5 6 7 8 9 10 ::std::thread my_thread0{do_something}; struct Task { void operator()() const { do_something(); } }; ::std::thread my_thread1{Task()}; ::std::thread my_thread2{[]() { do_something(); }}; 线程启动后，需要指定是等待线程结束还是让其自主运行，如果 ::std::thread 对象销毁之前没有做出决定，程序就会终止，因此必须确保线程能够正确 汇入 (joined) 或 分离 (detached)。调用 join() 可以等待线程完成，并在线程结束时清理相关的内存，使 ::std::thread 对象不再与已完成线程有任何关联，所以一个线程一旦被汇入将不能再次汇入。调用 detach() 会使线程在后台运行，不再与主线程进行直接交互， ::std::thread 对象不再引用这个线程，分离的线程也不可被再次汇入，不过C++运行时库保证线程退出时可以正确回收相关资源。
+在C++中 ::std::thread 对象是一种 可移动但不可复制 的资源，它可以交出它的所有权，但不能与其他对象共享线程的所有权。如果你希望对一个已持有线程的对象更改其行为，那你必须先汇入或分离已关联的线程，或者将已关联的线程的所有权交出。
+1 2 3 4 5 6 ::std::thread t1{do_something}; ::std::thread t2 = std::move(t1); t1 = std::thread{some_other_function}; std::thread t3; t3 = std::move(t2); // t1 = std::move(t3); // 错误 传递参数向线程中传递参数十分简单，为 ::std::thread 构造函数附加参数即可，所有参数 将会拷贝到新线程的内存空间中，即使函数中的参数是引用]]></description>
 </item></channel>
 </rss>

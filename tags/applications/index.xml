@@ -9,48 +9,12 @@
     <link>https://blog.ginshio.org/2022/flex_and_bison/</link>
     <pubDate>Sun, 01 May 2022 15:29:43 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/flex_and_bison/</guid>
-    <description><![CDATA[<p>正正规规地开始写实现一个编译器感觉压力还是蛮大的。初步选型是</p>
-<ul>
-<li>基础工具
-<ul>
-<li>Git</li>
-<li>CMake</li>
-<li>gcc</li>
-</ul>
-</li>
-<li>编译器生成工具
-<ul>
-<li>Flex</li>
-<li>GNU Bison</li>
-</ul>
-</li>
-<li>其他工具
-<ul>
-<li>Clang Format</li>
-<li>CppLint</li>
-<li>EditConfig</li>
-</ul>
-</li>
-</ul>
-<p><code>C++</code> 支持 17 简直太棒了！！！还不知道毕昇杯能不能用 CMake 去构建。</p>
-<p>由于是多人合作项目，代码风格暂时定的是 Google，估计啥都不知道。想想到时候 review
-代码就头大。</p>
-<p>这篇主要是记录下从 <a href="https://en.wikipedia.org/wiki/Info_%28Unix%29" target="_blank" rel="noopener noreferrer">info</a> (Emacs 看 info 真方便) 中学习的 Flex 和 GNU Bison 相关用法。</p>
-<p><strong>TL;DR.</strong>
-<a href="#main-%e5%87%bd%e6%95%b0%e7%a4%ba%e4%be%8b" rel="">main 函数示例</a> 或 <a href="https://pku-minic.github.io/online-doc" target="_blank" rel="noopener noreferrer">北大编译实践</a></p>
-<h2 id="flex" class="headerLink">
-    <a href="#flex" class="header-mark"></a>Flex</h2><p>Flex 可以理解为词法分析器生成工具 Lex 的开源版本，意为 fast lexical analyzer
-generator。根据描述的正则表达式与 C 代码 (这些被称为 <strong>规则</strong>)，来生成对应的分析器代码 (文件名默认为 <strong>lex.yy.c</strong>)，其中定义了接口 <code>yylex()</code> 用来启动分析器，函数原型如下</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">yylex</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>Flex 默认会生成标准的 C99 代码，而非 <code>K&amp;R</code> 风格代码。在调用 yylex 时，它会持续从全局输入文件 yyin 中扫描 token，直到遇到 EOF 或 action 执行返回语句。如果 yylex
-因 return 停止扫描，可以再次调用扫描器，从中断处继续扫描。当扫描到 EOF 时，只有
-<code>yywrap()</code> 返回 0 才继续读取其他文件，返回非零时扫描器会终止并返回 0。如果你不实现 <code>yywrap()</code>,需要使用 <code>%option noyywrap</code> 或链接 <code>-lfl</code> 使用总返回 1 的默认版本。</p>]]></description>
+    <description><![CDATA[正正规规地开始写实现一个编译器感觉压力还是蛮大的。初步选型是
+基础工具 Git CMake gcc 编译器生成工具 Flex GNU Bison 其他工具 Clang Format CppLint EditConfig C++ 支持 17 简直太棒了！！！还不知道毕昇杯能不能用 CMake 去构建。
+由于是多人合作项目，代码风格暂时定的是 Google，估计啥都不知道。想想到时候 review 代码就头大。
+这篇主要是记录下从 info (Emacs 看 info 真方便) 中学习的 Flex 和 GNU Bison 相关用法。
+TL;DR. main 函数示例 或 北大编译实践
+FlexFlex 可以理解为词法分析器生成工具 Lex 的开源版本，意为 fast lexical analyzer generator。根据描述的正则表达式与 C 代码 (这些被称为 规则)，来生成对应的分析器代码 (文件名默认为 lex.yy.c)，其中定义了接口 yylex() 用来启动分析器，函数原型如下
+1 int yylex(void); Flex 默认会生成标准的 C99 代码，而非 K&amp;R 风格代码。在调用 yylex 时，它会持续从全局输入文件 yyin 中扫描 token，直到遇到 EOF 或 action 执行返回语句。如果 yylex 因 return 停止扫描，可以再次调用扫描器，从中断处继续扫描。当扫描到 EOF 时，只有 yywrap() 返回 0 才继续读取其他文件，返回非零时扫描器会终止并返回 0。如果你不实现 yywrap(),需要使用 %option noyywrap 或链接 -lfl 使用总返回 1 的默认版本。]]></description>
 </item></channel>
 </rss>

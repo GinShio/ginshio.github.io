@@ -785,35 +785,35 @@ n_{1}d_{2}=n_{2}d_{1}\]</p>
 </div><p>显然，使用泛型实现的 <code>real_part</code> 比 scheme 中的 <code>real_part</code> 要清晰的多。在 scheme 中我们实现了基于形式的派发，很明显接口中需要知道所有已知的形式；而 C++ 中，完全可以通过类型区分形式，即<strong>基于类型</strong>的派发。但是在 scheme 中，这是不现实的，需要手动测试传入接口的类型，并且保证每个形式的实现不会重名。而 C++ 中使用泛型的缺点就是，类型系统不认为这两个形式的复数是同一种类型，也就是说如果想用容器来存储复数类型的数据是不可能的。</p>
 <p>因此在 scheme 中，以<strong>数据导向</strong>的程序设计方法进一步将系统模块化。好的方法是做一个类似注册的做法，用类似 get / set 的方法将每个模块的函数注册到表中。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">操作 / 类型</th>
-          <th style="text-align: left">Polar</th>
-          <th style="text-align: left">Rectangular</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">real-part</td>
-          <td style="text-align: left">real-part-polar</td>
-          <td style="text-align: left">real-part-rectangular</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">imag-part</td>
-          <td style="text-align: left">imag-part-polar</td>
-          <td style="text-align: left">imag-part-rectangular</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">magnitude</td>
-          <td style="text-align: left">magnitude-polar</td>
-          <td style="text-align: left">magnitude-rectangular</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">angle</td>
-          <td style="text-align: left">angle-polar</td>
-          <td style="text-align: left">angle-rectangular</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>操作 / 类型</th>
+<th>Polar</th>
+<th>Rectangular</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>real-part</td>
+<td>real-part-polar</td>
+<td>real-part-rectangular</td>
+</tr>
+<tr>
+<td>imag-part</td>
+<td>imag-part-polar</td>
+<td>imag-part-rectangular</td>
+</tr>
+<tr>
+<td>magnitude</td>
+<td>magnitude-polar</td>
+<td>magnitude-rectangular</td>
+</tr>
+<tr>
+<td>angle</td>
+<td>angle-polar</td>
+<td>angle-rectangular</td>
+</tr>
+</tbody>
 </table>
 <p>这样只需要在对应模块中进行操作，这样不但不会造成名称污染，还方便对代码进行扩展。</p>
 <div class="highlight"><div class="chroma">
@@ -874,7 +874,7 @@ n_{1}d_{2}=n_{2}d_{1}\]</p>
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.131.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

@@ -303,74 +303,74 @@ rebase，当出现分叉时行为类似于 merge，如果是 <code>ff-only</code
 <h2 id="msys-设置" class="headerLink">
     <a href="#msys-%e8%ae%be%e7%bd%ae" class="header-mark"></a>MSYS 设置</h2><h3 id="msys2-环境" class="headerLink">
     <a href="#msys2-%e7%8e%af%e5%a2%83" class="header-mark"></a>msys2 环境</h3><table>
-  <thead>
-      <tr>
-          <th style="text-align: left">环境</th>
-          <th style="text-align: left">目录</th>
-          <th style="text-align: left">工具链</th>
-          <th style="text-align: left">架构</th>
-          <th style="text-align: left">C 库</th>
-          <th style="text-align: left">C++ 库</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">msys</td>
-          <td style="text-align: left">/usr</td>
-          <td style="text-align: left">gcc</td>
-          <td style="text-align: left">x86_64</td>
-          <td style="text-align: left">cygwin</td>
-          <td style="text-align: left">libstdc++</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">mingw64</td>
-          <td style="text-align: left">/mingw64</td>
-          <td style="text-align: left">gcc</td>
-          <td style="text-align: left">x86_64</td>
-          <td style="text-align: left">msvcrt</td>
-          <td style="text-align: left">libstdc++</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">ucrt64</td>
-          <td style="text-align: left">/ucrt64</td>
-          <td style="text-align: left">gcc</td>
-          <td style="text-align: left">x86_64</td>
-          <td style="text-align: left">ucrt</td>
-          <td style="text-align: left">libstdc++</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">clang64</td>
-          <td style="text-align: left">/clang64</td>
-          <td style="text-align: left">llvm</td>
-          <td style="text-align: left">x86_64</td>
-          <td style="text-align: left">ucrt</td>
-          <td style="text-align: left">libc++</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">mingw32</td>
-          <td style="text-align: left">/mingw32</td>
-          <td style="text-align: left">gcc</td>
-          <td style="text-align: left">i686</td>
-          <td style="text-align: left">msvcrt</td>
-          <td style="text-align: left">libstdc++</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">clang32</td>
-          <td style="text-align: left">/clang32</td>
-          <td style="text-align: left">llvm</td>
-          <td style="text-align: left">i686</td>
-          <td style="text-align: left">ucrt</td>
-          <td style="text-align: left">libc++</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">clangarm64</td>
-          <td style="text-align: left">/clangarm64</td>
-          <td style="text-align: left">llvm</td>
-          <td style="text-align: left">aarch64</td>
-          <td style="text-align: left">ucrt</td>
-          <td style="text-align: left">libc++</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>环境</th>
+<th>目录</th>
+<th>工具链</th>
+<th>架构</th>
+<th>C 库</th>
+<th>C++ 库</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>msys</td>
+<td>/usr</td>
+<td>gcc</td>
+<td>x86_64</td>
+<td>cygwin</td>
+<td>libstdc++</td>
+</tr>
+<tr>
+<td>mingw64</td>
+<td>/mingw64</td>
+<td>gcc</td>
+<td>x86_64</td>
+<td>msvcrt</td>
+<td>libstdc++</td>
+</tr>
+<tr>
+<td>ucrt64</td>
+<td>/ucrt64</td>
+<td>gcc</td>
+<td>x86_64</td>
+<td>ucrt</td>
+<td>libstdc++</td>
+</tr>
+<tr>
+<td>clang64</td>
+<td>/clang64</td>
+<td>llvm</td>
+<td>x86_64</td>
+<td>ucrt</td>
+<td>libc++</td>
+</tr>
+<tr>
+<td>mingw32</td>
+<td>/mingw32</td>
+<td>gcc</td>
+<td>i686</td>
+<td>msvcrt</td>
+<td>libstdc++</td>
+</tr>
+<tr>
+<td>clang32</td>
+<td>/clang32</td>
+<td>llvm</td>
+<td>i686</td>
+<td>ucrt</td>
+<td>libc++</td>
+</tr>
+<tr>
+<td>clangarm64</td>
+<td>/clangarm64</td>
+<td>llvm</td>
+<td>aarch64</td>
+<td>ucrt</td>
+<td>libc++</td>
+</tr>
+</tbody>
 </table>
 <p>gcc 工具链有着更广泛的测试，有 Fortran 的支持，并且也有构建的 clang 工具链可用。
 llvm 工具链仅有 llvm 支持，不支持 gcc 工具链。并且提供了 ASAN 和 TLS (Thread
@@ -401,26 +401,26 @@ Local Storage) 支持。</p>
 <dt>MSYS2_PATH_TYPE</dt>
 <dd>控制系统设置的环境变量是否出现在 msys 中
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">mode</th>
-          <th style="text-align: left">comment</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">strict</td>
-          <td style="text-align: left">不包含 Windows PATH</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">minimal</td>
-          <td style="text-align: left">仅系统 PATH</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">inherit</td>
-          <td style="text-align: left">全部 PATH</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>mode</th>
+<th>comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>strict</td>
+<td>不包含 Windows PATH</td>
+</tr>
+<tr>
+<td>minimal</td>
+<td>仅系统 PATH</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>全部 PATH</td>
+</tr>
+</tbody>
 </table>
 </dd>
 </dl>
@@ -501,70 +501,70 @@ mingw32 的示例。</p>
 </dl>
 <p>通常我使用 shell 的配置文件添加包管理器的命令别命，方便使用。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">缩写</th>
-          <th style="text-align: left">操作</th>
-          <th style="text-align: left">备注</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">ref</td>
-          <td style="text-align: left">refresh</td>
-          <td style="text-align: left">刷新所有软件源</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">in</td>
-          <td style="text-align: left">install</td>
-          <td style="text-align: left">安装包</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">arm</td>
-          <td style="text-align: left">autoremove</td>
-          <td style="text-align: left">移除不再需要的包</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">rm</td>
-          <td style="text-align: left">remove</td>
-          <td style="text-align: left">移除包</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">dup</td>
-          <td style="text-align: left">dist-upgrade</td>
-          <td style="text-align: left">发行版升级</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">lu</td>
-          <td style="text-align: left">list-updates</td>
-          <td style="text-align: left">列出需要升级的包</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">up</td>
-          <td style="text-align: left">update</td>
-          <td style="text-align: left">升级包</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">if</td>
-          <td style="text-align: left">info</td>
-          <td style="text-align: left">获取包信息</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">se</td>
-          <td style="text-align: left">search</td>
-          <td style="text-align: left">查询包</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">cln</td>
-          <td style="text-align: left">clean</td>
-          <td style="text-align: left">清除本地缓存</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">ve</td>
-          <td style="text-align: left">verify</td>
-          <td style="text-align: left">验证包完整性</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>缩写</th>
+<th>操作</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ref</td>
+<td>refresh</td>
+<td>刷新所有软件源</td>
+</tr>
+<tr>
+<td>in</td>
+<td>install</td>
+<td>安装包</td>
+</tr>
+<tr>
+<td>arm</td>
+<td>autoremove</td>
+<td>移除不再需要的包</td>
+</tr>
+<tr>
+<td>rm</td>
+<td>remove</td>
+<td>移除包</td>
+</tr>
+<tr>
+<td>dup</td>
+<td>dist-upgrade</td>
+<td>发行版升级</td>
+</tr>
+<tr>
+<td>lu</td>
+<td>list-updates</td>
+<td>列出需要升级的包</td>
+</tr>
+<tr>
+<td>up</td>
+<td>update</td>
+<td>升级包</td>
+</tr>
+<tr>
+<td>if</td>
+<td>info</td>
+<td>获取包信息</td>
+</tr>
+<tr>
+<td>se</td>
+<td>search</td>
+<td>查询包</td>
+</tr>
+<tr>
+<td>cln</td>
+<td>clean</td>
+<td>清除本地缓存</td>
+</tr>
+<tr>
+<td>ve</td>
+<td>verify</td>
+<td>验证包完整性</td>
+</tr>
+</tbody>
 </table>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -681,7 +681,7 @@ mingw32 的示例。</p>
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.131.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

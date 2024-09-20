@@ -9,186 +9,31 @@
     <link>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_001/</link>
     <pubDate>Tue, 16 Feb 2021 16:44:00 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_001/</guid>
-    <description><![CDATA[<p>好久没学习，随便写点东西，一直想学FP来着，不过之前 Haskell 整的有点难受，好难啊不太会，下次静下心来好好学一学吧，不过先试试 <strong>Erlang</strong> / <strong>Elixir</strong>，听说也很难？</p>
-<p>至于原因，莫名喜欢 Erlang，不知道为什么哈哈哈哈，得知有 Elixir 这个披着 Ruby 皮、用着 Beam 的 Lisp 觉得还不错？毕竟 <strong>Lisp</strong> 大法好！！ (虽然我不会 lisp) 不过
-Elixir 名字好听 Logo 也好看</p>
-<figure>
-</figure>
-
-<p>好了，前置吐槽就这么多吧，希望可以静下心好好学学 Elixir，呃，我也不知道可不可以啦，但是如果对 Elixir 感兴趣的话可以在 <a href="https://elixirschool.com/en/" target="_blank" rel="noopener noreferrer">Elixir School</a> 尝试学习一下，我也才开始从这里开始学习</p>
-<h2 id="基本类型" class="headerLink">
-    <a href="#%e5%9f%ba%e6%9c%ac%e7%b1%bb%e5%9e%8b" class="header-mark"></a>基本类型</h2><ul>
-<li>
-<p>整数类型：在 Erlang 和 Elixir 中，整数类型都是高精度类型，不区分类型所占的字节，有点类似 Python 中的整数
-Elixir 支持 二(0b)、八(0o)、十、十六(0x)进制的整数字面量，使用起来十分方便</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="mi">255</span> <span class="c1"># 十进制整数 255</span>
-</span></span><span class="line"><span class="cl"><span class="mb">0b10001000</span> <span class="c1"># 二进制整数 136</span>
-</span></span><span class="line"><span class="cl"><span class="mo">0o7654321</span> <span class="c1"># 八进制整数 2054353</span>
-</span></span><span class="line"><span class="cl"><span class="mh">0xFFFF</span> <span class="c1"># 十六进制整数 65535</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>
-<p>浮点类型：嗯，它是 IEEE 754，好了就这样吧，介绍完了</p>
-</li>
-<li>
-<p>布尔类型：true 和 false，不过有一点需要注意，在 Elixir 中除了 false 和 nil 之外的所有值都为 true</p>]]></description>
+    <description><![CDATA[好久没学习，随便写点东西，一直想学FP来着，不过之前 Haskell 整的有点难受，好难啊不太会，下次静下心来好好学一学吧，不过先试试 Erlang / Elixir，听说也很难？
+至于原因，莫名喜欢 Erlang，不知道为什么哈哈哈哈，得知有 Elixir 这个披着 Ruby 皮、用着 Beam 的 Lisp 觉得还不错？毕竟 Lisp 大法好！！ (虽然我不会 lisp) 不过 Elixir 名字好听 Logo 也好看
+好了，前置吐槽就这么多吧，希望可以静下心好好学学 Elixir，呃，我也不知道可不可以啦，但是如果对 Elixir 感兴趣的话可以在 Elixir School 尝试学习一下，我也才开始从这里开始学习
+基本类型 整数类型：在 Erlang 和 Elixir 中，整数类型都是高精度类型，不区分类型所占的字节，有点类似 Python 中的整数 Elixir 支持 二(0b)、八(0o)、十、十六(0x)进制的整数字面量，使用起来十分方便
+1 2 3 4 255 # 十进制整数 255 0b10001000 # 二进制整数 136 0o7654321 # 八进制整数 2054353 0xFFFF # 十六进制整数 65535 浮点类型：嗯，它是 IEEE 754，好了就这样吧，介绍完了
+布尔类型：true 和 false，不过有一点需要注意，在 Elixir 中除了 false 和 nil 之外的所有值都为 true]]></description>
 </item><item>
     <title>Elixir 模块</title>
     <link>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_002/</link>
     <pubDate>Fri, 19 Feb 2021 14:31:54 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_002/</guid>
-    <description><![CDATA[<h2 id="模块" class="headerLink">
-    <a href="#%e6%a8%a1%e5%9d%97" class="header-mark"></a>模块</h2><p>之前函数的时候也简单的见过模块了，Elixir 允许嵌套模块，这样可以轻松定义多层命名空间</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Greeter.Greeting</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">morning</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="s2">&#34;Good morning, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">evening</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="s2">&#34;Good evening, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span><span class="line"><span class="cl"><span class="nc">Greeter.Greeting</span><span class="o">.</span><span class="n">morning</span><span class="p">(</span><span class="s2">&#34;iris&#34;</span><span class="p">)</span> <span class="c1"># &#34;Good morning, iris&#34;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>模块通常还会有一些属性，这些属性通常被用作常量</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">  <span class="na">@greeting</span> <span class="s2">&#34;Hello&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">greeting</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">    <span class="sx">~s(</span><span class="si">#{</span><span class="na">@greeting</span><span class="si">}</span><span class="sx">, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="sx">.)</span>
-</span></span><span class="line"><span class="cl">  <span class="k">end</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span><span class="line"><span class="cl"><span class="nc">Example</span><span class="o">.</span><span class="n">greeting</span><span class="p">(</span><span class="s2">&#34;iris&#34;</span><span class="p">)</span> <span class="c1"># &#34;Hello, iris.&#34;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>当然还有一些的属性，用于保留功能，比如 <code>moduledoc</code> 和 <code>doc</code> 作为文档，文档可以用
-<strong>ExDoc</strong> 生成 HTML，而 <strong>ExMark</strong> 是一个 Markdown 分析器，最终我们可以使用 mix 来生成文档</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">  <span class="na">@moduledoc</span> <span class="sh">&#34;&#34;&#34;
-</span></span></span><span class="line"><span class="cl"><span class="sh">  This is the Hello module.
-</span></span></span><span class="line"><span class="cl"><span class="sh">  &#34;&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="na">@moduledoc</span> <span class="ss">since</span><span class="p">:</span> <span class="s2">&#34;1.0.0&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="na">@doc</span> <span class="sh">&#34;&#34;&#34;
-</span></span></span><span class="line"><span class="cl"><span class="sh">  Says hello to the given `name`.
-</span></span></span><span class="line"><span class="cl"><span class="sh">  Returns `:ok`.
-</span></span></span><span class="line"><span class="cl"><span class="sh">  </span><span class="err">##</span><span class="sh"> Examples
-</span></span></span><span class="line"><span class="cl"><span class="sh">      iex&gt; Example.world(:john)
-</span></span></span><span class="line"><span class="cl"><span class="sh">      :ok
-</span></span></span><span class="line"><span class="cl"><span class="sh">  &#34;&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="na">@doc</span> <span class="ss">since</span><span class="p">:</span> <span class="s2">&#34;1.3.0&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">world</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">    <span class="nc">IO</span><span class="o">.</span><span class="n">puts</span><span class="p">(</span><span class="s2">&#34;hello </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="k">end</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="结构体--struct" class="headerLink">
-    <a href="#%e7%bb%93%e6%9e%84%e4%bd%93--struct" class="header-mark"></a>结构体 (Struct)</h3><p>在 Elixir 中结构体 Struct 是 Map 的特殊形式，它的键是预定义的，一般都有默认值，不过有个限制，Struct 只能定义在 Module 中，一般一个模块定义一个结构体</p>]]></description>
+    <description><![CDATA[模块之前函数的时候也简单的见过模块了，Elixir 允许嵌套模块，这样可以轻松定义多层命名空间
+1 2 3 4 5 defmodule Greeter.Greeting do def morning(name), do: &#34;Good morning, #{name}&#34; def evening(name), do: &#34;Good evening, #{name}&#34; end Greeter.Greeting.morning(&#34;iris&#34;) # &#34;Good morning, iris&#34; 模块通常还会有一些属性，这些属性通常被用作常量
+1 2 3 4 5 6 7 defmodule Example do @greeting &#34;Hello&#34; def greeting(name) do ~s(#{@greeting}, #{name}.) end end Example.greeting(&#34;iris&#34;) # &#34;Hello, iris.&#34; 当然还有一些的属性，用于保留功能，比如 moduledoc 和 doc 作为文档，文档可以用 ExDoc 生成 HTML，而 ExMark 是一个 Markdown 分析器，最终我们可以使用 mix 来生成文档
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 defmodule Example do @moduledoc &#34;&#34;&#34; This is the Hello module.]]></description>
 </item><item>
     <title>Elixir Intermediate</title>
     <link>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_003/</link>
     <pubDate>Sun, 21 Feb 2021 20:25:02 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_003/</guid>
-    <description><![CDATA[<h2 id="mix" class="headerLink">
-    <a href="#mix" class="header-mark"></a>Mix</h2><p>Mix 是 Elixir 社区开发的集包管理、依赖管理、构建工具于一身的开发工具，扩展性极好，功能强大，自带对 Erlang 的支持，可以类比 Golang 自带的 go，详细的使用方式请参考
-<code>mix help</code> 以及 <a href="https://hexdocs.pm/mix/Mix.html" target="_blank" rel="noopener noreferrer">mix</a></p>
-<p>我们如果需要创建一个新项目，使用 <code>mix new</code> 命令即可，详细使用方法可以使用 <strong>mix
-help new</strong> 查看，对于新建项目，mix 会很友好的创建一系列文件 (其中还包含
-<code>.gitignore</code>)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mix new example
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>我们目前只需要关注其中的 <strong>mix.exs</strong> 就行了，它包含了配置应用、依赖、环境信息、版本等功能，<code>project</code> 函数设置项目相关信息， <code>application</code> 函数在生产应用文件的时候会用到，<code>deps</code> 函数则是定义项目的依赖项</p>
-<h3 id="管理依赖-环境" class="headerLink">
-    <a href="#%e7%ae%a1%e7%90%86%e4%be%9d%e8%b5%96-%e7%8e%af%e5%a2%83" class="header-mark"></a>管理依赖、环境</h3><p>我们需要把所需的依赖全部列入 deps 中，deps 返回一个列表，每一项依赖都写在元组中，格式如下</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="p">{</span><span class="n">app</span><span class="p">,</span> <span class="n">requirement</span><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="n">app</span><span class="p">,</span> <span class="n">opts</span><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="n">app</span><span class="p">,</span> <span class="n">requirement</span><span class="p">,</span> <span class="n">opts</span><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li><code>app</code> 是一个原子，是依赖项的名称</li>
-<li><code>requirement</code> 是一个字符串或正则表达式，用以设定版本</li>
-<li><code>opts</code> 是一个 keyword list，设置依赖相关操作</li>
-</ul>
-<p>下面列出常用的添加依赖方式</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:plug</span><span class="p">,</span> <span class="s2">&#34;&gt;= 0.4.0&#34;</span><span class="p">},</span> <span class="c1"># 从 hex.pm 安装版本大于等于 0.4.0 的依赖</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:gettext</span><span class="p">,</span> <span class="ss">git</span><span class="p">:</span> <span class="s2">&#34;https://github.com/elixir-lang/gettext.git&#34;</span><span class="p">,</span> <span class="ss">tag</span><span class="p">:</span> <span class="s2">&#34;0.1&#34;</span><span class="p">},</span> <span class="c1"># 从指定git仓库下载依赖</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:local_dep</span><span class="p">,</span> <span class="ss">path</span><span class="p">:</span> <span class="s2">&#34;/path/to/local/deps&#34;</span><span class="p">},</span> <span class="c1"># 本地依赖项</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:telemetry</span><span class="p">,</span> <span class="s2">&#34;~&gt; 0.4&#34;</span><span class="p">},</span> <span class="c1"># 从 hex.pm 安装版本 0.4 的依赖项</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:phoenix_view</span><span class="p">,</span> <span class="ss">github</span><span class="p">:</span> <span class="s2">&#34;phoenixframework/phoenix_view&#34;</span><span class="p">,</span> <span class="ss">branch</span><span class="p">:</span> <span class="s2">&#34;master&#34;</span><span class="p">},</span> <span class="c1"># 从 github 下载依赖 master 分支</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:cowboy</span><span class="p">,</span> <span class="s2">&#34;~&gt; 1.0&#34;</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="p">[</span><span class="ss">:dev</span><span class="p">,</span> <span class="ss">:test</span><span class="p">]},</span> <span class="c1"># 安装依赖，并只在 dev 与 tst 环境启用</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>当依赖项写好之后，我们只需要执行命令获取依赖就行</p>]]></description>
+    <description><![CDATA[MixMix 是 Elixir 社区开发的集包管理、依赖管理、构建工具于一身的开发工具，扩展性极好，功能强大，自带对 Erlang 的支持，可以类比 Golang 自带的 go，详细的使用方式请参考 mix help 以及 mix
+我们如果需要创建一个新项目，使用 mix new 命令即可，详细使用方法可以使用 mix help new 查看，对于新建项目，mix 会很友好的创建一系列文件 (其中还包含 .gitignore)
+1 mix new example 我们目前只需要关注其中的 mix.exs 就行了，它包含了配置应用、依赖、环境信息、版本等功能，project 函数设置项目相关信息， application 函数在生产应用文件的时候会用到，deps 函数则是定义项目的依赖项
+管理依赖、环境我们需要把所需的依赖全部列入 deps 中，deps 返回一个列表，每一项依赖都写在元组中，格式如下
+1 2 3 {app, requirement} {app, opts} {app, requirement, opts} app 是一个原子，是依赖项的名称 requirement 是一个字符串或正则表达式，用以设定版本 opts 是一个 keyword list，设置依赖相关操作 下面列出常用的添加依赖方式
+1 2 3 4 5 6 {:plug, &#34;&gt;= 0.4.0&#34;}, # 从 hex.]]></description>
 </item></channel>
 </rss>

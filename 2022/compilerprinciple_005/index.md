@@ -14,7 +14,7 @@ F &\rightarrow (\ E\ )\\,|\\,\textbf{id}\\\\
 
 根据左推导有如下自顶向下分析过程
 
-{{< figure src="/images/id-plus-id-multi-id-example-lm-top-down.svg" >}}
+{{< figure src="/images/compiler_principle-id-plus-id-multi-id-example-lm-top-down.svg" >}}
 
 
 ## 递归下降的语法分析 {#递归下降的语法分析}
@@ -31,7 +31,7 @@ F &\rightarrow (\ E\ )\\,|\\,\textbf{id}\\\\
 
 <a id="figure--fig:top-down-parsing-process-example"></a>
 
-{{< figure src="/images/top-down-parsing-process-example.svg" caption="<span class=\"figure-number\">Figure 1: </span>自顶向下语法分析器过程" >}}
+{{< figure src="/images/compiler_principle-top-down-parsing-process-example.svg" caption="<span class=\"figure-number\">Figure 1: </span>自顶向下语法分析器过程" >}}
 
 将 _A_ 用 \\(\textit{A} \rightarrow ab\\) 展开得到图
 [1](#figure--fig:top-down-parsing-process-example) (b) 的树，第二个字符 a 匹配，此时指针推进到第三个字符 d。由于 b 与 d 不匹配，将报告失败，并回到 A 开始尝试之前未进行的且有可能匹配的其他产生式，图 [1](#figure--fig:top-down-parsing-process-example) (c) 所示。
@@ -48,7 +48,7 @@ F &\rightarrow (\ E\ )\\,|\\,\textbf{id}\\\\
 
 <a id="figure--fig:top-down-parsing-process-example-follow-and-first"></a>
 
-{{< figure src="/images/top-down-parsing-process-example-follow-and-first.svg" caption="<span class=\"figure-number\">Figure 2: </span>终结符 c 在 `FIRST`(_A_) 中且 a 在 `FOLLOW`(_A_) 中" >}}
+{{< figure src="/images/compiler_principle-top-down-parsing-process-example-follow-and-first.svg" caption="<span class=\"figure-number\">Figure 2: </span>终结符 c 在 `FIRST`(_A_) 中且 a 在 `FOLLOW`(_A_) 中" >}}
 
 考虑两个 A 的产生式 \\(\textit{A} \rightarrow \alpha\\,|\\,\beta\\)，其中 \\(\texttt{FIRST}(\alpha)\\) 和
 \\(\texttt{FIRST}(\beta)\\) 是不相交的集合。那么只需要查看下一个输入符号 a 就可以选择产生式。因为 a 只能出现在 \\(\texttt{FIRST}(\alpha)\\) 或 \\(\texttt{FIRST}(\beta)\\) 中，但不能同时出现在两个集合中。
@@ -142,7 +142,7 @@ LL(1) 文法我们可以构造除预测分析器，即不需要回溯的递归�
 
 预测分析器的转换图与词法分析器的转换图是不同的：分析器对每个非终结符都有图，边的标号可以是词法单元也可以是非终结符；词法分析器表示下一个输入符号输入时应该执行的转换。
 
-{{< figure src="/images/predictive-analyzer-transformation-graph-for-e-and-e-skim.svg" >}}
+{{< figure src="/images/compiler_principle-predictive-analyzer-transformation-graph-for-e-and-e-skim.svg" >}}
 
 
 ### LL(1) 文法判断 {#ll--1--文法判断}
@@ -209,7 +209,7 @@ LL(1) 文法我们可以构造除预测分析器，即不需要回溯的递归�
 
 由分析表驱动的语法分析器有一个输入缓冲区，一个包含了文法符号序列的栈，一个预测分析表，以及一个输出流。
 
-{{< figure src="/images/analysis-table-driven-predictive-analyzer-model.svg" >}}
+{{< figure src="/images/compiler_principle-analysis-table-driven-predictive-analyzer-model.svg" >}}
 
 它的输入缓冲区中包含要进行语法分析的串，串后面跟着结束标记\\(\\$\\)。我们复用符号
 \\(\\$\\)来标记栈底，在开始时刻栈中\\(\\$\\)的上方的开始符号S。

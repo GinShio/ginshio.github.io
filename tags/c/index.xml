@@ -9,22 +9,10 @@
     <link>https://blog.ginshio.org/2023/libarchive_development_001/</link>
     <pubDate>Sat, 28 Jan 2023 19:09:45 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2023/libarchive_development_001/</guid>
-    <description><![CDATA[<p>libarchive 是一个可以创建和读取多种不同流式归档格式的程序库，包含了最流行的 tar
-格式变体、一些 cpio 格式，以及所有的 BSD 和 GNU ar 变体。bsdtar 是一个使用
-libarchive 的 tar 实现。</p>
-<hr>
-<h2 id="简介" class="headerLink">
-    <a href="#%e7%ae%80%e4%bb%8b" class="header-mark"></a>简介</h2><h3 id="为什么实现" class="headerLink">
-    <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e5%ae%9e%e7%8e%b0" class="header-mark"></a>为什么实现</h3><p>大约在 2001 年的某个时间，邮件列表中出现了一些关于 FreeBSD 打包工具的辩论，辩论主要涉及两个相关的问题：</p>
-<ul>
-<li>对打包工具来说什么是 <strong>正确</strong> (right) 的格式？</li>
-<li>为什么 FreeBSD 的打包工具比其他发行版的打包工具慢？</li>
-</ul>
-<p>在仔细研究之后，Kientzle 认为 <code>tar/gzip</code> 和 <code>tar/bzip2</code> 依然是很好的格式，性能问题纯粹是实现的原因。</p>
-<p>因此，Kientzle 开启了一个从 <code>pkg_add</code> 开始重写打包工具的项目，关键是这个项目是一个了解 <code>tar/gzip</code> 和 <code>tar/bzip2</code> 的库。他最终在 2003 年时完成了 <em>libtarfile</em>，并意识到许多核心的基础设施都要简单通用地处理其他格式，因此这个库被重命名为 <strong>libarchive</strong>。一次在 Kientzle 构建 libarchive 时，他意识到他早期测试套件更接近于一个 GNU tar 的完全 BSD 许可的替代品，即 bsdtar。FreeBSD 项目采用了 bsdtar 和 libarchive，并允许他继续在 FreeBSD 源码树中开发。大约在 2007 年，libarchive 被移植到其他平台，并将主要开发工作转移到了独立的仓库，刚开始在 GoogleCode，之后转到了 GitHub 直到今天。</p>
-<h3 id="谁在用" class="headerLink">
-    <a href="#%e8%b0%81%e5%9c%a8%e7%94%a8" class="header-mark"></a>谁在用</h3><ul>
-<li>
-<p>操作系统</p>]]></description>
+    <description><![CDATA[libarchive 是一个可以创建和读取多种不同流式归档格式的程序库，包含了最流行的 tar 格式变体、一些 cpio 格式，以及所有的 BSD 和 GNU ar 变体。bsdtar 是一个使用 libarchive 的 tar 实现。
+简介 为什么实现大约在 2001 年的某个时间，邮件列表中出现了一些关于 FreeBSD 打包工具的辩论，辩论主要涉及两个相关的问题：
+对打包工具来说什么是 正确 (right) 的格式？ 为什么 FreeBSD 的打包工具比其他发行版的打包工具慢？ 在仔细研究之后，Kientzle 认为 tar/gzip 和 tar/bzip2 依然是很好的格式，性能问题纯粹是实现的原因。
+因此，Kientzle 开启了一个从 pkg_add 开始重写打包工具的项目，关键是这个项目是一个了解 tar/gzip 和 tar/bzip2 的库。他最终在 2003 年时完成了 libtarfile，并意识到许多核心的基础设施都要简单通用地处理其他格式，因此这个库被重命名为 libarchive。一次在 Kientzle 构建 libarchive 时，他意识到他早期测试套件更接近于一个 GNU tar 的完全 BSD 许可的替代品，即 bsdtar。FreeBSD 项目采用了 bsdtar 和 libarchive，并允许他继续在 FreeBSD 源码树中开发。大约在 2007 年，libarchive 被移植到其他平台，并将主要开发工作转移到了独立的仓库，刚开始在 GoogleCode，之后转到了 GitHub 直到今天。
+谁在用 操作系统]]></description>
 </item></channel>
 </rss>

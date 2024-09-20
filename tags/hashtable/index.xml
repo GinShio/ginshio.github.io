@@ -9,15 +9,11 @@
     <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_005_hash_table/</link>
     <pubDate>Wed, 25 Aug 2021 00:09:23 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_005_hash_table/</guid>
-    <description><![CDATA[<blockquote>
-<p>She made a hash of the proper names, to be sure.</p>
-<p>&mdash; Grant Allen</p>
-</blockquote>
-<h2 id="散列函数" class="headerLink">
-    <a href="#%e6%95%a3%e5%88%97%e5%87%bd%e6%95%b0" class="header-mark"></a>散列函数</h2><p>如果可以将存储的数据，其中某一项用于查找，则这个项被称为 <strong>键</strong> (key)，而通过一定规则将键映射到表中的一个合适的单元，这个规则被称为 <strong>散列函数</strong> (hash function)。我们希望 hash 足够简单且保证两个不同的 key 映射到不同的单元，但是单元是有限的，因此我们需要寻找一个 hash function 尽量均匀的产生 hash value。当映射不是单射而是多射时，即发生了 <strong>冲突</strong> (collision)，有两个不同的 key 经过 hash function 得到了相同的 hash value，我们应该处理这个 collision。</p>
-<p>顺便一提，我们一般使用 hash value 对表长进行取模，从而确定数据在表中的位置，表长为素数是可以很好的让 hash value 取模后均匀分布在表中。</p>
-<p>我们假设一个简单的字符串 hash function，即将字符串中所有的字符的 ASCII 相加所得到的。如果表很大，就不能很好的平均分配数据。比如 \(TableSize = 10'007\) ，并设所有的键长度为 8，而这些键的最大 hash value 不超过 1016 (\(127 * 8\))，这显然不是平均分配的。</p>
-<p>如果假设 Key 至少有 3 个字符，并且设置一个只考虑前 3 个字符的 hash function：
-\(c_{0} + 27 * c_{1} + 27 * 27 * c_{2}\) 。我们假设键的前三个字符是随机的，表的大小依然是 10007，那么我们就会得到一个均匀分布的 hash value。但是英文实际上并不是随机的，虽然前三个字符有 \(26^{3} = 16576\) 种可能的组合，但是事实证明 3 个字母不同的组合数实际上只有 <code>2851</code> 。</p>]]></description>
+    <description><![CDATA[She made a hash of the proper names, to be sure.
+&mdash; Grant Allen
+散列函数如果可以将存储的数据，其中某一项用于查找，则这个项被称为 键 (key)，而通过一定规则将键映射到表中的一个合适的单元，这个规则被称为 散列函数 (hash function)。我们希望 hash 足够简单且保证两个不同的 key 映射到不同的单元，但是单元是有限的，因此我们需要寻找一个 hash function 尽量均匀的产生 hash value。当映射不是单射而是多射时，即发生了 冲突 (collision)，有两个不同的 key 经过 hash function 得到了相同的 hash value，我们应该处理这个 collision。
+顺便一提，我们一般使用 hash value 对表长进行取模，从而确定数据在表中的位置，表长为素数是可以很好的让 hash value 取模后均匀分布在表中。
+我们假设一个简单的字符串 hash function，即将字符串中所有的字符的 ASCII 相加所得到的。如果表很大，就不能很好的平均分配数据。比如 \(TableSize = 10'007\) ，并设所有的键长度为 8，而这些键的最大 hash value 不超过 1016 (\(127 * 8\))，这显然不是平均分配的。
+如果假设 Key 至少有 3 个字符，并且设置一个只考虑前 3 个字符的 hash function： \(c_{0} + 27 * c_{1} + 27 * 27 * c_{2}\) 。我们假设键的前三个字符是随机的，表的大小依然是 10007，那么我们就会得到一个均匀分布的 hash value。但是英文实际上并不是随机的，虽然前三个字符有 \(26^{3} = 16576\) 种可能的组合，但是事实证明 3 个字母不同的组合数实际上只有 2851 。]]></description>
 </item></channel>
 </rss>

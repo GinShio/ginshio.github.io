@@ -9,121 +9,37 @@
     <link>https://blog.ginshio.org/2022/git_bash_with_pacman_on_windows/</link>
     <pubDate>Sat, 27 Aug 2022 14:03:31 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/git_bash_with_pacman_on_windows/</guid>
-    <description><![CDATA[<p>Windows 中，在安装 Git Bash 时，会安装一个最小化的 Msys 环境，用于提供 Uinx 兼容层。单独安装一个 msys 不如直接使用 Git 引入的来的爽。</p>
-<p>另外还有些好处，比如安装依赖只需要从包管理器安装，而无需到处找官网安装配环境。</p>
-<h2 id="安装-git" class="headerLink">
-    <a href="#%e5%ae%89%e8%a3%85-git" class="header-mark"></a>安装 Git</h2><p>Git 的安装应该是都会的，但还是应该说以下，在 Windows 上安装 git 时，实际上是有很多细节需要注意的。</p>
-<ol>
-<li>
-<p>选择 git 使用的默认的编辑器</p>
-<figure>
-    </figure>
-
-<p>实际上，git 已经在这里说的很明白了，默认 vim 是一个历史原因，推建我们使用更现代的 GUI 编辑器。实际上，你可以使用 <code>core.editor</code> 来修改你想使用的编辑器。当然，如果你不设置这个值，git 会用环境变量中的 <code>EDITOR</code> 作为默认编辑器使用，而
-Unix 世界中，<code>EDITOR</code> 往往是 <code>Vi</code> 或 <code>Vim</code>。</p>
-<p>最后说一下我的习惯，我并不喜欢 Vim，但是配置了的 Emacs 打开太慢了，由其是简单的写一个 message (VSCode 人称小 emacs)，所以我更偏向于终端编辑器 GNU Nano，图形编辑器则更喜欢用 Kate。</p>
-</li>
-<li>
-<p>初始化新仓库时的默认分值名称</p>
-<figure>
-    </figure>
-
-<p>你可以使用 <code>init.defaultbranch</code> 来更改默认的分支名称。</p>
-</li>
-<li>
-<p>环境变量的作用域</p>
-<figure>
-    </figure>
-
-<p>我更推建第一种使用方式，我们只会在 Git-Bash 中使用 Unix tools。这样现得我们的环境变量更为干净。其实在 Powershell 中还好，在 CMD Prompt 中使用 <code>[</code> 也太精分了。</p>]]></description>
+    <description><![CDATA[Windows 中，在安装 Git Bash 时，会安装一个最小化的 Msys 环境，用于提供 Uinx 兼容层。单独安装一个 msys 不如直接使用 Git 引入的来的爽。
+另外还有些好处，比如安装依赖只需要从包管理器安装，而无需到处找官网安装配环境。
+安装 GitGit 的安装应该是都会的，但还是应该说以下，在 Windows 上安装 git 时，实际上是有很多细节需要注意的。
+选择 git 使用的默认的编辑器
+实际上，git 已经在这里说的很明白了，默认 vim 是一个历史原因，推建我们使用更现代的 GUI 编辑器。实际上，你可以使用 core.editor 来修改你想使用的编辑器。当然，如果你不设置这个值，git 会用环境变量中的 EDITOR 作为默认编辑器使用，而 Unix 世界中，EDITOR 往往是 Vi 或 Vim。
+最后说一下我的习惯，我并不喜欢 Vim，但是配置了的 Emacs 打开太慢了，由其是简单的写一个 message (VSCode 人称小 emacs)，所以我更偏向于终端编辑器 GNU Nano，图形编辑器则更喜欢用 Kate。
+初始化新仓库时的默认分值名称
+你可以使用 init.defaultbranch 来更改默认的分支名称。
+环境变量的作用域
+我更推建第一种使用方式，我们只会在 Git-Bash 中使用 Unix tools。这样现得我们的环境变量更为干净。其实在 Powershell 中还好，在 CMD Prompt 中使用 [ 也太精分了。
+换行符转换]]></description>
 </item><item>
     <title>openSUSE 下 HP 打印机配置</title>
     <link>https://blog.ginshio.org/2022/hp_printer_driver/</link>
     <pubDate>Sun, 27 Feb 2022 18:49:18 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/hp_printer_driver/</guid>
-    <description><![CDATA[<p>正好家里买了打印机，HP 4800 系列，耗材是真便宜，喷墨是真慢啊。不过正好记录一下
-Linux 下的 HP 打印机配置过程。</p>
-<p>另外 HP 对开源的态度真不错，估计也是因为自家是开源大厂的缘故吧。</p>
-<div class="details admonition info open">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content">本文主要是 openSUSE 配置 HP 打印机的过程</div>
-        </div>
-    </div>
-<h2 id="安装驱动" class="headerLink">
-    <a href="#%e5%ae%89%e8%a3%85%e9%a9%b1%e5%8a%a8" class="header-mark"></a>安装驱动</h2><p>Linux 下有 HP 官方的打印机驱动，称为 HPLIP (HP&rsquo;s Linux Imaging and Printing
-software)，可以查看 <a href="https://developers.hp.com/hp-linux-imaging-and-printing/features" target="_blank" rel="noopener noreferrer">HPLIP 文档</a> 或者 <a href="https://developers.hp.com/hp-linux-imaging-and-printing/gethplip" target="_blank" rel="noopener noreferrer">下载</a>。</p>
-<p>对于 HPLIP 可以在以下 Linux 发行版进行自动安装</p>
-<ul>
-<li>SUSE Linux (13.2, 42.1, 42.2, 42.3, 15.0, 15.1, 15.2, 15.3)</li>
-<li>Fedora (22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35)</li>
-<li>Linux Mint (18, 18.1, 18.2, 18.3, 19, 19.1, 19.2, 19.3, 20.04, 20.1, 20.2, 20.3)</li>
-<li>Red Hat Enterprise Linux (6.0, 7.0, 7.2, 7.6, 7.7, 7.8, 7.9, 8.0, 8.2, 8.3, 8.4, 8.5)</li>
-<li>Boss (5.0)</li>
-<li>Ubuntu (12.04, 14.04, 15.10, 16.xx, 17.xx, 18.xx, 19.xx, 20.xx, 21.xx)</li>
-<li>Debian (7.0 ~ 7.9, 8.0 ~ 8.8, 9.1 ~ 9.9, 10.0 ~ 10.9, 11)</li>
-<li>Manjaro Linux (17.1.4, 18.0, 18.0.4, 18.1.0, 18.1.2, 19.0, 20.0, 20.2, 21.0.7)</li>
-<li>Zorin (15, 16)</li>
-<li>MX Linux (21)</li>
-<li>Elementary OS (6, 6.1)</li>
-</ul>
-<p>比如说 FreeBSD、Gentoo 等发行版，可以采用手动安装。</p>]]></description>
+    <description><![CDATA[正好家里买了打印机，HP 4800 系列，耗材是真便宜，喷墨是真慢啊。不过正好记录一下 Linux 下的 HP 打印机配置过程。
+另外 HP 对开源的态度真不错，估计也是因为自家是开源大厂的缘故吧。
+信息 本文主要是 openSUSE 配置 HP 打印机的过程 安装驱动Linux 下有 HP 官方的打印机驱动，称为 HPLIP (HP&rsquo;s Linux Imaging and Printing software)，可以查看 HPLIP 文档 或者 下载。
+对于 HPLIP 可以在以下 Linux 发行版进行自动安装
+SUSE Linux (13.2, 42.1, 42.2, 42.3, 15.0, 15.1, 15.2, 15.3) Fedora (22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35) Linux Mint (18, 18.1, 18.2, 18.3, 19, 19.1, 19.2, 19.]]></description>
 </item><item>
     <title>GPG 入门指北</title>
     <link>https://blog.ginshio.org/2020/gpg_started_guide/</link>
     <pubDate>Sat, 14 Nov 2020 18:14:39 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/gpg_started_guide/</guid>
-    <description><![CDATA[<p>Pretty Good Privacy (<strong>PGP</strong>)，是一套用于讯息加密、验证的应用程序，由 <a href="https://en.wikipedia.org/wiki/Phil_Zimmermann" target="_blank" rel="noopener noreferrer">Phil
-Zimmermann</a> 于1991年发布，由一系列散列、数据压缩、对称密钥加密以及公钥加密的算法组合而成。GNU Privacy Guard (<strong>GPG</strong>)，是一个用于加密、签名通信内容以及管理非对称密钥的自由软件，遵循IETF订定的 <a href="https://tools.ietf.org/html/rfc4880" target="_blank" rel="noopener noreferrer">OpenPGP技术标准</a> 设计，并与PGP保持兼容。</p>
-<p>GPG的基于现代密码学，主要是对非对称加密的应用，由于自己本身是菜鸡，又没有学过密码学，所以对于以下加密方式进行简单的介绍，如有不准确请指正。</p>
-<dl>
-<dt>对称加密</dt>
-<dd>又称私钥加密，这类算法在加密与解密时使用 <strong>相同的</strong> 的密钥，通信双方在通信之前需要协商一个密钥。对称加密简单、高效，加密强度随密钥长度的增加而增加，常见加密算法 <code>DES</code>、<code>ChaCha20</code>、<code>AES</code> 等</dd>
-<dt>非对称加密</dt>
-<dd>又称公开密钥加密，这类算法采用公钥加密私钥解密，公钥可以随意发布，私钥必须由用户严格保管，通信双方在通信时使用对方的公钥加密自己的信息。非对称加密的数学基础是<strong>超大整数的因数分解</strong>、<strong>整数有限域离散对数</strong>、<strong>椭圆曲线离散对数</strong>等问题的复杂性。数字签名也是基于非对称加密实现，简单地说即将文件散列后使用私钥加密生成签名，验证时散列文件并与公钥解密签名的值做对比进行验证，数字签名可以验证文件完整性，也有防止伪造的作用。常见的加密算法有 <code>DSA</code>、<code>RSA</code>、<code>ECDSA</code> 等</dd>
-</dl>
-<h2 id="初体验" class="headerLink">
-    <a href="#%e5%88%9d%e4%bd%93%e9%aa%8c" class="header-mark"></a>初体验</h2><h3 id="生成" class="headerLink">
-    <a href="#%e7%94%9f%e6%88%90" class="header-mark"></a>生成</h3><p>使用 <code>--generate-key</code> 参数可以创建一个使用默认值的密钥对，如果想设置更多的值可以使用 <code>--full-generate-key</code> 参数，如果再加上 <code>--expert</code> 开启专家模式，专家模式允许你自己选择 <strong>不同的加密算法</strong> 与 <strong>不同的密钥种类</strong>，在此仅介绍
-<code>--full-generate-key</code> 参数。</p>
-<dl>
-<dt>选择你希望的密钥种类</dt>
-<dd>我们选择默认的 <span class="underline">RSA and RSA</span>，会生成采用RSA算法且拥有加密、签名、验证功能的密钥</dd>
-<dt>密钥长度</dt>
-<dd><a href="https://www.keylength.com/en/4/" target="_blank" rel="noopener noreferrer">NIST建议</a> 2030年之前推荐的最小密钥长度，对称加密 <strong>128bit</strong> ，非对称加密
-<strong>2048bit</strong> ，椭圆曲线密码学 <strong>224bit</strong></dd>
-<dt>使用期限</dt>
-<dd>默认为永久(0)，在这里我们选择1天 (1)</dd>
-</dl>
-<p>我们生成了一个密钥对，可以看到一些关于新生成的密钥的信息，包括了密钥长度、uid、指纹，我们一般使用指纹来分别不同的密钥，指纹是用40位16进制数字表示的串，我们一般使用<strong>邮箱</strong>、<strong>整串</strong>或<strong>串的最后16位</strong>区分密钥。</p>
-<figure>
-</figure>
-
-<h3 id="备份" class="headerLink">
-    <a href="#%e5%a4%87%e4%bb%bd" class="header-mark"></a>备份</h3><p>我们采用最朴素的方式保存密钥 —— 本地存储，但是请记住一点，私钥一定不能丢失或外泄。为了以防万一，我们生成一份<strong>吊销证书</strong>，用以在特殊情况时吊销该密钥，当然吊销证书也应该妥善保管。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">gpg -a --export EFC4B50FE8F8B2B3 &gt; test.pub <span class="c1"># 导出公钥</span>
-</span></span><span class="line"><span class="cl">gpg -a --export-secret-key EFC4B50FE8F8B2B3 &gt; test.sec <span class="c1"># 导出私钥</span>
-</span></span><span class="line"><span class="cl">gpg -a --gen-revoke EFC4B50FE8F8B2B3 &gt; test.rev <span class="c1"># 生成吊销证书</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="发布" class="headerLink">
-    <a href="#%e5%8f%91%e5%b8%83" class="header-mark"></a>发布</h3><div class="details admonition warning open">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-exclamation-triangle fa-fw"></i>警告<i class="details-icon fas fa-angle-right fa-fw"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content">将公钥发布到密钥服务器上是不可逆行为，请谨慎操作</div>
-        </div>
-    </div>
-<p>首先列出常用的密钥服务器</p>]]></description>
+    <description><![CDATA[Pretty Good Privacy (PGP)，是一套用于讯息加密、验证的应用程序，由 Phil Zimmermann 于1991年发布，由一系列散列、数据压缩、对称密钥加密以及公钥加密的算法组合而成。GNU Privacy Guard (GPG)，是一个用于加密、签名通信内容以及管理非对称密钥的自由软件，遵循IETF订定的 OpenPGP技术标准 设计，并与PGP保持兼容。
+GPG的基于现代密码学，主要是对非对称加密的应用，由于自己本身是菜鸡，又没有学过密码学，所以对于以下加密方式进行简单的介绍，如有不准确请指正。
+对称加密 又称私钥加密，这类算法在加密与解密时使用 相同的 的密钥，通信双方在通信之前需要协商一个密钥。对称加密简单、高效，加密强度随密钥长度的增加而增加，常见加密算法 DES、ChaCha20、AES 等 非对称加密 又称公开密钥加密，这类算法采用公钥加密私钥解密，公钥可以随意发布，私钥必须由用户严格保管，通信双方在通信时使用对方的公钥加密自己的信息。非对称加密的数学基础是超大整数的因数分解、整数有限域离散对数、椭圆曲线离散对数等问题的复杂性。数字签名也是基于非对称加密实现，简单地说即将文件散列后使用私钥加密生成签名，验证时散列文件并与公钥解密签名的值做对比进行验证，数字签名可以验证文件完整性，也有防止伪造的作用。常见的加密算法有 DSA、RSA、ECDSA 等 初体验 生成使用 --generate-key 参数可以创建一个使用默认值的密钥对，如果想设置更多的值可以使用 --full-generate-key 参数，如果再加上 --expert 开启专家模式，专家模式允许你自己选择 不同的加密算法 与 不同的密钥种类，在此仅介绍 --full-generate-key 参数。
+选择你希望的密钥种类 我们选择默认的 RSA and RSA，会生成采用RSA算法且拥有加密、签名、验证功能的密钥 密钥长度 NIST建议 2030年之前推荐的最小密钥长度，对称加密 128bit ，非对称加密 2048bit ，椭圆曲线密码学 224bit 使用期限 默认为永久(0)，在这里我们选择1天 (1) 我们生成了一个密钥对，可以看到一些关于新生成的密钥的信息，包括了密钥长度、uid、指纹，我们一般使用指纹来分别不同的密钥，指纹是用40位16进制数字表示的串，我们一般使用邮箱、整串或串的最后16位区分密钥。
+备份我们采用最朴素的方式保存密钥 —— 本地存储，但是请记住一点，私钥一定不能丢失或外泄。为了以防万一，我们生成一份吊销证书，用以在特殊情况时吊销该密钥，当然吊销证书也应该妥善保管。
+1 2 3 gpg -a --export EFC4B50FE8F8B2B3 &gt; test.pub # 导出公钥 gpg -a --export-secret-key EFC4B50FE8F8B2B3 &gt; test.]]></description>
 </item></channel>
 </rss>

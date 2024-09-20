@@ -312,90 +312,90 @@ Windows 中没有层次结构概念，所有进程地位相同。创建进程时
 <h3 id="进程的实现" class="headerLink">
     <a href="#%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%ae%9e%e7%8e%b0" class="header-mark"></a>进程的实现</h3><p>操作系统使用进程表 (process table) 来维护进程模型，每个进程占用一个进程控制块。该控制块包含了进程状态的重要信息，包括程序计数器、堆栈指针、内存分配情况、打开的文件状态、调度信息等，从而保证该进程可以在之后调度中能再次启动，就像没有被中断过一样。下表展示了程序控制块中的关键字段。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">进程管理</th>
-          <th style="text-align: left">存储管理</th>
-          <th style="text-align: left">文件管理</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">寄存器</td>
-          <td style="text-align: left">正文段指针</td>
-          <td style="text-align: left">根目录</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">程序计数器</td>
-          <td style="text-align: left">数据段指针</td>
-          <td style="text-align: left">工作目录</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">程序状态字</td>
-          <td style="text-align: left">堆栈段指针</td>
-          <td style="text-align: left">文件描述符</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">堆栈指针</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">用户 ID</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">进程状态</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">组 ID</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">优先级</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">调度参数</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">进程 ID</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">父进程 ID</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">进程组</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">信号</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">进程开始时间</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">使用的 CPU 时间</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">子进程的 CPU 时间</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">下次定时器时间</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>进程管理</th>
+<th>存储管理</th>
+<th>文件管理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>寄存器</td>
+<td>正文段指针</td>
+<td>根目录</td>
+</tr>
+<tr>
+<td>程序计数器</td>
+<td>数据段指针</td>
+<td>工作目录</td>
+</tr>
+<tr>
+<td>程序状态字</td>
+<td>堆栈段指针</td>
+<td>文件描述符</td>
+</tr>
+<tr>
+<td>堆栈指针</td>
+<td></td>
+<td>用户 ID</td>
+</tr>
+<tr>
+<td>进程状态</td>
+<td></td>
+<td>组 ID</td>
+</tr>
+<tr>
+<td>优先级</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>调度参数</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>进程 ID</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>父进程 ID</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>进程组</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>信号</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>进程开始时间</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>使用的 CPU 时间</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>子进程的 CPU 时间</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>下次定时器时间</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
 </table>
 <p>与每一 I/O 类关联的是一个称作 <strong>中断向量</strong> (interrupt vector) 的位置，这是靠近内存底部的固定区域，这些内存包含中断服务程序的入口地址。在中断发生时，操作系统会做一系列操作，保存当前进程的上下文，并执行中断程序服务。以下是中断的执行步骤：</p>
 <ol>
@@ -421,79 +421,79 @@ Windows 中没有层次结构概念，所有进程地位相同。创建进程时
 <h3 id="线程模型" class="headerLink">
     <a href="#%e7%ba%bf%e7%a8%8b%e6%a8%a1%e5%9e%8b" class="header-mark"></a>线程模型</h3><p>进程用某种方法将相关的资源集中在一起，包含程序正文、数据以及地址空间、打开的文件、定时器等。进程拥有一个执行线程 (thread)，thread 中存在一个程序计数器、寄存器和堆栈，用于记录指令、变量等信息。线程与传统进程一样，拥有若干个状态用于 CPU 的调度，线程的状态转换与进程是一致的。进程用于把资源集中到一起，线程则是 CPU 上被调度执行的实体。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">进程独立的内容</th>
-          <th style="text-align: left">线程独立的内容</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">地址空间</td>
-          <td style="text-align: left">程序计数器</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">全局变量</td>
-          <td style="text-align: left">寄存器</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">打开文件</td>
-          <td style="text-align: left">堆栈</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">子进程</td>
-          <td style="text-align: left">状态</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">即将发生的定时器</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">信号与信号处理程序</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">账户信息</td>
-          <td style="text-align: left"></td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>进程独立的内容</th>
+<th>线程独立的内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>地址空间</td>
+<td>程序计数器</td>
+</tr>
+<tr>
+<td>全局变量</td>
+<td>寄存器</td>
+</tr>
+<tr>
+<td>打开文件</td>
+<td>堆栈</td>
+</tr>
+<tr>
+<td>子进程</td>
+<td>状态</td>
+</tr>
+<tr>
+<td>即将发生的定时器</td>
+<td></td>
+</tr>
+<tr>
+<td>信号与信号处理程序</td>
+<td></td>
+</tr>
+<tr>
+<td>账户信息</td>
+<td></td>
+</tr>
+</tbody>
 </table>
 <p>同一个进程环境中，允许彼此之间有较大独立性的多个线程同时执行，这是对多进程模型的一种模拟。由于多线程模型中，所有线程都具有完全相同的地址空间，意味着他们也共享同样的全局变量。线程之间是没有保护的，一个线程可以读、写、清除另一个线程的堆栈。这样便于线程为完成某一任务而共同工作。</p>
 <p>为实现可移植的线程程序，IEEE 1003.1c 中定义线程的标准，其被成为 <strong>pthread</strong>，大部分 UNIX 都支持该标准。所有 pthread 线程都有一些特性，包含一个 <strong>标识符</strong> 、一组 *
 寄存器* (包含程序计数器) 和一组存储于结构中的属性，包括堆栈大小、调度参数等。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">POSIX 函数名称</th>
-          <th style="text-align: left">描述</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">pthread_create</td>
-          <td style="text-align: left">创建一个新线程</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">pthread_exit</td>
-          <td style="text-align: left">结束调用的线程</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">pthread_join</td>
-          <td style="text-align: left">等待一个特定的线程退出</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">pthread_yield</td>
-          <td style="text-align: left">主动释放 CPU</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">pthread_attr_init</td>
-          <td style="text-align: left">创建并初始化一个线程的属性结构</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">pthread_attr_destroy</td>
-          <td style="text-align: left">删除一个线程的属性结构</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>POSIX 函数名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pthread_create</td>
+<td>创建一个新线程</td>
+</tr>
+<tr>
+<td>pthread_exit</td>
+<td>结束调用的线程</td>
+</tr>
+<tr>
+<td>pthread_join</td>
+<td>等待一个特定的线程退出</td>
+</tr>
+<tr>
+<td>pthread_yield</td>
+<td>主动释放 CPU</td>
+</tr>
+<tr>
+<td>pthread_attr_init</td>
+<td>创建并初始化一个线程的属性结构</td>
+</tr>
+<tr>
+<td>pthread_attr_destroy</td>
+<td>删除一个线程的属性结构</td>
+</tr>
+</tbody>
 </table>
 <p>创建一个新线程时使用 <code>pthread_create</code> 调用，线程的标识符会作为函数返回值返回。这么做看起来像 fork 调用，方便其他线程引用该线程。当线程完成它的工作时，可以通过调用 <code>pthread_exit</code> 来终止，这个调用类似于 <code>exit</code> 调用，这会终止线程并释放线程的栈。线程可以使用 <code>pthread_yield</code> 调用，主动地为其他线程让出 CPU。</p>
 <h3 id="内核态线程" class="headerLink">
@@ -692,54 +692,54 @@ Semaphore 只需要几毫秒。</p>
 包含两个部分，一个内核服务和一个用户库。内核服务提供一个等待队列，它允许多个进程在一个锁上等待。它们将不会运行，除非内核明确地对它们解除阻塞。将一个进程放到等待队列需要系统调用，因此我们尽可能地避免这么做。在没有竞争时，futex 完全工作在用户空间。</p>
 <p>pthread 提供了锁设施用于数据竞争，同时提供了同步机制：条件变量。在允许或阻塞对临界区的访问时互斥量是很有用的，而条件变量则是允许线程由于一些未达成的条件而阻塞。绝大多数情况下，这两种方法是合作使用的。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">线程调用</th>
-          <th style="text-align: left">描述</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">pthread_mutex_init</td>
-          <td style="text-align: left">创建一个互斥量</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">pthread_mutex_destroy</td>
-          <td style="text-align: left">撤销一个已存在的互斥量</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">pthread_mutex_lock</td>
-          <td style="text-align: left">对互斥量加锁或阻塞</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">pthread_mutex_trylock</td>
-          <td style="text-align: left">对互斥量加锁或失败</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">pthread_mutex_unlock</td>
-          <td style="text-align: left">对互斥量解锁</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">pthread_cond_init</td>
-          <td style="text-align: left">创建一个条件变量</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">pthread_cond_destroy</td>
-          <td style="text-align: left">撤销一个已存在的条件变量</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">pthread_cond_wait</td>
-          <td style="text-align: left">阻塞当前线程以等待一个信号</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">pthread_cond_signal</td>
-          <td style="text-align: left">向一个线程发送信号来唤醒</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">pthread_cond_broadcast</td>
-          <td style="text-align: left">向多个线程发送信号来唤醒</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>线程调用</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pthread_mutex_init</td>
+<td>创建一个互斥量</td>
+</tr>
+<tr>
+<td>pthread_mutex_destroy</td>
+<td>撤销一个已存在的互斥量</td>
+</tr>
+<tr>
+<td>pthread_mutex_lock</td>
+<td>对互斥量加锁或阻塞</td>
+</tr>
+<tr>
+<td>pthread_mutex_trylock</td>
+<td>对互斥量加锁或失败</td>
+</tr>
+<tr>
+<td>pthread_mutex_unlock</td>
+<td>对互斥量解锁</td>
+</tr>
+<tr>
+<td>pthread_cond_init</td>
+<td>创建一个条件变量</td>
+</tr>
+<tr>
+<td>pthread_cond_destroy</td>
+<td>撤销一个已存在的条件变量</td>
+</tr>
+<tr>
+<td>pthread_cond_wait</td>
+<td>阻塞当前线程以等待一个信号</td>
+</tr>
+<tr>
+<td>pthread_cond_signal</td>
+<td>向一个线程发送信号来唤醒</td>
+</tr>
+<tr>
+<td>pthread_cond_broadcast</td>
+<td>向多个线程发送信号来唤醒</td>
+</tr>
+</tbody>
 </table>
 <p>需要注意的是，条件变量与信号量不同的是，不会存在与内存中。因此一个将一个信号传递给一个没有线程在等待的条件变量，那么这个信号就会消失。</p>
 <h3 id="管程" class="headerLink">
@@ -903,7 +903,7 @@ semaphore 进行 P 操作，并在结束用餐时进行 V 操作。此方法可�
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.131.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

@@ -3,7 +3,7 @@
 
 词法分析是编译器的第一阶段，主要负责读取源程序的输入字符，将它们组成 **词素**，生成并输出一个词法单元序列，每个词法单元对应一个词素，这个词法单元序列将被语法分析器进行语法分析。除此之外，词法分析器还会过滤源程序中的注释和空白，生成错误信息与源程序的位置关联起来，有时还会进行宏扩展。
 
-{{< figure src="/images/lexical-analyzer-and-syntax-analyzer.svg" >}}
+{{< figure src="/images/compiler_principle-lexical-analyzer-and-syntax-analyzer.svg" >}}
 
 学习词法分析时，需要分清以下三个相关但有区别的术语
 
@@ -142,7 +142,7 @@ diagram)，它有一组被称为 `状态` (state) 的结点，词法分析器扫
 | &gt;     | relop | GT  |
 | &gt;=    | relop | GE  |
 
-{{< figure src="/images/relop-transition-diagram.svg" >}}
+{{< figure src="/images/compiler_principle-relop-transition-diagram.svg" >}}
 
 对于符号来说很简单，但对于关键字来说，它们是被保留的，但它们看起来很像标识符，因此我们常常使用两种方法来处理长的很像标识符的关键字
 
@@ -177,7 +177,7 @@ diagram)，它有一组被称为 `状态` (state) 的结点，词法分析器扫
 -   同一个符号可以标记从同一状态出发到达多个目标状态的多条边
 -   一条边的符号不仅可以是输入字母表中的符号，也可以是空串
 
-{{< figure src="/images/NFA-example.svg" >}}
+{{< figure src="/images/compiler_principle-NFA-example.svg" >}}
 
 除了转换图，我们也可以将 NFA 表示为一张转换表，表的各行对应与状态，各列对应于输入符号和 \\(\varepsilon\\) 。对应于一个给定状态和给定输出的条目是将 NFA 的转换函数应用于这些参数后得到的值，如果转换函数没有没有相关信息，那么我们就将 \\(\emptyset\\) 填入相应的位置。如下表就是上图的转换表形式
 
@@ -216,7 +216,7 @@ NFA 抽象地表示了用来识别某个语言中的串的算法，DFA 则是一
 基本规则
 : 构造NFA，其中 i 是一个新状态，也是这个NFA的开始状态；f 是另一个新状态，也是这个NFA的接受状态。对于表达式 \\(\varepsilon\\) 以及字母表 \\(\Sigma\\) 中的子表达式 a，构造以下 NFA
 
-    {{< figure src="/images/reg2NFA-basicrules.svg" >}}
+    {{< figure src="/images/compiler_principle-reg2NFA-basicrules.svg" >}}
 
 
 归纳规则
@@ -224,12 +224,12 @@ NFA 抽象地表示了用来识别某个语言中的串的算法，DFA 则是一
     1.  假设 `r = s|t`，构造 N(r)，可以得到从 i 到 N(s) 或 N(t) 的开始状态各有一个
         \\(\varepsilon\\) 转换，从 N(s) 和 N(t) 的接受状态到 f 也各有一个 \\(\varepsilon\\) 转换。因为从 i 到 f
         的任何路径要么只通过 N(s)，要么只通过 N(t)，且离开 i 或进入 f 的 \\(\varepsilon\\) 转换都不会改变路径上的标号，因此我们可以判定 N(r) 识别 \\(L(s) \cup L(t)\\)，即 \\(L( r)\\)
-        ![](/images/reg2NFA-inductiverules-or.svg)
+        ![](/images/compiler_principle-reg2NFA-inductiverules-or.svg)
     2.  假设 `r = st` ，构造 N(r)，N(s) 的开始状态变为了 N(r) 的开始状态，N(t) 的接受状态变成了 N(r) 唯一接受状态，N(s) 的接受状态和 N(t) 的开始状态合并为一个状态，合并后的状态拥有原来进入和离开合并前的两个状态的全部转换。
-        ![](/images/reg2NFA-inductiverules-and.svg)
+        ![](/images/compiler_principle-reg2NFA-inductiverules-and.svg)
     3.  假设 r = \\(s^{\*}\\)，构造 N(r)，i 和 f 是两个新状态，分别为 N(r) 的开始状态和唯一的接受状态。要从i到达f我们需要沿着新引入的标号为 \\(\varepsilon\\) 的路径前进，这个路径对应 \\(L(s)^{0}\\) 中的一个串。我们也可以到达 N(s) 的开始状态，然后经过该
         NFA，在零次或多次从它的接受状态回到它的开始状态并重复上述过程。
-        ![](/images/reg2NFA-inductiverules-closure.svg)
+        ![](/images/compiler_principle-reg2NFA-inductiverules-closure.svg)
     4.  `r = (s)` ，那么 L(r) = L(s)，我们可以直接把 N(s) 当作 N(r)。
 
 N(r) 接受语言 L(r) 之外，构造得到的 NFA 还具有以下性质:
@@ -265,7 +265,7 @@ NFA 状态数的指数，不过对于真实的语言，NFA 与 DFA 的状态数�
 
 简单的说，NFA 中起始状态与起始状态经过 \\(\varepsilon\\) 转换后所到达的所有状态，这些状态所组成的集合就是转换成 DFA 的起始状态，而这个集合中的所有状态分别经过某一路径转换和转换后再经过 \\(\varepsilon\\) 转换的状态组成了另一个 DFA 状态，以此下去构成了所有 DFA 中的所有状态
 
-{{< figure src="/images/NFA2DFA.svg" >}}
+{{< figure src="/images/compiler_principle-NFA2DFA.svg" >}}
 
 我们继续以上图 \\((a|b)^{\*}abb\\) 为例进行从 NFA 到 DFA 的装换，起始状态 A 为
 \\(\varepsilon-closure(0)\\)，即 \\(A=\\{0，1，2，4，7\\}\\)，而输入字母表为 \\(\\{a，b\\}\\)，那么接下来分别计算 \\(Dtran[A，a] = \varepsilon-closure(move(A,a))\\) 以及 \\(Dtran[A，b] =

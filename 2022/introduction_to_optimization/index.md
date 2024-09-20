@@ -148,7 +148,7 @@ k]\\)，地址计算就是 \\(x + (j - k) \* w\\)，进一步化简 \\(x + jw - 
 如图，可以将这个 CFG 划分为 3 个 EBB：\\(\\{B\_{0}, B\_{1}, B\_{2}, B\_{3}, B\_{4}\\}\\)、
 \\(\\{B\_{5}\\}\\) 和 \\(\\{B\_{6}\\}\\)。
 
-{{< figure src="/images/cfg-example.svg" >}}
+{{< figure src="/images/compiler_principle-cfg-example.svg" >}}
 
 ---
 
@@ -243,7 +243,7 @@ end<br />
 
 对于该代码，可以左递归求值生成一棵左结合树，亦或右递归语法建立右结合树。但是建立一棵平衡树可以减少递归求值的约束，比如左结合树中 \\(a+b\\) 必须在涉及 g  或 h 的加法之前执行。
 
-{{< figure src="/images/tree-height-balance-example.svg" >}}
+{{< figure src="/images/compiler_principle-tree-height-balance-example.svg" >}}
 
 如果处理器每次可执行多个加法，左、右结合的树只能依次调度，而平衡树代码可以并行调度。这种优化利用了结合律和交换律，揭示表达式求值中的指令级并行，从而改进执行时间。
 
@@ -267,7 +267,7 @@ end<br />
 
 一般地，DDG 不会形成一棵树，而是由多棵树交织组成。平衡算法所需的各种候选表达式树都是 DDG 中的不同子集。
 
-{{< figure src="/images/tree-height-balance-ddg-and-trees.svg" >}}
+{{< figure src="/images/compiler_principle-tree-height-balance-ddg-and-trees.svg" >}}
 
 在算法重排各个运算对象时，规模较大的候选树能够提供更多的重排机会。因此，算法试图构造最大规模的候选树。概念上算法找到每个候选树都可以看作是一个 n 元运算符 (n 尽可能大)。因此某些因素会限制候选树的规模
 
@@ -456,7 +456,7 @@ t5 &= t1 + t3
 
 依然第一步寻找候选树的根。算法会选出 5 个根：`%3`、`%6`、`%7`、`%10` 以及 `%11`
 
-{{< figure src="/images/tree-height-balance-second-example.svg" >}}
+{{< figure src="/images/compiler_principle-tree-height-balance-second-example.svg" >}}
 
 开始从根结点平衡候选树。需要注意的是，在平衡 `%11` 的候选树时，其中 `%3` 和 `%7` 是各自候选树的根，因此会对它们调用 Balance 分别平衡。\\(Balance(\\%3)\\) 所构造的队列
 \\[<4, 0>, <13, 0>, <b, 1>, <a, 1>.\\]
@@ -471,7 +471,7 @@ t5 &= t1 + t3
 
 最终可以得到平衡后的树
 
-{{< figure src="/images/tree-height-balance-second-balanced-example.svg" >}}
+{{< figure src="/images/compiler_principle-tree-height-balance-second-balanced-example.svg" >}}
 
 ```lisp
 ;; LLVM IR

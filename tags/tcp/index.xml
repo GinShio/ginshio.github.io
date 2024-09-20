@@ -9,51 +9,8 @@
     <link>https://blog.ginshio.org/2022/unixnetworkprogramming_004/</link>
     <pubDate>Sat, 19 Feb 2022 15:31:05 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/unixnetworkprogramming_004/</guid>
-    <description><![CDATA[<h2 id="基本-tcp-套接字函数" class="headerLink">
-    <a href="#%e5%9f%ba%e6%9c%ac-tcp-%e5%a5%97%e6%8e%a5%e5%ad%97%e5%87%bd%e6%95%b0" class="header-mark"></a>基本 TCP 套接字函数</h2><figure>
-</figure>
-
-<h3 id="socket-函数" class="headerLink">
-    <a href="#socket-%e5%87%bd%e6%95%b0" class="header-mark"></a>socket 函数</h3><p>在网络编程中第一步往往调用 socket 函数，以指定通讯协议的详情。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// sys/socket.h
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">socket</span><span class="p">(</span><span class="kt">int</span> <span class="n">domain</span><span class="p">,</span> <span class="kt">int</span> <span class="n">type</span><span class="p">,</span> <span class="kt">int</span> <span class="n">protocol</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="c1">// return socket fd, or -1 and set errno on error
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><p>domain 指协议族，type 是套接字类型，protocol 参数应该设置为某个协议类型常量，或者为 0 表示对 domain 与 type 的系统默认值。</p>
-<ul>
-<li>domain
-<ul>
-<li><code>AF_INET</code>: IPv4 协议</li>
-<li><code>AF_INET6</code>: IPv6 协议</li>
-<li><code>AF_UNIX</code> or <code>AF_LOCAL</code>: Unix Domain Socket</li>
-<li><code>AF_ROUTE</code>: 路由套接字</li>
-<li><code>AF_KEY</code>: 密钥套接字</li>
-</ul>
-</li>
-<li>type
-<ul>
-<li><code>SOCK_STREAM</code>: 字节流套接字</li>
-<li><code>SOCK_DGRAM</code>: 数据报套接字</li>
-<li><code>SOCK_SEQPACKET</code>: 有序分组套接字</li>
-<li><code>SOCK_RAW</code>: 原始套接字</li>
-</ul>
-</li>
-<li>protocol (for IPv4 and IPv6)
-<ul>
-<li><code>IPPROTO_TCP</code></li>
-<li><code>IPPROTO_UDP</code></li>
-<li><code>IPPROTO_SCTP</code></li>
-</ul>
-</li>
-</ul>
-<p>需要注意的是，不是所有的组合都是有效的，下表总结了有效的 socket 函数参数组合，空白意味着无效。</p>]]></description>
+    <description><![CDATA[基本 TCP 套接字函数 socket 函数在网络编程中第一步往往调用 socket 函数，以指定通讯协议的详情。
+1 2 3 // sys/socket.h int socket(int domain, int type, int protocol); // return socket fd, or -1 and set errno on error domain 指协议族，type 是套接字类型，protocol 参数应该设置为某个协议类型常量，或者为 0 表示对 domain 与 type 的系统默认值。
+domain AF_INET: IPv4 协议 AF_INET6: IPv6 协议 AF_UNIX or AF_LOCAL: Unix Domain Socket AF_ROUTE: 路由套接字 AF_KEY: 密钥套接字 type SOCK_STREAM: 字节流套接字 SOCK_DGRAM: 数据报套接字 SOCK_SEQPACKET: 有序分组套接字 SOCK_RAW: 原始套接字 protocol (for IPv4 and IPv6) IPPROTO_TCP IPPROTO_UDP IPPROTO_SCTP 需要注意的是，不是所有的组合都是有效的，下表总结了有效的 socket 函数参数组合，空白意味着无效。]]></description>
 </item></channel>
 </rss>

@@ -51,7 +51,7 @@
 
 根据上节的产生式和规则，可以构造出一棵语法分析树，对应的非终结符的每个结点都按照自底向上的顺序计算。
 
-{{< figure src="/images/annotated-parse-tree-for-5.1-example.svg" >}}
+{{< figure src="/images/compiler_principle-annotated-parse-tree-for-5.1-example.svg" >}}
 
 在对某个结点的属性进行求值之前，需要先求出这个属性所依赖的所有属性值。比如上一节提到的计算器示例 S-attribute SSD，在求值结点的 val 属性之前就必须求值那个结点的所有子结点的属性值。对于综合属性，可以按照任何自底向上的书序计算属性值 (如
 postorder)。对于由综合属性和继承属性的 SDD，不能保证有一个顺序来对各个结点上的属性进行求值。比如产生式 \\(A\rightarrow{}B\\)，语义规则为 \\(A.s = B.i;\ {}B.i=A.s+1;\\)，这个规则是循环的，不可能先求出结点的 A.s 或子结点的 B.i 中的一个值。
@@ -76,7 +76,7 @@ SDD 的一个有用子类，它能保证对每棵语法分析树都存在一个�
 这些语义规则基于如下思想：运算符 `*` 的做运算分量是通过继承得到的。也就是说，
 \\(T^{'}\rightarrow{}\*FT^{'}\\) 的头部继承了产生体中的 `*` 左运算分量。当递归地处理完毕后，这个结果就通过综合属性传递到树的根部。
 
-{{< figure src="/images/annotated-parse-tree-for-5.3-example.svg" >}}
+{{< figure src="/images/compiler_principle-annotated-parse-tree-for-5.3-example.svg" >}}
 
 
 ## SDD 求值顺序 {#sdd-求值顺序}
@@ -92,7 +92,7 @@ SDD 的一个有用子类，它能保证对每棵语法分析树都存在一个�
 -   假设和产生式 p 关联的语义规则通过 X.c 的值定义了综合属性 A.b 的值 (还可能用到其他属性值)。那么相应依赖图中有一条从 X.c 到 A.b 的边。
 -   假设和产生式 p 关联的一个语义规则通过 X.a 的值定义了继承属性 B.c 的值。那么在相应依赖图中有一条从 X.a 到 B.c 的边。
 
-{{< figure src="/images/dependency-graph-for-5.3-example.svg" >}}
+{{< figure src="/images/compiler_principle-dependency-graph-for-5.3-example.svg" >}}
 
 
 ### 属性求值顺序 {#属性求值顺序}
@@ -152,7 +152,7 @@ L-attribute SSD 的思想是在一个产生式体所关联的各个属性之间�
 因此 addType 可以正确的将 **id** 所代表的标识符类型设置为 L.inh。也可以认为调用
 addType 是设置该结点的哑属性。比如输入串 `float f1, f2, f3`，我们依据此输入构建依赖图。
 
-{{< figure src="/images/dependency-graph-for-5.10-example.svg" >}}
+{{< figure src="/images/compiler_principle-dependency-graph-for-5.10-example.svg" >}}
 
 
 ## 语法制导翻译的应用 {#语法制导翻译的应用}
@@ -184,7 +184,7 @@ addType 是设置该结点的哑属性。比如输入串 `float f1, f2, f3`，�
 
 比如说输入 \\(a-4+c\\) 构造一棵抽象语法树，这棵抽象语法树的结点被显示为记录，这些记录的第一个字段是 op。现在抽象语法树的边用实线表示，基础的语法分析树的边用点状虚线表示 (并没有真的生成它)，最后一种线状虚线表示 \\(E.node\\) 和 \\(T.node\\) 的值，每条线都指向适当的抽象语法树的结点。
 
-{{< figure src="/images/ast-5.11-example.svg" >}}
+{{< figure src="../../_build/tikzgen/compiler_principle-ast-5.11-example.svg" >}}
 
 在自底向上分析过程中，我们可以得到如下的抽象语法树构造步骤。
 \\[\begin{aligned}
@@ -209,7 +209,7 @@ p\_{5}&={}\textbf{new}\ Node('+', p\_{3}, p\_{4});
 
 这个[在语法分析树的结点上对 SDD 求值](#在语法分析树的结点上对-sdd-求值)提到的简易乘加计算器类似，通过继承属性将左边的计算结果进行传递。对于同样的表达式 `a-4+c` 将有不一样的依赖图。
 
-{{< figure src="/images/dependency-graph-for-5.12-example.svg" >}}
+{{< figure src="/images/compiler_principle-dependency-graph-for-5.12-example.svg" >}}
 
 
 ### 类型的结构 {#类型的结构}
@@ -228,7 +228,7 @@ p\_{5}&={}\textbf{new}\ Node('+', p\_{3}, p\_{4});
 
 非终结符 B 和 T 有一个表示类型的综合属性 t，非终结符 C 有两个属性：继承属性 b 和综合属性 t。继承属性 b 将一个基本类型沿树向下传播，而综合属性 t 则收集最终得到的结果。
 
-{{< figure src="/images/annotated-parse-tree-for-5.13-example.svg" >}}
+{{< figure src="/images/compiler_principle-annotated-parse-tree-for-5.13-example.svg" >}}
 
 
 ## 语法制导的翻译方案 {#语法制导的翻译方案}
@@ -286,7 +286,7 @@ L-attribute 定义 SDT。但不是所有的 SDT 都可以在语法分析过程�
 现在构造表达式 \\(3\*5+4\\) 的语法分析树，可以按照构造的语法分析树得到这个前缀形式
 \\(+\\,\*\\,3\\,5\\,4\\)
 
-{{< figure src="/images/parse-tree-with-actions-for-5.16-example.svg" >}}
+{{< figure src="/images/compiler_principle-parse-tree-with-actions-for-5.16-example.svg" >}}
 
 
 ### 从 SDT 中消除左递归 {#从-sdt-中消除左递归}
@@ -328,7 +328,7 @@ R &\rightarrow{} YR\\,|\\,\varepsilon
 
 可以看出无论是在原文法上应用后缀 SDT 还是消除左递归后应用 SDT，其结果都是相同的。只不过消除左递归后，还需要一个综合属性 R.s 沿树向上拷贝。
 
-{{< figure src="/images/eliminate-left-recursion-sdt.svg" >}}
+{{< figure src="/images/compiler_principle-eliminate-left-recursion-sdt.svg" >}}
 
 最终可以得到 SDT
 \\[\begin{aligned}
@@ -448,11 +448,11 @@ C.true=L\_{2};\ print("label", L\_{1});\\,\\}\\\\
 
 还是用 while 的例子来说明
 
-{{< figure src="/images/l-attribute-sdd-extension-parsing-stack-5.23-example.svg" >}}
+{{< figure src="/images/compiler_principle-l-attribute-sdd-extension-parsing-stack-5.23-example.svg" >}}
 
 对于 while 我们可以回到计算综合属性 S.next，来构建新的语法分析栈
 
-{{< figure src="/images/l-attribute-sdd-extension-parsing-stack-5.24-example.svg" >}}
+{{< figure src="/images/compiler_principle-l-attribute-sdd-extension-parsing-stack-5.24-example.svg" >}}
 
 
 ### L 属性的 SDD 的自底向上语法分析 {#l-属性的-sdd-的自底向上语法分析}

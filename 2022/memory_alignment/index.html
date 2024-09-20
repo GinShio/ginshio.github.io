@@ -273,73 +273,73 @@ line 进行优化，从而取得更好的性能。</p>
 <h2 id="数据模型" class="headerLink">
     <a href="#%e6%95%b0%e6%8d%ae%e6%a8%a1%e5%9e%8b" class="header-mark"></a>数据模型</h2><p>C 与其派生语言在很多时候，类型的大小是和平台相关的，因此用数据模型来定义不同平台下的数据大小。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">Model</th>
-          <th style="text-align: left">short</th>
-          <th style="text-align: left">int</th>
-          <th style="text-align: left">long</th>
-          <th style="text-align: left">long long</th>
-          <th style="text-align: left">ptr</th>
-          <th style="text-align: left">RunTime</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">LP32</td>
-          <td style="text-align: left">16</td>
-          <td style="text-align: left">16</td>
-          <td style="text-align: left">32</td>
-          <td style="text-align: left">64</td>
-          <td style="text-align: left">32</td>
-          <td style="text-align: left">MSVC (16bit)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">ILP32</td>
-          <td style="text-align: left">16</td>
-          <td style="text-align: left">32</td>
-          <td style="text-align: left">32</td>
-          <td style="text-align: left">64</td>
-          <td style="text-align: left">32</td>
-          <td style="text-align: left">MSVC (32bit), Linux (32bit)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">LLP64</td>
-          <td style="text-align: left">16</td>
-          <td style="text-align: left">32</td>
-          <td style="text-align: left">32</td>
-          <td style="text-align: left">64</td>
-          <td style="text-align: left">64</td>
-          <td style="text-align: left">MSVC, MinGW</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">LP64</td>
-          <td style="text-align: left">16</td>
-          <td style="text-align: left">32</td>
-          <td style="text-align: left">64</td>
-          <td style="text-align: left">64</td>
-          <td style="text-align: left">64</td>
-          <td style="text-align: left">*nix, Cygwin, z/OS</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">ILP64</td>
-          <td style="text-align: left">16</td>
-          <td style="text-align: left">64</td>
-          <td style="text-align: left">64</td>
-          <td style="text-align: left">64</td>
-          <td style="text-align: left">64</td>
-          <td style="text-align: left">Solaris</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">SILP64</td>
-          <td style="text-align: left">64</td>
-          <td style="text-align: left">64</td>
-          <td style="text-align: left">64</td>
-          <td style="text-align: left">64</td>
-          <td style="text-align: left">64</td>
-          <td style="text-align: left">UNICOS</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>Model</th>
+<th>short</th>
+<th>int</th>
+<th>long</th>
+<th>long long</th>
+<th>ptr</th>
+<th>RunTime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LP32</td>
+<td>16</td>
+<td>16</td>
+<td>32</td>
+<td>64</td>
+<td>32</td>
+<td>MSVC (16bit)</td>
+</tr>
+<tr>
+<td>ILP32</td>
+<td>16</td>
+<td>32</td>
+<td>32</td>
+<td>64</td>
+<td>32</td>
+<td>MSVC (32bit), Linux (32bit)</td>
+</tr>
+<tr>
+<td>LLP64</td>
+<td>16</td>
+<td>32</td>
+<td>32</td>
+<td>64</td>
+<td>64</td>
+<td>MSVC, MinGW</td>
+</tr>
+<tr>
+<td>LP64</td>
+<td>16</td>
+<td>32</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>*nix, Cygwin, z/OS</td>
+</tr>
+<tr>
+<td>ILP64</td>
+<td>16</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>Solaris</td>
+</tr>
+<tr>
+<td>SILP64</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+<td>UNICOS</td>
+</tr>
+</tbody>
 </table>
 <p>虽然数据模型定义很清楚，但在处理跨平台代码时，数据类型大小的处理是很头疼的。</p>
 <p>好在 C / C++ 在 <code>stdint.h</code> 中还提供了更多种类的定长整型，长度主要是 <code>8</code>、<code>16</code>、<code>32</code> 和
@@ -959,87 +959,87 @@ data) 的概念来表示 C 中这些类型 (C++20 移除了这一概念)，即�
     </div>
 <p>在 GLSLang 中，一个字长为 4 bytes。而 GLSLang 中的对齐，也和 C / C++ 中很相似，因此在<a href="#%e6%a0%87%e5%87%86%e5%b8%83%e5%b1%80%e7%b1%bb%e7%9a%84%e5%86%85%e5%ad%98%e5%af%b9%e9%bd%90" rel="">标准布局类的内存对齐</a>中介绍的对齐方式，和这里是基本一致的。另外 GLSLang 中基础类型的大小都是字长的倍数，因此之后 <code>sizeof</code> 的结果单位默认为 word。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">type</th>
-          <th style="text-align: left">sizeof</th>
-          <th style="text-align: left">alignof</th>
-          <th style="text-align: left">type</th>
-          <th style="text-align: left">sizeof</th>
-          <th style="text-align: left">alignof</th>
-          <th style="text-align: left">type</th>
-          <th style="text-align: left">sizeof</th>
-          <th style="text-align: left">alignof</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">void</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">bool</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">int</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">1</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">uint</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">float</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">double</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">vec2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">vec3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">vec4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">dvec2</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">dvec3</td>
-          <td style="text-align: left">6</td>
-          <td style="text-align: left">8</td>
-          <td style="text-align: left">dvec4</td>
-          <td style="text-align: left">8</td>
-          <td style="text-align: left">8</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">ivec2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">ivec3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">ivec4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">uvec2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">uvec3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">uvec4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>type</th>
+<th>sizeof</th>
+<th>alignof</th>
+<th>type</th>
+<th>sizeof</th>
+<th>alignof</th>
+<th>type</th>
+<th>sizeof</th>
+<th>alignof</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void</td>
+<td></td>
+<td></td>
+<td>bool</td>
+<td>1</td>
+<td></td>
+<td>int</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>uint</td>
+<td>1</td>
+<td>1</td>
+<td>float</td>
+<td>1</td>
+<td>1</td>
+<td>double</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>vec2</td>
+<td>2</td>
+<td>2</td>
+<td>vec3</td>
+<td>3</td>
+<td>4</td>
+<td>vec4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>dvec2</td>
+<td>4</td>
+<td>4</td>
+<td>dvec3</td>
+<td>6</td>
+<td>8</td>
+<td>dvec4</td>
+<td>8</td>
+<td>8</td>
+</tr>
+<tr>
+<td>ivec2</td>
+<td>2</td>
+<td>2</td>
+<td>ivec3</td>
+<td>3</td>
+<td>4</td>
+<td>ivec4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>uvec2</td>
+<td>2</td>
+<td>2</td>
+<td>uvec3</td>
+<td>3</td>
+<td>4</td>
+<td>uvec4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+</tbody>
 </table>
 <h3 id="buffer-的布局修饰" class="headerLink">
     <a href="#buffer-%e7%9a%84%e5%b8%83%e5%b1%80%e4%bf%ae%e9%a5%b0" class="header-mark"></a>buffer 的布局修饰</h3><p><code>buffer</code> 作为可读可写的全局对象，其布局由实现定义，除非手动指定布局。<code>uniform</code> 是一种特殊的全局 buffer，只可读，默认 std140 布局且无法修改；<code>push_constant</code> 是一种特殊的 uniform，其存储在寄存器，大小约为 16 words，实现可以使用 uniform 代替实现，当超出大小时同样将超出部分存储在 uniform buffer 中，默认布局为 std430，可以修改布局。</p>
@@ -1432,7 +1432,7 @@ bug。</p>
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.131.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

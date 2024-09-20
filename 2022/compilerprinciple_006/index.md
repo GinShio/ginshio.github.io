@@ -26,7 +26,7 @@
 \\(\beta\\) 在 \\(\gamma\\) 中出现的位置：将这个位置上的 \\(\beta\\) 替换为 _A_ 之后得到的串是
 \\(\gamma\\) 的某个最右推导序列中出现在位于 \\(\gamma\\) 之前的最右句型。
 
-{{< figure src="/images/alpha-beta-w-parsing-tree-handle.svg" >}}
+{{< figure src="/images/compiler_principle-alpha-beta-w-parsing-tree-handle.svg" >}}
 
 句柄右边的串 w 一定只包含终结符，即产生式体 \\(\beta\\) 称为一个句柄 (而不是
 \\(\textit{A}\rightarrow\beta\\))，如果文法有二义性时可能存在多个最右推导，但无二义性的文法有且仅有一个句柄。通过**句柄剪枝**可以得到一个反向的最右推导。
@@ -150,7 +150,7 @@ LR (0) 项是 G 的一个产生式再加上一个位于它的体中某处的点�
 
 对于之前反复提到的示例 **id** `+` **id** `*` **id**，可以构造出如下自动机。
 
-{{< figure src="/images/LR-0-automachine-example.svg" >}}
+{{< figure src="/images/compiler_principle-LR-0-automachine-example.svg" >}}
 
 
 #### 项集的闭包 {#项集的闭包}
@@ -227,7 +227,7 @@ SLR 的中心思想是根据文法构造出 LR(0) 自动机。这个自动机的
 还记得 LL 语法分析的非递归预测分析中提到的**分析表驱动的语法分析器**吗，我们的 LR
 语法分析器与它很像。
 
-{{< figure src="/images/LR-parser-model.svg" >}}
+{{< figure src="/images/compiler_principle-LR-parser-model.svg" >}}
 
 所有 LR 语法分析器的驱动程序都是相同的，而语法分析表是根据语法分析器的不同而变化的。每个状态都有一个对应的文法符号，各个状态都和每个项集对应，并有从状态 i 到状态 j 的转换 \\(\texttt{GOTO}(\textit{I}\_{i}, \textit{X}) = \textit{I}\_{j}\\)。所有到达状态 j 的转换一定对应于同一个文法符号 \\(\textit{X}\\)。因此，除了开始状态 0
 之外每个状态都和唯一的文法符号项关联。
@@ -302,7 +302,7 @@ SLR 的中心思想是根据文法构造出 LR(0) 自动机。这个自动机的
 -   acc 表示接受
 -   空白表示报错
 
-{{< figure src="/images/analysis-table-of-SLR-example.svg" >}}
+{{< figure src="/images/compiler_principle-analysis-table-of-SLR-example.svg" >}}
 
 
 ### 构造 SLR 语法分析表 {#构造-slr-语法分析表}
@@ -440,7 +440,7 @@ SetOfItems \\(\texttt{GOTO}\\)(_I_, _X_) {<br />
 \textit{C} &\rightarrow c\ \textit{C} \ |\ d
 \end{aligned}\\]
 
-{{< figure src="/images/LR-1-automachine-example.svg" >}}
+{{< figure src="/images/compiler_principle-LR-1-automachine-example.svg" >}}
 
 
 ### 规范 LR(1) 语法分析表 {#规范-lr--1--语法分析表}
@@ -472,7 +472,7 @@ SetOfItems \\(\texttt{GOTO}\\)(_I_, _X_) {<br />
 
 其语法分析表如下：
 
-{{< figure src="/images/analysis-table-of-LR-1-example.svg" >}}
+{{< figure src="/images/compiler_principle-analysis-table-of-LR-1-example.svg" >}}
 
 
 ### 构造 LALR 语法分析表 {#构造-lalr-语法分析表}
@@ -526,11 +526,11 @@ LALR 语法分析技术是实践中常用的分析技术，因为其分析表比
 \textit{C} &\rightarrow c\ \textit{C} \ |\ d
 \end{aligned}\\]
 
-{{< figure src="/images/LALR-1-automachine-example.svg" >}}
+{{< figure src="/images/compiler_principle-LALR-1-automachine-example.svg" >}}
 
 其分析表也很简单。
 
-{{< figure src="/images/analysis-table-of-LALR-1-example.svg" >}}
+{{< figure src="/images/compiler_principle-analysis-table-of-LALR-1-example.svg" >}}
 
 在处理正确的输入时，LR 语法分析器和 LALR 语法分析器可以相互模拟；在处理错误的输入时，LALR 语法分析器可能在 LR 语法分析器报错之后继续执行一些归约动作，但绝不会在 LR 语法分析器报错之后移入任何符号。
 
@@ -725,7 +725,7 @@ LALR 语法分析技术是实践中常用的分析技术，因为其分析表比
 
 因此利用优先级和结合性，可以得到一个与 SLR 近似的语法动作表。
 
-{{< figure src="/images/analysis-table-of-ambiguous-grammar.svg" >}}
+{{< figure src="/images/compiler_principle-analysis-table-of-ambiguous-grammar.svg" >}}
 
 
 ### 悬空-else 的二义性 {#悬空-else-的二义性}
@@ -777,7 +777,7 @@ smtm &\rightarrow\ \textbf{if}\ expr\ \textbf{then}\ stmt\ \textbf{else}\ stmt\\
 \\(\textit{S}\rightarrow{}i\textit{S}\cdot{}e\textit{S}\\) 要求移入 e，但 \\(\texttt{FOLLOW}(S) =
 \\{e, \\$\\}\\)，项 \\(\textit{S}\rightarrow{}i\textit{S}\cdot\\) 在输入为 e 时进行归约。我们可以要求在输入 e 时执行移入操作，可以得到一个近似无二义性的 LR 分析表。
 
-{{< figure src="/images/analysis-table-of-ambiguous-grammar-for-if-else.svg" >}}
+{{< figure src="/images/compiler_principle-analysis-table-of-ambiguous-grammar-for-if-else.svg" >}}
 
 当然如此解决悬空 else 问题后，我们可以为 iiaea 语法产生正确的语法分析动作。
 

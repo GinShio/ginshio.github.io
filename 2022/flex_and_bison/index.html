@@ -482,54 +482,54 @@ generator。根据描述的正则表达式与 C 代码 (这些被称为 <strong>
 <li><strong>x</strong>: 忽略 pattern 中的注释与空白符。空白符依旧可以出现在 <code>&quot;&quot;</code> 中、转义字符、或字符集中。</li>
 <li>示例
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">示例</th>
-          <th style="text-align: left">等价表示</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">\((?:foo)\)</td>
-          <td style="text-align: left">\((foo)\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\((?i:ab7)\)</td>
-          <td style="text-align: left">\(([aA][bB]7)\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\((?-i:ab)\)</td>
-          <td style="text-align: left">\((ab)\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\((?s:.)\)</td>
-          <td style="text-align: left">\(([\backslash{}x00-\backslash{}xFF])\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\((?ix-s:\ a\ .\ b)\)</td>
-          <td style="text-align: left">\(([Aa][\^\backslash{}n][bB])\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\((?x:a\ b)\)</td>
-          <td style="text-align: left">\((&ldquo;ab&rdquo;)\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\((?x:a\backslash\ b)\)</td>
-          <td style="text-align: left">\((&ldquo;a\ b&rdquo;)\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\((?x:a&quot;\ &ldquo;b)\)</td>
-          <td style="text-align: left">\((&ldquo;a\ b&rdquo;)\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\((?x:a[\ ]b)\)</td>
-          <td style="text-align: left">\((&ldquo;a\ b&rdquo;)\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\begin{aligned}(?x: &amp; a\\ &amp; /* comment */\\ &amp; b\\ &amp; c)\end{aligned}\)</td>
-          <td style="text-align: left">\((abc)\)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>示例</th>
+<th>等价表示</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\((?:foo)\)</td>
+<td>\((foo)\)</td>
+</tr>
+<tr>
+<td>\((?i:ab7)\)</td>
+<td>\(([aA][bB]7)\)</td>
+</tr>
+<tr>
+<td>\((?-i:ab)\)</td>
+<td>\((ab)\)</td>
+</tr>
+<tr>
+<td>\((?s:.)\)</td>
+<td>\(([\backslash{}x00-\backslash{}xFF])\)</td>
+</tr>
+<tr>
+<td>\((?ix-s:\ a\ .\ b)\)</td>
+<td>\(([Aa][\^\backslash{}n][bB])\)</td>
+</tr>
+<tr>
+<td>\((?x:a\ b)\)</td>
+<td>\((&ldquo;ab&rdquo;)\)</td>
+</tr>
+<tr>
+<td>\((?x:a\backslash\ b)\)</td>
+<td>\((&ldquo;a\ b&rdquo;)\)</td>
+</tr>
+<tr>
+<td>\((?x:a&quot;\ &ldquo;b)\)</td>
+<td>\((&ldquo;a\ b&rdquo;)\)</td>
+</tr>
+<tr>
+<td>\((?x:a[\ ]b)\)</td>
+<td>\((&ldquo;a\ b&rdquo;)\)</td>
+</tr>
+<tr>
+<td>\(\begin{aligned}(?x: &amp; a\\ &amp; /* comment */\\ &amp; b\\ &amp; c)\end{aligned}\)</td>
+<td>\((abc)\)</td>
+</tr>
+</tbody>
 </table>
 </li>
 </ul>
@@ -564,100 +564,100 @@ generator。根据描述的正则表达式与 C 代码 (这些被称为 <strong>
 <p>Flex 支持 POSIX Bracket Expressions，但是没找到相应的 Shorthand 支持。不过从
 info 上看，支持了，但没全支持。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">POSIX</th>
-          <th style="text-align: left">Description</th>
-          <th style="text-align: left">ASCII</th>
-          <th style="text-align: left">Shorthand</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><code>[:alnum:]</code></td>
-          <td style="text-align: left">字母和数字</td>
-          <td style="text-align: left">\([a-zA-Z0-9]\)</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[:alpha:]</code></td>
-          <td style="text-align: left">字母</td>
-          <td style="text-align: left">\([a-zA-Z]\)</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[:ascii:]</code></td>
-          <td style="text-align: left">ASCII 字符</td>
-          <td style="text-align: left">\([\backslash{}x00-\backslash{}xFF]\)</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[:blank:]</code></td>
-          <td style="text-align: left">空格及 Tab</td>
-          <td style="text-align: left">\([ \backslash{}t]\)</td>
-          <td style="text-align: left"><code>\h</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[:cntrl:]</code></td>
-          <td style="text-align: left">控制字符</td>
-          <td style="text-align: left">\([\backslash{}x00-\backslash{}x1F\backslash{}x7F]\)</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[:digit:]</code></td>
-          <td style="text-align: left">数字</td>
-          <td style="text-align: left">\([0-9]\)</td>
-          <td style="text-align: left"><code>\d</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[:graph:]</code></td>
-          <td style="text-align: left">可见字符</td>
-          <td style="text-align: left">\([\backslash{}x21-\backslash{}x7E]\)</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[:lower:]</code></td>
-          <td style="text-align: left">小写字符</td>
-          <td style="text-align: left">\([a-z]\)</td>
-          <td style="text-align: left"><code>\l</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[:print:]</code></td>
-          <td style="text-align: left">可见字符及空格</td>
-          <td style="text-align: left">\([\backslash{}x20-\backslash{}x7E]\)</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[:punct:]</code></td>
-          <td style="text-align: left">标点字符</td>
-          <td style="text-align: left">\([!&quot;\backslash\#\$\%\&amp;&rsquo;()*+,\backslash-./:;&lt;=&gt;?@\backslash[\backslash\backslash\backslash]\verb!^!\_\verb!`!\{\mid\}\verb!~!]\)</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[:space:]</code></td>
-          <td style="text-align: left">空白字符</td>
-          <td style="text-align: left">\([\ \backslash{}t\backslash{}r\backslash{}n\backslash{}v\backslash{}f]\)</td>
-          <td style="text-align: left"><code>\s</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[:upper:]</code></td>
-          <td style="text-align: left">大写字符</td>
-          <td style="text-align: left">\([A-Z]\)</td>
-          <td style="text-align: left"><code>\u</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[:word:]</code></td>
-          <td style="text-align: left">单词字符</td>
-          <td style="text-align: left">\([a-zA-Z0-9\_]\)</td>
-          <td style="text-align: left"><code>\w</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[:xdigit:]</code></td>
-          <td style="text-align: left">十六进制字符</td>
-          <td style="text-align: left">\([a-fA-F0-9]\)</td>
-          <td style="text-align: left"></td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>POSIX</th>
+<th>Description</th>
+<th>ASCII</th>
+<th>Shorthand</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[:alnum:]</code></td>
+<td>字母和数字</td>
+<td>\([a-zA-Z0-9]\)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[:alpha:]</code></td>
+<td>字母</td>
+<td>\([a-zA-Z]\)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[:ascii:]</code></td>
+<td>ASCII 字符</td>
+<td>\([\backslash{}x00-\backslash{}xFF]\)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[:blank:]</code></td>
+<td>空格及 Tab</td>
+<td>\([ \backslash{}t]\)</td>
+<td><code>\h</code></td>
+</tr>
+<tr>
+<td><code>[:cntrl:]</code></td>
+<td>控制字符</td>
+<td>\([\backslash{}x00-\backslash{}x1F\backslash{}x7F]\)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[:digit:]</code></td>
+<td>数字</td>
+<td>\([0-9]\)</td>
+<td><code>\d</code></td>
+</tr>
+<tr>
+<td><code>[:graph:]</code></td>
+<td>可见字符</td>
+<td>\([\backslash{}x21-\backslash{}x7E]\)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[:lower:]</code></td>
+<td>小写字符</td>
+<td>\([a-z]\)</td>
+<td><code>\l</code></td>
+</tr>
+<tr>
+<td><code>[:print:]</code></td>
+<td>可见字符及空格</td>
+<td>\([\backslash{}x20-\backslash{}x7E]\)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[:punct:]</code></td>
+<td>标点字符</td>
+<td>\([!&quot;\backslash\#\$\%\&amp;&rsquo;()*+,\backslash-./:;&lt;=&gt;?@\backslash[\backslash\backslash\backslash]\verb!^!\_\verb!`!\{\mid\}\verb!~!]\)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[:space:]</code></td>
+<td>空白字符</td>
+<td>\([\ \backslash{}t\backslash{}r\backslash{}n\backslash{}v\backslash{}f]\)</td>
+<td><code>\s</code></td>
+</tr>
+<tr>
+<td><code>[:upper:]</code></td>
+<td>大写字符</td>
+<td>\([A-Z]\)</td>
+<td><code>\u</code></td>
+</tr>
+<tr>
+<td><code>[:word:]</code></td>
+<td>单词字符</td>
+<td>\([a-zA-Z0-9\_]\)</td>
+<td><code>\w</code></td>
+</tr>
+<tr>
+<td><code>[:xdigit:]</code></td>
+<td>十六进制字符</td>
+<td>\([a-fA-F0-9]\)</td>
+<td></td>
+</tr>
+</tbody>
 </table>
 <p>其中 Flex 不支持 <code>[:ascii:]</code> 和 <code>[:word:]</code> 两个字符集。</p>
 <p>在 Flex 配置文件中，字符集将被立即展开，这意味着 flex 环境对字符集感兴趣。</p>
@@ -669,46 +669,46 @@ info 上看，支持了，但没全支持。</p>
 <p>有范围的字符类在跨越大小写字符时 (比如 <code>[a-Z]</code>)，在不区分大小写的扫描器上应该慎用。此时 Flex 并不知道你是想将所有的大小写字符折叠在一起，还是要指定 ASCII
 数值范围。在出现此类问题时，Flex 优先指定数值范围，并发出一个警告。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">范围</th>
-          <th style="text-align: left">结果</th>
-          <th style="text-align: left">数值范围</th>
-          <th style="text-align: left">二义性范围</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><code>[a-t]</code></td>
-          <td style="text-align: left">ok</td>
-          <td style="text-align: left">\([a-tA-T]\)</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[A-T]</code></td>
-          <td style="text-align: left">ok</td>
-          <td style="text-align: left">\([a-tA-T]\)</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[A-t]</code></td>
-          <td style="text-align: left">二义性</td>
-          <td style="text-align: left">\([A-Z\backslash[\backslash\backslash\backslash]\verb!_!\verb!`!a-t]\)</td>
-          <td style="text-align: left">\([a-tA-T]\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[_-{]</code></td>
-          <td style="text-align: left">二义性</td>
-          <td style="text-align: left">\(\verb!_!\verb!`!a-z\{\)</td>
-          <td style="text-align: left">\(\verb!_!\verb!`!a-zA-Z\{\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>[@-C]</code></td>
-          <td style="text-align: left">二义性</td>
-          <td style="text-align: left">\(@ABC\)</td>
-          <td style="text-align: left">\(@A-Z\backslash[\backslash\backslash\backslash]\verb!_!\verb!`!abc\)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>范围</th>
+<th>结果</th>
+<th>数值范围</th>
+<th>二义性范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[a-t]</code></td>
+<td>ok</td>
+<td>\([a-tA-T]\)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[A-T]</code></td>
+<td>ok</td>
+<td>\([a-tA-T]\)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[A-t]</code></td>
+<td>二义性</td>
+<td>\([A-Z\backslash[\backslash\backslash\backslash]\verb!_!\verb!`!a-t]\)</td>
+<td>\([a-tA-T]\)</td>
+</tr>
+<tr>
+<td><code>[_-{]</code></td>
+<td>二义性</td>
+<td>\(\verb!_!\verb!`!a-z\{\)</td>
+<td>\(\verb!_!\verb!`!a-zA-Z\{\)</td>
+</tr>
+<tr>
+<td><code>[@-C]</code></td>
+<td>二义性</td>
+<td>\(@ABC\)</td>
+<td>\(@A-Z\backslash[\backslash\backslash\backslash]\verb!_!\verb!`!abc\)</td>
+</tr>
+</tbody>
 </table>
 </li>
 </ul>
@@ -4806,7 +4806,7 @@ Number   ::= INT_CONST;<br /></p>
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.131.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

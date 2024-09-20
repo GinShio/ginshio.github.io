@@ -258,50 +258,50 @@
 <h2 id="语法树的变体" class="headerLink">
     <a href="#%e8%af%ad%e6%b3%95%e6%a0%91%e7%9a%84%e5%8f%98%e4%bd%93" class="header-mark"></a>语法树的变体</h2><p>语法树中的各个结点代表了源程序的构造，一个结点的所有子结点反映了该结点对应构造的有意义的组成成分。为表达式构建的有向无环图 (Directed Acyclic Graph, DAG) 指出了表达式中的公共子表达式。</p>
 <p>与语法分析树有些不同的是，DAG 的结点可能有多个父结点，也就是说这个结点是个公共子结点。比如表达式 \(a + a * (b - c) + (b - c) * d\)</p>
-<figure><img src="/images/DAG-for-6.1-example.svg">
+<figure><img src="/images/compiler_principle-DAG-for-6.1-example.svg">
 </figure>
 
 <p>SDD 既可以构造语法树，也可以构造 DAG，在构造 DAG 结点时每次构造之前都会检查是否已存在这样的结点。如果已存在结点，就返回已有结点，否则构建新结点。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">编号</th>
-          <th style="text-align: left">产生式</th>
-          <th style="text-align: left">语义规则</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">\(E\rightarrow{}E_{1}+T\)</td>
-          <td style="text-align: left">\(E.node=\textbf{new}\ Node(&rsquo;+&rsquo;,E_{1}.node,T.node)\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">\(E\rightarrow{}E_{1}-T\)</td>
-          <td style="text-align: left">\(E.node=\textbf{new}\ Node(&rsquo;-&rsquo;,E_{1}.node,T.node)\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">\(\begin{aligned}E&amp;\rightarrow{}T\\T&amp;\rightarrow{}T_{1}*F\end{aligned}\)</td>
-          <td style="text-align: left">\(\begin{aligned}E.node&amp;=T.node\\T.node&amp;=\textbf{new}\ Node(&rsquo;*&rsquo;,T_{1}.node,F.node)\end{aligned}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">\(T\rightarrow{}(E)\)</td>
-          <td style="text-align: left">\(T.node=E.node\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">\(T\rightarrow{}\textbf{id}\)</td>
-          <td style="text-align: left">\(T.node=\textbf{new}\ Leaf(\textbf{id},\textbf{id}.entry)\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">6</td>
-          <td style="text-align: left">\(T\rightarrow{}\textbf{num}\)</td>
-          <td style="text-align: left">\(T.node=\textbf{new}\ Leaf(\textbf{num},\textbf{num}.entry)\)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>编号</th>
+<th>产生式</th>
+<th>语义规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>\(E\rightarrow{}E_{1}+T\)</td>
+<td>\(E.node=\textbf{new}\ Node(&rsquo;+&rsquo;,E_{1}.node,T.node)\)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>\(E\rightarrow{}E_{1}-T\)</td>
+<td>\(E.node=\textbf{new}\ Node(&rsquo;-&rsquo;,E_{1}.node,T.node)\)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>\(\begin{aligned}E&amp;\rightarrow{}T\\T&amp;\rightarrow{}T_{1}*F\end{aligned}\)</td>
+<td>\(\begin{aligned}E.node&amp;=T.node\\T.node&amp;=\textbf{new}\ Node(&rsquo;*&rsquo;,T_{1}.node,F.node)\end{aligned}\)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>\(T\rightarrow{}(E)\)</td>
+<td>\(T.node=E.node\)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>\(T\rightarrow{}\textbf{id}\)</td>
+<td>\(T.node=\textbf{new}\ Leaf(\textbf{id},\textbf{id}.entry)\)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>\(T\rightarrow{}\textbf{num}\)</td>
+<td>\(T.node=\textbf{new}\ Leaf(\textbf{num},\textbf{num}.entry)\)</td>
+</tr>
+</tbody>
 </table>
 <p>通常语法树或 DAG 的结点存放在记录数组中，每个记录第一个字段是运算符代码，也是该结点的标号；叶结点可能有一个存放词法值的字段，而内部结点可能有两个指向其左右运算数的字段。</p>
 <p>在这样的一个数组中，我们只需要给定结点对应的整数下标就可以引用该结点了。而这个下标被称为表达式的<strong>值编码</strong> (value number)。通常为了防止结点太多所造成的巨大的搜索开销，可以用 Hash 的方法实现，加快创建结点时的搜索。</p>
@@ -393,200 +393,200 @@ t_{2} &amp;= x + t_{1}
 </div>
 </div><p>得到的四元式</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">No</th>
-          <th style="text-align: left">op</th>
-          <th style="text-align: left">arg1</th>
-          <th style="text-align: left">arg2</th>
-          <th style="text-align: left">result</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">minus</td>
-          <td style="text-align: left">c</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">t1</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">*</td>
-          <td style="text-align: left">b</td>
-          <td style="text-align: left">t1</td>
-          <td style="text-align: left">t2</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">minus</td>
-          <td style="text-align: left">c</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">t3</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">*</td>
-          <td style="text-align: left">b</td>
-          <td style="text-align: left">t3</td>
-          <td style="text-align: left">t4</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">+</td>
-          <td style="text-align: left">t2</td>
-          <td style="text-align: left">t4</td>
-          <td style="text-align: left">t5</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">6</td>
-          <td style="text-align: left">=</td>
-          <td style="text-align: left">t5</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">a</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>No</th>
+<th>op</th>
+<th>arg1</th>
+<th>arg2</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>minus</td>
+<td>c</td>
+<td></td>
+<td>t1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>*</td>
+<td>b</td>
+<td>t1</td>
+<td>t2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>minus</td>
+<td>c</td>
+<td></td>
+<td>t3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>*</td>
+<td>b</td>
+<td>t3</td>
+<td>t4</td>
+</tr>
+<tr>
+<td>5</td>
+<td>+</td>
+<td>t2</td>
+<td>t4</td>
+<td>t5</td>
+</tr>
+<tr>
+<td>6</td>
+<td>=</td>
+<td>t5</td>
+<td></td>
+<td>a</td>
+</tr>
+</tbody>
 </table>
 <h3 id="三元式表示" class="headerLink">
     <a href="#%e4%b8%89%e5%85%83%e5%bc%8f%e8%a1%a8%e7%a4%ba" class="header-mark"></a>三元式表示</h3><p>三元式 (triple) 只有 op、arg1、arg2 三个字段，四元式中 result 字段主要保留的是临时变量，因此三元式中用运算的位置表示其结果。但是像 <code>x[i] = y</code> 这样的三元式，需要两个条目，我们可以把 x 和 i 置于同一个三元式，y 置于另一个三元式。</p>
 <p>作为语句 <code>a = b * -c + b * -c</code>，可以得到三元式</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">No</th>
-          <th style="text-align: left">op</th>
-          <th style="text-align: left">arg1</th>
-          <th style="text-align: left">arg2</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">minus</td>
-          <td style="text-align: left">c</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">*</td>
-          <td style="text-align: left">b</td>
-          <td style="text-align: left">(1)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">minus</td>
-          <td style="text-align: left">c</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">*</td>
-          <td style="text-align: left">b</td>
-          <td style="text-align: left">(2)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">+</td>
-          <td style="text-align: left">(1)</td>
-          <td style="text-align: left">(3)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">6</td>
-          <td style="text-align: left">=</td>
-          <td style="text-align: left">a</td>
-          <td style="text-align: left">(4)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>No</th>
+<th>op</th>
+<th>arg1</th>
+<th>arg2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>minus</td>
+<td>c</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>*</td>
+<td>b</td>
+<td>(1)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>minus</td>
+<td>c</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>*</td>
+<td>b</td>
+<td>(2)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>+</td>
+<td>(1)</td>
+<td>(3)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>=</td>
+<td>a</td>
+<td>(4)</td>
+</tr>
+</tbody>
 </table>
 <p>对于优化器来说，指令的位置会经常发生变化，此时四元式用临时变量引用结果，不会有任何变化，但三元式中使用位置引用结果的，这将导致需要频繁修改指令。</p>
 <p>间接三元式 (indirect triple) 包含了一个指向三元式的指针列表，而不是指向序列本身。在优化重排三元式时，可以直接对间接的指针列表进行重排，不会影响三元式本身。</p>
 <p>当然间接引用列表和三元式表不在一起，只是为了方便展示，才放在一起。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">instruction</th>
-          <th style="text-align: left">No</th>
-          <th style="text-align: left">op</th>
-          <th style="text-align: left">arg1</th>
-          <th style="text-align: left">arg2</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">(1)</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">minus</td>
-          <td style="text-align: left">c</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">(2)</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">*</td>
-          <td style="text-align: left">b</td>
-          <td style="text-align: left">(1)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">(3)</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">minus</td>
-          <td style="text-align: left">c</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">(4)</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">*</td>
-          <td style="text-align: left">b</td>
-          <td style="text-align: left">(2)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">(5)</td>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">+</td>
-          <td style="text-align: left">(1)</td>
-          <td style="text-align: left">(3)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">(6)</td>
-          <td style="text-align: left">6</td>
-          <td style="text-align: left">=</td>
-          <td style="text-align: left">a</td>
-          <td style="text-align: left">(4)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>instruction</th>
+<th>No</th>
+<th>op</th>
+<th>arg1</th>
+<th>arg2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(1)</td>
+<td>1</td>
+<td>minus</td>
+<td>c</td>
+<td></td>
+</tr>
+<tr>
+<td>(2)</td>
+<td>2</td>
+<td>*</td>
+<td>b</td>
+<td>(1)</td>
+</tr>
+<tr>
+<td>(3)</td>
+<td>3</td>
+<td>minus</td>
+<td>c</td>
+<td></td>
+</tr>
+<tr>
+<td>(4)</td>
+<td>4</td>
+<td>*</td>
+<td>b</td>
+<td>(2)</td>
+</tr>
+<tr>
+<td>(5)</td>
+<td>5</td>
+<td>+</td>
+<td>(1)</td>
+<td>(3)</td>
+</tr>
+<tr>
+<td>(6)</td>
+<td>6</td>
+<td>=</td>
+<td>a</td>
+<td>(4)</td>
+</tr>
+</tbody>
 </table>
 <h3 id="静态单赋值形式" class="headerLink">
     <a href="#%e9%9d%99%e6%80%81%e5%8d%95%e8%b5%8b%e5%80%bc%e5%bd%a2%e5%bc%8f" class="header-mark"></a>静态单赋值形式</h3><p>静态单赋值形式 (static single assignment, SSA) 是另一种中间表示，它有利于实现某种类型的代码优化。SSA 中所有的赋值都是针对具有不同名字的变量。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">三地址码</th>
-          <th style="text-align: left">静态单赋值形式</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">p = a + b</td>
-          <td style="text-align: left">p1 = a + b</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">q = p - c</td>
-          <td style="text-align: left">q1 = p1 - c</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">p = q * d</td>
-          <td style="text-align: left">p2 = q1 * d</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">p = e - p</td>
-          <td style="text-align: left">p3 = e - p2</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">q = p + q</td>
-          <td style="text-align: left">q2 = p3 + q1</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>三地址码</th>
+<th>静态单赋值形式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>p = a + b</td>
+<td>p1 = a + b</td>
+</tr>
+<tr>
+<td>q = p - c</td>
+<td>q1 = p1 - c</td>
+</tr>
+<tr>
+<td>p = q * d</td>
+<td>p2 = q1 * d</td>
+</tr>
+<tr>
+<td>p = e - p</td>
+<td>p3 = e - p2</td>
+</tr>
+<tr>
+<td>q = p + q</td>
+<td>q2 = p3 + q1</td>
+</tr>
+</tbody>
 </table>
 <p>在一个程序中，同一个变量可能在两个不同的控制流中被赋值，比如
 \[\begin{aligned}
@@ -750,7 +750,7 @@ t_{3} &amp;= t_{1}+t_{2}\\
 t_{4} &amp;= a\,[\,t_{3}\,]\\
 t_{5} &amp;= c + t_{4}
 \end{aligned}\]</p>
-<figure><img src="/images/annotated-parse-tree-for-6.12-example.svg">
+<figure><img src="/images/compiler_principle-annotated-parse-tree-for-6.12-example.svg">
 </figure>
 
 <h2 id="类型检查" class="headerLink">
@@ -783,7 +783,7 @@ t_{5} &amp;= c + t_{4}
 </div><p>但是类型的增多将需要处理的工作量也急剧增长。因此，在处理大量类型时，精心组织用于类型转换的语义动作就变得十分重要。</p>
 <p>不过不同语言的类型转换规则是不同的，Java 的转换规则分为<code>拓宽</code> (widening) 和<code>窄化</code>
 (narrowing)，前者可以保持原有信息，而后者则可能丢失信息。</p>
-<figure><img src="/images/java-type-conversion-example.svg">
+<figure><img src="/images/compiler_principle-java-type-conversion-example.svg">
 </figure>
 
 <p>如果类型转换由编译器完成，那么称作隐式类型转换，或者自动类型转换 (conversion)，有些语言中只允许拓宽进行隐式转换。如果由程序员写出代码完成的类型转换称为显示类型转换，或者说强制类型转换 (cast)。</p>
@@ -828,14 +828,14 @@ S &amp;\rightarrow{} &amp; \textbf{if}\ (\,B\,)\ S_{1}\\
 &amp;|{} &amp; S_{1}\ S_{2}
 \end{array}\]</p>
 <p>控制流会出现类似以下的效果
-<figure><a class="lightgallery" href="/images/control-flow-code.svg" title="/images/control-flow-code.svg" data-thumbnail="/images/control-flow-code.svg">
+<figure><a class="lightgallery" href="/images/compiler_principle-control-flow-code.svg" title="/images/compiler_principle-control-flow-code.svg" data-thumbnail="/images/compiler_principle-control-flow-code.svg">
         <img
             
             loading="lazy"
-            src="/images/control-flow-code.svg"
-            srcset="/images/control-flow-code.svg, /images/control-flow-code.svg 1.5x, /images/control-flow-code.svg 2x"
+            src="/images/compiler_principle-control-flow-code.svg"
+            srcset="/images/compiler_principle-control-flow-code.svg, /images/compiler_principle-control-flow-code.svg 1.5x, /images/compiler_principle-control-flow-code.svg 2x"
             sizes="auto"
-            alt="/images/control-flow-code.svg">
+            alt="/images/compiler_principle-control-flow-code.svg">
     </a></figure></p>
 <p>以这种结构实现控制流语句的 SDD
 \[\begin{array}{llll}
@@ -1035,7 +1035,7 @@ M &amp;\rightarrow{} \varepsilon                            &amp; \{ &amp; M.ins
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.131.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

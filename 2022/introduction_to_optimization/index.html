@@ -428,7 +428,7 @@ substitution) 和 <span class="underline">过程间常数传递</span> (interpro
     </div>
 <p>如图，可以将这个 CFG 划分为 3 个 EBB：\(\{B_{0}, B_{1}, B_{2}, B_{3}, B_{4}\}\)、
 \(\{B_{5}\}\) 和 \(\{B_{6}\}\)。</p>
-<figure><img src="/images/cfg-example.svg">
+<figure><img src="/images/compiler_principle-cfg-example.svg">
 </figure>
 
 <hr>
@@ -510,7 +510,7 @@ end<br /></p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>对于该代码，可以左递归求值生成一棵左结合树，亦或右递归语法建立右结合树。但是建立一棵平衡树可以减少递归求值的约束，比如左结合树中 \(a+b\) 必须在涉及 g  或 h 的加法之前执行。</p>
-<figure><img src="/images/tree-height-balance-example.svg">
+<figure><img src="/images/compiler_principle-tree-height-balance-example.svg">
 </figure>
 
 <p>如果处理器每次可执行多个加法，左、右结合的树只能依次调度，而平衡树代码可以并行调度。这种优化利用了结合律和交换律，揭示表达式求值中的指令级并行，从而改进执行时间。</p>
@@ -538,7 +538,7 @@ end<br /></p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>一般地，DDG 不会形成一棵树，而是由多棵树交织组成。平衡算法所需的各种候选表达式树都是 DDG 中的不同子集。</p>
-<figure><img src="/images/tree-height-balance-ddg-and-trees.svg">
+<figure><img src="/images/compiler_principle-tree-height-balance-ddg-and-trees.svg">
 </figure>
 
 <p>在算法重排各个运算对象时，规模较大的候选树能够提供更多的重排机会。因此，算法试图构造最大规模的候选树。概念上算法找到每个候选树都可以看作是一个 n 元运算符 (n 尽可能大)。因此某些因素会限制候选树的规模</p>
@@ -741,7 +741,7 @@ t5 &amp;= t1 + t3
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>依然第一步寻找候选树的根。算法会选出 5 个根：<code>%3</code>、<code>%6</code>、<code>%7</code>、<code>%10</code> 以及 <code>%11</code></p>
-<figure><img src="/images/tree-height-balance-second-example.svg">
+<figure><img src="/images/compiler_principle-tree-height-balance-second-example.svg">
 </figure>
 
 <p>开始从根结点平衡候选树。需要注意的是，在平衡 <code>%11</code> 的候选树时，其中 <code>%3</code> 和 <code>%7</code> 是各自候选树的根，因此会对它们调用 Balance 分别平衡。\(Balance(\%3)\) 所构造的队列
@@ -760,7 +760,7 @@ t5 &amp;= t1 + t3
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>最终可以得到平衡后的树</p>
-<figure><img src="/images/tree-height-balance-second-balanced-example.svg">
+<figure><img src="/images/compiler_principle-tree-height-balance-second-balanced-example.svg">
 </figure>
 
 <div class="highlight"><div class="chroma">
@@ -977,87 +977,87 @@ end<br /></p>
 </div>
 </div><p>根据控制流信息可以轻松计算出 VarKill 和 UEVar</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left"></th>
-          <th style="text-align: left">UEVar</th>
-          <th style="text-align: left">VarKill</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">b0</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-          <td style="text-align: left">{i}</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">b1</td>
-          <td style="text-align: left">{i}</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">b2</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-          <td style="text-align: left">{s}</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">b3</td>
-          <td style="text-align: left">{s, i}</td>
-          <td style="text-align: left">{s, i}</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">b4</td>
-          <td style="text-align: left">{s}</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th></th>
+<th>UEVar</th>
+<th>VarKill</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>b0</td>
+<td>\(\emptyset\)</td>
+<td>{i}</td>
+</tr>
+<tr>
+<td>b1</td>
+<td>{i}</td>
+<td>\(\emptyset\)</td>
+</tr>
+<tr>
+<td>b2</td>
+<td>\(\emptyset\)</td>
+<td>{s}</td>
+</tr>
+<tr>
+<td>b3</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+</tr>
+<tr>
+<td>b4</td>
+<td>{s}</td>
+<td>\(\emptyset\)</td>
+</tr>
+</tbody>
 </table>
 <p>在这个例子中，开始计算每个程序块的 LiveOut。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">迭代次数</th>
-          <th style="text-align: left">LiveOut(b0)</th>
-          <th style="text-align: left">LiveOut(b1)</th>
-          <th style="text-align: left">LiveOut(b2)</th>
-          <th style="text-align: left">LiveOut(b3)</th>
-          <th style="text-align: left">LiveOut(b4)</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">初始</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">{i}</td>
-          <td style="text-align: left">{s, i}</td>
-          <td style="text-align: left">{s, i}</td>
-          <td style="text-align: left">{s, i}</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">{s, i}</td>
-          <td style="text-align: left">{s, i}</td>
-          <td style="text-align: left">{s, i}</td>
-          <td style="text-align: left">{s, i}</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">{s, i}</td>
-          <td style="text-align: left">{s, i}</td>
-          <td style="text-align: left">{s, i}</td>
-          <td style="text-align: left">{s, i}</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>迭代次数</th>
+<th>LiveOut(b0)</th>
+<th>LiveOut(b1)</th>
+<th>LiveOut(b2)</th>
+<th>LiveOut(b3)</th>
+<th>LiveOut(b4)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>初始</td>
+<td>\(\emptyset\)</td>
+<td>\(\emptyset\)</td>
+<td>\(\emptyset\)</td>
+<td>\(\emptyset\)</td>
+<td>\(\emptyset\)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>{i}</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+<td>\(\emptyset\)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+<td>\(\emptyset\)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+<td>{s, i}</td>
+<td>\(\emptyset\)</td>
+</tr>
+</tbody>
 </table>
 <h4 id="查找未初始化的变量" class="headerLink">
     <a href="#%e6%9f%a5%e6%89%be%e6%9c%aa%e5%88%9d%e5%a7%8b%e5%8c%96%e7%9a%84%e5%8f%98%e9%87%8f" class="header-mark"></a>查找未初始化的变量</h4><p>计算出 CFG 的每个结点的 LiveOut 集合后，查找未初始化变量的使用就变得简单了。如果有一个变量 v，且 \(v \in LiveOut(n_{0})\)，\(n_{0}\) 为 CFG 的入口结点，那么一定存在一条从 \(n_{0}\) 到 v 的某个使用之处的路径，v 在该路径上未被定义。因此编译器可以识别处其中未被初始化的变量。但也有几种可能导致编译器错误的识别。</p>
@@ -1192,7 +1192,7 @@ end<br /></p>
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.131.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

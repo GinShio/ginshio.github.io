@@ -267,20 +267,20 @@ webmail，使用本地的邮件客户端收发邮件，以便更好的使用加�
 PTR需要向运营商提交工单申请 (阿里云和腾讯云是这样的)，如果你没有配置ptr解析那么你可能会上一些黑名单。</p>
 <p>DKIM 同样的也是 TXT 类型的 DNS 解析，在部署完成后由指定选择器生成 DKIM，之后设置 DNS 解析</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">类型</th>
-          <th style="text-align: left">记录</th>
-          <th style="text-align: left">记录值</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">TXT</td>
-          <td style="text-align: left">&lt;selector&gt;._domainkey</td>
-          <td style="text-align: left">DKIM_VALUE</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>类型</th>
+<th>记录</th>
+<th>记录值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TXT</td>
+<td>&lt;selector&gt;._domainkey</td>
+<td>DKIM_VALUE</td>
+</tr>
+</tbody>
 </table>
 <h3 id="黑名单" class="headerLink">
     <a href="#%e9%bb%91%e5%90%8d%e5%8d%95" class="header-mark"></a>黑名单</h3><p>在互联网上发送邮件不是可以为所欲为的，邮局服务有一套反垃圾邮件机制，当你的IP上了黑名单时，从这个IP发出去的邮件很容易进入垃圾邮箱或拒收，请珍惜自己的IP，不过可以尝试在检测上了哪些服务商的黑名单，并尝试解除黑名单，以下给出一些检测或申请去除反垃圾邮件网址</p>
@@ -292,75 +292,75 @@ PTR需要向运营商提交工单申请 (阿里云和腾讯云是这样的)，�
     <a href="#mailcow-dockerized" class="header-mark"></a>Mailcow:dockerized</h3><p><a href="https://mailcow.email/" target="_blank" rel="noopener noreferrer">Mailcow:dockerized</a> 是一个使用docker搭建的标准邮件服务器，集成了邮局、webmail、管理以及反垃圾邮件等功能，过程相对全面，不过缺点是比较吃资源，并且不支持
 <strong>Synology/QNAP</strong> 或 <strong>OpenVZ</strong>、<strong>LXC</strong> 等虚拟化方式，并且不能使用 <code>CentOS 7/8</code> 源中的 Docker 包，要求真多。。。消耗资源的主要原因是 <code>ClamAV</code> 和 <code>Solr</code>，即杀毒功能和搜索功能，如果不需要可以关闭。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">资源</th>
-          <th style="text-align: left">需求</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">CPU</td>
-          <td style="text-align: left">1GHz</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">RAM</td>
-          <td style="text-align: left">最少4G (包含交换空间)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">硬盘</td>
-          <td style="text-align: left">20GiB (不包含邮件)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>资源</th>
+<th>需求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU</td>
+<td>1GHz</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>最少4G (包含交换空间)</td>
+</tr>
+<tr>
+<td>硬盘</td>
+<td>20GiB (不包含邮件)</td>
+</tr>
+</tbody>
 </table>
 <p>以下列出Mailcow:dockerized使用的端口 (HTTP和HTTPS为我们自定义的端口)</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">服务</th>
-          <th style="text-align: left">协议</th>
-          <th style="text-align: left">端口</th>
-          <th style="text-align: left">容器</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">Postfix SMTP / SMTPS</td>
-          <td style="text-align: left">TCP</td>
-          <td style="text-align: left">25 / 465</td>
-          <td style="text-align: left">postfix-mailcow</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">Postfix Submission</td>
-          <td style="text-align: left">TCP</td>
-          <td style="text-align: left">587</td>
-          <td style="text-align: left">postfix-mailcow</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">Dovecot IMAP / IMAPS</td>
-          <td style="text-align: left">TCP</td>
-          <td style="text-align: left">143 / 993</td>
-          <td style="text-align: left">dovecot-mailcow</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">Dovecot POP3 / POP3S</td>
-          <td style="text-align: left">TCP</td>
-          <td style="text-align: left">110 / 995</td>
-          <td style="text-align: left">dovecot-mailcow</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">Dovecot ManageSieve</td>
-          <td style="text-align: left">TCP</td>
-          <td style="text-align: left">4190</td>
-          <td style="text-align: left">dovecot-mailcow</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">HTTP / HTTPS</td>
-          <td style="text-align: left">TCP</td>
-          <td style="text-align: left">80 / 443</td>
-          <td style="text-align: left">nginx-mailcow</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>服务</th>
+<th>协议</th>
+<th>端口</th>
+<th>容器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Postfix SMTP / SMTPS</td>
+<td>TCP</td>
+<td>25 / 465</td>
+<td>postfix-mailcow</td>
+</tr>
+<tr>
+<td>Postfix Submission</td>
+<td>TCP</td>
+<td>587</td>
+<td>postfix-mailcow</td>
+</tr>
+<tr>
+<td>Dovecot IMAP / IMAPS</td>
+<td>TCP</td>
+<td>143 / 993</td>
+<td>dovecot-mailcow</td>
+</tr>
+<tr>
+<td>Dovecot POP3 / POP3S</td>
+<td>TCP</td>
+<td>110 / 995</td>
+<td>dovecot-mailcow</td>
+</tr>
+<tr>
+<td>Dovecot ManageSieve</td>
+<td>TCP</td>
+<td>4190</td>
+<td>dovecot-mailcow</td>
+</tr>
+<tr>
+<td>HTTP / HTTPS</td>
+<td>TCP</td>
+<td>80 / 443</td>
+<td>nginx-mailcow</td>
+</tr>
+</tbody>
 </table>
 <h4 id="部署-mailcow-dockerized" class="headerLink">
     <a href="#%e9%83%a8%e7%bd%b2-mailcow-dockerized" class="header-mark"></a>部署 Mailcow:dockerized</h4><p>现在开始正式的搭建邮箱服务器</p>
@@ -555,22 +555,22 @@ mailcow的ssl文件夹下</p>
 rainloop或禁止webmail，而数据库支持sqlite、MySQL与PostgreSQL，最重要的是 MySQL
 和 PostgreSQL 可以选择使用镜像或宿主机 (1.9开始将删除docker镜像)。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">资源</th>
-          <th style="text-align: left">需求</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">CPU</td>
-          <td style="text-align: left">x86</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">RAM</td>
-          <td style="text-align: left">建议2G</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>资源</th>
+<th>需求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU</td>
+<td>x86</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>建议2G</td>
+</tr>
+</tbody>
 </table>
 <h4 id="生成配置文件" class="headerLink">
     <a href="#%e7%94%9f%e6%88%90%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="header-mark"></a>生成配置文件</h4><p>Mailu官方提供了 <a href="https://setup.mailu.io/" target="_blank" rel="noopener noreferrer">在线生成配置文件</a>，可以根据我们的需求生成配置文件，我们将使用
@@ -768,42 +768,42 @@ HTTP上即可</p>
 </div>
 </div><p>如果你希望将私钥加密输出，可以去除 <code>-nodes</code> 参数，下表举例了输出 PKCS12 文件信息时的一些控制参数</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">参数</th>
-          <th style="text-align: left">含义</th>
-          <th style="text-align: left">参数</th>
-          <th style="text-align: left">含义</th>
-          <th style="text-align: left">参数</th>
-          <th style="text-align: left">含义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">-nokeys</td>
-          <td style="text-align: left">不输出私钥</td>
-          <td style="text-align: left">-nocerts</td>
-          <td style="text-align: left">不输出证书</td>
-          <td style="text-align: left">-clcerts</td>
-          <td style="text-align: left">仅输出客户证书</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">-cacerts</td>
-          <td style="text-align: left">仅输出 CA 证书</td>
-          <td style="text-align: left">-noout</td>
-          <td style="text-align: left">没有输出，仅验证</td>
-          <td style="text-align: left">-descert</td>
-          <td style="text-align: left">3DES 算法加密</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">-nodes</td>
-          <td style="text-align: left">不加密私钥</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+<th>参数</th>
+<th>含义</th>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-nokeys</td>
+<td>不输出私钥</td>
+<td>-nocerts</td>
+<td>不输出证书</td>
+<td>-clcerts</td>
+<td>仅输出客户证书</td>
+</tr>
+<tr>
+<td>-cacerts</td>
+<td>仅输出 CA 证书</td>
+<td>-noout</td>
+<td>没有输出，仅验证</td>
+<td>-descert</td>
+<td>3DES 算法加密</td>
+</tr>
+<tr>
+<td>-nodes</td>
+<td>不加密私钥</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
 </table>
 <p>对于导出到文件，可以添加 <code>-out</code> 参数来指定导出的文件，依然可以使用 <code>-nokeys</code> 与
 <code>-nocerts</code> 来决定导出的是证书还是密钥，导出密钥时记得不要加密密钥</p>
@@ -857,7 +857,7 @@ HTTP上即可</p>
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.131.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

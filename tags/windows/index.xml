@@ -9,108 +9,30 @@
     <link>https://blog.ginshio.org/2022/git_bash_with_pacman_on_windows/</link>
     <pubDate>Sat, 27 Aug 2022 14:03:31 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/git_bash_with_pacman_on_windows/</guid>
-    <description><![CDATA[<p>Windows 中，在安装 Git Bash 时，会安装一个最小化的 Msys 环境，用于提供 Uinx 兼容层。单独安装一个 msys 不如直接使用 Git 引入的来的爽。</p>
-<p>另外还有些好处，比如安装依赖只需要从包管理器安装，而无需到处找官网安装配环境。</p>
-<h2 id="安装-git" class="headerLink">
-    <a href="#%e5%ae%89%e8%a3%85-git" class="header-mark"></a>安装 Git</h2><p>Git 的安装应该是都会的，但还是应该说以下，在 Windows 上安装 git 时，实际上是有很多细节需要注意的。</p>
-<ol>
-<li>
-<p>选择 git 使用的默认的编辑器</p>
-<figure>
-    </figure>
-
-<p>实际上，git 已经在这里说的很明白了，默认 vim 是一个历史原因，推建我们使用更现代的 GUI 编辑器。实际上，你可以使用 <code>core.editor</code> 来修改你想使用的编辑器。当然，如果你不设置这个值，git 会用环境变量中的 <code>EDITOR</code> 作为默认编辑器使用，而
-Unix 世界中，<code>EDITOR</code> 往往是 <code>Vi</code> 或 <code>Vim</code>。</p>
-<p>最后说一下我的习惯，我并不喜欢 Vim，但是配置了的 Emacs 打开太慢了，由其是简单的写一个 message (VSCode 人称小 emacs)，所以我更偏向于终端编辑器 GNU Nano，图形编辑器则更喜欢用 Kate。</p>
-</li>
-<li>
-<p>初始化新仓库时的默认分值名称</p>
-<figure>
-    </figure>
-
-<p>你可以使用 <code>init.defaultbranch</code> 来更改默认的分支名称。</p>
-</li>
-<li>
-<p>环境变量的作用域</p>
-<figure>
-    </figure>
-
-<p>我更推建第一种使用方式，我们只会在 Git-Bash 中使用 Unix tools。这样现得我们的环境变量更为干净。其实在 Powershell 中还好，在 CMD Prompt 中使用 <code>[</code> 也太精分了。</p>]]></description>
+    <description><![CDATA[Windows 中，在安装 Git Bash 时，会安装一个最小化的 Msys 环境，用于提供 Uinx 兼容层。单独安装一个 msys 不如直接使用 Git 引入的来的爽。
+另外还有些好处，比如安装依赖只需要从包管理器安装，而无需到处找官网安装配环境。
+安装 GitGit 的安装应该是都会的，但还是应该说以下，在 Windows 上安装 git 时，实际上是有很多细节需要注意的。
+选择 git 使用的默认的编辑器
+实际上，git 已经在这里说的很明白了，默认 vim 是一个历史原因，推建我们使用更现代的 GUI 编辑器。实际上，你可以使用 core.editor 来修改你想使用的编辑器。当然，如果你不设置这个值，git 会用环境变量中的 EDITOR 作为默认编辑器使用，而 Unix 世界中，EDITOR 往往是 Vi 或 Vim。
+最后说一下我的习惯，我并不喜欢 Vim，但是配置了的 Emacs 打开太慢了，由其是简单的写一个 message (VSCode 人称小 emacs)，所以我更偏向于终端编辑器 GNU Nano，图形编辑器则更喜欢用 Kate。
+初始化新仓库时的默认分值名称
+你可以使用 init.defaultbranch 来更改默认的分支名称。
+环境变量的作用域
+我更推建第一种使用方式，我们只会在 Git-Bash 中使用 Unix tools。这样现得我们的环境变量更为干净。其实在 Powershell 中还好，在 CMD Prompt 中使用 [ 也太精分了。
+换行符转换]]></description>
 </item><item>
     <title>使用 KMS 激活 Microsoft 软件</title>
     <link>https://blog.ginshio.org/2021/kms/</link>
     <pubDate>Sun, 09 May 2021 18:28:44 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/kms/</guid>
-    <description><![CDATA[<p>微软的软件主要可以通过以下三个渠道获取:</p>
-<ul>
-<li>零售</li>
-<li>原始设备制造商 (OEM)</li>
-<li>批量许可协议</li>
-</ul>
-<p>OEM 在工厂执行激活，比如说新买的笔记本电脑自带的系统就是这种方式。零售主要通过联机、电话或 VAMT 代理激活。批量激活产品主要选择 MAK (多次激活密钥) 、 KMS (密钥管理服务) 以及 AD (Active Directory) 进行激活。</p>
-<p>KMS 可以在本地网络完成激活，而无需将个别计算机连接到 Microsoft 进行产品激活。KMS
-不需要专用系统的轻型服务，可以轻易地将其联合托管在提供其他服务的系统上。</p>
-<p>KMS 服务器可以为局域网内所有连接的产品进行周期性激活，激活周期一般为 180 天，产品激活后会定期连接 KMS 服务器进行验证、续期，如果不能连接到服务器在激活周期过后，产品将过期而需要重新激活。</p>
-<p>KMS 服务激活的是 VL 版，而我们常用的 RTL (零售版) 是无法激活的。自己搭建 KMS 服务器激活产品，虽然可以正常使用，但是不能算正版软件，请支持正版！</p>
-<h2 id="部署-kms-服务器" class="headerLink">
-    <a href="#%e9%83%a8%e7%bd%b2-kms-%e6%9c%8d%e5%8a%a1%e5%99%a8" class="header-mark"></a>部署 KMS 服务器</h2><p>常用的 Microsoft KMS 服务器是开源的 <a href="https://github.com/Wind4/vlmcsd" target="_blank" rel="noopener noreferrer">Vlmcsd</a>，它可以部署到不同平台上提供服务。
-Vlmcsd 的使用很简单，下载下来启动即可提供服务，默认端口号是 1688</p>
-<h2 id="windows" class="headerLink">
-    <a href="#windows" class="header-mark"></a>Windows</h2><p>对于 Windows 的下载，可以选择 <a href="https://www.microsoft.com/zh-cn/software-download/windows10ISO" target="_blank" rel="noopener noreferrer">官方渠道</a> 或通过 <a href="https://msdn.itellyou.cn/" target="_blank" rel="noopener noreferrer">MSDN, I tell you</a> 进行下载，安装的专业版均可以 KMS 激活</p>
-<h3 id="激活-windows" class="headerLink">
-    <a href="#%e6%bf%80%e6%b4%bb-windows" class="header-mark"></a>激活 Windows</h3><p>相对来说激活 Windows 也很简单，以<strong>管理员身份</strong>打开 Powershell 或命令提示符，并输入命令即可激活</p>
-<ol>
-<li>设置 GVLK，这里我们以 Windows Server 2016 标准版为例
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bat" data-lang="bat"><span class="line"><span class="cl">slmgr /ipk WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>设置 KMS 服务器
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bat" data-lang="bat"><span class="line"><span class="cl">slmgr /skms example.com
-</span></span></code></pre></td></tr></table>
-</div>
-</div>如果 KMS 服务端口号不是 1688 需要显示指定端口号，比如端口号是 1024
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bat" data-lang="bat"><span class="line"><span class="cl">slmgr /skms example.com:1024
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>激活 Windows
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bat" data-lang="bat"><span class="line"><span class="cl">slmgr /ato
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>这是一个可选项，查看激活情况
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bat" data-lang="bat"><span class="line"><span class="cl">slmgr /xpr
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-</ol>
-<h3 id="windows-gvlk" class="headerLink">
-    <a href="#windows-gvlk" class="header-mark"></a>Windows GVLK</h3><p>在此列出各个版本对应的 GVLK，所有的 Key 也可以前往 <a href="https://docs.microsoft.com/en-us/windows-server/get-started/kmsclientkeys" target="_blank" rel="noopener noreferrer">官方文档</a> 查看</p>]]></description>
+    <description><![CDATA[微软的软件主要可以通过以下三个渠道获取:
+零售 原始设备制造商 (OEM) 批量许可协议 OEM 在工厂执行激活，比如说新买的笔记本电脑自带的系统就是这种方式。零售主要通过联机、电话或 VAMT 代理激活。批量激活产品主要选择 MAK (多次激活密钥) 、 KMS (密钥管理服务) 以及 AD (Active Directory) 进行激活。
+KMS 可以在本地网络完成激活，而无需将个别计算机连接到 Microsoft 进行产品激活。KMS 不需要专用系统的轻型服务，可以轻易地将其联合托管在提供其他服务的系统上。
+KMS 服务器可以为局域网内所有连接的产品进行周期性激活，激活周期一般为 180 天，产品激活后会定期连接 KMS 服务器进行验证、续期，如果不能连接到服务器在激活周期过后，产品将过期而需要重新激活。
+KMS 服务激活的是 VL 版，而我们常用的 RTL (零售版) 是无法激活的。自己搭建 KMS 服务器激活产品，虽然可以正常使用，但是不能算正版软件，请支持正版！
+部署 KMS 服务器常用的 Microsoft KMS 服务器是开源的 Vlmcsd，它可以部署到不同平台上提供服务。 Vlmcsd 的使用很简单，下载下来启动即可提供服务，默认端口号是 1688
+Windows对于 Windows 的下载，可以选择 官方渠道 或通过 MSDN, I tell you 进行下载，安装的专业版均可以 KMS 激活
+激活 Windows相对来说激活 Windows 也很简单，以管理员身份打开 Powershell 或命令提示符，并输入命令即可激活
+设置 GVLK，这里我们以 Windows Server 2016 标准版为例 1 slmgr /ipk WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY 设置 KMS 服务器 1 slmgr /skms example.]]></description>
 </item></channel>
 </rss>

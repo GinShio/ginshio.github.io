@@ -9,219 +9,59 @@
     <link>https://blog.ginshio.org/2021/operatingsystem_005/</link>
     <pubDate>Fri, 06 Aug 2021 14:55:42 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/operatingsystem_005/</guid>
-    <description><![CDATA[<p>计算机中有很多独占 resource，在任一时刻它们只能被一个进程使用，因此 OS 需要授权一个进程临时地、排他地访问某一 resource 的能力。一般进程会排他性地访问若干资源，假设进程 A 在先使用扫描仪的情况请求蓝光光盘刻录机，而进程 B 在先使用蓝光光盘刻录机的情况下请求扫描仪，由于两个进程都占有一定 resouce 且不会释放，并且互相请求了对方的 Resource，而造成这两个进程无限阻塞下去，这样的状态被称为 <strong>死锁</strong>
-(deadlock)。请不要单纯理解只有一台机器才会产生 deadlock，在多台机器同时访问局域网下的多个独占 resource 时也可能发生。</p>
-<h2 id="资源" class="headerLink">
-    <a href="#%e8%b5%84%e6%ba%90" class="header-mark"></a>资源</h2><p>我们将需要排他访问的对象称为 <strong>资源</strong> (resource)，资源可以是硬件设备或一组信息，通常有多种资源同时存在，且一些类型的资源存在若干实例 (打印店在同一局域网下会存在多台打印机)。</p>
-<p>还记得学习进程与线程时所说的，scheduling algorithm 分为两类： <strong>抢占式</strong>
-(preemptable) 与 <strong>非抢占式</strong> (nonpreemptable)，这里我们也将 resource 分为这两类，且意义相同。比如说 RAM 就是 preemptable resource，一个进程可以在使用时被 OS 换出
-RAM；而蓝光刻录机则是 nonpreemptable resource，将正在刻录的蓝光刻录机分配给另一个进程可能造成蓝光光盘的损坏。不过需要思考一个问题，如果这台计算机不支持交换和页面调度，那么内存也就变为了 nonpreemptable resource。因此区分 preemptable /
-nonpreemptable resource 取决于上下文环境。</p>
-<p>preemptable resource 的 deadlock 可以通过 resource 的重新配分而化解，因此
-deadlock 主要与 nonpreemptable resource 有关。若 resource 变得不可用，则请求进程将不可用，有的 OS 在这时会阻塞该进程，直到 resource 可用时再次唤醒；有些 OS 则会返回一个错误代码，请求进程自己处理这个错误。但是大部分进程会选择请求、休眠、再请求的方式进行循环，这与被阻塞没什么两样，因此假设 OS 在 resource 不可用时阻塞进程。</p>]]></description>
+    <description><![CDATA[计算机中有很多独占 resource，在任一时刻它们只能被一个进程使用，因此 OS 需要授权一个进程临时地、排他地访问某一 resource 的能力。一般进程会排他性地访问若干资源，假设进程 A 在先使用扫描仪的情况请求蓝光光盘刻录机，而进程 B 在先使用蓝光光盘刻录机的情况下请求扫描仪，由于两个进程都占有一定 resouce 且不会释放，并且互相请求了对方的 Resource，而造成这两个进程无限阻塞下去，这样的状态被称为 死锁 (deadlock)。请不要单纯理解只有一台机器才会产生 deadlock，在多台机器同时访问局域网下的多个独占 resource 时也可能发生。
+资源我们将需要排他访问的对象称为 资源 (resource)，资源可以是硬件设备或一组信息，通常有多种资源同时存在，且一些类型的资源存在若干实例 (打印店在同一局域网下会存在多台打印机)。
+还记得学习进程与线程时所说的，scheduling algorithm 分为两类： 抢占式 (preemptable) 与 非抢占式 (nonpreemptable)，这里我们也将 resource 分为这两类，且意义相同。比如说 RAM 就是 preemptable resource，一个进程可以在使用时被 OS 换出 RAM；而蓝光刻录机则是 nonpreemptable resource，将正在刻录的蓝光刻录机分配给另一个进程可能造成蓝光光盘的损坏。不过需要思考一个问题，如果这台计算机不支持交换和页面调度，那么内存也就变为了 nonpreemptable resource。因此区分 preemptable / nonpreemptable resource 取决于上下文环境。
+preemptable resource 的 deadlock 可以通过 resource 的重新配分而化解，因此 deadlock 主要与 nonpreemptable resource 有关。若 resource 变得不可用，则请求进程将不可用，有的 OS 在这时会阻塞该进程，直到 resource 可用时再次唤醒；有些 OS 则会返回一个错误代码，请求进程自己处理这个错误。但是大部分进程会选择请求、休眠、再请求的方式进行循环，这与被阻塞没什么两样，因此假设 OS 在 resource 不可用时阻塞进程。]]></description>
 </item><item>
     <title>输入输出</title>
     <link>https://blog.ginshio.org/2021/operatingsystem_004/</link>
     <pubDate>Sun, 25 Jul 2021 14:01:08 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/operatingsystem_004/</guid>
-    <description><![CDATA[<p>除了提供抽象外，操作系统还要控制计算机的所有 IO (输入/输出) 设备，必须向设备发送命令、捕获中断并处理设备的各种错误。它还应该在设备和其他部分之间提供简单且易于使用的接口，且这些接口应该尽可能的对所有设备都相同，即设备无关。</p>
-<h2 id="单位" class="headerLink">
-    <a href="#%e5%8d%95%e4%bd%8d" class="header-mark"></a>单位</h2><p>在进行本篇之前，需要明确一下计算机领域常用单位，只有统一了单位，我们才能更好的交流。</p>
-<p>计算机领域以 bit (b，位) 和 byte (B，字节) 作为基本单位，bit 是只能表示 1 或 0
-的单位数据，\(1 \texttt{Byte} = 8 \texttt{bit}\)，即 1 Byte 可以表示 256 种不同的状态。另外在 IO 传输数据时，最常用的单位即 <strong>比特率</strong> (单位：bit/s 或 bps)，即每秒传输的 bit 数量，当然也可以对其进行除以 8 运算转变为 <code>Byte/s</code>。</p>
-<p>传统单位以 <a href="https://en.wikipedia.org/wiki/Metric_prefix" target="_blank" rel="noopener noreferrer">SI</a> (10 进制) 前缀为词头，而计算机领域多以 <a href="https://en.wikipedia.org/wiki/Binary_prefix" target="_blank" rel="noopener noreferrer">IEC 60027</a> (2 进制) 前缀为词头。一般内存与 CD 使用 IEC-60027 词头，而磁盘、闪存、DVD 常用 SI 词头表示容量。至于 Windows 系统对于容量的显示问题，内部转换为 IEC-60027 但显示的词头却是 SI，这也是历史原因所造成的。</p>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">词头</th>
-          <th style="text-align: left">prefix</th>
-          <th style="text-align: left">符号</th>
-          <th style="text-align: left">\(10^{n}\)</th>
-          <th style="text-align: left">prefix</th>
-          <th style="text-align: left">符号</th>
-          <th style="text-align: left">\(2^{n}\)</th>
-          <th style="text-align: left">\(16^{n}\)</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">尧</td>
-          <td style="text-align: left">yotta</td>
-          <td style="text-align: left">Y</td>
-          <td style="text-align: left">\(10^{24}\)</td>
-          <td style="text-align: left">yobi</td>
-          <td style="text-align: left">Yi</td>
-          <td style="text-align: left">\(2^{80}\)</td>
-          <td style="text-align: left">\(16^{20}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">泽</td>
-          <td style="text-align: left">zetta</td>
-          <td style="text-align: left">Z</td>
-          <td style="text-align: left">\(10^{21}\)</td>
-          <td style="text-align: left">zebi</td>
-          <td style="text-align: left">Zi</td>
-          <td style="text-align: left">\(2^{70}\)</td>
-          <td style="text-align: left">\(16^{17.5}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">艾</td>
-          <td style="text-align: left">exa</td>
-          <td style="text-align: left">E</td>
-          <td style="text-align: left">\(10^{18}\)</td>
-          <td style="text-align: left">exbi</td>
-          <td style="text-align: left">Ei</td>
-          <td style="text-align: left">\(2^{60}\)</td>
-          <td style="text-align: left">\(16^{15}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">拍</td>
-          <td style="text-align: left">peta</td>
-          <td style="text-align: left">P</td>
-          <td style="text-align: left">\(10^{15}\)</td>
-          <td style="text-align: left">pebi</td>
-          <td style="text-align: left">Pi</td>
-          <td style="text-align: left">\(2^{50}\)</td>
-          <td style="text-align: left">\(16^{12.5}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">太</td>
-          <td style="text-align: left">tera</td>
-          <td style="text-align: left">T</td>
-          <td style="text-align: left">\(10^{12}\)</td>
-          <td style="text-align: left">tebi</td>
-          <td style="text-align: left">Ti</td>
-          <td style="text-align: left">\(2^{40}\)</td>
-          <td style="text-align: left">\(16^{10}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">吉</td>
-          <td style="text-align: left">giga</td>
-          <td style="text-align: left">G</td>
-          <td style="text-align: left">\(10^{9}\)</td>
-          <td style="text-align: left">gibi</td>
-          <td style="text-align: left">Gi</td>
-          <td style="text-align: left">\(2^{30}\)</td>
-          <td style="text-align: left">\(16^{7.5}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">兆</td>
-          <td style="text-align: left">mega</td>
-          <td style="text-align: left">M</td>
-          <td style="text-align: left">\(10^{6}\)</td>
-          <td style="text-align: left">mebi</td>
-          <td style="text-align: left">Mi</td>
-          <td style="text-align: left">\(2^{20}\)</td>
-          <td style="text-align: left">\(16^{5}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">千</td>
-          <td style="text-align: left">kilo</td>
-          <td style="text-align: left">k</td>
-          <td style="text-align: left">\(10^{3}\)</td>
-          <td style="text-align: left">kibi</td>
-          <td style="text-align: left">Ki</td>
-          <td style="text-align: left">\(2^{10}\)</td>
-          <td style="text-align: left">\(16^{2.5}\)</td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="io-硬件原理" class="headerLink">
-    <a href="#io-%e7%a1%ac%e4%bb%b6%e5%8e%9f%e7%90%86" class="header-mark"></a>IO 硬件原理</h2><p>对于不同角度观察的人，IO 硬件的理解是不同的。对于电子工程师而言，IO 硬件就是芯片、导线、电源、电机和其他组成硬件的物理部件。对程序员而言，则只注意 IO 硬件提供给软件的接口，如硬件能够接收的命令、实现的功能以及能够报告的错误。因此这里所描述的
-IO 设备仅限于对硬件的编程，而非其内部工作原理。</p>]]></description>
+    <description><![CDATA[除了提供抽象外，操作系统还要控制计算机的所有 IO (输入/输出) 设备，必须向设备发送命令、捕获中断并处理设备的各种错误。它还应该在设备和其他部分之间提供简单且易于使用的接口，且这些接口应该尽可能的对所有设备都相同，即设备无关。
+单位在进行本篇之前，需要明确一下计算机领域常用单位，只有统一了单位，我们才能更好的交流。
+计算机领域以 bit (b，位) 和 byte (B，字节) 作为基本单位，bit 是只能表示 1 或 0 的单位数据，\(1 \texttt{Byte} = 8 \texttt{bit}\)，即 1 Byte 可以表示 256 种不同的状态。另外在 IO 传输数据时，最常用的单位即 比特率 (单位：bit/s 或 bps)，即每秒传输的 bit 数量，当然也可以对其进行除以 8 运算转变为 Byte/s。
+传统单位以 SI (10 进制) 前缀为词头，而计算机领域多以 IEC 60027 (2 进制) 前缀为词头。一般内存与 CD 使用 IEC-60027 词头，而磁盘、闪存、DVD 常用 SI 词头表示容量。至于 Windows 系统对于容量的显示问题，内部转换为 IEC-60027 但显示的词头却是 SI，这也是历史原因所造成的。
+词头 prefix 符号 \(10^{n}\) prefix 符号 \(2^{n}\) \(16^{n}\) 尧 yotta Y \(10^{24}\) yobi Yi \(2^{80}\) \(16^{20}\) 泽 zetta Z \(10^{21}\) zebi Zi \(2^{70}\) \(16^{17.]]></description>
 </item><item>
     <title>文件系统</title>
     <link>https://blog.ginshio.org/2021/operatingsystem_003/</link>
     <pubDate>Mon, 19 Jul 2021 21:01:19 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/operatingsystem_003/</guid>
-    <description><![CDATA[<p>对于长期存储的信息有三个基本要求：</p>
-<ol>
-<li>能够存储大量信息</li>
-<li>使用信息的进程终止时，信息依旧存在</li>
-<li>必须能使多个进程并发访问相关信息</li>
-</ol>
-<p>磁盘由于其长期存储的性质，已有多年的使用历史。今年固态硬盘因其没有易损坏的移动部件、可以提供高速的随即访问，而流行起来。但磁盘和光盘虽然性能较差但也广泛用于备份。磁盘可以看做一种大小固定的块的线性序列，且支持：</p>
-<ol>
-<li>读块 k</li>
-<li>写块 k</li>
-</ol>
-<p>磁盘一般支持更多操作，但只要存在这两个操作，原则上就可以解决长期存储问题。当然这还远远不够，一些操作不便于实现，在思考时往往还产生一些问题：</p>
-<ol>
-<li>如何找到信息</li>
-<li>如何防止一个用户读取另一个用户的数据</li>
-<li>如何知道哪些块是空闲的</li>
-</ol>
-<p>就像 OS 提取处理器的概念来创建进程的抽象，以及提取 RAM 的概念来创建进程虚拟地址空间的抽象一样，使用 <strong>文件</strong> (File) 来解决磁盘的问题。File 是 <strong>进程创建的信息逻辑单元</strong>，文件是对磁盘的建模而非 RAM，因此将文件看做地址空间就能理解了。</p>
-<p>进程可以读取已存在的 File，并在需要时建立新 File，存储的文件必须是持久的，因此不会受到进程的创建与终止而受到影响，只有在其所有者明确删除它的情况下才会消失。File
-受操作系统管理，有关的构造、命名、访问、使用、保护、实现和管理方法都是 OS 设计的主要内容。从总体上看，OS 处理文件的部分被称为 <strong>文件系统</strong> (file system)，这才是
-OS 的核心问题之一。从用户的角度看，File System 中最重要的就是其表现形式，即文件由什么组成的，如何命名、修改等操作。至于如何实现，和我这个用户有什么关系呢。</p>
-<h2 id="文件" class="headerLink">
-    <a href="#%e6%96%87%e4%bb%b6" class="header-mark"></a>文件</h2><p>首先先从用户的角度观察文件，文件是对磁盘上保存信息的一种抽象，用户不必关心磁盘如何存储、存储到哪里、实际的工作方式等细节。</p>
-<p>文件系统是实现这些细节的程序，在 MS-DOS 中使用的是 <code>FAT-16</code> 文件系统，Windows98
-对其进行了扩展，从而成为今天耳熟能详的 <code>FAT-32</code> 文件系统，Windows 如今是用一种更为先进的 <code>NTFS</code> 文件系统。微软还根据 FAT 文件系统开发出了 <code>exFAT</code> ，这是针对于闪存和大文件开发的系统，并且也是唯一能满足 OS X 读写操作的微软开发的文件系统。UNIX
-的文件系统也有很多，目前主流的是 Linux 的 <code>ext4</code> (其是 ext2 和 ext3 的升级版本)、
-Solaris 的 <code>ZFS</code> 、Unix 传统的 <code>FFS</code> 以及 OS X 的 <code>HFS+</code> 等，还有一些著名公司如
-SGI 开发的 <code>XFS</code> 、RedHat 主导的 <code>BtrFS</code> 等。这些文件系统可能底层实现、适用环境不同，但大部分都遵循 POSIX 实现，对用户操作来说是透明的。</p>]]></description>
+    <description><![CDATA[对于长期存储的信息有三个基本要求：
+能够存储大量信息 使用信息的进程终止时，信息依旧存在 必须能使多个进程并发访问相关信息 磁盘由于其长期存储的性质，已有多年的使用历史。今年固态硬盘因其没有易损坏的移动部件、可以提供高速的随即访问，而流行起来。但磁盘和光盘虽然性能较差但也广泛用于备份。磁盘可以看做一种大小固定的块的线性序列，且支持：
+读块 k 写块 k 磁盘一般支持更多操作，但只要存在这两个操作，原则上就可以解决长期存储问题。当然这还远远不够，一些操作不便于实现，在思考时往往还产生一些问题：
+如何找到信息 如何防止一个用户读取另一个用户的数据 如何知道哪些块是空闲的 就像 OS 提取处理器的概念来创建进程的抽象，以及提取 RAM 的概念来创建进程虚拟地址空间的抽象一样，使用 文件 (File) 来解决磁盘的问题。File 是 进程创建的信息逻辑单元，文件是对磁盘的建模而非 RAM，因此将文件看做地址空间就能理解了。
+进程可以读取已存在的 File，并在需要时建立新 File，存储的文件必须是持久的，因此不会受到进程的创建与终止而受到影响，只有在其所有者明确删除它的情况下才会消失。File 受操作系统管理，有关的构造、命名、访问、使用、保护、实现和管理方法都是 OS 设计的主要内容。从总体上看，OS 处理文件的部分被称为 文件系统 (file system)，这才是 OS 的核心问题之一。从用户的角度看，File System 中最重要的就是其表现形式，即文件由什么组成的，如何命名、修改等操作。至于如何实现，和我这个用户有什么关系呢。
+文件首先先从用户的角度观察文件，文件是对磁盘上保存信息的一种抽象，用户不必关心磁盘如何存储、存储到哪里、实际的工作方式等细节。
+文件系统是实现这些细节的程序，在 MS-DOS 中使用的是 FAT-16 文件系统，Windows98 对其进行了扩展，从而成为今天耳熟能详的 FAT-32 文件系统，Windows 如今是用一种更为先进的 NTFS 文件系统。微软还根据 FAT 文件系统开发出了 exFAT ，这是针对于闪存和大文件开发的系统，并且也是唯一能满足 OS X 读写操作的微软开发的文件系统。UNIX 的文件系统也有很多，目前主流的是 Linux 的 ext4 (其是 ext2 和 ext3 的升级版本)、 Solaris 的 ZFS 、Unix 传统的 FFS 以及 OS X 的 HFS+ 等，还有一些著名公司如 SGI 开发的 XFS 、RedHat 主导的 BtrFS 等。这些文件系统可能底层实现、适用环境不同，但大部分都遵循 POSIX 实现，对用户操作来说是透明的。]]></description>
 </item><item>
     <title>内存管理</title>
     <link>https://blog.ginshio.org/2021/operatingsystem_002/</link>
     <pubDate>Wed, 14 Jul 2021 12:14:40 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/operatingsystem_002/</guid>
-    <description><![CDATA[<p>内存 (随机访问存储器，RAM) 是计算机中一种需要认真管理的重要资源。不管存储器有多大，程序都能把它填满。经过多年的探索，我们有了 <strong>分层存储器体系</strong> (memory
-hierarchy) 的概念，即计算机拥有若干 MiB 快速、昂贵且易失性的 Cache，数 GiB 速度与价格适中的易失性内存，以及数 TiB 快速、廉价但非易失性的磁盘存储。计算机中管理分层存储器体系的部分被称为 <strong>存储管理器</strong> (memory manager)。它的任务是有效地管理内存，记录哪些内存正在使用，哪些内存是空闲的，在进程需要时为其分配内存，在进程使用完后释放内存。</p>
-<h2 id="无存储器抽象" class="headerLink">
-    <a href="#%e6%97%a0%e5%ad%98%e5%82%a8%e5%99%a8%e6%8a%bd%e8%b1%a1" class="header-mark"></a>无存储器抽象</h2><p>最简单的存储器抽象是不使用抽象。早期的大型机 (60 年代以前)、小型机 (70 年代以前)
-以及个人计算机 (80 年代以前) 都是没有存储器抽象的，每一个程序都直接访问物理内存，这种模型中系统每次仅运行一个进程。</p>
-<p>虽然直接使用物理内存，但还是有不同的模型，下图展示了三种模型。a 模型中操作系统位于 RAM 底部，这种模型曾被用于大型机与小型机；b 模型中操作系统位于内存顶端的 ROM
-(只读存储器) 中，这种模型被用于掌上电脑或嵌入式系统中；c 模型中设备驱动程序位于顶部的 ROM 中，而操作系统的其他部分位于 RAM 的底部，该方案被用于早期的个人计算机中 (如运行 MS-DOS 的计算机)，在 ROM 中的系统部分被称为 BIOS (基本输入输出系统，
-Basic Input Output System)。a 和 c 模型当用户程序出错时，可能会摧毁操作系统，引发灾难性后果。</p>
-<figure>
-</figure>
-
-<p>在无存储器抽象的系统中实现并行的方法是采用多线程编程。由于引入线程时假设一个进程中的所有线程对同一内存映像都可见，如此实现并行也就不是问题。虽然方法行得通，但没有被广泛使用，因为人们通常希望能够在同一时间运行没有关联的程序，而这正是线程抽象所不能提供的。因此一个无存储器抽象的系统也不大可能提供线程抽象的功能。</p>
-<p>由于使用无存储器抽象时并发进程，可以在一个进程运行一段时间后，从磁盘中加载其他进程到 RAM 中。但由于两个进程都引用的绝对地址，因此可能会引用到第一个进程的私有地址，导致进程崩溃。IBM 360 对上述问题的补救方案就是在第二个进程装载到内存的时候，使用静态重定位的技术修改它。</p>
-<h2 id="一种存储器抽象-地址空间" class="headerLink">
-    <a href="#%e4%b8%80%e7%a7%8d%e5%ad%98%e5%82%a8%e5%99%a8%e6%8a%bd%e8%b1%a1-%e5%9c%b0%e5%9d%80%e7%a9%ba%e9%97%b4" class="header-mark"></a>一种存储器抽象：地址空间</h2><p>当物理地址暴露给进程会带来下面一些严重问题：</p>
-<ol>
-<li>如果用户程序可以寻址内存的每个字节，它们就可以很容易地 (故意地或偶然地) 破坏操作系统，从而使整个系统慢慢地停止运行，除非有特殊的硬件保护 (IBM 360 的锁键模式)</li>
-<li>使用这种模型，想要同时运行多个程序是很困难的</li>
-</ol>
-<h3 id="地址空间的概念" class="headerLink">
-    <a href="#%e5%9c%b0%e5%9d%80%e7%a9%ba%e9%97%b4%e7%9a%84%e6%a6%82%e5%bf%b5" class="header-mark"></a>地址空间的概念</h3><p>要使多个应用程序同时处于内存中并且不互相影响，需要解决两个问题：<strong>保护</strong> 和 <strong>重定位</strong> 。</p>]]></description>
+    <description><![CDATA[内存 (随机访问存储器，RAM) 是计算机中一种需要认真管理的重要资源。不管存储器有多大，程序都能把它填满。经过多年的探索，我们有了 分层存储器体系 (memory hierarchy) 的概念，即计算机拥有若干 MiB 快速、昂贵且易失性的 Cache，数 GiB 速度与价格适中的易失性内存，以及数 TiB 快速、廉价但非易失性的磁盘存储。计算机中管理分层存储器体系的部分被称为 存储管理器 (memory manager)。它的任务是有效地管理内存，记录哪些内存正在使用，哪些内存是空闲的，在进程需要时为其分配内存，在进程使用完后释放内存。
+无存储器抽象最简单的存储器抽象是不使用抽象。早期的大型机 (60 年代以前)、小型机 (70 年代以前) 以及个人计算机 (80 年代以前) 都是没有存储器抽象的，每一个程序都直接访问物理内存，这种模型中系统每次仅运行一个进程。
+虽然直接使用物理内存，但还是有不同的模型，下图展示了三种模型。a 模型中操作系统位于 RAM 底部，这种模型曾被用于大型机与小型机；b 模型中操作系统位于内存顶端的 ROM (只读存储器) 中，这种模型被用于掌上电脑或嵌入式系统中；c 模型中设备驱动程序位于顶部的 ROM 中，而操作系统的其他部分位于 RAM 的底部，该方案被用于早期的个人计算机中 (如运行 MS-DOS 的计算机)，在 ROM 中的系统部分被称为 BIOS (基本输入输出系统， Basic Input Output System)。a 和 c 模型当用户程序出错时，可能会摧毁操作系统，引发灾难性后果。
+在无存储器抽象的系统中实现并行的方法是采用多线程编程。由于引入线程时假设一个进程中的所有线程对同一内存映像都可见，如此实现并行也就不是问题。虽然方法行得通，但没有被广泛使用，因为人们通常希望能够在同一时间运行没有关联的程序，而这正是线程抽象所不能提供的。因此一个无存储器抽象的系统也不大可能提供线程抽象的功能。
+由于使用无存储器抽象时并发进程，可以在一个进程运行一段时间后，从磁盘中加载其他进程到 RAM 中。但由于两个进程都引用的绝对地址，因此可能会引用到第一个进程的私有地址，导致进程崩溃。IBM 360 对上述问题的补救方案就是在第二个进程装载到内存的时候，使用静态重定位的技术修改它。
+一种存储器抽象：地址空间当物理地址暴露给进程会带来下面一些严重问题：
+如果用户程序可以寻址内存的每个字节，它们就可以很容易地 (故意地或偶然地) 破坏操作系统，从而使整个系统慢慢地停止运行，除非有特殊的硬件保护 (IBM 360 的锁键模式) 使用这种模型，想要同时运行多个程序是很困难的 地址空间的概念要使多个应用程序同时处于内存中并且不互相影响，需要解决两个问题：保护 和 重定位 。]]></description>
 </item><item>
     <title>进程与线程</title>
     <link>https://blog.ginshio.org/2021/operatingsystem_001/</link>
     <pubDate>Sun, 11 Jul 2021 12:14:40 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/operatingsystem_001/</guid>
-    <description><![CDATA[<h2 id="进程" class="headerLink">
-    <a href="#%e8%bf%9b%e7%a8%8b" class="header-mark"></a>进程</h2><p>进程 (Process) 是操作系统中的核心概念，是对正在运行的程序的抽象。即使只有一个可用的 CPU，也可以启动多个进程，让操作系统具有并发能力。</p>
-<h3 id="进程模型" class="headerLink">
-    <a href="#%e8%bf%9b%e7%a8%8b%e6%a8%a1%e5%9e%8b" class="header-mark"></a>进程模型</h3><p>一个进程就是一个正在执行的程序实例，每个进程都拥有一个自己的虚拟 CPU、程序计数器、寄存器、内存地址空间等，这些是一个进程私有的，不可被其他进程所访问、修改，真正的
-CPU 在各个进程之间来回切换。</p>
-<p>假设现在有 4 个程序，它们在运行时装入自己虚拟的程序计数器、寄存器，并有物理 CPU
-运行程序。当程序被切换时，物理程序计数器等数据被保存到内存中。在观察足够长的时间时，所有的进程都运行了，但每个瞬间仅有一个程序在执行。需要注意的是，如果一个程序运行了两遍，那将被算作两个进程。</p>
-<p>进程的核心思想即：一个进程是某种类型的一个活动，它有程序、输入、输出以及状态。单个处理器可以被若干进程共享，它使用调度算法决定何时停止一个进程的工作，并转而为另一个进程提供服务。</p>
-<p>当进程创建了一个新进程后，其被称为父进程，新进程被称为子进程，这些进程组成了层次结构。在 UNIX 中一个称为 init 的特殊进程出现在启动映像中，init 运行时读入终端数量的文件，并为每一个终端创建一个新进程。这些终端等待用户登陆，登陆成功时便会执行
-shell 进程来接收用户命令。整个系统中，所有进程都属于以 init 为根的进程树。
-Windows 中没有层次结构概念，所有进程地位相同。创建进程时父进程得到 <strong>句柄</strong> 用于控制子进程，但也可以将句柄传送给其他进程。</p>
-<h3 id="进程的创建与终止" class="headerLink">
-    <a href="#%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%88%9b%e5%bb%ba%e4%b8%8e%e7%bb%88%e6%ad%a2" class="header-mark"></a>进程的创建与终止</h3><p>操作系统往往需要一种方式来创建进程，一般由 4 种主要事件来创建进程：</p>
-<ol>
-<li>系统初始化</li>
-<li>正在运行的程序执行了创建进程的系统调用 (syscall)</li>
-<li>用户请求创建新进程</li>
-<li>批处理作业的初始化</li>
-</ol>
-<p>新进程都是由于一个已存在的进程执行了一个用于创建进程的 syscall 用而创建的。这个系统调用通知操作系统创建一个新进程，并且直接或间接地指定在该进程中运行的程序。</p>
-<p>在 UNIX 系统，往往采用 syscall <code>fork</code> 来创建一个与调用进程相同的副本。调用成功后，两个进程拥有相同的内存映像、相同的环境字符串与打开文件。通常子进程执行 <code>exec</code> 系列 syscall 来修改其内存映像，并运行一个新程序。在执行 <code>exec</code> 之前，允许子进程处理其文件描述符等操作。</p>
-<p>UNIX 中子进程的初始地址空间是父进程的一个副本，但是两个不同的地址空间，不可写的部分则是共享的。而某些 UNIX 实现中，子进程共享父进程的所有内存，内存通过 <strong>写时复制</strong> (Copy-On-Write, COW) 技术实现共享，即当两者之一修改内存时，这块内存被明确的复制，以保证修改发生在进程的私有区域。</p>
-<p>进程在创建之后开始运行，完成其工作，进程可能在未来的某个时刻完成任务并被终止。通常终止进程由以下条件引起：</p>
-<ol>
-<li>正常退出 (自愿)</li>
-<li>错误退出 (自愿)</li>
-<li>严重错误 (非自愿)</li>
-<li>被其他进程杀死 (非自愿)</li>
-</ol>
-<p>前两种即进程自己所处理的终止，完成工作或者在运行时遇到了一些可处理的错误，这时进程通过 <code>exit</code> 调用终止，并向父进程返回状态值。</p>]]></description>
+    <description><![CDATA[进程进程 (Process) 是操作系统中的核心概念，是对正在运行的程序的抽象。即使只有一个可用的 CPU，也可以启动多个进程，让操作系统具有并发能力。
+进程模型一个进程就是一个正在执行的程序实例，每个进程都拥有一个自己的虚拟 CPU、程序计数器、寄存器、内存地址空间等，这些是一个进程私有的，不可被其他进程所访问、修改，真正的 CPU 在各个进程之间来回切换。
+假设现在有 4 个程序，它们在运行时装入自己虚拟的程序计数器、寄存器，并有物理 CPU 运行程序。当程序被切换时，物理程序计数器等数据被保存到内存中。在观察足够长的时间时，所有的进程都运行了，但每个瞬间仅有一个程序在执行。需要注意的是，如果一个程序运行了两遍，那将被算作两个进程。
+进程的核心思想即：一个进程是某种类型的一个活动，它有程序、输入、输出以及状态。单个处理器可以被若干进程共享，它使用调度算法决定何时停止一个进程的工作，并转而为另一个进程提供服务。
+当进程创建了一个新进程后，其被称为父进程，新进程被称为子进程，这些进程组成了层次结构。在 UNIX 中一个称为 init 的特殊进程出现在启动映像中，init 运行时读入终端数量的文件，并为每一个终端创建一个新进程。这些终端等待用户登陆，登陆成功时便会执行 shell 进程来接收用户命令。整个系统中，所有进程都属于以 init 为根的进程树。 Windows 中没有层次结构概念，所有进程地位相同。创建进程时父进程得到 句柄 用于控制子进程，但也可以将句柄传送给其他进程。
+进程的创建与终止操作系统往往需要一种方式来创建进程，一般由 4 种主要事件来创建进程：
+系统初始化 正在运行的程序执行了创建进程的系统调用 (syscall) 用户请求创建新进程 批处理作业的初始化 新进程都是由于一个已存在的进程执行了一个用于创建进程的 syscall 用而创建的。这个系统调用通知操作系统创建一个新进程，并且直接或间接地指定在该进程中运行的程序。
+在 UNIX 系统，往往采用 syscall fork 来创建一个与调用进程相同的副本。调用成功后，两个进程拥有相同的内存映像、相同的环境字符串与打开文件。通常子进程执行 exec 系列 syscall 来修改其内存映像，并运行一个新程序。在执行 exec 之前，允许子进程处理其文件描述符等操作。
+UNIX 中子进程的初始地址空间是父进程的一个副本，但是两个不同的地址空间，不可写的部分则是共享的。而某些 UNIX 实现中，子进程共享父进程的所有内存，内存通过 写时复制 (Copy-On-Write, COW) 技术实现共享，即当两者之一修改内存时，这块内存被明确的复制，以保证修改发生在进程的私有区域。
+进程在创建之后开始运行，完成其工作，进程可能在未来的某个时刻完成任务并被终止。通常终止进程由以下条件引起：
+正常退出 (自愿) 错误退出 (自愿) 严重错误 (非自愿) 被其他进程杀死 (非自愿) 前两种即进程自己所处理的终止，完成工作或者在运行时遇到了一些可处理的错误，这时进程通过 exit 调用终止，并向父进程返回状态值。]]></description>
 </item></channel>
 </rss>

@@ -9,68 +9,20 @@
     <link>https://blog.ginshio.org/2022/memory_alignment/</link>
     <pubDate>Sat, 03 Sep 2022 17:41:38 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/memory_alignment/</guid>
-    <description><![CDATA[<p>众所周知，运行的程序是需要内存占用的，在编码时假定栈上的空间是连续的，且定义的所有变量都连续分布在栈上。</p>
-<p>实际上，虽然变量是连续分布在栈上的，但编译器会根据不同类型与对齐方式，将变量重新排列，达到最优情况。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#define __print_position(type, CNT)             \
-</span></span></span><span class="line"><span class="cl"><span class="cp">    type VAR##CNT;                              \
-</span></span></span><span class="line"><span class="cl"><span class="cp">    printf(&#34;VAR&#34;#CNT &#34; (&#34; #type &#34;)\t: %p\n&#34;, &amp;VAR##CNT);
-</span></span></span><span class="line"><span class="cl"><span class="cp">#define _print_position(type, CNT) __print_position(type, CNT)
-</span></span></span><span class="line"><span class="cl"><span class="cp">#define print_position(type) _print_position(type, __COUNTER__)
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">print_position</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>    <span class="c1">// VAR0 (int)   : 0x7ffe84765470
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">print_position</span><span class="p">(</span><span class="kt">double</span><span class="p">);</span> <span class="c1">// VAR1 (double): 0x7ffe84765478
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">print_position</span><span class="p">(</span><span class="kt">char</span><span class="p">);</span>   <span class="c1">// VAR2 (char)  : 0x7ffe8476546f
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">print_position</span><span class="p">(</span><span class="kt">float</span><span class="p">);</span>  <span class="c1">// VAR3 (float) : 0x7ffe84765474
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">print_position</span><span class="p">(</span><span class="kt">div_t</span><span class="p">);</span>  <span class="c1">// VAR4 (div_t) : 0x7ffe84765480
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>本文主要集中在结构体的对齐。</p>]]></description>
+    <description><![CDATA[众所周知，运行的程序是需要内存占用的，在编码时假定栈上的空间是连续的，且定义的所有变量都连续分布在栈上。
+实际上，虽然变量是连续分布在栈上的，但编译器会根据不同类型与对齐方式，将变量重新排列，达到最优情况。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 #include &lt;stdio.h&gt; #include &lt;stdlib.h&gt; #define __print_position(type, CNT) \ type VAR##CNT; \ printf(&#34;VAR&#34;#CNT &#34; (&#34; #type &#34;)\t: %p\n&#34;, &amp;VAR##CNT); #define _print_position(type, CNT) __print_position(type, CNT) #define print_position(type) _print_position(type, __COUNTER__) int main(void) { print_position(int); // VAR0 (int) : 0x7ffe84765470 print_position(double); // VAR1 (double): 0x7ffe84765478 print_position(char); // VAR2 (char) : 0x7ffe8476546f print_position(float); // VAR3 (float) : 0x7ffe84765474 print_position(div_t); // VAR4 (div_t) : 0x7ffe84765480 } 本文主要集中在结构体的对齐。]]></description>
 </item><item>
     <title>内存管理</title>
     <link>https://blog.ginshio.org/2021/operatingsystem_002/</link>
     <pubDate>Wed, 14 Jul 2021 12:14:40 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/operatingsystem_002/</guid>
-    <description><![CDATA[<p>内存 (随机访问存储器，RAM) 是计算机中一种需要认真管理的重要资源。不管存储器有多大，程序都能把它填满。经过多年的探索，我们有了 <strong>分层存储器体系</strong> (memory
-hierarchy) 的概念，即计算机拥有若干 MiB 快速、昂贵且易失性的 Cache，数 GiB 速度与价格适中的易失性内存，以及数 TiB 快速、廉价但非易失性的磁盘存储。计算机中管理分层存储器体系的部分被称为 <strong>存储管理器</strong> (memory manager)。它的任务是有效地管理内存，记录哪些内存正在使用，哪些内存是空闲的，在进程需要时为其分配内存，在进程使用完后释放内存。</p>
-<h2 id="无存储器抽象" class="headerLink">
-    <a href="#%e6%97%a0%e5%ad%98%e5%82%a8%e5%99%a8%e6%8a%bd%e8%b1%a1" class="header-mark"></a>无存储器抽象</h2><p>最简单的存储器抽象是不使用抽象。早期的大型机 (60 年代以前)、小型机 (70 年代以前)
-以及个人计算机 (80 年代以前) 都是没有存储器抽象的，每一个程序都直接访问物理内存，这种模型中系统每次仅运行一个进程。</p>
-<p>虽然直接使用物理内存，但还是有不同的模型，下图展示了三种模型。a 模型中操作系统位于 RAM 底部，这种模型曾被用于大型机与小型机；b 模型中操作系统位于内存顶端的 ROM
-(只读存储器) 中，这种模型被用于掌上电脑或嵌入式系统中；c 模型中设备驱动程序位于顶部的 ROM 中，而操作系统的其他部分位于 RAM 的底部，该方案被用于早期的个人计算机中 (如运行 MS-DOS 的计算机)，在 ROM 中的系统部分被称为 BIOS (基本输入输出系统，
-Basic Input Output System)。a 和 c 模型当用户程序出错时，可能会摧毁操作系统，引发灾难性后果。</p>
-<figure>
-</figure>
-
-<p>在无存储器抽象的系统中实现并行的方法是采用多线程编程。由于引入线程时假设一个进程中的所有线程对同一内存映像都可见，如此实现并行也就不是问题。虽然方法行得通，但没有被广泛使用，因为人们通常希望能够在同一时间运行没有关联的程序，而这正是线程抽象所不能提供的。因此一个无存储器抽象的系统也不大可能提供线程抽象的功能。</p>
-<p>由于使用无存储器抽象时并发进程，可以在一个进程运行一段时间后，从磁盘中加载其他进程到 RAM 中。但由于两个进程都引用的绝对地址，因此可能会引用到第一个进程的私有地址，导致进程崩溃。IBM 360 对上述问题的补救方案就是在第二个进程装载到内存的时候，使用静态重定位的技术修改它。</p>
-<h2 id="一种存储器抽象-地址空间" class="headerLink">
-    <a href="#%e4%b8%80%e7%a7%8d%e5%ad%98%e5%82%a8%e5%99%a8%e6%8a%bd%e8%b1%a1-%e5%9c%b0%e5%9d%80%e7%a9%ba%e9%97%b4" class="header-mark"></a>一种存储器抽象：地址空间</h2><p>当物理地址暴露给进程会带来下面一些严重问题：</p>
-<ol>
-<li>如果用户程序可以寻址内存的每个字节，它们就可以很容易地 (故意地或偶然地) 破坏操作系统，从而使整个系统慢慢地停止运行，除非有特殊的硬件保护 (IBM 360 的锁键模式)</li>
-<li>使用这种模型，想要同时运行多个程序是很困难的</li>
-</ol>
-<h3 id="地址空间的概念" class="headerLink">
-    <a href="#%e5%9c%b0%e5%9d%80%e7%a9%ba%e9%97%b4%e7%9a%84%e6%a6%82%e5%bf%b5" class="header-mark"></a>地址空间的概念</h3><p>要使多个应用程序同时处于内存中并且不互相影响，需要解决两个问题：<strong>保护</strong> 和 <strong>重定位</strong> 。</p>]]></description>
+    <description><![CDATA[内存 (随机访问存储器，RAM) 是计算机中一种需要认真管理的重要资源。不管存储器有多大，程序都能把它填满。经过多年的探索，我们有了 分层存储器体系 (memory hierarchy) 的概念，即计算机拥有若干 MiB 快速、昂贵且易失性的 Cache，数 GiB 速度与价格适中的易失性内存，以及数 TiB 快速、廉价但非易失性的磁盘存储。计算机中管理分层存储器体系的部分被称为 存储管理器 (memory manager)。它的任务是有效地管理内存，记录哪些内存正在使用，哪些内存是空闲的，在进程需要时为其分配内存，在进程使用完后释放内存。
+无存储器抽象最简单的存储器抽象是不使用抽象。早期的大型机 (60 年代以前)、小型机 (70 年代以前) 以及个人计算机 (80 年代以前) 都是没有存储器抽象的，每一个程序都直接访问物理内存，这种模型中系统每次仅运行一个进程。
+虽然直接使用物理内存，但还是有不同的模型，下图展示了三种模型。a 模型中操作系统位于 RAM 底部，这种模型曾被用于大型机与小型机；b 模型中操作系统位于内存顶端的 ROM (只读存储器) 中，这种模型被用于掌上电脑或嵌入式系统中；c 模型中设备驱动程序位于顶部的 ROM 中，而操作系统的其他部分位于 RAM 的底部，该方案被用于早期的个人计算机中 (如运行 MS-DOS 的计算机)，在 ROM 中的系统部分被称为 BIOS (基本输入输出系统， Basic Input Output System)。a 和 c 模型当用户程序出错时，可能会摧毁操作系统，引发灾难性后果。
+在无存储器抽象的系统中实现并行的方法是采用多线程编程。由于引入线程时假设一个进程中的所有线程对同一内存映像都可见，如此实现并行也就不是问题。虽然方法行得通，但没有被广泛使用，因为人们通常希望能够在同一时间运行没有关联的程序，而这正是线程抽象所不能提供的。因此一个无存储器抽象的系统也不大可能提供线程抽象的功能。
+由于使用无存储器抽象时并发进程，可以在一个进程运行一段时间后，从磁盘中加载其他进程到 RAM 中。但由于两个进程都引用的绝对地址，因此可能会引用到第一个进程的私有地址，导致进程崩溃。IBM 360 对上述问题的补救方案就是在第二个进程装载到内存的时候，使用静态重定位的技术修改它。
+一种存储器抽象：地址空间当物理地址暴露给进程会带来下面一些严重问题：
+如果用户程序可以寻址内存的每个字节，它们就可以很容易地 (故意地或偶然地) 破坏操作系统，从而使整个系统慢慢地停止运行，除非有特殊的硬件保护 (IBM 360 的锁键模式) 使用这种模型，想要同时运行多个程序是很困难的 地址空间的概念要使多个应用程序同时处于内存中并且不互相影响，需要解决两个问题：保护 和 重定位 。]]></description>
 </item></channel>
 </rss>

@@ -325,38 +325,38 @@ I/O 需要处理这两个阶段，进程不被阻塞也无需关心，只需要�
 
 <p>说一下特殊的几个描述符，每个 Unix 进程在开启时，都会打开这三个标准的 POSIX 文件描述符</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">整数值</th>
-          <th style="text-align: left">名称</th>
-          <th style="text-align: left">中文名称</th>
-          <th style="text-align: left">&lt;unistd.h&gt; 符号常量</th>
-          <th style="text-align: left">&lt;stdio.h&gt; 符号常量</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">0</td>
-          <td style="text-align: left">Standard Input</td>
-          <td style="text-align: left">标准输入流</td>
-          <td style="text-align: left"><code>STDIN_FILENO</code></td>
-          <td style="text-align: left"><code>stdin</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">Standard Output</td>
-          <td style="text-align: left">标准输出流</td>
-          <td style="text-align: left"><code>STDOUT_FILENO</code></td>
-          <td style="text-align: left"><code>stdout</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">Standard Error</td>
-          <td style="text-align: left">标准错误流</td>
-          <td style="text-align: left"><code>STDERR_FILENO</code></td>
-          <td style="text-align: left"><code>stderr</code></td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>整数值</th>
+<th>名称</th>
+<th>中文名称</th>
+<th>&lt;unistd.h&gt; 符号常量</th>
+<th>&lt;stdio.h&gt; 符号常量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Standard Input</td>
+<td>标准输入流</td>
+<td><code>STDIN_FILENO</code></td>
+<td><code>stdin</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td>Standard Output</td>
+<td>标准输出流</td>
+<td><code>STDOUT_FILENO</code></td>
+<td><code>stdout</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Standard Error</td>
+<td>标准错误流</td>
+<td><code>STDERR_FILENO</code></td>
+<td><code>stderr</code></td>
+</tr>
+</tbody>
 </table>
 <h2 id="select-函数" class="headerLink">
     <a href="#select-%e5%87%bd%e6%95%b0" class="header-mark"></a>select 函数</h2><p>select 允许进程指示内核等待多个事件中任何一个发生，在只有一个或多个事件发生或超时时唤醒进程。任何描述符都可以使用 select 进行监听，不止套接字。其中监听事件包括准备读、准备写、异常条件处理，以及超时。</p>
@@ -464,58 +464,58 @@ fd_set 数据可描述的描述符大小的常值，通常是 1024。比如关�
 <p>接收低水位标记与发送低水位标记的目的在于：允许进程控制在 select 返回可读或可写条件之前有多少数据可读或多大空间可写。举个例子，如果少于 64 byte 的数据对进程来说是无法处理的，可以将低水位标记设置为 64，防止少于 64 byte 数据准备好读时 select
 唤醒进程。对于 UDP socket 来说，其发送低水位标记小于等于发送缓冲区大小时，总是可写的，因为 UDP socket 无需连接。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">条件</th>
-          <th style="text-align: left">可读</th>
-          <th style="text-align: left">可写</th>
-          <th style="text-align: left">异常</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">有数据可读</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">关闭连接的读半部</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">监听套接字准备好新连接</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">有可用于写的空间</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">关闭连接的写半部</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">待处理错误</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">TCP 带外数据</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">YES</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>条件</th>
+<th>可读</th>
+<th>可写</th>
+<th>异常</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>有数据可读</td>
+<td>YES</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>关闭连接的读半部</td>
+<td>YES</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>监听套接字准备好新连接</td>
+<td>YES</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>有可用于写的空间</td>
+<td></td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>关闭连接的写半部</td>
+<td></td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>待处理错误</td>
+<td>YES</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>TCP 带外数据</td>
+<td></td>
+<td></td>
+<td>YES</td>
+</tr>
+</tbody>
 </table>
 <h2 id="select-示例" class="headerLink">
     <a href="#select-%e7%a4%ba%e4%be%8b" class="header-mark"></a>select 示例</h2><h3 id="使用-select-实现-tcp-echo-程序" class="headerLink">
@@ -767,30 +767,30 @@ Attacks)：如果客户端仅发送一个字节的数据，且这个字节不是
 </div>
 </div><p>howto 参数可以控制 shutdown 的行为，取值如下</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">howto 取值</th>
-          <th style="text-align: left">shutdown 行为</th>
-          <th style="text-align: left">释义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">SHUT_RD</td>
-          <td style="text-align: left">关闭读半部</td>
-          <td style="text-align: left">不再接收数据，缓冲区的数据全部被丢弃</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">SHUT_WR</td>
-          <td style="text-align: left">关闭写半部</td>
-          <td style="text-align: left">不再发送数据，连接进入半关闭状态</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">SHUT_RDWR</td>
-          <td style="text-align: left">关闭读、写半部</td>
-          <td style="text-align: left">等效于依次调用 SHUT_RD、SHUT_WR</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>howto 取值</th>
+<th>shutdown 行为</th>
+<th>释义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SHUT_RD</td>
+<td>关闭读半部</td>
+<td>不再接收数据，缓冲区的数据全部被丢弃</td>
+</tr>
+<tr>
+<td>SHUT_WR</td>
+<td>关闭写半部</td>
+<td>不再发送数据，连接进入半关闭状态</td>
+</tr>
+<tr>
+<td>SHUT_RDWR</td>
+<td>关闭读、写半部</td>
+<td>等效于依次调用 SHUT_RD、SHUT_WR</td>
+</tr>
+</tbody>
 </table>
 <h3 id="批量输入问题" class="headerLink">
     <a href="#%e6%89%b9%e9%87%8f%e8%be%93%e5%85%a5%e9%97%ae%e9%a2%98" class="header-mark"></a>批量输入问题</h3><p>现在回头看上一篇中简单的 str_cli，这个函数实在太简单了，它可以完成我们预想的工作，除了不能即时反馈服务端已停止工作。它使用了停-等的工作方式，即发送文本服务器，然后等待响应。当然这段等待的时间，包含 RTT (Round-Trip Time, 往返时间) 以及服务器的处理时间。现在假设 RTT 为 8 个时间单位，请求在时刻 0 发出并在时刻 3 接收，响应在时刻 4 发出并在时刻 7 收到，且忽略服务器处理时间且请求、响应大小相同。</p>
@@ -950,76 +950,76 @@ Attacks)：如果客户端仅发送一个字节的数据，且这个字节不是
 </div>
 </div><p>测试条件由 events 成员指定，函数在相应的 revents 成员中返回相应的状态，另外这些值可以以逻辑组合的形式传递给 poll 或读取</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">值</th>
-          <th style="text-align: left">events</th>
-          <th style="text-align: left">revents</th>
-          <th style="text-align: left">说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">POLLIN</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">普通或优先级带数据可读</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">POLLRDNORM</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">普通数据可读</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">POLLRDBAND</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">优先级数据可读</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">POLLPRI</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">高优先级数据可读</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">POLLOUT</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">普通数据可写</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">POLLWRNORM</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">普通数据可写</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">POLLWRBAND</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">优先级数据可写</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">POLLERR</td>
-          <td style="text-align: left">NO</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">发生错误</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">POLLHUP</td>
-          <td style="text-align: left">NO</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">发生阻塞</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">POLLNVAL</td>
-          <td style="text-align: left">NO</td>
-          <td style="text-align: left">YES</td>
-          <td style="text-align: left">描述符不是一个打开的文件</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>值</th>
+<th>events</th>
+<th>revents</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POLLIN</td>
+<td>YES</td>
+<td>YES</td>
+<td>普通或优先级带数据可读</td>
+</tr>
+<tr>
+<td>POLLRDNORM</td>
+<td>YES</td>
+<td>YES</td>
+<td>普通数据可读</td>
+</tr>
+<tr>
+<td>POLLRDBAND</td>
+<td>YES</td>
+<td>YES</td>
+<td>优先级数据可读</td>
+</tr>
+<tr>
+<td>POLLPRI</td>
+<td>YES</td>
+<td>YES</td>
+<td>高优先级数据可读</td>
+</tr>
+<tr>
+<td>POLLOUT</td>
+<td>YES</td>
+<td>YES</td>
+<td>普通数据可写</td>
+</tr>
+<tr>
+<td>POLLWRNORM</td>
+<td>YES</td>
+<td>YES</td>
+<td>普通数据可写</td>
+</tr>
+<tr>
+<td>POLLWRBAND</td>
+<td>YES</td>
+<td>YES</td>
+<td>优先级数据可写</td>
+</tr>
+<tr>
+<td>POLLERR</td>
+<td>NO</td>
+<td>YES</td>
+<td>发生错误</td>
+</tr>
+<tr>
+<td>POLLHUP</td>
+<td>NO</td>
+<td>YES</td>
+<td>发生阻塞</td>
+</tr>
+<tr>
+<td>POLLNVAL</td>
+<td>NO</td>
+<td>YES</td>
+<td>描述符不是一个打开的文件</td>
+</tr>
+</tbody>
 </table>
 <p>poll 可以识别并处理 <strong>普通</strong> (normal)、<strong>优先级带</strong> (priority band) 和 <strong>高优先级</strong> (high priority) 数据 (术语出自基于流的实现)。另外 <code>POLLIN</code> 与 <code>POLLOUT</code>
 自 SVR3 实现存在，早于 SVR4 中的优先级带，这两个值的出现是历史因素。</p>
@@ -1040,26 +1040,26 @@ Attacks)：如果客户端仅发送一个字节的数据，且这个字节不是
 <li>
 <p>参数 timeout 指定超时时间，单位为 ms (millisecond)</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">timeout</th>
-          <th style="text-align: left">说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">INFTIM</td>
-          <td style="text-align: left">永远等待</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">0</td>
-          <td style="text-align: left">立即返回，不阻塞进程</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">正值</td>
-          <td style="text-align: left">等待指定的毫秒</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>timeout</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>INFTIM</td>
+<td>永远等待</td>
+</tr>
+<tr>
+<td>0</td>
+<td>立即返回，不阻塞进程</td>
+</tr>
+<tr>
+<td>正值</td>
+<td>等待指定的毫秒</td>
+</tr>
+</tbody>
 </table>
 <p>另外需要说明的一点，INFTIM 常常被定义为一个负值，POSIX 规范要求 INFTIM 定义于 poll.h 中，而许多系统将其定义在 <code>sys/stropts.h</code> 中。</p>
 </li>
@@ -1300,76 +1300,76 @@ size 不再有此语义，但调用时必须传递大于 0 的 size 来保证向
 </div>
 </div>在每次对描述符进行操作时，都需要设置 epoll_data_t 中的 fd 字段。epoll 中的事件可以取得如下值
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">值</th>
-          <th style="text-align: left">内核版本</th>
-          <th style="text-align: left">说明</th>
-          <th style="text-align: left">返回</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">EPOLLIN</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">文件描述符可读</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">EPOLLOUT</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">文件描述符可写</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">EPOLLRDHUP</td>
-          <td style="text-align: left">2.6.17</td>
-          <td style="text-align: left">流套接字写半部关闭</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">EPOLLPRI</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">文件描述符存在异常，同 POLLPRI</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">EPOLLERR</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">文件描述符发生错误</td>
-          <td style="text-align: left">ALWAYS</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">EPOLLHUP</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">文件描述符发生终止</td>
-          <td style="text-align: left">ALWAYS</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">EPOLLET</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">监听采用边缘触发模式</td>
-          <td style="text-align: left">NEVER</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">EPOLLONESHOT</td>
-          <td style="text-align: left">2.6.2</td>
-          <td style="text-align: left">文件描述符的一次性通知</td>
-          <td style="text-align: left">NEVER</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">EPOLLWAKEUP</td>
-          <td style="text-align: left">3.5</td>
-          <td style="text-align: left">直到下次监听期间，视为正在处理</td>
-          <td style="text-align: left">NEVER</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">EPOLLEXCLUSIVE</td>
-          <td style="text-align: left">4.5</td>
-          <td style="text-align: left">文件描述符采用独占唤醒模式</td>
-          <td style="text-align: left">NEVER</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>值</th>
+<th>内核版本</th>
+<th>说明</th>
+<th>返回</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EPOLLIN</td>
+<td></td>
+<td>文件描述符可读</td>
+<td></td>
+</tr>
+<tr>
+<td>EPOLLOUT</td>
+<td></td>
+<td>文件描述符可写</td>
+<td></td>
+</tr>
+<tr>
+<td>EPOLLRDHUP</td>
+<td>2.6.17</td>
+<td>流套接字写半部关闭</td>
+<td></td>
+</tr>
+<tr>
+<td>EPOLLPRI</td>
+<td></td>
+<td>文件描述符存在异常，同 POLLPRI</td>
+<td></td>
+</tr>
+<tr>
+<td>EPOLLERR</td>
+<td></td>
+<td>文件描述符发生错误</td>
+<td>ALWAYS</td>
+</tr>
+<tr>
+<td>EPOLLHUP</td>
+<td></td>
+<td>文件描述符发生终止</td>
+<td>ALWAYS</td>
+</tr>
+<tr>
+<td>EPOLLET</td>
+<td></td>
+<td>监听采用边缘触发模式</td>
+<td>NEVER</td>
+</tr>
+<tr>
+<td>EPOLLONESHOT</td>
+<td>2.6.2</td>
+<td>文件描述符的一次性通知</td>
+<td>NEVER</td>
+</tr>
+<tr>
+<td>EPOLLWAKEUP</td>
+<td>3.5</td>
+<td>直到下次监听期间，视为正在处理</td>
+<td>NEVER</td>
+</tr>
+<tr>
+<td>EPOLLEXCLUSIVE</td>
+<td>4.5</td>
+<td>文件描述符采用独占唤醒模式</td>
+<td>NEVER</td>
+</tr>
+</tbody>
 </table>
 </li>
 </ul>
@@ -1763,7 +1763,7 @@ read / write 返回 EAGAIN 为止。事件驱动的状态机程序在 EAGAIN 发
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.131.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

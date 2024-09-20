@@ -4,7 +4,7 @@
 <html lang="zh-cn">
 
 <head>
-	<meta name="generator" content="Hugo 0.134.2">
+	<meta name="generator" content="Hugo 0.131.0">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
@@ -125,695 +125,139 @@
         <a href="/2021/kms/">使用 KMS 激活 Microsoft 软件</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="05-09">05-09</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div><div class="content"><p>微软的软件主要可以通过以下三个渠道获取:</p>
-<ul>
-<li>零售</li>
-<li>原始设备制造商 (OEM)</li>
-<li>批量许可协议</li>
-</ul>
-<p>OEM 在工厂执行激活，比如说新买的笔记本电脑自带的系统就是这种方式。零售主要通过联机、电话或 VAMT 代理激活。批量激活产品主要选择 MAK (多次激活密钥) 、 KMS (密钥管理服务) 以及 AD (Active Directory) 进行激活。</p>
-<p>KMS 可以在本地网络完成激活，而无需将个别计算机连接到 Microsoft 进行产品激活。KMS
-不需要专用系统的轻型服务，可以轻易地将其联合托管在提供其他服务的系统上。</p>
-<p>KMS 服务器可以为局域网内所有连接的产品进行周期性激活，激活周期一般为 180 天，产品激活后会定期连接 KMS 服务器进行验证、续期，如果不能连接到服务器在激活周期过后，产品将过期而需要重新激活。</p>
-<p>KMS 服务激活的是 VL 版，而我们常用的 RTL (零售版) 是无法激活的。自己搭建 KMS 服务器激活产品，虽然可以正常使用，但是不能算正版软件，请支持正版！</p>
-<h2 id="部署-kms-服务器" class="headerLink">
-    <a href="#%e9%83%a8%e7%bd%b2-kms-%e6%9c%8d%e5%8a%a1%e5%99%a8" class="header-mark"></a>部署 KMS 服务器</h2><p>常用的 Microsoft KMS 服务器是开源的 <a href="https://github.com/Wind4/vlmcsd" target="_blank" rel="noopener noreferrer">Vlmcsd</a>，它可以部署到不同平台上提供服务。
-Vlmcsd 的使用很简单，下载下来启动即可提供服务，默认端口号是 1688</p>
-<h2 id="windows" class="headerLink">
-    <a href="#windows" class="header-mark"></a>Windows</h2><p>对于 Windows 的下载，可以选择 <a href="https://www.microsoft.com/zh-cn/software-download/windows10ISO" target="_blank" rel="noopener noreferrer">官方渠道</a> 或通过 <a href="https://msdn.itellyou.cn/" target="_blank" rel="noopener noreferrer">MSDN, I tell you</a> 进行下载，安装的专业版均可以 KMS 激活</p>
-<h3 id="激活-windows" class="headerLink">
-    <a href="#%e6%bf%80%e6%b4%bb-windows" class="header-mark"></a>激活 Windows</h3><p>相对来说激活 Windows 也很简单，以<strong>管理员身份</strong>打开 Powershell 或命令提示符，并输入命令即可激活</p>
-<ol>
-<li>设置 GVLK，这里我们以 Windows Server 2016 标准版为例
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bat" data-lang="bat"><span class="line"><span class="cl">slmgr /ipk WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>设置 KMS 服务器
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bat" data-lang="bat"><span class="line"><span class="cl">slmgr /skms example.com
-</span></span></code></pre></td></tr></table>
-</div>
-</div>如果 KMS 服务端口号不是 1688 需要显示指定端口号，比如端口号是 1024
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bat" data-lang="bat"><span class="line"><span class="cl">slmgr /skms example.com:1024
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>激活 Windows
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bat" data-lang="bat"><span class="line"><span class="cl">slmgr /ato
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>这是一个可选项，查看激活情况
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bat" data-lang="bat"><span class="line"><span class="cl">slmgr /xpr
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-</ol>
-<h3 id="windows-gvlk" class="headerLink">
-    <a href="#windows-gvlk" class="header-mark"></a>Windows GVLK</h3><p>在此列出各个版本对应的 GVLK，所有的 Key 也可以前往 <a href="https://docs.microsoft.com/en-us/windows-server/get-started/kmsclientkeys" target="_blank" rel="noopener noreferrer">官方文档</a> 查看</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="05-09">05-09</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div><div class="content">微软的软件主要可以通过以下三个渠道获取:
+零售 原始设备制造商 (OEM) 批量许可协议 OEM 在工厂执行激活，比如说新买的笔记本电脑自带的系统就是这种方式。零售主要通过联机、电话或 VAMT 代理激活。批量激活产品主要选择 MAK (多次激活密钥) 、 KMS (密钥管理服务) 以及 AD (Active Directory) 进行激活。
+KMS 可以在本地网络完成激活，而无需将个别计算机连接到 Microsoft 进行产品激活。KMS 不需要专用系统的轻型服务，可以轻易地将其联合托管在提供其他服务的系统上。
+KMS 服务器可以为局域网内所有连接的产品进行周期性激活，激活周期一般为 180 天，产品激活后会定期连接 KMS 服务器进行验证、续期，如果不能连接到服务器在激活周期过后，产品将过期而需要重新激活。
+KMS 服务激活的是 VL 版，而我们常用的 RTL (零售版) 是无法激活的。自己搭建 KMS 服务器激活产品，虽然可以正常使用，但是不能算正版软件，请支持正版！
+部署 KMS 服务器常用的 Microsoft KMS 服务器是开源的 Vlmcsd，它可以部署到不同平台上提供服务。 Vlmcsd 的使用很简单，下载下来启动即可提供服务，默认端口号是 1688
+Windows对于 Windows 的下载，可以选择 官方渠道 或通过 MSDN, I tell you 进行下载，安装的专业版均可以 KMS 激活
+激活 Windows相对来说激活 Windows 也很简单，以管理员身份打开 Powershell 或命令提示符，并输入命令即可激活
+设置 GVLK，这里我们以 Windows Server 2016 标准版为例 1 slmgr /ipk WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY 设置 KMS 服务器 1 slmgr /skms example.</div><div class="post-footer">
         <a href="/2021/kms/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/windows/">Windows</a>,&nbsp;<a href="/tags/server/">Server</a>,&nbsp;<a href="/tags/kms/">KMS</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2021/elixir_phoenix_framework_notes_001/">初识 Phoenix Framework</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-23">02-23</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/elixir-phoenix-framework/"><i class="far fa-list-alt fa-fw"></i>Elixir Phoenix Framework</a></span></div><div class="content"><p>Phoenix Framework 是一个 MVC web 框架，与 Ruby 的 Rails 和 Python 的 Django 类似，是整个 Elixir 社区的核心项目之一，推荐阅读 <a href="https://hexdocs.pm/phoenix/" target="_blank" rel="noopener noreferrer">Phoenix 文档</a></p>
-<h2 id="安装" class="headerLink">
-    <a href="#%e5%ae%89%e8%a3%85" class="header-mark"></a>安装</h2><p>我们使用 Phoenix (<strong>v1.5.7</strong>) 前，需要安装相关依赖与 mix</p>
-<ul>
-<li><strong>Elixir</strong> (&gt;= v1.6)</li>
-<li><strong>Erlang</strong> (&gt;= 20)</li>
-<li>node.js [optional] (&gt;= 5.0.0)</li>
-<li>Database [default=PostgreSQL]</li>
-<li><strong>inotify-tools</strong> [linux]</li>
-</ul>
-<p>erlang 与 elixir 是运行时环境，数据库方面使用同为社区维护的 Ecto 来操作，Phoenix
-使用 node.js 的原因是使用 webpack 编译静态资源，当然你可以只开发 API 不使用静态资源</p>
-<p>Phoenix 提供了非常有用的实时重新加载功能，不过 Linux 用户需要安装 inotify-tools
-才能使用</p>
-<h2 id="创建新项目" class="headerLink">
-    <a href="#%e5%88%9b%e5%bb%ba%e6%96%b0%e9%a1%b9%e7%9b%ae" class="header-mark"></a>创建新项目</h2><p>我们使用 mix 来创建一个 Phoenix 项目</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mix phx.new awesome
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>如果你没有 <code>phx.new</code> 这个命令，你需要先使用 mix 安装一下</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-23">02-23</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/elixir-phoenix-framework/"><i class="far fa-list-alt fa-fw"></i>Elixir Phoenix Framework</a></span></div><div class="content">Phoenix Framework 是一个 MVC web 框架，与 Ruby 的 Rails 和 Python 的 Django 类似，是整个 Elixir 社区的核心项目之一，推荐阅读 Phoenix 文档
+安装我们使用 Phoenix (v1.5.7) 前，需要安装相关依赖与 mix
+Elixir (&gt;= v1.6) Erlang (&gt;= 20) node.js [optional] (&gt;= 5.0.0) Database [default=PostgreSQL] inotify-tools [linux] erlang 与 elixir 是运行时环境，数据库方面使用同为社区维护的 Ecto 来操作，Phoenix 使用 node.js 的原因是使用 webpack 编译静态资源，当然你可以只开发 API 不使用静态资源
+Phoenix 提供了非常有用的实时重新加载功能，不过 Linux 用户需要安装 inotify-tools 才能使用
+创建新项目我们使用 mix 来创建一个 Phoenix 项目
+1 mix phx.new awesome 如果你没有 phx.new 这个命令，你需要先使用 mix 安装一下</div><div class="post-footer">
         <a href="/2021/elixir_phoenix_framework_notes_001/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/elixir/">Elixir</a>,&nbsp;<a href="/tags/network/">Network</a>,&nbsp;<a href="/tags/web/">Web</a>,&nbsp;<a href="/tags/phoenix/">Phoenix</a>,&nbsp;<a href="/tags/framework/">Framework</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2021/steam_apps/">使用 steamcmd 搭建游戏服务器</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-22">02-22</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div><div class="content"><p>和好友联机的时候本地服务器实在是不爽，一个人起飞，其他人都是<strong>高PING战士</strong>，最开始主要是 L4D2 时各种 RPG 服务器有些不爽，为了纯净的服务器只好自己建了</p>
-<p>事先声明，我们所有的操作在 Debian / Ubuntu 下操作，有些操作系统可能会不一样，不过大同小异，我们还是定义一些等等可能用到的变量 (主要是路径和密码之类的</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">steam</span><span class="o">=</span>/home/steam
-</span></span><span class="line"><span class="cl"><span class="nv">group_id</span><span class="o">=</span><span class="m">123456789</span>
-</span></span><span class="line"><span class="cl"><span class="nv">l4d2</span><span class="o">=</span><span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/l4d2
-</span></span><span class="line"><span class="cl"><span class="nv">l4d2_id</span><span class="o">=</span><span class="m">222860</span>
-</span></span><span class="line"><span class="cl"><span class="nv">l4d2_server_name</span><span class="o">=</span><span class="s2">&#34;L4D2 Server&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">l4d2_port</span><span class="o">=</span><span class="m">1024</span>
-</span></span><span class="line"><span class="cl"><span class="nv">valheim</span><span class="o">=</span><span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/valheim
-</span></span><span class="line"><span class="cl"><span class="nv">valheim_id</span><span class="o">=</span><span class="m">896660</span>
-</span></span><span class="line"><span class="cl"><span class="nv">valheim_server_name</span><span class="o">=</span><span class="s2">&#34;Valheim Server&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">valheim_world</span><span class="o">=</span><span class="s2">&#34;World&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">valheim_port</span><span class="o">=</span><span class="m">1024</span>
-</span></span><span class="line"><span class="cl"><span class="nv">valheim_passwd</span><span class="o">=</span>valheim_password
-</span></span><span class="line"><span class="cl"><span class="nv">dst</span><span class="o">=</span><span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/dst
-</span></span><span class="line"><span class="cl"><span class="nv">dst_id</span><span class="o">=</span><span class="m">343050</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="steamcmd" class="headerLink">
-    <a href="#steamcmd" class="header-mark"></a>SteamCMD</h2><p>顾名思义，steamcmd 是一个命令行工具，同时支持 linux，是我们搭建服务器的好帮手，然而我不会用，不过这不重要，安装跑起来就好</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">add-apt-repository multiverse
-</span></span><span class="line"><span class="cl">dpkg --add-architecture i386
-</span></span><span class="line"><span class="cl">apt update <span class="o">&amp;&amp;</span> apt upgrade
-</span></span><span class="line"><span class="cl">apt install -y lib32gcc1 steamcmd
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>我们不仅要安装一个 steamcmd，还要将所有游戏服务器，存放在 <code>~steam</code> 下，使用
-steam 这个用户来运行游戏</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-22">02-22</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div><div class="content">和好友联机的时候本地服务器实在是不爽，一个人起飞，其他人都是高PING战士，最开始主要是 L4D2 时各种 RPG 服务器有些不爽，为了纯净的服务器只好自己建了
+事先声明，我们所有的操作在 Debian / Ubuntu 下操作，有些操作系统可能会不一样，不过大同小异，我们还是定义一些等等可能用到的变量 (主要是路径和密码之类的
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 steam=/home/steam group_id=123456789 l4d2=${steam}/l4d2 l4d2_id=222860 l4d2_server_name=&#34;L4D2 Server&#34; l4d2_port=1024 valheim=${steam}/valheim valheim_id=896660 valheim_server_name=&#34;Valheim Server&#34; valheim_world=&#34;World&#34; valheim_port=1024 valheim_passwd=valheim_password dst=${steam}/dst dst_id=343050 SteamCMD顾名思义，steamcmd 是一个命令行工具，同时支持 linux，是我们搭建服务器的好帮手，然而我不会用，不过这不重要，安装跑起来就好
+1 2 3 4 add-apt-repository multiverse dpkg --add-architecture i386 apt update &amp;&amp; apt upgrade apt install -y lib32gcc1 steamcmd 我们不仅要安装一个 steamcmd，还要将所有游戏服务器，存放在 ~steam 下，使用 steam 这个用户来运行游戏
+1 2 adduser --disabled-login --gecos &#39;Steam&#39; steam sudo -u steam -H ln -s /usr/games/steamcmd ${steam}/steamcmd 语法这里说的语法并不是 SteamCMD 的语法，而是 Steam 中所使用的文本标记语法，这些标记标签允许您为您的留言及发帖文字添加格式，类似于 HTML，官方展示在这里</div><div class="post-footer">
         <a href="/2021/steam_apps/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/server/">Server</a>,&nbsp;<a href="/tags/steam/">Steam</a>,&nbsp;<a href="/tags/l4d2/">L4D2</a>,&nbsp;<a href="/tags/dst/">DST</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_003/">Elixir Intermediate</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-21">02-21</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/elixir-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>Elixir 学习笔记</a></span></div><div class="content"><h2 id="mix" class="headerLink">
-    <a href="#mix" class="header-mark"></a>Mix</h2><p>Mix 是 Elixir 社区开发的集包管理、依赖管理、构建工具于一身的开发工具，扩展性极好，功能强大，自带对 Erlang 的支持，可以类比 Golang 自带的 go，详细的使用方式请参考
-<code>mix help</code> 以及 <a href="https://hexdocs.pm/mix/Mix.html" target="_blank" rel="noopener noreferrer">mix</a></p>
-<p>我们如果需要创建一个新项目，使用 <code>mix new</code> 命令即可，详细使用方法可以使用 <strong>mix
-help new</strong> 查看，对于新建项目，mix 会很友好的创建一系列文件 (其中还包含
-<code>.gitignore</code>)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mix new example
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>我们目前只需要关注其中的 <strong>mix.exs</strong> 就行了，它包含了配置应用、依赖、环境信息、版本等功能，<code>project</code> 函数设置项目相关信息， <code>application</code> 函数在生产应用文件的时候会用到，<code>deps</code> 函数则是定义项目的依赖项</p>
-<h3 id="管理依赖-环境" class="headerLink">
-    <a href="#%e7%ae%a1%e7%90%86%e4%be%9d%e8%b5%96-%e7%8e%af%e5%a2%83" class="header-mark"></a>管理依赖、环境</h3><p>我们需要把所需的依赖全部列入 deps 中，deps 返回一个列表，每一项依赖都写在元组中，格式如下</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="p">{</span><span class="n">app</span><span class="p">,</span> <span class="n">requirement</span><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="n">app</span><span class="p">,</span> <span class="n">opts</span><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="n">app</span><span class="p">,</span> <span class="n">requirement</span><span class="p">,</span> <span class="n">opts</span><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li><code>app</code> 是一个原子，是依赖项的名称</li>
-<li><code>requirement</code> 是一个字符串或正则表达式，用以设定版本</li>
-<li><code>opts</code> 是一个 keyword list，设置依赖相关操作</li>
-</ul>
-<p>下面列出常用的添加依赖方式</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:plug</span><span class="p">,</span> <span class="s2">&#34;&gt;= 0.4.0&#34;</span><span class="p">},</span> <span class="c1"># 从 hex.pm 安装版本大于等于 0.4.0 的依赖</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:gettext</span><span class="p">,</span> <span class="ss">git</span><span class="p">:</span> <span class="s2">&#34;https://github.com/elixir-lang/gettext.git&#34;</span><span class="p">,</span> <span class="ss">tag</span><span class="p">:</span> <span class="s2">&#34;0.1&#34;</span><span class="p">},</span> <span class="c1"># 从指定git仓库下载依赖</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:local_dep</span><span class="p">,</span> <span class="ss">path</span><span class="p">:</span> <span class="s2">&#34;/path/to/local/deps&#34;</span><span class="p">},</span> <span class="c1"># 本地依赖项</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:telemetry</span><span class="p">,</span> <span class="s2">&#34;~&gt; 0.4&#34;</span><span class="p">},</span> <span class="c1"># 从 hex.pm 安装版本 0.4 的依赖项</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:phoenix_view</span><span class="p">,</span> <span class="ss">github</span><span class="p">:</span> <span class="s2">&#34;phoenixframework/phoenix_view&#34;</span><span class="p">,</span> <span class="ss">branch</span><span class="p">:</span> <span class="s2">&#34;master&#34;</span><span class="p">},</span> <span class="c1"># 从 github 下载依赖 master 分支</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="ss">:cowboy</span><span class="p">,</span> <span class="s2">&#34;~&gt; 1.0&#34;</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="p">[</span><span class="ss">:dev</span><span class="p">,</span> <span class="ss">:test</span><span class="p">]},</span> <span class="c1"># 安装依赖，并只在 dev 与 tst 环境启用</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>当依赖项写好之后，我们只需要执行命令获取依赖就行</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-21">02-21</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/elixir-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>Elixir 学习笔记</a></span></div><div class="content">MixMix 是 Elixir 社区开发的集包管理、依赖管理、构建工具于一身的开发工具，扩展性极好，功能强大，自带对 Erlang 的支持，可以类比 Golang 自带的 go，详细的使用方式请参考 mix help 以及 mix
+我们如果需要创建一个新项目，使用 mix new 命令即可，详细使用方法可以使用 mix help new 查看，对于新建项目，mix 会很友好的创建一系列文件 (其中还包含 .gitignore)
+1 mix new example 我们目前只需要关注其中的 mix.exs 就行了，它包含了配置应用、依赖、环境信息、版本等功能，project 函数设置项目相关信息， application 函数在生产应用文件的时候会用到，deps 函数则是定义项目的依赖项
+管理依赖、环境我们需要把所需的依赖全部列入 deps 中，deps 返回一个列表，每一项依赖都写在元组中，格式如下
+1 2 3 {app, requirement} {app, opts} {app, requirement, opts} app 是一个原子，是依赖项的名称 requirement 是一个字符串或正则表达式，用以设定版本 opts 是一个 keyword list，设置依赖相关操作 下面列出常用的添加依赖方式
+1 2 3 4 5 6 {:plug, &#34;&gt;= 0.4.0&#34;}, # 从 hex.</div><div class="post-footer">
         <a href="/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_003/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/elixir/">Elixir</a>,&nbsp;<a href="/tags/guide/">Guide</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_002/">Elixir 模块</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-19">02-19</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/elixir-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>Elixir 学习笔记</a></span></div><div class="content"><h2 id="模块" class="headerLink">
-    <a href="#%e6%a8%a1%e5%9d%97" class="header-mark"></a>模块</h2><p>之前函数的时候也简单的见过模块了，Elixir 允许嵌套模块，这样可以轻松定义多层命名空间</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Greeter.Greeting</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">morning</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="s2">&#34;Good morning, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">evening</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="s2">&#34;Good evening, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span><span class="line"><span class="cl"><span class="nc">Greeter.Greeting</span><span class="o">.</span><span class="n">morning</span><span class="p">(</span><span class="s2">&#34;iris&#34;</span><span class="p">)</span> <span class="c1"># &#34;Good morning, iris&#34;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>模块通常还会有一些属性，这些属性通常被用作常量</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">  <span class="na">@greeting</span> <span class="s2">&#34;Hello&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">greeting</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">    <span class="sx">~s(</span><span class="si">#{</span><span class="na">@greeting</span><span class="si">}</span><span class="sx">, </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="sx">.)</span>
-</span></span><span class="line"><span class="cl">  <span class="k">end</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span><span class="line"><span class="cl"><span class="nc">Example</span><span class="o">.</span><span class="n">greeting</span><span class="p">(</span><span class="s2">&#34;iris&#34;</span><span class="p">)</span> <span class="c1"># &#34;Hello, iris.&#34;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>当然还有一些的属性，用于保留功能，比如 <code>moduledoc</code> 和 <code>doc</code> 作为文档，文档可以用
-<strong>ExDoc</strong> 生成 HTML，而 <strong>ExMark</strong> 是一个 Markdown 分析器，最终我们可以使用 mix 来生成文档</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="kd">defmodule</span> <span class="nc">Example</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">  <span class="na">@moduledoc</span> <span class="sh">&#34;&#34;&#34;
-</span></span></span><span class="line"><span class="cl"><span class="sh">  This is the Hello module.
-</span></span></span><span class="line"><span class="cl"><span class="sh">  &#34;&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="na">@moduledoc</span> <span class="ss">since</span><span class="p">:</span> <span class="s2">&#34;1.0.0&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="na">@doc</span> <span class="sh">&#34;&#34;&#34;
-</span></span></span><span class="line"><span class="cl"><span class="sh">  Says hello to the given `name`.
-</span></span></span><span class="line"><span class="cl"><span class="sh">  Returns `:ok`.
-</span></span></span><span class="line"><span class="cl"><span class="sh">  </span><span class="err">##</span><span class="sh"> Examples
-</span></span></span><span class="line"><span class="cl"><span class="sh">      iex&gt; Example.world(:john)
-</span></span></span><span class="line"><span class="cl"><span class="sh">      :ok
-</span></span></span><span class="line"><span class="cl"><span class="sh">  &#34;&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="na">@doc</span> <span class="ss">since</span><span class="p">:</span> <span class="s2">&#34;1.3.0&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">def</span> <span class="n">world</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">    <span class="nc">IO</span><span class="o">.</span><span class="n">puts</span><span class="p">(</span><span class="s2">&#34;hello </span><span class="si">#{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="k">end</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="结构体--struct" class="headerLink">
-    <a href="#%e7%bb%93%e6%9e%84%e4%bd%93--struct" class="header-mark"></a>结构体 (Struct)</h3><p>在 Elixir 中结构体 Struct 是 Map 的特殊形式，它的键是预定义的，一般都有默认值，不过有个限制，Struct 只能定义在 Module 中，一般一个模块定义一个结构体</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-19">02-19</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/elixir-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>Elixir 学习笔记</a></span></div><div class="content">模块之前函数的时候也简单的见过模块了，Elixir 允许嵌套模块，这样可以轻松定义多层命名空间
+1 2 3 4 5 defmodule Greeter.Greeting do def morning(name), do: &#34;Good morning, #{name}&#34; def evening(name), do: &#34;Good evening, #{name}&#34; end Greeter.Greeting.morning(&#34;iris&#34;) # &#34;Good morning, iris&#34; 模块通常还会有一些属性，这些属性通常被用作常量
+1 2 3 4 5 6 7 defmodule Example do @greeting &#34;Hello&#34; def greeting(name) do ~s(#{@greeting}, #{name}.) end end Example.greeting(&#34;iris&#34;) # &#34;Hello, iris.&#34; 当然还有一些的属性，用于保留功能，比如 moduledoc 和 doc 作为文档，文档可以用 ExDoc 生成 HTML，而 ExMark 是一个 Markdown 分析器，最终我们可以使用 mix 来生成文档
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 defmodule Example do @moduledoc &#34;&#34;&#34; This is the Hello module.</div><div class="post-footer">
         <a href="/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_002/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/elixir/">Elixir</a>,&nbsp;<a href="/tags/guide/">Guide</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_001/">Elixir 基本语法</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-16">02-16</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/elixir-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>Elixir 学习笔记</a></span></div><div class="content"><p>好久没学习，随便写点东西，一直想学FP来着，不过之前 Haskell 整的有点难受，好难啊不太会，下次静下心来好好学一学吧，不过先试试 <strong>Erlang</strong> / <strong>Elixir</strong>，听说也很难？</p>
-<p>至于原因，莫名喜欢 Erlang，不知道为什么哈哈哈哈，得知有 Elixir 这个披着 Ruby 皮、用着 Beam 的 Lisp 觉得还不错？毕竟 <strong>Lisp</strong> 大法好！！ (虽然我不会 lisp) 不过
-Elixir 名字好听 Logo 也好看</p>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/9/92/Official_Elixir_logo.png">
-</figure>
-
-<p>好了，前置吐槽就这么多吧，希望可以静下心好好学学 Elixir，呃，我也不知道可不可以啦，但是如果对 Elixir 感兴趣的话可以在 <a href="https://elixirschool.com/en/" target="_blank" rel="noopener noreferrer">Elixir School</a> 尝试学习一下，我也才开始从这里开始学习</p>
-<h2 id="基本类型" class="headerLink">
-    <a href="#%e5%9f%ba%e6%9c%ac%e7%b1%bb%e5%9e%8b" class="header-mark"></a>基本类型</h2><ul>
-<li>
-<p>整数类型：在 Erlang 和 Elixir 中，整数类型都是高精度类型，不区分类型所占的字节，有点类似 Python 中的整数
-Elixir 支持 二(0b)、八(0o)、十、十六(0x)进制的整数字面量，使用起来十分方便</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-elixir" data-lang="elixir"><span class="line"><span class="cl"><span class="mi">255</span> <span class="c1"># 十进制整数 255</span>
-</span></span><span class="line"><span class="cl"><span class="mb">0b10001000</span> <span class="c1"># 二进制整数 136</span>
-</span></span><span class="line"><span class="cl"><span class="mo">0o7654321</span> <span class="c1"># 八进制整数 2054353</span>
-</span></span><span class="line"><span class="cl"><span class="mh">0xFFFF</span> <span class="c1"># 十六进制整数 65535</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>
-<p>浮点类型：嗯，它是 IEEE 754，好了就这样吧，介绍完了</p>
-</li>
-<li>
-<p>布尔类型：true 和 false，不过有一点需要注意，在 Elixir 中除了 false 和 nil 之外的所有值都为 true</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="02-16">02-16</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/elixir-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>Elixir 学习笔记</a></span></div><div class="content">好久没学习，随便写点东西，一直想学FP来着，不过之前 Haskell 整的有点难受，好难啊不太会，下次静下心来好好学一学吧，不过先试试 Erlang / Elixir，听说也很难？
+至于原因，莫名喜欢 Erlang，不知道为什么哈哈哈哈，得知有 Elixir 这个披着 Ruby 皮、用着 Beam 的 Lisp 觉得还不错？毕竟 Lisp 大法好！！ (虽然我不会 lisp) 不过 Elixir 名字好听 Logo 也好看
+好了，前置吐槽就这么多吧，希望可以静下心好好学学 Elixir，呃，我也不知道可不可以啦，但是如果对 Elixir 感兴趣的话可以在 Elixir School 尝试学习一下，我也才开始从这里开始学习
+基本类型 整数类型：在 Erlang 和 Elixir 中，整数类型都是高精度类型，不区分类型所占的字节，有点类似 Python 中的整数 Elixir 支持 二(0b)、八(0o)、十、十六(0x)进制的整数字面量，使用起来十分方便
+1 2 3 4 255 # 十进制整数 255 0b10001000 # 二进制整数 136 0o7654321 # 八进制整数 2054353 0xFFFF # 十六进制整数 65535 浮点类型：嗯，它是 IEEE 754，好了就这样吧，介绍完了
+布尔类型：true 和 false，不过有一点需要注意，在 Elixir 中除了 false 和 nil 之外的所有值都为 true</div><div class="post-footer">
         <a href="/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_001/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/elixir/">Elixir</a>,&nbsp;<a href="/tags/guide/">Guide</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2020/cpp_concurrency_atomic/">原子操作</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="12-05">12-05</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/c++-%E5%B9%B6%E5%8F%91/"><i class="far fa-list-alt fa-fw"></i>C++ 并发</a></span></div><div class="content"><h2 id="原子操作" class="headerLink">
-    <a href="#%e5%8e%9f%e5%ad%90%e6%93%8d%e4%bd%9c" class="header-mark"></a>原子操作</h2><p>原子操作是一个不可分割的操作，系统的所有线程不会观察到原子操作完成了一半。如果读取对象的加载操作是原子的，那么这个对象的所有修改操作也是原子的。</p>
-<p>标准原子类型全部定义于头文件 <em>atomic</em> 中，这些类型的操作都是原子的，但是其内部实现可能使用原子操作或互斥量模拟，所以原子操作可以替代互斥量完成同步操作，但是如果内部使用互斥量实现那么不会有性能提升。</p>
-<p>通常标准原子类型不能进行拷贝和赋值，但是可以隐式转化成对应的内置类型，使用
-<code>load()</code>、<code>exchange()</code>、<code>compare_exchange_weak()</code> 和 <code>compare_exchange_strong()</code>，另外还有 <code>store()</code> 用以原子地赋值。每种函数类型的操作都有一个内存序参数，这个参数可以用来指定存储的顺序。</p>
-<h3 id="std-atomic-flag" class="headerLink">
-    <a href="#std-atomic-flag" class="header-mark"></a>::std::atomic_flag</h3><p>::std::atomic_flag 是最简单的原子类型，标准保证其实现是 <strong>lock-free</strong> 的，这个类型的对象可以在 <strong>设置</strong> 和 <strong>清除</strong> 间切换，对象必须被 <code>ATOMIC_FLAG_INIT</code>，初始化标志位为清除状态。初始化后，对象进可以执行销毁、清除、设置</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic_flag</span> <span class="n">f</span> <span class="o">=</span> <span class="n">ATOMIC_FLAG_INIT</span><span class="p">;</span> <span class="c1">// 设置为清除状态 (false)
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><p>由于 <code>clear()</code> 清除操作原子地设置标志为 false，<code>test_and_set()</code> 设置操作原子地设置标志为 true 并获得其先前值，所以可以简单地实现一个自旋锁</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">spinlock_mutex</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl"> <span class="k">private</span><span class="o">:</span>
-</span></span><span class="line"><span class="cl">  <span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">atomic_flag</span> <span class="n">flag</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"> <span class="k">public</span><span class="o">:</span>
-</span></span><span class="line"><span class="cl">  <span class="n">spinlock_mutex</span><span class="p">()</span> <span class="o">:</span> <span class="n">flag</span><span class="p">(</span><span class="n">ATOMIC_FLAG_INIT</span><span class="p">)</span> <span class="p">{}</span>
-</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">lock</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">flag</span><span class="p">.</span><span class="n">test_and_set</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_acquire</span><span class="p">));</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="kt">void</span> <span class="nf">unlock</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">flag</span><span class="p">.</span><span class="n">clear</span><span class="p">(</span><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="n">memory_order_release</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">};</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="std-atomic" class="headerLink">
-    <a href="#std-atomic" class="header-mark"></a>::std::atomic</h3><p>::std::atomic 不再保证 <strong>lock-free</strong>，但相比 ::std::atomic_flag 有了更通用的操作，
-<code>store()</code> 是一个存储操作，<code>load()</code> 是一个加载操作，<code>exchange()</code> 是一个读-改-写操作。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="12-05">12-05</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/c++-%E5%B9%B6%E5%8F%91/"><i class="far fa-list-alt fa-fw"></i>C++ 并发</a></span></div><div class="content">原子操作原子操作是一个不可分割的操作，系统的所有线程不会观察到原子操作完成了一半。如果读取对象的加载操作是原子的，那么这个对象的所有修改操作也是原子的。
+标准原子类型全部定义于头文件 atomic 中，这些类型的操作都是原子的，但是其内部实现可能使用原子操作或互斥量模拟，所以原子操作可以替代互斥量完成同步操作，但是如果内部使用互斥量实现那么不会有性能提升。
+通常标准原子类型不能进行拷贝和赋值，但是可以隐式转化成对应的内置类型，使用 load()、exchange()、compare_exchange_weak() 和 compare_exchange_strong()，另外还有 store() 用以原子地赋值。每种函数类型的操作都有一个内存序参数，这个参数可以用来指定存储的顺序。
+::std::atomic_flag::std::atomic_flag 是最简单的原子类型，标准保证其实现是 lock-free 的，这个类型的对象可以在 设置 和 清除 间切换，对象必须被 ATOMIC_FLAG_INIT，初始化标志位为清除状态。初始化后，对象进可以执行销毁、清除、设置
+1 ::std::atomic_flag f = ATOMIC_FLAG_INIT; // 设置为清除状态 (false) 由于 clear() 清除操作原子地设置标志为 false，test_and_set() 设置操作原子地设置标志为 true 并获得其先前值，所以可以简单地实现一个自旋锁
+1 2 3 4 5 6 7 8 9 10 11 12 class spinlock_mutex { private: ::std::atomic_flag flag; public: spinlock_mutex() : flag(ATOMIC_FLAG_INIT) {} void lock() { while (flag.test_and_set(::std::memory_order_acquire)); } void unlock() { flag.clear(::std::memory_order_release); } }; ::std::atomic::std::atomic 不再保证 lock-free，但相比 ::std::atomic_flag 有了更通用的操作， store() 是一个存储操作，load() 是一个加载操作，exchange() 是一个读-改-写操作。</div><div class="post-footer">
         <a href="/2020/cpp_concurrency_atomic/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>,&nbsp;<a href="/tags/concurrency/">Concurrency</a>,&nbsp;<a href="/tags/atomic/">Atomic</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2020/cpp_concurrency_std/">并发标准库</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="12-01">12-01</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/c++-%E5%B9%B6%E5%8F%91/"><i class="far fa-list-alt fa-fw"></i>C++ 并发</a></span></div><div class="content"><h2 id="线程管理" class="headerLink">
-    <a href="#%e7%ba%bf%e7%a8%8b%e7%ae%a1%e7%90%86" class="header-mark"></a>线程管理</h2><h3 id="创建线程" class="headerLink">
-    <a href="#%e5%88%9b%e5%bb%ba%e7%ba%bf%e7%a8%8b" class="header-mark"></a>创建线程</h3><p>新的线程会在 <code>::std::thread</code> (头文件 <em>thread</em> 中) 对象创建的时候被启动，在函数执行完毕后，该线程也就结束了，提供的函数对象会复制到新线程的存储空间中，函数对象的执行与操作都在线程的内存空间中执行。在创建新线程时你可以指定一个函数作为任务，或者是 <strong>仿函数</strong>，当然也可以是 lambda 表达式</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">my_thread0</span><span class="p">{</span><span class="n">do_something</span><span class="p">};</span>
-</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Task</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">operator</span><span class="p">()()</span> <span class="k">const</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">do_something</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">};</span>
-</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">my_thread1</span><span class="p">{</span><span class="n">Task</span><span class="p">()};</span>
-</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">my_thread2</span><span class="p">{[]()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">do_something</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl"><span class="p">}};</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>线程启动后，需要指定是<code>等待线程结束</code>还是<code>让其自主运行</code>，如果 <code>::std::thread</code> 对象销毁之前没有做出决定，程序就会终止，因此必须确保线程能够正确 <strong>汇入</strong> (joined)
-或 <strong>分离</strong> (detached)。调用 join() 可以等待线程完成，并在线程结束时清理相关的内存，使 ::std::thread 对象不再与已完成线程有任何关联，所以一个线程一旦被汇入将不能再次汇入。调用 detach() 会使线程在后台运行，不再与主线程进行直接交互， ::std::thread
-对象不再引用这个线程，分离的线程也不可被再次汇入，不过C++运行时库保证线程退出时可以正确回收相关资源。</p>
-<p>在C++中 ::std::thread 对象是一种 <strong>可移动但不可复制</strong> 的资源，它可以交出它的所有权，但不能与其他对象共享线程的所有权。如果你希望对一个已持有线程的对象更改其行为，那你必须先汇入或分离已关联的线程，或者将已关联的线程的所有权交出。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t1</span><span class="p">{</span><span class="n">do_something</span><span class="p">};</span>
-</span></span><span class="line"><span class="cl"><span class="o">::</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">t1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="n">t1</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">{</span><span class="n">some_other_function</span><span class="p">};</span>
-</span></span><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t3</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="n">t3</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">t2</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="c1">// t1 = std::move(t3); // 错误
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="传递参数" class="headerLink">
-    <a href="#%e4%bc%a0%e9%80%92%e5%8f%82%e6%95%b0" class="header-mark"></a>传递参数</h3><p>向线程中传递参数十分简单，为 ::std::thread 构造函数附加参数即可，所有参数 将会拷贝到新线程的内存空间中，即使函数中的参数是引用</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="12-01">12-01</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/programminglanguage/"><i class="far fa-folder fa-fw"></i>ProgrammingLanguage</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/c++-%E5%B9%B6%E5%8F%91/"><i class="far fa-list-alt fa-fw"></i>C++ 并发</a></span></div><div class="content">线程管理 创建线程新的线程会在 ::std::thread (头文件 thread 中) 对象创建的时候被启动，在函数执行完毕后，该线程也就结束了，提供的函数对象会复制到新线程的存储空间中，函数对象的执行与操作都在线程的内存空间中执行。在创建新线程时你可以指定一个函数作为任务，或者是 仿函数，当然也可以是 lambda 表达式
+1 2 3 4 5 6 7 8 9 10 ::std::thread my_thread0{do_something}; struct Task { void operator()() const { do_something(); } }; ::std::thread my_thread1{Task()}; ::std::thread my_thread2{[]() { do_something(); }}; 线程启动后，需要指定是等待线程结束还是让其自主运行，如果 ::std::thread 对象销毁之前没有做出决定，程序就会终止，因此必须确保线程能够正确 汇入 (joined) 或 分离 (detached)。调用 join() 可以等待线程完成，并在线程结束时清理相关的内存，使 ::std::thread 对象不再与已完成线程有任何关联，所以一个线程一旦被汇入将不能再次汇入。调用 detach() 会使线程在后台运行，不再与主线程进行直接交互， ::std::thread 对象不再引用这个线程，分离的线程也不可被再次汇入，不过C++运行时库保证线程退出时可以正确回收相关资源。
+在C++中 ::std::thread 对象是一种 可移动但不可复制 的资源，它可以交出它的所有权，但不能与其他对象共享线程的所有权。如果你希望对一个已持有线程的对象更改其行为，那你必须先汇入或分离已关联的线程，或者将已关联的线程的所有权交出。
+1 2 3 4 5 6 ::std::thread t1{do_something}; ::std::thread t2 = std::move(t1); t1 = std::thread{some_other_function}; std::thread t3; t3 = std::move(t2); // t1 = std::move(t3); // 错误 传递参数向线程中传递参数十分简单，为 ::std::thread 构造函数附加参数即可，所有参数 将会拷贝到新线程的内存空间中，即使函数中的参数是引用</div><div class="post-footer">
         <a href="/2020/cpp_concurrency_std/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>,&nbsp;<a href="/tags/concurrency/">Concurrency</a>,&nbsp;<a href="/tags/library/">Library</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2020/mail_server/">搭建邮箱服务器</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="11-16">11-16</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div><div class="content"><p>搭建邮局服务器的想法之前一直都有，不过一直没有尝试，国庆的时候从阿里云换到了腾讯云的时候尝试直接使用 <code>postfix</code> 和 <code>dovecot</code> 搭建，尝试了大概3天被劝退了，重新使用现成的解决方案也算终于搭建好了，可以愉快的使用自建邮箱了 (<del>可以愉快的装逼了</del></p>
-<div class="details admonition info open">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-info-circle fa-fw"></i>信息<i class="details-icon fas fa-angle-right fa-fw"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content">更新了 mailu 的搭建，虽然 mailu 相比 mailcow 可以使用宿主机的数据库，不过 mailu
-配置 SMTPS / IMAPS / POP3S 不如 mailcow 简单方便，也没怎么研究，目前没有切换到
-mailu 的打算</div>
-        </div>
-    </div>
-<div class="details admonition warning open">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-exclamation-triangle fa-fw"></i>警告<i class="details-icon fas fa-angle-right fa-fw"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content">打算在更换服务器之后不再维护邮箱服务，装逼不存在的</div>
-        </div>
-    </div>
-<h2 id="部署" class="headerLink">
-    <a href="#%e9%83%a8%e7%bd%b2" class="header-mark"></a>部署</h2><p>开始搭建服务器，以下采用域名 (<code>example.com</code>) 和 IP (<code>1.1.1.1</code>)，安装在
-<code>/mailcow</code>，使用主机的nginx反向代理，部署之前我们首先定义一些Shell变量，以便之后使用，请根据自己的需求更改</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">path_to</span><span class="o">=</span><span class="s2">&#34;/path/to&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">mailcow_path</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">path_to</span><span class="si">}</span><span class="s2">/mailcow&#34;</span> <span class="c1"># mailcow 所在目录</span>
-</span></span><span class="line"><span class="cl"><span class="nv">mailu_path</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">path_to</span><span class="si">}</span><span class="s2">/mailu&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">mail_host</span><span class="o">=</span><span class="s2">&#34;mail.example.com&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">mail_ip</span><span class="o">=</span><span class="s2">&#34;1.1.1.1&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">db_user</span><span class="o">=</span><span class="s2">&#34;example_user&#34;</span> <span class="c1"># 数据库用户 (Mailu使用宿主机PostgreSQL时使用)</span>
-</span></span><span class="line"><span class="cl"><span class="nv">db_passwd</span><span class="o">=</span><span class="s2">&#34;example_password&#34;</span> <span class="c1"># 数据库密码 (Mailu使用宿主机PostgreSQL时使用)</span>
-</span></span><span class="line"><span class="cl"><span class="nv">db_name</span><span class="o">=</span><span class="s2">&#34;example_db&#34;</span> <span class="c1"># 数据库名称  (Mailu使用宿主机PostgreSQL时使用)</span>
-</span></span><span class="line"><span class="cl"><span class="nv">http_port</span><span class="o">=</span><span class="s2">&#34;8080&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">https_port</span><span class="o">=</span><span class="s2">&#34;8443&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">cert_path</span><span class="o">=</span><span class="s2">&#34;/ssl/path/to/cert/&#34;</span> <span class="c1"># 证书存放目录</span>
-</span></span><span class="line"><span class="cl"><span class="nv">cert_file</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">cert_path</span><span class="si">}</span><span class="s2">/cert.pem&#34;</span> <span class="c1"># 域名证书</span>
-</span></span><span class="line"><span class="cl"><span class="nv">key_file</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">cert_path</span><span class="si">}</span><span class="s2">/key.pem&#34;</span> <span class="c1"># 域名证书密钥</span>
-</span></span><span class="line"><span class="cl"><span class="nv">ca_file</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">cert_path</span><span class="si">}</span><span class="s2">/intermediate_CA.pem&#34;</span> <span class="c1"># 域名证书颁发者证书</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>另外，由于webmail对 <code>S/MIME</code> 与 <code>PGP/MIME</code> 的支持并不好，我们将在服务器上禁止
-webmail，使用本地的邮件客户端收发邮件，以便更好的使用加密、签名功能，如有需要请自行开启webmail。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="11-16">11-16</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div><div class="content">搭建邮局服务器的想法之前一直都有，不过一直没有尝试，国庆的时候从阿里云换到了腾讯云的时候尝试直接使用 postfix 和 dovecot 搭建，尝试了大概3天被劝退了，重新使用现成的解决方案也算终于搭建好了，可以愉快的使用自建邮箱了 (可以愉快的装逼了
+信息 更新了 mailu 的搭建，虽然 mailu 相比 mailcow 可以使用宿主机的数据库，不过 mailu 配置 SMTPS / IMAPS / POP3S 不如 mailcow 简单方便，也没怎么研究，目前没有切换到 mailu 的打算 警告 打算在更换服务器之后不再维护邮箱服务，装逼不存在的 部署开始搭建服务器，以下采用域名 (example.com) 和 IP (1.1.1.1)，安装在 /mailcow，使用主机的nginx反向代理，部署之前我们首先定义一些Shell变量，以便之后使用，请根据自己的需求更改
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 path_to=&#34;/path/to&#34; mailcow_path=&#34;${path_to}/mailcow&#34; # mailcow 所在目录 mailu_path=&#34;${path_to}/mailu&#34; mail_host=&#34;mail.example.com&#34; mail_ip=&#34;1.1.1.1&#34; db_user=&#34;example_user&#34; # 数据库用户 (Mailu使用宿主机PostgreSQL时使用) db_passwd=&#34;example_password&#34; # 数据库密码 (Mailu使用宿主机PostgreSQL时使用) db_name=&#34;example_db&#34; # 数据库名称 (Mailu使用宿主机PostgreSQL时使用) http_port=&#34;8080&#34; https_port=&#34;8443&#34; cert_path=&#34;/ssl/path/to/cert/&#34; # 证书存放目录 cert_file=&#34;${cert_path}/cert.</div><div class="post-footer">
         <a href="/2020/mail_server/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/server/">Server</a>,&nbsp;<a href="/tags/mail/">Mail</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2020/gpg_started_guide/">GPG 入门指北</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="11-14">11-14</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div><div class="content"><p>Pretty Good Privacy (<strong>PGP</strong>)，是一套用于讯息加密、验证的应用程序，由 <a href="https://en.wikipedia.org/wiki/Phil_Zimmermann" target="_blank" rel="noopener noreferrer">Phil
-Zimmermann</a> 于1991年发布，由一系列散列、数据压缩、对称密钥加密以及公钥加密的算法组合而成。GNU Privacy Guard (<strong>GPG</strong>)，是一个用于加密、签名通信内容以及管理非对称密钥的自由软件，遵循IETF订定的 <a href="https://tools.ietf.org/html/rfc4880" target="_blank" rel="noopener noreferrer">OpenPGP技术标准</a> 设计，并与PGP保持兼容。</p>
-<p>GPG的基于现代密码学，主要是对非对称加密的应用，由于自己本身是菜鸡，又没有学过密码学，所以对于以下加密方式进行简单的介绍，如有不准确请指正。</p>
-<dl>
-<dt>对称加密</dt>
-<dd>又称私钥加密，这类算法在加密与解密时使用 <strong>相同的</strong> 的密钥，通信双方在通信之前需要协商一个密钥。对称加密简单、高效，加密强度随密钥长度的增加而增加，常见加密算法 <code>DES</code>、<code>ChaCha20</code>、<code>AES</code> 等</dd>
-<dt>非对称加密</dt>
-<dd>又称公开密钥加密，这类算法采用公钥加密私钥解密，公钥可以随意发布，私钥必须由用户严格保管，通信双方在通信时使用对方的公钥加密自己的信息。非对称加密的数学基础是<strong>超大整数的因数分解</strong>、<strong>整数有限域离散对数</strong>、<strong>椭圆曲线离散对数</strong>等问题的复杂性。数字签名也是基于非对称加密实现，简单地说即将文件散列后使用私钥加密生成签名，验证时散列文件并与公钥解密签名的值做对比进行验证，数字签名可以验证文件完整性，也有防止伪造的作用。常见的加密算法有 <code>DSA</code>、<code>RSA</code>、<code>ECDSA</code> 等</dd>
-</dl>
-<h2 id="初体验" class="headerLink">
-    <a href="#%e5%88%9d%e4%bd%93%e9%aa%8c" class="header-mark"></a>初体验</h2><h3 id="生成" class="headerLink">
-    <a href="#%e7%94%9f%e6%88%90" class="header-mark"></a>生成</h3><p>使用 <code>--generate-key</code> 参数可以创建一个使用默认值的密钥对，如果想设置更多的值可以使用 <code>--full-generate-key</code> 参数，如果再加上 <code>--expert</code> 开启专家模式，专家模式允许你自己选择 <strong>不同的加密算法</strong> 与 <strong>不同的密钥种类</strong>，在此仅介绍
-<code>--full-generate-key</code> 参数。</p>
-<dl>
-<dt>选择你希望的密钥种类</dt>
-<dd>我们选择默认的 <span class="underline">RSA and RSA</span>，会生成采用RSA算法且拥有加密、签名、验证功能的密钥</dd>
-<dt>密钥长度</dt>
-<dd><a href="https://www.keylength.com/en/4/" target="_blank" rel="noopener noreferrer">NIST建议</a> 2030年之前推荐的最小密钥长度，对称加密 <strong>128bit</strong> ，非对称加密
-<strong>2048bit</strong> ，椭圆曲线密码学 <strong>224bit</strong></dd>
-<dt>使用期限</dt>
-<dd>默认为永久(0)，在这里我们选择1天 (1)</dd>
-</dl>
-<p>我们生成了一个密钥对，可以看到一些关于新生成的密钥的信息，包括了密钥长度、uid、指纹，我们一般使用指纹来分别不同的密钥，指纹是用40位16进制数字表示的串，我们一般使用<strong>邮箱</strong>、<strong>整串</strong>或<strong>串的最后16位</strong>区分密钥。</p>
-<figure><img src="/images/apps-generate-gpg-key.png" width="64%">
-</figure>
-
-<h3 id="备份" class="headerLink">
-    <a href="#%e5%a4%87%e4%bb%bd" class="header-mark"></a>备份</h3><p>我们采用最朴素的方式保存密钥 —— 本地存储，但是请记住一点，私钥一定不能丢失或外泄。为了以防万一，我们生成一份<strong>吊销证书</strong>，用以在特殊情况时吊销该密钥，当然吊销证书也应该妥善保管。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">gpg -a --export EFC4B50FE8F8B2B3 &gt; test.pub <span class="c1"># 导出公钥</span>
-</span></span><span class="line"><span class="cl">gpg -a --export-secret-key EFC4B50FE8F8B2B3 &gt; test.sec <span class="c1"># 导出私钥</span>
-</span></span><span class="line"><span class="cl">gpg -a --gen-revoke EFC4B50FE8F8B2B3 &gt; test.rev <span class="c1"># 生成吊销证书</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="发布" class="headerLink">
-    <a href="#%e5%8f%91%e5%b8%83" class="header-mark"></a>发布</h3><div class="details admonition warning open">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-exclamation-triangle fa-fw"></i>警告<i class="details-icon fas fa-angle-right fa-fw"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content">将公钥发布到密钥服务器上是不可逆行为，请谨慎操作</div>
-        </div>
-    </div>
-<p>首先列出常用的密钥服务器</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="11-14">11-14</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/applications/"><i class="far fa-folder fa-fw"></i>Applications</a></span></div><div class="content">Pretty Good Privacy (PGP)，是一套用于讯息加密、验证的应用程序，由 Phil Zimmermann 于1991年发布，由一系列散列、数据压缩、对称密钥加密以及公钥加密的算法组合而成。GNU Privacy Guard (GPG)，是一个用于加密、签名通信内容以及管理非对称密钥的自由软件，遵循IETF订定的 OpenPGP技术标准 设计，并与PGP保持兼容。
+GPG的基于现代密码学，主要是对非对称加密的应用，由于自己本身是菜鸡，又没有学过密码学，所以对于以下加密方式进行简单的介绍，如有不准确请指正。
+对称加密 又称私钥加密，这类算法在加密与解密时使用 相同的 的密钥，通信双方在通信之前需要协商一个密钥。对称加密简单、高效，加密强度随密钥长度的增加而增加，常见加密算法 DES、ChaCha20、AES 等 非对称加密 又称公开密钥加密，这类算法采用公钥加密私钥解密，公钥可以随意发布，私钥必须由用户严格保管，通信双方在通信时使用对方的公钥加密自己的信息。非对称加密的数学基础是超大整数的因数分解、整数有限域离散对数、椭圆曲线离散对数等问题的复杂性。数字签名也是基于非对称加密实现，简单地说即将文件散列后使用私钥加密生成签名，验证时散列文件并与公钥解密签名的值做对比进行验证，数字签名可以验证文件完整性，也有防止伪造的作用。常见的加密算法有 DSA、RSA、ECDSA 等 初体验 生成使用 --generate-key 参数可以创建一个使用默认值的密钥对，如果想设置更多的值可以使用 --full-generate-key 参数，如果再加上 --expert 开启专家模式，专家模式允许你自己选择 不同的加密算法 与 不同的密钥种类，在此仅介绍 --full-generate-key 参数。
+选择你希望的密钥种类 我们选择默认的 RSA and RSA，会生成采用RSA算法且拥有加密、签名、验证功能的密钥 密钥长度 NIST建议 2030年之前推荐的最小密钥长度，对称加密 128bit ，非对称加密 2048bit ，椭圆曲线密码学 224bit 使用期限 默认为永久(0)，在这里我们选择1天 (1) 我们生成了一个密钥对，可以看到一些关于新生成的密钥的信息，包括了密钥长度、uid、指纹，我们一般使用指纹来分别不同的密钥，指纹是用40位16进制数字表示的串，我们一般使用邮箱、整串或串的最后16位区分密钥。
+备份我们采用最朴素的方式保存密钥 —— 本地存储，但是请记住一点，私钥一定不能丢失或外泄。为了以防万一，我们生成一份吊销证书，用以在特殊情况时吊销该密钥，当然吊销证书也应该妥善保管。
+1 2 3 gpg -a --export EFC4B50FE8F8B2B3 &gt; test.pub # 导出公钥 gpg -a --export-secret-key EFC4B50FE8F8B2B3 &gt; test.</div><div class="post-footer">
         <a href="/2020/gpg_started_guide/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/gpg/">GPG</a>,&nbsp;<a href="/tags/encrypt/">Encrypt</a>,&nbsp;<a href="/tags/tool/">Tool</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2020/compilerprinciple_004/">语法分析 1</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="11-03">11-03</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div><div class="content"><p>程序设计语言构造的语法可以使用 <strong>上下文无关文法</strong> 或者 <strong>BNF (巴库斯-瑙尔范式)</strong> 表示法来描述，文法为语言设计者和编译器编写者提供了很大便利:</p>
-<ul>
-<li>文法给出了一个程序设计语言的精确易懂的语法归约</li>
-<li>对于某些类型的文法，我们可以自动构造出高效的语法分析器，它能够确定一个源程序的语法结构。同时，语法分析器的构造过程可以揭示出语法的二义性，同时还可能发现一些容易在语言的初始设计阶段被忽略的问题</li>
-<li>一个正确设计的文法给出了一个语言的结构，该结构有助于把源程序翻译为正确的目标代码，也有助于检测错误</li>
-<li>一个文法支持逐步加入可以完成新任务的新语言构造，从而迭代地演化和开发程序语言。如果对语言的实现遵循语言的文法结构，那么在实现中加入这些新构造的工作就会变得更加容易</li>
-</ul>
-<p>语法分析器从词法分析器获得一个词法单元组成的串，并验证这个串可以由源语言的文法生成，我们期望语法分析器能够以易于理解的方式报告语法错误，并能够从常见的错误中恢复并继续处理程序的其余部分。从概念上来说，对于良构的程序，语法分析器构造出一棵 <strong>语法分析树</strong>，并把它传递给编译器的其他部分进一步处理。我们并不需要显式地构造出语法分析树，对于源程序的检查和翻译工作可以和语法分析过程交替完成，因此语法分析器和其他部分可以用一个模块实现。</p>
-<figure><img src="/images/sp4parsing.svg">
-</figure>
-
-<p>错误处理程序检测出错误后，必须报告在源程序的什么位置检测到错误，程序可能有不同层次的错误</p>
-<dl>
-<dt>词法错误</dt>
-<dd>包括标识符、关键字或运算符拼写错误，或没有在n字符串文本上正确的添加引号</dd>
-<dt>语法错误</dt>
-<dd>包括分号、花括号的多余、缺失等，或 <code>if-else</code> 语句不匹配等</dd>
-<dt>语义错误</dt>
-<dd>包括运算符和运算分量之间的类型不匹配</dd>
-<dt>逻辑错误</dt>
-<dd>因程序员的错误推理而引起的任何错误，包括良构程序但结果不符合预期</dd>
-</dl>
-<p>语法分析器在检测出错误后，一般将自己恢复到某个状态，且有理由预期从那里开始输入将提供有意义的诊断信息，通常也会发现更多的错误，而不是检测到一个错误就退出程序，当然如果错误过多最好让编译器在达到某个错误数量上限后退出</p>
-<dl>
-<dt>panic 的恢复</dt>
-<dd>语法分析器一旦发现错误就不断丢弃输入的符号，直到找到<code>同步词法单元</code>
-(<strong>synchronizing token</strong>) 为止，同步词法单元通常是界限符 (如 <code>;</code> 或 <code>}</code>)，它们在源程序中清晰、无二义性。panic 的错误纠正方法常常会跳过大量输入，不检查跳过部分可能包含的错误，但是实现足够简单且不会让语法分析陷入死循环</dd>
-<dt>短语层次的恢复</dt>
-<dd>当发现错误时，语法分析器可以在余下的输入上进行局部性纠正，即将余下输入的某个前缀替换为另一个串，使语法分析器可以继续分析。这个方法难以处理实际错误发生在检测位置之前的情况</dd>
-<dt>错误产生式</dt>
-<dd>通过预测可能遇到的常见错误，在当前语言的文法中加入特殊的产生式，这些产生式可以生产含有错误的构造，语法分析器就能检测到一个预期的错误，生成适当的错误诊断信息</dd>
-<dt>全局纠正</dt>
-<dd>处理一个错误的输入串时通过最少的改动将其转换为语法正确的串</dd>
-</dl>
-<h2 id="上下文无关文法" class="headerLink">
-    <a href="#%e4%b8%8a%e4%b8%8b%e6%96%87%e6%97%a0%e5%85%b3%e6%96%87%e6%b3%95" class="header-mark"></a>上下文无关文法</h2><p>一个上下文无关文法由 <strong>终结符</strong>、<strong>非终结符</strong>、一个 <strong>开始符号</strong> 和一组 <strong>产生式</strong> 组成</p>
-<ul>
-<li>终结符：组成串的基本符号，与术语 <strong>词法单元名</strong> 为同义词，如 <code>if-else</code> 结构中的 if 和 else</li>
-<li>非终结符：表示串的集合的语法变量，它们表示的串集合用于定义由文法生成的语言</li>
-<li>开始符号：某个非终结符号，这个符号表示的串集合就是这个文法生成的语言</li>
-<li>产生式：将终结符和非终结符组合为串的方法，每个产生式由以下元素组成
-<ul>
-<li>一个被成为产生式<code>头</code>或<code>左部</code>的<strong>非终结符</strong>，头代表串的集合</li>
-<li>符号 \(\rightarrow\)，有时也使用 <code>::=</code> 来表示</li>
-<li>一个由零或多个终结符与非终结符组成的<code>体</code>或<code>右部</code>，体代表头所对应的串的某种构造方法</li>
-</ul>
-</li>
-</ul>
-<p>例如有一组生成式它们的头都是 E，我们可以将其组合在一起成 <strong>E \(\rightarrow\) E + T | E - T |
-T</strong> 这种形式
-\[\begin{aligned} E &amp;\rightarrow E + T\\ E &amp;\rightarrow E - T \\ E &amp;\rightarrow T \end{aligned}\]</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="11-03">11-03</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div><div class="content">程序设计语言构造的语法可以使用 上下文无关文法 或者 BNF (巴库斯-瑙尔范式) 表示法来描述，文法为语言设计者和编译器编写者提供了很大便利:
+文法给出了一个程序设计语言的精确易懂的语法归约 对于某些类型的文法，我们可以自动构造出高效的语法分析器，它能够确定一个源程序的语法结构。同时，语法分析器的构造过程可以揭示出语法的二义性，同时还可能发现一些容易在语言的初始设计阶段被忽略的问题 一个正确设计的文法给出了一个语言的结构，该结构有助于把源程序翻译为正确的目标代码，也有助于检测错误 一个文法支持逐步加入可以完成新任务的新语言构造，从而迭代地演化和开发程序语言。如果对语言的实现遵循语言的文法结构，那么在实现中加入这些新构造的工作就会变得更加容易 语法分析器从词法分析器获得一个词法单元组成的串，并验证这个串可以由源语言的文法生成，我们期望语法分析器能够以易于理解的方式报告语法错误，并能够从常见的错误中恢复并继续处理程序的其余部分。从概念上来说，对于良构的程序，语法分析器构造出一棵 语法分析树，并把它传递给编译器的其他部分进一步处理。我们并不需要显式地构造出语法分析树，对于源程序的检查和翻译工作可以和语法分析过程交替完成，因此语法分析器和其他部分可以用一个模块实现。
+错误处理程序检测出错误后，必须报告在源程序的什么位置检测到错误，程序可能有不同层次的错误
+词法错误 包括标识符、关键字或运算符拼写错误，或没有在n字符串文本上正确的添加引号 语法错误 包括分号、花括号的多余、缺失等，或 if-else 语句不匹配等 语义错误 包括运算符和运算分量之间的类型不匹配 逻辑错误 因程序员的错误推理而引起的任何错误，包括良构程序但结果不符合预期 语法分析器在检测出错误后，一般将自己恢复到某个状态，且有理由预期从那里开始输入将提供有意义的诊断信息，通常也会发现更多的错误，而不是检测到一个错误就退出程序，当然如果错误过多最好让编译器在达到某个错误数量上限后退出
+panic 的恢复 语法分析器一旦发现错误就不断丢弃输入的符号，直到找到同步词法单元 (synchronizing token) 为止，同步词法单元通常是界限符 (如 ; 或 })，它们在源程序中清晰、无二义性。panic 的错误纠正方法常常会跳过大量输入，不检查跳过部分可能包含的错误，但是实现足够简单且不会让语法分析陷入死循环 短语层次的恢复 当发现错误时，语法分析器可以在余下的输入上进行局部性纠正，即将余下输入的某个前缀替换为另一个串，使语法分析器可以继续分析。这个方法难以处理实际错误发生在检测位置之前的情况 错误产生式 通过预测可能遇到的常见错误，在当前语言的文法中加入特殊的产生式，这些产生式可以生产含有错误的构造，语法分析器就能检测到一个预期的错误，生成适当的错误诊断信息 全局纠正 处理一个错误的输入串时通过最少的改动将其转换为语法正确的串 上下文无关文法一个上下文无关文法由 终结符、非终结符、一个 开始符号 和一组 产生式 组成
+终结符：组成串的基本符号，与术语 词法单元名 为同义词，如 if-else 结构中的 if 和 else 非终结符：表示串的集合的语法变量，它们表示的串集合用于定义由文法生成的语言 开始符号：某个非终结符号，这个符号表示的串集合就是这个文法生成的语言 产生式：将终结符和非终结符组合为串的方法，每个产生式由以下元素组成 一个被成为产生式头或左部的非终结符，头代表串的集合 符号 \(\rightarrow\)，有时也使用 ::= 来表示 一个由零或多个终结符与非终结符组成的体或右部，体代表头所对应的串的某种构造方法 例如有一组生成式它们的头都是 E，我们可以将其组合在一起成 E \(\rightarrow\) E + T | E - T | T 这种形式 \[\begin{aligned} E &amp;\rightarrow E + T\\ E &amp;\rightarrow E - T \\ E &amp;\rightarrow T \end{aligned}\]</div><div class="post-footer">
         <a href="/2020/compilerprinciple_004/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/dragonbook/">DragonBook</a>,&nbsp;<a href="/tags/syntacticanalysis/">SyntacticAnalysis</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2020/compilerprinciple_003/">词法分析 2</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="10-17">10-17</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div><div class="content"><h2 id="nfa的重要状态" class="headerLink">
-    <a href="#nfa%e7%9a%84%e9%87%8d%e8%a6%81%e7%8a%b6%e6%80%81" class="header-mark"></a>NFA的重要状态</h2><p>如果一个 NFA 状态有一个标号非 \(\varepsilon\) 的离开转换，那么我们称这个状态为 <strong>重要状态</strong>
-(important state)。子集构造法在计算 \(\varepsilon-closure(move(T，a))\) 的时候，它只使用了集合T中的重要状态，也就是说只有当状态s是重要的，状态集合 \(move(s,a)\) 才可能是非空的。在子集构造法的应用过程中，两个NFA状态集合可以被认为是一致的条件是</p>
-<ol>
-<li>具有相同的重要状态，且</li>
-<li>要么都包含接受状态，要么都不包含接受状态</li>
-</ol>
-<p>如果 NFA 是使用 <code>McMaughton-Yamada-Thompson</code> 算法根据一个正则表达式生成的，那么我们可以获得更多重要状态的性质</p>
-<ul>
-<li>重要状态只包括在基础规则部分为正则表达式中某个特定符号位置引入的初始状态，即每个重要状态对应于正则表达式中的某个运算分量</li>
-<li>NFA 只有一个接受状态，但该接受状态不是重要状态。我们可以在正则表达式r的右端连接一个独特的结束标记符 <code>#</code>，使得r的接收状态增加一个在 <code>#</code> 上的转换，使其成为
-<code>(r)#</code> 的NFA的重要状态</li>
-<li>NFA 的重要状态直接对应于正则表达式中存放了字母表中符号的位置，使用抽象语法树来表示扩展的正则表达式是非常有用的</li>
-</ul>
-<h2 id="抽象语法树" class="headerLink">
-    <a href="#%e6%8a%bd%e8%b1%a1%e8%af%ad%e6%b3%95%e6%a0%91" class="header-mark"></a>抽象语法树</h2><p>抽象语法树的叶子结点对应于运算分量，内部结点表示运算符。标号为 <code>连接运算符</code>
-(\(\circ\)) 的内部结点被称为 <strong>cat结点</strong>，<code>并运算符</code> (\(|\)) 的内部结点被称为 <strong>or结点</strong>，=
-星号运算符= (\(*\)) 的内部结点被称为 <strong>star结点</strong>，我们构建正则表达式
-\((a|b)^{*}abb\#\) 的抽象语法树。</p>
-<figure><img src="/images/ast-example.svg">
-</figure>
-
-<p>抽象语法树的叶子结点可以标号为 \(\varepsilon\)，也可以用字母表中的符号作为标号，对于每个标号不为 \(\varepsilon\) 的叶子结点，我们赋予一个独立的整数，我们将这个整数称作叶子结点的 <strong>位置</strong>，同时也表示和它对应的符号的位置，当然一个符号可以有多个位置。抽象语法树中的这些位置对应构造出的 NFA 中的重要状态。</p>
-<figure><img src="/images/NFA-with-ast-example.svg">
-</figure>
-
-<h2 id="计算函数" class="headerLink">
-    <a href="#%e8%ae%a1%e7%ae%97%e5%87%bd%e6%95%b0" class="header-mark"></a>计算函数</h2><p>要从一个正则表达式直接构造出 DFA，我们要先构造出它的抽象语法树，然后计算如下四个函数：<code>nullable</code>、<code>firstpos</code>、<code>lastpos</code> 和 <code>followpos</code>，且这四个函数都用到了扩展正则表达式 <code>(r)#</code> 的抽象语法树。</p>
-<dl>
-<dt>nullable(n)</dt>
-<dd>当且仅当此结点代表的子表达式的语言中包含空串 \(\varepsilon\) 时抽象语法树结点n为真，即：这个子表达式可以生成空串或本身就是空串，即使它也可能表示其他串</dd>
-<dt>firstpos(n)</dt>
-<dd>定义了以结点n为根的子树中的位置集合，这些位置对应于以n为根的子表达式的语言中某个串的 <strong>第一个符号</strong></dd>
-<dt>lastpos(n)</dt>
-<dd>定义了以结点n为根的子树中的位置集合，这些位置对应于以n为根的子表达式的语言中某个串的 <strong>最后一个符号</strong></dd>
-<dt>followpos(p)</dt>
-<dd>定义了一个和位置p相关的、抽象语法树中的某些位置的集合。当且仅当存在 L((r)#)
-中的某个串 \(x=a_{1}a_{2}\cdots a_{n}\)，使得我们在解释为什么x属于 L((r)#) 时，可以将x中的某个 \(a_{i}\) 和抽象语法树中的位置p匹配，且将位置 \(a_{i+1}\) 和位置q
-匹配，那么位置q在 \(followpos(p)\) 中。简单地说，该函数计算出位置n之后可以跟随的其他位置</dd>
-</dl>
-<p>在计算函数时，我们先给出较为简单的 nullable 、 firstpos 和 lastpos 的计算方式，可以使用一个对树的高度直接进行递归的过程来计算它们，计算方式如下。</p></div><div class="post-footer">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="10-17">10-17</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div><div class="content">NFA的重要状态如果一个 NFA 状态有一个标号非 \(\varepsilon\) 的离开转换，那么我们称这个状态为 重要状态 (important state)。子集构造法在计算 \(\varepsilon-closure(move(T，a))\) 的时候，它只使用了集合T中的重要状态，也就是说只有当状态s是重要的，状态集合 \(move(s,a)\) 才可能是非空的。在子集构造法的应用过程中，两个NFA状态集合可以被认为是一致的条件是
+具有相同的重要状态，且 要么都包含接受状态，要么都不包含接受状态 如果 NFA 是使用 McMaughton-Yamada-Thompson 算法根据一个正则表达式生成的，那么我们可以获得更多重要状态的性质
+重要状态只包括在基础规则部分为正则表达式中某个特定符号位置引入的初始状态，即每个重要状态对应于正则表达式中的某个运算分量 NFA 只有一个接受状态，但该接受状态不是重要状态。我们可以在正则表达式r的右端连接一个独特的结束标记符 #，使得r的接收状态增加一个在 # 上的转换，使其成为 (r)# 的NFA的重要状态 NFA 的重要状态直接对应于正则表达式中存放了字母表中符号的位置，使用抽象语法树来表示扩展的正则表达式是非常有用的 抽象语法树抽象语法树的叶子结点对应于运算分量，内部结点表示运算符。标号为 连接运算符 (\(\circ\)) 的内部结点被称为 cat结点，并运算符 (\(|\)) 的内部结点被称为 or结点，= 星号运算符= (\(*\)) 的内部结点被称为 star结点，我们构建正则表达式 \((a|b)^{*}abb\#\) 的抽象语法树。
+抽象语法树的叶子结点可以标号为 \(\varepsilon\)，也可以用字母表中的符号作为标号，对于每个标号不为 \(\varepsilon\) 的叶子结点，我们赋予一个独立的整数，我们将这个整数称作叶子结点的 位置，同时也表示和它对应的符号的位置，当然一个符号可以有多个位置。抽象语法树中的这些位置对应构造出的 NFA 中的重要状态。
+计算函数要从一个正则表达式直接构造出 DFA，我们要先构造出它的抽象语法树，然后计算如下四个函数：nullable、firstpos、lastpos 和 followpos，且这四个函数都用到了扩展正则表达式 (r)# 的抽象语法树。
+nullable(n) 当且仅当此结点代表的子表达式的语言中包含空串 \(\varepsilon\) 时抽象语法树结点n为真，即：这个子表达式可以生成空串或本身就是空串，即使它也可能表示其他串 firstpos(n) 定义了以结点n为根的子树中的位置集合，这些位置对应于以n为根的子表达式的语言中某个串的 第一个符号 lastpos(n) 定义了以结点n为根的子树中的位置集合，这些位置对应于以n为根的子表达式的语言中某个串的 最后一个符号 followpos(p) 定义了一个和位置p相关的、抽象语法树中的某些位置的集合。当且仅当存在 L((r)#) 中的某个串 \(x=a_{1}a_{2}\cdots a_{n}\)，使得我们在解释为什么x属于 L((r)#) 时，可以将x中的某个 \(a_{i}\) 和抽象语法树中的位置p匹配，且将位置 \(a_{i+1}\) 和位置q 匹配，那么位置q在 \(followpos(p)\) 中。简单地说，该函数计算出位置n之后可以跟随的其他位置 在计算函数时，我们先给出较为简单的 nullable 、 firstpos 和 lastpos 的计算方式，可以使用一个对树的高度直接进行递归的过程来计算它们，计算方式如下。</div><div class="post-footer">
         <a href="/2020/compilerprinciple_003/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/dragonbook/">DragonBook</a>,&nbsp;<a href="/tags/lexicalanalysis/">LexicalAnalysis</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
@@ -839,7 +283,7 @@ T</strong> 这种形式
                 </li></ul></div></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.131.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

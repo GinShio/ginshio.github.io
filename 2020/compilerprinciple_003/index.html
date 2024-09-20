@@ -198,11 +198,11 @@
 (\(\circ\)) 的内部结点被称为 <strong>cat结点</strong>，<code>并运算符</code> (\(|\)) 的内部结点被称为 <strong>or结点</strong>，=
 星号运算符= (\(*\)) 的内部结点被称为 <strong>star结点</strong>，我们构建正则表达式
 \((a|b)^{*}abb\#\) 的抽象语法树。</p>
-<figure><img src="/images/ast-example.svg">
+<figure><img src="/images/compiler_principle-ast-example.svg">
 </figure>
 
 <p>抽象语法树的叶子结点可以标号为 \(\varepsilon\)，也可以用字母表中的符号作为标号，对于每个标号不为 \(\varepsilon\) 的叶子结点，我们赋予一个独立的整数，我们将这个整数称作叶子结点的 <strong>位置</strong>，同时也表示和它对应的符号的位置，当然一个符号可以有多个位置。抽象语法树中的这些位置对应构造出的 NFA 中的重要状态。</p>
-<figure><img src="/images/NFA-with-ast-example.svg">
+<figure><img src="/images/compiler_principle-NFA-with-ast-example.svg">
 </figure>
 
 <h2 id="计算函数" class="headerLink">
@@ -266,45 +266,45 @@
 中的所有位置都在 \(followpos(i)\) 中</li>
 </ol>
 <p>四个函数如何计算都已经给出，现在我们用正则表达式 \((a|b)^{*}abb\#\) 练练手，下图给出构建出的语法分析树，结点左边给出其 <strong>firstpos</strong>，结点右边给出其 <strong>lastpos</strong></p>
-<figure><img src="/images/ast-with-firstpos-and-lastpos.svg">
+<figure><img src="/images/compiler_principle-ast-with-firstpos-and-lastpos.svg">
 </figure>
 
 <p>followpos 的计算规则1要求我们查看每个cat结点，并将它的右子结点的firstpos中的每个位置放到它的左子结点的lastpos中各个位置的followpos中；计算规则2要求我们查看每个
 star 结点，并将它的firstpos中的所有位置放到它的lastpos中各个位置的followpos中。例如上图中最下面的一个 cat 结点，根据规则1，将位置3加入到 <code>followpos(1)</code> 和
 <code>followpos(2)</code> 中。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">位置n</th>
-          <th style="text-align: left">followpos(n)</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left"><code>{1,2,3}</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left"><code>{1,2,3}</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left"><code>{4}</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left"><code>{5}</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left"><code>{6}</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">6</td>
-          <td style="text-align: left">\(\emptyset\)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>位置n</th>
+<th>followpos(n)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>{1,2,3}</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>{1,2,3}</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>{4}</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>{5}</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>{6}</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>\(\emptyset\)</td>
+</tr>
+</tbody>
 </table>
 <p>我们可以创建有向图来表示函数 followpos，其中每个位置有一个对应的结点，当且仅当j
 在followpos(i)中时从位置i到位置j有一条有向边。那么这个表示followpos函数的有向图几乎就是相应正则表达式的不含 \(\varepsilon\) 转换的NFA，我们经过以下处理即可由有向图得到NFA</p>
@@ -313,7 +313,7 @@ star 结点，并将它的firstpos中的所有位置放到它的lastpos中各个
 <li>在每条从i到j的有向边上添加位置i上的符号作为标号</li>
 <li>把和结尾 <code>#</code> 相关的位置当作唯一的接收状态</li>
 </ol>
-<figure><img src="/images/followpos-directed-graph.svg">
+<figure><img src="/images/compiler_principle-followpos-directed-graph.svg">
 </figure>
 
 <h2 id="从正则表达式构造dfa" class="headerLink">
@@ -360,42 +360,42 @@ star 结点，并将它的firstpos中的所有位置放到它的lastpos中各个
 \(D_{tran}[A，a] = followpos(1) \cup followpos(3) = {1，2，3，4}\)，\(D_{tran}[A，b]
 = followpos(2) = {1,2,3}\) 以此类推，构造出该正则表达式的 DFA。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">名称</th>
-          <th style="text-align: left">集合</th>
-          <th style="text-align: left">a</th>
-          <th style="text-align: left">b</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">A</td>
-          <td style="text-align: left"><code>{1,2,3}</code></td>
-          <td style="text-align: left">B</td>
-          <td style="text-align: left">A</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">B</td>
-          <td style="text-align: left"><code>{1,2,3,4}</code></td>
-          <td style="text-align: left">B</td>
-          <td style="text-align: left">C</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">C</td>
-          <td style="text-align: left"><code>{1,2,3,5}</code></td>
-          <td style="text-align: left">B</td>
-          <td style="text-align: left">D</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">D</td>
-          <td style="text-align: left"><code>{1,2,3,6}</code></td>
-          <td style="text-align: left">B</td>
-          <td style="text-align: left">A</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>名称</th>
+<th>集合</th>
+<th>a</th>
+<th>b</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td><code>{1,2,3}</code></td>
+<td>B</td>
+<td>A</td>
+</tr>
+<tr>
+<td>B</td>
+<td><code>{1,2,3,4}</code></td>
+<td>B</td>
+<td>C</td>
+</tr>
+<tr>
+<td>C</td>
+<td><code>{1,2,3,5}</code></td>
+<td>B</td>
+<td>D</td>
+</tr>
+<tr>
+<td>D</td>
+<td><code>{1,2,3,6}</code></td>
+<td>B</td>
+<td>A</td>
+</tr>
+</tbody>
 </table>
-<figure><img src="/images/reg2DFA.svg">
+<figure><img src="/images/compiler_principle-reg2DFA.svg">
 </figure>
 
 <h2 id="最小化dfa" class="headerLink">
@@ -404,7 +404,7 @@ star 结点，并将它的firstpos中的所有位置放到它的lastpos中各个
 <p>我们以正则表达式 \((a|b)^{*}abb\) 的两个已经构造出的DFA来讲解最小化，其中最小化的
 DFA是本篇中由正则表达式直接构造出的DFA，另一个非同构DFA是上一篇中由NFA转换来的
 DFA。</p>
-<figure><img src="/images/DFA-minimization-example.svg">
+<figure><img src="/images/compiler_principle-DFA-minimization-example.svg">
 </figure>
 
 <p>在最小化DFA之前，先说明输入串是如何区分各个状态的，如果分别从状态s和t出发，沿着标号为x的路径到达的两个状态只有一个是接受状态，则串x <code>区分状态</code> s 和 t；如果状态
@@ -473,7 +473,7 @@ r 在输入 a 上的转换</li>
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.131.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

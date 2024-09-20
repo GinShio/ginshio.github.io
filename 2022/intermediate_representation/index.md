@@ -124,7 +124,7 @@ end
 stmt2
 ```
 
-{{< figure src="/images/cfg-while-statement-example.svg" >}}
+{{< figure src="/images/compiler_principle-cfg-while-statement-example.svg" >}}
 
 ```lua
 if (condition) then
@@ -135,7 +135,7 @@ end
 stmt3
 ```
 
-{{< figure src="/images/cfg-if-else-statement-example.svg" >}}
+{{< figure src="/images/compiler_principle-cfg-if-else-statement-example.svg" >}}
 
 编译器通常将 CFG 与另一种 IR 联用，从而组合成一种混合 IR。用 CFG 表示块之间的关系，而块内部采用表达式层次上的 AST、DAG 或某种线性 IR。
 
@@ -155,7 +155,7 @@ Data Dependence Graph) 就是用于表示这种关系的。
 b[i] = %3
 ```
 
-{{< figure src="/images/ddg-example.svg" >}}
+{{< figure src="/images/compiler_principle-ddg-example.svg" >}}
 
 DDG 对操作序列进行了实际约束：一个值不能在定义前进行使用。因此编译器可以根据 DDG
 对指令进行重排，这正是乱序重排的基础。DDG 通常作为衍生 IR使用，在指令调度中发挥着重要作用。另外，对数组元素的引用，其值取决于之前定义的数组变量结点，因此可以通过 DDG 将所有对数组的引用关联起来。
@@ -352,7 +352,7 @@ Model 同样反映出该值在寄存器中是安全的。
 
 在管理嵌套作用域时，语法分析器必须稍微改变一下其管理符号表的方法。语法分析器每次进入一个新的词法作用域时，它将为该作用域建立一个新的符号表。这种方法将创建一<span class="underline">束</span>符号表，按词法作用域的层次嵌套关系连接在一起，在当前作用域中遇到声明时，就将相应的信息输入到当前作用域的符号表中。在遇到引用时，需要检查当前作用域的符号表，如果当前符号表并不包含该名字的声明，那么就依次向外一层检查，直到遇到该名字的声明或所有可见的作用域都没有该名字的声明。
 
-{{< figure src="/images/symbol-table-example.svg" >}}
+{{< figure src="/images/compiler_principle-symbol-table-example.svg" >}}
 
 
 ### 符号表的用途 {#符号表的用途}

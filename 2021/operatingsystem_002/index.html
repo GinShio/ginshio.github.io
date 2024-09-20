@@ -396,46 +396,46 @@ page 的计数从而使计数器为 0，这些为 0 的 page 将是被换出 RAM
 在 1000 个时钟中断前被访问过，那么淘汰时将会从这两个 page 中随机选取一个淘汰，因为它们的计数器都为 0。</p>
 <h4 id="页面置换算法小结" class="headerLink">
     <a href="#%e9%a1%b5%e9%9d%a2%e7%bd%ae%e6%8d%a2%e7%ae%97%e6%b3%95%e5%b0%8f%e7%bb%93" class="header-mark"></a>页面置换算法小结</h4><table>
-  <thead>
-      <tr>
-          <th style="text-align: left">算法</th>
-          <th style="text-align: left">注释</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">OPT (最优)</td>
-          <td style="text-align: left">不可实现，但可作为性能基准</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">NRU (最近未被访问)</td>
-          <td style="text-align: left">LRU 的很粗糙近似</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">FIFO (先进先出)</td>
-          <td style="text-align: left">可能换出重要页面</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">第二次机会算法</td>
-          <td style="text-align: left">防止重要页面被换出</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">时钟算法</td>
-          <td style="text-align: left">使用循环链表，减少结点修改</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">LRU (最近最少使用)</td>
-          <td style="text-align: left">优秀但难实现的算法</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">LFU (最不常用)</td>
-          <td style="text-align: left">LRU 的相对粗略近似</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">LFU aging</td>
-          <td style="text-align: left">非常近似 LRU 的有效算法</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>算法</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OPT (最优)</td>
+<td>不可实现，但可作为性能基准</td>
+</tr>
+<tr>
+<td>NRU (最近未被访问)</td>
+<td>LRU 的很粗糙近似</td>
+</tr>
+<tr>
+<td>FIFO (先进先出)</td>
+<td>可能换出重要页面</td>
+</tr>
+<tr>
+<td>第二次机会算法</td>
+<td>防止重要页面被换出</td>
+</tr>
+<tr>
+<td>时钟算法</td>
+<td>使用循环链表，减少结点修改</td>
+</tr>
+<tr>
+<td>LRU (最近最少使用)</td>
+<td>优秀但难实现的算法</td>
+</tr>
+<tr>
+<td>LFU (最不常用)</td>
+<td>LRU 的相对粗略近似</td>
+</tr>
+<tr>
+<td>LFU aging</td>
+<td>非常近似 LRU 的有效算法</td>
+</tr>
+</tbody>
 </table>
 <p>我们可以利用缺页中断的次数比总页面调度次数，得出缺页率，缺页率可以简单直观地衡量一个置换算法的好坏。其中最初 n 个空物理块的页面调用也算作缺页。</p>
 <p>假设现在有分配的物理块 4 个，页面 <code>4,3,2,1,4,3,5,4,3,2,1,5</code>，那么以 OPT、FIFO、
@@ -444,300 +444,300 @@ LFU 为例</p>
 <li>
 <p>OPT</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">物理页面</th>
-          <th style="text-align: left">4</th>
-          <th style="text-align: left">3</th>
-          <th style="text-align: left">2</th>
-          <th style="text-align: left">1</th>
-          <th style="text-align: left">4</th>
-          <th style="text-align: left">3</th>
-          <th style="text-align: left">5</th>
-          <th style="text-align: left">4</th>
-          <th style="text-align: left">3</th>
-          <th style="text-align: left">2</th>
-          <th style="text-align: left">1</th>
-          <th style="text-align: left">5</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">1</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">3</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">5</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">是否缺页</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\times\)</td>
-          <td style="text-align: left">\(\times\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\times\)</td>
-          <td style="text-align: left">\(\times\)</td>
-          <td style="text-align: left">\(\times\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\times\)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>物理页面</th>
+<th>4</th>
+<th>3</th>
+<th>2</th>
+<th>1</th>
+<th>4</th>
+<th>3</th>
+<th>5</th>
+<th>4</th>
+<th>3</th>
+<th>2</th>
+<th>1</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td></td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>是否缺页</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\times\)</td>
+<td>\(\times\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\times\)</td>
+<td>\(\times\)</td>
+<td>\(\times\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\times\)</td>
+</tr>
+</tbody>
 </table>
 <p>缺页次数 6，总访问次数 12，缺页率 \(\frac{1}{2}\)</p>
 </li>
 <li>
 <p>FIFO</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">物理页面</th>
-          <th style="text-align: left">4</th>
-          <th style="text-align: left">3</th>
-          <th style="text-align: left">2</th>
-          <th style="text-align: left">1</th>
-          <th style="text-align: left">4</th>
-          <th style="text-align: left">3</th>
-          <th style="text-align: left">5</th>
-          <th style="text-align: left">4</th>
-          <th style="text-align: left">3</th>
-          <th style="text-align: left">2</th>
-          <th style="text-align: left">1</th>
-          <th style="text-align: left">5</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">3</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">2</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">1</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">5</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">是否缺页</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\times\)</td>
-          <td style="text-align: left">\(\times\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>物理页面</th>
+<th>4</th>
+<th>3</th>
+<th>2</th>
+<th>1</th>
+<th>4</th>
+<th>3</th>
+<th>5</th>
+<th>4</th>
+<th>3</th>
+<th>2</th>
+<th>1</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td></td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr>
+<td>是否缺页</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\times\)</td>
+<td>\(\times\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+</tr>
+</tbody>
 </table>
 <p>缺页次数 10，总访问次数 12，缺页率 \(\frac{5}{6}\)</p>
 </li>
 <li>
 <p>LFU</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">物理页面</th>
-          <th style="text-align: left">4</th>
-          <th style="text-align: left">3</th>
-          <th style="text-align: left">2</th>
-          <th style="text-align: left">1</th>
-          <th style="text-align: left">4</th>
-          <th style="text-align: left">3</th>
-          <th style="text-align: left">5</th>
-          <th style="text-align: left">4</th>
-          <th style="text-align: left">3</th>
-          <th style="text-align: left">2</th>
-          <th style="text-align: left">1</th>
-          <th style="text-align: left">5</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">3</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">2</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">1</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">5</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">是否缺页</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\times\)</td>
-          <td style="text-align: left">\(\times\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\times\)</td>
-          <td style="text-align: left">\(\times\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>物理页面</th>
+<th>4</th>
+<th>3</th>
+<th>2</th>
+<th>1</th>
+<th>4</th>
+<th>3</th>
+<th>5</th>
+<th>4</th>
+<th>3</th>
+<th>2</th>
+<th>1</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>4</td>
+<td>3</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td></td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>4</td>
+<td>3</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>4</td>
+<td>3</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr>
+<td>是否缺页</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\times\)</td>
+<td>\(\times\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\times\)</td>
+<td>\(\times\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+</tr>
+</tbody>
 </table>
 <p>LFU 算法可以使用链表实现，将刚刚访问过的结点置于表尾，表头即是将被淘汰的
 page，这与上面所介绍到计数器的方案有所不同。缺页次数 8，总访问次数 12，缺页率 \(\frac{2}{3}\)</p>
@@ -791,50 +791,50 @@ segment 长度可以不同，通常情况下也都不相同。segment 的长度�
 <p>segment 是一个逻辑实体，一个段可能包括一个过程、一个数组、一个堆栈、一个数值变量，但一般不会同时包含多种不同类型的内容。除了能简化对长度经常变动的数据结构的管理外，分段存储管理的每个过程都位于一个独立的段中并且起始位置为 0，那么把单独编译好的过程链接起来的操作就可以得到很大的简化。当组成一个程序的所有过程都被编译和链接好之后，一个对段 n 中过程的调用将使用由两个部分组成的地址 \((n, 0)\) 来寻址。在重新编译时，对比一维地址，不会受到过程大小的改变而影响其他无关过程的起始地址。</p>
 <p>由于 segment 可以时不同类型的内容，因此可以有不同种类的保护。一个过程段可以被指明为只执行的，从而禁止读写；读点数组可以读写但不允许执行，任何试图向这个段内的转跳都将被截获。这样的保护容易找到编程中的错误。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">考察点</th>
-          <th style="text-align: left">分页</th>
-          <th style="text-align: left">分段</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">需要了解具体技术</td>
-          <td style="text-align: left">\(\times\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">存在多少线性空间</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">多个</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">超出存储器大小</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">过程和数据区分并保护</td>
-          <td style="text-align: left">\(\times\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">大小可变的表更易提供</td>
-          <td style="text-align: left">\(\times\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">用户间过程共享方便</td>
-          <td style="text-align: left">\(\times\)</td>
-          <td style="text-align: left">\(\checkmark\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">发明的原因</td>
-          <td style="text-align: left">更大的地址空间</td>
-          <td style="text-align: left">数据、过程逻辑独立，有助于共享、保护</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>考察点</th>
+<th>分页</th>
+<th>分段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>需要了解具体技术</td>
+<td>\(\times\)</td>
+<td>\(\checkmark\)</td>
+</tr>
+<tr>
+<td>存在多少线性空间</td>
+<td>1</td>
+<td>多个</td>
+</tr>
+<tr>
+<td>超出存储器大小</td>
+<td>\(\checkmark\)</td>
+<td>\(\checkmark\)</td>
+</tr>
+<tr>
+<td>过程和数据区分并保护</td>
+<td>\(\times\)</td>
+<td>\(\checkmark\)</td>
+</tr>
+<tr>
+<td>大小可变的表更易提供</td>
+<td>\(\times\)</td>
+<td>\(\checkmark\)</td>
+</tr>
+<tr>
+<td>用户间过程共享方便</td>
+<td>\(\times\)</td>
+<td>\(\checkmark\)</td>
+</tr>
+<tr>
+<td>发明的原因</td>
+<td>更大的地址空间</td>
+<td>数据、过程逻辑独立，有助于共享、保护</td>
+</tr>
+</tbody>
 </table>
 <p>page 是定长的但 segment 不是。系统运行一段时间后，内存会被分为许多块，一些块包含着 segment，而一些成了空闲区，这种现象称为 <strong>棋盘形碎片</strong> 或 <strong>外部碎片</strong> (external
 fragmentation)。空闲区的存被浪费，而这可以通过内存紧缩来解决。</p>
@@ -920,7 +920,7 @@ directory)，其通过全局寄存器来定位。page directory 中的每个目�
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.131.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

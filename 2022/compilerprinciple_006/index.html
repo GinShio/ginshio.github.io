@@ -265,7 +265,7 @@
 <p>如果有 \(\textit{S}\xRightarrow[rm]{*}\alpha\textit{A}w\xRightarrow[rm]{}\alpha\beta{}w\)，那么紧跟 \(\alpha\) 的产生式 \(\textit{A}\rightarrow\beta\) 是 \(\alpha\beta{}w\) 的一个 <strong>句柄</strong> (handle)。换句话说，最右句型 \(\gamma\) 的一个句柄是满足以下条件的产生式 \(\textit{A}\rightarrow\beta\) 及串
 \(\beta\) 在 \(\gamma\) 中出现的位置：将这个位置上的 \(\beta\) 替换为 <em>A</em> 之后得到的串是
 \(\gamma\) 的某个最右推导序列中出现在位于 \(\gamma\) 之前的最右句型。</p>
-<figure><img src="/images/alpha-beta-w-parsing-tree-handle.svg">
+<figure><img src="/images/compiler_principle-alpha-beta-w-parsing-tree-handle.svg">
 </figure>
 
 <p>句柄右边的串 w 一定只包含终结符，即产生式体 \(\beta\) 称为一个句柄 (而不是
@@ -357,7 +357,7 @@ LR (0) 项是 G 的一个产生式再加上一个位于它的体中某处的点�
 就是在 G 中加上新的开始符号 \(\textit{S}^{&rsquo;}\) 和产生式
 \(\textit{S}^{&rsquo;}\rightarrow\textit{S}\) 的文法。引入新的产生式的目的是告诉文法分析器何时应该停止语法分析并宣称接受输入符号串。</p>
 <p>对于之前反复提到的示例 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>，可以构造出如下自动机。</p>
-<figure><img src="/images/LR-0-automachine-example.svg">
+<figure><img src="/images/compiler_principle-LR-0-automachine-example.svg">
 </figure>
 
 <h4 id="项集的闭包" class="headerLink">
@@ -413,7 +413,7 @@ LR (0) 项是 G 的一个产生式再加上一个位于它的体中某处的点�
 <h3 id="lr-语法分析算法" class="headerLink">
     <a href="#lr-%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90%e7%ae%97%e6%b3%95" class="header-mark"></a>LR 语法分析算法</h3><p>还记得 LL 语法分析的非递归预测分析中提到的<strong>分析表驱动的语法分析器</strong>吗，我们的 LR
 语法分析器与它很像。</p>
-<figure><img src="/images/LR-parser-model.svg">
+<figure><img src="/images/compiler_principle-LR-parser-model.svg">
 </figure>
 
 <p>所有 LR 语法分析器的驱动程序都是相同的，而语法分析表是根据语法分析器的不同而变化的。每个状态都有一个对应的文法符号，各个状态都和每个项集对应，并有从状态 i 到状态 j 的转换 \(\texttt{GOTO}(\textit{I}_{i}, \textit{X}) = \textit{I}_{j}\)。所有到达状态 j 的转换一定对应于同一个文法符号 \(\textit{X}\)。因此，除了开始状态 0
@@ -481,7 +481,7 @@ LR (0) 项是 G 的一个产生式再加上一个位于它的体中某处的点�
 <li>acc 表示接受</li>
 <li>空白表示报错</li>
 </ul>
-<figure><img src="/images/analysis-table-of-SLR-example.svg">
+<figure><img src="/images/compiler_principle-analysis-table-of-SLR-example.svg">
 </figure>
 
 <h3 id="构造-slr-语法分析表" class="headerLink">
@@ -605,7 +605,7 @@ SetOfItems \(\texttt{GOTO}\)(<em>I</em>, <em>X</em>) {<br />
 \textit{S} &amp;\rightarrow \textit{C}\ \textit{C}\\
 \textit{C} &amp;\rightarrow c\ \textit{C} \ |\ d
 \end{aligned}\]</p>
-<figure><img src="/images/LR-1-automachine-example.svg">
+<figure><img src="/images/compiler_principle-LR-1-automachine-example.svg">
 </figure>
 
 <h3 id="规范-lr--1--语法分析表" class="headerLink">
@@ -637,7 +637,7 @@ SetOfItems \(\texttt{GOTO}\)(<em>I</em>, <em>X</em>) {<br />
 \end{align}\]
 
 <p>其语法分析表如下：</p>
-<figure><img src="/images/analysis-table-of-LR-1-example.svg">
+<figure><img src="/images/compiler_principle-analysis-table-of-LR-1-example.svg">
 </figure>
 
 <h3 id="构造-lalr-语法分析表" class="headerLink">
@@ -683,11 +683,11 @@ SetOfItems \(\texttt{GOTO}\)(<em>I</em>, <em>X</em>) {<br />
 \textit{S} &amp;\rightarrow \textit{C}\ \textit{C}\\
 \textit{C} &amp;\rightarrow c\ \textit{C} \ |\ d
 \end{aligned}\]</p>
-<figure><img src="/images/LALR-1-automachine-example.svg">
+<figure><img src="/images/compiler_principle-LALR-1-automachine-example.svg">
 </figure>
 
 <p>其分析表也很简单。</p>
-<figure><img src="/images/analysis-table-of-LALR-1-example.svg">
+<figure><img src="/images/compiler_principle-analysis-table-of-LALR-1-example.svg">
 </figure>
 
 <p>在处理正确的输入时，LR 语法分析器和 LALR 语法分析器可以相互模拟；在处理错误的输入时，LALR 语法分析器可能在 LR 语法分析器报错之后继续执行一些归约动作，但绝不会在 LR 语法分析器报错之后移入任何符号。</p>
@@ -773,30 +773,30 @@ SetOfItems \(\texttt{GOTO}\)(<em>I</em>, <em>X</em>) {<br />
 </ul>
 <p>依次列出每轮扫描向前看符号的传播途径</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">基础状态</th>
-          <th style="text-align: left">传播到</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">\(\textit{I}_{0}\): \(\textit{S}^{&rsquo;}\rightarrow\cdot\textit{S}\)</td>
-          <td style="text-align: left">\(\begin{aligned}\textit{I}_{1}:\ \textit{S}^{&rsquo;}&amp;\rightarrow\textit{S}\cdot\\ \textit{I}_{2}:\ \textit{S}&amp;\rightarrow\textit{L}\cdot=\textit{R}\\ \textit{I}_{2}:\ \textit{R}&amp;\rightarrow\textit{L}\cdot\\ \textit{I}_{3}:\ \textit{S}&amp;\rightarrow\textit{R}\cdot\\ \textit{I}_{4}:\ \textit{L}&amp;\rightarrow*\cdot\textit{R}\\ \textit{I}_{5}:\ \textit{L}&amp;\rightarrow\textbf{id}\cdot\end{aligned}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textit{I}_{2}\): \(\textit{S}\rightarrow\textit{L}\cdot=\textit{R}\)</td>
-          <td style="text-align: left">\(\textit{I}_{6}:\ \textit{S}\rightarrow\textit{L}=\cdot\textit{R}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textit{I}_{4}\): \(\textit{L}\rightarrow*\cdot\textit{R}\)</td>
-          <td style="text-align: left">\(\begin{aligned}\textit{I}_{4}:\ \textit{L}&amp;\rightarrow*\cdot\textit{R}\\ \textit{I}_{5}:\ \textit{L}&amp;\rightarrow\textbf{id}\cdot\\ \textit{I}_{7}:\ \textit{L}&amp;\rightarrow*\textit{R}\cdot\\ \textit{I}_{8}:\ \textit{R}&amp;\rightarrow\textit{L}\cdot\end{aligned}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textit{I}_{6}\): \(\textit{S}\rightarrow\textit{L}=\cdot\textit{R}\)</td>
-          <td style="text-align: left">\(\begin{aligned}\textit{I}_{4}:\ \textit{L}&amp;\rightarrow*\cdot\textit{R}\\ \textit{I}_{5}:\ \textit{L}&amp;\rightarrow\textbf{id}\cdot\\ \textit{I}_{8}:\ \textit{R}&amp;\rightarrow\textit{L}\cdot\\ \textit{I}_{9}:\ \textit{S}&amp;\rightarrow\textit{L}=\textit{R}\cdot\end{aligned}\)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>基础状态</th>
+<th>传播到</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\(\textit{I}_{0}\): \(\textit{S}^{&rsquo;}\rightarrow\cdot\textit{S}\)</td>
+<td>\(\begin{aligned}\textit{I}_{1}:\ \textit{S}^{&rsquo;}&amp;\rightarrow\textit{S}\cdot\\ \textit{I}_{2}:\ \textit{S}&amp;\rightarrow\textit{L}\cdot=\textit{R}\\ \textit{I}_{2}:\ \textit{R}&amp;\rightarrow\textit{L}\cdot\\ \textit{I}_{3}:\ \textit{S}&amp;\rightarrow\textit{R}\cdot\\ \textit{I}_{4}:\ \textit{L}&amp;\rightarrow*\cdot\textit{R}\\ \textit{I}_{5}:\ \textit{L}&amp;\rightarrow\textbf{id}\cdot\end{aligned}\)</td>
+</tr>
+<tr>
+<td>\(\textit{I}_{2}\): \(\textit{S}\rightarrow\textit{L}\cdot=\textit{R}\)</td>
+<td>\(\textit{I}_{6}:\ \textit{S}\rightarrow\textit{L}=\cdot\textit{R}\)</td>
+</tr>
+<tr>
+<td>\(\textit{I}_{4}\): \(\textit{L}\rightarrow*\cdot\textit{R}\)</td>
+<td>\(\begin{aligned}\textit{I}_{4}:\ \textit{L}&amp;\rightarrow*\cdot\textit{R}\\ \textit{I}_{5}:\ \textit{L}&amp;\rightarrow\textbf{id}\cdot\\ \textit{I}_{7}:\ \textit{L}&amp;\rightarrow*\textit{R}\cdot\\ \textit{I}_{8}:\ \textit{R}&amp;\rightarrow\textit{L}\cdot\end{aligned}\)</td>
+</tr>
+<tr>
+<td>\(\textit{I}_{6}\): \(\textit{S}\rightarrow\textit{L}=\cdot\textit{R}\)</td>
+<td>\(\begin{aligned}\textit{I}_{4}:\ \textit{L}&amp;\rightarrow*\cdot\textit{R}\\ \textit{I}_{5}:\ \textit{L}&amp;\rightarrow\textbf{id}\cdot\\ \textit{I}_{8}:\ \textit{R}&amp;\rightarrow\textit{L}\cdot\\ \textit{I}_{9}:\ \textit{S}&amp;\rightarrow\textit{L}=\textit{R}\cdot\end{aligned}\)</td>
+</tr>
+</tbody>
 </table>
 <h2 id="使用二义性文法" class="headerLink">
     <a href="#%e4%bd%bf%e7%94%a8%e4%ba%8c%e4%b9%89%e6%80%a7%e6%96%87%e6%b3%95" class="header-mark"></a>使用二义性文法</h2><p>每个二义性文法都不是 LR 的，但某些类型的二义性文法在语言的归约和实现中很有用。像表达式这样的语言构造，二义性文法能提供比任何等价的无二义性文法更短、更自然的归约。二义性文法的另一个用途是隔离经常出现的语法构造，以对其进行特殊优化。</p>
@@ -883,7 +883,7 @@ SetOfItems \(\texttt{GOTO}\)(<em>I</em>, <em>X</em>) {<br />
 \(\textit{E}\rightarrow\textit{E}+\textit{E}\) 归约</li>
 </ul>
 <p>因此利用优先级和结合性，可以得到一个与 SLR 近似的语法动作表。</p>
-<figure><img src="/images/analysis-table-of-ambiguous-grammar.svg">
+<figure><img src="/images/compiler_principle-analysis-table-of-ambiguous-grammar.svg">
 </figure>
 
 <h3 id="悬空-else-的二义性" class="headerLink">
@@ -944,92 +944,92 @@ smtm &amp;\rightarrow\ \textbf{if}\ expr\ \textbf{then}\ stmt\ \textbf{else}\ st
 <p>在 \(\textit{I}_{4}\) 上有一个移入/归约冲突。项
 \(\textit{S}\rightarrow{}i\textit{S}\cdot{}e\textit{S}\) 要求移入 e，但 \(\texttt{FOLLOW}(S) =
 \{e, \$\}\)，项 \(\textit{S}\rightarrow{}i\textit{S}\cdot\) 在输入为 e 时进行归约。我们可以要求在输入 e 时执行移入操作，可以得到一个近似无二义性的 LR 分析表。</p>
-<figure><img src="/images/analysis-table-of-ambiguous-grammar-for-if-else.svg">
+<figure><img src="/images/compiler_principle-analysis-table-of-ambiguous-grammar-for-if-else.svg">
 </figure>
 
 <p>当然如此解决悬空 else 问题后，我们可以为 iiaea 语法产生正确的语法分析动作。</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">编号</th>
-          <th style="text-align: left">栈</th>
-          <th style="text-align: left">符号</th>
-          <th style="text-align: left">输入</th>
-          <th style="text-align: left">动作</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">0</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(iiaea\$\)</td>
-          <td style="text-align: left">移入</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">02</td>
-          <td style="text-align: left">\(i\)</td>
-          <td style="text-align: left">\(iaea\$\)</td>
-          <td style="text-align: left">移入</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">3</td>
-          <td style="text-align: left">022</td>
-          <td style="text-align: left">\(ii\)</td>
-          <td style="text-align: left">\(aea\$\)</td>
-          <td style="text-align: left">移入</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">4</td>
-          <td style="text-align: left">0223</td>
-          <td style="text-align: left">\(iia\)</td>
-          <td style="text-align: left">\(ea\$\)</td>
-          <td style="text-align: left">归约 \(\textit{S}\rightarrow{}a\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">5</td>
-          <td style="text-align: left">0224</td>
-          <td style="text-align: left">\(ii\textit{S}\)</td>
-          <td style="text-align: left">\(ea\$\)</td>
-          <td style="text-align: left">移入</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">6</td>
-          <td style="text-align: left">02245</td>
-          <td style="text-align: left">\(ii\textit{S}e\)</td>
-          <td style="text-align: left">\(a\$\)</td>
-          <td style="text-align: left">移入</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">7</td>
-          <td style="text-align: left">022453</td>
-          <td style="text-align: left">\(ii\textit{S}ea\)</td>
-          <td style="text-align: left">\(\$\)</td>
-          <td style="text-align: left">归约 \(\textit{S}\rightarrow{}a\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">8</td>
-          <td style="text-align: left">022456</td>
-          <td style="text-align: left">\(ii\textit{S}e\textit{S}\)</td>
-          <td style="text-align: left">\(\$\)</td>
-          <td style="text-align: left">归约 \(\textit{S}\rightarrow{}i\textit{S}e\textit{S}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">9</td>
-          <td style="text-align: left">024</td>
-          <td style="text-align: left">\(i\textit{S}\)</td>
-          <td style="text-align: left">\(\$\)</td>
-          <td style="text-align: left">归约 \(\textit{S}\rightarrow{}i\textit{S}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">10</td>
-          <td style="text-align: left">01</td>
-          <td style="text-align: left">\(\textit{S}\)</td>
-          <td style="text-align: left">\(\$\)</td>
-          <td style="text-align: left">接受</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>编号</th>
+<th>栈</th>
+<th>符号</th>
+<th>输入</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0</td>
+<td></td>
+<td>\(iiaea\$\)</td>
+<td>移入</td>
+</tr>
+<tr>
+<td>2</td>
+<td>02</td>
+<td>\(i\)</td>
+<td>\(iaea\$\)</td>
+<td>移入</td>
+</tr>
+<tr>
+<td>3</td>
+<td>022</td>
+<td>\(ii\)</td>
+<td>\(aea\$\)</td>
+<td>移入</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0223</td>
+<td>\(iia\)</td>
+<td>\(ea\$\)</td>
+<td>归约 \(\textit{S}\rightarrow{}a\)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0224</td>
+<td>\(ii\textit{S}\)</td>
+<td>\(ea\$\)</td>
+<td>移入</td>
+</tr>
+<tr>
+<td>6</td>
+<td>02245</td>
+<td>\(ii\textit{S}e\)</td>
+<td>\(a\$\)</td>
+<td>移入</td>
+</tr>
+<tr>
+<td>7</td>
+<td>022453</td>
+<td>\(ii\textit{S}ea\)</td>
+<td>\(\$\)</td>
+<td>归约 \(\textit{S}\rightarrow{}a\)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>022456</td>
+<td>\(ii\textit{S}e\textit{S}\)</td>
+<td>\(\$\)</td>
+<td>归约 \(\textit{S}\rightarrow{}i\textit{S}e\textit{S}\)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>024</td>
+<td>\(i\textit{S}\)</td>
+<td>\(\$\)</td>
+<td>归约 \(\textit{S}\rightarrow{}i\textit{S}\)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>01</td>
+<td>\(\textit{S}\)</td>
+<td>\(\$\)</td>
+<td>接受</td>
+</tr>
+</tbody>
 </table>
 </div>
 
@@ -1067,7 +1067,7 @@ smtm &amp;\rightarrow\ \textbf{if}\ expr\ \textbf{then}\ stmt\ \textbf{else}\ st
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.131.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">

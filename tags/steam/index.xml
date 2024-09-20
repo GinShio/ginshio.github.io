@@ -9,59 +9,10 @@
     <link>https://blog.ginshio.org/2021/steam_apps/</link>
     <pubDate>Mon, 22 Feb 2021 22:23:47 &#43;0800</pubDate><author>
                         <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/steam_apps/</guid>
-    <description><![CDATA[<p>和好友联机的时候本地服务器实在是不爽，一个人起飞，其他人都是<strong>高PING战士</strong>，最开始主要是 L4D2 时各种 RPG 服务器有些不爽，为了纯净的服务器只好自己建了</p>
-<p>事先声明，我们所有的操作在 Debian / Ubuntu 下操作，有些操作系统可能会不一样，不过大同小异，我们还是定义一些等等可能用到的变量 (主要是路径和密码之类的</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">steam</span><span class="o">=</span>/home/steam
-</span></span><span class="line"><span class="cl"><span class="nv">group_id</span><span class="o">=</span><span class="m">123456789</span>
-</span></span><span class="line"><span class="cl"><span class="nv">l4d2</span><span class="o">=</span><span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/l4d2
-</span></span><span class="line"><span class="cl"><span class="nv">l4d2_id</span><span class="o">=</span><span class="m">222860</span>
-</span></span><span class="line"><span class="cl"><span class="nv">l4d2_server_name</span><span class="o">=</span><span class="s2">&#34;L4D2 Server&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">l4d2_port</span><span class="o">=</span><span class="m">1024</span>
-</span></span><span class="line"><span class="cl"><span class="nv">valheim</span><span class="o">=</span><span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/valheim
-</span></span><span class="line"><span class="cl"><span class="nv">valheim_id</span><span class="o">=</span><span class="m">896660</span>
-</span></span><span class="line"><span class="cl"><span class="nv">valheim_server_name</span><span class="o">=</span><span class="s2">&#34;Valheim Server&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">valheim_world</span><span class="o">=</span><span class="s2">&#34;World&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">valheim_port</span><span class="o">=</span><span class="m">1024</span>
-</span></span><span class="line"><span class="cl"><span class="nv">valheim_passwd</span><span class="o">=</span>valheim_password
-</span></span><span class="line"><span class="cl"><span class="nv">dst</span><span class="o">=</span><span class="si">${</span><span class="nv">steam</span><span class="si">}</span>/dst
-</span></span><span class="line"><span class="cl"><span class="nv">dst_id</span><span class="o">=</span><span class="m">343050</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="steamcmd" class="headerLink">
-    <a href="#steamcmd" class="header-mark"></a>SteamCMD</h2><p>顾名思义，steamcmd 是一个命令行工具，同时支持 linux，是我们搭建服务器的好帮手，然而我不会用，不过这不重要，安装跑起来就好</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">add-apt-repository multiverse
-</span></span><span class="line"><span class="cl">dpkg --add-architecture i386
-</span></span><span class="line"><span class="cl">apt update <span class="o">&amp;&amp;</span> apt upgrade
-</span></span><span class="line"><span class="cl">apt install -y lib32gcc1 steamcmd
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>我们不仅要安装一个 steamcmd，还要将所有游戏服务器，存放在 <code>~steam</code> 下，使用
-steam 这个用户来运行游戏</p>]]></description>
+    <description><![CDATA[和好友联机的时候本地服务器实在是不爽，一个人起飞，其他人都是高PING战士，最开始主要是 L4D2 时各种 RPG 服务器有些不爽，为了纯净的服务器只好自己建了
+事先声明，我们所有的操作在 Debian / Ubuntu 下操作，有些操作系统可能会不一样，不过大同小异，我们还是定义一些等等可能用到的变量 (主要是路径和密码之类的
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 steam=/home/steam group_id=123456789 l4d2=${steam}/l4d2 l4d2_id=222860 l4d2_server_name=&#34;L4D2 Server&#34; l4d2_port=1024 valheim=${steam}/valheim valheim_id=896660 valheim_server_name=&#34;Valheim Server&#34; valheim_world=&#34;World&#34; valheim_port=1024 valheim_passwd=valheim_password dst=${steam}/dst dst_id=343050 SteamCMD顾名思义，steamcmd 是一个命令行工具，同时支持 linux，是我们搭建服务器的好帮手，然而我不会用，不过这不重要，安装跑起来就好
+1 2 3 4 add-apt-repository multiverse dpkg --add-architecture i386 apt update &amp;&amp; apt upgrade apt install -y lib32gcc1 steamcmd 我们不仅要安装一个 steamcmd，还要将所有游戏服务器，存放在 ~steam 下，使用 steam 这个用户来运行游戏
+1 2 adduser --disabled-login --gecos &#39;Steam&#39; steam sudo -u steam -H ln -s /usr/games/steamcmd ${steam}/steamcmd 语法这里说的语法并不是 SteamCMD 的语法，而是 Steam 中所使用的文本标记语法，这些标记标签允许您为您的留言及发帖文字添加格式，类似于 HTML，官方展示在这里]]></description>
 </item></channel>
 </rss>

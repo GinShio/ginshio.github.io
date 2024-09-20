@@ -225,7 +225,7 @@ T^{&rsquo;} &amp;\rightarrow *\ F\ T^{&rsquo;}\,|\,\varepsilon\\
 F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\
 \end{aligned}\]</p>
 <p>根据左推导有如下自顶向下分析过程</p>
-<figure><img src="/images/id-plus-id-multi-id-example-lm-top-down.svg">
+<figure><img src="/images/compiler_principle-id-plus-id-multi-id-example-lm-top-down.svg">
 </figure>
 
 <h2 id="递归下降的语法分析" class="headerLink">
@@ -235,7 +235,7 @@ F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\
     <a href="#%e4%b8%80%e4%b8%aa%e7%ae%80%e5%8d%95%e7%9a%84%e7%a4%ba%e4%be%8b" class="header-mark"></a>一个简单的示例</h3><p>考虑文法 \[\begin{aligned} S &amp;\rightarrow c\,A\,d\\ A &amp;\rightarrow a\,b \ |\ a\\ \end{aligned}\]
 自顶向下构造串 \(w=cad\)，初始结点指向 w 的第一个字符，即标号为 S 的结点指向 c，将会得到图 <a href="#figure--fig:top-down-parsing-process-example" rel="">1</a> (a) 中的树，字符c 匹配。</p>
 <p><a id="figure--fig:top-down-parsing-process-example"></a></p>
-<figure><img src="/images/top-down-parsing-process-example.svg"
+<figure><img src="/images/compiler_principle-top-down-parsing-process-example.svg"
     alt="Figure 1: 自顶向下语法分析器过程"><figcaption>
       <p><span class="figure-number">Figure 1: </span>自顶向下语法分析器过程</p>
     </figcaption>
@@ -249,7 +249,7 @@ F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\
 <p>\(\texttt{FIRST}(\alpha)\) 被定义为可以从 \(\alpha\) 推导得到的串的首符号集合。如果 \(\alpha
 \xRightarrow{*}\varepsilon\)，那么 \(\varepsilon\) 也在 \(\texttt{FIRST}(\alpha)\) 中。在之前的示例中，就是 \(\textit{A} \xRightarrow{*} c\gamma\)，因此 \(c\) 在 \(\texttt{FIRST}(\alpha)\) 中，如图 <a href="#figure--fig:top-down-parsing-process-example-follow-and-first" rel="">2</a> 所示。</p>
 <p><a id="figure--fig:top-down-parsing-process-example-follow-and-first"></a></p>
-<figure><img src="/images/top-down-parsing-process-example-follow-and-first.svg"
+<figure><img src="/images/compiler_principle-top-down-parsing-process-example-follow-and-first.svg"
     alt="Figure 2: 终结符 c 在 FIRST(A) 中且 a 在 FOLLOW(A) 中"><figcaption>
       <p><span class="figure-number">Figure 2: </span>终结符 c 在 <code>FIRST</code>(<em>A</em>) 中且 a 在 <code>FOLLOW</code>(<em>A</em>) 中</p>
     </figcaption>
@@ -334,7 +334,7 @@ F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\
 创建一个从初始状态到结束状态的路经</li>
 </ol>
 <p>预测分析器的转换图与词法分析器的转换图是不同的：分析器对每个非终结符都有图，边的标号可以是词法单元也可以是非终结符；词法分析器表示下一个输入符号输入时应该执行的转换。</p>
-<figure><img src="/images/predictive-analyzer-transformation-graph-for-e-and-e-skim.svg">
+<figure><img src="/images/compiler_principle-predictive-analyzer-transformation-graph-for-e-and-e-skim.svg">
 </figure>
 
 <h3 id="ll--1--文法判断" class="headerLink">
@@ -360,64 +360,64 @@ F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\
 </div>
 <p>对于示例 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong> 可以构造出如下分析表</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">非终结符</th>
-          <th style="text-align: left"><strong>id</strong></th>
-          <th style="text-align: left"><code>+</code></th>
-          <th style="text-align: left"><code>*</code></th>
-          <th style="text-align: left"><code>(</code></th>
-          <th style="text-align: left"><code>)</code></th>
-          <th style="text-align: left"><code>$</code></th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><em>E</em></td>
-          <td style="text-align: left">\(\textit{E} \rightarrow \textit{TE}^{&rsquo;}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{E} \rightarrow \textit{TE}^{&rsquo;}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textit{E}^{&rsquo;}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{E}^{&rsquo;} \rightarrow + \textit{TE}^{&rsquo;}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{E}^{&rsquo;} \rightarrow \varepsilon\)</td>
-          <td style="text-align: left">\(\textit{E}^{&rsquo;} \rightarrow \varepsilon\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><em>T</em></td>
-          <td style="text-align: left">\(\textit{T} \rightarrow \textit{FT}^{&rsquo;}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{T} \rightarrow \textit{FT}^{&rsquo;}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textit{T}^{&rsquo;}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
-          <td style="text-align: left">\(\textit{T}^{&rsquo;} \rightarrow * \textit{FT}^{&rsquo;}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
-          <td style="text-align: left">\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><em>F</em></td>
-          <td style="text-align: left">\(\textit{F} \rightarrow \textbf{id}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{F} \rightarrow (\textit{E})\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>非终结符</th>
+<th><strong>id</strong></th>
+<th><code>+</code></th>
+<th><code>*</code></th>
+<th><code>(</code></th>
+<th><code>)</code></th>
+<th><code>$</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>E</em></td>
+<td>\(\textit{E} \rightarrow \textit{TE}^{&rsquo;}\)</td>
+<td></td>
+<td></td>
+<td>\(\textit{E} \rightarrow \textit{TE}^{&rsquo;}\)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>\(\textit{E}^{&rsquo;}\)</td>
+<td></td>
+<td>\(\textit{E}^{&rsquo;} \rightarrow + \textit{TE}^{&rsquo;}\)</td>
+<td></td>
+<td></td>
+<td>\(\textit{E}^{&rsquo;} \rightarrow \varepsilon\)</td>
+<td>\(\textit{E}^{&rsquo;} \rightarrow \varepsilon\)</td>
+</tr>
+<tr>
+<td><em>T</em></td>
+<td>\(\textit{T} \rightarrow \textit{FT}^{&rsquo;}\)</td>
+<td></td>
+<td></td>
+<td>\(\textit{T} \rightarrow \textit{FT}^{&rsquo;}\)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>\(\textit{T}^{&rsquo;}\)</td>
+<td></td>
+<td>\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
+<td>\(\textit{T}^{&rsquo;} \rightarrow * \textit{FT}^{&rsquo;}\)</td>
+<td></td>
+<td>\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
+<td>\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
+</tr>
+<tr>
+<td><em>F</em></td>
+<td>\(\textit{F} \rightarrow \textbf{id}\)</td>
+<td></td>
+<td></td>
+<td>\(\textit{F} \rightarrow (\textit{E})\)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
 </table>
 <p>如果一个文法是左递归或有二义性的，那么 M 中至少会包含一个多重定义的条目。比如悬空-else 文法
 \[\begin{aligned}
@@ -427,53 +427,53 @@ F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\
 \end{aligned}\]</p>
 <p>它的分析表如下</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">非终结符</th>
-          <th style="text-align: left">a</th>
-          <th style="text-align: left">b</th>
-          <th style="text-align: left">e</th>
-          <th style="text-align: left">i</th>
-          <th style="text-align: left">t</th>
-          <th style="text-align: left">\(\$\)</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><em>S</em></td>
-          <td style="text-align: left">\(\textit{S} \rightarrow a\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{S} \rightarrow i\textit{E}t\textit{SS}^{&rsquo;}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textit{S}^{&rsquo;}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{S}^{&rsquo;} \rightarrow \varepsilon\), \(\textit{S}^{&rsquo;} \rightarrow e\textit{S}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{S}^{&rsquo;} \rightarrow \varepsilon\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><em>E</em></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{E} \rightarrow b\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>非终结符</th>
+<th>a</th>
+<th>b</th>
+<th>e</th>
+<th>i</th>
+<th>t</th>
+<th>\(\$\)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>S</em></td>
+<td>\(\textit{S} \rightarrow a\)</td>
+<td></td>
+<td></td>
+<td>\(\textit{S} \rightarrow i\textit{E}t\textit{SS}^{&rsquo;}\)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>\(\textit{S}^{&rsquo;}\)</td>
+<td></td>
+<td></td>
+<td>\(\textit{S}^{&rsquo;} \rightarrow \varepsilon\), \(\textit{S}^{&rsquo;} \rightarrow e\textit{S}\)</td>
+<td></td>
+<td></td>
+<td>\(\textit{S}^{&rsquo;} \rightarrow \varepsilon\)</td>
+</tr>
+<tr>
+<td><em>E</em></td>
+<td></td>
+<td>\(\textit{E} \rightarrow b\)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
 </table>
 <p>可以看到 \(\textit{M}[\textit{S}^{&rsquo;}, e]\) 不止一个条目，LL(1) 文法预测分析表会披露出文法中存在的二义性。</p>
 <h2 id="非递归的预测分析" class="headerLink">
     <a href="#%e9%9d%9e%e9%80%92%e5%bd%92%e7%9a%84%e9%a2%84%e6%b5%8b%e5%88%86%e6%9e%90" class="header-mark"></a>非递归的预测分析</h2><p>构造递归的预测分析是隐式使用栈，可以采用迭代的方式显示使用栈，如果 w 是已匹配完成的输入部分，那么栈中保存的文法符号序列 \(\alpha\) 满足
 \[S \xRightarrow[lm]{*}w\alpha.\]</p>
 <p>由分析表驱动的语法分析器有一个输入缓冲区，一个包含了文法符号序列的栈，一个预测分析表，以及一个输出流。</p>
-<figure><img src="/images/analysis-table-driven-predictive-analyzer-model.svg">
+<figure><img src="/images/compiler_principle-analysis-table-driven-predictive-analyzer-model.svg">
 </figure>
 
 <p>它的输入缓冲区中包含要进行语法分析的串，串后面跟着结束标记\(\$\)。我们复用符号
@@ -506,118 +506,118 @@ error();
 #+end_vers</p>
 <p>在之前已经有了示例 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong> 的预测分析表了，现在展示以下其执行步骤</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">已匹配</th>
-          <th style="text-align: left">栈</th>
-          <th style="text-align: left">输入</th>
-          <th style="text-align: left">操作</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{E}\$\)</td>
-          <td style="text-align: left">\(\textbf{id}+\textbf{id}*\textbf{id}\$\)</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{TE}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\textbf{id}+\textbf{id}*\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{E}\rightarrow\textit{TE}^{&rsquo;}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\textbf{id}+\textbf{id}*\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{T}\rightarrow\textit{FT}^{&rsquo;}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textbf{id}\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\textbf{id}+\textbf{id}*\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{F}\rightarrow\textbf{id}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>id</strong></td>
-          <td style="text-align: left">\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(+\textbf{id}*\textbf{id}\$\)</td>
-          <td style="text-align: left">匹配 <strong>id</strong></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>id</strong></td>
-          <td style="text-align: left">\(\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(+\textbf{id}*\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{T}^{&rsquo;}\rightarrow\varepsilon\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>id</strong></td>
-          <td style="text-align: left">\(+\textit{TE}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(+\textbf{id}*\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{E}^{&rsquo;}\rightarrow+\textit{TE}^{&rsquo;}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}+\)</td>
-          <td style="text-align: left">\(\textit{TE}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\textbf{id}*\textbf{id}\$\)</td>
-          <td style="text-align: left">匹配 \(+\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}+\)</td>
-          <td style="text-align: left">\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\textbf{id}*\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{T}\rightarrow\textit{FT}^{&rsquo;}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}+\)</td>
-          <td style="text-align: left">\(\textbf{id}\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\textbf{id}*\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{F}\rightarrow\textbf{id}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}+\textbf{id}\)</td>
-          <td style="text-align: left">\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(*\textbf{id}\$\)</td>
-          <td style="text-align: left">匹配 <strong>id</strong></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}+\textbf{id}\)</td>
-          <td style="text-align: left">\(*\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(*\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{T}^{&rsquo;}\rightarrow*\textit{FT}^{&rsquo;}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}+\textbf{id}*\)</td>
-          <td style="text-align: left">\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\textbf{id}\$\)</td>
-          <td style="text-align: left">匹配 \(*\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}+\textbf{id}*\)</td>
-          <td style="text-align: left">\(\textbf{id}\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{F}\rightarrow\textbf{id}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}+\textbf{id}*\textbf{id}\)</td>
-          <td style="text-align: left">\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\$\)</td>
-          <td style="text-align: left">匹配 <strong>id</strong></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}+\textbf{id}*\textbf{id}\)</td>
-          <td style="text-align: left">\(\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\$\)</td>
-          <td style="text-align: left">输出 \(\textit{T}^{&rsquo;}\rightarrow\varepsilon\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}+\textbf{id}*\textbf{id}\)</td>
-          <td style="text-align: left">\(\$\)</td>
-          <td style="text-align: left">\(\$\)</td>
-          <td style="text-align: left">输出 \(\textit{E}^{&rsquo;}\rightarrow\varepsilon\)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>已匹配</th>
+<th>栈</th>
+<th>输入</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>\(\textit{E}\$\)</td>
+<td>\(\textbf{id}+\textbf{id}*\textbf{id}\$\)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>\(\textit{TE}^{&rsquo;}\$\)</td>
+<td>\(\textbf{id}+\textbf{id}*\textbf{id}\$\)</td>
+<td>输出 \(\textit{E}\rightarrow\textit{TE}^{&rsquo;}\)</td>
+</tr>
+<tr>
+<td></td>
+<td>\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(\textbf{id}+\textbf{id}*\textbf{id}\$\)</td>
+<td>输出 \(\textit{T}\rightarrow\textit{FT}^{&rsquo;}\)</td>
+</tr>
+<tr>
+<td></td>
+<td>\(\textbf{id}\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(\textbf{id}+\textbf{id}*\textbf{id}\$\)</td>
+<td>输出 \(\textit{F}\rightarrow\textbf{id}\)</td>
+</tr>
+<tr>
+<td><strong>id</strong></td>
+<td>\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(+\textbf{id}*\textbf{id}\$\)</td>
+<td>匹配 <strong>id</strong></td>
+</tr>
+<tr>
+<td><strong>id</strong></td>
+<td>\(\textit{E}^{&rsquo;}\$\)</td>
+<td>\(+\textbf{id}*\textbf{id}\$\)</td>
+<td>输出 \(\textit{T}^{&rsquo;}\rightarrow\varepsilon\)</td>
+</tr>
+<tr>
+<td><strong>id</strong></td>
+<td>\(+\textit{TE}^{&rsquo;}\$\)</td>
+<td>\(+\textbf{id}*\textbf{id}\$\)</td>
+<td>输出 \(\textit{E}^{&rsquo;}\rightarrow+\textit{TE}^{&rsquo;}\)</td>
+</tr>
+<tr>
+<td>\(\textbf{id}+\)</td>
+<td>\(\textit{TE}^{&rsquo;}\$\)</td>
+<td>\(\textbf{id}*\textbf{id}\$\)</td>
+<td>匹配 \(+\)</td>
+</tr>
+<tr>
+<td>\(\textbf{id}+\)</td>
+<td>\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(\textbf{id}*\textbf{id}\$\)</td>
+<td>输出 \(\textit{T}\rightarrow\textit{FT}^{&rsquo;}\)</td>
+</tr>
+<tr>
+<td>\(\textbf{id}+\)</td>
+<td>\(\textbf{id}\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(\textbf{id}*\textbf{id}\$\)</td>
+<td>输出 \(\textit{F}\rightarrow\textbf{id}\)</td>
+</tr>
+<tr>
+<td>\(\textbf{id}+\textbf{id}\)</td>
+<td>\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(*\textbf{id}\$\)</td>
+<td>匹配 <strong>id</strong></td>
+</tr>
+<tr>
+<td>\(\textbf{id}+\textbf{id}\)</td>
+<td>\(*\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(*\textbf{id}\$\)</td>
+<td>输出 \(\textit{T}^{&rsquo;}\rightarrow*\textit{FT}^{&rsquo;}\)</td>
+</tr>
+<tr>
+<td>\(\textbf{id}+\textbf{id}*\)</td>
+<td>\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(\textbf{id}\$\)</td>
+<td>匹配 \(*\)</td>
+</tr>
+<tr>
+<td>\(\textbf{id}+\textbf{id}*\)</td>
+<td>\(\textbf{id}\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(\textbf{id}\$\)</td>
+<td>输出 \(\textit{F}\rightarrow\textbf{id}\)</td>
+</tr>
+<tr>
+<td>\(\textbf{id}+\textbf{id}*\textbf{id}\)</td>
+<td>\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(\$\)</td>
+<td>匹配 <strong>id</strong></td>
+</tr>
+<tr>
+<td>\(\textbf{id}+\textbf{id}*\textbf{id}\)</td>
+<td>\(\textit{E}^{&rsquo;}\$\)</td>
+<td>\(\$\)</td>
+<td>输出 \(\textit{T}^{&rsquo;}\rightarrow\varepsilon\)</td>
+</tr>
+<tr>
+<td>\(\textbf{id}+\textbf{id}*\textbf{id}\)</td>
+<td>\(\$\)</td>
+<td>\(\$\)</td>
+<td>输出 \(\textit{E}^{&rsquo;}\rightarrow\varepsilon\)</td>
+</tr>
+</tbody>
 </table>
 <h2 id="预测分析中的错误恢复" class="headerLink">
     <a href="#%e9%a2%84%e6%b5%8b%e5%88%86%e6%9e%90%e4%b8%ad%e7%9a%84%e9%94%99%e8%af%af%e6%81%a2%e5%a4%8d" class="header-mark"></a>预测分析中的错误恢复</h2><p>当栈顶的终结符和下一个输入不匹配时，或当前非终结符 <em>A</em> 处于栈顶但
@@ -635,179 +635,179 @@ error();
 <p>因此我们可以将 <code>FOLLOW</code> 作为同步词法单元，重绘预测分析表，示例 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code>
 <strong>id</strong> 的预测分析表如下</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">非终结符</th>
-          <th style="text-align: left"><strong>id</strong></th>
-          <th style="text-align: left"><code>+</code></th>
-          <th style="text-align: left"><code>*</code></th>
-          <th style="text-align: left"><code>(</code></th>
-          <th style="text-align: left"><code>)</code></th>
-          <th style="text-align: left"><code>$</code></th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><em>E</em></td>
-          <td style="text-align: left">\(\textit{E} \rightarrow \textit{TE}^{&rsquo;}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{E} \rightarrow \textit{TE}^{&rsquo;}\)</td>
-          <td style="text-align: left">synch</td>
-          <td style="text-align: left">synch</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textit{E}^{&rsquo;}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{E}^{&rsquo;} \rightarrow + \textit{TE}^{&rsquo;}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{E}^{&rsquo;} \rightarrow \varepsilon\)</td>
-          <td style="text-align: left">\(\textit{E}^{&rsquo;} \rightarrow \varepsilon\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><em>T</em></td>
-          <td style="text-align: left">\(\textit{T} \rightarrow \textit{FT}^{&rsquo;}\)</td>
-          <td style="text-align: left">synch</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{T} \rightarrow \textit{FT}^{&rsquo;}\)</td>
-          <td style="text-align: left">synch</td>
-          <td style="text-align: left">synch</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textit{T}^{&rsquo;}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
-          <td style="text-align: left">\(\textit{T}^{&rsquo;} \rightarrow * \textit{FT}^{&rsquo;}\)</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
-          <td style="text-align: left">\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><em>F</em></td>
-          <td style="text-align: left">\(\textit{F} \rightarrow \textbf{id}\)</td>
-          <td style="text-align: left">synch</td>
-          <td style="text-align: left">synch</td>
-          <td style="text-align: left">\(\textit{F} \rightarrow (\textit{E})\)</td>
-          <td style="text-align: left">synch</td>
-          <td style="text-align: left">synch</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>非终结符</th>
+<th><strong>id</strong></th>
+<th><code>+</code></th>
+<th><code>*</code></th>
+<th><code>(</code></th>
+<th><code>)</code></th>
+<th><code>$</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>E</em></td>
+<td>\(\textit{E} \rightarrow \textit{TE}^{&rsquo;}\)</td>
+<td></td>
+<td></td>
+<td>\(\textit{E} \rightarrow \textit{TE}^{&rsquo;}\)</td>
+<td>synch</td>
+<td>synch</td>
+</tr>
+<tr>
+<td>\(\textit{E}^{&rsquo;}\)</td>
+<td></td>
+<td>\(\textit{E}^{&rsquo;} \rightarrow + \textit{TE}^{&rsquo;}\)</td>
+<td></td>
+<td></td>
+<td>\(\textit{E}^{&rsquo;} \rightarrow \varepsilon\)</td>
+<td>\(\textit{E}^{&rsquo;} \rightarrow \varepsilon\)</td>
+</tr>
+<tr>
+<td><em>T</em></td>
+<td>\(\textit{T} \rightarrow \textit{FT}^{&rsquo;}\)</td>
+<td>synch</td>
+<td></td>
+<td>\(\textit{T} \rightarrow \textit{FT}^{&rsquo;}\)</td>
+<td>synch</td>
+<td>synch</td>
+</tr>
+<tr>
+<td>\(\textit{T}^{&rsquo;}\)</td>
+<td></td>
+<td>\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
+<td>\(\textit{T}^{&rsquo;} \rightarrow * \textit{FT}^{&rsquo;}\)</td>
+<td></td>
+<td>\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
+<td>\(\textit{T}^{&rsquo;} \rightarrow \varepsilon\)</td>
+</tr>
+<tr>
+<td><em>F</em></td>
+<td>\(\textit{F} \rightarrow \textbf{id}\)</td>
+<td>synch</td>
+<td>synch</td>
+<td>\(\textit{F} \rightarrow (\textit{E})\)</td>
+<td>synch</td>
+<td>synch</td>
+</tr>
+</tbody>
 </table>
 <p>如果输入串是 \(+\textbf{id}*+\textbf{id}\) 这样的错误输入，可以得到如此语法分析过程</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">已匹配</th>
-          <th style="text-align: left">栈</th>
-          <th style="text-align: left">输入</th>
-          <th style="text-align: left">说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{E}\$\)</td>
-          <td style="text-align: left">\(+\textbf{id}*+\textbf{id}\$\)</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{E}\$\)</td>
-          <td style="text-align: left">\(\textbf{id}*+\textbf{id}\$\)</td>
-          <td style="text-align: left">错误，\(+\)略过</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{TE}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\textbf{id}*+\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{E}\rightarrow\textit{TE}^{&rsquo;}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\textbf{id}*+\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{T}\rightarrow\textit{FT}^{&rsquo;}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"></td>
-          <td style="text-align: left">\(\textbf{id}\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\textbf{id}*+\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{F}\rightarrow\textbf{id}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>id</strong></td>
-          <td style="text-align: left">\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(*+\textbf{id}\$\)</td>
-          <td style="text-align: left">匹配 <strong>id</strong></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>id</strong></td>
-          <td style="text-align: left">\(*\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(*+\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{T}^{&rsquo;}\rightarrow*\textit{FT}^{&rsquo;}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}*\)</td>
-          <td style="text-align: left">\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(+\textbf{id}\$\)</td>
-          <td style="text-align: left">匹配 *</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}*\)</td>
-          <td style="text-align: left">\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(+\textbf{id}\$\)</td>
-          <td style="text-align: left">\(\textit{M}[\textit{F},+]\), 弹出 <em>F</em></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}*\)</td>
-          <td style="text-align: left">\(\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(+\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{T}^{&rsquo;}\rightarrow\varepsilon\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}*\)</td>
-          <td style="text-align: left">\(+\textit{TE}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(+\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{E}^{&rsquo;}\rightarrow+\textit{TE}^{&rsquo;}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}*+\)</td>
-          <td style="text-align: left">\(\textit{TE}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\textbf{id}\$\)</td>
-          <td style="text-align: left">匹配 \(+\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}*+\)</td>
-          <td style="text-align: left">\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{T}\rightarrow\textit{FT}^{&rsquo;}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}*+\)</td>
-          <td style="text-align: left">\(\textbf{id}\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\textbf{id}\$\)</td>
-          <td style="text-align: left">输出 \(\textit{F}\rightarrow\textbf{id}\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}*+\textbf{id}\)</td>
-          <td style="text-align: left">\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\$\)</td>
-          <td style="text-align: left">匹配 <strong>id</strong></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}*+\textbf{id}\)</td>
-          <td style="text-align: left">\(\textit{E}^{&rsquo;}\$\)</td>
-          <td style="text-align: left">\(\$\)</td>
-          <td style="text-align: left">输出 \(\textit{T}^{&rsquo;}\rightarrow\varepsilon\)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">\(\textbf{id}*+\textbf{id}\)</td>
-          <td style="text-align: left">\(\$\)</td>
-          <td style="text-align: left">\(\$\)</td>
-          <td style="text-align: left">输出 \(\textit{E}^{&rsquo;}\rightarrow\varepsilon\)</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>已匹配</th>
+<th>栈</th>
+<th>输入</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>\(\textit{E}\$\)</td>
+<td>\(+\textbf{id}*+\textbf{id}\$\)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>\(\textit{E}\$\)</td>
+<td>\(\textbf{id}*+\textbf{id}\$\)</td>
+<td>错误，\(+\)略过</td>
+</tr>
+<tr>
+<td></td>
+<td>\(\textit{TE}^{&rsquo;}\$\)</td>
+<td>\(\textbf{id}*+\textbf{id}\$\)</td>
+<td>输出 \(\textit{E}\rightarrow\textit{TE}^{&rsquo;}\)</td>
+</tr>
+<tr>
+<td></td>
+<td>\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(\textbf{id}*+\textbf{id}\$\)</td>
+<td>输出 \(\textit{T}\rightarrow\textit{FT}^{&rsquo;}\)</td>
+</tr>
+<tr>
+<td></td>
+<td>\(\textbf{id}\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(\textbf{id}*+\textbf{id}\$\)</td>
+<td>输出 \(\textit{F}\rightarrow\textbf{id}\)</td>
+</tr>
+<tr>
+<td><strong>id</strong></td>
+<td>\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(*+\textbf{id}\$\)</td>
+<td>匹配 <strong>id</strong></td>
+</tr>
+<tr>
+<td><strong>id</strong></td>
+<td>\(*\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(*+\textbf{id}\$\)</td>
+<td>输出 \(\textit{T}^{&rsquo;}\rightarrow*\textit{FT}^{&rsquo;}\)</td>
+</tr>
+<tr>
+<td>\(\textbf{id}*\)</td>
+<td>\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(+\textbf{id}\$\)</td>
+<td>匹配 *</td>
+</tr>
+<tr>
+<td>\(\textbf{id}*\)</td>
+<td>\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(+\textbf{id}\$\)</td>
+<td>\(\textit{M}[\textit{F},+]\), 弹出 <em>F</em></td>
+</tr>
+<tr>
+<td>\(\textbf{id}*\)</td>
+<td>\(\textit{E}^{&rsquo;}\$\)</td>
+<td>\(+\textbf{id}\$\)</td>
+<td>输出 \(\textit{T}^{&rsquo;}\rightarrow\varepsilon\)</td>
+</tr>
+<tr>
+<td>\(\textbf{id}*\)</td>
+<td>\(+\textit{TE}^{&rsquo;}\$\)</td>
+<td>\(+\textbf{id}\$\)</td>
+<td>输出 \(\textit{E}^{&rsquo;}\rightarrow+\textit{TE}^{&rsquo;}\)</td>
+</tr>
+<tr>
+<td>\(\textbf{id}*+\)</td>
+<td>\(\textit{TE}^{&rsquo;}\$\)</td>
+<td>\(\textbf{id}\$\)</td>
+<td>匹配 \(+\)</td>
+</tr>
+<tr>
+<td>\(\textbf{id}*+\)</td>
+<td>\(\textit{FT}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(\textbf{id}\$\)</td>
+<td>输出 \(\textit{T}\rightarrow\textit{FT}^{&rsquo;}\)</td>
+</tr>
+<tr>
+<td>\(\textbf{id}*+\)</td>
+<td>\(\textbf{id}\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(\textbf{id}\$\)</td>
+<td>输出 \(\textit{F}\rightarrow\textbf{id}\)</td>
+</tr>
+<tr>
+<td>\(\textbf{id}*+\textbf{id}\)</td>
+<td>\(\textit{T}^{&rsquo;}\textit{E}^{&rsquo;}\$\)</td>
+<td>\(\$\)</td>
+<td>匹配 <strong>id</strong></td>
+</tr>
+<tr>
+<td>\(\textbf{id}*+\textbf{id}\)</td>
+<td>\(\textit{E}^{&rsquo;}\$\)</td>
+<td>\(\$\)</td>
+<td>输出 \(\textit{T}^{&rsquo;}\rightarrow\varepsilon\)</td>
+</tr>
+<tr>
+<td>\(\textbf{id}*+\textbf{id}\)</td>
+<td>\(\$\)</td>
+<td>\(\$\)</td>
+<td>输出 \(\textit{E}^{&rsquo;}\rightarrow\varepsilon\)</td>
+</tr>
+</tbody>
 </table>
 <h3 id="短语层次恢复" class="headerLink">
     <a href="#%e7%9f%ad%e8%af%ad%e5%b1%82%e6%ac%a1%e6%81%a2%e5%a4%8d" class="header-mark"></a>短语层次恢复</h3><p>在预测分析表的空白条目中填入过程指针，即可用过程改变、插入或删除输入的符号，并发出适当的错误消息，或执行一些栈操作 (改变栈符号或压入新符号)。</p>
@@ -847,7 +847,7 @@ error();
             </noscript></div></article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
-                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.134.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.131.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://blog.ginshio.org/" target="_blank" rel="noopener noreferrer">GinShio</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
             <div class="footer-line"></div>
             <div class="footer-line">
