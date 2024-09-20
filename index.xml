@@ -4,9 +4,16 @@
         <link>https://blog.ginshio.org/</link>
         <description>iris | GinShio 的个人博客</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Thu, 05 Oct 2023 19:37:03 &#43;0800</lastBuildDate>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Fri, 20 Sep 2024 23:13:27 &#43;0800</lastBuildDate>
             <atom:link href="https://blog.ginshio.org/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>How To Use Mesa&#39;s test tool: deqp-runner</title>
+    <link>https://blog.ginshio.org/2024/how-to-use-deqp-runner/</link>
+    <pubDate>Fri, 20 Sep 2024 23:13:27 &#43;0800</pubDate><author>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2024/how-to-use-deqp-runner/</guid>
+    <description><![CDATA[deqp-runner is a series of tools written by mesa developers for running vulkan and opengl quality test case programs. It can run in parallel and robustly dEQP (draw-element quality program), piglit, SkQP (Skia Quality Program), and so on.
+In my experience, when running large dEQP test cases, your own changes may cause umd (user mode driver) to fail, crash, timeout, or hang. If you simply use deqp-vk, the khronos testcases program for vulkan, the test will stop when umd throws unrecoverable error.]]></description>
+</item><item>
     <title>How To Build Mesa for AMD</title>
     <link>https://blog.ginshio.org/2023/how-to-build-mesa/</link>
     <pubDate>Mon, 28 Aug 2023 22:25:22 &#43;0800</pubDate><author>
@@ -124,16 +131,5 @@ SDD 既可以构造语法树，也可以构造 DAG，在构造 DAG 结点时每�
 编号 产生式 语义规则 1 \(E\rightarrow{}E_{1}+T\) \(E.node=\textbf{new}\ Node(&rsquo;+&rsquo;,E_{1}.node,T.node)\) 2 \(E\rightarrow{}E_{1}-T\) \(E.node=\textbf{new}\ Node(&rsquo;-&rsquo;,E_{1}.node,T.node)\) 3 \(\begin{aligned}E&amp;\rightarrow{}T\\T&amp;\rightarrow{}T_{1}*F\end{aligned}\) \(\begin{aligned}E.node&amp;=T.node\\T.node&amp;=\textbf{new}\ Node(&rsquo;*&rsquo;,T_{1}.node,F.node)\end{aligned}\) 4 \(T\rightarrow{}(E)\) \(T.node=E.node\) 5 \(T\rightarrow{}\textbf{id}\) \(T.node=\textbf{new}\ Leaf(\textbf{id},\textbf{id}.entry)\) 6 \(T\rightarrow{}\textbf{num}\) \(T.node=\textbf{new}\ Leaf(\textbf{num},\textbf{num}.entry)\) 通常语法树或 DAG 的结点存放在记录数组中，每个记录第一个字段是运算符代码，也是该结点的标号；叶结点可能有一个存放词法值的字段，而内部结点可能有两个指向其左右运算数的字段。
 在这样的一个数组中，我们只需要给定结点对应的整数下标就可以引用该结点了。而这个下标被称为表达式的值编码 (value number)。通常为了防止结点太多所造成的巨大的搜索开销，可以用 Hash 的方法实现，加快创建结点时的搜索。
 三地址码三地址码中一条指令的右侧最多有一个运算符，因此 \(x+y*z\) 这样的代码可能被翻译成 \[\begin{aligned} t_{1} &amp;= y * z\\ t_{2} &amp;= x + t_{1} \end{aligned}\]]]></description>
-</item><item>
-    <title>语法制导翻译</title>
-    <link>https://blog.ginshio.org/2022/compilerprinciple_007/</link>
-    <pubDate>Thu, 19 May 2022 13:26:43 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/compilerprinciple_007/</guid>
-    <description><![CDATA[最通用的语法制导翻译的方法是先通过构造一棵语法分析树，然后通过访问这棵树的各个结点来计算结点的属性值。在很多情况下，翻译可以在语法扫描分析期间完成，不需要构造出明确的语法分析树。语法制导翻译主要有两类：
-L 属性翻译 (从左到右)，可以在语法分析过程中完成的翻译方案 S 属性翻译 (综合)，可以很容易与自底向上语法分析过程联系起来 语法制导定义语法制导定义 (Syntax-Directed Definition, SDD) 是一个上下文无关文法 (Context-Free Grammar, CFG) 和属性及规则的结合，属性和文法符号相关联，而规则和产生式相关联。如果 X 是一个符号而 a 是 X 的一个属性，那么我们用 X.a 表示 a 在某个标号为 X 的分析树结点上的值。
-继承属性与综合属性处理非终结符的两种属性：
-综合属性 (synthesized attribute) 在分析树结点 N 上的非终结符 A 的综合属性是由 N 上的产生式所关联的语义规则来定义的。这个产生式的头部一定是 A，结点 N 上的综合属性只能通过 N 的子结点或 N 本身的属性值来定义。 继承属性 (inherited attribute) 在分析树结点 N 上的非终结符 B 的继承属性是由 N 的父结点上的产生式所关联的语义规则来定义的。这个产生式的体中必然包含符号 B，结点 N 上的继承属性只能通过 N 的父结点、N 本身和 N 的兄弟结点上的属性来定义。 虽然不允许结点 N 的继承属性通过子结点上的属性来定义，但可以通过结点本身的继承属性定义综合属性。另外，终结符可以由综合属性，但不能有继承属性，它的属性值是由词法分析器提供的词法值，SDD 中没有计算终结符的属性值的语义规则。
-比如有一个简单的加乘计算器。
-编号 产生式 语义规则 1 \(L\rightarrow{}E\textbf{n}\) \(L.]]></description>
 </item></channel>
 </rss>

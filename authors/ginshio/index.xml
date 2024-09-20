@@ -4,7 +4,14 @@
         <link>https://blog.ginshio.org/authors/ginshio/</link>
         <description>GinShio - 作者 - iris</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Mon, 28 Aug 2023 22:25:22 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/authors/ginshio/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Fri, 20 Sep 2024 23:13:27 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/authors/ginshio/" rel="self" type="application/rss+xml" /><item>
+    <title>How To Use Mesa&#39;s test tool: deqp-runner</title>
+    <link>https://blog.ginshio.org/2024/how-to-use-deqp-runner/</link>
+    <pubDate>Fri, 20 Sep 2024 23:13:27 &#43;0800</pubDate><author>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2024/how-to-use-deqp-runner/</guid>
+    <description><![CDATA[deqp-runner is a series of tools written by mesa developers for running vulkan and opengl quality test case programs. It can run in parallel and robustly dEQP (draw-element quality program), piglit, SkQP (Skia Quality Program), and so on.
+In my experience, when running large dEQP test cases, your own changes may cause umd (user mode driver) to fail, crash, timeout, or hang. If you simply use deqp-vk, the khronos testcases program for vulkan, the test will stop when umd throws unrecoverable error.]]></description>
+</item><item>
     <title>How To Build Mesa for AMD</title>
     <link>https://blog.ginshio.org/2023/how-to-build-mesa/</link>
     <pubDate>Mon, 28 Aug 2023 22:25:22 &#43;0800</pubDate><author>
@@ -94,21 +101,5 @@ Windows 下，你可以在这里下载 Python3 或 erlang。安装之后将路�
     <description><![CDATA[众所周知，运行的程序是需要内存占用的，在编码时假定栈上的空间是连续的，且定义的所有变量都连续分布在栈上。
 实际上，虽然变量是连续分布在栈上的，但编译器会根据不同类型与对齐方式，将变量重新排列，达到最优情况。
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 #include &lt;stdio.h&gt; #include &lt;stdlib.h&gt; #define __print_position(type, CNT) \ type VAR##CNT; \ printf(&#34;VAR&#34;#CNT &#34; (&#34; #type &#34;)\t: %p\n&#34;, &amp;VAR##CNT); #define _print_position(type, CNT) __print_position(type, CNT) #define print_position(type) _print_position(type, __COUNTER__) int main(void) { print_position(int); // VAR0 (int) : 0x7ffe84765470 print_position(double); // VAR1 (double): 0x7ffe84765478 print_position(char); // VAR2 (char) : 0x7ffe8476546f print_position(float); // VAR3 (float) : 0x7ffe84765474 print_position(div_t); // VAR4 (div_t) : 0x7ffe84765480 } 本文主要集中在结构体的对齐。]]></description>
-</item><item>
-    <title>在 Windows 的 Git Bash 中使用包管理器</title>
-    <link>https://blog.ginshio.org/2022/git_bash_with_pacman_on_windows/</link>
-    <pubDate>Sat, 27 Aug 2022 14:03:31 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/git_bash_with_pacman_on_windows/</guid>
-    <description><![CDATA[Windows 中，在安装 Git Bash 时，会安装一个最小化的 Msys 环境，用于提供 Uinx 兼容层。单独安装一个 msys 不如直接使用 Git 引入的来的爽。
-另外还有些好处，比如安装依赖只需要从包管理器安装，而无需到处找官网安装配环境。
-安装 GitGit 的安装应该是都会的，但还是应该说以下，在 Windows 上安装 git 时，实际上是有很多细节需要注意的。
-选择 git 使用的默认的编辑器
-实际上，git 已经在这里说的很明白了，默认 vim 是一个历史原因，推建我们使用更现代的 GUI 编辑器。实际上，你可以使用 core.editor 来修改你想使用的编辑器。当然，如果你不设置这个值，git 会用环境变量中的 EDITOR 作为默认编辑器使用，而 Unix 世界中，EDITOR 往往是 Vi 或 Vim。
-最后说一下我的习惯，我并不喜欢 Vim，但是配置了的 Emacs 打开太慢了，由其是简单的写一个 message (VSCode 人称小 emacs)，所以我更偏向于终端编辑器 GNU Nano，图形编辑器则更喜欢用 Kate。
-初始化新仓库时的默认分值名称
-你可以使用 init.defaultbranch 来更改默认的分支名称。
-环境变量的作用域
-我更推建第一种使用方式，我们只会在 Git-Bash 中使用 Unix tools。这样现得我们的环境变量更为干净。其实在 Powershell 中还好，在 CMD Prompt 中使用 [ 也太精分了。
-换行符转换]]></description>
 </item></channel>
 </rss>

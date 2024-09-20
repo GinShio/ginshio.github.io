@@ -122,6 +122,23 @@
         alt="/avatar.webp"
         title="/avatar.webp" height="100"   width="100" ></a></div><h1 class="home-title">GinShio</h1><h2 class="home-subtitle"><div id="id-1" class="typeit"></div></h2><div class="links"><a href="https://github.com/GinShio" title="GitHub" target="_blank" rel="noopener noreferrer me"><i class="fab fa-github-alt fa-fw"></i></a><a href="https://gitlab.com/GinShio" title="GitLab" target="_blank" rel="noopener noreferrer me"><i class="fab fa-gitlab fa-fw"></i></a><a href="https://steamcommunity.com/id/GinShio" title="Steam" target="_blank" rel="noopener noreferrer me"><i class="fab fa-steam fa-fw"></i></a><a href="https://space.bilibili.com/5091427" title="bilibili" target="_blank" rel="noopener noreferrer me"><i data-svg-src="/svg/icons/bilibili.min.svg"></i></a><a href="mailto:ginshio78@gmail.com" title="Email" rel=" me"><i class="far fa-envelope fa-fw"></i></a><a href="/index.xml" title="RSS" target="_blank" rel="noopener noreferrer me"><i class="fas fa-rss fa-fw"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/2021/operatingsystem_001/">进程与线程</a>
+    </h1><div class="post-meta">
+        <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="07-11">07-11</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/operatingsystem/"><i class="far fa-folder fa-fw"></i>OperatingSystem</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/operating-system-note/"><i class="far fa-list-alt fa-fw"></i>Operating System Note</a></span></div><div class="content">进程进程 (Process) 是操作系统中的核心概念，是对正在运行的程序的抽象。即使只有一个可用的 CPU，也可以启动多个进程，让操作系统具有并发能力。
+进程模型一个进程就是一个正在执行的程序实例，每个进程都拥有一个自己的虚拟 CPU、程序计数器、寄存器、内存地址空间等，这些是一个进程私有的，不可被其他进程所访问、修改，真正的 CPU 在各个进程之间来回切换。
+假设现在有 4 个程序，它们在运行时装入自己虚拟的程序计数器、寄存器，并有物理 CPU 运行程序。当程序被切换时，物理程序计数器等数据被保存到内存中。在观察足够长的时间时，所有的进程都运行了，但每个瞬间仅有一个程序在执行。需要注意的是，如果一个程序运行了两遍，那将被算作两个进程。
+进程的核心思想即：一个进程是某种类型的一个活动，它有程序、输入、输出以及状态。单个处理器可以被若干进程共享，它使用调度算法决定何时停止一个进程的工作，并转而为另一个进程提供服务。
+当进程创建了一个新进程后，其被称为父进程，新进程被称为子进程，这些进程组成了层次结构。在 UNIX 中一个称为 init 的特殊进程出现在启动映像中，init 运行时读入终端数量的文件，并为每一个终端创建一个新进程。这些终端等待用户登陆，登陆成功时便会执行 shell 进程来接收用户命令。整个系统中，所有进程都属于以 init 为根的进程树。 Windows 中没有层次结构概念，所有进程地位相同。创建进程时父进程得到 句柄 用于控制子进程，但也可以将句柄传送给其他进程。
+进程的创建与终止操作系统往往需要一种方式来创建进程，一般由 4 种主要事件来创建进程：
+系统初始化 正在运行的程序执行了创建进程的系统调用 (syscall) 用户请求创建新进程 批处理作业的初始化 新进程都是由于一个已存在的进程执行了一个用于创建进程的 syscall 用而创建的。这个系统调用通知操作系统创建一个新进程，并且直接或间接地指定在该进程中运行的程序。
+在 UNIX 系统，往往采用 syscall fork 来创建一个与调用进程相同的副本。调用成功后，两个进程拥有相同的内存映像、相同的环境字符串与打开文件。通常子进程执行 exec 系列 syscall 来修改其内存映像，并运行一个新程序。在执行 exec 之前，允许子进程处理其文件描述符等操作。
+UNIX 中子进程的初始地址空间是父进程的一个副本，但是两个不同的地址空间，不可写的部分则是共享的。而某些 UNIX 实现中，子进程共享父进程的所有内存，内存通过 写时复制 (Copy-On-Write, COW) 技术实现共享，即当两者之一修改内存时，这块内存被明确的复制，以保证修改发生在进程的私有区域。
+进程在创建之后开始运行，完成其工作，进程可能在未来的某个时刻完成任务并被终止。通常终止进程由以下条件引起：
+正常退出 (自愿) 错误退出 (自愿) 严重错误 (非自愿) 被其他进程杀死 (非自愿) 前两种即进程自己所处理的终止，完成工作或者在运行时遇到了一些可处理的错误，这时进程通过 exit 调用终止，并向父进程返回状态值。</div><div class="post-footer">
+        <a href="/2021/operatingsystem_001/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/process/">Process</a>,&nbsp;<a href="/tags/thread/">Thread</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2021/kms/">使用 KMS 激活 Microsoft 软件</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
@@ -248,18 +265,6 @@ panic 的恢复 语法分析器一旦发现错误就不断丢弃输入的符号�
 终结符：组成串的基本符号，与术语 词法单元名 为同义词，如 if-else 结构中的 if 和 else 非终结符：表示串的集合的语法变量，它们表示的串集合用于定义由文法生成的语言 开始符号：某个非终结符号，这个符号表示的串集合就是这个文法生成的语言 产生式：将终结符和非终结符组合为串的方法，每个产生式由以下元素组成 一个被成为产生式头或左部的非终结符，头代表串的集合 符号 \(\rightarrow\)，有时也使用 ::= 来表示 一个由零或多个终结符与非终结符组成的体或右部，体代表头所对应的串的某种构造方法 例如有一组生成式它们的头都是 E，我们可以将其组合在一起成 E \(\rightarrow\) E + T | E - T | T 这种形式 \[\begin{aligned} E &amp;\rightarrow E + T\\ E &amp;\rightarrow E - T \\ E &amp;\rightarrow T \end{aligned}\]</div><div class="post-footer">
         <a href="/2020/compilerprinciple_004/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/dragonbook/">DragonBook</a>,&nbsp;<a href="/tags/syntacticanalysis/">SyntacticAnalysis</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/2020/compilerprinciple_003/">词法分析 2</a>
-    </h1><div class="post-meta">
-        <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="10-17">10-17</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div><div class="content">NFA的重要状态如果一个 NFA 状态有一个标号非 \(\varepsilon\) 的离开转换，那么我们称这个状态为 重要状态 (important state)。子集构造法在计算 \(\varepsilon-closure(move(T，a))\) 的时候，它只使用了集合T中的重要状态，也就是说只有当状态s是重要的，状态集合 \(move(s,a)\) 才可能是非空的。在子集构造法的应用过程中，两个NFA状态集合可以被认为是一致的条件是
-具有相同的重要状态，且 要么都包含接受状态，要么都不包含接受状态 如果 NFA 是使用 McMaughton-Yamada-Thompson 算法根据一个正则表达式生成的，那么我们可以获得更多重要状态的性质
-重要状态只包括在基础规则部分为正则表达式中某个特定符号位置引入的初始状态，即每个重要状态对应于正则表达式中的某个运算分量 NFA 只有一个接受状态，但该接受状态不是重要状态。我们可以在正则表达式r的右端连接一个独特的结束标记符 #，使得r的接收状态增加一个在 # 上的转换，使其成为 (r)# 的NFA的重要状态 NFA 的重要状态直接对应于正则表达式中存放了字母表中符号的位置，使用抽象语法树来表示扩展的正则表达式是非常有用的 抽象语法树抽象语法树的叶子结点对应于运算分量，内部结点表示运算符。标号为 连接运算符 (\(\circ\)) 的内部结点被称为 cat结点，并运算符 (\(|\)) 的内部结点被称为 or结点，= 星号运算符= (\(*\)) 的内部结点被称为 star结点，我们构建正则表达式 \((a|b)^{*}abb\#\) 的抽象语法树。
-抽象语法树的叶子结点可以标号为 \(\varepsilon\)，也可以用字母表中的符号作为标号，对于每个标号不为 \(\varepsilon\) 的叶子结点，我们赋予一个独立的整数，我们将这个整数称作叶子结点的 位置，同时也表示和它对应的符号的位置，当然一个符号可以有多个位置。抽象语法树中的这些位置对应构造出的 NFA 中的重要状态。
-计算函数要从一个正则表达式直接构造出 DFA，我们要先构造出它的抽象语法树，然后计算如下四个函数：nullable、firstpos、lastpos 和 followpos，且这四个函数都用到了扩展正则表达式 (r)# 的抽象语法树。
-nullable(n) 当且仅当此结点代表的子表达式的语言中包含空串 \(\varepsilon\) 时抽象语法树结点n为真，即：这个子表达式可以生成空串或本身就是空串，即使它也可能表示其他串 firstpos(n) 定义了以结点n为根的子树中的位置集合，这些位置对应于以n为根的子表达式的语言中某个串的 第一个符号 lastpos(n) 定义了以结点n为根的子树中的位置集合，这些位置对应于以n为根的子表达式的语言中某个串的 最后一个符号 followpos(p) 定义了一个和位置p相关的、抽象语法树中的某些位置的集合。当且仅当存在 L((r)#) 中的某个串 \(x=a_{1}a_{2}\cdots a_{n}\)，使得我们在解释为什么x属于 L((r)#) 时，可以将x中的某个 \(a_{i}\) 和抽象语法树中的位置p匹配，且将位置 \(a_{i+1}\) 和位置q 匹配，那么位置q在 \(followpos(p)\) 中。简单地说，该函数计算出位置n之后可以跟随的其他位置 在计算函数时，我们先给出较为简单的 nullable 、 firstpos 和 lastpos 的计算方式，可以使用一个对树的高度直接进行递归的过程来计算它们，计算方式如下。</div><div class="post-footer">
-        <a href="/2020/compilerprinciple_003/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/dragonbook/">DragonBook</a>,&nbsp;<a href="/tags/lexicalanalysis/">LexicalAnalysis</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>
