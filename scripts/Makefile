@@ -21,7 +21,7 @@ cleantikz:
 	@make -f $(ORGMODE_SCRIPTDIR)/tikz.make clean
 
 .PHONY: hugo posthugo sitehugo cleanhugo
-hugo: posthugo sitehugo
+hugo: tikz posthugo sitehugo
 
 posthugo:
 	@make -f $(ORGMODE_SCRIPTDIR)/hugo.make post
