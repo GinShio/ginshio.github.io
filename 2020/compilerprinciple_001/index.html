@@ -291,7 +291,7 @@ Prolog 等</dd>
     <a href="#%e7%8e%af%e5%a2%83%e4%b8%8e%e7%8a%b6%e6%80%81" class="header-mark"></a>环境与状态</h3><p>标识符 (identifier) 是一个字符串，它通常由子母、数字和下划线组成，它被用来标记一个 <strong>实体</strong>，例如 <code>数据对象</code>、<code>过程</code>、<code>类型</code> 等。变量指向存储中的某一个特定位置，同一个标识符可能被多次声明 (例如在递归过程中的局部变量)，每一个这样的声明都会引入一个新的变量。所有的标识符都是名字，不过名字不一定是标识符，比如 <code>x.y</code> 这样的名字被称为 <strong>受限名字</strong> (qualified name)，表示变量 x 所指向结构中的字段 y。</p>
 <p>名字和内存 (存储) 位置的关联，以及之后和值的关联可以用两个映射来描述，这两个映射随着程序的运行而改变。<strong>环境</strong> (environment) 是从一个名字到存储位置的映射，例如 C
 语言中的右值；<strong>状态</strong> (state)  是一个内存位置到它们值的映射，例如 C 语言中左值所对应的右值</p>
-<figure><img src="../../_build/tikzgen/compiler_principle-name-to-value-map.svg">
+<figure><img src="/images/compiler_principle-name-to-value-map.svg">
 </figure>
 
 <p>大多数环境和状态是 <code>动态绑定</code> 的，一般全局变量的环境映射是静态的，编译器可以在生成目标代码的时候为其分配一个地址；常量的声明一般其状态是静态绑定的，我们看到这个语句时就能确定绑定关系，并且在程序的运行时这个绑定不能改变。</p>

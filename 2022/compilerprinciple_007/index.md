@@ -184,7 +184,7 @@ addType 是设置该结点的哑属性。比如输入串 `float f1, f2, f3`，�
 
 比如说输入 \\(a-4+c\\) 构造一棵抽象语法树，这棵抽象语法树的结点被显示为记录，这些记录的第一个字段是 op。现在抽象语法树的边用实线表示，基础的语法分析树的边用点状虚线表示 (并没有真的生成它)，最后一种线状虚线表示 \\(E.node\\) 和 \\(T.node\\) 的值，每条线都指向适当的抽象语法树的结点。
 
-{{< figure src="../../_build/tikzgen/compiler_principle-ast-5.11-example.svg" >}}
+{{< figure src="/images/compiler_principle-ast-5.11-example.svg" >}}
 
 在自底向上分析过程中，我们可以得到如下的抽象语法树构造步骤。
 \\[\begin{aligned}
