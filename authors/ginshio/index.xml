@@ -4,7 +4,17 @@
         <link>https://blog.ginshio.org/authors/ginshio/</link>
         <description>GinShio - 作者 - iris</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Fri, 20 Sep 2024 23:13:27 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/authors/ginshio/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Fri, 15 Nov 2024 22:20:00 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/authors/ginshio/" rel="self" type="application/rss+xml" /><item>
+    <title>GPU 基础介绍</title>
+    <link>https://blog.ginshio.org/2024/gpu-introduce/</link>
+    <pubDate>Fri, 15 Nov 2024 22:20:00 &#43;0800</pubDate><author>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2024/gpu-introduce/</guid>
+    <description><![CDATA[该篇介绍主要以 AMDGPU 7900XTX (Navi31) 为例。
+GPGPU 模型简介 SIMT 模型现代 GPU 上基本使用 SIMT (单指令多线程, Single Instruction Multiple Threads) 模型，即一条指令执行在多个线程 (thread / lane / invocation) 上，每个线程上可能存储、运算不同地数据，也就是说具有大规模并行计算的能力。
+在 SIMT 模型上，由于指令是一次性发送到多个线程上，因此需要一个管理线程的单元。在 Vulkan 中将其称其为 subgroup，在 DirectX 或 AMDGPU 上被称为 wavefront，Nvidia 将其称之为 wrap。Subgroup 是 GPU 上的最小控制单元，即使我们需要一个线程，我们也只能向 GPU 申请使用一个 subgroup。
+AMDGPU 上 subgroup 的最小是 32 个线程 (wave32)，但是可以使用 2 个 wave32 组成一个 wave64 使用。以下无特殊说明，subgroup 以基础的 wave32 介绍。
+SIMD 执行单元是一个更大层级的单元，根据 AMDGPU 公开的 RDNA 资料，一个 SIMD 上有 16 个 ALU (算术逻辑单元，Arithmetic logic unit)，也就是 16 个 subgroup。另外一些更上层的控制单元简单地列举：]]></description>
+</item><item>
     <title>How To Use Mesa&#39;s test tool: deqp-runner</title>
     <link>https://blog.ginshio.org/2024/how-to-use-deqp-runner/</link>
     <pubDate>Fri, 20 Sep 2024 23:13:27 &#43;0800</pubDate><author>
@@ -93,13 +103,5 @@ Lab00: Getting Startted (入门)首先搭建一个环境，CS61A 中指 Python3 
 Setup: 以下是本课程所用到的基础软件，也是重要的组件。 终端 (Terminal)：安装一个终端可以让你运行本课程的 OK 命令 编程环境 (Environment)：编程环境是必须的，当然课程需要的是 Python3.7，这样你才可以运行 OK 命令 文本编辑器 (Text Editor)：VSCode、Atom 什么都行，只要能用来写代码 练习使用终端，并组织你的项目文件 学习 Python 基础 做一个练习 安装 安装终端在 MacOS 和 Linux 中本身就自带了终端软件 (Terminal)，如果是 KDE，终端软件被称作 Konsole。而 Windows 中，直接在 Store 中下载 Windows Terminal 即可。当然 Windows 下推荐使用 WSL，但是系统不是关注的重点。
 安装语言环境最低要求 Python3.7，因为这是运行 OK 命令的必要条件。当然你也可以使用别的编程语言。
 Windows 下，你可以在这里下载 Python3 或 erlang。安装之后将路径添加到 PATH 系统环境变量中。如果你用 WSL 那和 Linux 下没什么区别。]]></description>
-</item><item>
-    <title>内存对齐</title>
-    <link>https://blog.ginshio.org/2022/memory_alignment/</link>
-    <pubDate>Sat, 03 Sep 2022 17:41:38 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/memory_alignment/</guid>
-    <description><![CDATA[众所周知，运行的程序是需要内存占用的，在编码时假定栈上的空间是连续的，且定义的所有变量都连续分布在栈上。
-实际上，虽然变量是连续分布在栈上的，但编译器会根据不同类型与对齐方式，将变量重新排列，达到最优情况。
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 #include &lt;stdio.h&gt; #include &lt;stdlib.h&gt; #define __print_position(type, CNT) \ type VAR##CNT; \ printf(&#34;VAR&#34;#CNT &#34; (&#34; #type &#34;)\t: %p\n&#34;, &amp;VAR##CNT); #define _print_position(type, CNT) __print_position(type, CNT) #define print_position(type) _print_position(type, __COUNTER__) int main(void) { print_position(int); // VAR0 (int) : 0x7ffe84765470 print_position(double); // VAR1 (double): 0x7ffe84765478 print_position(char); // VAR2 (char) : 0x7ffe8476546f print_position(float); // VAR3 (float) : 0x7ffe84765474 print_position(div_t); // VAR4 (div_t) : 0x7ffe84765480 } 本文主要集中在结构体的对齐。]]></description>
 </item></channel>
 </rss>

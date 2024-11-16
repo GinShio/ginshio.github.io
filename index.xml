@@ -4,9 +4,19 @@
         <link>https://blog.ginshio.org/</link>
         <description>iris | GinShio 的个人博客</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Fri, 20 Sep 2024 23:13:27 &#43;0800</lastBuildDate>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Fri, 15 Nov 2024 22:20:00 &#43;0800</lastBuildDate>
             <atom:link href="https://blog.ginshio.org/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>GPU 基础介绍</title>
+    <link>https://blog.ginshio.org/2024/gpu-introduce/</link>
+    <pubDate>Fri, 15 Nov 2024 22:20:00 &#43;0800</pubDate><author>
+                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2024/gpu-introduce/</guid>
+    <description><![CDATA[该篇介绍主要以 AMDGPU 7900XTX (Navi31) 为例。
+GPGPU 模型简介 SIMT 模型现代 GPU 上基本使用 SIMT (单指令多线程, Single Instruction Multiple Threads) 模型，即一条指令执行在多个线程 (thread / lane / invocation) 上，每个线程上可能存储、运算不同地数据，也就是说具有大规模并行计算的能力。
+在 SIMT 模型上，由于指令是一次性发送到多个线程上，因此需要一个管理线程的单元。在 Vulkan 中将其称其为 subgroup，在 DirectX 或 AMDGPU 上被称为 wavefront，Nvidia 将其称之为 wrap。Subgroup 是 GPU 上的最小控制单元，即使我们需要一个线程，我们也只能向 GPU 申请使用一个 subgroup。
+AMDGPU 上 subgroup 的最小是 32 个线程 (wave32)，但是可以使用 2 个 wave32 组成一个 wave64 使用。以下无特殊说明，subgroup 以基础的 wave32 介绍。
+SIMD 执行单元是一个更大层级的单元，根据 AMDGPU 公开的 RDNA 资料，一个 SIMD 上有 16 个 ALU (算术逻辑单元，Arithmetic logic unit)，也就是 16 个 subgroup。另外一些更上层的控制单元简单地列举：]]></description>
+</item><item>
     <title>How To Use Mesa&#39;s test tool: deqp-runner</title>
     <link>https://blog.ginshio.org/2024/how-to-use-deqp-runner/</link>
     <pubDate>Fri, 20 Sep 2024 23:13:27 &#43;0800</pubDate><author>
@@ -119,17 +129,5 @@ Windows 下，你可以在这里下载 Python3 或 erlang。安装之后将路�
 环境变量的作用域
 我更推建第一种使用方式，我们只会在 Git-Bash 中使用 Unix tools。这样现得我们的环境变量更为干净。其实在 Powershell 中还好，在 CMD Prompt 中使用 [ 也太精分了。
 换行符转换]]></description>
-</item><item>
-    <title>中间代码生成</title>
-    <link>https://blog.ginshio.org/2022/compilerprinciple_008/</link>
-    <pubDate>Sat, 28 May 2022 18:18:47 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/compilerprinciple_008/</guid>
-    <description><![CDATA[在将给定源语言的一个程序翻译成特定机器代码的过程中，一个编译器可能构造出一系列中间表示。高层的中间表示接近源语言，而底层的表示接近目标语言。语法树是高层表示，它刻画了源程序的自然层次性结构，且适用于静态类型检查。低层表示适用于机器相关处理，如寄存器分配、指令选择等。
-语法树的变体语法树中的各个结点代表了源程序的构造，一个结点的所有子结点反映了该结点对应构造的有意义的组成成分。为表达式构建的有向无环图 (Directed Acyclic Graph, DAG) 指出了表达式中的公共子表达式。
-与语法分析树有些不同的是，DAG 的结点可能有多个父结点，也就是说这个结点是个公共子结点。比如表达式 \(a + a * (b - c) + (b - c) * d\)
-SDD 既可以构造语法树，也可以构造 DAG，在构造 DAG 结点时每次构造之前都会检查是否已存在这样的结点。如果已存在结点，就返回已有结点，否则构建新结点。
-编号 产生式 语义规则 1 \(E\rightarrow{}E_{1}+T\) \(E.node=\textbf{new}\ Node(&rsquo;+&rsquo;,E_{1}.node,T.node)\) 2 \(E\rightarrow{}E_{1}-T\) \(E.node=\textbf{new}\ Node(&rsquo;-&rsquo;,E_{1}.node,T.node)\) 3 \(\begin{aligned}E&amp;\rightarrow{}T\\T&amp;\rightarrow{}T_{1}*F\end{aligned}\) \(\begin{aligned}E.node&amp;=T.node\\T.node&amp;=\textbf{new}\ Node(&rsquo;*&rsquo;,T_{1}.node,F.node)\end{aligned}\) 4 \(T\rightarrow{}(E)\) \(T.node=E.node\) 5 \(T\rightarrow{}\textbf{id}\) \(T.node=\textbf{new}\ Leaf(\textbf{id},\textbf{id}.entry)\) 6 \(T\rightarrow{}\textbf{num}\) \(T.node=\textbf{new}\ Leaf(\textbf{num},\textbf{num}.entry)\) 通常语法树或 DAG 的结点存放在记录数组中，每个记录第一个字段是运算符代码，也是该结点的标号；叶结点可能有一个存放词法值的字段，而内部结点可能有两个指向其左右运算数的字段。
-在这样的一个数组中，我们只需要给定结点对应的整数下标就可以引用该结点了。而这个下标被称为表达式的值编码 (value number)。通常为了防止结点太多所造成的巨大的搜索开销，可以用 Hash 的方法实现，加快创建结点时的搜索。
-三地址码三地址码中一条指令的右侧最多有一个运算符，因此 \(x+y*z\) 这样的代码可能被翻译成 \[\begin{aligned} t_{1} &amp;= y * z\\ t_{2} &amp;= x + t_{1} \end{aligned}\]]]></description>
 </item></channel>
 </rss>

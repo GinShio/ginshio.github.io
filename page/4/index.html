@@ -122,6 +122,19 @@
         alt="/avatar.webp"
         title="/avatar.webp" height="100"   width="100" ></a></div><h1 class="home-title">GinShio</h1><h2 class="home-subtitle"><div id="id-1" class="typeit"></div></h2><div class="links"><a href="https://github.com/GinShio" title="GitHub" target="_blank" rel="noopener noreferrer me"><i class="fab fa-github-alt fa-fw"></i></a><a href="https://gitlab.com/GinShio" title="GitLab" target="_blank" rel="noopener noreferrer me"><i class="fab fa-gitlab fa-fw"></i></a><a href="https://steamcommunity.com/id/GinShio" title="Steam" target="_blank" rel="noopener noreferrer me"><i class="fab fa-steam fa-fw"></i></a><a href="https://space.bilibili.com/5091427" title="bilibili" target="_blank" rel="noopener noreferrer me"><i data-svg-src="/svg/icons/bilibili.min.svg"></i></a><a href="mailto:ginshio78@gmail.com" title="Email" rel=" me"><i class="far fa-envelope fa-fw"></i></a><a href="/index.xml" title="RSS" target="_blank" rel="noopener noreferrer me"><i class="fas fa-rss fa-fw"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/2021/operatingsystem_002/">内存管理</a>
+    </h1><div class="post-meta">
+        <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="07-14">07-14</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/operatingsystem/"><i class="far fa-folder fa-fw"></i>OperatingSystem</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/operating-system-note/"><i class="far fa-list-alt fa-fw"></i>Operating System Note</a></span></div><div class="content">内存 (随机访问存储器，RAM) 是计算机中一种需要认真管理的重要资源。不管存储器有多大，程序都能把它填满。经过多年的探索，我们有了 分层存储器体系 (memory hierarchy) 的概念，即计算机拥有若干 MiB 快速、昂贵且易失性的 Cache，数 GiB 速度与价格适中的易失性内存，以及数 TiB 快速、廉价但非易失性的磁盘存储。计算机中管理分层存储器体系的部分被称为 存储管理器 (memory manager)。它的任务是有效地管理内存，记录哪些内存正在使用，哪些内存是空闲的，在进程需要时为其分配内存，在进程使用完后释放内存。
+无存储器抽象最简单的存储器抽象是不使用抽象。早期的大型机 (60 年代以前)、小型机 (70 年代以前) 以及个人计算机 (80 年代以前) 都是没有存储器抽象的，每一个程序都直接访问物理内存，这种模型中系统每次仅运行一个进程。
+虽然直接使用物理内存，但还是有不同的模型，下图展示了三种模型。a 模型中操作系统位于 RAM 底部，这种模型曾被用于大型机与小型机；b 模型中操作系统位于内存顶端的 ROM (只读存储器) 中，这种模型被用于掌上电脑或嵌入式系统中；c 模型中设备驱动程序位于顶部的 ROM 中，而操作系统的其他部分位于 RAM 的底部，该方案被用于早期的个人计算机中 (如运行 MS-DOS 的计算机)，在 ROM 中的系统部分被称为 BIOS (基本输入输出系统， Basic Input Output System)。a 和 c 模型当用户程序出错时，可能会摧毁操作系统，引发灾难性后果。
+在无存储器抽象的系统中实现并行的方法是采用多线程编程。由于引入线程时假设一个进程中的所有线程对同一内存映像都可见，如此实现并行也就不是问题。虽然方法行得通，但没有被广泛使用，因为人们通常希望能够在同一时间运行没有关联的程序，而这正是线程抽象所不能提供的。因此一个无存储器抽象的系统也不大可能提供线程抽象的功能。
+由于使用无存储器抽象时并发进程，可以在一个进程运行一段时间后，从磁盘中加载其他进程到 RAM 中。但由于两个进程都引用的绝对地址，因此可能会引用到第一个进程的私有地址，导致进程崩溃。IBM 360 对上述问题的补救方案就是在第二个进程装载到内存的时候，使用静态重定位的技术修改它。
+一种存储器抽象：地址空间当物理地址暴露给进程会带来下面一些严重问题：
+如果用户程序可以寻址内存的每个字节，它们就可以很容易地 (故意地或偶然地) 破坏操作系统，从而使整个系统慢慢地停止运行，除非有特殊的硬件保护 (IBM 360 的锁键模式) 使用这种模型，想要同时运行多个程序是很困难的 地址空间的概念要使多个应用程序同时处于内存中并且不互相影响，需要解决两个问题：保护 和 重定位 。</div><div class="post-footer">
+        <a href="/2021/operatingsystem_002/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/memory/">Memory</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2021/operatingsystem_001/">进程与线程</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
@@ -253,18 +266,6 @@ GPG的基于现代密码学，主要是对非对称加密的应用，由于自�
 1 2 3 gpg -a --export EFC4B50FE8F8B2B3 &gt; test.pub # 导出公钥 gpg -a --export-secret-key EFC4B50FE8F8B2B3 &gt; test.</div><div class="post-footer">
         <a href="/2020/gpg_started_guide/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/gpg/">GPG</a>,&nbsp;<a href="/tags/encrypt/">Encrypt</a>,&nbsp;<a href="/tags/tool/">Tool</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/2020/compilerprinciple_004/">语法分析 1</a>
-    </h1><div class="post-meta">
-        <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="11-03">11-03</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div><div class="content">程序设计语言构造的语法可以使用 上下文无关文法 或者 BNF (巴库斯-瑙尔范式) 表示法来描述，文法为语言设计者和编译器编写者提供了很大便利:
-文法给出了一个程序设计语言的精确易懂的语法归约 对于某些类型的文法，我们可以自动构造出高效的语法分析器，它能够确定一个源程序的语法结构。同时，语法分析器的构造过程可以揭示出语法的二义性，同时还可能发现一些容易在语言的初始设计阶段被忽略的问题 一个正确设计的文法给出了一个语言的结构，该结构有助于把源程序翻译为正确的目标代码，也有助于检测错误 一个文法支持逐步加入可以完成新任务的新语言构造，从而迭代地演化和开发程序语言。如果对语言的实现遵循语言的文法结构，那么在实现中加入这些新构造的工作就会变得更加容易 语法分析器从词法分析器获得一个词法单元组成的串，并验证这个串可以由源语言的文法生成，我们期望语法分析器能够以易于理解的方式报告语法错误，并能够从常见的错误中恢复并继续处理程序的其余部分。从概念上来说，对于良构的程序，语法分析器构造出一棵 语法分析树，并把它传递给编译器的其他部分进一步处理。我们并不需要显式地构造出语法分析树，对于源程序的检查和翻译工作可以和语法分析过程交替完成，因此语法分析器和其他部分可以用一个模块实现。
-错误处理程序检测出错误后，必须报告在源程序的什么位置检测到错误，程序可能有不同层次的错误
-词法错误 包括标识符、关键字或运算符拼写错误，或没有在n字符串文本上正确的添加引号 语法错误 包括分号、花括号的多余、缺失等，或 if-else 语句不匹配等 语义错误 包括运算符和运算分量之间的类型不匹配 逻辑错误 因程序员的错误推理而引起的任何错误，包括良构程序但结果不符合预期 语法分析器在检测出错误后，一般将自己恢复到某个状态，且有理由预期从那里开始输入将提供有意义的诊断信息，通常也会发现更多的错误，而不是检测到一个错误就退出程序，当然如果错误过多最好让编译器在达到某个错误数量上限后退出
-panic 的恢复 语法分析器一旦发现错误就不断丢弃输入的符号，直到找到同步词法单元 (synchronizing token) 为止，同步词法单元通常是界限符 (如 ; 或 })，它们在源程序中清晰、无二义性。panic 的错误纠正方法常常会跳过大量输入，不检查跳过部分可能包含的错误，但是实现足够简单且不会让语法分析陷入死循环 短语层次的恢复 当发现错误时，语法分析器可以在余下的输入上进行局部性纠正，即将余下输入的某个前缀替换为另一个串，使语法分析器可以继续分析。这个方法难以处理实际错误发生在检测位置之前的情况 错误产生式 通过预测可能遇到的常见错误，在当前语言的文法中加入特殊的产生式，这些产生式可以生产含有错误的构造，语法分析器就能检测到一个预期的错误，生成适当的错误诊断信息 全局纠正 处理一个错误的输入串时通过最少的改动将其转换为语法正确的串 上下文无关文法一个上下文无关文法由 终结符、非终结符、一个 开始符号 和一组 产生式 组成
-终结符：组成串的基本符号，与术语 词法单元名 为同义词，如 if-else 结构中的 if 和 else 非终结符：表示串的集合的语法变量，它们表示的串集合用于定义由文法生成的语言 开始符号：某个非终结符号，这个符号表示的串集合就是这个文法生成的语言 产生式：将终结符和非终结符组合为串的方法，每个产生式由以下元素组成 一个被成为产生式头或左部的非终结符，头代表串的集合 符号 \(\rightarrow\)，有时也使用 ::= 来表示 一个由零或多个终结符与非终结符组成的体或右部，体代表头所对应的串的某种构造方法 例如有一组生成式它们的头都是 E，我们可以将其组合在一起成 E \(\rightarrow\) E + T | E - T | T 这种形式 \[\begin{aligned} E &amp;\rightarrow E + T\\ E &amp;\rightarrow E - T \\ E &amp;\rightarrow T \end{aligned}\]</div><div class="post-footer">
-        <a href="/2020/compilerprinciple_004/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/dragonbook/">DragonBook</a>,&nbsp;<a href="/tags/syntacticanalysis/">SyntacticAnalysis</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>

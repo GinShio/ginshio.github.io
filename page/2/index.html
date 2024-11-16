@@ -122,6 +122,19 @@
         alt="/avatar.webp"
         title="/avatar.webp" height="100"   width="100" ></a></div><h1 class="home-title">GinShio</h1><h2 class="home-subtitle"><div id="id-1" class="typeit"></div></h2><div class="links"><a href="https://github.com/GinShio" title="GitHub" target="_blank" rel="noopener noreferrer me"><i class="fab fa-github-alt fa-fw"></i></a><a href="https://gitlab.com/GinShio" title="GitLab" target="_blank" rel="noopener noreferrer me"><i class="fab fa-gitlab fa-fw"></i></a><a href="https://steamcommunity.com/id/GinShio" title="Steam" target="_blank" rel="noopener noreferrer me"><i class="fab fa-steam fa-fw"></i></a><a href="https://space.bilibili.com/5091427" title="bilibili" target="_blank" rel="noopener noreferrer me"><i data-svg-src="/svg/icons/bilibili.min.svg"></i></a><a href="mailto:ginshio78@gmail.com" title="Email" rel=" me"><i class="far fa-envelope fa-fw"></i></a><a href="/index.xml" title="RSS" target="_blank" rel="noopener noreferrer me"><i class="fas fa-rss fa-fw"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/2022/compilerprinciple_008/">中间代码生成</a>
+    </h1><div class="post-meta">
+        <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="05-28">05-28</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/compilerprinciple/"><i class="far fa-folder fa-fw"></i>CompilerPrinciple</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%BE%99%E4%B9%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>龙书学习笔记</a></span></div><div class="content">在将给定源语言的一个程序翻译成特定机器代码的过程中，一个编译器可能构造出一系列中间表示。高层的中间表示接近源语言，而底层的表示接近目标语言。语法树是高层表示，它刻画了源程序的自然层次性结构，且适用于静态类型检查。低层表示适用于机器相关处理，如寄存器分配、指令选择等。
+语法树的变体语法树中的各个结点代表了源程序的构造，一个结点的所有子结点反映了该结点对应构造的有意义的组成成分。为表达式构建的有向无环图 (Directed Acyclic Graph, DAG) 指出了表达式中的公共子表达式。
+与语法分析树有些不同的是，DAG 的结点可能有多个父结点，也就是说这个结点是个公共子结点。比如表达式 \(a + a * (b - c) + (b - c) * d\)
+SDD 既可以构造语法树，也可以构造 DAG，在构造 DAG 结点时每次构造之前都会检查是否已存在这样的结点。如果已存在结点，就返回已有结点，否则构建新结点。
+编号 产生式 语义规则 1 \(E\rightarrow{}E_{1}+T\) \(E.node=\textbf{new}\ Node(&rsquo;+&rsquo;,E_{1}.node,T.node)\) 2 \(E\rightarrow{}E_{1}-T\) \(E.node=\textbf{new}\ Node(&rsquo;-&rsquo;,E_{1}.node,T.node)\) 3 \(\begin{aligned}E&amp;\rightarrow{}T\\T&amp;\rightarrow{}T_{1}*F\end{aligned}\) \(\begin{aligned}E.node&amp;=T.node\\T.node&amp;=\textbf{new}\ Node(&rsquo;*&rsquo;,T_{1}.node,F.node)\end{aligned}\) 4 \(T\rightarrow{}(E)\) \(T.node=E.node\) 5 \(T\rightarrow{}\textbf{id}\) \(T.node=\textbf{new}\ Leaf(\textbf{id},\textbf{id}.entry)\) 6 \(T\rightarrow{}\textbf{num}\) \(T.node=\textbf{new}\ Leaf(\textbf{num},\textbf{num}.entry)\) 通常语法树或 DAG 的结点存放在记录数组中，每个记录第一个字段是运算符代码，也是该结点的标号；叶结点可能有一个存放词法值的字段，而内部结点可能有两个指向其左右运算数的字段。
+在这样的一个数组中，我们只需要给定结点对应的整数下标就可以引用该结点了。而这个下标被称为表达式的值编码 (value number)。通常为了防止结点太多所造成的巨大的搜索开销，可以用 Hash 的方法实现，加快创建结点时的搜索。
+三地址码三地址码中一条指令的右侧最多有一个运算符，因此 \(x+y*z\) 这样的代码可能被翻译成 \[\begin{aligned} t_{1} &amp;= y * z\\ t_{2} &amp;= x + t_{1} \end{aligned}\]</div><div class="post-footer">
+        <a href="/2022/compilerprinciple_008/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/dragonbook/">DragonBook</a>,&nbsp;<a href="/tags/ir/">IR</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2022/compilerprinciple_007/">语法制导翻译</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
@@ -260,15 +273,6 @@ Hamlet Caves (哈姆雷特洞穴): 是否启用 Hamlet 世界的 Hamlet 洞穴�
 关键字 and break do else elseif end false for function if in local nil not or repeat return then true until while Lua 是一个大小写敏感的语言，因此 And 与 AND 是完全不同的两个标识符。一般约定，由一个下划线开头并跟随大写字母的标识符 (e.</div><div class="post-footer">
         <a href="/2022/dst_lua_language_study/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/lua/">Lua</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/2022/unixnetworkprogramming_002/">传输层总述</a>
-    </h1><div class="post-meta">
-        <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="01-18">01-18</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/api/"><i class="far fa-folder fa-fw"></i>API</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/unp-note/"><i class="far fa-list-alt fa-fw"></i>UNP Note</a></span></div><div class="content">在传输层中，主要学习三种协议
-User Datagram Protocol (UDP, 用户数据报协议) 是一种简单 (simple)、不可靠 (unreliable) 的数据报协议 Transmission Control Protocol (TCP, 传输控制协议) 是一种复杂的 (sophisticated)、可靠的 (reliable)、字节流协议 Stream Control Transmission Protocol (SCTP, 流控制传输协议) 是一种较新的、可靠的协议，但它还提供消息边界 (message boundaries)、传输层级别的多宿 (multihoming)、最小化头端阻塞 (head-of-line blocking) 总图 图中最左边的应用 tcpdump 直接使用数据链路层接口 BPF (BSD packet filter, BSD 分组过滤器) 或 Datalink provider interface (DLPI, 数据链路提供者接口) 进行通信。而其他应用都是用 API 所提供的 socket 或 XTI。当然在 Linux 上提供了 SOCK_PACKET 这种 socket 来访问数据链路。
-IPv4 Internet Protocol (IP, 网际协议)，版本 4。 这是自 1980 年代早期以来网际协议族中的主力协议，使用 32 bit 编码地址，为 TCP、 UDP、SCTP、ICMP 和 IGMP 提供分组传递服务。</div><div class="post-footer">
-        <a href="/2022/unixnetworkprogramming_002/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/unix/">Unix</a>,&nbsp;<a href="/tags/network/">Network</a>,&nbsp;<a href="/tags/posix/">Posix</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>
