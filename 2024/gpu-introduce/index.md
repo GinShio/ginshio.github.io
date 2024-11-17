@@ -571,3 +571,71 @@ barrier、Atomic 等概念。
 
 ## Compiler {#compiler}
 
+-   [LLVM Language Reference Manual](https://llvm.org/docs/LangRef.html)
+-   [LLVM Community](https://discourse.llvm.org/)
+-   [Compiler Explorer](https://godbolt.org/)
+
+
+### 简介 {#简介}
+
+-   [AOSA V1 - LLVM](https://aosabook.org/en/v1/llvm.html)
+
+<!--listend-->
+
+```text
+llvm
+├── ADT
+├── Analysis
+├── CodeGen
+├── IR
+├── MC
+├── Target
+│   ├── AArch64
+│   ├── AMDGPU
+│   ├── RISCV
+│   └── X86
+└── Transforms
+    ├── Coroutines
+    ├── InstCombine
+    ├── Instrumentation
+    ├── Scalar
+    └── Vectorize
+```
+
+订阅社区消息：
+Preferences -&gt; Tracking -&gt; Watched (`IR&Optimizations`, `AMDGPU`)
+
+
+### LLVM IR 基础结构 {#llvm-ir-基础结构}
+
+Module -&gt; Function -&gt; ControlFlowGraph -&gt; BasicBlock -&gt; Instruction
+
+{{< figure src="/images/llvmir-cfg-example-function_sum.svg" >}}
+
+BB:
+
+-   BB 内的所有指令顺序执行
+-   BB 最后一条指令一定是 Terminator Intruction，表示 BB 之间的关系
+-   phi 只能出现在 BB 的起始位置，表示 BB 之间的数据流动
+
+Function:
+
+-   一定只有一个 `.exit` BB
+-   优化在 Function 上执行
+
+CFG:
+
+-   CFG 是 Function 内 BB 之间的关系
+-   [Dominator Tree](https://llvm.org/devmtg/2017-10/slides/Kuderski-Dominator_Trees.pdf)
+-   [Loop](https://llvm.org/docs/LoopTerminology.html): LCSSA
+
+{{< figure src="/images/llvmir-cfg-example-function_sum-dom.svg" >}}
+
+
+### 优化 {#优化}
+
+-   [Optimizations](https://llvm.org/docs/UserGuides.html#optimizations)
+-   [LLVM’s Analysis and Transform Passes](https://llvm.org/docs/Passes.html)
+
+Analysis + Transform
+

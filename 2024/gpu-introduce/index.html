@@ -44,7 +44,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/blog.ginshio.org\/2024\/gpu-introduce\/"
-        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Introduce, AMD","wordcount":  1962 ,
+        },"image": ["https:\/\/blog.ginshio.org\/screenshot.png"],"genre": "posts","keywords": "Introduce, AMD","wordcount":  2091 ,
         "url": "https:\/\/blog.ginshio.org\/2024\/gpu-introduce\/","datePublished": "2024-11-15T22:20:00+08:00","dateModified": "2024-11-16T22:26:49+08:00","publisher": {
             "@type": "Organization",
             "name": "GinShio","logo": "https:\/\/blog.ginshio.org\/avatar.webp"},"authors": [{
@@ -188,14 +188,20 @@
         </li>
       </ul>
     </li>
-    <li><a href="#compiler">Compiler</a></li>
+    <li><a href="#compiler">Compiler</a>
+      <ul>
+        <li><a href="#简介">简介</a></li>
+        <li><a href="#llvm-ir-基础结构">LLVM IR 基础结构</a></li>
+        <li><a href="#优化">优化</a></li>
+      </ul>
+    </li>
   </ul>
 </nav></div>
     </div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">GPU 基础介绍</h1><div class="post-meta">
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://blog.ginshio.org/authors/ginshio'>GinShio</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/gpu/"><i class="far fa-folder fa-fw"></i>GPU</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="11-15">11-15</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="11-16">11-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1962 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="11-15">11-15</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="11-16">11-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2091 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 10 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -264,7 +270,13 @@
         </li>
       </ul>
     </li>
-    <li><a href="#compiler">Compiler</a></li>
+    <li><a href="#compiler">Compiler</a>
+      <ul>
+        <li><a href="#简介">简介</a></li>
+        <li><a href="#llvm-ir-基础结构">LLVM IR 基础结构</a></li>
+        <li><a href="#优化">优化</a></li>
+      </ul>
+    </li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><p>该篇介绍主要以 AMDGPU 7900XTX (Navi31) 为例。</p>
@@ -1067,7 +1079,90 @@ barrier、Atomic 等概念。</p>
 <li><a href="https://en.cppreference.com/w/cpp/numeric/fenv" target="_blank" rel="noopener noreferrer">C++ Floating-point environment</a></li>
 </ul>
 <h2 id="compiler" class="headerLink">
-    <a href="#compiler" class="header-mark"></a>Compiler</h2></div>
+    <a href="#compiler" class="header-mark"></a>Compiler</h2><ul>
+<li><a href="https://llvm.org/docs/LangRef.html" target="_blank" rel="noopener noreferrer">LLVM Language Reference Manual</a></li>
+<li><a href="https://discourse.llvm.org/" target="_blank" rel="noopener noreferrer">LLVM Community</a></li>
+<li><a href="https://godbolt.org/" target="_blank" rel="noopener noreferrer">Compiler Explorer</a></li>
+</ul>
+<h3 id="简介" class="headerLink">
+    <a href="#%e7%ae%80%e4%bb%8b" class="header-mark"></a>简介</h3><ul>
+<li><a href="https://aosabook.org/en/v1/llvm.html" target="_blank" rel="noopener noreferrer">AOSA V1 - LLVM</a></li>
+</ul>
+<!--listend-->
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">llvm
+</span></span><span class="line"><span class="cl">├── ADT
+</span></span><span class="line"><span class="cl">├── Analysis
+</span></span><span class="line"><span class="cl">├── CodeGen
+</span></span><span class="line"><span class="cl">├── IR
+</span></span><span class="line"><span class="cl">├── MC
+</span></span><span class="line"><span class="cl">├── Target
+</span></span><span class="line"><span class="cl">│   ├── AArch64
+</span></span><span class="line"><span class="cl">│   ├── AMDGPU
+</span></span><span class="line"><span class="cl">│   ├── RISCV
+</span></span><span class="line"><span class="cl">│   └── X86
+</span></span><span class="line"><span class="cl">└── Transforms
+</span></span><span class="line"><span class="cl">    ├── Coroutines
+</span></span><span class="line"><span class="cl">    ├── InstCombine
+</span></span><span class="line"><span class="cl">    ├── Instrumentation
+</span></span><span class="line"><span class="cl">    ├── Scalar
+</span></span><span class="line"><span class="cl">    └── Vectorize
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>订阅社区消息：
+Preferences -&gt; Tracking -&gt; Watched (<code>IR&amp;Optimizations</code>, <code>AMDGPU</code>)</p>
+<h3 id="llvm-ir-基础结构" class="headerLink">
+    <a href="#llvm-ir-%e5%9f%ba%e7%a1%80%e7%bb%93%e6%9e%84" class="header-mark"></a>LLVM IR 基础结构</h3><p>Module -&gt; Function -&gt; ControlFlowGraph -&gt; BasicBlock -&gt; Instruction</p>
+<figure><img src="/images/llvmir-cfg-example-function_sum.svg">
+</figure>
+
+<p>BB:</p>
+<ul>
+<li>BB 内的所有指令顺序执行</li>
+<li>BB 最后一条指令一定是 Terminator Intruction，表示 BB 之间的关系</li>
+<li>phi 只能出现在 BB 的起始位置，表示 BB 之间的数据流动</li>
+</ul>
+<p>Function:</p>
+<ul>
+<li>一定只有一个 <code>.exit</code> BB</li>
+<li>优化在 Function 上执行</li>
+</ul>
+<p>CFG:</p>
+<ul>
+<li>CFG 是 Function 内 BB 之间的关系</li>
+<li><a href="https://llvm.org/devmtg/2017-10/slides/Kuderski-Dominator_Trees.pdf" target="_blank" rel="noopener noreferrer">Dominator Tree</a></li>
+<li><a href="https://llvm.org/docs/LoopTerminology.html" target="_blank" rel="noopener noreferrer">Loop</a>: LCSSA</li>
+</ul>
+<figure><img src="/images/llvmir-cfg-example-function_sum-dom.svg">
+</figure>
+
+<h3 id="优化" class="headerLink">
+    <a href="#%e4%bc%98%e5%8c%96" class="header-mark"></a>优化</h3><ul>
+<li><a href="https://llvm.org/docs/UserGuides.html#optimizations" target="_blank" rel="noopener noreferrer">Optimizations</a></li>
+<li><a href="https://llvm.org/docs/Passes.html" target="_blank" rel="noopener noreferrer">LLVM’s Analysis and Transform Passes</a></li>
+</ul>
+<p>Analysis + Transform</p>
+</div>
 
         <div class="post-footer" id="post-footer">
     <div class="post-info">
