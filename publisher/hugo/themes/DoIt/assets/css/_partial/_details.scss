@@ -5,16 +5,9 @@
     }
   }
 
-  i.details-icon {
+  .details-icon > svg {
     color: $global-font-secondary-color;
     @include transition(transform 0.2s ease);
-
-    [theme=dark] & {
-      color: $global-font-secondary-color-dark;
-    }
-    [theme=black] & {
-      color: $global-font-secondary-color-black;
-    }
   }
 
   .details-content {
@@ -24,7 +17,7 @@
   }
 
   &.open {
-    i.details-icon {
+    .details-icon > svg {
       @include transform(rotate(90deg));
     }
 

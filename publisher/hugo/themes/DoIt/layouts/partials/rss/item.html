@@ -1,4 +1,4 @@
-{{- $params := .Page.Params | merge .Site.Params.Page | merge (dict "author" .Site.Author.name) -}}
+{{- $params := .Page.Params | merge .Site.Params.Page | merge (dict "author" .Site.Params.Author.name) -}}
 {{- $image := $params.featuredImagePreview | default $params.featuredImage -}}
 {{- with .Page.Resources.GetMatch (printf "%s" ($image)) -}}
     {{- $image = .RelPermalink -}}
@@ -65,7 +65,8 @@
                 {{- $content = dict "Content" . "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" -}}
             {{- end -}}
         {{- end -}}
-        {{- $content | replaceRE `<figure[^>]*>.*</figure>` "" | replaceRE `<img[^>]*( /)?>` "" | safeHTML -}}
+        {{/*  {{- $content | replaceRE `<figure[^>]*>.*</figure>` "" | replaceRE `<img[^>]*( /)?>` "" | safeHTML -}}  */}}
+        {{- $content | safeHTML -}}
         {{- "]]>" | safeHTML -}}
     </description>
 </item>

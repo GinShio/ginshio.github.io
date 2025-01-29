@@ -1,6 +1,6 @@
 {{- $enable := .Params.sponsor.enable | default .Site.Params.sponsor.enable -}}
-{{- $avatar := .Site.Author.avatar -}}
-{{- with .Site.Author.gravataremail -}}
+{{- $avatar := .Site.Params.Author.avatar -}}
+{{- with .Site.Params.Author.gravataremail -}}
     {{- $avatar = md5 . | printf "https://www.gravatar.com/avatar/%v?s=240&d=mp" -}}
 {{- end -}}
 {{- $bio := .Params.sponsor.bio | default .Site.Params.sponsor.bio -}}
@@ -9,7 +9,7 @@
 {{- $authors := .Params.authors -}}
 
 {{- if $enable -}}
-    <div class="sponsor">
+    <div class="sponsor print:tw-hidden">
         <div class="sponsor-avatar">
             {{- if $authors -}}
                 {{- $lang := ( $.Params.lang | default $.Lang ) -}}
@@ -19,12 +19,12 @@
                             "name" $name
                             "author" (index $.Site.Data.authors $name)
                             "lang" $lang) -}}
-                            {{- dict "Src" .avatar | partial "plugin/image.html" -}}
+                            {{- dict "Src" .avatar "Resources" $.Resources | partial "plugin/image.html" -}}
                         {{- end -}}                    
                     {{- end -}}
                 {{- end -}}
             {{- else if $avatar -}}
-                {{- dict "Src" $avatar | partial "plugin/image.html" -}}
+                {{- dict "Src" $avatar "Resources" $.Resources | partial "plugin/image.html" -}}
             {{- end -}}
         </div>
         {{- with $bio -}}
@@ -36,7 +36,7 @@
             </div>
         {{- else -}}
             <a href="{{- $link -}}" title="Sponsor" target="_blank" class="sponsor-button" rel="noopener noreferrer">
-                <i class="far fa-heart fa-fw icon" style="color: #ec6cb9;"></i>
+                <span style="color: #ec6cb9;">{{ partial "plugin/fontawesome.html" (dict "Style" "regular" "Icon" "heart") }}</span>
                 <span>{{- T "sponsor" -}}</span>
             </a>
         {{- end -}}

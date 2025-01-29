@@ -12,7 +12,7 @@ The goal of DoIt theme is to create a powerful and easy-to-use Hugo theme, so yo
 
 ## Getting started
 
-Head to this [documentation page](https://hugodoit.pages.dev/theme-documentation-basics/) for a complete guidence to get started with the DoIt theme.
+Head to this [documentation page](https://hugodoit.pages.dev/theme-documentation-basics/) for a complete guidance to get started with the DoIt theme.
 
 ## Migrate from LoveIt
 
@@ -57,7 +57,7 @@ To see this theme in action, here is a live [demo site](https://hugodoit.pages.d
 * Some beautiful **CSS animations**
 * Easy-to-use and self-expanding **table of contents**
 * More **social links**, **share sites** and **comment system**
-* **Search** supported by [algolia](https://www.algolia.com/) or [Fuse.js](https://fusejs.io/)
+* **Search** supported by [algolia](https://www.algolia.com/), [Fuse.js](https://fusejs.io/) or [Pagefind](https://pagefind.app)
 * **Copy code** to clipboard with one click
 * Extended Markdown syntax for **[Font Awesome](https://fontawesome.com/) icons**
 * Extended Markdown syntax for **ruby annotation**
@@ -71,7 +71,7 @@ To see this theme in action, here is a live [demo site](https://hugodoit.pages.d
 * Kinds of **admonitions** shortcode supported
 * Custom style shortcodes supported
 * **CDN** for all third-party libraries supported
-* **Mulitple Authors** supported
+* **Multiple Authors** supported
 * ...
 
 In short,
@@ -99,7 +99,7 @@ the DoIt theme may be more suitable for you.
 ### Appearance and Layout
 
 * **Responsive** layout
-* **Light/Dark/Black** mode
+* **Light/Dark** mode
 * Globally consistent **design language**
 * **Pagination** supported
 * Easy-to-use and self-expanding **table of contents**
@@ -126,6 +126,7 @@ the DoIt theme may be more suitable for you.
 * **Vssue** comment system supported by [Vssue](https://vssue.js.org/)
 * **Remark42** comment system supported by[Remark42](https://remark42.com/)
 * **giscus** comment system supported by [giscus](https://giscus.app/)
+* **Artalk** comment system supported by [Artalk](https://artalk.js.org/)
 
 ### Extended Features
 
@@ -177,6 +178,17 @@ DoIt supports the following languages:
 * Russian
 * Romanian
 * Vietnamese
+* Arabic
+* Catalan
+* Hindi
+* Indonesian
+* Korean
+* European Portuguese
+* Tegulu
+* Thai
+* Turkish
+* Ukrainian
+* Traditional Chinese
 * [Contribute with a new language](https://github.com/HEIGE-PCloud/DoIt/pulls)
 
 [Languages Compatibility](https://hugodoit.pages.dev/theme-documentation-basics/#language-compatibility)
@@ -195,17 +207,14 @@ DoIt is licensed under the **MIT** license. Check the [LICENSE file](https://git
 
 Thanks to the authors of following resources included in the theme:
 
-* [normalize.css](https://github.com/necolas/normalize.css)
 * [Font Awesome](https://fontawesome.com/)
 * [Simple Icons](https://github.com/simple-icons/simple-icons)
-* [Animate.css](https://daneden.github.io/animate.css/)
 * [autocomplete.js](https://github.com/algolia/autocomplete.js)
 * [algoliasearch](https://github.com/algolia/algoliasearch-client-javascript)
 * [Fuse.js](https://fusejs.io/)
 * [object-fit-images](https://github.com/fregante/object-fit-images)
 * [Twemoji](https://github.com/twitter/twemoji)
 * [lightgallery.js](https://github.com/sachinchoolur/lightgallery.js)
-* [clipboard.js](https://github.com/zenorocha/clipboard.js)
 * [Sharer.js](https://github.com/ellisonleao/sharer.js)
 * [TypeIt](https://typeitjs.com/)
 * [KaTeX](https://katex.org/)
