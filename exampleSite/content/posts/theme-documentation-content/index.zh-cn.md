@@ -50,7 +50,7 @@ math:
 例如 **链接**, **图片**, `image` shortcode, `music` shortcode 和**前置参数**中的部分参数.
 
 页面资源或者 **assets** 目录中的[图片处理](https://gohugo.io/content-management/image-processing/)会在未来的版本中得到支持.
-非常酷的功能! :(far fa-grin-squint fa-fw):
+非常酷的功能! {{< fa-icon regular grin-squint >}}
 {{< /admonition >}}
 
 ## 作者配置 {#author-setup}
@@ -120,7 +120,6 @@ twemoji: false
 lightgallery: true
 ruby: true
 fraction: true
-fontawesome: true
 linkToMarkdown: true
 linkToSource: false
 linkToEdit: false
@@ -199,12 +198,14 @@ related:
 * **lightgallery**: 如果设为 `true`, 文章中的图片将可以按照画廊形式呈现.
 * **ruby**: {{< version 0.2.0 >}} 如果设为 `true`, 这篇文章会使用 [上标注释扩展语法](#ruby).
 * **fraction**: {{< version 0.2.0 >}} 如果设为 `true`, 这篇文章会使用 [分数扩展语法](#fraction).
-* **fontawesome**: {{< version 0.2.0 >}} 如果设为 `true`, 这篇文章会使用 [Font Awesome 扩展语法](#fontawesome).
 * **linkToMarkdown**: 如果设为 `true`, 内容的页脚将显示指向原始 Markdown 文件的链接.
 * **linkToSource**: {{< version 0.2.14 >}} 如果设为 `false`, 则关闭页脚 **view source** 的链接. 你可以将其设置为一个指向文章原始文件的链接. 使用魔法变量 `{path}` 来获取文章的相对路径, 这篇文章的 `{path}` 是 `posts/theme-documentation-content/index.en.md`.
 * **linkToEdit**:{{< version 0.2.13 >}} 如果设为 `false`, 则关闭页脚 **编辑此页** 的链接. 你可以将其设置为一个用于编辑这个页面的链接. 使用魔法变量 `{path}` 来获取这篇文章的相对路径, 这篇文章的 `{path}` 是 `posts/theme-documentation-content/index.zh-cn.md`.
 * **linkToReport**: {{< version 0.2.14 >}} 如果设为 `false`, 则关闭页脚 **报告问题** 的链接. 你可以将其设置为一个用于报告此页面中错误的链接. 使用魔法变量 `{path}` 来获取文章的相对路径, 这篇文章的 `{path}` 是 `posts/theme-documentation-content/index.en.md`, 使用 `{title}` 来获取文章的标题, 这篇文章的 `{title}` 为 `Theme Documentation - Content`, 使用 `{url}` 来获取文章的链接, 这篇文章的 `{url}` 为 `https://hugodoit.pages.dev/theme-documentation-content/`.
 * **rssFullText**: {{< version 0.2.4 >}} 如果设为 `true`, 在 RSS 中将会显示全文内容.
+* **enableLastMod**: 如果设为 `true`，在文章的顶部将会显示上次修改内容的日期时间.
+* **enableWordCount**: 如果设为 `true`, 在文章的顶部将会显示文章的字数.
+* **enableReadingTime**: 如果设为 `true`, 在文章的顶部将会显示文章的阅读时间.
 * **license**: {{< version 0.2.14 >}} 许可协议信息 (支持 HTML 格式).
 
 * **toc**: {{< version 0.2.9 changed >}} 和 [网站配置](../theme-documentation-basics#site-configuration) 中的 `params.page.toc` 部分相同.
@@ -300,48 +301,60 @@ resources:
 
 **DoIt** 基于 [$ \KaTeX $](https://katex.org/) 提供数学公式的支持.
 
-在你的 [网站配置](../theme-documentation-basics#site-configuration) 中的 `[params.math]` 下面设置属性 `enable = true`,
-并在文章的前置参数中设置属性 `math: true`来启用数学公式的自动渲染.
+在你的 [网站配置](../theme-documentation-basics#site-configuration) 中添加如下设置来启用数学公式支持：
+
+```toml {title="hugo.toml"}
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [['\[', '\]']]
+          inline = [['\(', '\)']]
+[params]
+  [page]
+    [page.math]
+      enable = true
+      blockLeftDelimiter = '\['
+      blockRightDelimiter = '\]'
+      inlineLeftDelimiter = '\('
+      inlineRightDelimiter = '\)'
+      copyTex = true
+      mhchem = true
+```
 
 {{< admonition tip >}}
-有一份 [$ \KaTeX $ 中支持的 $ \TeX $ 函数](https://katex.org/docs/supported.html) 清单.
+这是一份 [$ \KaTeX $ 中支持的 $ \TeX $ 函数](https://katex.org/docs/supported.html) 列表。
 {{< /admonition >}}
 
 #### 公式块
 
-默认的公式块分割符是 `$$`/`$$` 和 `\\[`/`\\]`:
+默认的公式块分割符是 `\[ \]`：
 
-```markdown
-$$ c = \pm\sqrt{a^2 + b^2} $$
+```markdown {linenos=false}
+\[ c = \pm\sqrt{a^2 + b^2} \]
 
-\\[ f(x)=\int_{-\infty}^{\infty} \hat{f}(\xi) e^{2 \pi i \xi x} d \xi \\]
+\[ f(x)=\int_{-\infty}^{\infty} \hat{f}(\xi) e^{2 \pi i \xi x} d \xi \]
 ```
 
-呈现的输出效果如下:
+呈现的输出效果如下：
 
-$$ c = \pm\sqrt{a^2 + b^2} $$
+\[ c = \pm\sqrt{a^2 + b^2} \]
 
-\\[ f(x)=\int_{-\infty}^{\infty} \hat{f}(\xi) e^{2 \pi i \xi x} d \xi \\]
+\[ f(x)=\int_{-\infty}^{\infty} \hat{f}(\xi) e^{2 \pi i \xi x} d \xi \]
 
 #### 行内公式
 
-默认的行内公式分割符是  `$`/`$` 和 `\\(`/`\\)`:
+默认的行内公式分割符是 `\( \)`：
 
 ```markdown
-$ c = \pm\sqrt{a^2 + b^2} $ 和 \\( f(x)=\int_{-\infty}^{\infty} \hat{f}(\xi) e^{2 \pi i \xi x} d \xi \\)
+\( c = \pm\sqrt{a^2 + b^2} \) and \( f(x)=\int_{-\infty}^{\infty} \hat{f}(\xi) e^{2 \pi i \xi x} d \xi \)
 ```
 
 呈现的输出效果如下:
 
-$ c = \pm\sqrt{a^2 + b^2} $ 和 \\( f(x)=\int_{-\infty}^{\infty} \hat{f}(\xi) e^{2 \pi i \xi x} d \xi \\)
-
-{{< admonition tip >}}
-你可以在 [网站配置](../theme-documentation-basics#site-configuration) 中自定义公式块和行内公式的分割符.
-{{< /admonition >}}
-
-{{< admonition info >}}
-你可以使用 [`math` shortcode](../theme-documentation-extended-shortcodes/#14-math) 以避免特殊字符造成[问题](https://github.com/HEIGE-PCloud/DoIt/issues/126).
-{{< /admonition >}}
+\( c = \pm\sqrt{a^2 + b^2} \) and \( f(x)=\int_{-\infty}^{\infty} \hat{f}(\xi) e^{2 \pi i \xi x} d \xi \)
 
 #### Copy-tex
 
@@ -362,16 +375,16 @@ $ c = \pm\sqrt{a^2 + b^2} $ 和 \\( f(x)=\int_{-\infty}^{\infty} \hat{f}(\xi) e^
 在你的 [网站配置](../theme-documentation-basics#site-configuration) 中的 `[params.math]` 下面设置属性 `mhchem = true` 来启用 mhchem.
 
 ```markdown
-$$ \ce{CO2 + C -> 2 CO} $$
+\[ \ce{CO2 + C -> 2 CO} \]
 
-$$ \ce{Hg^2+ ->[I-] HgI2 ->[I-] [Hg^{II}I4]^2-} $$
+\[ \ce{Hg^2+ ->[I-] HgI2 ->[I-] [Hg^{II}I4]^2-} \]
 ```
 
 呈现的输出效果如下:
 
-$$ \ce{CO2 + C -> 2 CO} $$
+\[ \ce{CO2 + C -> 2 CO} \]
 
-$$ \ce{Hg^2+ ->[I-] HgI2 ->[I-] [Hg^{II}I4]^2-} $$
+\[ \ce{Hg^2+ ->[I-] HgI2 ->[I-] [Hg^{II}I4]^2-} \]
 
 ### 字符注音或者注释 {#ruby}
 
@@ -403,56 +416,40 @@ $$ \ce{Hg^2+ ->[I-] HgI2 ->[I-] [Hg^{II}I4]^2-} $$
 
 [90]/[100]
 
-### Font Awesome {#fontawesome}
+### Blockquotes
 
-**DoIt** 主题使用 [Font Awesome](https://fontawesome.com/) 作为图标库.
-你同样可以在文章中轻松使用这些图标.
+**DoIt** 支持 GitHub 风格的引用块：
 
-从 [Font Awesome 网站](https://fontawesome.com/icons?d=gallery) 上获取所需的图标 `class`.
+```markdown {open=true}
+> [!NOTE]
+> Useful information that users should know, even when skimming content.
 
-```markdown
-去露营啦! {?:}(fas fa-campground fa-fw): 很快就回来.
+> [!TIP]
+> Helpful advice for doing things better or more easily.
 
-真开心! {?:}(far fa-grin-tears):
+> [!IMPORTANT]
+> Key information users need to know to achieve their goal.
+
+> [!WARNING]
+> Urgent info that needs immediate user attention to avoid problems.
+
+> [!CAUTION]
+> Advises about risks or negative outcomes of certain actions.
 ```
 
-呈现的输出效果如下:
+呈现的输出效果如下：
 
-去露营啦! :(fas fa-campground fa-fw): 很快就回来.
+> [!NOTE]
+> Useful information that users should know, even when skimming content.
 
-真开心! :(far fa-grin-tears):
+> [!TIP]
+> Helpful advice for doing things better or more easily.
 
-### 转义字符 {#escape-character}
+> [!IMPORTANT]
+> Key information users need to know to achieve their goal.
 
-在某些特殊情况下 (编写这个主题文档时 :(far fa-grin-squint-tears):),
-你的文章内容会与 Markdown 的基本或者扩展语法冲突, 并且无法避免.
+> [!WARNING]
+> Urgent info that needs immediate user attention to avoid problems.
 
-转义字符语法可以帮助你渲染出想要的内容:
-
-```markdown
-{{??}X} -> X
-```
-
-例如, 两个 `:` 会启用 emoji 语法. 但有时候这不是你想要的结果. 可以像这样使用转义字符语法:
-
-```markdown
-{{??}:}joy:
-```
-
-呈现的输出效果如下:
-
-**{?:}joy{?:}** 而不是 **:joy:**
-
-{{< admonition tip >}}
-这个方法可以间接解决一个还未解决的 **[Hugo 的 issue](https://github.com/gohugoio/hugo/issues/4978)**.
-{{< /admonition >}}
-
-另一个例子是:
-
-```markdown
-[link{{??}]}(#escape-character)
-```
-
-呈现的输出效果如下:
-
-**[link{?]}(#escape-character)** 而不是 **[link](#escape-character)**.
+> [!CAUTION]
+> Advises about risks or negative outcomes of certain actions.

@@ -123,6 +123,7 @@ DoIt 主题增加了许多新的功能与配置项，查看[变更日志](https:
 * 支持 **[Vssue](https://vssue.js.org/)** 评论系统
 * 支持 **[Remark42](https://remark42.com/)** 评论系统
 * 支持 **[giscus](https://giscus.app/)** 评论系统
+* 支持 **[Artalk](https://artalk.js.org/)** 评论系统
 
 ### 扩展功能
 
@@ -192,17 +193,14 @@ DoIt 根据 **MIT** 许可协议授权。 更多信息请查看 [LICENSE 文件]
 
 DoIt 主题中用到了以下项目，感谢它们的作者：
 
-* [normalize.css](https://github.com/necolas/normalize.css)
 * [Font Awesome](https://fontawesome.com/)
 * [Simple Icons](https://github.com/simple-icons/simple-icons)
-* [Animate.css](https://daneden.github.io/animate.css/)
 * [autocomplete.js](https://github.com/algolia/autocomplete.js)
 * [algoliasearch](https://github.com/algolia/algoliasearch-client-javascript)
 * [Fuse.js](https://fusejs.io/)
 * [object-fit-images](https://github.com/fregante/object-fit-images)
 * [Twemoji](https://github.com/twitter/twemoji)
 * [lightgallery.js](https://github.com/sachinchoolur/lightgallery.js)
-* [clipboard.js](https://github.com/zenorocha/clipboard.js)
 * [Sharer.js](https://github.com/ellisonleao/sharer.js)
 * [TypeIt](https://typeitjs.com/)
 * [KaTeX](https://katex.org/)

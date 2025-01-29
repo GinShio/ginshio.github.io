@@ -26,14 +26,14 @@ toc:
 
 由于 Hugo 提供的便利性, [Hugo](https://gohugo.io/) 本身是这个主题唯一的依赖.
 
-直接安装满足你操作系统 (**Windows**, **Linux**, **macOS**) 的最新版本 [:(far fa-file-archive fa-fw): Hugo (> 0.83.0)](https://gohugo.io/getting-started/installing/).
+直接安装满足你操作系统 (**Windows**, **Linux**, **macOS**) 的最新版本 [{{< fa-icon regular file-archive >}} Hugo (> 0.122.0)](https://gohugo.io/getting-started/installing/).
 
 {{< admonition note "为什么不支持早期版本的 Hugo?" >}}
-由于 [WebP 图像处理](https://gohugo.io/content-management/image-processing/#jpeg-and-webp-quality) 在 [Hugo 0.83.0版本](https://gohugo.io/news/0.83.0-relnotes/) 中被引入, 本主题只支持高于 **0.83.0** 的 Hugo 版本.
+由于 [WebP 图像处理](https://gohugo.io/content-management/image-processing/#jpeg-and-webp-quality) 在 [Hugo 0.122.0版本](https://gohugo.io/news/0.122.0-relnotes/) 中被引入, 本主题只支持高于 **0.122.0** 的 Hugo 版本.
 {{< /admonition >}}
 
 {{< admonition tip "推荐使用 Hugo extended 版本" >}}
-由于这个主题的一些特性需要将 :(fab fa-sass fa-fw): SCSS 转换为 :(fab fa-css3 fa-fw): CSS, 推荐使用 Hugo **extended** 版本来获得更好的使用体验.
+由于这个主题的一些特性需要将 {{< fa-icon brands sass >}} SCSS 转换为 {{< fa-icon brands css3 >}} CSS, 推荐使用 Hugo **extended** 版本来获得更好的使用体验.
 {{< /admonition >}}
 
 ## 安装
@@ -53,7 +53,7 @@ cd my_website
 
 **DoIt** 主题的仓库是: [https://github.com/HEIGE-PCloud/DoIt](https://github.com/HEIGE-PCloud/DoIt).
 
-你可以下载主题的 [最新版本 :(far fa-file-archive fa-fw): .zip 文件](https://github.com/HEIGE-PCloud/DoIt/releases) 并且解压放到 `themes` 目录.
+你可以下载主题的 [最新版本 {{< fa-icon regular file-archive >}} .zip 文件](https://github.com/HEIGE-PCloud/DoIt/releases) 并且解压放到 `themes` 目录.
 
 另外, 也可以直接把这个主题克隆到 `themes` 目录:
 
@@ -192,7 +192,7 @@ hugo
 
 除了 [Hugo 全局配置](https://gohugo.io/overview/configuration/) 和 [菜单配置](#basic-configuration) 之外, **DoIt** 主题还允许您在网站配置中定义以下参数 (这是一个示例 `config.toml`, 其内容为默认值).
 
-请打开下面的代码块查看完整的示例配置 :(far fa-hand-point-down fa-fw)::
+请打开下面的代码块查看完整的示例配置 {{< fa-icon regular hand-point-down >}}:
 
 ```toml
 [params]
@@ -217,10 +217,23 @@ hugo
   images = ["/logo.png"]
   # {{< version 0.2.11 >}} 开启 PWA 支持
   enablePWA = false
-  # [试验性功能] 缓存图床图片，详情请见：https://github.com/HEIGE-PCloud/DoIt/pull/860#issue-1574342372
-  cacheRemoteImages = false
+  # [试验性功能] 缓存markdown中的图片链接到本地，详情请见：https://github.com/HEIGE-PCloud/DoIt/pull/860#issue-1574342372
+  cacheRemoteImages = true
+  # [试验性功能] 使用 hugo 自带的图片处理功能生成 srcset 属性
+optimizeImages = true
+  # [实验性功能] optimizeImages 中 srcset 属性的缩放方法, 详情请见：https://gohugo.io/content-management/image-processing/#image-processing-options
+  srcsetSmallResizeMethod = "700x webp Lanczos q75"
+  srcsetDefaultResizeMethod = "1200x webp Lanczos q75"
+  srcsetLargeResizeMethod = "2000x webp Lanczos q75"
   # {{< version 0.2.14 >}} 版权信息
   license = '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
+  # 作者配置
+  [params.author]
+    name = "xxxx"
+    email = ""
+    link = ""
+    avatar = ""
+    gravatarEmail = ""
   # {{< version 0.2.0 >}} 应用图标配置
   [params.app]
     # 当添加到 iOS 主屏幕或者 Android 启动器时的标题, 覆盖默认标题
@@ -267,12 +280,13 @@ hugo
       useExtendedSearch = false
       ignoreFieldNorm = false
 
+  [params.image]
+    # 缓存图片链接到本地
+    cacheRemote = true
+    # 图片缩放和优化
+    optimise = true
   # 页面头部导航栏配置
   [params.header]
-    # 桌面端导航栏模式 ("fixed", "normal", "auto")
-    desktopMode = "fixed"
-    # 移动端导航栏模式 ("fixed", "normal", "auto")
-    mobileMode = "auto"
     # {{< version 0.2.11 >}} 主题切换模式
     # 主题切换模式 ("switch", "select")
     themeChangeMode = "select"
@@ -298,7 +312,7 @@ hugo
     hugo = true
     # {{< version 0.2.14 >}} 托管服务信息 (支持 HTML 格式)
     # <a title="Github Pages" href="https://docs.github.com/en/pages/" target="_blank" rel="noopener noreffer">GitHub Pages</a>
-    hostedOn = '' 
+    hostedOn = ''
     # {{< version 0.2.0 >}} 是否显示版权信息
     copyright = true
     # {{< version 0.2.0 >}} 是否显示作者
@@ -347,6 +361,8 @@ hugo
       # 将你的头像文件放置于 static 或者 assets 目录下
       # 文件路径是相对于 static 或者 assets 目录的
       avatarURL = "/images/avatar.webp"
+      # 头像的链接指向的 URL
+      avatarLinkURL = ""
       # {{< version 0.2.7 changed >}} 主页显示的网站标题 (支持 HTML 格式)
       title = ""
       # 主页显示的网站副标题
@@ -454,8 +470,6 @@ hugo
     ruby = true
     # {{< version 0.2.0 >}} 是否使用 fraction 扩展语法
     fraction = true
-    # {{< version 0.2.0 >}} 是否使用 fontawesome 扩展语法
-    fontawesome = true
     # 是否在文章页面显示原始 Markdown 文档链接
     linkToMarkdown = true
     # {{< version 0.2.14 >}} 配置文章原始文件的链接
@@ -473,6 +487,12 @@ hugo
     rssFullText = false
     # {{< version 0.2.13 >}} 是否在文章开头显示系列导航
     seriesNavigation = true
+    # 是否启用最后修改时间
+    enableLastMod = true
+    # 是否启用字数统计
+    enableWordCount = true
+    # 是否启用阅读时间估计
+    enableReadingTime = true
     # {{< version 0.2.13 >}} 过时文章提示
     [params.page.outdatedArticleReminder]
       enable = true
@@ -490,10 +510,14 @@ hugo
       auto = true
     # {{< version 0.2.0 >}} 代码配置
     [params.page.code]
-      # 是否显示代码块的复制按钮
-      copy = true
       # 默认展开显示的代码行数
       maxShownLines = 10
+      # 是否显示代码行号
+      lineNos = true
+      # 是否开启代码换行
+      wrap = false
+      # 是否显示代码块标题
+      header = true
     # {{< version 0.2.14 >}} 表格配置
     [params.page.table]
       # 是否开启表格排序
@@ -511,6 +535,8 @@ hugo
       copyTex = true
       # KaTeX 插件 mhchem
       mhchem = true
+      # 使用 MathJax 替代 KaTeX
+      mathjax = false
     # {{< version 0.2.0 >}} {{< link "https://docs.mapbox.com/mapbox-gl-js" "Mapbox GL JS" >}} 配置
     [params.page.mapbox]
       # Mapbox GL JS 的 access token
@@ -557,6 +583,12 @@ hugo
       Skype = false
       Trello = false
       Mix = false
+      Mastodon = false
+
+    # instant.page 设置
+    [params.page.instantpage]
+      enable = false
+
     # {{< version 0.2.0 changed >}} 评论系统设置
     [params.page.comment]
       enable = true
@@ -647,6 +679,7 @@ hugo
         envId = ""
         region = ""
         path = ""
+        cloudbase = true # boolean : true / false. # 是否部署在腾讯云 CloudBase
         visitor = true
         commentCount = true
       # {{< version 0.2.12 >}} {{< link "https://vssue.js.org/" "Vssue" >}} 评论系统设置
@@ -680,6 +713,17 @@ hugo
         lightTheme = "light"
         darkTheme = "dark"
         dataLang = "zh-CN"
+        dataLoading = "lazy"
+      # {{< link "https://artalk.js.org/" "artalk" >}} 评论系统设置
+      [params.page.comment.artalk]
+        enable = false
+        server = ""
+        site = ""
+        lite = false
+        katex = false
+        lightbox = false
+        pageview = true
+        commentCount = true
     # {{< version 0.2.7 >}} 第三方库配置
     [params.page.library]
       [params.page.library.css]
@@ -722,7 +766,7 @@ hugo
     enable = false
     bio = "如果你觉得这篇文章对你有所帮助，欢迎赞赏~"
     link = "https://www.buymeacoffee.com" # 你的赞赏页面的地址
-    custom = "" # 自定义 HTML 
+    custom = "" # 自定义 HTML
 
   # {{< version 0.2.5 >}} TypeIt 配置
   [params.typeit]
@@ -751,6 +795,9 @@ hugo
     image = ""
     # 缩略图 URL
     thumbnailUrl = ""
+    # {{< version 0.4.1 >}}
+    # Google 搜索结果中网站备用名字
+    alternateName = ["Hugo DoIt"]
 
   # {{< version 0.2.0 >}} 网站分析配置
   [params.analytics]
@@ -804,8 +851,6 @@ hugo
   [params.compatibility]
     # 是否使用 Polyfill.io 来兼容旧式浏览器
     polyfill = false
-    # 是否使用 object-fit-images 来兼容旧式浏览器
-    objectFit = false
 
 # Hugo 解析文档的配置
 [markup]
@@ -836,14 +881,6 @@ hugo
     startLevel = 2
     endLevel = 6
 
-# 作者配置
-[author]
-  name = "xxxx"
-  email = ""
-  link = ""
-  avatar = ""
-  gravatarEmail = ""
-
 # 网站地图配置
 [sitemap]
   changefreq = "weekly"
@@ -860,7 +897,7 @@ hugo
   # {{< version 0.2.0 deleted >}} Google Analytics 相关隐私 (被 params.analytics.google 替代)
   [privacy.googleAnalytics]
     # ...
-  [privacy.twitter]
+  [privacy.x]
     enableDNT = true
   [privacy.youtube]
     privacyEnhanced = true
@@ -883,7 +920,6 @@ hugo
   page = ["HTML", "MarkDown"]
   section = ["HTML", "RSS"]
   taxonomy = ["HTML", "RSS"]
-  taxonomyTerm = ["HTML"]
 
 # 用于分类的设置
 [taxonomies]
@@ -915,6 +951,8 @@ series = "series"
   gravatarEmail = ""
   # 主页显示头像的 URL
   avatarURL = "/images/avatar.webp"
+  # 头像的链接指向的 URL
+  avatarLinkURL = ""
 ````
 
 你可以在 [Gravatar](https://cn.gravatar.com) 注册并设置自己的头像, 网站会通过`gravatarEmail`中填写的邮箱自动获取并设置你的头像.
@@ -1018,20 +1056,29 @@ $code-font-family: Fira Mono, Source Code Pro, Menlo, Consolas, Monaco, monospac
 
 {{< version 0.2.10 changed >}}
 
-| 语言         | Hugo 代码 | HTML `lang` 属性 |           主题文档            | 
+| 语言         | Hugo 代码 | HTML `lang` 属性 |           主题文档            |
 | :----------- | :-------: | :--------------: | :---------------------------: |
-| 英语         |   `en`    |       `en`       | :(far fa-check-square fa-fw): |
-| 简体中文     |  `zh-cn`  |     `zh-CN`      | :(far fa-check-square fa-fw): |
-| 法语         |   `fr`    |       `fr`       |    :(far fa-square fa-fw):    |
-| 波兰语       |   `pl`    |       `pl`       |    :(far fa-square fa-fw):    | 
-| 巴西葡萄牙语 |  `pt-br`  |     `pt-BR`      |    :(far fa-square fa-fw):    |
-| 意大利语     |   `it`    |       `it`       |    :(far fa-square fa-fw):    |
-| 西班牙语     |   `es`    |       `es`       |    :(far fa-square fa-fw):    |
-| 德语         |   `de`    |       `de`       |    :(far fa-square fa-fw):    |
-| 塞尔维亚语   |   `pl`    |       `pl`       |    :(far fa-square fa-fw):    |
-| 俄语         |   `ru`    |       `ru`       |    :(far fa-square fa-fw):    |
-| 罗马尼亚语   |   `ro`    |       `ro`       |    :(far fa-square fa-fw):    |
-| 越南语       |   `vi`    |       `vi`       |    :(far fa-square fa-fw):    |
+| 英语         |   `en`    |       `en`       | {{< fa-icon regular check-square >}} |
+| 简体中文     |  `zh-cn`  |     `zh-CN`      | {{< fa-icon regular check-square >}} |
+| 法语         |   `fr`    |       `fr`       |    {{< fa-icon regular square >}}    |
+| 波兰语       |   `pl`    |       `pl`       |    {{< fa-icon regular square >}}    |
+| 巴西葡萄牙语 |  `pt-br`  |     `pt-BR`      |    {{< fa-icon regular square >}}    |
+| 意大利语     |   `it`    |       `it`       |    {{< fa-icon regular square >}}    |
+| 西班牙语     |   `es`    |       `es`       |    {{< fa-icon regular square >}}    |
+| 德语         |   `de`    |       `de`       |    {{< fa-icon regular square >}}    |
+| 塞尔维亚语   |   `pl`    |       `pl`       |    {{< fa-icon regular square >}}    |
+| 俄语         |   `ru`    |       `ru`       |    {{< fa-icon regular square >}}    |
+| 罗马尼亚语   |   `ro`    |       `ro`       |    {{< fa-icon regular square >}}    |
+| 越南语       |   `vi`    |       `vi`       |    {{< fa-icon regular square >}}    |
+| Arabic               | `ar`      | `ar`                  | {{< fa-icon regular square >}}       |
+| Catalan              | `ca`      | `ca`                  | {{< fa-icon regular square >}}       |
+| Hindi                | `hi`      | `hi`                  | {{< fa-icon regular square >}}       |
+| Indonesian           | `id`      | `id`                  | {{< fa-icon regular square >}}       |
+| Telugu               | `te`      | `te`                  | {{< fa-icon regular square >}}       |
+| Thai                 | `th`      | `th`                  | {{< fa-icon regular square >}}       |
+| Turkish              | `tr`      | `tr`                  | {{< fa-icon regular square >}}       |
+| Ukrainian            | `uk`      | `uk`                  | {{< fa-icon regular square >}}       |
+| Traditional Chinese  | `zh-tw`   | `zh-tw`               | {{< fa-icon regular square >}}       |
 
 ### 基本配置
 
@@ -1130,7 +1177,7 @@ defaultContentLanguage = "zh-cn"
 
 要覆盖默认值, 请在你项目的 i18n 目录 `i18n/<languageCode>.toml` 中创建一个新文件, 并从 `themes/DoIt/i18n/en.toml` 中获得提示.
 
-另外, 由于你的翻译可能会帮助到其他人, 请花点时间通过 [:(fas fa-code-branch fa-fw): 创建一个 PR](https://github.com/HEIGE-PCloud/DoIt/pulls) 来贡献主题翻译, 谢谢!
+另外, 由于你的翻译可能会帮助到其他人, 请花点时间通过 [{{< fa-icon solid code-branch >}} 创建一个 PR](https://github.com/HEIGE-PCloud/DoIt/pulls) 来贡献主题翻译, 谢谢!
 
 ## 搜索
 

@@ -26,8 +26,8 @@ keywords = ["Theme", "Hugo"]
 # 搜索配置
 [search]
   enable = true
-  # type of search engine ("algolia", "fuse")
-  # 搜索引擎的类型 ("algolia", "fuse")
+  # type of search engine ("algolia", "fuse", "pagefind")
+  # 搜索引擎的类型 ("algolia", "fuse", "pagefind")
   type = "algolia"
   # max index length of the chunked content
   # 文章内容最长索引长度
@@ -62,6 +62,13 @@ keywords = ["Theme", "Hugo"]
     ignoreLocation = true
     useExtendedSearch = false
     ignoreFieldNorm = false
+  [search.pagefind]
+    # https://pagefind.app/docs/search-config/#available-options
+    # run `npx pagefind --site $YOUR_PUBLIC_DIR` after site build to create pagefind index
+    termFrequency = 1.0
+    pageLength = 0.75
+    termSimilarity = 1.0
+    termSaturation = 1.4
 # Home page config
 # 主页信息设置
 [home]
@@ -78,6 +85,9 @@ keywords = ["Theme", "Hugo"]
     # URL of avatar shown in home page
     # 主页显示头像的 URL
     avatarURL = "/images/avatar.webp"
+    # URL the avatar links to
+    # 头像的链接指向的 URL
+    avatarLinkURL = ""
     # title shown in home page (HTML format is supported)
     # 主页显示的网站标题 (支持 HTML 格式)
     title = ""
@@ -86,7 +96,7 @@ keywords = ["Theme", "Hugo"]
     subtitle = "一个简洁、优雅且高效的 Hugo 主题"
     # whether to use typeit animation for subtitle
     # 是否为副标题显示打字机动画
-    typeit = true
+    typeit = false
     # whether to show social links
     # 是否显示社交账号
     social = true
@@ -174,6 +184,7 @@ keywords = ["Theme", "Hugo"]
   Youtubecustom = ""
   Youtubelegacy = ""
   Zhihu = "xxxx"
+  Bluesky = "did:plc:z72i7hdynmk6r22z27h6tvur"
   [social.Diaspora]
     id = "@xxxx"
     prefix = "https://yyyy/"

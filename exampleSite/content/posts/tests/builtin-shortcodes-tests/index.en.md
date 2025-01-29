@@ -20,19 +20,6 @@ hiddenFromSearch: true
 
 {{< gist spf13 7896402 >}}
 
-## highlight
-
-{{< highlight html >}}
-<section id="main">
-    <div>
-        <h1 id="title">{{ .Title }}</h1>
-        {{ range .Pages }}
-            {{ .Render "summary"}}
-        {{ end }}
-    </div>
-</section>
-{{< /highlight >}}
-
 ## param
 
 {{< param description >}}
@@ -43,9 +30,9 @@ hiddenFromSearch: true
 
 [relref]({{< relref "../../../about/index.en.md" >}})
 
-## tweet
+## x
 
-{{< tweet user="SanDiegoZoo" id="1453110110599868418" >}}
+{{< x user="SanDiegoZoo" id="1453110110599868418" >}}
 
 ## vimeo
 
