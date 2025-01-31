@@ -587,3 +587,63 @@ barrier、Atomic 等概念。
  + [[https://en.cppreference.com/w/cpp/numeric/fenv][C++ Floating-point environment]]
 
 * Compiler
+
+ + [[https://llvm.org/docs/LangRef.html][LLVM Language Reference Manual]]
+ + [[https://discourse.llvm.org/][LLVM Community]]
+ + [[https://godbolt.org/][Compiler Explorer]]
+
+** 简介
+
+ + [[https://aosabook.org/en/v1/llvm.html][AOSA V1 - LLVM]]
+
+#+begin_src fundamental
+llvm
+├── ADT
+├── Analysis
+├── CodeGen
+├── IR
+├── MC
+├── Target
+│   ├── AArch64
+│   ├── AMDGPU
+│   ├── RISCV
+│   └── X86
+└── Transforms
+    ├── Coroutines
+    ├── InstCombine
+    ├── Instrumentation
+    ├── Scalar
+    └── Vectorize
+#+end_src
+
+订阅社区消息：
+Preferences -> Tracking -> Watched (`IR&Optimizations`, `AMDGPU`)
+
+** LLVM IR 基础结构
+
+Module -> Function -> ControlFlowGraph -> BasicBlock -> Instruction
+
+[[file:../images/llvmir-cfg-example-function_sum.svg]]
+
+BB:
+ + BB 内的所有指令顺序执行
+ + BB 最后一条指令一定是 Terminator Intruction，表示 BB 之间的关系
+ + phi 只能出现在 BB 的起始位置，表示 BB 之间的数据流动
+
+Function:
+ + 一定只有一个 `.exit` BB
+ + 优化在 Function 上执行
+
+CFG:
+ + CFG 是 Function 内 BB 之间的关系
+ + [[https://llvm.org/devmtg/2017-10/slides/Kuderski-Dominator_Trees.pdf][Dominator Tree]]
+ + [[https://llvm.org/docs/LoopTerminology.html][Loop]]: LCSSA
+
+[[file:../images/llvmir-cfg-example-function_sum-dom.svg]]
+
+** 优化
+
+ + [[https://llvm.org/docs/UserGuides.html#optimizations][Optimizations]]
+ + [[https://llvm.org/docs/Passes.html][LLVM’s Analysis and Transform Passes]]
+
+Analysis + Transform
