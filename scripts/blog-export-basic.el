@@ -16,7 +16,7 @@
 
 ;;; VARIABLES
 (defvar bootstrap-version 5)
-(defvar straight-base-dir (expand-file-name ".emacs.d/.local" (getenv "HOME")))
+(defvar straight-base-dir (expand-file-name ".config/emacs/.local" (getenv "HOME")))
 (defvar straight-fix-org t)
 (defvar straight-vc-git-default-clone-depth 1)
 (defvar publish--straight-repos-dir (expand-file-name "straight/repos/" straight-base-dir))
