@@ -582,7 +582,7 @@ barrier、Atomic 等概念。
 
 <!--listend-->
 
-```text
+```fundamental
 llvm
 ├── ADT
 ├── Analysis
@@ -603,7 +603,7 @@ llvm
 ```
 
 订阅社区消息：
-Preferences -&gt; Tracking -&gt; Watched (`IR&Optimizations`, `AMDGPU`)
+Preferences -&gt; Tracking -&gt; Watched (\`IR&amp;Optimizations\`, \`AMDGPU\`)
 
 
 ### LLVM IR 基础结构 {#llvm-ir-基础结构}
@@ -620,7 +620,7 @@ BB:
 
 Function:
 
--   一定只有一个 `.exit` BB
+-   一定只有一个 \`.exit\` BB
 -   优化在 Function 上执行
 
 CFG:

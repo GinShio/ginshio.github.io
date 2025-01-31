@@ -3,14 +3,14 @@
         <title>GLSLang - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/glslang/</link>
         <description>GLSLang - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Sat, 03 Sep 2022 17:41:38 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/glslang/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 03 Sep 2022 17:41:38 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/glslang/" rel="self" type="application/rss+xml" /><item>
     <title>内存对齐</title>
     <link>https://blog.ginshio.org/2022/memory_alignment/</link>
     <pubDate>Sat, 03 Sep 2022 17:41:38 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/memory_alignment/</guid>
-    <description><![CDATA[众所周知，运行的程序是需要内存占用的，在编码时假定栈上的空间是连续的，且定义的所有变量都连续分布在栈上。
-实际上，虽然变量是连续分布在栈上的，但编译器会根据不同类型与对齐方式，将变量重新排列，达到最优情况。
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 #include &lt;stdio.h&gt; #include &lt;stdlib.h&gt; #define __print_position(type, CNT) \ type VAR##CNT; \ printf(&#34;VAR&#34;#CNT &#34; (&#34; #type &#34;)\t: %p\n&#34;, &amp;VAR##CNT); #define _print_position(type, CNT) __print_position(type, CNT) #define print_position(type) _print_position(type, __COUNTER__) int main(void) { print_position(int); // VAR0 (int) : 0x7ffe84765470 print_position(double); // VAR1 (double): 0x7ffe84765478 print_position(char); // VAR2 (char) : 0x7ffe8476546f print_position(float); // VAR3 (float) : 0x7ffe84765474 print_position(div_t); // VAR4 (div_t) : 0x7ffe84765480 } 本文主要集中在结构体的对齐。]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2022/memory_alignment/</guid>
+    <description><![CDATA[<p>众所周知，运行的程序是需要内存占用的，在编码时假定栈上的空间是连续的，且定义的所有变量都连续分布在栈上。</p>
+<p>实际上，虽然变量是连续分布在栈上的，但编译器会根据不同类型与对齐方式，将变量重新排列，达到最优情况。</p>]]></description>
 </item></channel>
 </rss>

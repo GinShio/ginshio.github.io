@@ -3,26 +3,24 @@
         <title>C&#43;&#43; 并发 - 系列 - iris</title>
         <link>https://blog.ginshio.org/series/c&#43;&#43;-%E5%B9%B6%E5%8F%91/</link>
         <description>C&#43;&#43; 并发 - 系列 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Sat, 05 Dec 2020 17:46:52 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/series/c&#43;&#43;-%E5%B9%B6%E5%8F%91/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 05 Dec 2020 17:46:52 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/series/c&#43;&#43;-%E5%B9%B6%E5%8F%91/" rel="self" type="application/rss+xml" /><item>
     <title>并发标准库</title>
     <link>https://blog.ginshio.org/2020/cpp_concurrency_std/</link>
     <pubDate>Tue, 01 Dec 2020 19:42:25 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/cpp_concurrency_std/</guid>
-    <description><![CDATA[线程管理 创建线程新的线程会在 ::std::thread (头文件 thread 中) 对象创建的时候被启动，在函数执行完毕后，该线程也就结束了，提供的函数对象会复制到新线程的存储空间中，函数对象的执行与操作都在线程的内存空间中执行。在创建新线程时你可以指定一个函数作为任务，或者是 仿函数，当然也可以是 lambda 表达式
-1 2 3 4 5 6 7 8 9 10 ::std::thread my_thread0{do_something}; struct Task { void operator()() const { do_something(); } }; ::std::thread my_thread1{Task()}; ::std::thread my_thread2{[]() { do_something(); }}; 线程启动后，需要指定是等待线程结束还是让其自主运行，如果 ::std::thread 对象销毁之前没有做出决定，程序就会终止，因此必须确保线程能够正确 汇入 (joined) 或 分离 (detached)。调用 join() 可以等待线程完成，并在线程结束时清理相关的内存，使 ::std::thread 对象不再与已完成线程有任何关联，所以一个线程一旦被汇入将不能再次汇入。调用 detach() 会使线程在后台运行，不再与主线程进行直接交互， ::std::thread 对象不再引用这个线程，分离的线程也不可被再次汇入，不过C++运行时库保证线程退出时可以正确回收相关资源。
-在C++中 ::std::thread 对象是一种 可移动但不可复制 的资源，它可以交出它的所有权，但不能与其他对象共享线程的所有权。如果你希望对一个已持有线程的对象更改其行为，那你必须先汇入或分离已关联的线程，或者将已关联的线程的所有权交出。
-1 2 3 4 5 6 ::std::thread t1{do_something}; ::std::thread t2 = std::move(t1); t1 = std::thread{some_other_function}; std::thread t3; t3 = std::move(t2); // t1 = std::move(t3); // 错误 传递参数向线程中传递参数十分简单，为 ::std::thread 构造函数附加参数即可，所有参数 将会拷贝到新线程的内存空间中，即使函数中的参数是引用]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2020/cpp_concurrency_std/</guid>
+    <description><![CDATA[<h2 id="线程管理" class="headerLink">
+    <a href="#%e7%ba%bf%e7%a8%8b%e7%ae%a1%e7%90%86" class="header-mark"></a>线程管理</h2><h3 id="创建线程" class="headerLink">
+    <a href="#%e5%88%9b%e5%bb%ba%e7%ba%bf%e7%a8%8b" class="header-mark"></a>创建线程</h3><p>新的线程会在 <code>::std::thread</code> (头文件 <em>thread</em> 中) 对象创建的时候被启动，在函数执行完毕后，该线程也就结束了，提供的函数对象会复制到新线程的存储空间中，函数对象的执行与操作都在线程的内存空间中执行。在创建新线程时你可以指定一个函数作为任务，或者是 <strong>仿函数</strong>，当然也可以是 lambda 表达式</p>]]></description>
 </item><item>
     <title>原子操作</title>
     <link>https://blog.ginshio.org/2020/cpp_concurrency_atomic/</link>
     <pubDate>Sat, 05 Dec 2020 17:46:52 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/cpp_concurrency_atomic/</guid>
-    <description><![CDATA[原子操作原子操作是一个不可分割的操作，系统的所有线程不会观察到原子操作完成了一半。如果读取对象的加载操作是原子的，那么这个对象的所有修改操作也是原子的。
-标准原子类型全部定义于头文件 atomic 中，这些类型的操作都是原子的，但是其内部实现可能使用原子操作或互斥量模拟，所以原子操作可以替代互斥量完成同步操作，但是如果内部使用互斥量实现那么不会有性能提升。
-通常标准原子类型不能进行拷贝和赋值，但是可以隐式转化成对应的内置类型，使用 load()、exchange()、compare_exchange_weak() 和 compare_exchange_strong()，另外还有 store() 用以原子地赋值。每种函数类型的操作都有一个内存序参数，这个参数可以用来指定存储的顺序。
-::std::atomic_flag::std::atomic_flag 是最简单的原子类型，标准保证其实现是 lock-free 的，这个类型的对象可以在 设置 和 清除 间切换，对象必须被 ATOMIC_FLAG_INIT，初始化标志位为清除状态。初始化后，对象进可以执行销毁、清除、设置
-1 ::std::atomic_flag f = ATOMIC_FLAG_INIT; // 设置为清除状态 (false) 由于 clear() 清除操作原子地设置标志为 false，test_and_set() 设置操作原子地设置标志为 true 并获得其先前值，所以可以简单地实现一个自旋锁
-1 2 3 4 5 6 7 8 9 10 11 12 class spinlock_mutex { private: ::std::atomic_flag flag; public: spinlock_mutex() : flag(ATOMIC_FLAG_INIT) {} void lock() { while (flag.test_and_set(::std::memory_order_acquire)); } void unlock() { flag.clear(::std::memory_order_release); } }; ::std::atomic::std::atomic 不再保证 lock-free，但相比 ::std::atomic_flag 有了更通用的操作， store() 是一个存储操作，load() 是一个加载操作，exchange() 是一个读-改-写操作。]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2020/cpp_concurrency_atomic/</guid>
+    <description><![CDATA[<h2 id="原子操作" class="headerLink">
+    <a href="#%e5%8e%9f%e5%ad%90%e6%93%8d%e4%bd%9c" class="header-mark"></a>原子操作</h2><p>原子操作是一个不可分割的操作，系统的所有线程不会观察到原子操作完成了一半。如果读取对象的加载操作是原子的，那么这个对象的所有修改操作也是原子的。</p>
+<p>标准原子类型全部定义于头文件 <em>atomic</em> 中，这些类型的操作都是原子的，但是其内部实现可能使用原子操作或互斥量模拟，所以原子操作可以替代互斥量完成同步操作，但是如果内部使用互斥量实现那么不会有性能提升。</p>]]></description>
 </item></channel>
 </rss>

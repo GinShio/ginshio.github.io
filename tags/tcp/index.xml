@@ -3,14 +3,43 @@
         <title>TCP - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/tcp/</link>
         <description>TCP - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Sat, 19 Feb 2022 15:31:05 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/tcp/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 19 Feb 2022 15:31:05 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/tcp/" rel="self" type="application/rss+xml" /><item>
     <title>基本 TCP 编程</title>
     <link>https://blog.ginshio.org/2022/unixnetworkprogramming_004/</link>
     <pubDate>Sat, 19 Feb 2022 15:31:05 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/unixnetworkprogramming_004/</guid>
-    <description><![CDATA[基本 TCP 套接字函数 socket 函数在网络编程中第一步往往调用 socket 函数，以指定通讯协议的详情。
-1 2 3 // sys/socket.h int socket(int domain, int type, int protocol); // return socket fd, or -1 and set errno on error domain 指协议族，type 是套接字类型，protocol 参数应该设置为某个协议类型常量，或者为 0 表示对 domain 与 type 的系统默认值。
-domain AF_INET: IPv4 协议 AF_INET6: IPv6 协议 AF_UNIX or AF_LOCAL: Unix Domain Socket AF_ROUTE: 路由套接字 AF_KEY: 密钥套接字 type SOCK_STREAM: 字节流套接字 SOCK_DGRAM: 数据报套接字 SOCK_SEQPACKET: 有序分组套接字 SOCK_RAW: 原始套接字 protocol (for IPv4 and IPv6) IPPROTO_TCP IPPROTO_UDP IPPROTO_SCTP 需要注意的是，不是所有的组合都是有效的，下表总结了有效的 socket 函数参数组合，空白意味着无效。]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2022/unixnetworkprogramming_004/</guid>
+    <description><![CDATA[<h2 id="基本-tcp-套接字函数" class="headerLink">
+    <a href="#%e5%9f%ba%e6%9c%ac-tcp-%e5%a5%97%e6%8e%a5%e5%ad%97%e5%87%bd%e6%95%b0" class="header-mark"></a>基本 TCP 套接字函数</h2><figure><img src="/images/unp-socket-functions-for-elementary-tcp-client-and-server.svg" width="40%">
+</figure>
+
+<h3 id="socket-函数" class="headerLink">
+    <a href="#socket-%e5%87%bd%e6%95%b0" class="header-mark"></a>socket 函数</h3><p>在网络编程中第一步往往调用 socket 函数，以指定通讯协议的详情。</p>
+<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+  <div class="
+    code-block-title 
+    tw-hidden
+    tw-flex 
+    tw-flex-row 
+    tw-justify-between 
+    tw-w-full tw-bg-bgColor-secondary
+    ">      
+    <button 
+      class="
+        tw-select-none 
+        tw-mx-2 
+        tw-block
+        group-[.is-open]:tw-rotate-90
+        tw-transition-[transform] 
+        tw-duration-500 
+        tw-ease-in-out
+        print:!tw-hidden"
+      disabled
+      aria-hidden="true"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button>
+
+    <div class="code-block-title-bar tw-w-full">
+      <p class="tw-select-none !tw-my-1">c</p>]]></description>
 </item></channel>
 </rss>

@@ -3,17 +3,15 @@
         <title>Atomic - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/atomic/</link>
         <description>Atomic - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Sat, 05 Dec 2020 17:46:52 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/atomic/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 05 Dec 2020 17:46:52 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/atomic/" rel="self" type="application/rss+xml" /><item>
     <title>原子操作</title>
     <link>https://blog.ginshio.org/2020/cpp_concurrency_atomic/</link>
     <pubDate>Sat, 05 Dec 2020 17:46:52 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/cpp_concurrency_atomic/</guid>
-    <description><![CDATA[原子操作原子操作是一个不可分割的操作，系统的所有线程不会观察到原子操作完成了一半。如果读取对象的加载操作是原子的，那么这个对象的所有修改操作也是原子的。
-标准原子类型全部定义于头文件 atomic 中，这些类型的操作都是原子的，但是其内部实现可能使用原子操作或互斥量模拟，所以原子操作可以替代互斥量完成同步操作，但是如果内部使用互斥量实现那么不会有性能提升。
-通常标准原子类型不能进行拷贝和赋值，但是可以隐式转化成对应的内置类型，使用 load()、exchange()、compare_exchange_weak() 和 compare_exchange_strong()，另外还有 store() 用以原子地赋值。每种函数类型的操作都有一个内存序参数，这个参数可以用来指定存储的顺序。
-::std::atomic_flag::std::atomic_flag 是最简单的原子类型，标准保证其实现是 lock-free 的，这个类型的对象可以在 设置 和 清除 间切换，对象必须被 ATOMIC_FLAG_INIT，初始化标志位为清除状态。初始化后，对象进可以执行销毁、清除、设置
-1 ::std::atomic_flag f = ATOMIC_FLAG_INIT; // 设置为清除状态 (false) 由于 clear() 清除操作原子地设置标志为 false，test_and_set() 设置操作原子地设置标志为 true 并获得其先前值，所以可以简单地实现一个自旋锁
-1 2 3 4 5 6 7 8 9 10 11 12 class spinlock_mutex { private: ::std::atomic_flag flag; public: spinlock_mutex() : flag(ATOMIC_FLAG_INIT) {} void lock() { while (flag.test_and_set(::std::memory_order_acquire)); } void unlock() { flag.clear(::std::memory_order_release); } }; ::std::atomic::std::atomic 不再保证 lock-free，但相比 ::std::atomic_flag 有了更通用的操作， store() 是一个存储操作，load() 是一个加载操作，exchange() 是一个读-改-写操作。]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2020/cpp_concurrency_atomic/</guid>
+    <description><![CDATA[<h2 id="原子操作" class="headerLink">
+    <a href="#%e5%8e%9f%e5%ad%90%e6%93%8d%e4%bd%9c" class="header-mark"></a>原子操作</h2><p>原子操作是一个不可分割的操作，系统的所有线程不会观察到原子操作完成了一半。如果读取对象的加载操作是原子的，那么这个对象的所有修改操作也是原子的。</p>
+<p>标准原子类型全部定义于头文件 <em>atomic</em> 中，这些类型的操作都是原子的，但是其内部实现可能使用原子操作或互斥量模拟，所以原子操作可以替代互斥量完成同步操作，但是如果内部使用互斥量实现那么不会有性能提升。</p>]]></description>
 </item></channel>
 </rss>

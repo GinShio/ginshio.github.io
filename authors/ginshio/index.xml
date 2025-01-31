@@ -3,105 +3,163 @@
         <title>GinShio - 作者 - iris</title>
         <link>https://blog.ginshio.org/authors/ginshio/</link>
         <description>GinShio - 作者 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Fri, 15 Nov 2024 22:20:00 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/authors/ginshio/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 15 Nov 2024 22:20:00 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/authors/ginshio/" rel="self" type="application/rss+xml" /><item>
     <title>GPU 基础介绍</title>
     <link>https://blog.ginshio.org/2024/gpu-introduce/</link>
     <pubDate>Fri, 15 Nov 2024 22:20:00 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2024/gpu-introduce/</guid>
-    <description><![CDATA[该篇介绍主要以 AMDGPU 7900XTX (Navi31) 为例。
-GPGPU 模型简介 SIMT 模型现代 GPU 上基本使用 SIMT (单指令多线程, Single Instruction Multiple Threads) 模型，即一条指令执行在多个线程 (thread / lane / invocation) 上，每个线程上可能存储、运算不同地数据，也就是说具有大规模并行计算的能力。
-在 SIMT 模型上，由于指令是一次性发送到多个线程上，因此需要一个管理线程的单元。在 Vulkan 中将其称其为 subgroup，在 DirectX 或 AMDGPU 上被称为 wavefront，Nvidia 将其称之为 wrap。Subgroup 是 GPU 上的最小控制单元，即使我们需要一个线程，我们也只能向 GPU 申请使用一个 subgroup。
-AMDGPU 上 subgroup 的最小是 32 个线程 (wave32)，但是可以使用 2 个 wave32 组成一个 wave64 使用。以下无特殊说明，subgroup 以基础的 wave32 介绍。
-SIMD 执行单元是一个更大层级的单元，根据 AMDGPU 公开的 RDNA 资料，一个 SIMD 上有 16 个 ALU (算术逻辑单元，Arithmetic logic unit)，也就是 16 个 subgroup。另外一些更上层的控制单元简单地列举：]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2024/gpu-introduce/</guid>
+    <description><![CDATA[<p>该篇介绍主要以 AMDGPU 7900XTX (Navi31) 为例。</p>
+<h2 id="gpgpu-模型简介" class="headerLink">
+    <a href="#gpgpu-%e6%a8%a1%e5%9e%8b%e7%ae%80%e4%bb%8b" class="header-mark"></a>GPGPU 模型简介</h2><figure><img src="/images/AMDGPU_RDNA3_HW_BlockDiagram.png">
+</figure>
+
+<h3 id="simt-模型" class="headerLink">
+    <a href="#simt-%e6%a8%a1%e5%9e%8b" class="header-mark"></a>SIMT 模型</h3><p>现代 GPU 上基本使用 <strong>SIMT</strong> (单指令多线程, Single Instruction Multiple Threads) 模型，即一条指令执行在多个线程 (thread / lane / invocation) 上，每个线程上可能存储、运算不同地数据，也就是说具有大规模<strong>并行</strong>计算的能力。</p>]]></description>
 </item><item>
     <title>How To Use Mesa&#39;s test tool: deqp-runner</title>
     <link>https://blog.ginshio.org/2024/how-to-use-deqp-runner/</link>
     <pubDate>Fri, 20 Sep 2024 23:13:27 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2024/how-to-use-deqp-runner/</guid>
-    <description><![CDATA[deqp-runner is a series of tools written by mesa developers for running vulkan and opengl quality test case programs. It can run in parallel and robustly dEQP (draw-element quality program), piglit, SkQP (Skia Quality Program), and so on.
-In my experience, when running large dEQP test cases, your own changes may cause umd (user mode driver) to fail, crash, timeout, or hang. If you simply use deqp-vk, the khronos testcases program for vulkan, the test will stop when umd throws unrecoverable error.]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2024/how-to-use-deqp-runner/</guid>
+    <description><![CDATA[<p><a href="https://gitlab.freedesktop.org/mesa/deqp-runner" target="_blank" rel="noopener noreferrer">deqp-runner</a> is a series of tools written by mesa developers for running vulkan
+and opengl quality test case programs. It can run in parallel and robustly <a href="https://github.com/KhronosGroup/VK-GL-CTS" target="_blank" rel="noopener noreferrer">dEQP</a>
+(draw-element quality program), <a href="https://gitlab.freedesktop.org/mesa/piglit" target="_blank" rel="noopener noreferrer">piglit</a>, SkQP (Skia Quality Program), and so on.</p>
+<p>In my experience, when running large dEQP test cases, your own changes may cause
+umd (user mode driver) to <em>fail</em>, <em>crash</em>, <em>timeout</em>, or <em>hang</em>. If you simply use
+<code>deqp-vk</code>, the khronos testcases program for vulkan, the test will stop when umd
+throws unrecoverable error. And we cannot easily get the results that new
+failures based on the previous version.</p>]]></description>
 </item><item>
     <title>How To Build Mesa for AMD</title>
     <link>https://blog.ginshio.org/2023/how-to-build-mesa/</link>
     <pubDate>Mon, 28 Aug 2023 22:25:22 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2023/how-to-build-mesa/</guid>
-    <description><![CDATA[Whatcopy from Wikipidia:
-Mesa is an open source implementation of OpenGL, Vulkan, and other graphics API specifications. Mesa translates these specifications to vendor-specific graphics hardware drivers.
-Vendor DriversMesa is UMD (User mode driver), provides implementation of graphics API and shader compiler. Mesa is like a mono repository, different vendor drivers and graphics APIs are in different directories.
-Gallium is a driver project in mesa, includes many backends for hardwares:]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2023/how-to-build-mesa/</guid>
+    <description><![CDATA[<h2 id="what" class="headerLink">
+    <a href="#what" class="header-mark"></a>What</h2><p>copy from <a href="https://en.wikipedia.org/wiki/Mesa_%28computer_graphics%29" target="_blank" rel="noopener noreferrer">Wikipidia</a>:</p>
+<p>Mesa is an open source implementation of OpenGL, Vulkan, and other graphics API
+specifications. Mesa translates these specifications to vendor-specific graphics
+hardware drivers.</p>
+<h3 id="vendor-drivers" class="headerLink">
+    <a href="#vendor-drivers" class="header-mark"></a>Vendor Drivers</h3><p>Mesa is UMD (User mode driver), provides implementation of graphics API and
+shader compiler. Mesa is like a mono repository, different vendor drivers and
+graphics APIs are in different directories.</p>
+<p><strong>Gallium</strong> is a driver project in mesa, includes many backends for hardwares:</p>
+<ul>
+<li>AMD driver for GCN &amp; Navi (<em>radeonsi</em>)</li>
+<li>Intel driver for iris (<em>i965</em>)</li>
+<li>Intel driver (<em>i915</em>)</li>
+<li>Nvidia driver (<em>nouveau</em>)</li>
+<li>Software implementation (<em>swrast</em>)</li>
+<li>OpenGL over Vulkan (<em>zink</em>)</li>
+<li>DirectX3D 12 driver (<em>d3d12</em>)</li>
+<li>OpenCL frontend (<em>clover</em>)</li>
+<li>new OpenCL frontend by rust (<em>rusticl</em>, 23.1)</li>
+</ul>
+<p>libgl only provides APIs, and dispatch call to vendor implementation (e.g.
+radeonsi).</p>]]></description>
 </item><item>
     <title>数据抽象</title>
     <link>https://blog.ginshio.org/2023/cs61a_03_data_abstractions/</link>
     <pubDate>Sun, 12 Feb 2023 14:41:28 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2023/cs61a_03_data_abstractions/</guid>
-    <description><![CDATA[容器 Lists在 scheme 中一类最基础的异构数据结构即 list
-1 2 (list 1 2 3 &#34;str&#34;) &#39;(1 2 3 &#34;str&#34;) 当然 list 可以看作是个二元组 pair，也有称作 dotlist
-1 2 3 4 5 6 7 8 (cons 1 2) ;; &#39;(1 . 2) (cons 1 &#39;(2)) ;; &#39;(1 2) (cons* 1 2 3 4) ;; &#39;(1 2 3 . 4) &#39;(1 . (2 . (3 . 4))) (cons* 1 2 &#39;(3 4)) ;; &#39;(1 2 3 4) &#39;(1 .]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2023/cs61a_03_data_abstractions/</guid>
+    <description><![CDATA[<h2 id="容器" class="headerLink">
+    <a href="#%e5%ae%b9%e5%99%a8" class="header-mark"></a>容器</h2><h3 id="lists" class="headerLink">
+    <a href="#lists" class="header-mark"></a>Lists</h3><p>在 scheme 中一类最基础的异构数据结构即 <strong>list</strong></p>
+<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+  <div class="
+    code-block-title 
+    tw-hidden
+    tw-flex 
+    tw-flex-row 
+    tw-justify-between 
+    tw-w-full tw-bg-bgColor-secondary
+    ">      
+    <button 
+      class="
+        tw-select-none 
+        tw-mx-2 
+        tw-block
+        group-[.is-open]:tw-rotate-90
+        tw-transition-[transform] 
+        tw-duration-500 
+        tw-ease-in-out
+        print:!tw-hidden"
+      disabled
+      aria-hidden="true"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button>
+
+    <div class="code-block-title-bar tw-w-full">
+      <p class="tw-select-none !tw-my-1">scheme</p>]]></description>
 </item><item>
     <title>libarchive 介绍与入门</title>
     <link>https://blog.ginshio.org/2023/libarchive_development_001/</link>
     <pubDate>Sat, 28 Jan 2023 19:09:45 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2023/libarchive_development_001/</guid>
-    <description><![CDATA[libarchive 是一个可以创建和读取多种不同流式归档格式的程序库，包含了最流行的 tar 格式变体、一些 cpio 格式，以及所有的 BSD 和 GNU ar 变体。bsdtar 是一个使用 libarchive 的 tar 实现。
-简介 为什么实现大约在 2001 年的某个时间，邮件列表中出现了一些关于 FreeBSD 打包工具的辩论，辩论主要涉及两个相关的问题：
-对打包工具来说什么是 正确 (right) 的格式？ 为什么 FreeBSD 的打包工具比其他发行版的打包工具慢？ 在仔细研究之后，Kientzle 认为 tar/gzip 和 tar/bzip2 依然是很好的格式，性能问题纯粹是实现的原因。
-因此，Kientzle 开启了一个从 pkg_add 开始重写打包工具的项目，关键是这个项目是一个了解 tar/gzip 和 tar/bzip2 的库。他最终在 2003 年时完成了 libtarfile，并意识到许多核心的基础设施都要简单通用地处理其他格式，因此这个库被重命名为 libarchive。一次在 Kientzle 构建 libarchive 时，他意识到他早期测试套件更接近于一个 GNU tar 的完全 BSD 许可的替代品，即 bsdtar。FreeBSD 项目采用了 bsdtar 和 libarchive，并允许他继续在 FreeBSD 源码树中开发。大约在 2007 年，libarchive 被移植到其他平台，并将主要开发工作转移到了独立的仓库，刚开始在 GoogleCode，之后转到了 GitHub 直到今天。
-谁在用 操作系统]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2023/libarchive_development_001/</guid>
+    <description><![CDATA[<p>libarchive 是一个可以创建和读取多种不同流式归档格式的程序库，包含了最流行的 tar
+格式变体、一些 cpio 格式，以及所有的 BSD 和 GNU ar 变体。bsdtar 是一个使用
+libarchive 的 tar 实现。</p>]]></description>
 </item><item>
     <title>图结构</title>
     <link>https://blog.ginshio.org/2022/data_strucures_and_algorithm_analysis_008_graph/</link>
     <pubDate>Fri, 07 Oct 2022 20:15:29 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/data_strucures_and_algorithm_analysis_008_graph/</guid>
-    <description><![CDATA[Graphs stand or fall by their choice of nodes and edges.
-&mdash; Watts &amp; Strogatz
-信息 对于图的学习推荐使用 Rocs。什么？你说你是 Windows？那也不知道用什么啊，欢迎推荐其他工具。另外，KDE 天下第一！ 图的定义与表示图 (graph) 是有序对 \(G = (V, E)\)，其中 V 是点集 (Vertex)，点的个数用 \(\lvert{V}\rvert\) 表示；\(E \subseteq \{ \{ x, y \}: (x, y) \in V^{2}, x \ne y \}\) 是边集 (Edge)，边的个数用 \(\lvert{E}\rvert\) 表示。如果点对是有序的，那么这个图称为有向图 (directed graph / digraph)。当然有向图的边，如果去掉方向限制所对应的无向图，称为该有向图的基础图 (underlying graph)。有时边还有一个属性称为权重 (weight)，表示使用这条边的代价 (cost)。如果任意两个顶点之间都有一条边的话，那么这个图被称作完全图 (complete graph)。
-图中的一条路径 (path) 是一个顶点序列 \(v_{1}, v_{2}, \cdots, v_{n}\) (其中 \(v_{i}, v_{i+1} \in E, i \le i &lt; n\))，一条路径的长 (length) 是这条路径上的边的数量。如果图中含有一个顶点到它自身的路径，则这个路径称为环 (loop)，另外环上所有顶点是互异的。有向图中的环通常被称为回路 (cycle)，没有回路的有向图是无环的 (acyclic)，也被称为有向无环图 (DAG, Directed Acyclic Graph)。]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2022/data_strucures_and_algorithm_analysis_008_graph/</guid>
+    <description><![CDATA[<blockquote>
+  <p>Graphs stand or fall by their choice of nodes and edges.</p>
+<p>&mdash; Watts &amp; Strogatz</p>
+
+</blockquote><div class="details admonition info open">
+    <div class="details-summary admonition-title">
+        <span class="icon"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"/></svg></span>信息<span class="details-icon"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span>
+    </div>
+    <div class="details-content">
+        <div class="admonition-content">对于图的学习推荐使用 <a href="https://apps.kde.org/rocs" target="_blank" rel="noopener noreferrer">Rocs</a>。什么？你说你是 Windows？那也不知道用什么啊，欢迎推荐其他工具。另外，KDE 天下第一！</div></div></div>
+<h2 id="图的定义与表示" class="headerLink">
+    <a href="#%e5%9b%be%e7%9a%84%e5%ae%9a%e4%b9%89%e4%b8%8e%e8%a1%a8%e7%a4%ba" class="header-mark"></a>图的定义与表示</h2><p>图 (graph) 是有序对 \(G = (V, E)\)，其中 V 是点集 (Vertex)，点的个数用
+\(\lvert{V}\rvert\) 表示；\(E \subseteq \{ \{ x, y \}: (x, y) \in V^{2}, x \ne y \}\) 是边集
+(Edge)，边的个数用 \(\lvert{E}\rvert\) 表示。如果点对是有序的，那么这个图称为有向图 (directed graph / digraph)。当然有向图的边，如果去掉方向限制所对应的无向图，称为该有向图的基础图 (underlying graph)。有时边还有一个属性称为权重 (weight)，表示使用这条边的代价 (cost)。如果任意两个顶点之间都有一条边的话，那么这个图被称作完全图 (complete graph)。</p>]]></description>
 </item><item>
     <title>控制流、递归、高阶函数</title>
     <link>https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/</link>
     <pubDate>Sun, 25 Sep 2022 14:26:28 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/</guid>
-    <description><![CDATA[控制流解释器所执行语句来执行某些操作。
-比如这整个复合语句 (compound statement)，在 Python 中由 def 声明；标头 header 确定了一个简易语句 (clause) 的类型，这个语句中跟随了一个语句序列 (suite)。解释器会按一定顺序执行这个语句序列。
-条件语句条件语句在大部分语言中以 if 关键字呈现。
-在 Python 中 True 和 False 分别表示真或假，if 引导条件语句及其真分支，零或一个 else 引导假分支，其中还可能会有零或多个 elif 进行嵌套。
-1 2 3 4 5 6 7 def absolute_value(n): if n &lt; 0: return -n elif n == 0: return 0 else: return n 在 scheme 中 #t 和 #f 分别表示真或假，语法的话就不能 elif 进行嵌套了 (if test consequent alternative)
-1 2 (define (absolute-value n) (if (positive?]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2022/cs61a_02_control_and_higher_order_functions/</guid>
+    <description><![CDATA[<h2 id="控制流" class="headerLink">
+    <a href="#%e6%8e%a7%e5%88%b6%e6%b5%81" class="header-mark"></a>控制流</h2><p>解释器所执行语句来执行某些操作。</p>
+<figure><img src="/images/cs61a-compound-statements.png" width="64%">
+</figure>
+
+<p>比如这整个复合语句 (compound statement)，在 Python 中由 <code>def</code> 声明；标头 <code>header</code> 确定了一个简易语句 (clause) 的类型，这个语句中跟随了一个语句序列 (suite)。解释器会按一定顺序执行这个语句序列。</p>]]></description>
 </item><item>
     <title>优化简介</title>
     <link>https://blog.ginshio.org/2022/introduction_to_optimization/</link>
     <pubDate>Fri, 23 Sep 2022 17:06:56 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/introduction_to_optimization/</guid>
-    <description><![CDATA[优化背景上世纪 80 年代早期优化在编译器开发中还是一个可选特性，一般在其他部分都完成后才会添加到编译器中。因此出现了调试编译器和优化编译器的区别，即前者强调编译速度，因此可执行代码与源码之间存在较强的对应关系；后者强调最小化或最大化可执行程序的某些属性。因此优化编译器会花费更多时间来编译，生成质量更好的代码，通常这个过程伴随着大量移动操作，使调试变得困难。
-从 RISC 开始流行，运行时性能开始需要编译器的优化。分支指令的延迟槽、非阻塞内存操作、流水线使用的增多以及功能单元数目的增加等，这些特性使得处理器性能不仅收程序布局和结构方面的制约，还受到指令调度和资源分配等底层细节的限制。
-优化编译器现在变得司空见惯 (反而 go 是异类)，进而使编译器改变成了前端、后端的架构，优化将前端与性能问题分割开来。优化假定后端会处理资源分配的问题，因而假定针对具有无限寄存器、内存和功能单元的理想机器进行优化。这也对编译器后端产生了更大压力。
-示例：改进数组的地址计算如果编译器前端对数组的引用 m[i, j] 生成的 IR 没有关于 m、i、j 的信息或不了解外围的上下文，编译器如果按照默认的行主序处理地址。生成的表达式类似
-\[m + (i - low_{1}(m)) \times (high_{2}(m) - low_{2}(m) + 1) \times w + (j - low_{2}(m)) \times w.\]
-m 是数组的首地址，\(low_{i}(m)\) 和 \(high_{i}(m)\) 分别表示 m 的第 i 维的下界和上界，w 是 m 中一个元素的字节长度。如何降低该计算的代价，直接取决于对该数组变量极其上下文的分析。如果数组 m 是局部变量并各维度下界均从 1 开始，且上界已知，那么就可以将计算简化为 \[m + (i - 1) \times high_{2}(m) \times w + (j - 1) \times w.\]
-如果引用出现在循环内部，且循环中 i 从 1 变动到 I，那么编译器可以使用运算符强度折减 (OSR, Operator Strength Reduction) 将 \((i - 1) \times high_{2}(m) \times w\) 替换为 \(i^{&rsquo;}_{x} = i^{&rsquo;}_{x - 1} + high_{2}(m) \times w\) (其中 \(i^{&rsquo;}_{1} = 0\))。同样地，如果 j 也是个循环的归纳变量 (IV, Induction Variable)，且 j 从 1 变动到 J，那么经过 OSR 后就有了 \(j^{&rsquo;}_{y} = j^{&rsquo;}_{y - 1} + w\) (其中 \(j^{&rsquo;}_{1} = 0\))。经过两次 OSR 后，只需要计算此式 \[m + i^{&rsquo;} + j^{&rsquo;}.]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2022/introduction_to_optimization/</guid>
+    <description><![CDATA[<h2 id="优化背景" class="headerLink">
+    <a href="#%e4%bc%98%e5%8c%96%e8%83%8c%e6%99%af" class="header-mark"></a>优化背景</h2><p>上世纪 80 年代早期优化在编译器开发中还是一个可选特性，一般在其他部分都完成后才会添加到编译器中。因此出现了<strong>调试编译器</strong>和<strong>优化编译器</strong>的区别，即前者强调编译速度，因此可执行代码与源码之间存在较强的对应关系；后者强调最小化或最大化可执行程序的某些属性。因此优化编译器会花费更多时间来编译，生成质量更好的代码，通常这个过程伴随着大量移动操作，使调试变得困难。</p>]]></description>
 </item><item>
     <title>中间表示</title>
     <link>https://blog.ginshio.org/2022/intermediate_representation/</link>
     <pubDate>Mon, 19 Sep 2022 15:59:40 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/intermediate_representation/</guid>
-    <description><![CDATA[编译器通常组织为一连串的处理 pass，在每两个 pass 之间需要将已知的所有信息进行传递，因此编译器需要中间表示 (IR, Intermediate Representation) 表达信息。IR 在编译器中可能是唯一的，也可能有多种。在转换期间，编译器不会回头查看源代码，而是只观察 IR，因此 IR 的性质对编译器对代码的处理由决定性影响。
-除了词法分析器，大多数 pass 的输入都是 IR；除了代码生成器，大多数 pass 的输出都是 IR。大多数源代码并不足以支持编译器必须的信息，比如变量与常量的地址，或参数使用的寄存器等，为了记录所有信息，大多数编译器还会添加表和集合来记录额外信息，通常认为这也是 IR 的一部分。
-IR 的实现会迫使编译器的开发人员专注于实际问题，用廉价的方式来执行需要频繁进行的操作，并且简洁的表示编译器间可能出现的所有结构。除了这些，还需要可读的 IR 表示。当然，对于使用 IR 的编译器来说，总会在 IR 上进行多次处理，一个 pass 处理中收集信息，另一个 pass 处理中优化代码。
-IR 的分类编译器使用过许多种 IR，主要是三个方面：结构性的组织、抽象层次和命名方案。一般来说，这三个属性是独立的。对于 IR 从结构上可以分为：
-图 IR 将编译器信息编码在图中。算法通过途中的对象来表述：结点、边、列表、树。 线性 IR 类似某些抽象机上的伪代码，相应算法将迭代遍历简单的线性操作序列。 混合 IR 混合前两种以获取优势，比如现代编译器中常见的 BasicBlock (BB) 内线性表示，而使用控制流图来表示 bb 之间的关系。 IR 的结构性组织对编译器的分析、优化、代码生成等有极大影响，比如树形 IR 得出的处理 pass 在结构上很自然的设计为某种形式的树遍历，而线性 IR 得出的处理 pass 一般顺序迭代遍历各个操作。
-IR 所处的抽象层次，如果接近源代码，可能只需要一个结点就可以表示数组访问或过程调用，而较底层的表示中，可能需要合并几个 IR 操作。
-1 2 uint[100][100] arr; arr[50][50] = 32; 1 2 3 4 ;; Spir-V %_var_arr = OpVariable %_ptr_arr_100_100 Function %elem = OpAccessChain %_ptr_int %_var_arr %uint_50 %uint_50 OpStore %elem %uint_32 1 2 3 4 5 ;; LLVM IR %1 = alloca [100 x [100 x i32]], align 4 %2 = getelementptr inbounds [100 x [100 x i32]], [100 x [100 x i32]]* %1, i64 0, i64 50 %3 = getelementptr inbounds [100 x i32], [100 x i32]* %2, i64 0, i64 50 store i32 32, i32* %3, align 4 很明显，上面这三个不同层次的代码，对于简单的构造数组，并进行访问元素赋值，它们是不一样的。低层次的 IR 可以展现出更多源代码中所隐藏的细节，从而为编译器优化提供更多可能。]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2022/intermediate_representation/</guid>
+    <description><![CDATA[<p>编译器通常组织为一连串的处理 pass，在每两个 pass 之间需要将已知的所有信息进行传递，因此编译器需要<strong>中间表示</strong> (IR, Intermediate Representation) 表达信息。IR 在编译器中可能是唯一的，也可能有多种。在转换期间，编译器不会回头查看源代码，而是只观察
+IR，因此 IR 的性质对编译器对代码的处理由决定性影响。</p>]]></description>
 </item><item>
     <title>CS61A 入门</title>
     <link>https://blog.ginshio.org/2022/cs61a_01_getting_started/</link>
     <pubDate>Sun, 18 Sep 2022 22:03:30 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2022/cs61a_01_getting_started/</guid>
-    <description><![CDATA[虽然 CS61A 使用 Python 进行教学，但我希望好好学一下 Erlang 和 Scheme。如果想查看更多关于 CS61A 的信息，请访问 课程主页，当然我也会将一部分内容和实现放在自己的 repo 中。
-scheme 有很多不同的实现，而大多实现不兼容。因此我使用的是 MIT/GNU Scheme。
-Lab00: Getting Startted (入门)首先搭建一个环境，CS61A 中指 Python3 环境。
-Setup: 以下是本课程所用到的基础软件，也是重要的组件。 终端 (Terminal)：安装一个终端可以让你运行本课程的 OK 命令 编程环境 (Environment)：编程环境是必须的，当然课程需要的是 Python3.7，这样你才可以运行 OK 命令 文本编辑器 (Text Editor)：VSCode、Atom 什么都行，只要能用来写代码 练习使用终端，并组织你的项目文件 学习 Python 基础 做一个练习 安装 安装终端在 MacOS 和 Linux 中本身就自带了终端软件 (Terminal)，如果是 KDE，终端软件被称作 Konsole。而 Windows 中，直接在 Store 中下载 Windows Terminal 即可。当然 Windows 下推荐使用 WSL，但是系统不是关注的重点。
-安装语言环境最低要求 Python3.7，因为这是运行 OK 命令的必要条件。当然你也可以使用别的编程语言。
-Windows 下，你可以在这里下载 Python3 或 erlang。安装之后将路径添加到 PATH 系统环境变量中。如果你用 WSL 那和 Linux 下没什么区别。]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2022/cs61a_01_getting_started/</guid>
+    <description><![CDATA[<p>虽然 CS61A 使用 Python 进行教学，但我希望好好学一下 Erlang 和 Scheme。如果想查看更多关于 CS61A 的信息，请访问 <a href="https://cs61a.org/" target="_blank" rel="noopener noreferrer">课程主页</a>，当然我也会将一部分内容和实现放在自己的
+<a href="https://gitlab.com/GinShio/sicp-learn.git" target="_blank" rel="noopener noreferrer">repo</a> 中。</p>]]></description>
 </item></channel>
 </rss>

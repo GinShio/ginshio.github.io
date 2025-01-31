@@ -3,37 +3,55 @@
         <title>Guide - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/guide/</link>
         <description>Guide - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Sun, 21 Feb 2021 20:25:02 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/guide/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 21 Feb 2021 20:25:02 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/guide/" rel="self" type="application/rss+xml" /><item>
     <title>Elixir Intermediate</title>
     <link>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_003/</link>
     <pubDate>Sun, 21 Feb 2021 20:25:02 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_003/</guid>
-    <description><![CDATA[MixMix 是 Elixir 社区开发的集包管理、依赖管理、构建工具于一身的开发工具，扩展性极好，功能强大，自带对 Erlang 的支持，可以类比 Golang 自带的 go，详细的使用方式请参考 mix help 以及 mix
-我们如果需要创建一个新项目，使用 mix new 命令即可，详细使用方法可以使用 mix help new 查看，对于新建项目，mix 会很友好的创建一系列文件 (其中还包含 .gitignore)
-1 mix new example 我们目前只需要关注其中的 mix.exs 就行了，它包含了配置应用、依赖、环境信息、版本等功能，project 函数设置项目相关信息， application 函数在生产应用文件的时候会用到，deps 函数则是定义项目的依赖项
-管理依赖、环境我们需要把所需的依赖全部列入 deps 中，deps 返回一个列表，每一项依赖都写在元组中，格式如下
-1 2 3 {app, requirement} {app, opts} {app, requirement, opts} app 是一个原子，是依赖项的名称 requirement 是一个字符串或正则表达式，用以设定版本 opts 是一个 keyword list，设置依赖相关操作 下面列出常用的添加依赖方式
-1 2 3 4 5 6 {:plug, &#34;&gt;= 0.4.0&#34;}, # 从 hex.]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_003/</guid>
+    <description><![CDATA[<h2 id="mix" class="headerLink">
+    <a href="#mix" class="header-mark"></a>Mix</h2><p>Mix 是 Elixir 社区开发的集包管理、依赖管理、构建工具于一身的开发工具，扩展性极好，功能强大，自带对 Erlang 的支持，可以类比 Golang 自带的 go，详细的使用方式请参考
+<code>mix help</code> 以及 <a href="https://hexdocs.pm/mix/Mix.html" target="_blank" rel="noopener noreferrer">mix</a></p>]]></description>
 </item><item>
     <title>Elixir 模块</title>
     <link>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_002/</link>
     <pubDate>Fri, 19 Feb 2021 14:31:54 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_002/</guid>
-    <description><![CDATA[模块之前函数的时候也简单的见过模块了，Elixir 允许嵌套模块，这样可以轻松定义多层命名空间
-1 2 3 4 5 defmodule Greeter.Greeting do def morning(name), do: &#34;Good morning, #{name}&#34; def evening(name), do: &#34;Good evening, #{name}&#34; end Greeter.Greeting.morning(&#34;iris&#34;) # &#34;Good morning, iris&#34; 模块通常还会有一些属性，这些属性通常被用作常量
-1 2 3 4 5 6 7 defmodule Example do @greeting &#34;Hello&#34; def greeting(name) do ~s(#{@greeting}, #{name}.) end end Example.greeting(&#34;iris&#34;) # &#34;Hello, iris.&#34; 当然还有一些的属性，用于保留功能，比如 moduledoc 和 doc 作为文档，文档可以用 ExDoc 生成 HTML，而 ExMark 是一个 Markdown 分析器，最终我们可以使用 mix 来生成文档
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 defmodule Example do @moduledoc &#34;&#34;&#34; This is the Hello module.]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_002/</guid>
+    <description><![CDATA[<h2 id="模块" class="headerLink">
+    <a href="#%e6%a8%a1%e5%9d%97" class="header-mark"></a>模块</h2><p>之前函数的时候也简单的见过模块了，Elixir 允许嵌套模块，这样可以轻松定义多层命名空间</p>
+<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+  <div class="
+    code-block-title 
+    tw-hidden
+    tw-flex 
+    tw-flex-row 
+    tw-justify-between 
+    tw-w-full tw-bg-bgColor-secondary
+    ">      
+    <button 
+      class="
+        tw-select-none 
+        tw-mx-2 
+        tw-block
+        group-[.is-open]:tw-rotate-90
+        tw-transition-[transform] 
+        tw-duration-500 
+        tw-ease-in-out
+        print:!tw-hidden"
+      disabled
+      aria-hidden="true"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button>
+
+    <div class="code-block-title-bar tw-w-full">
+      <p class="tw-select-none !tw-my-1">elixir</p>]]></description>
 </item><item>
     <title>Elixir 基本语法</title>
     <link>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_001/</link>
     <pubDate>Tue, 16 Feb 2021 16:44:00 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_001/</guid>
-    <description><![CDATA[好久没学习，随便写点东西，一直想学FP来着，不过之前 Haskell 整的有点难受，好难啊不太会，下次静下心来好好学一学吧，不过先试试 Erlang / Elixir，听说也很难？
-至于原因，莫名喜欢 Erlang，不知道为什么哈哈哈哈，得知有 Elixir 这个披着 Ruby 皮、用着 Beam 的 Lisp 觉得还不错？毕竟 Lisp 大法好！！ (虽然我不会 lisp) 不过 Elixir 名字好听 Logo 也好看
-好了，前置吐槽就这么多吧，希望可以静下心好好学学 Elixir，呃，我也不知道可不可以啦，但是如果对 Elixir 感兴趣的话可以在 Elixir School 尝试学习一下，我也才开始从这里开始学习
-基本类型 整数类型：在 Erlang 和 Elixir 中，整数类型都是高精度类型，不区分类型所占的字节，有点类似 Python 中的整数 Elixir 支持 二(0b)、八(0o)、十、十六(0x)进制的整数字面量，使用起来十分方便
-1 2 3 4 255 # 十进制整数 255 0b10001000 # 二进制整数 136 0o7654321 # 八进制整数 2054353 0xFFFF # 十六进制整数 65535 浮点类型：嗯，它是 IEEE 754，好了就这样吧，介绍完了
-布尔类型：true 和 false，不过有一点需要注意，在 Elixir 中除了 false 和 nil 之外的所有值都为 true]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2021/elixir%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_001/</guid>
+    <description><![CDATA[<p>好久没学习，随便写点东西，一直想学FP来着，不过之前 Haskell 整的有点难受，好难啊不太会，下次静下心来好好学一学吧，不过先试试 <strong>Erlang</strong> / <strong>Elixir</strong>，听说也很难？</p>]]></description>
 </item></channel>
 </rss>

@@ -3,25 +3,24 @@
         <title>Library - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/library/</link>
         <description>Library - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Sat, 28 Jan 2023 19:09:45 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/library/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 28 Jan 2023 19:09:45 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/library/" rel="self" type="application/rss+xml" /><item>
     <title>libarchive 介绍与入门</title>
     <link>https://blog.ginshio.org/2023/libarchive_development_001/</link>
     <pubDate>Sat, 28 Jan 2023 19:09:45 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2023/libarchive_development_001/</guid>
-    <description><![CDATA[libarchive 是一个可以创建和读取多种不同流式归档格式的程序库，包含了最流行的 tar 格式变体、一些 cpio 格式，以及所有的 BSD 和 GNU ar 变体。bsdtar 是一个使用 libarchive 的 tar 实现。
-简介 为什么实现大约在 2001 年的某个时间，邮件列表中出现了一些关于 FreeBSD 打包工具的辩论，辩论主要涉及两个相关的问题：
-对打包工具来说什么是 正确 (right) 的格式？ 为什么 FreeBSD 的打包工具比其他发行版的打包工具慢？ 在仔细研究之后，Kientzle 认为 tar/gzip 和 tar/bzip2 依然是很好的格式，性能问题纯粹是实现的原因。
-因此，Kientzle 开启了一个从 pkg_add 开始重写打包工具的项目，关键是这个项目是一个了解 tar/gzip 和 tar/bzip2 的库。他最终在 2003 年时完成了 libtarfile，并意识到许多核心的基础设施都要简单通用地处理其他格式，因此这个库被重命名为 libarchive。一次在 Kientzle 构建 libarchive 时，他意识到他早期测试套件更接近于一个 GNU tar 的完全 BSD 许可的替代品，即 bsdtar。FreeBSD 项目采用了 bsdtar 和 libarchive，并允许他继续在 FreeBSD 源码树中开发。大约在 2007 年，libarchive 被移植到其他平台，并将主要开发工作转移到了独立的仓库，刚开始在 GoogleCode，之后转到了 GitHub 直到今天。
-谁在用 操作系统]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2023/libarchive_development_001/</guid>
+    <description><![CDATA[<p>libarchive 是一个可以创建和读取多种不同流式归档格式的程序库，包含了最流行的 tar
+格式变体、一些 cpio 格式，以及所有的 BSD 和 GNU ar 变体。bsdtar 是一个使用
+libarchive 的 tar 实现。</p>]]></description>
 </item><item>
     <title>并发标准库</title>
     <link>https://blog.ginshio.org/2020/cpp_concurrency_std/</link>
     <pubDate>Tue, 01 Dec 2020 19:42:25 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2020/cpp_concurrency_std/</guid>
-    <description><![CDATA[线程管理 创建线程新的线程会在 ::std::thread (头文件 thread 中) 对象创建的时候被启动，在函数执行完毕后，该线程也就结束了，提供的函数对象会复制到新线程的存储空间中，函数对象的执行与操作都在线程的内存空间中执行。在创建新线程时你可以指定一个函数作为任务，或者是 仿函数，当然也可以是 lambda 表达式
-1 2 3 4 5 6 7 8 9 10 ::std::thread my_thread0{do_something}; struct Task { void operator()() const { do_something(); } }; ::std::thread my_thread1{Task()}; ::std::thread my_thread2{[]() { do_something(); }}; 线程启动后，需要指定是等待线程结束还是让其自主运行，如果 ::std::thread 对象销毁之前没有做出决定，程序就会终止，因此必须确保线程能够正确 汇入 (joined) 或 分离 (detached)。调用 join() 可以等待线程完成，并在线程结束时清理相关的内存，使 ::std::thread 对象不再与已完成线程有任何关联，所以一个线程一旦被汇入将不能再次汇入。调用 detach() 会使线程在后台运行，不再与主线程进行直接交互， ::std::thread 对象不再引用这个线程，分离的线程也不可被再次汇入，不过C++运行时库保证线程退出时可以正确回收相关资源。
-在C++中 ::std::thread 对象是一种 可移动但不可复制 的资源，它可以交出它的所有权，但不能与其他对象共享线程的所有权。如果你希望对一个已持有线程的对象更改其行为，那你必须先汇入或分离已关联的线程，或者将已关联的线程的所有权交出。
-1 2 3 4 5 6 ::std::thread t1{do_something}; ::std::thread t2 = std::move(t1); t1 = std::thread{some_other_function}; std::thread t3; t3 = std::move(t2); // t1 = std::move(t3); // 错误 传递参数向线程中传递参数十分简单，为 ::std::thread 构造函数附加参数即可，所有参数 将会拷贝到新线程的内存空间中，即使函数中的参数是引用]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2020/cpp_concurrency_std/</guid>
+    <description><![CDATA[<h2 id="线程管理" class="headerLink">
+    <a href="#%e7%ba%bf%e7%a8%8b%e7%ae%a1%e7%90%86" class="header-mark"></a>线程管理</h2><h3 id="创建线程" class="headerLink">
+    <a href="#%e5%88%9b%e5%bb%ba%e7%ba%bf%e7%a8%8b" class="header-mark"></a>创建线程</h3><p>新的线程会在 <code>::std::thread</code> (头文件 <em>thread</em> 中) 对象创建的时候被启动，在函数执行完毕后，该线程也就结束了，提供的函数对象会复制到新线程的存储空间中，函数对象的执行与操作都在线程的内存空间中执行。在创建新线程时你可以指定一个函数作为任务，或者是 <strong>仿函数</strong>，当然也可以是 lambda 表达式</p>]]></description>
 </item></channel>
 </rss>

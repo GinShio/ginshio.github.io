@@ -3,17 +3,15 @@
         <title>Heap - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/heap/</link>
         <description>Heap - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Wed, 25 Aug 2021 13:26:23 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/heap/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 25 Aug 2021 13:26:23 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/heap/" rel="self" type="application/rss+xml" /><item>
     <title>堆结构</title>
     <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/</link>
     <pubDate>Wed, 25 Aug 2021 13:26:23 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/</guid>
-    <description><![CDATA[模型优先队列 (priority queue) 的 ADT 与 queue 类似，它们都提供了基本的 enqueue 与 dequeue 操作。但是 priority queue 可以在 dequeue 时将数据按照一定顺序弹出队列，而不是 FIFO。我们这里主要讨论每次出队最小的元素 (即 delete_min)，如果你希望进行其他一些有规范的操作，方法与这类似。
-显然 priority queue 有一个朴素解，那就是在每次 delete_min 时遍历整个存储单元，找到最小的元素并删除，其时间复杂度 \(\mathcal{O}(N)\) ，当然插入元素的时间复杂度会好很多，只需要 \(\mathcal{O}(1)\) 。当然你也可以将其反过来，在插入时就找到最小的元素。
-显然这是无法接受的，即使是利用前几篇中介绍过的 AVL 树都可以将其时间复杂度压缩到 \(\mathcal{O}(\log_{}{N})\) 。不过这有点太过分了，平衡 BST 的很多操作可能是用不上的，而且为了优先队列再实现一个平衡树实在是太难为人了。
-我们将要介绍的工具叫做 二叉堆 (binary heap)，用以实现有限队列。但是需要注意的是， 堆 (heap) 这里指的是一种数据结构，而非操作系统中用以分配动态内存的地方。
-二叉堆 结构性质binary heap 是一棵被完全填满的二叉树，或者说是一棵 complete binary tree。由于 complete binary tree 的排列十分有规律，因此我们可以将其转化为数组，不再需要链来链接它。
-对于数组任一位置 \(i\) 上的元素，其左右儿子分别在在位置 \(2i + 1\) 和 \(2i +2\) 上，而它的父亲则在位置 \(\lfloor(i - 1)/2\rfloor\) 上。当然如果根从 \(1\) 开始，那么位置 \(i\) 上元素的左右儿子的位置分别为 \(2i\) 和 \(2i + 1\) ，而父亲的位置是 \(\lfloor i/2 \rfloor\) 。以下未说明的情况，我们将 1 作为 root 的下标。]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/</guid>
+    <description><![CDATA[<h2 id="模型" class="headerLink">
+    <a href="#%e6%a8%a1%e5%9e%8b" class="header-mark"></a>模型</h2><p>优先队列 (priority queue) 的 ADT 与 queue 类似，它们都提供了基本的 <code>enqueue</code> 与
+<code>dequeue</code> 操作。但是 priority queue 可以在 dequeue 时将数据按照一定顺序弹出队列，而不是 FIFO。我们这里主要讨论每次出队最小的元素 (即 <code>delete_min</code>)，如果你希望进行其他一些有规范的操作，方法与这类似。</p>]]></description>
 </item></channel>
 </rss>

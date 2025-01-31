@@ -3,22 +3,17 @@
         <title>Thread - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/thread/</link>
         <description>Thread - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Sun, 11 Jul 2021 12:14:40 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/thread/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 11 Jul 2021 12:14:40 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/thread/" rel="self" type="application/rss+xml" /><item>
     <title>进程与线程</title>
     <link>https://blog.ginshio.org/2021/operatingsystem_001/</link>
     <pubDate>Sun, 11 Jul 2021 12:14:40 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/operatingsystem_001/</guid>
-    <description><![CDATA[进程进程 (Process) 是操作系统中的核心概念，是对正在运行的程序的抽象。即使只有一个可用的 CPU，也可以启动多个进程，让操作系统具有并发能力。
-进程模型一个进程就是一个正在执行的程序实例，每个进程都拥有一个自己的虚拟 CPU、程序计数器、寄存器、内存地址空间等，这些是一个进程私有的，不可被其他进程所访问、修改，真正的 CPU 在各个进程之间来回切换。
-假设现在有 4 个程序，它们在运行时装入自己虚拟的程序计数器、寄存器，并有物理 CPU 运行程序。当程序被切换时，物理程序计数器等数据被保存到内存中。在观察足够长的时间时，所有的进程都运行了，但每个瞬间仅有一个程序在执行。需要注意的是，如果一个程序运行了两遍，那将被算作两个进程。
-进程的核心思想即：一个进程是某种类型的一个活动，它有程序、输入、输出以及状态。单个处理器可以被若干进程共享，它使用调度算法决定何时停止一个进程的工作，并转而为另一个进程提供服务。
-当进程创建了一个新进程后，其被称为父进程，新进程被称为子进程，这些进程组成了层次结构。在 UNIX 中一个称为 init 的特殊进程出现在启动映像中，init 运行时读入终端数量的文件，并为每一个终端创建一个新进程。这些终端等待用户登陆，登陆成功时便会执行 shell 进程来接收用户命令。整个系统中，所有进程都属于以 init 为根的进程树。 Windows 中没有层次结构概念，所有进程地位相同。创建进程时父进程得到 句柄 用于控制子进程，但也可以将句柄传送给其他进程。
-进程的创建与终止操作系统往往需要一种方式来创建进程，一般由 4 种主要事件来创建进程：
-系统初始化 正在运行的程序执行了创建进程的系统调用 (syscall) 用户请求创建新进程 批处理作业的初始化 新进程都是由于一个已存在的进程执行了一个用于创建进程的 syscall 用而创建的。这个系统调用通知操作系统创建一个新进程，并且直接或间接地指定在该进程中运行的程序。
-在 UNIX 系统，往往采用 syscall fork 来创建一个与调用进程相同的副本。调用成功后，两个进程拥有相同的内存映像、相同的环境字符串与打开文件。通常子进程执行 exec 系列 syscall 来修改其内存映像，并运行一个新程序。在执行 exec 之前，允许子进程处理其文件描述符等操作。
-UNIX 中子进程的初始地址空间是父进程的一个副本，但是两个不同的地址空间，不可写的部分则是共享的。而某些 UNIX 实现中，子进程共享父进程的所有内存，内存通过 写时复制 (Copy-On-Write, COW) 技术实现共享，即当两者之一修改内存时，这块内存被明确的复制，以保证修改发生在进程的私有区域。
-进程在创建之后开始运行，完成其工作，进程可能在未来的某个时刻完成任务并被终止。通常终止进程由以下条件引起：
-正常退出 (自愿) 错误退出 (自愿) 严重错误 (非自愿) 被其他进程杀死 (非自愿) 前两种即进程自己所处理的终止，完成工作或者在运行时遇到了一些可处理的错误，这时进程通过 exit 调用终止，并向父进程返回状态值。]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2021/operatingsystem_001/</guid>
+    <description><![CDATA[<h2 id="进程" class="headerLink">
+    <a href="#%e8%bf%9b%e7%a8%8b" class="header-mark"></a>进程</h2><p>进程 (Process) 是操作系统中的核心概念，是对正在运行的程序的抽象。即使只有一个可用的 CPU，也可以启动多个进程，让操作系统具有并发能力。</p>
+<h3 id="进程模型" class="headerLink">
+    <a href="#%e8%bf%9b%e7%a8%8b%e6%a8%a1%e5%9e%8b" class="header-mark"></a>进程模型</h3><p>一个进程就是一个正在执行的程序实例，每个进程都拥有一个自己的虚拟 CPU、程序计数器、寄存器、内存地址空间等，这些是一个进程私有的，不可被其他进程所访问、修改，真正的
+CPU 在各个进程之间来回切换。</p>]]></description>
 </item></channel>
 </rss>

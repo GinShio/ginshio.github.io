@@ -3,14 +3,12 @@
 
 #### 个人
 
-#### 好友
+#### 友链
 
 {{< friend
    name="Treamn"
    url="https://treamn.github.io"
    avatar="https://treamn.github.io/avatar.jpg" >}}
-
-#### 友链
 
 {{< friend
    name="vicar"
@@ -18,15 +16,33 @@
    avatar="https://avatars.githubusercontent.com/u/61683315?s=400&u=04fc4ff693b62b8d5028bcaddec73a82c282e26b&v=4"
    bio="Mindfulness and love yourself first" >}}
 
-#### Some Blogs for Graphics Programming
+#### Compiler Programming
+
+{{< friend
+   name="Nicolai Hähnle"
+   url="http://nhaehnle.blogspot.com/"
+   avatar="https://avatars.githubusercontent.com/u/1221193?v=4" >}}
+
+{{< friend
+   name="Ralf Jung"
+   url="https://www.ralfj.de/blog/" >}}
+
+#### Graphics Programming
 
 {{< friend
    name="Adam Sawicki"
-   url="https://asawicki.info/" >}}
+   url="https://asawicki.info/"
+   avatar="https://avatars.githubusercontent.com/u/10674866?v=4" >}}
+
+{{< friend
+   name="Faith Ekstrand"
+   url="https://www.gfxstrand.net/faith/blog/"
+   avatar="https://gitlab.freedesktop.org/uploads/-/system/user/avatar/1019/avatar.png" >}}
 
 {{< friend
    name="Hans-Kristian Arntzen"
-   url="https://themaister.net/blog" >}}
+   url="https://themaister.net/blog"
+   avatar="https://avatars.githubusercontent.com/u/17786731?v=4" >}}
 
 {{< friend
    name="Mike Blumenkrantz"

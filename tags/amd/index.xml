@@ -3,16 +3,19 @@
         <title>AMD - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/amd/</link>
         <description>AMD - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Fri, 15 Nov 2024 22:20:00 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/amd/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 15 Nov 2024 22:20:00 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/amd/" rel="self" type="application/rss+xml" /><item>
     <title>GPU 基础介绍</title>
     <link>https://blog.ginshio.org/2024/gpu-introduce/</link>
     <pubDate>Fri, 15 Nov 2024 22:20:00 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2024/gpu-introduce/</guid>
-    <description><![CDATA[该篇介绍主要以 AMDGPU 7900XTX (Navi31) 为例。
-GPGPU 模型简介 SIMT 模型现代 GPU 上基本使用 SIMT (单指令多线程, Single Instruction Multiple Threads) 模型，即一条指令执行在多个线程 (thread / lane / invocation) 上，每个线程上可能存储、运算不同地数据，也就是说具有大规模并行计算的能力。
-在 SIMT 模型上，由于指令是一次性发送到多个线程上，因此需要一个管理线程的单元。在 Vulkan 中将其称其为 subgroup，在 DirectX 或 AMDGPU 上被称为 wavefront，Nvidia 将其称之为 wrap。Subgroup 是 GPU 上的最小控制单元，即使我们需要一个线程，我们也只能向 GPU 申请使用一个 subgroup。
-AMDGPU 上 subgroup 的最小是 32 个线程 (wave32)，但是可以使用 2 个 wave32 组成一个 wave64 使用。以下无特殊说明，subgroup 以基础的 wave32 介绍。
-SIMD 执行单元是一个更大层级的单元，根据 AMDGPU 公开的 RDNA 资料，一个 SIMD 上有 16 个 ALU (算术逻辑单元，Arithmetic logic unit)，也就是 16 个 subgroup。另外一些更上层的控制单元简单地列举：]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2024/gpu-introduce/</guid>
+    <description><![CDATA[<p>该篇介绍主要以 AMDGPU 7900XTX (Navi31) 为例。</p>
+<h2 id="gpgpu-模型简介" class="headerLink">
+    <a href="#gpgpu-%e6%a8%a1%e5%9e%8b%e7%ae%80%e4%bb%8b" class="header-mark"></a>GPGPU 模型简介</h2><figure><img src="/images/AMDGPU_RDNA3_HW_BlockDiagram.png">
+</figure>
+
+<h3 id="simt-模型" class="headerLink">
+    <a href="#simt-%e6%a8%a1%e5%9e%8b" class="header-mark"></a>SIMT 模型</h3><p>现代 GPU 上基本使用 <strong>SIMT</strong> (单指令多线程, Single Instruction Multiple Threads) 模型，即一条指令执行在多个线程 (thread / lane / invocation) 上，每个线程上可能存储、运算不同地数据，也就是说具有大规模<strong>并行</strong>计算的能力。</p>]]></description>
 </item></channel>
 </rss>

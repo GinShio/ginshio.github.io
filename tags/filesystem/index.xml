@@ -3,18 +3,19 @@
         <title>FileSystem - 标签 - iris</title>
         <link>https://blog.ginshio.org/tags/filesystem/</link>
         <description>FileSystem - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><lastBuildDate>Mon, 19 Jul 2021 21:01:19 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/filesystem/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 19 Jul 2021 21:01:19 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/filesystem/" rel="self" type="application/rss+xml" /><item>
     <title>文件系统</title>
     <link>https://blog.ginshio.org/2021/operatingsystem_003/</link>
     <pubDate>Mon, 19 Jul 2021 21:01:19 &#43;0800</pubDate><author>
-                        <name>GinShio</name><uri>https://blog.ginshio.org/</uri><email>ginshio78@gmail.com</email></author><guid>https://blog.ginshio.org/2021/operatingsystem_003/</guid>
-    <description><![CDATA[对于长期存储的信息有三个基本要求：
-能够存储大量信息 使用信息的进程终止时，信息依旧存在 必须能使多个进程并发访问相关信息 磁盘由于其长期存储的性质，已有多年的使用历史。今年固态硬盘因其没有易损坏的移动部件、可以提供高速的随即访问，而流行起来。但磁盘和光盘虽然性能较差但也广泛用于备份。磁盘可以看做一种大小固定的块的线性序列，且支持：
-读块 k 写块 k 磁盘一般支持更多操作，但只要存在这两个操作，原则上就可以解决长期存储问题。当然这还远远不够，一些操作不便于实现，在思考时往往还产生一些问题：
-如何找到信息 如何防止一个用户读取另一个用户的数据 如何知道哪些块是空闲的 就像 OS 提取处理器的概念来创建进程的抽象，以及提取 RAM 的概念来创建进程虚拟地址空间的抽象一样，使用 文件 (File) 来解决磁盘的问题。File 是 进程创建的信息逻辑单元，文件是对磁盘的建模而非 RAM，因此将文件看做地址空间就能理解了。
-进程可以读取已存在的 File，并在需要时建立新 File，存储的文件必须是持久的，因此不会受到进程的创建与终止而受到影响，只有在其所有者明确删除它的情况下才会消失。File 受操作系统管理，有关的构造、命名、访问、使用、保护、实现和管理方法都是 OS 设计的主要内容。从总体上看，OS 处理文件的部分被称为 文件系统 (file system)，这才是 OS 的核心问题之一。从用户的角度看，File System 中最重要的就是其表现形式，即文件由什么组成的，如何命名、修改等操作。至于如何实现，和我这个用户有什么关系呢。
-文件首先先从用户的角度观察文件，文件是对磁盘上保存信息的一种抽象，用户不必关心磁盘如何存储、存储到哪里、实际的工作方式等细节。
-文件系统是实现这些细节的程序，在 MS-DOS 中使用的是 FAT-16 文件系统，Windows98 对其进行了扩展，从而成为今天耳熟能详的 FAT-32 文件系统，Windows 如今是用一种更为先进的 NTFS 文件系统。微软还根据 FAT 文件系统开发出了 exFAT ，这是针对于闪存和大文件开发的系统，并且也是唯一能满足 OS X 读写操作的微软开发的文件系统。UNIX 的文件系统也有很多，目前主流的是 Linux 的 ext4 (其是 ext2 和 ext3 的升级版本)、 Solaris 的 ZFS 、Unix 传统的 FFS 以及 OS X 的 HFS+ 等，还有一些著名公司如 SGI 开发的 XFS 、RedHat 主导的 BtrFS 等。这些文件系统可能底层实现、适用环境不同，但大部分都遵循 POSIX 实现，对用户操作来说是透明的。]]></description>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2021/operatingsystem_003/</guid>
+    <description><![CDATA[<p>对于长期存储的信息有三个基本要求：</p>
+<ol>
+<li>能够存储大量信息</li>
+<li>使用信息的进程终止时，信息依旧存在</li>
+<li>必须能使多个进程并发访问相关信息</li>
+</ol>
+<p>磁盘由于其长期存储的性质，已有多年的使用历史。今年固态硬盘因其没有易损坏的移动部件、可以提供高速的随即访问，而流行起来。但磁盘和光盘虽然性能较差但也广泛用于备份。磁盘可以看做一种大小固定的块的线性序列，且支持：</p>]]></description>
 </item></channel>
 </rss>
