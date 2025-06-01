@@ -1,55 +1,50 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title>OperatingSystem - 分类 - iris</title>
-        <link>https://blog.ginshio.org/categories/operatingsystem/</link>
-        <description>OperatingSystem - 分类 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 06 Aug 2021 14:55:42 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/categories/operatingsystem/" rel="self" type="application/rss+xml" /><item>
-    <title>死锁</title>
-    <link>https://blog.ginshio.org/2021/operatingsystem_005/</link>
-    <pubDate>Fri, 06 Aug 2021 14:55:42 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2021/operatingsystem_005/</guid>
-    <description><![CDATA[<p>计算机中有很多独占 resource，在任一时刻它们只能被一个进程使用，因此 OS 需要授权一个进程临时地、排他地访问某一 resource 的能力。一般进程会排他性地访问若干资源，假设进程 A 在先使用扫描仪的情况请求蓝光光盘刻录机，而进程 B 在先使用蓝光光盘刻录机的情况下请求扫描仪，由于两个进程都占有一定 resouce 且不会释放，并且互相请求了对方的 Resource，而造成这两个进程无限阻塞下去，这样的状态被称为 <strong>死锁</strong>
-(deadlock)。请不要单纯理解只有一台机器才会产生 deadlock，在多台机器同时访问局域网下的多个独占 resource 时也可能发生。</p>]]></description>
-</item><item>
-    <title>输入输出</title>
-    <link>https://blog.ginshio.org/2021/operatingsystem_004/</link>
-    <pubDate>Sun, 25 Jul 2021 14:01:08 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2021/operatingsystem_004/</guid>
-    <description><![CDATA[<p>除了提供抽象外，操作系统还要控制计算机的所有 IO (输入/输出) 设备，必须向设备发送命令、捕获中断并处理设备的各种错误。它还应该在设备和其他部分之间提供简单且易于使用的接口，且这些接口应该尽可能的对所有设备都相同，即设备无关。</p>]]></description>
-</item><item>
-    <title>文件系统</title>
-    <link>https://blog.ginshio.org/2021/operatingsystem_003/</link>
-    <pubDate>Mon, 19 Jul 2021 21:01:19 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2021/operatingsystem_003/</guid>
-    <description><![CDATA[<p>对于长期存储的信息有三个基本要求：</p>
-<ol>
-<li>能够存储大量信息</li>
-<li>使用信息的进程终止时，信息依旧存在</li>
-<li>必须能使多个进程并发访问相关信息</li>
-</ol>
-<p>磁盘由于其长期存储的性质，已有多年的使用历史。今年固态硬盘因其没有易损坏的移动部件、可以提供高速的随即访问，而流行起来。但磁盘和光盘虽然性能较差但也广泛用于备份。磁盘可以看做一种大小固定的块的线性序列，且支持：</p>]]></description>
-</item><item>
-    <title>内存管理</title>
-    <link>https://blog.ginshio.org/2021/operatingsystem_002/</link>
-    <pubDate>Wed, 14 Jul 2021 12:14:40 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2021/operatingsystem_002/</guid>
-    <description><![CDATA[<p>内存 (随机访问存储器，RAM) 是计算机中一种需要认真管理的重要资源。不管存储器有多大，程序都能把它填满。经过多年的探索，我们有了 <strong>分层存储器体系</strong> (memory
-hierarchy) 的概念，即计算机拥有若干 MiB 快速、昂贵且易失性的 Cache，数 GiB 速度与价格适中的易失性内存，以及数 TiB 快速、廉价但非易失性的磁盘存储。计算机中管理分层存储器体系的部分被称为 <strong>存储管理器</strong> (memory manager)。它的任务是有效地管理内存，记录哪些内存正在使用，哪些内存是空闲的，在进程需要时为其分配内存，在进程使用完后释放内存。</p>]]></description>
-</item><item>
-    <title>进程与线程</title>
-    <link>https://blog.ginshio.org/2021/operatingsystem_001/</link>
-    <pubDate>Sun, 11 Jul 2021 12:14:40 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2021/operatingsystem_001/</guid>
-    <description><![CDATA[<h2 id="进程" class="headerLink">
-    <a href="#%e8%bf%9b%e7%a8%8b" class="header-mark"></a>进程</h2><p>进程 (Process) 是操作系统中的核心概念，是对正在运行的程序的抽象。即使只有一个可用的 CPU，也可以启动多个进程，让操作系统具有并发能力。</p>
-<h3 id="进程模型" class="headerLink">
-    <a href="#%e8%bf%9b%e7%a8%8b%e6%a8%a1%e5%9e%8b" class="header-mark"></a>进程模型</h3><p>一个进程就是一个正在执行的程序实例，每个进程都拥有一个自己的虚拟 CPU、程序计数器、寄存器、内存地址空间等，这些是一个进程私有的，不可被其他进程所访问、修改，真正的
-CPU 在各个进程之间来回切换。</p>]]></description>
-</item></channel>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OperatingSystem on iris</title>
+    <link>https://blog.ginshio.org/categories/operatingsystem/</link>
+    <description>Recent content in OperatingSystem on iris</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+    <webMaster>ginshio78@gmail.com (GinShio)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Fri, 08 Apr 2022 17:29:27 +0800</lastBuildDate>
+    <atom:link href="https://blog.ginshio.org/categories/operatingsystem/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>死锁</title>
+      <link>https://blog.ginshio.org/2021/operatingsystem_005/</link>
+      <pubDate>Fri, 06 Aug 2021 14:55:42 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2021/operatingsystem_005/</guid>
+      <description>&lt;p&gt;计算机中有很多独占 resource，在任一时刻它们只能被一个进程使用，因此 OS 需要授权一个进程临时地、排他地访问某一 resource 的能力。一般进程会排他性地访问若干资源，假设进程 A 在先使用扫描仪的情况请求蓝光光盘刻录机，而进程 B 在先使用蓝光光盘刻录机的情况下请求扫描仪，由于两个进程都占有一定 resouce 且不会释放，并且互相请求了对方的 Resource，而造成这两个进程无限阻塞下去，这样的状态被称为 &lt;strong&gt;死锁&lt;/strong&gt;&#xA;(deadlock)。请不要单纯理解只有一台机器才会产生 deadlock，在多台机器同时访问局域网下的多个独占 resource 时也可能发生。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>输入输出</title>
+      <link>https://blog.ginshio.org/2021/operatingsystem_004/</link>
+      <pubDate>Sun, 25 Jul 2021 14:01:08 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2021/operatingsystem_004/</guid>
+      <description>&lt;p&gt;除了提供抽象外，操作系统还要控制计算机的所有 IO (输入/输出) 设备，必须向设备发送命令、捕获中断并处理设备的各种错误。它还应该在设备和其他部分之间提供简单且易于使用的接口，且这些接口应该尽可能的对所有设备都相同，即设备无关。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>文件系统</title>
+      <link>https://blog.ginshio.org/2021/operatingsystem_003/</link>
+      <pubDate>Mon, 19 Jul 2021 21:01:19 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2021/operatingsystem_003/</guid>
+      <description>&lt;p&gt;对于长期存储的信息有三个基本要求：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;能够存储大量信息&lt;/li&gt;&#xA;&lt;li&gt;使用信息的进程终止时，信息依旧存在&lt;/li&gt;&#xA;&lt;li&gt;必须能使多个进程并发访问相关信息&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;磁盘由于其长期存储的性质，已有多年的使用历史。今年固态硬盘因其没有易损坏的移动部件、可以提供高速的随即访问，而流行起来。但磁盘和光盘虽然性能较差但也广泛用于备份。磁盘可以看做一种大小固定的块的线性序列，且支持：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>内存管理</title>
+      <link>https://blog.ginshio.org/2021/operatingsystem_002/</link>
+      <pubDate>Wed, 14 Jul 2021 12:14:40 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2021/operatingsystem_002/</guid>
+      <description>&lt;p&gt;内存 (随机访问存储器，RAM) 是计算机中一种需要认真管理的重要资源。不管存储器有多大，程序都能把它填满。经过多年的探索，我们有了 &lt;strong&gt;分层存储器体系&lt;/strong&gt; (memory&#xA;hierarchy) 的概念，即计算机拥有若干 MiB 快速、昂贵且易失性的 Cache，数 GiB 速度与价格适中的易失性内存，以及数 TiB 快速、廉价但非易失性的磁盘存储。计算机中管理分层存储器体系的部分被称为 &lt;strong&gt;存储管理器&lt;/strong&gt; (memory manager)。它的任务是有效地管理内存，记录哪些内存正在使用，哪些内存是空闲的，在进程需要时为其分配内存，在进程使用完后释放内存。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>进程与线程</title>
+      <link>https://blog.ginshio.org/2021/operatingsystem_001/</link>
+      <pubDate>Sun, 11 Jul 2021 12:14:40 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2021/operatingsystem_001/</guid>
+      <description>&lt;h2 id=&#34;进程&#34; class=&#34;headerLink&#34;&gt;&#xA;    &lt;a href=&#34;#%e8%bf%9b%e7%a8%8b&#34; class=&#34;header-mark&#34;&gt;&lt;/a&gt;进程&lt;/h2&gt;&lt;p&gt;进程 (Process) 是操作系统中的核心概念，是对正在运行的程序的抽象。即使只有一个可用的 CPU，也可以启动多个进程，让操作系统具有并发能力。&lt;/p&gt;&#xA;&lt;h3 id=&#34;进程模型&#34; class=&#34;headerLink&#34;&gt;&#xA;    &lt;a href=&#34;#%e8%bf%9b%e7%a8%8b%e6%a8%a1%e5%9e%8b&#34; class=&#34;header-mark&#34;&gt;&lt;/a&gt;进程模型&lt;/h3&gt;&lt;p&gt;一个进程就是一个正在执行的程序实例，每个进程都拥有一个自己的虚拟 CPU、程序计数器、寄存器、内存地址空间等，这些是一个进程私有的，不可被其他进程所访问、修改，真正的&#xA;CPU 在各个进程之间来回切换。&lt;/p&gt;</description>
+    </item>
+  </channel>
 </rss>

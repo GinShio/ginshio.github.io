@@ -1,113 +1,71 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title>数据结构与算法分析 - 系列 - iris</title>
-        <link>https://blog.ginshio.org/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/</link>
-        <description>数据结构与算法分析 - 系列 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 07 Oct 2022 20:15:29 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/" rel="self" type="application/rss+xml" /><item>
-    <title>数据结构与算法分析引论</title>
-    <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_001_introduction/</link>
-    <pubDate>Sun, 15 Aug 2021 20:01:41 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_001_introduction/</guid>
-    <description><![CDATA[<blockquote>
-  <p>I will, in fact, claim that the difference between a bad programmer and a good
-one is whether he considers his code or his data structures more important. Bad
-programmers worry about the code. Good programmers worry about data structures
-and their relationships.</p>
-<p>&mdash; Linus Torvalds</p>
-
-</blockquote><h2 id="基本的数学知识" class="headerLink">
-    <a href="#%e5%9f%ba%e6%9c%ac%e7%9a%84%e6%95%b0%e5%ad%a6%e7%9f%a5%e8%af%86" class="header-mark"></a>基本的数学知识</h2><p>首先我们需要复习一些在初高中可能学过的基础数学知识。</p>
-<h3 id="集合" class="headerLink">
-    <a href="#%e9%9b%86%e5%90%88" class="header-mark"></a>集合</h3><p><strong>集合</strong> (Set) 是基本的数学概念，指具体的某种性质的事物的总体，集合中的事物称之为
-<strong>元素</strong> (element)。</p>]]></description>
-</item><item>
-    <title>线性数据结构</title>
-    <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_002_linear_data_structure/</link>
-    <pubDate>Mon, 16 Aug 2021 20:22:24 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_002_linear_data_structure/</guid>
-    <description><![CDATA[<blockquote>
-  <p>Should array indices start at 0 or 1? My compromise of 0.5 was rejected without,
-I thought, proper consideration.</p>
-<p>&mdash; Stan Kelly-Bootle</p>
-
-</blockquote><h2 id="表--list" class="headerLink">
-    <a href="#%e8%a1%a8--list" class="header-mark"></a>表 (List)</h2><p>我们将形如 \(a_0, a_1, a_2, \cdots, a_{N-1}\) 组成的有限序列称为 list，这个 list 的大小是 \(N (N \in \mathbb{N})\) ，我们将大小为 0 的表称之为 <strong>空表</strong> (empty list)。</p>]]></description>
-</item><item>
-    <title>树结构</title>
-    <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_003_tree_structure/</link>
-    <pubDate>Thu, 19 Aug 2021 07:12:25 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_003_tree_structure/</guid>
-    <description><![CDATA[<blockquote>
-  <p>Not all roots are buried down in the ground, some are at the top of a tree.</p>
-<p>&mdash; Jinvirle</p>
-
-</blockquote><h2 id="树--tree" class="headerLink">
-    <a href="#%e6%a0%91--tree" class="header-mark"></a>树 (tree)</h2><p>Tree 是一些结点的集合，这个集合可以是空集；若不是空集，则 Tree 是由称为 <strong>根</strong> 的结点 r 以及零或多个非空的子树 \(T_{1}, T_{2}, \cdots, T_{N}\) 组成，这些子树的根都与 r 有一条有向边 (edge) 连接。这些子树的根被称为根 r 的孩子 (child)，而 r 是这些 child 的父亲 (parent)。</p>]]></description>
-</item><item>
-    <title>查找结构</title>
-    <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/</link>
-    <pubDate>Mon, 23 Aug 2021 22:26:23 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/</guid>
-    <description><![CDATA[<p>如果给定一个序列，你将如何在这个序列中查找一个给定元素 target，当找到时返回该元素的迭代器，否则返回末尾迭代器。首先排除时间复杂度 \(\mathcal{O}(N)\) 的朴素算法，这不是本文的重点。</p>]]></description>
-</item><item>
-    <title>散列表</title>
-    <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_005_hash_table/</link>
-    <pubDate>Wed, 25 Aug 2021 00:09:23 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_005_hash_table/</guid>
-    <description><![CDATA[<blockquote>
-  <p>She made a hash of the proper names, to be sure.</p>
-<p>&mdash; Grant Allen</p>
-
-</blockquote><h2 id="散列函数" class="headerLink">
-    <a href="#%e6%95%a3%e5%88%97%e5%87%bd%e6%95%b0" class="header-mark"></a>散列函数</h2><p>如果可以将存储的数据，其中某一项用于查找，则这个项被称为 <strong>键</strong> (key)，而通过一定规则将键映射到表中的一个合适的单元，这个规则被称为 <strong>散列函数</strong> (hash function)。我们希望 hash 足够简单且保证两个不同的 key 映射到不同的单元，但是单元是有限的，因此我们需要寻找一个 hash function 尽量均匀的产生 hash value。当映射不是单射而是多射时，即发生了 <strong>冲突</strong> (collision)，有两个不同的 key 经过 hash function 得到了相同的 hash value，我们应该处理这个 collision。</p>]]></description>
-</item><item>
-    <title>堆结构</title>
-    <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/</link>
-    <pubDate>Wed, 25 Aug 2021 13:26:23 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/</guid>
-    <description><![CDATA[<h2 id="模型" class="headerLink">
-    <a href="#%e6%a8%a1%e5%9e%8b" class="header-mark"></a>模型</h2><p>优先队列 (priority queue) 的 ADT 与 queue 类似，它们都提供了基本的 <code>enqueue</code> 与
-<code>dequeue</code> 操作。但是 priority queue 可以在 dequeue 时将数据按照一定顺序弹出队列，而不是 FIFO。我们这里主要讨论每次出队最小的元素 (即 <code>delete_min</code>)，如果你希望进行其他一些有规范的操作，方法与这类似。</p>]]></description>
-</item><item>
-    <title>排序算法</title>
-    <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/</link>
-    <pubDate>Fri, 27 Aug 2021 08:26:23 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/</guid>
-    <description><![CDATA[<blockquote>
-  <p>Sorting something that you will never search is a complete waste; searching something you never sorted is merely inefficient.</p>
-<p>&mdash; Brian Christian</p>
-
-</blockquote><p>我们假设对数组进行排序，数组的所有位置都有元素，且长度为 N。对于排序，假设元素存在 \(&lt;\) 和 \(&gt;\) 用以将输入按一致的次序放置，比较运算是除赋值运算外仅有的能对输入数据进行的操作。这种条件下的排序称之为 <strong>比较排序</strong> (comparison-based sorting)。另外对于已经排序完成的数组，如果可以保持原本的数据次序我们称之为 <strong>稳定排序</strong>
-(stable sorting)。</p>]]></description>
-</item><item>
-    <title>图结构</title>
-    <link>https://blog.ginshio.org/2022/data_strucures_and_algorithm_analysis_008_graph/</link>
-    <pubDate>Fri, 07 Oct 2022 20:15:29 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2022/data_strucures_and_algorithm_analysis_008_graph/</guid>
-    <description><![CDATA[<blockquote>
-  <p>Graphs stand or fall by their choice of nodes and edges.</p>
-<p>&mdash; Watts &amp; Strogatz</p>
-
-</blockquote><div class="details admonition info open">
-    <div class="details-summary admonition-title">
-        <span class="icon"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"/></svg></span>信息<span class="details-icon"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span>
-    </div>
-    <div class="details-content">
-        <div class="admonition-content">对于图的学习推荐使用 <a href="https://apps.kde.org/rocs" target="_blank" rel="noopener noreferrer">Rocs</a>。什么？你说你是 Windows？那也不知道用什么啊，欢迎推荐其他工具。另外，KDE 天下第一！</div></div></div>
-<h2 id="图的定义与表示" class="headerLink">
-    <a href="#%e5%9b%be%e7%9a%84%e5%ae%9a%e4%b9%89%e4%b8%8e%e8%a1%a8%e7%a4%ba" class="header-mark"></a>图的定义与表示</h2><p>图 (graph) 是有序对 \(G = (V, E)\)，其中 V 是点集 (Vertex)，点的个数用
-\(\lvert{V}\rvert\) 表示；\(E \subseteq \{ \{ x, y \}: (x, y) \in V^{2}, x \ne y \}\) 是边集
-(Edge)，边的个数用 \(\lvert{E}\rvert\) 表示。如果点对是有序的，那么这个图称为有向图 (directed graph / digraph)。当然有向图的边，如果去掉方向限制所对应的无向图，称为该有向图的基础图 (underlying graph)。有时边还有一个属性称为权重 (weight)，表示使用这条边的代价 (cost)。如果任意两个顶点之间都有一条边的话，那么这个图被称作完全图 (complete graph)。</p>]]></description>
-</item></channel>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>数据结构与算法分析 on iris</title>
+    <link>https://blog.ginshio.org/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/</link>
+    <description>Recent content in 数据结构与算法分析 on iris</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+    <webMaster>ginshio78@gmail.com (GinShio)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Wed, 12 Oct 2022 00:31:17 +0800</lastBuildDate>
+    <atom:link href="https://blog.ginshio.org/series/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>数据结构与算法分析引论</title>
+      <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_001_introduction/</link>
+      <pubDate>Sun, 15 Aug 2021 20:01:41 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_001_introduction/</guid>
+      <description>&lt;blockquote&gt;&#xA;  &lt;p&gt;I will, in fact, claim that the difference between a bad programmer and a good&#xA;one is whether he considers his code or his data structures more important. Bad&#xA;programmers worry about the code. Good programmers worry about data structures&#xA;and their relationships.&lt;/p&gt;&#xA;&lt;p&gt;&amp;mdash; Linus Torvalds&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;h2 id=&#34;基本的数学知识&#34; class=&#34;headerLink&#34;&gt;&#xA;    &lt;a href=&#34;#%e5%9f%ba%e6%9c%ac%e7%9a%84%e6%95%b0%e5%ad%a6%e7%9f%a5%e8%af%86&#34; class=&#34;header-mark&#34;&gt;&lt;/a&gt;基本的数学知识&lt;/h2&gt;&lt;p&gt;首先我们需要复习一些在初高中可能学过的基础数学知识。&lt;/p&gt;&#xA;&lt;h3 id=&#34;集合&#34; class=&#34;headerLink&#34;&gt;&#xA;    &lt;a href=&#34;#%e9%9b%86%e5%90%88&#34; class=&#34;header-mark&#34;&gt;&lt;/a&gt;集合&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;集合&lt;/strong&gt; (Set) 是基本的数学概念，指具体的某种性质的事物的总体，集合中的事物称之为&#xA;&lt;strong&gt;元素&lt;/strong&gt; (element)。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>线性数据结构</title>
+      <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_002_linear_data_structure/</link>
+      <pubDate>Mon, 16 Aug 2021 20:22:24 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_002_linear_data_structure/</guid>
+      <description>&lt;blockquote&gt;&#xA;  &lt;p&gt;Should array indices start at 0 or 1? My compromise of 0.5 was rejected without,&#xA;I thought, proper consideration.&lt;/p&gt;&#xA;&lt;p&gt;&amp;mdash; Stan Kelly-Bootle&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;h2 id=&#34;表--list&#34; class=&#34;headerLink&#34;&gt;&#xA;    &lt;a href=&#34;#%e8%a1%a8--list&#34; class=&#34;header-mark&#34;&gt;&lt;/a&gt;表 (List)&lt;/h2&gt;&lt;p&gt;我们将形如 \(a_0, a_1, a_2, \cdots, a_{N-1}\) 组成的有限序列称为 list，这个 list 的大小是 \(N (N \in \mathbb{N})\) ，我们将大小为 0 的表称之为 &lt;strong&gt;空表&lt;/strong&gt; (empty list)。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>树结构</title>
+      <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_003_tree_structure/</link>
+      <pubDate>Thu, 19 Aug 2021 07:12:25 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_003_tree_structure/</guid>
+      <description>&lt;blockquote&gt;&#xA;  &lt;p&gt;Not all roots are buried down in the ground, some are at the top of a tree.&lt;/p&gt;&#xA;&lt;p&gt;&amp;mdash; Jinvirle&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;h2 id=&#34;树--tree&#34; class=&#34;headerLink&#34;&gt;&#xA;    &lt;a href=&#34;#%e6%a0%91--tree&#34; class=&#34;header-mark&#34;&gt;&lt;/a&gt;树 (tree)&lt;/h2&gt;&lt;p&gt;Tree 是一些结点的集合，这个集合可以是空集；若不是空集，则 Tree 是由称为 &lt;strong&gt;根&lt;/strong&gt; 的结点 r 以及零或多个非空的子树 \(T_{1}, T_{2}, \cdots, T_{N}\) 组成，这些子树的根都与 r 有一条有向边 (edge) 连接。这些子树的根被称为根 r 的孩子 (child)，而 r 是这些 child 的父亲 (parent)。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>查找结构</title>
+      <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/</link>
+      <pubDate>Mon, 23 Aug 2021 22:26:23 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_004_searching_structure/</guid>
+      <description>&lt;p&gt;如果给定一个序列，你将如何在这个序列中查找一个给定元素 target，当找到时返回该元素的迭代器，否则返回末尾迭代器。首先排除时间复杂度 \(\mathcal{O}(N)\) 的朴素算法，这不是本文的重点。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>散列表</title>
+      <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_005_hash_table/</link>
+      <pubDate>Wed, 25 Aug 2021 00:09:23 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_005_hash_table/</guid>
+      <description>&lt;blockquote&gt;&#xA;  &lt;p&gt;She made a hash of the proper names, to be sure.&lt;/p&gt;&#xA;&lt;p&gt;&amp;mdash; Grant Allen&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;h2 id=&#34;散列函数&#34; class=&#34;headerLink&#34;&gt;&#xA;    &lt;a href=&#34;#%e6%95%a3%e5%88%97%e5%87%bd%e6%95%b0&#34; class=&#34;header-mark&#34;&gt;&lt;/a&gt;散列函数&lt;/h2&gt;&lt;p&gt;如果可以将存储的数据，其中某一项用于查找，则这个项被称为 &lt;strong&gt;键&lt;/strong&gt; (key)，而通过一定规则将键映射到表中的一个合适的单元，这个规则被称为 &lt;strong&gt;散列函数&lt;/strong&gt; (hash function)。我们希望 hash 足够简单且保证两个不同的 key 映射到不同的单元，但是单元是有限的，因此我们需要寻找一个 hash function 尽量均匀的产生 hash value。当映射不是单射而是多射时，即发生了 &lt;strong&gt;冲突&lt;/strong&gt; (collision)，有两个不同的 key 经过 hash function 得到了相同的 hash value，我们应该处理这个 collision。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>堆结构</title>
+      <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/</link>
+      <pubDate>Wed, 25 Aug 2021 13:26:23 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_006_heap_structure/</guid>
+      <description>&lt;h2 id=&#34;模型&#34; class=&#34;headerLink&#34;&gt;&#xA;    &lt;a href=&#34;#%e6%a8%a1%e5%9e%8b&#34; class=&#34;header-mark&#34;&gt;&lt;/a&gt;模型&lt;/h2&gt;&lt;p&gt;优先队列 (priority queue) 的 ADT 与 queue 类似，它们都提供了基本的 &lt;code&gt;enqueue&lt;/code&gt; 与&#xA;&lt;code&gt;dequeue&lt;/code&gt; 操作。但是 priority queue 可以在 dequeue 时将数据按照一定顺序弹出队列，而不是 FIFO。我们这里主要讨论每次出队最小的元素 (即 &lt;code&gt;delete_min&lt;/code&gt;)，如果你希望进行其他一些有规范的操作，方法与这类似。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>排序算法</title>
+      <link>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/</link>
+      <pubDate>Fri, 27 Aug 2021 08:26:23 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2021/data_strucures_and_algorithm_analysis_007_sorting_algorithm/</guid>
+      <description>&lt;blockquote&gt;&#xA;  &lt;p&gt;Sorting something that you will never search is a complete waste; searching something you never sorted is merely inefficient.&lt;/p&gt;&#xA;&lt;p&gt;&amp;mdash; Brian Christian&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;p&gt;我们假设对数组进行排序，数组的所有位置都有元素，且长度为 N。对于排序，假设元素存在 \(&amp;lt;\) 和 \(&amp;gt;\) 用以将输入按一致的次序放置，比较运算是除赋值运算外仅有的能对输入数据进行的操作。这种条件下的排序称之为 &lt;strong&gt;比较排序&lt;/strong&gt; (comparison-based sorting)。另外对于已经排序完成的数组，如果可以保持原本的数据次序我们称之为 &lt;strong&gt;稳定排序&lt;/strong&gt;&#xA;(stable sorting)。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>图结构</title>
+      <link>https://blog.ginshio.org/2022/data_strucures_and_algorithm_analysis_008_graph/</link>
+      <pubDate>Fri, 07 Oct 2022 20:15:29 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2022/data_strucures_and_algorithm_analysis_008_graph/</guid>
+      <description>&lt;blockquote&gt;&#xA;  &lt;p&gt;Graphs stand or fall by their choice of nodes and edges.&lt;/p&gt;&#xA;&lt;p&gt;&amp;mdash; Watts &amp;amp; Strogatz&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;div class=&#34;details admonition info open&#34;&gt;&#xA;    &lt;div class=&#34;details-summary admonition-title&#34;&gt;&#xA;        &lt;span class=&#34;icon&#34;&gt;&lt;svg class=&#34;icon&#34;&#xA;    xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 512 512&#34;&gt;&lt;!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --&gt;&lt;path d=&#34;M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z&#34;/&gt;&lt;/svg&gt;&lt;/span&gt;信息&lt;span class=&#34;details-icon&#34;&gt;&lt;svg class=&#34;icon&#34;&#xA;    xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 256 512&#34;&gt;&lt;!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --&gt;&lt;path d=&#34;M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z&#34;/&gt;&lt;/svg&gt;&lt;/span&gt;&#xA;    &lt;/div&gt;&#xA;    &lt;div class=&#34;details-content&#34;&gt;&#xA;        &lt;div class=&#34;admonition-content&#34;&gt;对于图的学习推荐使用 &lt;a href=&#34;https://apps.kde.org/rocs&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;Rocs&lt;/a&gt;。什么？你说你是 Windows？那也不知道用什么啊，欢迎推荐其他工具。另外，KDE 天下第一！&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&#xA;&lt;h2 id=&#34;图的定义与表示&#34; class=&#34;headerLink&#34;&gt;&#xA;    &lt;a href=&#34;#%e5%9b%be%e7%9a%84%e5%ae%9a%e4%b9%89%e4%b8%8e%e8%a1%a8%e7%a4%ba&#34; class=&#34;header-mark&#34;&gt;&lt;/a&gt;图的定义与表示&lt;/h2&gt;&lt;p&gt;图 (graph) 是有序对 \(G = (V, E)\)，其中 V 是点集 (Vertex)，点的个数用&#xA;\(\lvert{V}\rvert\) 表示；\(E \subseteq \{ \{ x, y \}: (x, y) \in V^{2}, x \ne y \}\) 是边集&#xA;(Edge)，边的个数用 \(\lvert{E}\rvert\) 表示。如果点对是有序的，那么这个图称为有向图 (directed graph / digraph)。当然有向图的边，如果去掉方向限制所对应的无向图，称为该有向图的基础图 (underlying graph)。有时边还有一个属性称为权重 (weight)，表示使用这条边的代价 (cost)。如果任意两个顶点之间都有一条边的话，那么这个图被称作完全图 (complete graph)。&lt;/p&gt;</description>
+    </item>
+  </channel>
 </rss>

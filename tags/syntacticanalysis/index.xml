@@ -1,74 +1,43 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title>SyntacticAnalysis - 标签 - iris</title>
-        <link>https://blog.ginshio.org/tags/syntacticanalysis/</link>
-        <description>SyntacticAnalysis - 标签 - iris</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 01 May 2022 15:29:43 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/tags/syntacticanalysis/" rel="self" type="application/rss+xml" /><item>
-    <title>词法分析软件 Flex 及语法分析软件 Bison 的用法</title>
-    <link>https://blog.ginshio.org/2022/flex_and_bison/</link>
-    <pubDate>Sun, 01 May 2022 15:29:43 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2022/flex_and_bison/</guid>
-    <description><![CDATA[<p>正正规规地开始写实现一个编译器感觉压力还是蛮大的。初步选型是</p>
-<ul>
-<li>基础工具
-<ul>
-<li>Git</li>
-<li>CMake</li>
-<li>gcc</li>
-</ul>
-</li>
-<li>编译器生成工具
-<ul>
-<li>Flex</li>
-<li>GNU Bison</li>
-</ul>
-</li>
-<li>其他工具
-<ul>
-<li>Clang Format</li>
-<li>CppLint</li>
-<li>EditConfig</li>
-</ul>
-</li>
-</ul>
-<p><code>C++</code> 支持 17 简直太棒了！！！还不知道毕昇杯能不能用 CMake 去构建。</p>]]></description>
-</item><item>
-    <title>语法分析 3</title>
-    <link>https://blog.ginshio.org/2022/compilerprinciple_006/</link>
-    <pubDate>Wed, 20 Apr 2022 16:25:13 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2022/compilerprinciple_006/</guid>
-    <description><![CDATA[<p>一个自底向上的语法分析过程对应于为输入字符串构造语法分析树的过程，它从叶节点开始开始逐渐向上构造。虽然大部分编译器前端不会显示构造语法分析树，而是直接翻译，但自底向上构建有些像构建语法分析树。</p>]]></description>
-</item><item>
-    <title>语法分析 2</title>
-    <link>https://blog.ginshio.org/2022/compilerprinciple_005/</link>
-    <pubDate>Tue, 12 Apr 2022 22:23:17 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2022/compilerprinciple_005/</guid>
-    <description><![CDATA[<p>自顶向下语法可以被看作输入串构造语法分析树的问题，从语法分析树的根结点开始，深度优先创建这棵树的各个结点。</p>
-<p>对于输入 <strong>id</strong> <code>+</code> <strong>id</strong> <code>*</code> <strong>id</strong>，可以根据最左推导序列产生语法分析树序列：
-\[\begin{aligned}
-E &amp;\rightarrow TE^{&rsquo;}\\
-E^{&rsquo;} &amp;\rightarrow +\ T\ E^{&rsquo;}\,|\,\varepsilon\\
-T &amp;\rightarrow FT^{&rsquo;}\\
-T^{&rsquo;} &amp;\rightarrow *\ F\ T^{&rsquo;}\,|\,\varepsilon\\
-F &amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\
-\end{aligned}\]</p>]]></description>
-</item><item>
-    <title>语法分析 1</title>
-    <link>https://blog.ginshio.org/2020/compilerprinciple_004/</link>
-    <pubDate>Tue, 03 Nov 2020 16:09:25 &#43;0800</pubDate><author>
-                    <name>GinShio</name>
-                </author><guid>https://blog.ginshio.org/2020/compilerprinciple_004/</guid>
-    <description><![CDATA[<p>程序设计语言构造的语法可以使用 <strong>上下文无关文法</strong> 或者 <strong>BNF (巴库斯-瑙尔范式)</strong> 表示法来描述，文法为语言设计者和编译器编写者提供了很大便利:</p>
-<ul>
-<li>文法给出了一个程序设计语言的精确易懂的语法归约</li>
-<li>对于某些类型的文法，我们可以自动构造出高效的语法分析器，它能够确定一个源程序的语法结构。同时，语法分析器的构造过程可以揭示出语法的二义性，同时还可能发现一些容易在语言的初始设计阶段被忽略的问题</li>
-<li>一个正确设计的文法给出了一个语言的结构，该结构有助于把源程序翻译为正确的目标代码，也有助于检测错误</li>
-<li>一个文法支持逐步加入可以完成新任务的新语言构造，从而迭代地演化和开发程序语言。如果对语言的实现遵循语言的文法结构，那么在实现中加入这些新构造的工作就会变得更加容易</li>
-</ul>
-<p>语法分析器从词法分析器获得一个词法单元组成的串，并验证这个串可以由源语言的文法生成，我们期望语法分析器能够以易于理解的方式报告语法错误，并能够从常见的错误中恢复并继续处理程序的其余部分。从概念上来说，对于良构的程序，语法分析器构造出一棵 <strong>语法分析树</strong>，并把它传递给编译器的其他部分进一步处理。我们并不需要显式地构造出语法分析树，对于源程序的检查和翻译工作可以和语法分析过程交替完成，因此语法分析器和其他部分可以用一个模块实现。</p>]]></description>
-</item></channel>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SyntacticAnalysis on iris</title>
+    <link>https://blog.ginshio.org/tags/syntacticanalysis/</link>
+    <description>Recent content in SyntacticAnalysis on iris</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+    <webMaster>ginshio78@gmail.com (GinShio)</webMaster>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sun, 22 May 2022 14:27:38 +0800</lastBuildDate>
+    <atom:link href="https://blog.ginshio.org/tags/syntacticanalysis/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>词法分析软件 Flex 及语法分析软件 Bison 的用法</title>
+      <link>https://blog.ginshio.org/2022/flex_and_bison/</link>
+      <pubDate>Sun, 01 May 2022 15:29:43 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2022/flex_and_bison/</guid>
+      <description>&lt;p&gt;正正规规地开始写实现一个编译器感觉压力还是蛮大的。初步选型是&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;基础工具&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Git&lt;/li&gt;&#xA;&lt;li&gt;CMake&lt;/li&gt;&#xA;&lt;li&gt;gcc&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;编译器生成工具&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Flex&lt;/li&gt;&#xA;&lt;li&gt;GNU Bison&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;其他工具&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Clang Format&lt;/li&gt;&#xA;&lt;li&gt;CppLint&lt;/li&gt;&#xA;&lt;li&gt;EditConfig&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;code&gt;C++&lt;/code&gt; 支持 17 简直太棒了！！！还不知道毕昇杯能不能用 CMake 去构建。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>语法分析 3</title>
+      <link>https://blog.ginshio.org/2022/compilerprinciple_006/</link>
+      <pubDate>Wed, 20 Apr 2022 16:25:13 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2022/compilerprinciple_006/</guid>
+      <description>&lt;p&gt;一个自底向上的语法分析过程对应于为输入字符串构造语法分析树的过程，它从叶节点开始开始逐渐向上构造。虽然大部分编译器前端不会显示构造语法分析树，而是直接翻译，但自底向上构建有些像构建语法分析树。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>语法分析 2</title>
+      <link>https://blog.ginshio.org/2022/compilerprinciple_005/</link>
+      <pubDate>Tue, 12 Apr 2022 22:23:17 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2022/compilerprinciple_005/</guid>
+      <description>&lt;p&gt;自顶向下语法可以被看作输入串构造语法分析树的问题，从语法分析树的根结点开始，深度优先创建这棵树的各个结点。&lt;/p&gt;&#xA;&lt;p&gt;对于输入 &lt;strong&gt;id&lt;/strong&gt; &lt;code&gt;+&lt;/code&gt; &lt;strong&gt;id&lt;/strong&gt; &lt;code&gt;*&lt;/code&gt; &lt;strong&gt;id&lt;/strong&gt;，可以根据最左推导序列产生语法分析树序列：&#xA;\[\begin{aligned}&#xA;E &amp;amp;\rightarrow TE^{&amp;rsquo;}\\&#xA;E^{&amp;rsquo;} &amp;amp;\rightarrow +\ T\ E^{&amp;rsquo;}\,|\,\varepsilon\\&#xA;T &amp;amp;\rightarrow FT^{&amp;rsquo;}\\&#xA;T^{&amp;rsquo;} &amp;amp;\rightarrow *\ F\ T^{&amp;rsquo;}\,|\,\varepsilon\\&#xA;F &amp;amp;\rightarrow (\ E\ )\,|\,\textbf{id}\\&#xA;\end{aligned}\]&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>语法分析 1</title>
+      <link>https://blog.ginshio.org/2020/compilerprinciple_004/</link>
+      <pubDate>Tue, 03 Nov 2020 16:09:25 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
+      <guid>https://blog.ginshio.org/2020/compilerprinciple_004/</guid>
+      <description>&lt;p&gt;程序设计语言构造的语法可以使用 &lt;strong&gt;上下文无关文法&lt;/strong&gt; 或者 &lt;strong&gt;BNF (巴库斯-瑙尔范式)&lt;/strong&gt; 表示法来描述，文法为语言设计者和编译器编写者提供了很大便利:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;文法给出了一个程序设计语言的精确易懂的语法归约&lt;/li&gt;&#xA;&lt;li&gt;对于某些类型的文法，我们可以自动构造出高效的语法分析器，它能够确定一个源程序的语法结构。同时，语法分析器的构造过程可以揭示出语法的二义性，同时还可能发现一些容易在语言的初始设计阶段被忽略的问题&lt;/li&gt;&#xA;&lt;li&gt;一个正确设计的文法给出了一个语言的结构，该结构有助于把源程序翻译为正确的目标代码，也有助于检测错误&lt;/li&gt;&#xA;&lt;li&gt;一个文法支持逐步加入可以完成新任务的新语言构造，从而迭代地演化和开发程序语言。如果对语言的实现遵循语言的文法结构，那么在实现中加入这些新构造的工作就会变得更加容易&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;语法分析器从词法分析器获得一个词法单元组成的串，并验证这个串可以由源语言的文法生成，我们期望语法分析器能够以易于理解的方式报告语法错误，并能够从常见的错误中恢复并继续处理程序的其余部分。从概念上来说，对于良构的程序，语法分析器构造出一棵 &lt;strong&gt;语法分析树&lt;/strong&gt;，并把它传递给编译器的其他部分进一步处理。我们并不需要显式地构造出语法分析树，对于源程序的检查和翻译工作可以和语法分析过程交替完成，因此语法分析器和其他部分可以用一个模块实现。&lt;/p&gt;</description>
+    </item>
+  </channel>
 </rss>
