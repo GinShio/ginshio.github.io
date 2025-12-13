@@ -1,0 +1,102 @@
+\documentclass[border=0.2ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+
+\usetikzlibrary{positioning,calc,arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[
+    >=Latex,
+    font=\sffamily,
+    scale=0.025,
+    every node/.style={transform shape=false}
+  ]
+
+  % Bar 1
+  \begin{scope}[shift={(0,0)}]
+    % Main Frame
+    \draw (0,0) rectangle (90, 250);
+
+    % OS (220-250) -> y: 0-30
+    \draw (0,30) -- (90,30);
+    \node at (45, 15) {OS};
+
+    % A (160-220) -> y: 30-90
+    % Reserved A (120-160) -> y: 90-130
+    % Rect for A+Reserved (120-220) -> y: 30-130
+    \draw (0,30) rectangle (90, 130);
+    % Dashed line at 160 -> y: 90
+    \draw[dashed] (0,90) -- (90,90);
+    % Arrow from 160 up to 141 -> y: 90 up to 109
+    \draw[->] (45,90) -- (45, 109);
+    % Text A at 190 -> y: 60
+    \node at (45, 60) {A};
+
+    % B + Reserved B (0-100) -> y: 150-250
+    \draw (0,150) rectangle (90, 250);
+    % Dashed line at 40 -> y: 210
+    \draw[dashed] (0,210) -- (90,210);
+    % Arrow from 40 up to 21 -> y: 210 up to 229
+    \draw[->] (45,210) -- (45, 229);
+    % Text B at 80 -> y: 170
+    \node at (45, 170) {B};
+
+    % Label
+    \node[below=0.5cm] at (45, 0) {为增长的数据段预留};
+  \end{scope}
+
+  % Bar 2
+  \begin{scope}[shift={(240,0)}]
+    % Main Frame
+    \draw (0,0) rectangle (90, 250);
+
+    % OS (220-250) -> y: 0-30
+    \draw (0,30) -- (90,30);
+    \node at (45, 15) {OS};
+
+    % A Block (120-220) -> y: 30-130
+    \draw (0,30) rectangle (90, 130);
+
+    % A Bottom Slice (195-220) -> y: 30-55
+    \draw (0,55) -- (90,55);
+    \node at (45, 36) {A};
+
+    % A Data Slice (170-195) -> y: 55-80
+    \draw[dashed] (0,80) -- (90,80);
+    \draw[->] (45,80) -- (45, 94);
+    \node at (45, 67.5) {A 数据};
+
+    % A Stack Slice (120-140) -> y: 110-130
+    \draw[dashed] (0,110) -- (90,110);
+    \draw[->] (45,110) -- (45, 96);
+    \node at (45, 120) {A 堆栈};
+
+
+    % B Block (0-100) -> y: 150-250
+    \draw (0,150) rectangle (90, 250);
+
+    % B Bottom Slice (75-100) -> y: 150-175
+    \draw (0,175) -- (90,175);
+    \node at (45, 156) {B};
+
+    % B Data Slice (50-75) -> y: 175-200
+    \draw[dashed] (0,200) -- (90,200);
+    \draw[->] (45,200) -- (45, 214);
+    \node at (45, 187.5) {B 数据};
+
+    % B Stack Slice (0-20) -> y: 230-250
+    \draw[dashed] (0,230) -- (90,230);
+    \draw[->] (45,230) -- (45, 216);
+    \node at (45, 240) {B 堆栈};
+
+    % Label
+    \node[below=0.5cm] at (45, 0) {为增长的数据段、堆栈段预留};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

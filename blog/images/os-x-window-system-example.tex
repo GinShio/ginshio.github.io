@@ -1,0 +1,39 @@
+\documentclass[tikz, border=2pt]{standalone}
+\usepackage{ctex}
+\usetikzlibrary{positioning, calc, arrows.meta, shapes.geometric, fit, backgrounds}
+
+\begin{document}
+\begin{tikzpicture}[
+    font=\sffamily\small,
+    component/.style={draw, rounded corners, minimum width=3cm, minimum height=1.5cm, align=center, fill=white, thick},
+    hardware/.style={draw, trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1.2cm, align=center, fill=gray!10, thick},
+    arrow/.style={->, >=Latex, thick},
+    label/.style={font=\footnotesize}
+]
+
+% X Client
+\node[component] (client) {X Client\\(应用程序)};
+
+% X Server
+\node[component, right=4cm of client] (server) {X Server\\(显示服务器)};
+
+% Hardware
+\node[hardware, right=1.5cm of server] (hw) {硬件\\(键盘, 鼠标, 屏幕)};
+
+% Communication between Client and Server
+\draw[arrow] ([yshift=0.3cm]client.east) -- node[above, label] {请求 (Requests)} ([yshift=0.3cm]server.west);
+\draw[arrow] ([yshift=-0.3cm]server.west) -- node[below, label] {事件 (Events) / 回复 (Replies)} ([yshift=-0.3cm]client.east);
+
+% Label for the connection
+\node[label, above=0.8cm] at ($(client)!0.5!(server)$) {X 协议 (X Protocol)};
+\node[label, below=0.8cm] at ($(client)!0.5!(server)$) {网络 / 本地套接字};
+
+% Communication between Server and Hardware
+\draw[<->, thick] (server) -- (hw);
+
+% Grouping for context (optional, but helps visualize separation)
+% \node[draw, dashed, fit=(client), label=above:机器 A] {};
+% \node[draw, dashed, fit=(server)(hw), label=above:机器 B] {};
+
+\end{tikzpicture}
+\end{document}

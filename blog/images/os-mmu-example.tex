@@ -1,0 +1,48 @@
+\documentclass[border=0.2ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+
+\usetikzlibrary{positioning,calc,arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[
+    >=Latex,
+    font=\sffamily,
+    every node/.style={transform shape=false},
+    block/.style={draw, rectangle, minimum width=1.5cm, minimum height=1.5cm, align=center},
+    device/.style={draw, rectangle, minimum width=2cm, minimum height=3cm, align=center},
+    bus/.style={draw, thick}
+  ]
+
+  % CPU and MMU Container
+  \node[draw, minimum width=3cm, minimum height=5cm] (cpu_container) {};
+
+  % CPU
+  \node[block, below=0.5cm of cpu_container.north] (cpu) {CPU};
+
+  % MMU
+  \node[block, above=0.5cm of cpu_container.south] (mmu) {MMU};
+
+  % Connection CPU -> MMU
+  \draw[->] (cpu) -- (mmu) node[midway, right, font=\small] {虚拟内存};
+
+  % Memory Device
+  \node[device, right=1cm of cpu_container, anchor=north west] (memory) {存储器};
+  % Disk Controller
+  \node[device, right=1.5cm of memory.south, anchor=south west] (disk) {磁盘\\控制器};
+
+  % Bus Line
+  \coordinate (bus_start) at ($(cpu_container.south west) + (0, -1.5)$);
+  \coordinate (bus_end) at ($(bus_start) + (disk.north east) - (cpu_container.west)$);
+  \draw[bus] (bus_start) -- (bus_end) node[midway, below] {总线};
+  \draw[->] (mmu.south) -- (mmu.south |- bus_start) node[midway, right, font=\small] {物理内存};
+  \draw (memory.south) -- (memory.south |- bus_start);
+  \draw (disk.south) -- (disk.south |- bus_start);
+
+\end{tikzpicture}
+\end{document}

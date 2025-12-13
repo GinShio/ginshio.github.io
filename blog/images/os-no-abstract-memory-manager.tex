@@ -1,0 +1,57 @@
+\documentclass[border=0.2ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+
+\usetikzlibrary{positioning,calc,arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[
+    >=Latex,
+    font=\sffamily,
+    every node/.style={transform shape=false},
+    memory block/.style={draw, rectangle, minimum width=3cm, outer sep=0pt, align=center},
+    label node/.style={font=\small}
+  ]
+
+  % Stack A
+  % Bottom: OS in RAM
+  \node[memory block, minimum height=1.5cm] (os_a) {位于RAM中的\\操作系统};
+  % Top: User Process
+  \node[memory block, minimum height=4.5cm, above=0pt of os_a] (user_a) {用户进程};
+
+  % Labels for A
+  \node[below=0.2cm of os_a] {(a)};
+  \node[right=0.1cm of os_a.south east, anchor=west, label node] {0};
+  \node[right=0.1cm of user_a.north east, anchor=west, label node] {0xFFFFFFFF};
+
+  % Stack B
+  % Bottom: User Process
+  \node[memory block, minimum height=4cm, right=2cm of os_a.south east, anchor=south west] (user_b) {用户进程};
+  % Top: OS in ROM
+  \node[memory block, minimum height=2cm, above=0pt of user_b] (os_b) {位于ROM中的\\操作系统};
+
+  % Labels for B
+  \node[below=0.2cm of user_b.south] {(b)};
+  \node[right=0.1cm of user_b.south east, anchor=west, label node] {0};
+  % \node[right=0.1cm of os_b.north east, anchor=west, label node] {0xFFFFFFFF};
+
+  % Stack C
+  % Bottom: OS in RAM
+  \node[memory block, minimum height=1.5cm, right=2cm of user_b.south east, anchor=south west] (os_c) {位于RAM中的\\操作系统};
+  % Middle: User Process
+  \node[memory block, minimum height=2.5cm, above=0pt of os_c] (user_c) {用户进程};
+  % Top: Drivers in ROM
+  \node[memory block, minimum height=2cm, above=0pt of user_c] (drivers_c) {位于ROM中的\\设备驱动程序};
+
+  % Labels for C
+  \node[below=0.2cm of os_c] {(c)};
+  \node[right=0.1cm of os_c.south east, anchor=west, label node] {0};
+  % \node[right=0.1cm of drivers_c.north east, anchor=west, label node] {0xFFFFFFFF};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,77 @@
+\documentclass[border=0.2ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+
+\usetikzlibrary{positioning,calc,arrows.meta,decorations.pathmorphing,shapes.geometric}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=0cm,
+    every node/.style={font=\sffamily},
+    box/.style={draw, rectangle, minimum width=6cm, outer sep=0pt},
+    process/.style={draw, ellipse, minimum width=1.8cm, minimum height=1.8cm},
+    label_text/.style={font=\small\sffamily},
+    arrow/.style={->, >=latex}
+]
+
+% User Space Box
+\node[box, minimum height=2.5cm] (userspace) {};
+
+% Kernel Space Box
+\node[box, minimum height=1.2cm, below=0cm of userspace] (kernelspace) {};
+\node[anchor=west, font=\small, xshift=0.1cm] at (kernelspace.west) {内核};
+
+% Processes
+\node[process] (proc1) at ($(userspace.west)!0.25!(userspace.east)$) {};
+\node[process] (proc2) at ($(userspace.west)!0.75!(userspace.east)$) {};
+
+% Threads in Proc 1
+\foreach \xoffset in {-0.3, 0, 0.3} {
+    \draw[gray, thick] ($(proc1.south) + (\xoffset, 0.2)$)
+        .. controls ++(0.1, 0.3) and ++(0.1, -0.3) .. ($(proc1.center) + (\xoffset, 0)$)
+        .. controls ++(-0.1, 0.3) and ++(-0.1, -0.3) .. ($(proc1.north) + (\xoffset, -0.2)$);
+}
+
+% Threads in Proc 2
+\foreach \xoffset in {-0.4, -0.15, 0.15, 0.4} {
+    \draw[gray, thick] ($(proc2.south) + (\xoffset, 0.2)$)
+        .. controls ++(0.1, 0.3) and ++(0.1, -0.3) .. ($(proc2.center) + (\xoffset, 0)$)
+        .. controls ++(-0.1, 0.3) and ++(-0.1, -0.3) .. ($(proc2.north) + (\xoffset, -0.2)$);
+}
+
+% Process Table in Kernel
+\node[draw, rectangle, minimum width=1cm, minimum height=0.3cm, inner sep=0pt, fill=white] (pt1) at ($(kernelspace.west)!0.35!(kernelspace.east) + (0, 0.15)$) {};
+\node[draw, rectangle, minimum width=1cm, minimum height=0.3cm, inner sep=0pt, fill=white, below=0cm of pt1] (pt2) {};
+
+% Thread Table in Kernel
+\node[draw, rectangle, minimum width=1cm, minimum height=0.08cm, inner sep=0pt, fill=white] (tt1) at ($(kernelspace.west)!0.75!(kernelspace.east) + (0, 0.3)$) {};
+\node[draw, rectangle, minimum width=1cm, minimum height=0.08cm, inner sep=0pt, fill=white, below=0cm of tt1] (tt2) {};
+\node[draw, rectangle, minimum width=1cm, minimum height=0.08cm, inner sep=0pt, fill=white, below=0cm of tt2] (tt3) {};
+\node[draw, rectangle, minimum width=1cm, minimum height=0.08cm, inner sep=0pt, fill=white, below=0cm of tt3] (tt4) {};
+\node[draw, rectangle, minimum width=1cm, minimum height=0.08cm, inner sep=0pt, fill=white, below=0cm of tt4] (tt5) {};
+\node[draw, rectangle, minimum width=1cm, minimum height=0.08cm, inner sep=0pt, fill=white, below=0cm of tt5] (tt6) {};
+\node[draw, rectangle, minimum width=1cm, minimum height=0.08cm, inner sep=0pt, fill=white, below=0cm of tt6] (tt7) {};
+
+% Labels
+% Process Label
+\node[left=1.2cm of proc2.north, yshift=-1.5cm, label_text] (proc_label) {进程};
+\draw[arrow] (proc_label.north) -- (proc2.west);
+
+% Thread Label
+\node[right=1.0cm of proc1.north, label_text] (thread_label) {线程};
+\draw[arrow] (thread_label.south) -- ($(proc1.center) + (0.3, 0.4)$);
+
+% Bottom Labels
+\node[below=0.5cm of pt2.south, label_text] (pt_label) {进程表};
+\node[below=0.5cm of tt7.south, label_text] (tt_label) {线程表};
+
+\draw[arrow] (pt_label.north) -- (pt2.south);
+\draw[arrow] (tt_label.north) -- (tt7.south);
+
+\end{tikzpicture}
+\end{document}

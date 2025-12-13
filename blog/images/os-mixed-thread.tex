@@ -1,0 +1,66 @@
+\documentclass[border=0.2ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+
+\usetikzlibrary{positioning,calc,arrows.meta,decorations.pathmorphing,shapes.geometric}
+
+\begin{document}
+\begin{tikzpicture}[
+    >=Latex,
+    font=\sffamily,
+    every node/.style={transform shape=false},
+    thread/.style={decorate, decoration={snake, amplitude=.3mm, segment length=1.5mm, post length=0mm}, draw, thick}
+  ]
+
+  % Process Box
+  \node[draw, minimum width=5cm, minimum height=3cm] (process) {};
+
+  % Kernel Box
+  \node[draw, minimum width=5cm, minimum height=1.2cm, below=0pt of process, anchor=north] (kernel) {};
+
+  % Ellipse inside Process
+  \node[ellipse, draw, minimum width=2.5cm, minimum height=2.5cm] (circle) at (process.center) {};
+
+  % User Threads (inside ellipse)
+  % Converging to two points at the bottom of the ellipse
+  \coordinate (c_bottom_left) at ($(circle.south) + (-0.5, 0.3)$);
+  \coordinate (c_bottom_right) at ($(circle.south) + (0.5, 0.3)$);
+
+  % Draw threads fanning out upwards
+  \draw[thread] (c_bottom_left) -- ($(circle.north) + (-0.8, -0.5)$);
+  \draw[thread] (c_bottom_left) -- ($(circle.north) + (-0.4, -0.3)$);
+  \draw[thread] (c_bottom_left) -- ($(circle.north) + (0.0, -0.5)$);
+
+  \draw[thread] (c_bottom_right) -- ($(circle.north) + (0.2, -0.5)$);
+  \draw[thread] (c_bottom_right) -- ($(circle.north) + (0.8, -0.3)$);
+
+  % Kernel Threads (inside kernel box)
+  \coordinate (k_top_left) at ($(kernel.north) + (-0.5, -0.2)$);
+  \coordinate (k_top_right) at ($(kernel.north) + (0.5, -0.2)$);
+
+  \draw[thread] (k_top_left) -- ($(k_top_left) + (0, -0.8)$);
+  \draw[thread] (k_top_right) -- ($(k_top_right) + (0, -0.8)$);
+
+  % Labels
+  % Process Label
+  \node[above=0.2cm of process.north west, anchor=south west] (process_label) {进程};
+  \draw[->] (process_label) -- ($(process.north west)!0.3!(process.center)$);
+
+  % User Thread Label
+  \node[above=0.2cm of process.north east, anchor=south east] (user_thread_label) {用户线程};
+  \draw[->] (user_thread_label) -- ($(circle.north east)!0.4!(circle.center)$);
+
+  % Kernel Label
+  \node[left=0.2cm of kernel.west] (kernel_label) {内核};
+
+  % Kernel Thread Label
+  \node[right=0.2cm of kernel.east, anchor=west] (kernel_thread_label) {内核线程};
+  \draw[->] (kernel_thread_label) -- ($(kernel.east)!0.3!(kernel.center)$);
+
+\end{tikzpicture}
+\end{document}

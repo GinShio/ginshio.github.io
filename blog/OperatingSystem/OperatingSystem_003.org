@@ -83,7 +83,7 @@ file) 与 *目录* (directory)，UNIX 还支持 *字符文件* (character file) 
   2. *记录*​，即文件是具有固定长度记录的序列，每个记录都有其内部结构。读操作将返回一个记录，写操作重写或追加一个记录。
   3. *树*​，即文件由一颗记录树构成，每个记录不必具有相同的长度，记录的固定位置上有一个 key 字段，树按照 key 进行排序并可以快速查找。采用这种方式时，用户可以为文件添加新的记录，并无需关心记录的存储位置，但用户不能决定记录添加在什么位置，这是 OS 的工作范围。这种方法主要被用语一些大型计算机中。
 
-[[file:../images/OperatingSystem/file-structure.svg]]
+[[file:../../_build/tikzgen/os-file-structure.svg]]
 
 #+begin_info
 当 80 列穿孔卡片还是主流的时候，很多大型机 OS 将文件系统建立在由 80 个字符的记录组成的文件基础上。这些 OS 也支持 132 个字符的记录组成文件，因为为了适应行式打印机。程序以 80 个字符读数据、以 132 个字符为单位写数据 (最后 52 个字符为空格)。因此这种方式流行于 80 列穿孔卡片的时代。
@@ -150,7 +150,7 @@ file) 与 *目录* (directory)，UNIX 还支持 *字符文件* (character file) 
 功能相同。如果需要声明 current 一般使用 ~.~ (dot) 表示，而需要声明当前目录的上一
 级目录则使用 ~..~ 表示。
 
-[[file:../images/OperatingSystem/unix-directory-tree.svg]]
+[[file:../../_build/tikzgen/os-unix-directory-tree.svg]]
 
 以上图为例，假设我们现在工作目录位于 ~init.d~ 中，则有以下表示
   - 绝对路径表示当前路径：/etc/init.d
@@ -178,7 +178,7 @@ file) 与 *目录* (directory)，UNIX 还支持 *字符文件* (character file) 
 位图或指针列表的形式给出。index 组是记录文件信息的数组，说明了文件的方方面面。根
 目录存储着目录树的根部，之后则是其他所有文件和目录。
 
-[[file:../images/OperatingSystem/file-system-layout-example.svg]]
+[[file:../../_build/tikzgen/os-file-system-layout-example.svg]]
 
 
 ** 文件的实现
@@ -193,7 +193,7 @@ file) 与 *目录* (directory)，UNIX 还支持 *字符文件* (character file) 
      1. 实现简单，仅需记住磁盘地址与文件块数即可
      2. 读操作性能好
 
-     [[file:../images/OperatingSystem/disk-sequential-allocation-example.svg]]
+     [[file:../../_build/tikzgen/os-disk-sequential-allocation-example.svg]]
 
      当删除文件时，文件所占用的块被释放，这时会出现外部的碎片化的空闲块。这与
      RAM 的外部碎片相似，当文件无法找到足够容纳自己的空闲区时，这个文件将不能被
@@ -207,7 +207,7 @@ file) 与 *目录* (directory)，UNIX 还支持 *字符文件* (character file) 
      顺序读写并不是什么问题，当需要随机读写时该实现将造成很大困扰，链表并不能进
      行随即访问 (或者是十分缓慢)。
 
-     [[file:../images/OperatingSystem/disk-list-allocation-example.svg]]
+     [[file:../../_build/tikzgen/os-disk-list-allocation-example.svg]]
 
      为了增强读效率，可以将链表存放于内存当中，使用表来记录文件使用的块，这个表
      被称为 *文件分配表* (File Allocation Table, FAT)。按 FAT 的组织方式整个块都
@@ -306,7 +306,7 @@ NTFS、ext3、ReiserFS 等都是这种系统的应用。
 关键思路是抽象出所有文件系统的共同部分，并将这部分代码放在单独的一层，VFS 调用底
 层实际的文件系统来管理数据。
 
-[[file:../images/OperatingSystem/vfs-example.svg]]
+[[file:../../_build/tikzgen/os-vfs-example.svg]]
 
 VFS 并不关心底层如何存储数据或数据被存储到哪里，正如 Sun 建立 VFS 最初的目的是使
 用 ~网络文件系统~ (Network File System, NFS) 协议的远程文件系统，因此 VFS 只关心
@@ -404,7 +404,7 @@ $90.84\%$ 的文件都小于等于 64 KB，其中文件大小的中位数是 247
 并让引用这个块的文件得到相同的一份副本，消除文件系统的不一致性，并将错误报告给用
 户。
 
-[[file:../images/OperatingSystem/file-system-block-check-status.svg]]
+[[file:../../_build/tikzgen/os-file-system-block-check-status.svg]]
 
 除了文件外目录也需要检查，同样使用计数器记录文件 (并非块) 的使用次数。在检测完成
 后得到一张由 index 节点号索引的表，说明每个文件被多少个目录包含，并与 index node

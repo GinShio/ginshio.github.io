@@ -1,0 +1,88 @@
+\documentclass[border=2pt,svgnames,tikz]{standalone}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usetikzlibrary{trees, calc}
+
+\begin{document}
+\begin{tikzpicture}[
+    font=\sffamily,
+    level distance=1.8cm,
+    edge from parent/.style={draw, -},
+    every node/.style={inner sep=2pt, anchor=north},
+    level 1/.style={sibling distance=5cm},
+]
+
+\node {/}
+    child {
+        node {usr/}
+        [sibling distance=6cm]
+        child {
+            node {bin/}
+            [sibling distance=1.2cm]
+            child { node {latexmk} }
+            child { node {pdftk} }
+            child { node {zsh} }
+        }
+        child {
+            node {lib/}
+            [sibling distance=2.5cm]
+            child {
+                node {X11/}
+                child { node {display-manager} }
+                child { node {etc/} }
+                child {
+                    node {displaymanagers/}
+                    child { node {console} }
+                    child { node {lightdm} }
+                    child { node {sddm} }
+                    child { node {xdm} }
+                }
+            }
+            child { node {libstdc++.so.6} }
+            child {
+                node {mozilla/}
+                child[missing] {}
+                child { node {kmozillahelper} }
+            }
+        }
+        child {
+            node {include/}
+            [sibling distance=2cm]
+            child { node {zlib.h} }
+            child { node {KDE/} }
+            child {
+                node {X11/}
+                [sibling distance=1.4cm]
+                child { node {X.h} }
+                child { node {Xlib.h} }
+                child { node {Xutil.h} }
+                child { node {ICE/} }
+            }
+        }
+    }
+    child[missing] {}
+    child {
+        node {home/}
+        child { node {GinShio/} }
+    }
+    child {
+        node {dev/}
+        [sibling distance=1.5cm]
+        child { node {stderr} }
+        child {
+            node {block/}
+            [sibling distance=1.5cm]
+            child { node {7:0} }
+            child { node {7:1} }
+            child { node {7:2} }
+            child { node {259:0} }
+            child { node {259:1} }
+        }
+        child { node {tty0} }
+        child { node {tty1} }
+        child { node {tty2} }
+    };
+\end{tikzpicture}
+\end{document}

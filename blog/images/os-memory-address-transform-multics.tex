@@ -1,0 +1,56 @@
+\documentclass[border=0.2ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+
+\usetikzlibrary{positioning,calc,arrows.meta,shapes.multipart,decorations.pathreplacing}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=0cm,
+    every node/.style={font=\sffamily},
+    address_box/.style={draw, rectangle, minimum height=0.8cm, align=center, font=\small},
+    memory_block/.style={draw, rectangle, minimum width=1.8cm, minimum height=3.5cm, fill=white},
+    highlight_entry/.style={draw, rectangle, minimum width=1.8cm, minimum height=0.5cm, fill=gray!20, anchor=north},
+    arrow/.style={->, >=latex}
+]
+
+% Top Address Bar
+\node[address_box, minimum width=4.5cm] (seg_num) {段号};
+\node[address_box, minimum width=1.5cm, right=0cm of seg_num] (page_num) {页号};
+\node[address_box, minimum width=2.5cm, right=0cm of page_num] (offset) {页内偏移量};
+
+% Bit labels
+\node[below=0.05cm of seg_num, font=\scriptsize] {18 bit};
+\node[below=0.05cm of page_num, font=\scriptsize] {6 bit};
+\node[below=0.05cm of offset, font=\scriptsize] {10 bit};
+
+% Intra-segment address label
+\draw[decorate, decoration={brace, amplitude=5pt, mirror, raise=0.4cm}] (page_num.south west) -- (offset.south east) node[midway, below=0.6cm, font=\small] {段内地址};
+
+% Memory Blocks
+% Descriptor Segment
+\node[memory_block, below=1.5cm of seg_num.south] (desc_seg) {};
+\node[highlight_entry] (desc_entry) at ($(desc_seg.north)!0.4!(desc_seg.south)$) {描述符};
+\node[below=0.1cm of desc_seg, font=\small] {描述符段};
+
+% Page Table
+\node[memory_block, right=0.8cm of desc_seg] (page_table) {};
+\node[highlight_entry] (page_entry) at ($(page_table.north)!0.6!(page_table.south)$) {页框};
+\node[below=0.1cm of page_table, font=\small] {页表};
+
+% Page
+\node[memory_block, right=0.8cm of page_table] (page) {};
+\node[highlight_entry] (word_entry) at ($(page.north)!0.2!(page.south)$) {字};
+\node[below=0.1cm of page, font=\small] {页面};
+
+% Arrows connecting blocks
+\draw[arrow] (desc_entry.east) -- (page_entry.west);
+\draw[arrow] (page_entry.east) -- (word_entry.west);
+
+\end{tikzpicture}
+\end{document}

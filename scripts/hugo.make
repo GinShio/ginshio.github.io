@@ -22,7 +22,7 @@ site:
 	@if ! [ -e $(HUGOGENDIR) ]; then \
 		mkdir -p $(HUGOGENDIR); \
 		git -C $(HUGOGENDIR) init --initial-branch=hugo; \
-		git -C $(HUGOGENDIR) remote add origin codeberg:GinShio/ginshio.codeberg.page.git; \
+		git -C $(HUGOGENDIR) remote add origin https://codeberg.org/GinShio/ginshio.codeberg.page.git; \
 		git -C $(HUGOGENDIR) remote set-url --add --push origin codeberg:GinShio/ginshio.codeberg.page.git; \
 		git -C $(HUGOGENDIR) remote set-url --add --push origin github:GinShio/ginshio.github.io.git; \
 		git -C $(HUGOGENDIR) remote set-url --add --push origin bitbucket:GinShio/GinShio.bitbucket.io.git; \

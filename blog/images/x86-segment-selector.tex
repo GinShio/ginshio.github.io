@@ -1,0 +1,40 @@
+\documentclass[tikz, border=2pt]{standalone}
+\usepackage{ctex}
+\usetikzlibrary{positioning, calc, arrows.meta, shapes.geometric, fit, backgrounds}
+
+\begin{document}
+\begin{tikzpicture}[
+    font=\sffamily\small,
+    bitbox/.style={draw, minimum height=1cm, inner sep=0pt, align=center, anchor=north west},
+    bitlabel/.style={font=\footnotesize, anchor=south},
+    annotation/.style={font=\footnotesize, align=center},
+    >=Latex
+]
+
+% Define unit width for a bit
+\newlength{\bitwidth}
+\setlength{\bitwidth}{0.8cm}
+
+% Index (13 bits)
+\node[bitbox, minimum width=13\bitwidth] (index) at (0, 0) {索引 Index};
+\node[bitlabel] at ([xshift=0.5\bitwidth]index.north west) {15};
+\node[bitlabel] at ([xshift=-0.5\bitwidth]index.north east) {3};
+
+% TI (1 bit)
+\node[bitbox, minimum width=1\bitwidth, right=0pt of index] (ti) {TI};
+\node[bitlabel] at (ti.north) {2};
+
+% RPL (2 bits)
+\node[bitbox, minimum width=2\bitwidth, right=0pt of ti] (rpl) {RPL};
+\node[bitlabel] at ([xshift=0.5\bitwidth]rpl.north west) {1};
+\node[bitlabel] at ([xshift=-0.5\bitwidth]rpl.north east) {0};
+
+% Annotations
+\node[annotation, below=0.5cm of ti] (ti_desc) {0 = GDT\\1 = LDT};
+\draw[->] (ti_desc) -- (ti.south);
+
+\node[annotation, below=0.5cm of rpl] (rpl_desc) {请求特权级};
+\draw[->] (rpl_desc) -- (rpl.south);
+
+\end{tikzpicture}
+\end{document}

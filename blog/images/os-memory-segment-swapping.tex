@@ -1,0 +1,137 @@
+\documentclass[border=0.2ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+
+\usetikzlibrary{positioning,calc,arrows.meta}
+
+\definecolor{freecolor}{HTML}{BAC8D3}
+
+\begin{document}
+\begin{tikzpicture}[
+    >=Latex,
+    font=\sffamily,
+    scale=0.25,
+    every node/.style={transform shape=false}
+  ]
+
+  % Styles
+  \tikzset{
+    segment/.style={draw, fill=white, rectangle, minimum width=10, inner sep=0pt},
+    free/.style={draw, fill=freecolor, rectangle, minimum width=10, inner sep=0pt},
+    label/.style={midway, align=center, font=\small\sffamily}
+  }
+
+  % Column 1
+  \begin{scope}[shift={(0,0)}]
+    \draw (0,0) rectangle (10,32);
+
+    % Seg 0 (4K): 0-40
+    \draw[fill=white] (0,0) rectangle (10,4) node[label] {段 0 (4K)};
+    % Seg 1 (8K): 40-120
+    \draw[fill=white] (0,4) rectangle (10,12) node[label] {段 1 (8K)};
+    % Seg 2 (5K): 120-170
+    \draw[fill=white] (0,12) rectangle (10,17) node[label] {段 2 (5K)};
+    % Seg 3 (8K): 170-250
+    \draw[fill=white] (0,17) rectangle (10,25) node[label] {段 3 (8K)};
+    % Seg 4 (7K): 250-320
+    \draw[fill=white] (0,25) rectangle (10,32) node[label] {段 4 (7K)};
+
+    \node[below=10pt] at (5,0) {(a)};
+  \end{scope}
+
+  % Column 2
+  \begin{scope}[shift={(13,0)}]
+    \draw (0,0) rectangle (10,32);
+
+    % Seg 0 (4K): 0-40
+    \draw[fill=white] (0,0) rectangle (10,4) node[label] {段 0 (4K)};
+    % Seg 7 (5K): 40-90
+    \draw[fill=white] (0,4) rectangle (10,9) node[label] {段 7 (5K)};
+    % Free (3K): 90-120
+    \draw[fill=freecolor] (0,9) rectangle (10,12) node[label] {(3K)};
+    % Seg 2 (5K): 120-170
+    \draw[fill=white] (0,12) rectangle (10,17) node[label] {段 2 (5K)};
+    % Seg 3 (8K): 170-250
+    \draw[fill=white] (0,17) rectangle (10,25) node[label] {段 3 (8K)};
+    % Seg 4 (7K): 250-320
+    \draw[fill=white] (0,25) rectangle (10,32) node[label] {段 4 (7K)};
+
+    \node[below=10pt] at (5,0) {(b)};
+  \end{scope}
+
+  % Column 3
+  \begin{scope}[shift={(26,0)}]
+    \draw (0,0) rectangle (10,32);
+
+    % Seg 0 (4K): 0-40
+    \draw[fill=white] (0,0) rectangle (10,4) node[label] {段 0 (4K)};
+    % Seg 7 (5K): 40-90
+    \draw[fill=white] (0,4) rectangle (10,9) node[label] {段 7 (5K)};
+    % Free (3K): 90-120
+    \draw[fill=freecolor] (0,9) rectangle (10,12) node[label] {(3K)};
+    % Seg 2 (5K): 120-170
+    \draw[fill=white] (0,12) rectangle (10,17) node[label] {段 2 (5K)};
+    % Seg 3 (8K): 170-250
+    \draw[fill=white] (0,17) rectangle (10,25) node[label] {段 3 (8K)};
+    % Seg 5 (4K): 250-290
+    \draw[fill=white] (0,25) rectangle (10,29) node[label] {段 5 (4K)};
+    % Free (3K): 290-320
+    \draw[fill=freecolor] (0,29) rectangle (10,32) node[label] {(3K)};
+
+    \node[below=10pt] at (5,0) {(c)};
+  \end{scope}
+
+  % Column 4
+  \begin{scope}[shift={(39,0)}]
+    \draw (0,0) rectangle (10,32);
+
+    % Seg 0 (4K): 0-40
+    \draw[fill=white] (0,0) rectangle (10,4) node[label] {段 0 (4K)};
+    % Seg 7 (5K): 40-90
+    \draw[fill=white] (0,4) rectangle (10,9) node[label] {段 7 (5K)};
+    % Free (3K): 90-120
+    \draw[fill=freecolor] (0,9) rectangle (10,12) node[label] {(3K)};
+    % Seg 2 (5K): 120-170
+    \draw[fill=white] (0,12) rectangle (10,17) node[label] {段 2 (5K)};
+    % Seg 6 (4K): 170-210
+    \draw[fill=white] (0,17) rectangle (10,21) node[label] {段 6 (4K)};
+    % Free (4K): 210-250
+    \draw[fill=freecolor] (0,21) rectangle (10,25) node[label] {(4K)};
+    % Seg 5 (4K): 250-290
+    \draw[fill=white] (0,25) rectangle (10,29) node[label] {段 5 (4K)};
+    % Free (3K): 290-320
+    \draw[fill=freecolor] (0,29) rectangle (10,32) node[label] {(3K)};
+
+    \node[below=10pt] at (5,0) {(d)};
+  \end{scope}
+
+  % Column 5
+  \begin{scope}[shift={(52,0)}]
+    \draw (0,0) rectangle (10,32);
+
+    % Seg 0 (4K): 0-40
+    \draw[fill=white] (0,0) rectangle (10,4) node[label] {段 0 (4K)};
+    % Seg 7 (5K): 40-90
+    \draw[fill=white] (0,4) rectangle (10,9) node[label] {段 7 (5K)};
+    % Seg 2 (5K): 90-140
+    \draw[fill=white] (0,9) rectangle (10,14) node[label] {段 2 (5K)};
+    % Seg 6 (4K): 140-180
+    \draw[fill=white] (0,14) rectangle (10,18) node[label] {段 6 (4K)};
+    % Seg 5 (4K): 180-220
+    \draw[fill=white] (0,18) rectangle (10,22) node[label] {段 5 (4K)};
+    % Free (10K): 220-320
+    \draw[fill=freecolor] (0,22) rectangle (10,32) node[label] {(10K)};
+
+    \node[below=10pt] at (5,0) {(e)};
+  \end{scope}
+
+  % Time Axis
+  \draw[->, thick] (1,-4.5) -- (59,-4.5) node[right] {时间};
+
+\end{tikzpicture}
+\end{document}

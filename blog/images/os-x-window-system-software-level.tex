@@ -1,0 +1,37 @@
+\documentclass[border=0.2ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+
+\usetikzlibrary{positioning,calc,arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=0.5cm,
+    every node/.style={font=\sffamily},
+    layer/.style={draw, rectangle, align=center, minimum width=8cm, minimum height=1.2cm, font=\large\sffamily, fill=white, rounded corners=2pt},
+    arrow/.style={->, >=Latex, line width=1pt}
+]
+
+% Layers
+\node[layer] (app) {应用程序 (Application) / 窗口管理器 (Window Manager)};
+\node[layer, below=of app] (widget) {图形库 (Widget Library)};
+\node[layer, below=of widget] (xt) {X Toolkit Intrinsics (Xt)};
+\node[layer, below=of xt] (xlib) {Xlib};
+\node[layer, below=of xlib] (xserver) {X Window System};
+
+% Arrows indicating dependency/flow
+\draw[arrow] (app) -- (widget);
+\draw[arrow] (widget) -- (xt);
+\draw[arrow] (xt) -- (xlib);
+\draw[arrow] (xlib) -- (xserver);
+
+% Side arrow for direct Xlib usage
+\draw[arrow] (app.east) to[out=-30, in=30] node[right, font=\small, align=left] {直接调用\\(Direct Call)} (xlib.east);
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,83 @@
+\documentclass[border=10pt,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+
+\usetikzlibrary{positioning,calc,arrows.meta,shapes.geometric,fit,backgrounds}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=0.5cm and 0.5cm,
+    inst/.style={draw, rectangle, minimum width=1.8cm, minimum height=1cm, align=center, font=\sffamily, rounded corners=2pt, line width=1pt},
+    completed/.style={fill=LightGreen!40, draw=Green},
+    pending/.style={fill=LightGray!20, draw=Gray},
+    interrupted/.style={fill=LightSalmon!40, draw=Red},
+    label_text/.style={font=\small\sffamily, align=left}
+]
+
+% Precise Interrupt
+\node[font=\large\bfseries\sffamily] (title1) {精确中断 (Precise Interrupt)};
+
+\node[inst, interrupted, below=1.5cm of title1] (p3) {Instr $i$};
+\node[inst, completed, left=of p3] (p2) {Instr $i-1$};
+\node[inst, completed, left=of p2] (p1) {Instr $i-2$};
+\node[inst, pending, right=of p3] (p4) {Instr $i+1$};
+\node[inst, pending, right=of p4] (p5) {Instr $i+2$};
+
+% Interrupt Line
+\draw[red, dashed, line width=1.5pt] ($(p2.north east)!0.5!(p3.north west) + (0, 0.8)$) -- ($(p2.south east)!0.5!(p3.south west) - (0, 0.8)$) node[pos=0, above, red, font=\small\sffamily] {中断点};
+
+% Status labels
+\node[above=0.1cm of p1, font=\scriptsize\sffamily, text=Green] {Completed};
+\node[above=0.1cm of p2, font=\scriptsize\sffamily, text=Green] {Completed};
+\node[above=0.1cm of p3, font=\scriptsize\sffamily, text=Red] {Fault/Int};
+\node[above=0.1cm of p4, font=\scriptsize\sffamily, text=Gray] {Pending};
+\node[above=0.1cm of p5, font=\scriptsize\sffamily, text=Gray] {Pending};
+
+% Description
+\node[right=1cm of p5, label_text] (desc1) {
+    \textbf{状态一致}: \\
+    $i$ 之前的所有指令已完成 \\
+    $i$ 及其后的指令未修改状态
+};
+
+
+% Imprecise Interrupt
+\node[font=\large\bfseries\sffamily, below=4cm of title1] (title2) {不精确中断 (Imprecise Interrupt)};
+
+\node[inst, interrupted, below=1.5cm of title2] (i3) {Instr $i$};
+\node[inst, completed, left=of i3] (i2) {Instr $i-1$};
+\node[inst, completed, left=of i2] (i1) {Instr $i-2$};
+\node[inst, completed, right=of i3] (i4) {Instr $i+1$};
+\node[inst, pending, right=of i4] (i5) {Instr $i+2$};
+
+% Interrupt Line
+\draw[red, dashed, line width=1.5pt] ($(i2.north east)!0.5!(i3.north west) + (0, 0.8)$) -- ($(i2.south east)!0.5!(i3.south west) - (0, 0.8)$) node[pos=0, above, red, font=\small\sffamily] {中断点};
+
+% Status labels
+\node[above=0.1cm of i1, font=\scriptsize\sffamily, text=Green] {Completed};
+\node[above=0.1cm of i2, font=\scriptsize\sffamily, text=Green] {Completed};
+\node[above=0.1cm of i3, font=\scriptsize\sffamily, text=Red] {Fault/Int};
+\node[above=0.1cm of i4, font=\scriptsize\sffamily, text=Green] {Completed!};
+\node[above=0.1cm of i5, font=\scriptsize\sffamily, text=Gray] {Pending};
+
+% Description
+\node[right=1cm of i5, label_text] (desc2) {
+    \textbf{状态不一致}: \\
+    $i$ 尚未完成 (或出错) \\
+    但 $i+1$ 已经完成并修改状态 \\
+    (乱序执行/流水线)
+};
+
+% Backgrounds
+\begin{scope}[on background layer]
+    \node[fit=(title1)(p1)(p5)(desc1), fill=GhostWhite, rounded corners, inner sep=10pt] {};
+    \node[fit=(title2)(i1)(i5)(desc2), fill=GhostWhite, rounded corners, inner sep=10pt] {};
+\end{scope}
+
+\end{tikzpicture}
+\end{document}

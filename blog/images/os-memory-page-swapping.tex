@@ -1,0 +1,76 @@
+\documentclass[border=2pt,svgnames,tikz]{standalone}
+\usepackage{fontspec}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usetikzlibrary{arrows.meta, positioning, calc}
+
+\definecolor{freespace}{HTML}{BAC8D3}
+
+\begin{document}
+\begin{tikzpicture}[
+    x=0.025cm, y=-0.025cm,
+    memblock/.style={draw=black, semithick, outer sep=0pt},
+    free/.style={memblock, fill=freespace},
+    used/.style={memblock, fill=white},
+    os/.style={memblock, fill=white},
+    textnode/.style={font=\sffamily\large},
+    ostext/.style={font=\sffamily\large}
+]
+
+% Common OS blocks
+\foreach \x in {0, 120, 240, 360, 480, 600, 720} {
+    \draw[os] (\x, 170) rectangle ++(90, 30);
+    \node[ostext] at (\x + 45, 185) {OS};
+    % Outer border for the whole memory column
+    \draw[semithick] (\x, 0) rectangle ++(90, 200);
+}
+
+% Column 1
+\draw[free] (0, 0) rectangle ++(90, 90);
+\draw[used] (0, 90) rectangle ++(90, 80) node[midway, textnode] {A};
+
+% Column 2
+\draw[free] (120, 0) rectangle ++(90, 60);
+\draw[used] (120, 60) rectangle ++(90, 30) node[midway, textnode] {B};
+\draw[used] (120, 90) rectangle ++(90, 80) node[midway, textnode] {A};
+
+% Column 3
+\draw[free] (240, 0) rectangle ++(90, 20);
+\draw[used] (240, 20) rectangle ++(90, 40) node[midway, textnode] {C};
+\draw[used] (240, 60) rectangle ++(90, 30) node[midway, textnode] {B};
+\draw[used] (240, 90) rectangle ++(90, 80) node[midway, textnode] {A};
+
+% Column 4
+\draw[free] (360, 0) rectangle ++(90, 20);
+\draw[used] (360, 20) rectangle ++(90, 40) node[midway, textnode] {C};
+\draw[used] (360, 60) rectangle ++(90, 30) node[midway, textnode] {B};
+\draw[free] (360, 90) rectangle ++(90, 80); % A swapped out
+
+% Column 5
+\draw[free] (480, 0) rectangle ++(90, 20);
+\draw[used] (480, 20) rectangle ++(90, 40) node[midway, textnode] {C};
+\draw[used] (480, 60) rectangle ++(90, 30) node[midway, textnode] {B};
+\draw[free] (480, 90) rectangle ++(90, 50);
+\draw[used] (480, 140) rectangle ++(90, 30) node[midway, textnode] {D};
+
+% Column 6
+\draw[free] (600, 0) rectangle ++(90, 20);
+\draw[used] (600, 20) rectangle ++(90, 40) node[midway, textnode] {C};
+\draw[free] (600, 60) rectangle ++(90, 80); % B swapped out, merged with free space
+\draw[used] (600, 140) rectangle ++(90, 30) node[midway, textnode] {D};
+
+% Column 7
+\draw[free] (720, 0) rectangle ++(90, 20);
+\draw[used] (720, 20) rectangle ++(90, 40) node[midway, textnode] {C};
+\draw[used] (720, 60) rectangle ++(90, 80) node[midway, textnode] {A}; % A swapped in
+\draw[used] (720, 140) rectangle ++(90, 30) node[midway, textnode] {D};
+
+% Time arrow
+\draw[-Stealth, line width=2.25pt] (40, 220) -- (730, 220);
+\node[font=\sffamily\Large] at (765, 220) {时间};
+
+\end{tikzpicture}
+\end{document}

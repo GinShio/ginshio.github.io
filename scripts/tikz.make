@@ -3,6 +3,8 @@ TIKZSRCDIR := $(ORGMODE_FILEDIR)/images
 TIKZGENDIR := $(ORGMODE_BUILDIR)/tikzgen
 TIKZTMPDIR := $(shell mkdir -p $(XDG_RUNTIME_DIR)/emacs && mktemp -d -q $(XDG_RUNTIME_DIR)/emacs/tikz.XXXXXXXXXX)
 
+TIKZTEXARG := "-interaction=nonstopmode -shell-escape"
+
 texobjects := $(notdir $(wildcard $(TIKZSRCDIR)/*.tex))
 svgobjects := $(patsubst %.tex,%.svg,$(texobjects))
 
@@ -21,7 +23,7 @@ cleanall:
 	@rm -rf $(TIKZGENDIR)
 
 $(svgobjects): %.svg: %.tex
-	@latexmk -use-make -silent -lualatex -outdir=$(TIKZTMPDIR) $<
+	@latexmk -use-make -silent -lualatex -latexoption=$(TIKZTEXARG) -outdir=$(TIKZTMPDIR) $<
 	@inkscape --pdf-poppler \
 		--export-type=svg --export-text-to-path --export-area-drawing \
 		--export-filename $(TIKZGENDIR)/$@ $(TIKZTMPDIR)/$(@:.svg=.pdf)

@@ -1,0 +1,83 @@
+\documentclass[border=2pt,svgnames,tikz]{standalone}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+\usetikzlibrary{positioning, calc, arrows.meta, shapes.geometric}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=0.5cm and 0.5cm,
+    sector/.style={draw, rectangle, minimum width=1cm, minimum height=1cm, align=center, font=\sffamily\bfseries, fill=white},
+    bad_sector/.style={sector, fill=LightSalmon, draw=Red, label={[text=Red, font=\scriptsize]below:Bad}},
+    spare_sector/.style={sector, fill=LightGreen, draw=Green, label={[text=Green, font=\scriptsize]below:Spare}},
+    logical_label/.style={font=\small\sffamily, color=DimGray},
+    physical_label/.style={font=\small\sffamily, color=DimGray},
+    mapping_line/.style={->, thick, >=Stealth, color=RoyalBlue}
+]
+
+% --- Scenario 1: Sector Sparing (备用扇区/重映射) ---
+\node[font=\large\bfseries\sffamily] (title1) at (0,0) {扇区备用 (Sector Sparing)};
+
+% Logical Sectors
+\node[sector] (l1_0) at (-3, -1.5) {0};
+\node[sector, right=0cm of l1_0] (l1_1) {1};
+\node[sector, right=0cm of l1_1] (l1_2) {2};
+\node[sector, right=0cm of l1_2] (l1_3) {3};
+\node[left=0.5cm of l1_0, logical_label] {Logical:};
+
+% Physical Sectors
+\node[sector, below=1.0cm of l1_0] (p1_0) {0};
+\node[sector, right=0cm of p1_0] (p1_1) {1};
+\node[bad_sector, right=0cm of p1_1] (p1_bad) {X};
+\node[sector, right=0cm of p1_bad] (p1_3) {3};
+\node[spare_sector, right=1cm of p1_3] (p1_spare) {S};
+\node[left=0.5cm of p1_0, physical_label] {Physical:};
+
+% Mappings
+\draw[mapping_line] (l1_0) -- (p1_0);
+\draw[mapping_line] (l1_1) -- (p1_1);
+\draw[mapping_line] (l1_2.south) -- ++(0,-0.3) -| (p1_spare.north);
+\draw[mapping_line] (l1_3) -- (p1_3);
+
+% --- Scenario 2: Sector Slipping (扇区滑动) ---
+\node[font=\large\bfseries\sffamily, below=4.5cm of title1] (title2) {扇区滑动 (Sector Slipping)};
+
+% Logical Sectors
+\node[sector] (l2_0) at (-3, -6.5) {0};
+\node[sector, right=0cm of l2_0] (l2_1) {1};
+\node[sector, right=0cm of l2_1] (l2_2) {2};
+\node[sector, right=0cm of l2_2] (l2_3) {3};
+\node[left=0.5cm of l2_0, logical_label] {Logical:};
+
+% Physical Sectors
+\node[sector, below=1.0cm of l2_0] (p2_0) {0};
+\node[sector, right=0cm of p2_0] (p2_1) {1};
+\node[bad_sector, right=0cm of p2_1] (p2_bad) {X};
+\node[sector, right=0cm of p2_bad] (p2_2) {2};
+\node[sector, right=0cm of p2_2] (p2_3) {3};
+\node[left=0.5cm of p2_0, physical_label] {Physical:};
+
+% Mappings
+\draw[mapping_line] (l2_0) -- (p2_0);
+\draw[mapping_line] (l2_1) -- (p2_1);
+\draw[mapping_line] (l2_2) -- (p2_2);
+\draw[mapping_line] (l2_3) -- (p2_3);
+
+% Annotations
+\node[right=0.5cm of p1_spare, font=\small\sffamily, align=left] {
+    \textbf{重映射}: \\
+    逻辑扇区 2 指向备用区 \\
+    (通常用于磁盘使用中产生的坏块)
+};
+
+\node[right=0.5cm of p2_3, font=\small\sffamily, align=left] {
+    \textbf{滑动}: \\
+    坏块后的所有扇区物理位置后移 \\
+    (通常用于低级格式化时)
+};
+
+\end{tikzpicture}
+\end{document}

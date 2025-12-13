@@ -1,0 +1,62 @@
+\documentclass[border=2pt,svgnames,tikz]{standalone}
+\usepackage{fontspec}
+\usepackage{ctex}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Sans CN}
+\usetikzlibrary{arrows.meta, positioning, calc}
+
+\definecolor{fileA}{HTML}{DAE8FC}
+\definecolor{fileB}{HTML}{D5E8D4}
+\definecolor{free}{HTML}{BAC8D3}
+\definecolor{fileC}{HTML}{FFF2CC}
+\definecolor{fileD}{HTML}{E1D5E7}
+\definecolor{fileE}{HTML}{FFE6CC}
+
+\begin{document}
+\begin{tikzpicture}[
+    block/.style={
+        draw=gray,
+        minimum width=0.6cm,
+        minimum height=0.6cm,
+        inner sep=0pt,
+        outer sep=0pt,
+        anchor=west
+    },
+    label text/.style={font=\sffamily\small}
+]
+
+% Define the sequence of blocks
+% Format: {count/color/label/label_pos}
+% label_pos: 0=none, 1=below (File), 2=above (Free)
+
+\def\startx{0}
+\foreach \count/\col/\lbl/\pos in {
+    5/fileA/文件 A/1,
+    5/fileB/文件 B/1,
+    5/free/空闲区/2,
+    4/fileC/文件 C/1,
+    5/fileD/文件 D/1,
+    4/free/空闲区/2,
+    4/fileE/文件 E/1
+} {
+    % Draw blocks
+    \foreach \i in {1,...,\count} {
+        \node[block, fill=\col] at (\startx, 0) {};
+        \pgfmathsetmacro{\startx}{\startx + 0.6}
+        \xdef\startx{\startx}
+    }
+
+    % Draw label
+    \pgfmathsetmacro{\midx}{\startx - (\count * 0.6) / 2}
+    \ifnum\pos=1
+        \node[label text, anchor=north] at (\midx, -0.4) {\lbl};
+    \fi
+    \ifnum\pos=2
+        \node[label text, anchor=south] at (\midx, 0.4) {\lbl};
+    \fi
+}
+
+\end{tikzpicture}
+\end{document}

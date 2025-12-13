@@ -1,0 +1,113 @@
+\documentclass[border=2pt,svgnames,tikz]{standalone}
+\usepackage{fontspec}
+\usepackage{ctex}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Sans CN}
+\usetikzlibrary{arrows.meta, positioning, calc, shapes.geometric}
+
+\definecolor{fcfsblue}{HTML}{6C8EBF}
+\definecolor{ssfgreen}{HTML}{82B366}
+\definecolor{elevatorpurple}{HTML}{9673A6}
+
+\begin{document}
+\begin{tikzpicture}[
+    x=0.35cm,
+    y=-0.35cm,
+    dot/.style={circle, fill=black, inner sep=0pt, minimum size=3pt},
+    axis label/.style={font=\sffamily\footnotesize},
+    info text/.style={font=\sffamily\small, align=left},
+    legend label/.style={font=\sffamily\footnotesize}
+]
+
+% Text Info
+\node[info text, anchor=north west] at (0, 0) {
+    请求序列：1、36、16、34、9、12、18、24\\
+    当前寻道磁道：11
+};
+
+\node[info text, anchor=north west] at (20, 0) {
+    FCFS：移动柱面 123 个\\
+    SSF：移动柱面 66 个\\
+    Elevator：移动柱面 60 个
+};
+
+% Legend
+\begin{scope}[yshift=-2cm]
+    % FCFS
+    \draw[fcfsblue, thick] (2, 0) -- (4, 0);
+    \node[legend label, anchor=west] at (4.2, 0) {FCFS};
+
+    % SSF
+    \draw[ssfgreen, thick] (10, 0) -- (12, 0);
+    \node[legend label, anchor=west] at (12.2, 0) {SSF};
+
+    % Elevator
+    \draw[elevatorpurple, thick] (18, 0) -- (20, 0);
+    \node[legend label, anchor=west] at (20.2, 0) {Elevator (UP)};
+\end{scope}
+
+% Axis
+\begin{scope}[yshift=-2.8cm]
+    \draw[thick] (0, 0) -- (36, 0);
+    \foreach \x in {0, 5, ..., 35} {
+        \draw (\x, 0) -- (\x, -0.3);
+        \node[axis label, above] at (\x, -0.3) {\x};
+    }
+    \foreach \x in {0, 1, ..., 36} {
+        \draw[thin] (\x, 0) -- (\x, -0.15);
+    }
+\end{scope}
+
+% Graph
+\begin{scope}[yshift=-3.2cm]
+    % Coordinates
+    % FCFS: 11, 1, 36, 16, 34, 9, 12, 18, 24
+    \coordinate (F0) at (11, 0);
+    \coordinate (F1) at (1, 1);
+    \coordinate (F2) at (36, 2);
+    \coordinate (F3) at (16, 3);
+    \coordinate (F4) at (34, 4);
+    \coordinate (F5) at (9, 5);
+    \coordinate (F6) at (12, 6);
+    \coordinate (F7) at (18, 7);
+    \coordinate (F8) at (24, 8);
+
+    % SSF: 11, 12, 9, 16, 18, 24, 34, 36, 1
+    \coordinate (S0) at (11, 0);
+    \coordinate (S1) at (12, 1);
+    \coordinate (S2) at (9, 2);
+    \coordinate (S3) at (16, 3);
+    \coordinate (S4) at (18, 4);
+    \coordinate (S5) at (24, 5);
+    \coordinate (S6) at (34, 6);
+    \coordinate (S7) at (36, 7);
+    \coordinate (S8) at (1, 8);
+
+    % Elevator: 11, 12, 16, 18, 24, 34, 36, 9, 1
+    \coordinate (E0) at (11, 0);
+    \coordinate (E1) at (12, 1);
+    \coordinate (E2) at (16, 2);
+    \coordinate (E3) at (18, 3);
+    \coordinate (E4) at (24, 4);
+    \coordinate (E5) at (34, 5);
+    \coordinate (E6) at (36, 6);
+    \coordinate (E7) at (9, 7);
+    \coordinate (E8) at (1, 8);
+
+    % Draw Paths
+    \draw[fcfsblue, thick] (F0) -- (F1) -- (F2) -- (F3) -- (F4) -- (F5) -- (F6) -- (F7) -- (F8);
+    \draw[ssfgreen, thick] (S0) -- (S1) -- (S2) -- (S3) -- (S4) -- (S5) -- (S6) -- (S7) -- (S8);
+    \draw[elevatorpurple, thick] (E0) -- (E1) -- (E2) -- (E3) -- (E4) -- (E5) -- (E6) -- (E7) -- (E8);
+
+    % Draw Dots
+    \foreach \i in {0,...,8} {
+        \node[dot] at (F\i) {};
+        \node[dot] at (S\i) {};
+        \node[dot] at (E\i) {};
+    }
+\end{scope}
+
+\end{tikzpicture}
+\end{document}

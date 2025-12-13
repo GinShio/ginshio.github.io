@@ -1,0 +1,57 @@
+\documentclass[border=10pt,svgnames,tikz]{standalone}
+\usepackage{fontspec}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+\usetikzlibrary{arrows.meta, positioning, calc}
+
+\begin{document}
+\begin{tikzpicture}[
+    x=0.025cm, y=-0.025cm,
+    burst/.style={fill=WhiteSmoke, draw=DimGray, line width=0.5pt},
+    timeline/.style={draw=black, line width=0.5pt},
+    label/.style={font=\sffamily\small},
+    annotation/.style={font=\sffamily\footnotesize},
+    arrow/.style={-Stealth, thin}
+]
+
+% Top Timeline: CPU Bound
+\node[label, anchor=east] at (90, 19) {CPU 密集型进程};
+\draw[timeline] (100, 19) -- (510, 19);
+
+% Bursts (Top)
+% x, width
+\foreach \x/\w in {100/120, 250/100, 360/30, 410/100} {
+    \draw[burst] (\x, 14) rectangle ++(\w, 10);
+}
+
+% Bottom Timeline: I/O Bound
+\node[label, anchor=east] at (90, 99) {I/O 密集型进程};
+\draw[timeline] (100, 99) -- (510, 99);
+
+% Bursts (Bottom)
+% x, width
+\foreach \x/\w in {
+    100/10, 130/3, 155/25, 190/8, 212/6, 230/3,
+    260/10, 280/5, 310/20, 355/10, 390/8, 427/3,
+    456/8, 480/20
+} {
+    \draw[burst] (\x, 94) rectangle ++(\w, 10);
+}
+
+% Annotations
+
+% Long CPU Burst
+\node[annotation] (long) at (145, 63) {长CPU突发};
+\draw[arrow] (long) -- (184, 27);
+
+% Short CPU Burst
+\node[annotation] (short) at (265, 63) {短CPU突发};
+\draw[arrow] (short) -- (265, 87);
+
+% Wait for I/O
+\node[annotation] (wait) at (395, 63) {等待 I/O};
+\draw[arrow] (wait) -- (399, 25);
+\draw[arrow] (wait) -- (416, 94);
+
+\end{tikzpicture}
+\end{document}

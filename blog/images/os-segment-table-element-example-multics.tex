@@ -1,0 +1,58 @@
+\documentclass[border=0.2ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+
+\usetikzlibrary{positioning,calc,arrows.meta}
+
+\definecolor{unusedcolor}{HTML}{BAC8D3}
+
+\begin{document}
+\begin{tikzpicture}[
+    >=Latex,
+    font=\sffamily,
+    every node/.style={transform shape=false},
+    cell/.style={draw, rectangle, minimum height=1cm, outer sep=0pt},
+    label node/.style={font=\small, align=center}
+  ]
+
+  % Multics Segment Table Entry (Descriptor)
+  % 1. Main Memory Address of Page Table (18 bits)
+  \node[cell, minimum width=3.5cm] (rect1) {页表的主存地址};
+  \node[below=0.1cm of rect1, font=\scriptsize] {18 bit};
+
+  % 2. Length (9 bits)
+  \node[cell, minimum width=1.8cm, right=0pt of rect1] (rect2) {段长度};
+  \node[below=0.1cm of rect2, font=\scriptsize] {9 bit};
+
+  % 3. Page Size (1 bit)
+  \node[cell, minimum width=0.8cm, right=0pt of rect2] (rect3) {S};
+  \node[below=0.1cm of rect3, font=\scriptsize] {1 bit};
+
+  % 4. Protection (4 bits)
+  \node[cell, minimum width=1.2cm, right=0pt of rect3] (rect4) {保护};
+  \node[below=0.1cm of rect4, font=\scriptsize] {4 bit};
+
+  % 5. Present (1 bit)
+  \node[cell, minimum width=0.8cm, right=0pt of rect4] (rect5) {P};
+  \node[below=0.1cm of rect5, font=\scriptsize] {1 bit};
+
+  % 6. Unused/Other (3 bits)
+  \node[cell, fill=unusedcolor, minimum width=1.0cm, right=0pt of rect5] (rect6) {};
+  \node[below=0.1cm of rect6, font=\scriptsize] {3 bit};
+
+  % Labels for abbreviations
+  % S: Page Size
+  \node[label node, above=0.4cm of rect3, anchor=south] (lbl_size) {页大小};
+  \draw[->] (lbl_size.south) -- (rect3.north);
+
+  % P: Present
+  \node[label node, above=0.4cm of rect5, anchor=south] (lbl_present) {存在位};
+  \draw[->] (lbl_present.south) -- (rect5.north);
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,93 @@
+\documentclass[border=5pt,svgnames,tikz]{standalone}
+\usepackage{fontspec}
+\usepackage{ctex}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Sans CN}
+\usetikzlibrary{positioning, calc}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=0pt,
+    box/.style={draw, rectangle, minimum size=0.6cm, inner sep=0pt, anchor=center, font=\sffamily},
+    label text/.style={font=\sffamily\small, align=center}
+]
+
+\definecolor{custompurple}{HTML}{B266FF}
+
+% Define the base sequence
+% 1:U, 2:U, 3:F, 4:U, 5:F, 6:U, 7:U, 8:U, 9:U, 10:F, 11:F, 12:U, 13:U, 14:U, 15:F, 16:F
+% U = 1/0, F = 0/1
+% 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0
+\def\baseseq{1,1,0,1,0,1,1,1,1,0,0,1,1,1,0,0}
+
+% Macro to draw a sub-diagram
+% Arguments: Name, Position, OverrideIndex, OverrideType, Label, Description
+% OverrideType:
+% 0: None (Consistent)
+% 1: Missing (0/0 at index)
+% 2: DupFree (0/2 at index)
+% 3: DupData (2/0 at index)
+
+\newcommand{\drawdiagram}[6]{
+    \begin{scope}[shift={#2}, local bounding box=#1]
+        \node[anchor=east, font=\sffamily\small] at (-0.5, 0.3) {使用表};
+        \node[anchor=east, font=\sffamily\small] at (-0.5, -0.3) {空闲表};
+
+        \foreach \val [count=\i] in \baseseq {
+            \pgfmathsetmacro{\x}{(\i-1)*0.6}
+
+            % Default values
+            \def\topval{\val}
+            \pgfmathsetmacro{\botval}{1-\val}
+            \def\topcolor{black}
+            \def\botcolor{black}
+
+            % Overrides
+            \ifnum #3=\i
+                \ifnum #4=1 % Missing
+                    \def\topval{0}
+                    \def\botval{0}
+                    \def\botcolor{red}
+                \fi
+                \ifnum #4=2 % DupFree
+                    \def\topval{0}
+                    \def\botval{2}
+                    \def\botcolor{red}
+                \fi
+                \ifnum #4=3 % DupData
+                    \def\topval{2}
+                    \def\botval{0}
+                    \def\topcolor{red}
+                \fi
+            \fi
+
+            \node[box] (T\i) at (\x, 0.3) {\textcolor{\topcolor}{\pgfmathprintnumber[int trunc]{\topval}}};
+            \node[box] (B\i) at (\x, -0.3) {\textcolor{\botcolor}{\pgfmathprintnumber[int trunc]{\botval}}};
+        }
+
+        % Label a), b), c), d) and Description
+        % Center them below the diagram
+        % The diagram width is 16 * 0.6 = 9.6
+        % Center is at 9.6 / 2 - 0.3 (half box) = 4.5
+        % Actually x goes from 0 to 15*0.6 = 9.0. Center is 4.5.
+
+        \node[below=0.3 of B8, anchor=center, xshift=0.3cm] (lbl) {\small #5 \quad \textcolor{custompurple}{#6}};
+    \end{scope}
+}
+
+% a) Consistent
+\drawdiagram{A}{(0,0)}{0}{0}{a)}{一致}
+
+% b) Missing (Index 3)
+\drawdiagram{B}{(11.5,0)}{3}{1}{b)}{块丢失}
+
+% c) DupFree (Index 5)
+\drawdiagram{C}{(0,-2)}{5}{2}{c)}{重复空闲块}
+
+% d) DupData (Index 6)
+\drawdiagram{D}{(11.5,-2)}{6}{3}{d)}{重复数据块}
+
+\end{tikzpicture}
+\end{document}

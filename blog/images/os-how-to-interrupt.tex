@@ -1,0 +1,63 @@
+\documentclass[border=0.2ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+
+\usetikzlibrary{positioning,calc,arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=0.3cm and 1.5cm,
+    every node/.style={font=\sffamily},
+    block/.style={draw, rectangle, align=center, inner sep=1ex},
+    device/.style={draw, rectangle, align=center, minimum width=4em, minimum height=1.8em, font=\small\sffamily},
+    bus/.style={draw, line width=1.5pt}
+]
+
+% Nodes
+\node[block, minimum width=3cm, minimum height=3cm] (cpu) {CPU};
+\node[block, minimum width=3.5cm, minimum height=4.5cm, right=2cm of cpu] (pic) {中断控制器};
+
+% Devices
+% Align the first device (Disk) relative to PIC's top right
+\node[device, right=1.5cm of pic.north east, anchor=north west, yshift=0.2cm] (disk) {磁盘};
+\node[device, below=of disk] (clock) {时钟};
+\node[device, below=of clock] (printer) {打印机};
+\node[device, below=of printer] (input) {键鼠};
+
+% Bus
+\coordinate (bus_level) at ($(cpu.south) + (0,-1.0cm)$);
+\draw[bus] ($(cpu.west |- bus_level) + (0.5cm,0)$) -- ($(pic.east |- bus_level) + (0.5cm,0)$) node[right, font=\small] {总线};
+
+% Connections to Bus
+\draw[bus] (cpu.south) -- (cpu.south |- bus_level);
+\draw[bus] (pic.south) -- (pic.south |- bus_level);
+
+% Connections Devices -> PIC
+\draw[-latex] (disk.west) -- (disk.west -| pic.east);
+\draw[-latex] (clock.west) -- (clock.west -| pic.east);
+\draw[-latex] (printer.west) -- (printer.west -| pic.east);
+\draw[-latex] (input.west) -- (input.west -| pic.east);
+
+% Connections CPU <-> PIC
+% CPU -> PIC (Response, 3) - Upper arrow
+\draw[-latex] ([yshift=0.8cm]cpu.east) -- node[above, font=\small] {3} ([yshift=0.8cm]pic.west);
+% PIC -> CPU (Interrupt, 2) - Lower arrow
+\draw[-latex] ([yshift=-0.8cm]pic.west) -- node[above, font=\small] {2} ([yshift=-0.8cm]cpu.east);
+
+% Label 1
+\node[above=0.1cm of disk.west, xshift=-0.75cm, font=\small] {1};
+
+% Legend
+\node[below=0.5cm of input.south west, align=left, anchor=north west, font=\small] (legend) {
+    1. 设备完成工作 \\
+    2. 中断控制器发出中断 \\
+    3. CPU 响应中断
+};
+
+\end{tikzpicture}
+\end{document}

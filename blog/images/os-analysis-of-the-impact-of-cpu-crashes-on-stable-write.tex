@@ -1,0 +1,82 @@
+\documentclass[border=2pt,svgnames,tikz]{standalone}
+\usepackage{fontspec}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, shapes.arrows, calc, patterns}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=0.6cm,
+    block/.style={draw, rectangle, minimum width=1.2cm, minimum height=2.4cm, inner sep=0pt, font=\sffamily\large, align=center, fill=white},
+    corrupted/.style={block, top color=white, bottom color=LightGray},
+    label/.style={font=\sffamily\small, align=center},
+    arrow/.style={-Stealth, thick},
+    crash/.style={font=\sffamily\small, align=center}
+]
+
+% Group 1: Old Old
+\begin{scope}[local bounding box=G1]
+    \node[block] (G1B1) at (0,0) {旧\\的};
+    \node[block, right=of G1B1] (G1B2) {旧\\的};
+    \node[label, above=0.1cm of G1B1] {1};
+    \node[label, above=0.1cm of G1B2] {2};
+
+    % Crash Arrow (Left of B1)
+    \draw[arrow] (-1.2, -2.5) -- (-1.2, -1.3);
+    \node[crash] at (-1.2, -2.8) {崩溃};
+\end{scope}
+
+% Group 2: Old Old (with ECC error)
+\begin{scope}[xshift=4.5cm, local bounding box=G2]
+    \node[corrupted] (G2B1) at (0,0) {旧\\的};
+    \node[block, right=of G2B1] (G2B2) {旧\\的};
+    \node[label, above=0.1cm of G2B1] {1};
+    \node[label, above=0.1cm of G2B2] {2};
+
+    % Crash Arrow (Center of B1)
+    \draw[arrow] (0, -2.5) -- (0, -1.3);
+    \node[crash] at (0, -2.8) {崩溃};
+
+    % ECC Error
+    \node[font=\sffamily\small] (ECC) at (-0.8, 1.8) {ECC 错误};
+    \draw[arrow, thin] (ECC) -- (G2B1.north);
+\end{scope}
+
+% Group 3: New Old
+\begin{scope}[xshift=9.0cm, local bounding box=G3]
+    \node[block] (G3B1) at (0,0) {新\\的};
+    \node[block, right=of G3B1] (G3B2) {旧\\的};
+    \node[label, above=0.1cm of G3B1] {1};
+    \node[label, above=0.1cm of G3B2] {2};
+
+    % Crash Arrow (Between B1 and B2)
+    \draw[arrow] (0.9, -2.5) -- (0.9, -1.3);
+    \node[crash] at (0.9, -2.8) {崩溃};
+\end{scope}
+
+% Group 4: New Old (with ECC error)
+\begin{scope}[xshift=13.5cm, local bounding box=G4]
+    \node[block] (G4B1) at (0,0) {新\\的};
+    \node[corrupted, right=of G4B1] (G4B2) {旧\\的};
+    \node[label, above=0.1cm of G4B1] {1};
+    \node[label, above=0.1cm of G4B2] {2};
+
+    % Crash Arrow (Center of B2)
+    \draw[arrow] (1.8, -2.5) -- (1.8, -1.3);
+    \node[crash] at (1.8, -2.8) {崩溃};
+\end{scope}
+
+% Group 5: New New
+\begin{scope}[xshift=18.0cm, local bounding box=G5]
+    \node[block] (G5B1) at (0,0) {新\\的};
+    \node[block, right=of G5B1] (G5B2) {新\\的};
+    \node[label, above=0.1cm of G5B1] {1};
+    \node[label, above=0.1cm of G5B2] {2};
+
+    % Crash Arrow (Right of B2)
+    \draw[arrow] (3.0, -2.5) -- (3.0, -1.3);
+    \node[crash] at (3.0, -2.8) {崩溃};
+\end{scope}
+
+\end{tikzpicture}
+\end{document}

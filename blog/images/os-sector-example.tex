@@ -1,0 +1,25 @@
+\documentclass[border=1pt,svgnames,tikz]{standalone}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+\usetikzlibrary{positioning}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=0cm,
+    box/.style={draw, rectangle, minimum height=1cm, align=center, font=\sffamily\large, line width=1pt},
+    preamble/.style={box, minimum width=2cm, fill=White},
+    data/.style={box, minimum width=6.5cm, fill=White},
+    ecc/.style={box, minimum width=1.7cm, fill=White}
+]
+
+% Simple Sector Structure: Preamble | Data | ECC
+\node[preamble] (pre) {前导码};
+\node[data, right=of pre] (dat) {数据};
+\node[ecc, right=of dat] (ecc) {ECC};
+
+\end{tikzpicture}
+\end{document}

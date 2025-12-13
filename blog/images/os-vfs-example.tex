@@ -1,0 +1,65 @@
+\documentclass[border=0.2ex,svgnames,tikz]{standalone}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+
+\usetikzlibrary{positioning,calc,arrows.meta,fit,shadows,backgrounds}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=1cm and 0.5cm,
+    font=\sffamily,
+    block/.style={draw, rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm, align=center, fill=white, drop shadow},
+    wideblock/.style={block, minimum width=10cm},
+    arrow/.style={->, >=latex, thick}
+]
+
+% User Process
+\node[block, minimum width=4cm] (user) {用户进程};
+
+% POSIX Interface
+\node[wideblock, below=1.0cm of user] (posix) {POSIX 接口 (open, read, write, ...)};
+
+% VFS
+\node[wideblock, below=0.8cm of posix] (vfs) {虚拟文件系统 (VFS)};
+
+% Concrete File Systems
+\node[block, below=0.8cm of vfs] (ext) {ext2/3/4};
+\node[block, left=of ext] (fat) {FAT32};
+\node[block, right=of ext] (nfs) {NFS};
+
+% Hardware / Network
+\node[block, below=0.8cm of fat] (disk1) {硬盘 (分区 1)};
+\node[block, below=0.8cm of ext] (disk2) {硬盘 (分区 2)};
+\node[block, below=0.8cm of nfs] (net) {网络};
+
+% Connections
+\draw[arrow] (user) -- (posix);
+\draw[arrow] (posix) -- (vfs);
+
+% VFS to FS
+% Use coordinates to make arrows look better coming from VFS
+\draw[arrow] (vfs.south -| fat.north) -- (fat.north);
+\draw[arrow] (vfs.south) -- (ext.north);
+\draw[arrow] (vfs.south -| nfs.north) -- (nfs.north);
+
+% FS to HW
+\draw[arrow] (fat) -- (disk1);
+\draw[arrow] (ext) -- (disk2);
+\draw[arrow] (nfs) -- (net);
+
+% Kernel Box
+\begin{scope}[on background layer]
+    \node[draw, dashed, fill=gray!10, fit=(posix) (vfs) (fat) (nfs) (ext), inner sep=0.5cm, label={[anchor=north west, font=\small\bfseries]north west:内核空间}] (kernel) {};
+\end{scope}
+
+% User Box
+\begin{scope}[on background layer]
+    \node[draw, dashed, fill=white, fit=(user), inner sep=0.5cm, label={[anchor=north west, font=\small\bfseries]north west:用户空间}] (userspace) {};
+\end{scope}
+
+\end{tikzpicture}
+\end{document}

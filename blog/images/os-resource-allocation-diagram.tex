@@ -1,0 +1,40 @@
+\documentclass[tikz, border=0.2ex]{standalone}
+\usepackage{ctex}
+\usetikzlibrary{positioning, calc, arrows.meta, shapes.geometric}
+
+\begin{document}
+\begin{tikzpicture}[
+    font=\sffamily,
+    process/.style={draw, rectangle, minimum size=2.5em, inner sep=0pt, anchor=center},
+    resource/.style={draw, circle, minimum size=2.5em, inner sep=0pt, anchor=center},
+    label/.style={font=\small, anchor=north},
+    >=Latex
+]
+
+% Request Resource
+\node[process] (R) at (0, 2) {R};
+\node[resource] (A) at (0, 0) {A};
+\draw[->] (A) -- (R);
+\node[label] at (0, -0.5) {请求资源};
+
+% Hold Resource
+\node[process] (S) at (2.5, 2) {S};
+\node[resource] (B) at (2.5, 0) {B};
+\draw[->] (S) -- (B);
+\node[label] at (2.5, -0.5) {占有资源};
+
+% Deadlock
+\node[process] (T) at (5, 1) {T};
+\node[process] (U) at (8, 1) {U};
+\node[resource] (D) at (6.5, 2.5) {D};
+\node[resource] (C) at (6.5, -0.5) {C};
+
+\draw[->] (T) |- (D);
+\draw[->] (D) -| (U);
+\draw[->] (U) |- (C);
+\draw[->] (C) -| (T);
+
+\node[label] at (6.5, 1.25) {死锁};
+
+\end{tikzpicture}
+\end{document}

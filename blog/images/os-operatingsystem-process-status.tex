@@ -1,0 +1,39 @@
+\documentclass[border=0.2ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+
+\usetikzlibrary{positioning,calc,arrows.meta,shapes.geometric}
+
+\begin{document}
+\begin{tikzpicture}[
+    >=Latex,
+    font=\sffamily,
+    every node/.style={transform shape=false},
+    state/.style={draw, ellipse, minimum width=3cm, minimum height=1.5cm, align=center}
+  ]
+
+  % States
+  \node[state] (running) at (0, 3) {运行};
+  \node[state] (blocked) at (-3, 0) {阻塞};
+  \node[state] (ready) at (3, 0) {就绪};
+
+  % Transitions
+  % Running -> Ready (Timeout)
+  \draw[->] (running.east) to[out=0, in=90] (ready.north);
+
+  % Ready -> Running (Scheduler picks process)
+  \draw[->] (ready.north west) to[out=135, in=-45] (running.south east);
+
+  % Running -> Blocked (Wait for event)
+  \draw[->] (running.west) to[out=180, in=90] (blocked.north);
+
+  % Blocked -> Ready (Event occurs)
+  \draw[->] (blocked.east) -- (ready.west);
+
+\end{tikzpicture}
+\end{document}

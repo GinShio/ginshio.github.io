@@ -1,0 +1,74 @@
+\documentclass[border=2pt,svgnames,tikz]{standalone}
+\usepackage{fontspec}
+\usepackage{ctex}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Sans CN}
+\usetikzlibrary{arrows.meta, positioning, calc, shapes.geometric}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=1cm,
+    block/.style={draw, rectangle, align=center, font=\sffamily\small},
+    inner block/.style={draw, rectangle, minimum width=1.2cm, minimum height=0.5cm, font=\sffamily\scriptsize},
+    bus/.style={draw, line width=2pt},
+    arrow/.style={-Stealth, thick},
+    label node/.style={font=\sffamily\scriptsize, fill=white, inner sep=1pt}
+]
+
+% 1. CPU
+\node[block, minimum size=1.5cm] (CPU) at (0, 0) {CPU};
+
+% 2. DMA Controller
+\node[block, minimum width=2cm, minimum height=3cm, right=1.5cm of CPU] (DMA) {};
+\node[above, font=\sffamily\small] at (DMA.north) {DMA};
+
+% Internal blocks of DMA
+\node[inner block] (Addr) at ($(DMA.north)+(0,-0.7)$) {地址};
+\node[inner block] (Count) at ($(DMA.north)+(0,-1.5)$) {计数};
+\node[inner block] (Control) at ($(DMA.north)+(0,-2.3)$) {控制};
+
+% 3. Disk
+\node[block, minimum width=2cm, minimum height=3cm, right=1.5cm of DMA] (Disk) {};
+\node[above, font=\sffamily\small] at (Disk.north) {磁盘};
+
+% Internal block of Disk
+\node[inner block, minimum width=1.5cm, minimum height=0.7cm] (Buffer) at ($(Disk.north)+(0,-0.8)$) {buffer};
+
+% 4. Memory
+\node[block, minimum width=2cm, minimum height=3cm, right=1.5cm of Disk] (Memory) {};
+\node[above, font=\sffamily\small] at (Memory.north) {内存};
+
+% 5. Bus
+\coordinate (BusLeft) at (-1, -3.5);
+\coordinate (BusRight) at (11, -3.5);
+\draw[bus] (BusLeft) -- (BusRight) node[midway, below, font=\sffamily\small] {总线};
+
+% Vertical connections to Bus
+\draw[bus] (CPU.south) -- (CPU.south |- BusLeft);
+\draw[bus] (DMA.south) -- (DMA.south |- BusLeft);
+\draw[bus] (Disk.south) -- (Disk.south |- BusLeft);
+\draw[bus] (Memory.south) -- (Memory.south |- BusLeft);
+
+% 6. Arrows (Operations)
+
+% 1: CPU -> DMA Address
+\draw[arrow] (CPU.east |- Addr) -- (DMA.west |- Addr.west) node[midway, label node] {1};
+
+% 2: DMA (Address level) -> Disk (Buffer level)
+% Note: In SVG, arrow starts from DMA box edge, not Address box edge
+\draw[arrow] (DMA.east |- Addr) -- (Disk.west |- Addr.east) node[midway, label node] {2};
+
+% 3: Disk (Buffer level) -> Memory
+\draw[arrow] (Disk.east |- Buffer) -- (Memory.west |- Buffer) node[midway, label node] {3};
+
+% 4: Disk (Control level) -> DMA (Control level)
+\draw[arrow] (Disk.west |- Control) -- (DMA.east |- Control) node[midway, label node] {4};
+
+% 5: DMA (Control level) -> CPU
+% Note: In SVG, arrow 5 is from DMA Control to CPU
+\draw[arrow] (DMA.west |- Control) -- (CPU.east |- Control) node[midway, label node] {5};
+
+\end{tikzpicture}
+\end{document}

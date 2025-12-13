@@ -1,0 +1,77 @@
+\documentclass[border=0pt,svgnames,tikz]{standalone}
+\usepackage{fontspec}
+\usepackage{ctex}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Sans CN}
+\usetikzlibrary{arrows.meta, positioning, calc, shapes.geometric, chains}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=0pt,
+    byte/.style={draw, rectangle, minimum width=1cm, minimum height=0.3cm, inner sep=0pt, anchor=north west},
+    record/.style={draw, rectangle, minimum width=1cm, minimum height=1.8cm, inner sep=0pt, anchor=north west},
+    tree node/.style={draw, rectangle, minimum width=0.8cm, minimum height=0.5cm, font=\sffamily\tiny, inner sep=2pt, anchor=north west},
+    label text/.style={font=\sffamily\small, align=center}
+]
+
+% 1. Byte Sequence Structure
+\begin{scope}[local bounding box=ByteStruct]
+    \foreach \i in {1,...,24} {
+        \node[byte] (B\i) at (0, {-\i*0.3 + 0.3}) {\ifnum\i=1 \scalebox{0.7}{1 byte}\fi};
+    }
+
+    % Bottom Label
+    \node[label text, below=0.2cm of B24] {字节序列\\结构};
+\end{scope}
+
+% 2. Record Sequence Structure
+\begin{scope}[xshift=1.5cm, local bounding box=RecordStruct]
+    \foreach \i in {1,...,4} {
+        \node[record] (R\i) at (0, {-\i*1.8 + 1.8}) {\ifnum\i=1 \tiny{1 record}\fi};
+    }
+
+    % Bottom Label
+    \node[label text, below=0.2cm of R4] {记录序列\\结构};
+\end{scope}
+
+% 3. Tree Structure
+\begin{scope}[xshift=5.5cm, yshift=-2cm, local bounding box=TreeStruct]
+    % Root Node: [Ant | Fox | Pig]
+    \node[tree node] (Ant) at (0, 0) {Ant};
+    \node[tree node] (Fox) [right=0pt of Ant] {Fox};
+    \node[tree node] (Pig) [right=0pt of Fox] {Pig};
+
+    % Child Node 1 (Ant's right pointer -> Group 1): [Cat | Cow | Dog]
+    \node[tree node] (Cat1) at (-2.5, -1.5) {Cat};
+    \node[tree node] (Cow1) [right=0pt of Cat1] {Cow};
+    \node[tree node] (Dog1) [right=0pt of Cow1] {Dog};
+
+    % Child Node 2 (Fox's right pointer -> Group 2a): [Cat | Cow | Dog]
+    \node[tree node] (Cat2a) at (0.5, -1.5) {Cat};
+    \node[tree node] (Cow2a) [right=0pt of Cat2a] {Cow};
+    \node[tree node] (Dog2a) [right=0pt of Cow2a] {Dog};
+
+    % Child Node 3 (Pig's right pointer -> Group 2b): [Pony | Rat | Worm]
+    \node[tree node] (Pony) at (3.5, -1.5) {Pony};
+    \node[tree node] (Rat) [right=0pt of Pony] {Rat};
+    \node[tree node] (Worm) [right=0pt of Rat] {Worm};
+
+    % Child Node 4 (Cow2a's pointer -> Level 3): [Hen | Lbis | Lamb]
+    \node[tree node] (Hen) at (0.5, -3.0) {Hen};
+    \node[tree node] (Lbis) [right=0pt of Hen] {Lbis};
+    \node[tree node] (Lamb) [right=0pt of Lbis] {Lamb};
+
+    % Connections
+    \draw[-Stealth] (Ant.south east) -- (Cow1.north);
+    \draw[-Stealth] (Fox.south east) -- (Cow2a.north);
+    \draw[-Stealth] (Pig.south east) -- (Rat.north);
+    \draw[-Stealth] (Cow2a.south) -- (Lbis.north);
+
+    % Bottom Label
+    \node[label text] at (1.5, -4.5) {树\\结构};
+\end{scope}
+
+\end{tikzpicture}
+\end{document}

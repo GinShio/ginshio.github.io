@@ -1,0 +1,59 @@
+\documentclass[border=0.2ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+
+\usetikzlibrary{positioning,calc,arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=0cm,
+    every node/.style={font=\sffamily},
+    layer/.style={draw, rectangle, align=center, minimum width=8cm, minimum height=1.5cm, font=\large\sffamily},
+    arrow/.style={->, >=latex, line width=1pt}
+]
+
+% Layers
+\node[layer] (user) {用户级 IO 软件};
+\node[layer, below=of user] (os) {设备无关的操作系统软件};
+\node[layer, below=of os] (driver) {设备驱动程序};
+\node[layer, below=of driver] (interrupt) {中断处理程序};
+\node[layer, below=of interrupt] (hardware) {硬件};
+
+% Coordinates for arrows
+\coordinate (left_x) at ($(user.south west)!0.08!(user.south east)$);
+\coordinate (right_x) at ($(user.south west)!0.92!(user.south east)$);
+
+% Arrows Left (Request)
+% User -> OS
+\draw[arrow] ($(left_x |- user.north)!0.6!(left_x |- user.south)$) -- ($(left_x |- os.north)!0.26!(left_x |- os.south)$);
+% OS -> Driver
+\draw[arrow] ($(left_x |- os.north)!0.6!(left_x |- os.south)$) -- ($(left_x |- driver.north)!0.26!(left_x |- driver.south)$);
+% Driver -> Hardware (passing through Interrupt)
+\draw[arrow] ($(left_x |- driver.north)!0.6!(left_x |- driver.south)$) -- ($(left_x |- hardware.north)!0.26!(left_x |- hardware.south)$);
+
+% Arrows Right (Response)
+% Hardware -> Interrupt
+\draw[arrow] ($(right_x |- hardware.north)!0.6!(right_x |- hardware.south)$) -- ($(right_x |- interrupt.north)!0.74!(right_x |- interrupt.south)$); % 1 - 0.26 = 0.74
+% Interrupt -> Driver
+\draw[arrow] ($(right_x |- interrupt.north)!0.6!(right_x |- interrupt.south)$) -- ($(right_x |- driver.north)!0.74!(right_x |- driver.south)$);
+% Driver -> OS
+\draw[arrow] ($(right_x |- driver.north)!0.6!(right_x |- driver.south)$) -- ($(right_x |- os.north)!0.74!(right_x |- os.south)$);
+% OS -> User
+\draw[arrow] ($(right_x |- os.north)!0.6!(right_x |- os.south)$) -- ($(right_x |- user.north)!0.74!(right_x |- user.south)$);
+
+% Labels
+% IO Request
+\node[left=0.2cm of user.west, anchor=east, align=center, font=\small] (req_label) {IO\\request};
+\draw[arrow] (req_label.east) -- ($(left_x |- user.north)!0.8!(left_x |- user.south)$);
+
+% IO Response
+\node[right=0.2cm of user.east, anchor=west, align=center, font=\small] (resp_label) {IO\\response};
+\draw[arrow] (resp_label.west) -- ($(right_x |- user.north)!0.8!(right_x |- user.south)$);
+
+\end{tikzpicture}
+\end{document}

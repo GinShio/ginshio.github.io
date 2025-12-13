@@ -1,0 +1,98 @@
+\documentclass[tikz, border=2pt]{standalone}
+\usepackage{ctex}
+\usetikzlibrary{positioning, calc, arrows.meta, shapes.geometric, fit, backgrounds}
+
+\begin{document}
+\begin{tikzpicture}[
+    font=\sffamily\small,
+    bitbox/.style={draw, minimum height=1cm, inner sep=0pt, align=center, anchor=north west},
+    bitlabel/.style={font=\footnotesize, anchor=south},
+    annotation/.style={font=\footnotesize, align=center},
+    >=Latex
+]
+
+% Define unit width for a bit
+\newlength{\bitwidth}
+\setlength{\bitwidth}{0.6cm}
+
+% Row 1: Bits 63-32
+% Base 24-31 (8 bits)
+\node[bitbox, minimum width=8\bitwidth] (base24) at (0, 0) {基址 24 $\sim$ 31};
+\node[bitlabel] at ([xshift=0.5\bitwidth]base24.north west) {63};
+\node[bitlabel] at ([xshift=-0.5\bitwidth]base24.north east) {56};
+
+% G (1 bit)
+\node[bitbox, minimum width=1\bitwidth, right=0pt of base24] (G) {G};
+\node[bitlabel] at (G.north) {55};
+
+% D (1 bit)
+\node[bitbox, minimum width=1\bitwidth, right=0pt of G] (D) {D};
+\node[bitlabel] at (D.north) {54};
+
+% 0 (1 bit)
+\node[bitbox, minimum width=1\bitwidth, right=0pt of D] (zero) {0};
+\node[bitlabel] at (zero.north) {53};
+
+% AVL (1 bit) - Colored
+\node[bitbox, minimum width=1\bitwidth, right=0pt of zero, fill=blue!20] (AVL) {};
+\node[bitlabel] at (AVL.north) {52};
+
+% Limit 16-19 (4 bits)
+\node[bitbox, minimum width=4\bitwidth, right=0pt of AVL] (limit16) {长度 16 $\sim$ 19};
+\node[bitlabel] at ([xshift=0.5\bitwidth]limit16.north west) {51};
+\node[bitlabel] at ([xshift=-0.5\bitwidth]limit16.north east) {48};
+
+% P (1 bit)
+\node[bitbox, minimum width=1\bitwidth, right=0pt of limit16] (P) {P};
+\node[bitlabel] at (P.north) {47};
+
+% DPL (2 bits)
+\node[bitbox, minimum width=2\bitwidth, right=0pt of P] (DPL) {DPL};
+\node[bitlabel] at ([xshift=0.5\bitwidth]DPL.north west) {46};
+\node[bitlabel] at ([xshift=-0.5\bitwidth]DPL.north east) {45};
+
+% S (1 bit)
+\node[bitbox, minimum width=1\bitwidth, right=0pt of DPL] (S) {S};
+\node[bitlabel] at (S.north) {44};
+
+% Type (4 bits)
+\node[bitbox, minimum width=4\bitwidth, right=0pt of S] (Type) {段类型及保护};
+\node[bitlabel] at ([xshift=0.5\bitwidth]Type.north west) {43};
+\node[bitlabel] at ([xshift=-0.5\bitwidth]Type.north east) {40};
+
+% Base 16-23 (8 bits)
+\node[bitbox, minimum width=8\bitwidth, right=0pt of Type] (base16) {基址 16 $\sim$ 23};
+\node[bitlabel] at ([xshift=0.5\bitwidth]base16.north west) {39};
+\node[bitlabel] at ([xshift=-0.5\bitwidth]base16.north east) {32};
+
+
+% Row 2: Bits 31-0
+% Positioned below Row 1
+\node[bitbox, minimum width=16\bitwidth, below=0pt of base24.south west, anchor=north west] (base0) {基址 0 $\sim$ 15};
+\node[bitlabel, anchor=north] at ([xshift=0.5\bitwidth]base0.south west) {31};
+\node[bitlabel, anchor=north] at ([xshift=-0.5\bitwidth]base0.south east) {16};
+
+% Limit 0-15 (16 bits)
+\node[bitbox, minimum width=16\bitwidth, right=0pt of base0] (limit0) {长度 0 $\sim$ 15};
+\node[bitlabel, anchor=north] at ([xshift=0.5\bitwidth]limit0.south west) {15};
+\node[bitlabel, anchor=north] at ([xshift=-0.5\bitwidth]limit0.south east) {0};
+
+
+% Annotations
+% G: Granularity
+\draw[<-] (G.north) -- ++(0, 0.8) node[above, annotation] {长度单位：字节 / 页面};
+
+% D: Default operation size
+\draw[<-] (D.north) -- ++(0, 2.0) node[above, annotation] {段大小：16位段 / 32 位段};
+
+% P: Present
+\draw[<-] (P.north) -- ++(0, 2.0) node[above, annotation] {在 / 不在 标志位};
+
+% DPL: Privilege
+\draw[<-] (DPL.north) -- ++(0, 1.4) node[above, annotation] {保护位};
+
+% S: System
+\draw[<-] (S.north) -- ++(0, 0.8) node[above, annotation] {系统程序 / 应用程序};
+
+\end{tikzpicture}
+\end{document}

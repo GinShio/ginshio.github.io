@@ -1,0 +1,97 @@
+\documentclass[tikz, border=2pt]{standalone}
+\usepackage{ctex}
+\usetikzlibrary{positioning, calc, arrows.meta, shapes.geometric, fit, backgrounds}
+
+\begin{document}
+\begin{tikzpicture}[
+    font=\sffamily\small,
+    cell/.style={draw, minimum width=1.5cm, minimum height=0.6cm, align=center, anchor=center, fill=white},
+    labelnode/.style={font=\footnotesize, anchor=east, align=right, minimum height=0.6cm, inner sep=5pt},
+    pmlabel/.style={font=\footnotesize, anchor=west, align=left, minimum height=0.6cm, inner sep=5pt},
+    >=Latex
+]
+
+% Page Table (Middle)
+% Entry 0 (Bottom)
+\node[cell] (pt0) at (0, 0) {5};
+\node[labelnode, left=0pt of pt0] (vl0) {0K$\sim$4K};
+
+% Entry 1
+\node[cell, above=0pt of pt0] (pt1) {1};
+\node[labelnode, left=0pt of pt1] (vl1) {4K$\sim$8K};
+
+% Entry 2
+\node[cell, above=0pt of pt1] (pt2) {X};
+\node[labelnode, left=0pt of pt2] (vl2) {8K$\sim$12K};
+
+% Entry 3
+\node[cell, above=0pt of pt2] (pt3) {0};
+\node[labelnode, left=0pt of pt3] (vl3) {12K$\sim$16K};
+
+% Entry 4
+\node[cell, above=0pt of pt3] (pt4) {2};
+\node[labelnode, left=0pt of pt4] (vl4) {16K$\sim$20K};
+
+% Entry 5
+\node[cell, above=0pt of pt4] (pt5) {4};
+\node[labelnode, left=0pt of pt5] (vl5) {20K$\sim$24K};
+
+% Entry 6
+\node[cell, above=0pt of pt5] (pt6) {X};
+\node[labelnode, left=0pt of pt6] (vl6) {24K$\sim$28K};
+
+% Entry 7
+\node[cell, above=0pt of pt6] (pt7) {X};
+\node[labelnode, left=0pt of pt7] (vl7) {28K$\sim$32K};
+
+% Entry 8
+\node[cell, above=0pt of pt7] (pt8) {3};
+\node[labelnode, left=0pt of pt8] (vl8) {32K$\sim$36K};
+
+% Entry 9
+\node[cell, above=0pt of pt8] (pt9) {X};
+\node[labelnode, left=0pt of pt9] (vl9) {36K$\sim$40K};
+
+% Entry 10
+\node[cell, above=0pt of pt9] (pt10) {X};
+\node[labelnode, left=0pt of pt10] (vl10) {40K$\sim$44K};
+
+% Entry 11
+\node[cell, above=0pt of pt10] (pt11) {X};
+\node[labelnode, left=0pt of pt11] (vl11) {44K$\sim$48K};
+
+% Physical Memory (Right)
+% Frames 0 to 5
+\node[cell, right=3cm of pt0] (pm0) {};
+\node[pmlabel, right=0pt of pm0] (pl0) {0K$\sim$4K};
+
+\node[cell, above=0pt of pm0] (pm1) {};
+\node[pmlabel, right=0pt of pm1] (pl1) {4K$\sim$8K};
+
+\node[cell, above=0pt of pm1] (pm2) {};
+\node[pmlabel, right=0pt of pm2] (pl2) {8K$\sim$12K};
+
+\node[cell, above=0pt of pm2] (pm3) {};
+\node[pmlabel, right=0pt of pm3] (pl3) {12K$\sim$16K};
+
+\node[cell, above=0pt of pm3] (pm4) {};
+\node[pmlabel, right=0pt of pm4] (pl4) {16K$\sim$20K};
+
+\node[cell, above=0pt of pm4] (pm5) {};
+\node[pmlabel, right=0pt of pm5] (pl5) {20K$\sim$24K};
+
+% Connections
+\draw[->] (pt0.east) -- (pm5.west);
+\draw[->] (pt1.east) -- (pm1.west);
+\draw[->] (pt3.east) -- (pm0.west);
+\draw[->] (pt4.east) -- (pm2.west);
+\draw[->] (pt5.east) -- (pm4.west);
+\draw[->] (pt8.east) -- (pm3.west);
+
+% Column Labels
+\node[above=5pt of pt11, font=\bfseries] {页表};
+\node[above=5pt of vl11, font=\bfseries] {虚拟地址};
+\node[above=5pt of pm5, font=\bfseries] {物理内存};
+
+\end{tikzpicture}
+\end{document}

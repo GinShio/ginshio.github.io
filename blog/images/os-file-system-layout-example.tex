@@ -1,0 +1,79 @@
+\documentclass[border=5pt,svgnames,tikz]{standalone}
+\usepackage{fontspec}
+\usepackage{ctex}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Sans CN}
+\usetikzlibrary{positioning, calc, arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[
+    font=\sffamily,
+    node distance=0pt,
+    block/.style={draw, rectangle, minimum height=1.2cm, inner sep=0pt, outer sep=0pt, anchor=west},
+    smallblock/.style={draw, rectangle, minimum height=1.2cm, minimum width=0.2cm, inner sep=0pt, outer sep=0pt, anchor=west},
+    label text/.style={font=\sffamily\small, align=center}
+]
+
+% Row 3: Disk Structure
+% MBR (Width 80 units -> 2.5cm)
+\node[block, minimum width=2.5cm] (mbr) {MBR};
+
+% Partition Table Entries (4 small blocks, Width 5 units -> 0.15cm)
+\node[smallblock, right=0pt of mbr] (pt1) {};
+\node[smallblock, right=0pt of pt1] (pt2) {};
+\node[smallblock, right=0pt of pt2] (pt3) {};
+\node[smallblock, right=0pt of pt3] (pt4) {};
+
+% Partitions (4 large blocks, Width 150 units -> 4.5cm)
+\node[block, minimum width=4.5cm, right=0pt of pt4] (p1) {};
+\node[block, minimum width=4.5cm, right=0pt of p1] (p2) {};
+\node[block, minimum width=4.5cm, right=0pt of p2] (p3) {};
+\node[block, minimum width=4.5cm, right=0pt of p3] (p4) {};
+
+% Row 2: Labels
+\node[above=1cm of pt2, anchor=south, xshift=-0.5cm] (lbl_pt) {分区表};
+\node[above=1cm of p2, anchor=south] (lbl_part) {磁盘分区};
+
+% Arrows for Row 2
+\draw[-{Stealth}] (lbl_pt) -- (pt2.north);
+\draw[-{Stealth}] (lbl_part) -- (p1.north);
+\draw[-{Stealth}] (lbl_part) -- (p2.north);
+\draw[-{Stealth}] (lbl_part) -- (p3.north);
+\draw[-{Stealth}] (lbl_part) -- (p4.north);
+
+% Row 1: Entire Disk
+\node[above=2.5cm of p2, anchor=center] (lbl_disk) {\Large 整个磁盘};
+% Arrow spanning the whole disk
+\draw[{Stealth}-{Stealth}, thick] ($(mbr.west)+(0, 2.5)$) -- ($(p4.east)+(0, 2.5)$);
+% Vertical ticks for the arrow
+\draw[thick] ($(mbr.west)+(0, 2.3)$) -- ($(mbr.west)+(0, 2.7)$);
+\draw[thick] ($(p4.east)+(0, 2.3)$) -- ($(p4.east)+(0, 2.7)$);
+
+
+% Row 4: Expanded Partition Details (Expanding Partition 2)
+% Total width of expanded row: 80+80+125+125+80+125 = 615 units.
+% Scale: 150 units = 4.5cm => 1 unit = 0.03cm
+% 80 units = 2.4cm
+% 125 units = 3.75cm
+% Total width = 615 * 0.03 = 18.45cm
+% Center of P2 is at x of P2.center.
+% We want to center the expanded row roughly below P2, or match the SVG layout.
+% In SVG, expanded row starts at x=26.5, P2 starts at 259.
+% Let's just place it below and center it relative to the whole diagram or P2.
+% Let's center it relative to P2 for better aesthetics, or span it across.
+
+\node[block, minimum width=2.4cm, below=2.5cm of mbr.west, anchor=west, xshift=0.5cm] (boot) {引导块};
+\node[block, minimum width=2.4cm, right=0pt of boot] (super) {超级块};
+\node[block, minimum width=3.75cm, right=0pt of super] (free) {空闲空间管理};
+\node[block, minimum width=3.75cm, right=0pt of free] (inode) {index 节点};
+\node[block, minimum width=2.4cm, right=0pt of inode] (root) {根目录};
+\node[block, minimum width=3.75cm, right=0pt of root] (files) {文件和目录};
+
+% Expansion lines (From Partition 2)
+\draw (p2.south west) -- (boot.north west);
+\draw (p2.south east) -- (files.north east);
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,86 @@
+\documentclass[tikz, border=10pt]{standalone}
+\usepackage{ctex}
+\usetikzlibrary{positioning, calc, arrows.meta, shapes.geometric, fit, backgrounds}
+
+\begin{document}
+\begin{tikzpicture}[
+    x=1pt, y=1pt,
+    yscale=-1, % Invert y axis to match SVG coordinates
+    font=\sffamily\small,
+    bit/.style={draw, minimum width=20pt, minimum height=16pt, inner sep=0pt, anchor=north west},
+    cell/.style={draw, minimum height=20pt, inner sep=0pt, anchor=north west},
+    index/.style={minimum width=20pt, minimum height=20pt, inner sep=0pt, anchor=north west, font=\footnotesize},
+    >=Latex
+]
+
+% Physical Address (y=21)
+% Bits: 1100 0000 0000 0100
+\def\paBits{1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0}
+\foreach \b [count=\i from 0] in \paBits {
+    \node[bit] (pa_\i) at (\i*20, 21) {\b};
+}
+\node[anchor=west] at (260, 55) {物理地址};
+
+% Virtual Address (y=401)
+% Bits: 1100 0000 0000 0100
+\def\vaBits{1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0}
+\foreach \b [count=\i from 0] in \vaBits {
+    \node[bit] (va_\i) at (\i*20, 401) {\b};
+}
+\node[anchor=west] at (270, 390) {虚拟地址};
+
+% Page Table (y=61 to 361)
+\node[anchor=west] at (11, 245) {页表};
+
+\foreach \idx/\val/\valid [count=\row from 0] in {
+    15/000/0,
+    14/000/0,
+    13/000/0,
+    12/000/0,
+    11/111/1,
+    10/000/0,
+    9/101/1,
+    8/000/0,
+    7/000/0,
+    6/000/0,
+    5/011/1,
+    4/100/0,
+    3/000/1,
+    2/110/1,
+    1/001/1,
+    0/010/1
+} {
+    \pgfmathsetmacro{\y}{61 + \row*20}
+    % Index
+    \node[index] (idx_\idx) at (95, \y) {\idx};
+    % Value
+    \node[cell, minimum width=36pt] (val_\idx) at (115, \y) {\val};
+    % Valid
+    \node[cell, minimum width=14pt] (valid_\idx) at (151, \y) {\valid};
+}
+
+% Arrows
+
+% VA to Index 2
+% Path: M 50 401 L 50 391 L 90 391 L 90 336 L 98.63 336
+\draw[->] (50, 401) -- (50, 391) -- (90, 391) -- (90, 336) -- (98.63, 336);
+
+% Index 2 to PA
+% Path: M 100 331 L 90 331 L 90 51 L 22.1 51 L 22.09 45.37
+\draw[->] (100, 331) -- (90, 331) -- (90, 51) -- (20.5, 51) -- (20.5, 38);
+
+% Offset Arrow (Polygon)
+% Path: M 190 400.5 L 180 400.5 L 180 56.5 L 169.5 56.5 L 185 37.5 L 200.5 56.5 L 190 56.5 Z
+\draw[fill=white] (190, 400.5) -- (180, 400.5) -- (180, 56.5) -- (169.5, 56.5) -- (185, 37.5) -- (200.5, 56.5) -- (190, 56.5) -- cycle;
+
+% Dashed lines
+% PA separator at x=60 (between bit 2 and 3, i.e. bit 12 and 13)
+% SVG path494: M 60 51 L 60 1
+\draw[dashed] (60, 51) -- (60, 1);
+
+% VA separator at x=80 (between bit 3 and 4, i.e. bit 11 and 12)
+% SVG path626: M 80 431 L 80 381
+\draw[dashed] (80, 431) -- (80, 381);
+
+\end{tikzpicture}
+\end{document}

@@ -96,7 +96,7 @@ UNIX 中子进程的初始地址空间是父进程的一个副本，但是两个
 起的，对于进程来说无法察觉调度的存在；如果进程阻塞时，其等待的任务已完成，进程可
 以继续运行，则会转换为就绪态等待操作系统调度。
 
-[[file:../images/OperatingSystem/operatingsystem-process-status.svg]]
+[[file:../../_build/tikzgen/os-operatingsystem-process-status.svg]]
 
 
 ** 进程的实现
@@ -204,7 +204,7 @@ UNIX 中子进程的初始地址空间是父进程的一个副本，但是两个
 成相关的操作。内核使用线程表对系统中的所有线程进行记录，其中保存了每个线程的寄存
 器、状态与其他信息。
 
-[[file:../images/OperatingSystem/kernel-thread.svg]]
+[[file:../../_build/tikzgen/os-kernel-thread.svg]]
 
 由于内核中创建或撤销线程的代价较大，某些系统会采用 *回收线程* 的方式，减小开销。
 当某个线程被撤销时，将其标记为不可运行，但其内核数据结构完全不受影响，在需要创建
@@ -217,7 +217,7 @@ UNIX 中子进程的初始地址空间是父进程的一个副本，但是两个
 时，每个进程都需要专用的线程表，用以跟踪进程中的线程，该进程表及调度方法由运行时
 系统进行管理。
 
-[[file:../images/OperatingSystem/user-thread.svg]]
+[[file:../../_build/tikzgen/os-user-thread.svg]]
 
 用户态线程模型进行调度时，保存线程状态的过程与调度程序都是在本地进行，不需要陷入
 内核、上下文切换等操作，相较于内核态线程要快很多 (一个数量级或更多)。并且针对不
@@ -240,7 +240,7 @@ UNIX 中子进程的初始地址空间是父进程的一个副本，但是两个
 核线程与多少用户线程。内核只识别内核线程，并对内核线程进行调度；内核线程被用户线
 程多路复用，每个内核线程有一个可以轮流使用的用户线程。
 
-[[file:../images/OperatingSystem/mixed-thread.svg]]
+[[file:../../_build/tikzgen/os-mixed-thread.svg]]
 
 
 
@@ -518,7 +518,7 @@ barrier。
 像装入 MMU，最后新进程开始运行。进程切换还会使整个 Cache 失败，强迫缓存从内存中
 动态装入两次。
 
-[[file:../images/OperatingSystem/cpu-process-behavior.svg]]
+[[file:../../_build/tikzgen/os-cpu-process-behavior.svg]]
 
 在进程具有较长时间的 CPU 集中使用和较小的频度的 I/O 等待，这种进程被称为 *CPU 密
 集型* 进程。反之具有较短时间的 CPU 集中使用和频繁的 I/O 等待的进程，被称为 *I/O

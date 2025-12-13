@@ -1,0 +1,73 @@
+\documentclass[border=0.2ex,svgnames,tikz]{standalone}
+\usepackage{amsmath,mathtools}
+\usepackage{fontspec}
+\setmainfont{Source Serif 4}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Code Pro}
+\usepackage{ctex}
+\setCJKmainfont[BoldFont=Source Han Sans CN]{Source Han Serif CN}
+
+\usetikzlibrary{positioning,calc,arrows.meta}
+
+\definecolor{unusedcolor}{HTML}{BAC8D3}
+
+\begin{document}
+\begin{tikzpicture}[
+    >=Latex,
+    font=\sffamily,
+    every node/.style={transform shape=false},
+    cell/.style={draw, rectangle, minimum height=1cm, outer sep=0pt},
+    label node/.style={font=\small, align=center}
+  ]
+
+  % Page Table Entry
+  % Rect 1: Unused (50px -> 1.5cm)
+  \node[cell, fill=unusedcolor, minimum width=1.5cm] (rect1) {};
+
+  % Rect 2: Cache Disable (20px -> 0.6cm)
+  \node[cell, minimum width=0.6cm, right=0pt of rect1] (rect2) {};
+
+  % Rect 3: Accessed (20px -> 0.6cm)
+  \node[cell, minimum width=0.6cm, right=0pt of rect2] (rect3) {};
+
+  % Rect 4: Modified (20px -> 0.6cm)
+  \node[cell, minimum width=0.6cm, right=0pt of rect3] (rect4) {};
+
+  % Rect 5: Protection (50px -> 1.5cm)
+  \node[cell, minimum width=1.5cm, right=0pt of rect4] (rect5) {};
+
+  % Rect 6: Present (20px -> 0.6cm)
+  \node[cell, minimum width=0.6cm, right=0pt of rect5] (rect6) {};
+
+  % Rect 7: PFN (Rest -> 2.7cm)
+  \node[cell, minimum width=2.7cm, right=0pt of rect6] (rect7) {};
+
+  % Labels
+  % Cache Disable (Top) -> Rect 2
+  \node[label node, above=0.8cm of rect2.north west, anchor=south] (lbl_cache) {Cache 禁止位};
+  \draw[->] (lbl_cache.south) -- (rect2.north);
+
+  % Accessed (Bottom) -> Rect 3
+  \node[label node, below=0.8cm of rect3.south west, anchor=north west] (lbl_accessed) {访问位};
+  \draw[->] (lbl_accessed.north) -- (rect3.south);
+
+  % Modified (Top) -> Rect 4
+  \node[label node, above=0.8cm of rect4.north west, anchor=south west] (lbl_modified) {修改位};
+  \draw[->] (lbl_modified.south) -- (rect4.north);
+
+  % Protection (Bottom) -> Rect 5
+  % Note: The original SVG had "修改位" here too, but "保护位" is more appropriate for a multi-bit field.
+  % I will use "保护位" to correct the likely error.
+  \node[label node, below=0.8cm of rect5.south, anchor=north] (lbl_protection) {保护位};
+  \draw[->] (lbl_protection.north) -- (rect5.south);
+
+  % Present (Top) -> Rect 6
+  \node[label node, above=0.8cm of rect6.north, anchor=south] (lbl_present) {「在/不在」位};
+  \draw[->] (lbl_present.south) -- (rect6.north);
+
+  % PFN (Bottom) -> Rect 7
+  \node[label node, below=0.8cm of rect7.south, anchor=north] (lbl_pfn) {页框号};
+  \draw[->] (lbl_pfn.north) -- (rect7.south);
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,142 @@
+\documentclass[tikz, border=2pt]{standalone}
+\usepackage{ctex}
+\usetikzlibrary{positioning}
+
+\definecolor{parityfill}{HTML}{DAE8FC}
+\definecolor{paritystroke}{HTML}{6C8EBF}
+\definecolor{backupfill}{HTML}{F5F5F5}
+\definecolor{backupstroke}{HTML}{666666}
+
+\begin{document}
+\begin{tikzpicture}[yscale=-1, x=1pt, y=1pt, font=\sffamily]
+
+% Layout parameters
+\def\cw{50}   % Cell Width
+\def\ch{15}   % Cell Height
+\def\rows{4}  % Number of rows per block
+\def\hgap{10} % Horizontal gap between columns
+\def\vgap{25} % Vertical gap between RAID levels
+\def\lblx{30} % Label X position center
+\def\startx{70} % First column X position
+
+% Styles
+\tikzset{
+    cell/.style={draw=black, fill=white, minimum width=\cw pt, minimum height=\ch pt, inner sep=0pt, anchor=north west, font=\small},
+    backup/.style={cell, fill=backupfill, draw=backupstroke},
+    parity/.style={cell, fill=parityfill, draw=paritystroke},
+    label/.style={anchor=center, font=\bfseries}
+}
+
+% Helper macro for column background
+\newcommand{\drawcolbg}[2]{
+    \draw[fill=white] (#1, #2) rectangle ++(\cw, \rows*\ch);
+}
+
+% --- RAID 0 ---
+\def\yzero{0}
+\node[label] at (\lblx, \yzero + \rows*\ch/2) {RAID 0};
+% Col 1
+\drawcolbg{\startx}{\yzero}
+\foreach \i/\v in {0/0, 1/2, 2/4, 3/6} \node[cell] at (\startx, \yzero + \i*\ch) {\v};
+% Col 2
+\drawcolbg{\startx + \cw + \hgap}{\yzero}
+\foreach \i/\v in {0/1, 1/3, 2/5, 3/7} \node[cell] at (\startx + \cw + \hgap, \yzero + \i*\ch) {\v};
+
+% Legend (Placed to the right of RAID 0)
+\def\legx{\startx + 2*\cw + 2*\hgap + 20}
+\def\legy{\yzero}
+\node[cell] at (\legx, \legy) {};
+\node[anchor=west] at (\legx + \cw + 5, \legy + \ch/2) {数据};
+\node[backup] at (\legx, \legy + \ch + 5) {};
+\node[anchor=west] at (\legx + \cw + 5, \legy + \ch + 5 + \ch/2) {备份};
+\node[parity] at (\legx, \legy + 2*\ch + 10) {};
+\node[anchor=west] at (\legx + \cw + 5, \legy + 2*\ch + 10 + \ch/2) {校验};
+
+
+% --- RAID 1 ---
+\def\yone{\yzero + \rows*\ch + \vgap}
+\node[label] at (\lblx, \yone + \rows*\ch/2) {RAID 1};
+% Col 1 (Data)
+\drawcolbg{\startx}{\yone}
+\foreach \i/\v in {0/0, 1/2, 2/4, 3/6} \node[cell] at (\startx, \yone + \i*\ch) {\v};
+% Col 2 (Data)
+\drawcolbg{\startx + \cw + \hgap}{\yone}
+\foreach \i/\v in {0/1, 1/3, 2/5, 3/7} \node[cell] at (\startx + \cw + \hgap, \yone + \i*\ch) {\v};
+% Col 3 (Backup)
+\drawcolbg{\startx + 2*\cw + 2*\hgap}{\yone}
+\foreach \i/\v in {0/0, 1/2, 2/4, 3/6} \node[backup] at (\startx + 2*\cw + 2*\hgap, \yone + \i*\ch) {\v};
+% Col 4 (Backup)
+\drawcolbg{\startx + 3*\cw + 3*\hgap}{\yone}
+\foreach \i/\v in {0/1, 1/3, 2/5, 3/7} \node[backup] at (\startx + 3*\cw + 3*\hgap, \yone + \i*\ch) {\v};
+
+
+% --- RAID 4 ---
+\def\yfour{\yone + \rows*\ch + \vgap}
+\node[label] at (\lblx, \yfour + \rows*\ch/2) {RAID 4};
+% Col 1
+\drawcolbg{\startx}{\yfour}
+\foreach \i/\v in {0/0, 1/2, 2/4, 3/6} \node[cell] at (\startx, \yfour + \i*\ch) {\v};
+% Col 2
+\drawcolbg{\startx + \cw + \hgap}{\yfour}
+\foreach \i/\v in {0/1, 1/3, 2/5, 3/7} \node[cell] at (\startx + \cw + \hgap, \yfour + \i*\ch) {\v};
+% Col 3 (Parity)
+\drawcolbg{\startx + 2*\cw + 2*\hgap}{\yfour}
+\foreach \i/\v in {0/P01, 1/P23, 2/P45, 3/P67} \node[parity] at (\startx + 2*\cw + 2*\hgap, \yfour + \i*\ch) {\v};
+
+
+% --- RAID 5 ---
+\def\yfive{\yfour + \rows*\ch + \vgap}
+\node[label] at (\lblx, \yfive + \rows*\ch/2) {RAID 5};
+% Backgrounds
+\drawcolbg{\startx}{\yfive}
+\drawcolbg{\startx + \cw + \hgap}{\yfive}
+\drawcolbg{\startx + 2*\cw + 2*\hgap}{\yfive}
+% Row 1
+\node[cell] at (\startx, \yfive) {0};
+\node[cell] at (\startx + \cw + \hgap, \yfive) {1};
+\node[parity] at (\startx + 2*\cw + 2*\hgap, \yfive) {P01};
+% Row 2
+\node[cell] at (\startx, \yfive + \ch) {2};
+\node[parity] at (\startx + \cw + \hgap, \yfive + \ch) {P23};
+\node[cell] at (\startx + 2*\cw + 2*\hgap, \yfive + \ch) {3};
+% Row 3
+\node[parity] at (\startx, \yfive + 2*\ch) {P45};
+\node[cell] at (\startx + \cw + \hgap, \yfive + 2*\ch) {5};
+\node[cell] at (\startx + 2*\cw + 2*\hgap, \yfive + 2*\ch) {4};
+% Row 4
+\node[cell] at (\startx, \yfive + 3*\ch) {6};
+\node[cell] at (\startx + \cw + \hgap, \yfive + 3*\ch) {7};
+\node[parity] at (\startx + 2*\cw + 2*\hgap, \yfive + 3*\ch) {P67};
+
+
+% --- RAID 6 ---
+\def\ysix{\yfive + \rows*\ch + \vgap}
+\node[label] at (\lblx, \ysix + \rows*\ch/2) {RAID 6};
+% Backgrounds
+\drawcolbg{\startx}{\ysix}
+\drawcolbg{\startx + \cw + \hgap}{\ysix}
+\drawcolbg{\startx + 2*\cw + 2*\hgap}{\ysix}
+\drawcolbg{\startx + 3*\cw + 3*\hgap}{\ysix}
+% Row 1
+\node[cell] at (\startx, \ysix) {0};
+\node[cell] at (\startx + \cw + \hgap, \ysix) {1};
+\node[parity] at (\startx + 2*\cw + 2*\hgap, \ysix) {P01};
+\node[parity] at (\startx + 3*\cw + 3*\hgap, \ysix) {P01};
+% Row 2
+\node[cell] at (\startx, \ysix + \ch) {2};
+\node[parity] at (\startx + \cw + \hgap, \ysix + \ch) {P23};
+\node[parity] at (\startx + 2*\cw + 2*\hgap, \ysix + \ch) {P23};
+\node[cell] at (\startx + 3*\cw + 3*\hgap, \ysix + \ch) {3};
+% Row 3
+\node[parity] at (\startx, \ysix + 2*\ch) {P45};
+\node[parity] at (\startx + \cw + \hgap, \ysix + 2*\ch) {P45};
+\node[cell] at (\startx + 2*\cw + 2*\hgap, \ysix + 2*\ch) {4};
+\node[cell] at (\startx + 3*\cw + 3*\hgap, \ysix + 2*\ch) {5};
+% Row 4
+\node[parity] at (\startx, \ysix + 3*\ch) {P67};
+\node[cell] at (\startx + \cw + \hgap, \ysix + 3*\ch) {6};
+\node[cell] at (\startx + 2*\cw + 2*\hgap, \ysix + 3*\ch) {7};
+\node[parity] at (\startx + 3*\cw + 3*\hgap, \ysix + 3*\ch) {P67};
+
+\end{tikzpicture}
+\end{document}
