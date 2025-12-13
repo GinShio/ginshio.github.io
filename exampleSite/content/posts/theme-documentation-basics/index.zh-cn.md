@@ -29,7 +29,7 @@ toc:
 直接安装满足你操作系统 (**Windows**, **Linux**, **macOS**) 的最新版本 [{{< fa-icon regular file-archive >}} Hugo (> 0.122.0)](https://gohugo.io/getting-started/installing/).
 
 {{< admonition note "为什么不支持早期版本的 Hugo?" >}}
-由于 [WebP 图像处理](https://gohugo.io/content-management/image-processing/#jpeg-and-webp-quality) 在 [Hugo 0.122.0版本](https://gohugo.io/news/0.122.0-relnotes/) 中被引入, 本主题只支持高于 **0.122.0** 的 Hugo 版本.
+由于 [WebP 图像处理](https://gohugo.io/content-management/image-processing/#quality) 在 [Hugo 0.122.0版本](https://github.com/gohugoio/hugo/releases/tag/v0.122.0) 中被引入, 本主题只支持高于 **0.122.0** 的 Hugo 版本.
 {{< /admonition >}}
 
 {{< admonition tip "推荐使用 Hugo extended 版本" >}}
@@ -190,14 +190,14 @@ hugo
 
 ### 网站配置 {#site-configuration}
 
-除了 [Hugo 全局配置](https://gohugo.io/overview/configuration/) 和 [菜单配置](#basic-configuration) 之外, **DoIt** 主题还允许您在网站配置中定义以下参数 (这是一个示例 `config.toml`, 其内容为默认值).
+除了 [Hugo 全局配置](https://gohugo.io/configuration/) 和 [菜单配置](#basic-configuration) 之外, **DoIt** 主题还允许您在网站配置中定义以下参数 (这是一个示例 `config.toml`, 其内容为默认值).
 
 请打开下面的代码块查看完整的示例配置 {{< fa-icon regular hand-point-down >}}:
 
 ```toml
 [params]
   # {{< version 0.2.0 changed >}} DoIt 主题版本
-  version = "0.3.X"
+  version = "0.4.X"
   # 网站名称
   title = "我的全新 Hugo 网站"
   # 网站描述
@@ -226,7 +226,7 @@ optimizeImages = true
   srcsetDefaultResizeMethod = "1200x webp Lanczos q75"
   srcsetLargeResizeMethod = "2000x webp Lanczos q75"
   # {{< version 0.2.14 >}} 版权信息
-  license = '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
+  license = '<a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
   # 作者配置
   [params.author]
     name = "xxxx"
@@ -311,7 +311,7 @@ optimizeImages = true
     # {{< version 0.2.0 >}} 是否显示 Hugo 和主题信息
     hugo = true
     # {{< version 0.2.14 >}} 托管服务信息 (支持 HTML 格式)
-    # <a title="Github Pages" href="https://docs.github.com/en/pages/" target="_blank" rel="noopener noreffer">GitHub Pages</a>
+    # <a title="Github Pages" href="https://docs.github.com/en/pages/" target="_blank" rel="noopener noreferrer">GitHub Pages</a>
     hostedOn = ''
     # {{< version 0.2.0 >}} 是否显示版权信息
     copyright = true
@@ -322,7 +322,7 @@ optimizeImages = true
     # ICP 备案信息, 仅在中国使用 (支持 HTML 格式)
     icp = ""
     # 许可协议信息 (支持 HTML 格式)
-    license = '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
+    license = '<a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
 
   # {{< version 0.2.0 >}} Section (所有文章) 页面配置
   [params.section]
@@ -584,6 +584,9 @@ optimizeImages = true
       Trello = false
       Mix = false
       Mastodon = false
+    # PlantUML 在线渲染服务器
+    [params.page.plantuml]
+      server = "https://www.plantuml.com/plantuml"
 
     # instant.page 设置
     [params.page.instantpage]
@@ -889,10 +892,10 @@ optimizeImages = true
 
 # {{< link "https://gohugo.io/content-management/urls#permalinks" "Permalinks 配置" >}}
 [Permalinks]
-  # posts = ":year/:month/:filename"
-  posts = ":filename"
+  # posts = ":year/:month/:contentbasename"
+  posts = ":contentbasename"
 
-# {{< link "https://gohugo.io/about/hugo-and-gdpr/" "隐私信息配置" >}}
+# {{< link "https://gohugo.io/configuration/privacy/" "隐私信息配置" >}}
 [privacy]
   # {{< version 0.2.0 deleted >}} Google Analytics 相关隐私 (被 params.analytics.google 替代)
   [privacy.googleAnalytics]

@@ -13,7 +13,7 @@ categories: ["documentation"]
 series: ["getting-start"]
 series_weight: 1
 lightgallery: true
-license: '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
+license: '<a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
 toc:
   auto: false
 ---
@@ -29,7 +29,7 @@ Thanks to the simplicity of Hugo, [Hugo](https://gohugo.io/) is the only depende
 Just install latest version of [{{< fa-icon regular file-archive >}} Hugo (> 0.122.0)](https://gohugo.io/getting-started/installing/) for your OS (**Windows**, **Linux**, **macOS**).
 
 {{< admonition note "Why not support earlier versions of Hugo?" >}}
-Since [WebP Image Processing](https://gohugo.io/content-management/image-processing/#jpeg-and-webp-quality) was introduced in the [Hugo 0.122.0](https://gohugo.io/news/0.122.0-relnotes/), this theme only supports Hugo versions above **0.122.0**.
+Since [WebP Image Processing](https://gohugo.io/content-management/image-processing/#quality) was introduced in the [Hugo 0.122.0](https://github.com/gohugoio/hugo/releases/tag/v0.122.0), this theme only supports Hugo versions above **0.122.0**.
 {{< /admonition >}}
 
 {{< admonition tip "Hugo extended version is recommended" >}}
@@ -187,14 +187,14 @@ Alternatively, you can use [AWS Amplify](https://gohugo.io/hosting-and-deploymen
 
 ### Site Configuration {#site-configuration}
 
-In addition to [Hugo global configuration](https://gohugo.io/overview/configuration/) and [menu configuration](#basic-configuration), **DoIt** lets you define the following parameters in your site configuration (here is a `config.toml`, whose values are default).
+In addition to [Hugo global configuration](https://gohugo.io/configuration/) and [menu configuration](#basic-configuration), **DoIt** lets you define the following parameters in your site configuration (here is a `config.toml`, whose values are default).
 
 Please open the code block below to view the complete sample configuration {{< fa-icon regular hand-point-down >}}:
 
 ```toml
 [params]
   # {{< version 0.2.0 changed >}} DoIt theme version
-  version = "0.3.X"
+  version = "0.4.X"
   # website title
   title = "My New Hugo Site"
   # site description
@@ -222,8 +222,8 @@ Please open the code block below to view the complete sample configuration {{< f
   srcsetSmallResizeMethod = "700x webp Lanczos q75"
   srcsetDefaultResizeMethod = "1200x webp Lanczos q75"
   srcsetLargeResizeMethod = "2000x webp Lanczos q75"
-  # {{< version 0.2.14 >}} License information
-  license = '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
+  # {{< version 0.3.0 >}} License information
+  license = '<a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
   # Author config
   [params.author]
     name = "xxxx"
@@ -308,7 +308,7 @@ Please open the code block below to view the complete sample configuration {{< f
     # {{< version 0.2.0 >}} whether to show Hugo and theme info
     hugo = true
     # {{< version 0.2.14 >}} Hosted on (HTML format is supported)
-    # <a title="Github Pages" href="https://docs.github.com/en/pages/" target="_blank" rel="noopener noreffer">GitHub Pages</a>
+    # <a title="Github Pages" href="https://docs.github.com/en/pages/" target="_blank" rel="noopener noreferrer">GitHub Pages</a>
     hostedOn = ''
     # {{< version 0.2.0 >}} whether to show copyright info
     copyright = true
@@ -319,7 +319,7 @@ Please open the code block below to view the complete sample configuration {{< f
     # ICP info only in China (HTML format is supported)
     icp = ""
     # license info (HTML format is supported)
-    license = '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
+    license = '<a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
 
   # {{< version 0.2.0 >}} Section (all posts) page config
   [params.section]
@@ -581,6 +581,9 @@ Please open the code block below to view the complete sample configuration {{< f
       Trello = false
       Mix = false
       Mastodon = false
+    # server for PlantUML online rendering
+    [params.page.plantuml]
+      server = "https://www.plantuml.com/plantuml"
 
     # instant.page config
     [params.page.instantpage]
@@ -887,10 +890,10 @@ Please open the code block below to view the complete sample configuration {{< f
 
 # {{< link "https://gohugo.io/content-management/urls#permalinks" "Permalinks config" >}}
 [Permalinks]
-  # posts = ":year/:month/:filename"
-  posts = ":filename"
+  # posts = ":year/:month/:contentbasename"
+  posts = ":contentbasename"
 
-# {{< link "https://gohugo.io/about/hugo-and-gdpr/" "Privacy config" >}}
+# {{< link "https://gohugo.io/configuration/privacy/" "Privacy config" >}}
 [privacy]
   # {{< version 0.2.0 deleted >}} privacy of the Google Analytics (replaced by params.analytics.google)
   [privacy.googleAnalytics]

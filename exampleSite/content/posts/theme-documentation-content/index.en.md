@@ -359,7 +359,7 @@ The rendered output looks like this:
 
 #### Copy-tex
 
-**[Copy-tex](https://github.com/Khan/KaTeX/tree/master/contrib/copy-tex)** is an extension for **$ \KaTeX $**.
+**[Copy-tex](https://github.com/KaTeX/KaTeX/tree/main/contrib/copy-tex)** is an extension for **$ \KaTeX $**.
 
 By the extension, when selecting and copying $ \KaTeX $ rendered elements, copies their $ \LaTeX $ source to the clipboard.
 
@@ -369,7 +369,7 @@ Select and copy the formula rendered in the previous section, and you can find t
 
 #### mhchem
 
-**[mhchem](https://github.com/Khan/KaTeX/tree/master/contrib/mhchem)** is an extension for **$ \KaTeX $**.
+**[mhchem](https://github.com/KaTeX/KaTeX/tree/main/contrib/mhchem)** is an extension for **$ \KaTeX $**.
 
 By the extension, you can write beautiful chemical equations easily in the article.
 
@@ -454,3 +454,73 @@ The rendered output looks like this:
 
 > [!CAUTION]
 > Advises about risks or negative outcomes of certain actions.
+
+### PlantUML Support
+
+**DoIt** supports [PlantUML](https://plantuml.com/en/) diagrams:
+
+~~~markdown
+```plantuml {format="svg" title="example"}
+@startuml test
+Bob -> Alice : hello
+@enduml
+```
+~~~
+
+The rendered output looks like this:
+
+```plantuml {format="svg" title="example"}
+@startuml test
+Bob -> Alice : hello
+@enduml
+```
+
+You can customize the rendered image with following optional parameters:
+
+option | description | type
+--- | --- | ---
+`format` | output format of PlantUML renderer, either `svg` (default) or `png` | string
+`title` | will be rendered as attribute `alt` of tag `<img>` | string
+
+### WaveDrom Support
+
+> [!TIP]
+> There are [a tutorial and a set of examples for WaveDrom](https://observablehq.com/collection/@drom/wavedrom).
+
+**DoIt** supports [WaveDrom](https://wavedrom.com/) diagrams:
+
+~~~markdown {open = true}
+```wavedrom
+{signal: [
+  {name: 'clock',   wave: 'p................'},
+  {name: 'hwrite',  wave: 'x0x.0x..0.x.0.x..'},
+  {name: 'htrans',  wave: 'x3x.4x..5.x.6.x..', data: '2 2 2 2'},
+  {name: 'haddr',   wave: 'x3x.4x..5.x.6.x..', data: 'A0 A1 A2 A3'},
+  {},
+  {name: 'hready',  wave: 'x1.x101x01.x0101x'},
+  {name: 'hrdata',  wave: 'x.3x..4x..5x...6x', data: 'D0 D1 D2 D3'},
+],
+    head: {tock: 1},
+    gaps: '( . . 1 . s . 1 s . . 1 s . s . )',
+    foot: {text: 'reads'}
+}
+```
+~~~
+
+The rendered output looks like this:
+
+```wavedrom
+{signal: [
+  {name: 'clock',   wave: 'p................'},
+  {name: 'hwrite',  wave: 'x0x.0x..0.x.0.x..'},
+  {name: 'htrans',  wave: 'x3x.4x..5.x.6.x..', data: '2 2 2 2'},
+  {name: 'haddr',   wave: 'x3x.4x..5.x.6.x..', data: 'A0 A1 A2 A3'},
+  {},
+  {name: 'hready',  wave: 'x1.x101x01.x0101x'},
+  {name: 'hrdata',  wave: 'x.3x..4x..5x...6x', data: 'D0 D1 D2 D3'},
+],
+    head: {tock: 1},
+    gaps: '( . . 1 . s . 1 s . . 1 s . s . )',
+    foot: {text: 'reads'}
+}
+```
