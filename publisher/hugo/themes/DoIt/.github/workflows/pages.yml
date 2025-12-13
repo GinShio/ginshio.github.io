@@ -36,7 +36,7 @@ jobs:
           hugo-version: "latest"
           extended: true
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: recursive
           fetch-depth: 0
@@ -46,7 +46,7 @@ jobs:
       - name: Build with Hugo
         run: hugo --logLevel info --minify --source=exampleSite --themesDir ../.. --baseURL=https://pages.hugodoit.com
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./exampleSite/public
 

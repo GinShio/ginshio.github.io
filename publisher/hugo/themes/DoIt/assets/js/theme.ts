@@ -7,8 +7,8 @@ declare global {
     config?: {
       table?: {
         sort?: boolean;
-      }
-    }
+      };
+    };
   }
 }
 
@@ -233,10 +233,9 @@ function initSearch() {
   } else {
     window._searchDesktopOnce = true;
     // Turn on the mask when clicking on the search button
-    searchToggle.addEventListener("click", () => {
+    function loadSearchScript() {
       loadScript("autocomplete-script", autocompleteJs, () => {
         initAutosearch();
-        searchInput.focus();
       });
       if (window.config?.search?.type === "algolia") {
         loadScript("algolia-script", algoliaJs, null);
@@ -245,6 +244,10 @@ function initSearch() {
       } else {
         loadPagefind();
       }
+    }
+    searchToggle.addEventListener("mouseover", loadSearchScript, { once: true }); 
+    searchToggle.addEventListener("click", () => {
+      loadSearchScript();
       document.body.classList.add("blur");
       header.classList.add("open");
       searchInput.focus();
@@ -490,7 +493,7 @@ function initSearch() {
                       icon: "",
                       href: "https://pagefind.app",
                     };
-            return `<div class="search-footer">Search by <a href="${href}" rel="noopener noreffer" target="_blank">${icon} ${searchType}</a></div>`;
+            return `<div class="search-footer">Search by <a href="${href}" rel="noopener noreferrer" target="_blank">${icon} ${searchType}</a></div>`;
           },
         },
       },
@@ -573,7 +576,9 @@ function initLightGallery() {
 
 function initTablesort() {
   if (window.config?.table?.sort) {
-    document.querySelectorAll(".content table").forEach((table) => new Tablesort(table));
+    document
+      .querySelectorAll(".content table")
+      .forEach((table) => new Tablesort(table));
   }
 }
 
@@ -683,19 +688,19 @@ function initToc() {
 }
 
 function initTocDialog() {
-  const dialog: HTMLDialogElement | null = document.querySelector('#toc-dialog');
-  const openButton = document.querySelector('#toc-drawer-button');
+  const dialog: HTMLDialogElement | null =
+    document.querySelector("#toc-dialog");
+  const openButton = document.querySelector("#toc-drawer-button");
   if (!dialog || !openButton) {
     return;
   }
-  openButton.addEventListener('click', () => {
+  openButton.addEventListener("click", () => {
     dialog.showModal();
     document.activeElement?.blur();
   });
-  dialog.addEventListener('click', (e) => {
+  dialog.addEventListener("click", (e) => {
     dialog.close();
-  })
-
+  });
 }
 function initMapbox() {
   if (window.config.mapbox) {
@@ -867,8 +872,8 @@ function onClickMask() {
 function initCodeblocks() {
   document.querySelectorAll(".code-block").forEach((codeBlock) => {
     // the queries are guaranteed to be successful
-    const titleBar = codeBlock.querySelector(
-      "div.code-block-title-bar",
+    const titleButton = codeBlock.querySelector(
+      "button.code-block-button",
     ) as HTMLDivElement;
     const chroma = codeBlock.querySelector("code.chroma") as HTMLElement;
     const copyCodeButton = codeBlock.querySelector(
@@ -890,7 +895,7 @@ function initCodeblocks() {
     chroma.style.maxHeight = "fit-content";
 
     // handle expanding and collapsing code blocks
-    titleBar.addEventListener("click", () => {
+    titleButton.addEventListener("click", () => {
       codeBlock.classList.toggle("is-open");
       codeBlock.classList.toggle("is-closed");
     });
@@ -919,7 +924,7 @@ function initCodeblocks() {
 
     addEventListener("beforeprint", (_) => {
       if (codeBlock.classList.contains("is-closed")) {
-        titleBar.click();
+        titleButton.click();
       }
       if (!codeBlock.classList.contains("is-wrap")) {
         wrapCodeButton.click();
