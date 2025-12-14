@@ -455,7 +455,7 @@ CU。如 Compute shader 可以一次性派发 (Dispatch) 多个 workgroup，即
     channel 分别是该函数的参数。
 -   `in uvec3 gl_WorkGroupID`: 工作组在全局范围内的三维索引，范围在 `uvec3(0)` 和
     `gl_NumWorkGroups - uvec3(1)` 之间。
--   `in uvec3 gl_GlobalInvocationID`: 表示当前线程在全局工作组中的一个唯一三维索引，可以通过  \\(gl\\\_WorkGroupID \* gl\\\_WorkGroupSize +
+-   `in uvec3 gl_GlobalInvocationID`: 表示当前线程在全局工作组中的一个唯一三维索引，可以通过 \\(gl\\\_WorkGroupID \* gl\\\_WorkGroupSize +
        gl\\\_LocalInvocationID\\) 计算而来。
 -   `in uint gl_LocalInvocationIndex`: 表示当前线程在全局工作组中的一个扁平化的一维索引。可以通过以下表达式计算得出：
     \\[\begin{aligned}
@@ -638,4 +638,3 @@ CFG:
 -   [LLVM’s Analysis and Transform Passes](https://llvm.org/docs/Passes.html)
 
 Analysis + Transform
-

@@ -3724,9 +3724,9 @@ the vast majority of the change in behaviour comes from switch statements in:
     ```text
     #+latex_compiler: xelatex
     #+latex_header: \usepackage{xeCJK}
-    #+latex_header: \setCJKmainfont{Source Han Serif SC}
-    #+latex_header: \setCJKsansfont{Source Han Sans SC}
-    #+latex_header: \setCJKmonofont{Source Han Mono SC}
+    #+latex_header: \setCJKmainfont{Source Han Serif CN}
+    #+latex_header: \setCJKsansfont{Source Han Sans CN}
+    #+latex_header: \setCJKmonofont{Source Han Mono CN}
     ```
 
     首先，将创建一个默认状态变量并将字体集注册为 `#+options` 的一部分。
@@ -4552,4 +4552,3 @@ tcc 也是 C++
 ```emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.tcc\\'" . c++-mode))
 ```
-

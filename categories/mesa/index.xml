@@ -1,29 +1,51 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Mesa on iris</title>
-    <link>https://blog.ginshio.org/categories/mesa/</link>
-    <description>Recent content in Mesa on iris</description>
-    <generator>Hugo</generator>
-    <language>zh-CN</language>
-    <managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
-    <webMaster>ginshio78@gmail.com (GinShio)</webMaster>
-    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Fri, 20 Sep 2024 23:13:27 +0800</lastBuildDate>
-    <atom:link href="https://blog.ginshio.org/categories/mesa/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>How To Use Mesa&#39;s test tool: deqp-runner</title>
-      <link>https://blog.ginshio.org/2024/how-to-use-deqp-runner/</link>
-      <pubDate>Fri, 20 Sep 2024 23:13:27 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
-      <guid>https://blog.ginshio.org/2024/how-to-use-deqp-runner/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://gitlab.freedesktop.org/mesa/deqp-runner&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;deqp-runner&lt;/a&gt; is a series of tools written by mesa developers for running vulkan&#xA;and opengl quality test case programs. It can run in parallel and robustly &lt;a href=&#34;https://github.com/KhronosGroup/VK-GL-CTS&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;dEQP&lt;/a&gt;&#xA;(draw-element quality program), &lt;a href=&#34;https://gitlab.freedesktop.org/mesa/piglit&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;piglit&lt;/a&gt;, SkQP (Skia Quality Program), and so on.&lt;/p&gt;&#xA;&lt;p&gt;In my experience, when running large dEQP test cases, your own changes may cause&#xA;umd (user mode driver) to &lt;em&gt;fail&lt;/em&gt;, &lt;em&gt;crash&lt;/em&gt;, &lt;em&gt;timeout&lt;/em&gt;, or &lt;em&gt;hang&lt;/em&gt;. If you simply use&#xA;&lt;code&gt;deqp-vk&lt;/code&gt;, the khronos testcases program for vulkan, the test will stop when umd&#xA;throws unrecoverable error. And we cannot easily get the results that new&#xA;failures based on the previous version.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>How To Build Mesa for AMD</title>
-      <link>https://blog.ginshio.org/2023/how-to-build-mesa/</link>
-      <pubDate>Mon, 28 Aug 2023 22:25:22 +0800</pubDate><author>ginshio78@gmail.com (GinShio)</author>
-      <guid>https://blog.ginshio.org/2023/how-to-build-mesa/</guid>
-      <description>&lt;h2 id=&#34;what&#34; class=&#34;headerLink&#34;&gt;&#xA;    &lt;a href=&#34;#what&#34; class=&#34;header-mark&#34;&gt;&lt;/a&gt;What&lt;/h2&gt;&lt;p&gt;copy from &lt;a href=&#34;https://en.wikipedia.org/wiki/Mesa_%28computer_graphics%29&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;Wikipidia&lt;/a&gt;:&lt;/p&gt;&#xA;&lt;p&gt;Mesa is an open source implementation of OpenGL, Vulkan, and other graphics API&#xA;specifications. Mesa translates these specifications to vendor-specific graphics&#xA;hardware drivers.&lt;/p&gt;&#xA;&lt;h3 id=&#34;vendor-drivers&#34; class=&#34;headerLink&#34;&gt;&#xA;    &lt;a href=&#34;#vendor-drivers&#34; class=&#34;header-mark&#34;&gt;&lt;/a&gt;Vendor Drivers&lt;/h3&gt;&lt;p&gt;Mesa is UMD (User mode driver), provides implementation of graphics API and&#xA;shader compiler. Mesa is like a mono repository, different vendor drivers and&#xA;graphics APIs are in different directories.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Gallium&lt;/strong&gt; is a driver project in mesa, includes many backends for hardwares:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;AMD driver for GCN &amp;amp; Navi (&lt;em&gt;radeonsi&lt;/em&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Intel driver for iris (&lt;em&gt;i965&lt;/em&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Intel driver (&lt;em&gt;i915&lt;/em&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Nvidia driver (&lt;em&gt;nouveau&lt;/em&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Software implementation (&lt;em&gt;swrast&lt;/em&gt;)&lt;/li&gt;&#xA;&lt;li&gt;OpenGL over Vulkan (&lt;em&gt;zink&lt;/em&gt;)&lt;/li&gt;&#xA;&lt;li&gt;DirectX3D 12 driver (&lt;em&gt;d3d12&lt;/em&gt;)&lt;/li&gt;&#xA;&lt;li&gt;OpenCL frontend (&lt;em&gt;clover&lt;/em&gt;)&lt;/li&gt;&#xA;&lt;li&gt;new OpenCL frontend by rust (&lt;em&gt;rusticl&lt;/em&gt;, 23.1)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;libgl only provides APIs, and dispatch call to vendor implementation (e.g.&#xA;radeonsi).&lt;/p&gt;</description>
-    </item>
-  </channel>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Mesa - 分类 - iris</title>
+        <link>https://blog.ginshio.org/categories/mesa/</link>
+        <description>Mesa - 分类 - iris</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>ginshio78@gmail.com (GinShio)</managingEditor>
+            <webMaster>ginshio78@gmail.com (GinShio)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 20 Sep 2024 23:13:27 &#43;0800</lastBuildDate><atom:link href="https://blog.ginshio.org/categories/mesa/" rel="self" type="application/rss+xml" /><item>
+    <title>How To Use Mesa&#39;s test tool: deqp-runner</title>
+    <link>https://blog.ginshio.org/2024/how-to-use-deqp-runner/</link>
+    <pubDate>Fri, 20 Sep 2024 23:13:27 &#43;0800</pubDate><author>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2024/how-to-use-deqp-runner/</guid>
+    <description><![CDATA[<p><a href="https://gitlab.freedesktop.org/mesa/deqp-runner" target="_blank" rel="noopener noreferrer">deqp-runner</a> is a series of tools written by mesa developers for running vulkan
+and opengl quality test case programs. It can run in parallel and robustly <a href="https://github.com/KhronosGroup/VK-GL-CTS" target="_blank" rel="noopener noreferrer">dEQP</a>
+(draw-element quality program), <a href="https://gitlab.freedesktop.org/mesa/piglit" target="_blank" rel="noopener noreferrer">piglit</a>, SkQP (Skia Quality Program), and so on.</p>
+<p>In my experience, when running large dEQP test cases, your own changes may cause
+umd (user mode driver) to <em>fail</em>, <em>crash</em>, <em>timeout</em>, or <em>hang</em>. If you simply use
+<code>deqp-vk</code>, the khronos testcases program for vulkan, the test will stop when umd
+throws unrecoverable error. And we cannot easily get the results that new
+failures based on the previous version.</p>]]></description>
+</item><item>
+    <title>How To Build Mesa for AMD</title>
+    <link>https://blog.ginshio.org/2023/how-to-build-mesa/</link>
+    <pubDate>Mon, 28 Aug 2023 22:25:22 &#43;0800</pubDate><author>
+                    <name>GinShio</name>
+                </author><guid>https://blog.ginshio.org/2023/how-to-build-mesa/</guid>
+    <description><![CDATA[<h2 id="what" class="headerLink">
+    <a href="#what" class="header-mark"></a>What</h2><p>copy from <a href="https://en.wikipedia.org/wiki/Mesa_%28computer_graphics%29" target="_blank" rel="noopener noreferrer">Wikipidia</a>:</p>
+<p>Mesa is an open source implementation of OpenGL, Vulkan, and other graphics API
+specifications. Mesa translates these specifications to vendor-specific graphics
+hardware drivers.</p>
+<h3 id="vendor-drivers" class="headerLink">
+    <a href="#vendor-drivers" class="header-mark"></a>Vendor Drivers</h3><p>Mesa is UMD (User mode driver), provides implementation of graphics API and
+shader compiler. Mesa is like a mono repository, different vendor drivers and
+graphics APIs are in different directories.</p>
+<p><strong>Gallium</strong> is a driver project in mesa, includes many backends for hardwares:</p>
+<ul>
+<li>AMD driver for GCN &amp; Navi (<em>radeonsi</em>)</li>
+<li>Intel driver for iris (<em>i965</em>)</li>
+<li>Intel driver (<em>i915</em>)</li>
+<li>Nvidia driver (<em>nouveau</em>)</li>
+<li>Software implementation (<em>swrast</em>)</li>
+<li>OpenGL over Vulkan (<em>zink</em>)</li>
+<li>DirectX3D 12 driver (<em>d3d12</em>)</li>
+<li>OpenCL frontend (<em>clover</em>)</li>
+<li>new OpenCL frontend by rust (<em>rusticl</em>, 23.1)</li>
+</ul>
+<p>libgl only provides APIs, and dispatch call to vendor implementation (e.g.
+radeonsi).</p>]]></description>
+</item></channel>
 </rss>
