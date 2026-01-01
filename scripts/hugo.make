@@ -12,13 +12,13 @@ export HUGOGENDIR := $(ORGMODE_BUILDIR)/hugogen
 orgobjects := $(call rwildcard,$(ORGMODE_FILEDIR),*.org)
 
 ### TARGETS
-.PHONY: post site deploy clean cleanall
+.PHONY: init post site deploy clean cleanall
 
 post:
 	@mkdir -p $(HUGOPOSTDIR) $(HUGOIMAGEDIR)
 	@bash $(ORGMODE_SCRIPTDIR)/blog-export-hugo.el $(orgobjects)
 
-site:
+init:
 	@if ! [ -e $(HUGOGENDIR) ]; then \
 		mkdir -p $(HUGOGENDIR); \
 		git -C $(HUGOGENDIR) init --initial-branch=hugo; \
@@ -29,6 +29,9 @@ site:
 		git -C $(HUGOGENDIR) remote set-url --add --push origin gitlab:GinShio/ginshio.gitlab.io.git; \
 		git -C $(HUGOGENDIR) pull origin hugo; \
 	fi
+
+# hugo --gc server --source publisher/hugo --destination _build/hugo
+site: init
 	@hugo --environment production --logLevel info --gc --source $(HUGOBASEDIR) --destination $(HUGOGENDIR)
 
 clean:

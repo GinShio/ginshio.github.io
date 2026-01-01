@@ -6,7 +6,7 @@ export ORGMODE_BUILDIR := $(ORGMODE_DIRECTORY)/_build
 
 ### TARGETS
 .PHONY: all cleanall
-all: tikz hugo beanencrypt
+all: tikz hugo
 
 cleanall:
 	@make -f $(ORGMODE_SCRIPTDIR)/tikz.make cleanall
@@ -17,8 +17,11 @@ cleanall:
 tikz:
 	@make -f $(ORGMODE_SCRIPTDIR)/tikz.make all
 
-.PHONY: hugo posthugo sitehugo cleanhugo
-hugo: tikz posthugo sitehugo
+.PHONY: hugo inithugo posthugo sitehugo cleanhugo cleanallhugo
+hugo: tikz inithugo posthugo sitehugo
+
+inithugo:
+	@make -f $(ORGMODE_SCRIPTDIR)/hugo.make init
 
 posthugo:
 	@make -f $(ORGMODE_SCRIPTDIR)/hugo.make post
@@ -28,6 +31,9 @@ sitehugo:
 
 cleanhugo:
 	@make -f $(ORGMODE_SCRIPTDIR)/hugo.make clean
+
+cleanallhugo:
+	@make -f $(ORGMODE_SCRIPTDIR)/hugo.make cleanall
 
 .PHONY: beanencrypt beandecrypt
 beanencrypt:
