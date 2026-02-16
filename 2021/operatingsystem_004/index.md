@@ -654,3 +654,4 @@ System 的基础。但是它们实在过于底层了，实现起来过于麻烦�
 Environment 的兼容性，使相竞态势下仍不失X的兼容本色。对于 X 的性能、稳定性的缺点，有着其他全新的窗口系统来竞争，比如 freedesktop.org 主导的 Wayland。
 
 对了！X 是一个开源软件，最早使用 X LICENSE 发布，如果你不知道这个协议，那你应该听说过 MIT LICENSE，没错它们是一个 LICENSE。Wayland 也使用 MIT 协议发布。
+
