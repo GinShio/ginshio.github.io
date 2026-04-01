@@ -11,7 +11,6 @@ all: tikz hugo
 cleanall:
 	@make -f $(ORGMODE_SCRIPTDIR)/tikz.make cleanall
 	@make -f $(ORGMODE_SCRIPTDIR)/hugo.make cleanall
-	@EXECTARGET=CLEANALL make -f $(ORGMODE_SCRIPTDIR)/beancount.make cleanall
 
 .PHONY: tikz cleantikz
 tikz:
@@ -34,10 +33,3 @@ cleanhugo:
 
 cleanallhugo:
 	@make -f $(ORGMODE_SCRIPTDIR)/hugo.make cleanall
-
-.PHONY: beanencrypt beandecrypt
-beanencrypt:
-	@make -f $(ORGMODE_SCRIPTDIR)/beancount.make encrypt
-
-beandecrypt:
-	@make -f $(ORGMODE_SCRIPTDIR)/beancount.make decrypt
