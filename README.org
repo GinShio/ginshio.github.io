@@ -3,3 +3,42 @@
 This is my Org-mode files directory
   - branch master: org-mode files
   - branch hugo: GinShio's Hugo blog
+
+* Build
+
+Meson drives the whole pipeline: TikZ figures, Org→Hugo export, and the
+Hugo site build.
+
+#+begin_src sh
+  meson setup _build          # once, and after adding/removing source files:
+                              # meson setup --reconfigure _build
+  meson compile -C _build     # everything: figures -> export -> site
+#+end_src
+
+- Globs (TikZ sources, Org posts, Hugo site files) are read at setup time;
+  new or removed files need a reconfigure.
+- Figures build one ~lualatex+inkscape~ process per figure, in parallel.
+  A single figure: ~meson compile -C _build algo-example-of-heap.svg~.
+- The export runs one batch Emacs using the ginshio configuration's
+  ~org-hugo~ module, exporting only stale posts.  A post is stale when its
+  ~.md~ is missing, older than its ~.org~, or older than any
+  ~_build/tikzgen~ figure it links.
+- The site build runs hugo into ~_build/hugogen~ (the deploy repository,
+  branch ~hugo~; commit and push by hand).
+
+Layout:
+| path                                | contents                              |
+|-------------------------------------+---------------------------------------|
+| ~blog/images/*.tex~                 | TikZ figure sources                   |
+| ~_build/tikzgen/*.svg~              | figures (linked by the Org sources)   |
+| ~_build/latex/~                     | latexmk intermediates                 |
+| ~publisher/hugo/content/posts/~     | exported posts (generated)            |
+| ~publisher/hugo/static/images/~     | exported images (generated)           |
+| ~_build/hugogen/~                   | hugo site = deploy repository         |
+| ~_build/*.stamp~                    | ninja freshness stamps                |
+
+Clean:
+#+begin_src sh
+  meson compile -C _build cleanall    # figures, stamps, pages repo, exported posts
+  meson compile -C _build --clean     # declared outputs only (figures, stamps)
+#+end_src
