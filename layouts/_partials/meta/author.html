@@ -7,17 +7,18 @@
     {{- $lang := ( $.Params.lang | default $.Lang ) -}}
     <span class='author'>
         <span class='screen-reader-text'> {{ i18n "by" }} </span>
+        {{- $authors := hugo.Data.authors -}}
         {{- range $i, $name := .Params.authors -}}
-            {{- if $.Site.Data.authors -}}
+            {{- if $authors -}}
                 {{- with partial "function/author.html" (dict
                     "name" $name
-                    "author" (index $.Site.Data.authors $name)
+                    "author" (index $authors $name)
                     "lang" $lang
                 ) -}}
                     {{- if gt $i 0 }}, {{ end -}}
                     <a href='{{ .link | absURL }}'>
                         {{- if .avatar -}}
-                            {{- dict "Width" "16" "Height" "16" "Src" .avatar "Alt" (printf "%v avatar" .name) "OptimConfig" $optim "Class" "tw-inline-block tw-max-h-4 tw-rounded-full tw-translate-y-[-2px] tw-mr-1" | partial "plugin/image.html" -}}
+                            {{- dict "Width" "16" "Height" "16" "Src" .avatar "Alt" (printf "%v avatar" .name) "OptimConfig" $optim "Class" "tw:inline-block tw:max-h-4 tw:rounded-full tw:translate-y-[-2px] tw:mr-1" | partial "plugin/image.html" -}}
                         {{- else -}}
                             {{- partial "plugin/fontawesome.html" (dict "Style" "solid" "Icon" "user-circle") -}}
                         {{- end -}}
@@ -45,7 +46,7 @@
     {{- $avatar := .Params.authoravatar | default .Site.Params.Author.avatar | default $gravatar | default false -}}
     {{- $options := dict "Class" "author" "Destination" $link "Title" "Author" "Rel" "author" "Content" $author -}}
     {{- if $avatar -}}
-        {{- dict "Width" "16" "Height" "16" "Src" $avatar "Alt" (printf "%v avatar" $author) "OptimConfig" $optim "Class" "tw-inline-block tw-max-h-4 tw-rounded-full tw-translate-y-[-2px] tw-mr-1" | partial "plugin/image.html" -}}
+        {{- dict "Width" "16" "Height" "16" "Src" $avatar "Alt" (printf "%v avatar" $author) "OptimConfig" $optim "Class" "tw:inline-block tw:max-h-4 tw:rounded-full tw:translate-y-[-2px] tw:mr-1" | partial "plugin/image.html" -}}
     {{- else -}}
         {{- partial "plugin/fontawesome.html" (dict "Style" "solid" "Icon" "user-circle") -}}
     {{- end -}}
