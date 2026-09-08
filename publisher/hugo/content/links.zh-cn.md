@@ -62,4 +62,4 @@ description: ""
 > 名称： GinShio  
 > 简介： VENI VIDI VICI  
 > 地址： https://blog.ginshio.org  
-> 头像： https://blog.ginshio.org/avatar.wepb
+> 头像： https://www.gravatar.com/avatar/d888b50047383a6364ff7e757d0ad54d?s=240&d=mp

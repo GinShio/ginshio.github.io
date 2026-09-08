@@ -3,7 +3,7 @@
 title = "iris | GinShio的个人博客"
 # DoIt theme version
 # DoIt 主题版本
-version = "0.3.X"
+version = "1.0.2"
 # site default theme ("light", "dark", "black", "auto")
 # 网站默认主题 ("light", "dark", "black", "auto")
 defaultTheme = "light"
@@ -36,9 +36,12 @@ bundle = false
     gravatarEmail = "ginshio78@gmail.com"
 
 [image]
-    # cache remote images for better optimisations
-    # 缓存图片链接到本地
-    cacheRemote = true
+    # Do not cache remote images at build time: it breaks on URLs with query
+    # strings (shields.io badges rendered as /github- 404s) and stalls the
+    # build on unreachable hosts (vercel.app is DNS-polluted here); the
+    # browser loads remote images directly either way.
+    # 不缓存图片链接到本地
+    cacheRemote = false
     # Image resizing and optimisation
     # 图片缩放和优化
     optimise = true
@@ -393,7 +396,7 @@ bundle = false
             width = "100%"
             numPosts = 10
             appId = ""
-            languageCode = ""
+            locale = ""
         # Telegram comments config (https://comments.app/)
         # Telegram comments 评论系统设置 (https://comments.app/)
         [page.comment.telegram]
