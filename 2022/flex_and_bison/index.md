@@ -260,7 +260,7 @@ info 上看，支持了，但没全支持。
 
 -   操作符 `{+}` 求两个字符集的并集。比如 `[[:alpha:]]{-}[[:lower:]]{+}[q]` 的结果为 `[A-Zq]`。
 
--   一个 pattern 最多有一个尾随上下文 (`/` 或 `$`)，开始条件、`^` 和 `<<EOF>>` 只能出现在 pattern 的开头。这些内容均不能出现在 `()` 的优先级分组中。另外 `^` 与
+-   一个 pattern 最多有一个尾随上下文 (`/` 或 `$`)，开始条件、`^` 和 `<​<EOF>​>` 只能出现在 pattern 的开头。这些内容均不能出现在 `()` 的优先级分组中。另外 `^` 与
     `$` 没有出现在相应位置的情况下，将被视为普通字符。
 
 
@@ -825,14 +825,14 @@ flex 你可以在第一部分中写入 `%option`，大部分选项都以名称�
 
 <div class="verse">
 
-input, unput<br />
-yy_push_state, yy_pop_state, yy_top_state<br />
-yy_scan_buffer, yy_scan_bytes, yy_scan_string<br />
-<br />
-yyget_extra, yyset_extra, yyget_leng, yyget_text,<br />
-yyget_lineno, yyset_lineno, yyget_in, yyset_in,<br />
-yyget_out, yyset_out, yyget_lval, yyset_lval,<br />
-yyget_lloc, yyset_lloc, yyget_debug, yyset_debug<br />
+input, unput<br>
+yy_push_state, yy_pop_state, yy_top_state<br>
+yy_scan_buffer, yy_scan_bytes, yy_scan_string<br>
+<br>
+yyget_extra, yyset_extra, yyget_leng, yyget_text,<br>
+yyget_lineno, yyset_lineno, yyget_in, yyset_in,<br>
+yyget_out, yyset_out, yyget_lval, yyset_lval,<br>
+yyget_lloc, yyset_lloc, yyget_debug, yyset_debug<br>
 
 </div>
 
@@ -1038,7 +1038,8 @@ yyget_lloc, yyset_lloc, yyget_debug, yyset_debug<br />
     -   comment: Flex 直接使用 syscall `read()` 进行输入，而非标准 IO 库的 `fread()`
         或 `getc()`。除非你还使用 `-Cf` 或 `-CF`，否则其性能提升可以忽略不计。
 
-表格的压缩选项可以组合起来，比如默认的表格选项是 `-Cem`，Flex 默认开启了等价类和元等价类选项，这是最慢的一种情况，但是表格最小的情况。可以理解的是，Flex 支持以生成表格的大小来换取扫描器的性能，从表格最小到扫描器性能最高的选项依次是 `-Cem`、`-Cm`、`-Ce`、`-C`、`-C{f,F}e`、`-C{f,F}e`、`-C{f,F}a`。往往越小的表格生成和编译也就越快，而 `-Cfe` 选项通常是在压缩大小与性能之间比较好的权衡。
+表格的压缩选项可以组合起来，比如默认的表格选项是 `-Cem`，Flex 默认开启了等价类和元等价类选项，这是最慢的一种情况，但是表格最小的情况。可以理解的是，Flex 支持以生成表格的大小来换取扫描器的性能，从表格最小到扫描器性能最高的选项依次是 `-Cem`、
+`-Cm`、`-Ce`、`-C`、`-C{f,F}e`、`-C{f,F}e`、`-C{f,F}a`。往往越小的表格生成和编译也就越快，而 `-Cfe` 选项通常是在压缩大小与性能之间比较好的权衡。
 
 -   构造完整扫描表
     -   short name: f
@@ -2757,14 +2758,14 @@ sysy 采用扩展 Backus 范式 (EBNF)，CompUnit 作为开始符号。当然除
 
 <div class="verse">
 
-CompUnit ::= FuncDef;<br />
-<br />
-FuncDef  ::= FuncType **Ident** '(' ')' Block;<br />
-FuncType ::= **int**;<br />
-<br />
-Block    ::= '{' Stmt '}';<br />
-Stmt     ::= **return** Number ';' ;<br />
-Number   ::= INT_CONST;<br />
+CompUnit ::= FuncDef;<br>
+<br>
+FuncDef  ::= FuncType **Ident** '(' ')' Block;<br>
+FuncType ::= **int**;<br>
+<br>
+Block    ::= '{' Stmt '}';<br>
+Stmt     ::= **return** Number ';' ;<br>
+Number   ::= INT_CONST;<br>
 
 </div>
 

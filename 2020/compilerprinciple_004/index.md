@@ -163,12 +163,12 @@ R\ &\rightarrow\ \alpha R \ |\ \varepsilon\\\\
 
 <div class="verse">
 
-按某个顺序将非终结符排序为 \\(A\_{1}, A\_{2}, \cdots, A\_{n}\\)<br />
-for i in (1, n):<br />
-&nbsp;&nbsp;&nbsp;&nbsp;for j in (1, i - 1):<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将每个形如 \\(A\_{i} \rightarrow A\_{i}\gamma\\) 的产生式替换为产生式组 \\(A\_{i} \rightarrow \delta\_{1}\gamma | \delta\_{2}\gamma | \cdots | \delta\_{k}\gamma\\),<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其中 \\(A\_{j} \rightarrow \delta\_{1} | \delta\_{2} | \cdots | \delta\_{k}\\) 是所有的 \\(A\_{j}\\) 产生式<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消除 \\(A\_{i}\\) 产生式之间的立即左递归<br />
+按某个顺序将非终结符排序为 \\(A\_{1}, A\_{2}, \cdots, A\_{n}\\)<br>
+for i in (1, n):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for j in (1, i - 1):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将每个形如 \\(A\_{i} \rightarrow A\_{i}\gamma\\) 的产生式替换为产生式组 \\(A\_{i} \rightarrow \delta\_{1}\gamma | \delta\_{2}\gamma | \cdots | \delta\_{k}\gamma\\),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其中 \\(A\_{j} \rightarrow \delta\_{1} | \delta\_{2} | \cdots | \delta\_{k}\\) 是所有的 \\(A\_{j}\\) 产生式<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消除 \\(A\_{i}\\) 产生式之间的立即左递归<br>
 
 </div>
 
@@ -181,10 +181,10 @@ for i in (1, n):<br />
 
 <div class="verse">
 
-输入：文法G<br />
-输出：一个等价的提取了左公因子的文法<br />
-方法：对于每个非终结符A，找出它的两个或多个选项之间的最长公共前缀 \\(\alpha\\) ，如果 \\(\alpha \neq \varepsilon\\) ，那么存在一个非平凡的公共前缀将所有 A 的 e 产生式 \\(A \rightarrow \alpha\beta\_{1} | \alpha\beta\_{2} | \cdots | \alpha\beta\_{n} | \gamma\\) 替换为<br />
-\\[\begin{aligned} A &\rightarrow \alpha A' | \gamma\\\ A' &\rightarrow \beta\_{1} | \beta\_{2} | \cdots | \beta\_{n} \end{aligned}\\]<br />
+输入：文法G<br>
+输出：一个等价的提取了左公因子的文法<br>
+方法：对于每个非终结符A，找出它的两个或多个选项之间的最长公共前缀 \\(\alpha\\) ，如果 \\(\alpha \neq \varepsilon\\) ，那么存在一个非平凡的公共前缀将所有 A 的 e 产生式 \\(A \rightarrow \alpha\beta\_{1} | \alpha\beta\_{2} | \cdots | \alpha\beta\_{n} | \gamma\\) 替换为<br>
+\\[\begin{aligned} A &\rightarrow \alpha A' | \gamma\\\ A' &\rightarrow \beta\_{1} | \beta\_{2} | \cdots | \beta\_{n} \end{aligned}\\]<br>
 
 </div>
 

@@ -292,8 +292,8 @@ int main(int argc, char **argv) {
 
 <div class="verse">
 
-connection from 127.0.0.1, port 49736<br />
-connection from 192.168.0.105, port 53886<br />
+connection from 127.0.0.1, port 49736<br>
+connection from 192.168.0.105, port 53886<br>
 
 </div>
 
@@ -373,12 +373,12 @@ int main (void) {
 
 <div class="verse">
 
-in old process, ppid: 17081, pid: 17975<br />
-in old process, ppid: 17081, pid: 17975, spid: 17976<br />
-in old process, end<br />
-in new process, ppid: 17081, pid: 17975<br />
-in new process, ppid: 17975, pid: 17976<br />
-in new process, end<br />
+in old process, ppid: 17081, pid: 17975<br>
+in old process, ppid: 17081, pid: 17975, spid: 17976<br>
+in old process, end<br>
+in new process, ppid: 17081, pid: 17975<br>
+in new process, ppid: 17975, pid: 17976<br>
+in new process, end<br>
 
 </div>
 
@@ -386,12 +386,12 @@ in new process, end<br />
 
 <div class="verse">
 
-in old process, ppid: 17081, pid: 17961<br />
-in old process, ppid: 17081, pid: 17961, spid: 17962<br />
-in old process, end<br />
-in new process, ppid: 17081, pid: 17961<br />
-in new process, ppid: 1, pid: 17962<br />
-in new process, end<br />
+in old process, ppid: 17081, pid: 17961<br>
+in old process, ppid: 17081, pid: 17961, spid: 17962<br>
+in old process, end<br>
+in new process, ppid: 17081, pid: 17961<br>
+in new process, ppid: 1, pid: 17962<br>
+in new process, end<br>
 
 </div>
 

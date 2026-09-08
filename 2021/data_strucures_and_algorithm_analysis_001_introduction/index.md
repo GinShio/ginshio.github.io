@@ -217,7 +217,7 @@ n 个 fibonacci 数时，我们需要对第 \\(n - 1\\) 个和第 \\(n - 2\\) �
     ```
     该算法在 `6 ~ 8` 行由一个隐含于三层 for 循环中的 \\(\mathcal{O}(1)\\) 语句组成，循环大小为 N (虽然它们是 \\(N - i\\) 和 \\(j - i + 1\\) ，但最坏情况为 \\(N\\))，总开销为 \\(\mathcal{O}(1 \cdot N \cdot N \cdot N) = \mathcal{O}(N^{3})\\) 。第 `9 ~ 11` 行语句开销 \\(\mathcal{O}(N^{2})\\) 。因此我们可以忽略低阶表达式带来的影响，其最终的分析答案为 \\(\Theta(N^{3})\\) 。
 
-2.  优化算法到 \\(\mathcal{O}(N^{2})\\) <br />
+2.  优化算法到 \\(\mathcal{O}(N^{2})\\) <br>
     我们观察到第三层循环是 \\(\sum\_{k=i}^{j}{A\_{k}} = A\_{j} + \sum\_{k=i}^{j-1}{A\_{k}}\\)
     ，而第二层循环即从 i 到 len 循环整个数组，而 \\(j = i\\) 时 \\(\sum\_{k=i}^{j}{A\_{k}}
          = A\_{j}\\) ，而在循环时完全可以将第三层循环去除，累加 \\(A\_{i}\\) ~ \\(A\_{len}\\) 并在累加过程中与当前最大结果进行比较。
@@ -237,16 +237,20 @@ n 个 fibonacci 数时，我们需要对第 \\(n - 1\\) 个和第 \\(n - 2\\) �
     }
     ```
 
-3.  时间复杂度为 \\(\mathcal{O}(N)\\) 的 Recursion 解法 (分治算法) <br />
+3.  时间复杂度为 \\(\mathcal{O}(N)\\) 的 Recursion 解法 (分治算法) <br>
     对于一个区间 \\([l, r]\\) 我们取 \\(\lfloor\dfrac{l+r}{2}\rfloor\\) 分治区间，直到区间长度为 1 后开始收缩。对于每段区间，需要定义四种变量来维护区间的最大子数组和
-    a. \\([l, r]\\) 内以 `l` 为左端点的最大子数组和，记作 `lr_lsum`
-    b. \\([l, r]\\) 内以 `r` 为右端点的最大子数组和，记作 `lr_rsum`
-    c. \\([l, r]\\) 内的最大子数组和，记作 `lr_msum`
-    d. \\([l, r]\\) 的区间和，记作 `lr_sum`
+
+    1.  \\([l, r]\\) 内以 `l` 为左端点的最大子数组和，记作 `lr_lsum`
+    2.  \\([l, r]\\) 内以 `r` 为右端点的最大子数组和，记作 `lr_rsum`
+    3.  \\([l, r]\\) 内的最大子数组和，记作 `lr_msum`
+    4.  \\([l, r]\\) 的区间和，记作 `lr_sum`
+
     假设 \\(m = \lfloor\dfrac{l+r}{2}\rfloor\\) ，称区间 \\([l, m]\\) 为左区间，\\([m + 1, r]\\) 为右区间，在合并区间时
-    a. \\([l, r]\\) 的 `lr_lsum` 为 \\(max(lm\\\_lsum, lm\\\_sum + mr\\\_lsum)\\)
-    b. \\([l, r]\\) 的 `lr_rsum` 为 \\(max(mr\\\_rsum, mr\\\_sum + lm\\\_rsum)\\)
-    c. \\([l, r]\\) 的 `lr_msum` 为 \\(max(lm\\\_msum, mr\\\_msum, lm\\\_rsum + mr\\\_lsum)\\)
+
+    1.  \\([l, r]\\) 的 `lr_lsum` 为 \\(max(lm\\\_lsum, lm\\\_sum + mr\\\_lsum)\\)
+    2.  \\([l, r]\\) 的 `lr_rsum` 为 \\(max(mr\\\_rsum, mr\\\_sum + lm\\\_rsum)\\)
+    3.  \\([l, r]\\) 的 `lr_msum` 为 \\(max(lm\\\_msum, mr\\\_msum, lm\\\_rsum + mr\\\_lsum)\\)
+
     如此我们可以轻松获取到整个区间的最大值
     ```cpp
     struct State { int lsum, rsum, msum, sum; };

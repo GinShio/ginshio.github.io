@@ -97,7 +97,7 @@ Lua 在运行时提供了字符串和数值之间的自动转换，任何应用�
 
 <div class="verse">
 
-var ::= Name<br />
+var ::= Name<br>
 
 </div>
 
@@ -106,8 +106,8 @@ prefixexp 的字段 exp，并将其值赋值给 var。语法 `t["Name"]` 与 `t.
 
 <div class="verse">
 
-var ::= prefixexp \`[\` exp \`]\`<br />
-var ::= prefixexp \`.\` Name<br />
+var ::= prefixexp \`[\` exp \`]\`<br>
+var ::= prefixexp \`.\` Name<br>
 
 </div>
 
@@ -125,7 +125,7 @@ Lua 中执行单元被称为 chunk，chunk 是简单的语句执行序列的声�
 
 <div class="verse">
 
-chunk ::= {stat [\`;\`]}<br />
+chunk ::= {stat [\`;\`]}<br>
 
 </div>
 
@@ -138,8 +138,8 @@ chunk ::= {stat [\`;\`]}<br />
 
 <div class="verse">
 
-block ::= chunk<br />
-stat  ::= ****do**** block ****end****<br />
+block ::= chunk<br>
+stat  ::= ****do**** block ****end****<br>
 
 </div>
 
@@ -153,9 +153,9 @@ Lua 允许多赋值语句，赋值定义语法可以在左边定义一个变量�
 
 <div class="verse">
 
-stat ::= varlist \`=\` explist<br />
-varlist ::= var {\`,\` var}<br />
-explist ::= exp {\`,\` exp}<br />
+stat ::= varlist \`=\` explist<br>
+varlist ::= var {\`,\` var}<br>
+explist ::= exp {\`,\` exp}<br>
 
 </div>
 
@@ -177,9 +177,9 @@ c, d, e = a - b, b - a
 
 <div class="verse">
 
-stat ::= **while** exp **do** block **end**<br />
-stat ::= **repeat** block **until** exp<br />
-stat ::= **if** exp **then** block { **elseif** exp **then** block } [ **else** block ] **end**<br />
+stat ::= **while** exp **do** block **end**<br>
+stat ::= **repeat** block **until** exp<br>
+stat ::= **if** exp **then** block { **elseif** exp **then** block } [ **else** block ] **end**<br>
 
 </div>
 
@@ -191,7 +191,7 @@ repeat-until 循环结构类似 C 语言中的 do-while 语句，不过直到 ex
 
 <div class="verse">
 
-stat ::= **return** [explist]<br />
+stat ::= **return** [explist]<br>
 
 </div>
 
@@ -199,7 +199,7 @@ stat ::= **return** [explist]<br />
 
 <div class="verse">
 
-stat ::= **break**<br />
+stat ::= **break**<br>
 
 </div>
 
@@ -213,7 +213,7 @@ for 有两种形式：数字型和通用型。数字型 for 通过变量的算�
 
 <div class="verse">
 
-stat ::= **for** Name \`=\` exp \`,\` exp [\`,\` exp] **do** block **end**<br />
+stat ::= **for** Name \`=\` exp \`,\` exp [\`,\` exp] **do** block **end**<br>
 
 </div>
 
@@ -235,8 +235,8 @@ end
 
 <div class="verse">
 
-stat ::= **for** namelist **in** explist **do** block **end**<br />
-namelist ::= Name {\`,\` Name}<br />
+stat ::= **for** namelist **in** explist **do** block **end**<br>
+namelist ::= Name {\`,\` Name}<br>
 
 </div>
 
@@ -261,7 +261,7 @@ end
 
 <div class="verse">
 
-stat ::= **local** namelist [\`=\` explist]<br />
+stat ::= **local** namelist [\`=\` explist]<br>
 
 </div>
 
@@ -276,16 +276,16 @@ chunk 也是一个 block，因此变量可以在任何显式的 block 外被声�
 
 <div class="verse">
 
-exp ::= prefixexp<br />
-exp ::= **nil** | **false** | **true**<br />
-exp ::= Number<br />
-exp ::= String<br />
-exp ::= function<br />
-exp ::= tableconstructor<br />
-exp ::= \`...\`<br />
-exp ::= exp binop exp<br />
-exp ::= unop exp<br />
-prefixexp ::= var | functioncall | \`(\` exp \`)\`<br />
+exp ::= prefixexp<br>
+exp ::= **nil** | **false** | **true**<br>
+exp ::= Number<br>
+exp ::= String<br>
+exp ::= function<br>
+exp ::= tableconstructor<br>
+exp ::= \`...\`<br>
+exp ::= exp binop exp<br>
+exp ::= unop exp<br>
+prefixexp ::= var | functioncall | \`(\` exp \`)\`<br>
 
 </div>
 
@@ -382,10 +382,10 @@ Lua 中运算符可能具有不同的优先级，通常可以通过括号来改�
 
 <div class="verse">
 
-tableconstructor ::= \`{\` [fieldlist] \`}\`<br />
-fieldlist ::= field {fieldsep field} [fieldsep]<br />
-field ::= \`[\` exp \`]\` \`=\` exp | Name \`=\` exp | exp<br />
-fieldsep ::= \`,\` | \`;\`<br />
+tableconstructor ::= \`{\` [fieldlist] \`}\`<br>
+fieldlist ::= field {fieldsep field} [fieldsep]<br>
+field ::= \`[\` exp \`]\` \`=\` exp | Name \`=\` exp | exp<br>
+fieldsep ::= \`,\` | \`;\`<br>
 
 </div>
 
@@ -412,7 +412,7 @@ t[4] = 45
 
 <div class="verse">
 
-functioncall ::= prefixexp args<br />
+functioncall ::= prefixexp args<br>
 
 </div>
 
@@ -420,7 +420,7 @@ functioncall ::= prefixexp args<br />
 
 <div class="verse">
 
-functioncall ::= prefixexp \`:\` Name args<br />
+functioncall ::= prefixexp \`:\` Name args<br>
 
 </div>
 
@@ -428,9 +428,9 @@ functioncall ::= prefixexp \`:\` Name args<br />
 
 <div class="verse">
 
-args ::= \`(\` [explist] \`)\`<br />
-args ::= tableconstructor<br />
-args ::= String<br />
+args ::= \`(\` [explist] \`)\`<br>
+args ::= tableconstructor<br>
+args ::= String<br>
 
 </div>
 
@@ -452,11 +452,11 @@ return x or f(x)  -- 返回值数量调整为 1
 
 <div class="verse">
 
-function ::= **function** funcbody<br />
-funcbody ::= \`(\` [parlist] \`)\` block **end**<br />
-stat ::= **function** funcname funcbody<br />
-stat ::= **local** **function** Name funcbody<br />
-funcname ::= Name {\`.\` Name} [\`:\` Name]<br />
+function ::= **function** funcbody<br>
+funcbody ::= \`(\` [parlist] \`)\` block **end**<br>
+stat ::= **function** funcname funcbody<br>
+stat ::= **local** **function** Name funcbody<br>
+funcname ::= Name {\`.\` Name} [\`:\` Name]<br>
 
 </div>
 
@@ -476,7 +476,7 @@ local lf; lf = function () body end
 
 <div class="verse">
 
-parlist ::= namelist [\`,\` \`...\`] | \`...\`<br />
+parlist ::= namelist [\`,\` \`...\`] | \`...\`<br>
 
 </div>
 

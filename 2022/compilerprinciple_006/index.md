@@ -167,16 +167,16 @@ closure 可以按照以下方式计算。函数 closure 可以添加一个 added
 
 <div class="verse">
 
-SetOfItems CLOSURE(_I_) {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;_J_ = _I_;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**repeat**<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (_J_ 中的每个项 \\(\textit{A}\rightarrow\alpha\cdot\textit{B}\beta\\))<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (_G_ 的每个产生式 \\(\textit{B}\rightarrow\gamma\\))<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**if** (项 \\(\textit{B}\rightarrow\cdot\gamma\\) 不在 _G_ 中)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将 \\(\textit{B}\rightarrow\cdot\gamma\\) 添加到 _J_ 中;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**until** 没有可以被加入到 _J_ 中的项;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**return** _J_;<br />
-}<br />
+SetOfItems CLOSURE(_I_) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;_J_ = _I_;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**repeat**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (_J_ 中的每个项 \\(\textit{A}\rightarrow\alpha\cdot\textit{B}\beta\\))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (_G_ 的每个产生式 \\(\textit{B}\rightarrow\gamma\\))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**if** (项 \\(\textit{B}\rightarrow\cdot\gamma\\) 不在 _G_ 中)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将 \\(\textit{B}\rightarrow\cdot\gamma\\) 添加到 _J_ 中;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**until** 没有可以被加入到 _J_ 中的项;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**return** _J_;<br>
+}<br>
 
 </div>
 
@@ -202,15 +202,15 @@ SetOfItems CLOSURE(_I_) {<br />
 
 <div class="verse">
 
-**void** items(\\(\textit{G}^{'}\\)) {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;C = {\\(\texttt{CLOSURE}\\)(\\([\textit{S}^{'}\rightarrow\cdot\textit{S}]\\))};<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**repeat**<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (_C_ 中的每个项集 _I_)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (每个文法符号 _X_)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**if** (\\(\texttt{GOTO}(\textit{I}, \textit{X})\\) 非空且不在 _C_ 中)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将 \\(\texttt{GOTO}(\textit{I}, \textit{X})\\) 加入 _C_ 中;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**until** 在某轮中没有新的项集加入到 _C_ 中;<br />
-}<br />
+**void** items(\\(\textit{G}^{'}\\)) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;C = {\\(\texttt{CLOSURE}\\)(\\([\textit{S}^{'}\rightarrow\cdot\textit{S}]\\))};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**repeat**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (_C_ 中的每个项集 _I_)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (每个文法符号 _X_)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**if** (\\(\texttt{GOTO}(\textit{I}, \textit{X})\\) 非空且不在 _C_ 中)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将 \\(\texttt{GOTO}(\textit{I}, \textit{X})\\) 加入 _C_ 中;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**until** 在某轮中没有新的项集加入到 _C_ 中;<br>
+}<br>
 
 </div>
 
@@ -261,24 +261,24 @@ SLR 的中心思想是根据文法构造出 LR(0) 自动机。这个自动机的
 
 <div class="verse">
 
-输入：一个输入串 w，一个 LR 语法分析表 (GOTO 和 ACTION)<br />
-输出：如果 w 在 L(G) 中，输出 w 的自底向上语法分析过程的归约步骤，否则报错<br />
-方法：语法分析器栈中最初为 \\(s\_{0}\\)，输入缓冲区的内容为 \\(w\\$\\)，然后执行以下算法<br />
-<br />
-令 a 为 \\(w\\$\\) 的第一个符号;<br />
-**while** (true) {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;令 s 是栈顶状态;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**if** (\\(\texttt{ACTION}[s, a] =\\) 移入 t) {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将 t 压入栈;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;令 a 为下一个符号;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;} **else if** (\\(\texttt{ACTION}[s, a] =\\) 归约 \\(\textit{A}\rightarrow\beta\\)) {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;从栈中弹出 \\(\texttt{len}(\beta)\\) 个符号;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;令 t 为当前栈顶的符号;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将 \\(\texttt{GOTO}[t, \textit{A}]\\) 压入栈;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;输出产生式 \\(\textit{A}\rightarrow\beta\\);<br />
-&nbsp;&nbsp;&nbsp;&nbsp;} **else if** (\\(\texttt{ACTION}[s, a] =\\) 接受) **break**;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**else** 调用错误恢复例程;<br />
-}<br />
+输入：一个输入串 w，一个 LR 语法分析表 (GOTO 和 ACTION)<br>
+输出：如果 w 在 L(G) 中，输出 w 的自底向上语法分析过程的归约步骤，否则报错<br>
+方法：语法分析器栈中最初为 \\(s\_{0}\\)，输入缓冲区的内容为 \\(w\\$\\)，然后执行以下算法<br>
+<br>
+令 a 为 \\(w\\$\\) 的第一个符号;<br>
+**while** (true) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;令 s 是栈顶状态;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**if** (\\(\texttt{ACTION}[s, a] =\\) 移入 t) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将 t 压入栈;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;令 a 为下一个符号;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} **else if** (\\(\texttt{ACTION}[s, a] =\\) 归约 \\(\textit{A}\rightarrow\beta\\)) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;从栈中弹出 \\(\texttt{len}(\beta)\\) 个符号;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;令 t 为当前栈顶的符号;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将 \\(\texttt{GOTO}[t, \textit{A}]\\) 压入栈;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;输出产生式 \\(\textit{A}\rightarrow\beta\\);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} **else if** (\\(\texttt{ACTION}[s, a] =\\) 接受) **break**;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**else** 调用错误恢复例程;<br>
+}<br>
 
 </div>
 
@@ -406,30 +406,30 @@ SLR 的中心思想是根据文法构造出 LR(0) 自动机。这个自动机的
 
 <div class="verse">
 
-SetOfItems \\(\texttt{CLOSURE}\\)(_I_) {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**repeat**<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (_I_ 中的每个项 \\([\textit{A}\rightarrow\alpha\cdot\textit{B}\beta,{}a]\\))<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (\\(\textit{G}^{'}\\) 中的每个产生式 \\(\textit{B}\rightarrow\gamma\\))<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (\\(\texttt{FIRST}(\beta{}a)\\) 中的每个终结符 b)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将 \\([\textit{B}\rightarrow\cdot\gamma,{}b]\\) 加入到集合 _I_ 中;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**until** 不能向 _I_ 中加入更多的项;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**return** _I_;<br />
-}<br />
-SetOfItems \\(\texttt{GOTO}\\)(_I_, _X_) {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;将 _J_ 初始化为空集;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**for** (_I_ 中的每个项 \\([\textit{A}\rightarrow\alpha\cdot\textit{X}\beta,{}a]\\))<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将\\([\textit{A}\rightarrow\alpha\textit{X}\cdot\beta,{}a]\\) 加入集合 _J_ 中;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**return** \\(\texttt{CLOSURE}(\textit{J})\\);<br />
-}<br />
-**void** items(\\(\textit{G}^{'}\\)) {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;将 _C_ 初始化为 \\(\\{\texttt{CLOSURE}\\}(\\{[\textit{S}^{'}\rightarrow\cdot\textit{S},\\$]\\})\\);<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**repeat**<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (_C_ 中的每个项集 _I_)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (每个文法符号 _X_)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**if** (\\(\texttt{GOTO}(\textit{I}, \textit{X})\\) 非空且不在 _C_ 中)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将 \\(\texttt{GOTO}(\textit{I}, \textit{X})\\) 加入 _C_ 中;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**until** 不再有新的项集加入到 _C_ 中;<br />
-}<br />
+SetOfItems \\(\texttt{CLOSURE}\\)(_I_) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**repeat**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (_I_ 中的每个项 \\([\textit{A}\rightarrow\alpha\cdot\textit{B}\beta,{}a]\\))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (\\(\textit{G}^{'}\\) 中的每个产生式 \\(\textit{B}\rightarrow\gamma\\))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (\\(\texttt{FIRST}(\beta{}a)\\) 中的每个终结符 b)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将 \\([\textit{B}\rightarrow\cdot\gamma,{}b]\\) 加入到集合 _I_ 中;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**until** 不能向 _I_ 中加入更多的项;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**return** _I_;<br>
+}<br>
+SetOfItems \\(\texttt{GOTO}\\)(_I_, _X_) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;将 _J_ 初始化为空集;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**for** (_I_ 中的每个项 \\([\textit{A}\rightarrow\alpha\cdot\textit{X}\beta,{}a]\\))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将\\([\textit{A}\rightarrow\alpha\textit{X}\cdot\beta,{}a]\\) 加入集合 _J_ 中;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**return** \\(\texttt{CLOSURE}(\textit{J})\\);<br>
+}<br>
+**void** items(\\(\textit{G}^{'}\\)) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;将 _C_ 初始化为 \\(\\{\texttt{CLOSURE}\\}(\\{[\textit{S}^{'}\rightarrow\cdot\textit{S},\\$]\\})\\);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**repeat**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (_C_ 中的每个项集 _I_)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for** (每个文法符号 _X_)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**if** (\\(\texttt{GOTO}(\textit{I}, \textit{X})\\) 非空且不在 _C_ 中)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将 \\(\texttt{GOTO}(\textit{I}, \textit{X})\\) 加入 _C_ 中;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**until** 不再有新的项集加入到 _C_ 中;<br>
+}<br>
 
 </div>
 
@@ -586,15 +586,15 @@ LALR 语法分析技术是实践中常用的分析技术，因为其分析表比
 
 <div class="verse">
 
-**for** (_K_ 中的每个项 \\(\textit{A}\rightarrow\alpha\cdot\beta\\)) {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;_J_ := \\(\texttt{CLOSURE}(\\{[\textit{A}\rightarrow\alpha\cdot\beta, \\#]\\})\\);<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**if** (\\([\textit{B}\rightarrow\gamma\cdot\textit{X}\delta, a]\\) 在 _J_ 中，且 \\(a\ne\\#\\)) {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;断定 \\(\texttt{GOTO}(\textit{I}, \textit{X})\\) 中的项 \\(\textit{B}\rightarrow\gamma\textit{X}\cdot\delta\\) 的向前看符号 a 是自发生成的;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;}<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**if** (\\([\textit{B}\rightarrow\gamma\cdot\textit{X}\delta, \\#]\\) 在 _J_ 中) {<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;断定向前看符号从 _I_ 中的项 \\(\textit{A}\rightarrow\alpha\cdot\beta\\) 传播到了 \\(\texttt{GOTO}(\textit{I}, \textit{X})\\) 中的项 \\(\textit{B}\rightarrow\gamma\textit{X}\cdot\delta\\) 上;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;}<br />
-}<br />
+**for** (_K_ 中的每个项 \\(\textit{A}\rightarrow\alpha\cdot\beta\\)) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;_J_ := \\(\texttt{CLOSURE}(\\{[\textit{A}\rightarrow\alpha\cdot\beta, \\#]\\})\\);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**if** (\\([\textit{B}\rightarrow\gamma\cdot\textit{X}\delta, a]\\) 在 _J_ 中，且 \\(a\ne\\#\\)) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;断定 \\(\texttt{GOTO}(\textit{I}, \textit{X})\\) 中的项 \\(\textit{B}\rightarrow\gamma\textit{X}\cdot\delta\\) 的向前看符号 a 是自发生成的;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**if** (\\([\textit{B}\rightarrow\gamma\cdot\textit{X}\delta, \\#]\\) 在 _J_ 中) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;断定向前看符号从 _I_ 中的项 \\(\textit{A}\rightarrow\alpha\cdot\beta\\) 传播到了 \\(\texttt{GOTO}(\textit{I}, \textit{X})\\) 中的项 \\(\textit{B}\rightarrow\gamma\textit{X}\cdot\delta\\) 上;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
 
 </div>
 

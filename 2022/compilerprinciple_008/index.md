@@ -82,7 +82,7 @@ L:  t1 = i + 1
 
 [地址和指令](#地址和指令) 一节中介绍了三地址码的具体组成，但在数据结构上的表示方法，常用四元式、三元式和间接三元式这三种描述方式。
 
-四元式 (quadruple) 有四个字段，分别是 op、arg1、arg2 和 result，其中 op 是运算符的内部编码。比如三地址码 `x=y+z` 可以用四元式 `(=, y, z, x)` 表示。但有一些特例：
+四元式 (quadruple) 有四个字段，分别是 op、arg1、arg2 和 result，其中 op 是运算符的内部编码。比如三地址码 `x​=​y+z` 可以用四元式 `(​=​, y, z, x)` 表示。但有一些特例：
 
 1.  形如 `x = -y` 这样的单目运算符和赋值运算符 `x = y`，不使用 arg2
 2.  形如 `param` 这样的运算既不使用 arg2 也不使用 result
@@ -569,13 +569,13 @@ E\_{2}\\) 将产生新的语义规则。如果 B.true 是显示的标号而 B.fa
 
 <div class="verse">
 
-test   = E1.addr **comp**.op E2.addr<br />
-s      = **if** B.true != fallthrough **and** B.false != fallthrough **then**<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gen('if' test 'goto' B.true) || gen('goto' B.false)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**else if** B.true != fallthrough **then** gen('if' test 'goto' B.true)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**else if** B.false != fallthrough **then** gen('ifFalse' test 'goto' B.false)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**else** ''<br />
-B.code = E1.code || E2.code || s<br />
+test   = E1.addr **comp**.op E2.addr<br>
+s      = **if** B.true != fallthrough **and** B.false != fallthrough **then**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gen('if' test 'goto' B.true) || gen('goto' B.false)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**else if** B.true != fallthrough **then** gen('if' test 'goto' B.true)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**else if** B.false != fallthrough **then** gen('ifFalse' test 'goto' B.false)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**else** ''<br>
+B.code = E1.code || E2.code || s<br>
 
 </div>
 
@@ -585,12 +585,12 @@ B.code = E1.code || E2.code || s<br />
 
 <div class="verse">
 
-B1.true = **if** B.true != fallthrough **then** B.true **else** newlabel()<br />
-B1.false = fallthrough<br />
-B2.true = B.true<br />
-B2.false = B.false<br />
-B.code = **if** B.true != fallthrough **then** B1.code || B2.code<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**else** B1.code || B2.code || label(B1.true)<br />
+B1.true = **if** B.true != fallthrough **then** B.true **else** newlabel()<br>
+B1.false = fallthrough<br>
+B2.true = B.true<br>
+B2.false = B.false<br>
+B.code = **if** B.true != fallthrough **then** B1.code || B2.code<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**else** B1.code || B2.code || label(B1.true)<br>
 
 </div>
 

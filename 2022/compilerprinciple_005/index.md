@@ -56,7 +56,7 @@ F &\rightarrow (\ E\ )\\,|\\,\textbf{id}\\\\
 对于非终结符 _A_，\\(\texttt{FOLLOW}(\textit{A})\\) 被定义为可能在某些句型中紧跟在
 _A_ 右边的终结符的集合。如图
 [2](#figure--fig:top-down-parsing-process-example-follow-and-first) 所示
-\\(\textit{S}\xRightarrow{\*}\alpha\textit{A}a\beta\\) 的推导，\\(\alpha\\) 和 \\(\beta\\) 是文法符号串，终结符 a 在 \\(\texttt{FOLLOW}(\textit{A})\\) 中。
+\\(\textit{S}\xRightarrow{\*}\alpha​\textit{A}a​\beta\\) 的推导，\\(\alpha\\) 和 \\(\beta\\) 是文法符号串，终结符 a 在 \\(\texttt{FOLLOW}(\textit{A})\\) 中。
 
 
 ### 计算 FIRST {#计算-first}
@@ -166,11 +166,11 @@ LL(1) 文法我们可以构造除预测分析器，即不需要回溯的递归�
 
 <div class="verse">
 
-输入：文法 G<br />
-输出：预测分析表 M<br />
-方法：对于文法 G 每个产生式 \\(\textit{A} \rightarrow \alpha\\) 有<br />
-&nbsp;&nbsp;1. 对于 \\(\texttt{FIRST}(\alpha)\\) 中的每个终结符 a，将 \\(\textit{A} \rightarrow \alpha\\) 加入到 \\(\textit{M}[\textit{A}, a]\\) 中<br />
-&nbsp;&nbsp;2. 如果 \\(\varepsilon\\) 在 \\(\texttt{FIRST}(\alpha)\\) 中，那么对于 \\(\texttt{FOLLOW}(\textit{A})\\) 中的每个终结符 b，将 \\(\textit{A} \rightarrow \alpha\\) 加入到 \\(\textit{M}[\textit{A}, b]\\) 中。如果 \\(\\$\\) 也在 \\(\texttt{FOLLOW}(\textit{A})\\) 中，那也将 \\(\textit{A} \rightarrow \alpha\\) 加入到 \\(\textit{M}[\textit{A}, \\$]\\) 中<br />
+输入：文法 G<br>
+输出：预测分析表 M<br>
+方法：对于文法 G 每个产生式 \\(\textit{A} \rightarrow \alpha\\) 有<br>
+&nbsp;&nbsp;1. 对于 \\(\texttt{FIRST}(\alpha)\\) 中的每个终结符 a，将 \\(\textit{A} \rightarrow \alpha\\) 加入到 \\(\textit{M}[\textit{A}, a]\\) 中<br>
+&nbsp;&nbsp;2. 如果 \\(\varepsilon\\) 在 \\(\texttt{FIRST}(\alpha)\\) 中，那么对于 \\(\texttt{FOLLOW}(\textit{A})\\) 中的每个终结符 b，将 \\(\textit{A} \rightarrow \alpha\\) 加入到 \\(\textit{M}[\textit{A}, b]\\) 中。如果 \\(\\$\\) 也在 \\(\texttt{FOLLOW}(\textit{A})\\) 中，那也将 \\(\textit{A} \rightarrow \alpha\\) 加入到 \\(\textit{M}[\textit{A}, \\$]\\) 中<br>
 
 </div>
 
@@ -220,9 +220,9 @@ configuration 描述了栈中的内容和余下的输入。
 
 <div class="verse">
 
-输入：一个串 w，文法 G 的预测分析表 _M_<br />
-输出：如果 w 在 \\(\textit{L}(\textit{G})\\) 中，输出 w 的最左推导，否则输出错误提示<br />
-方法：最初输入缓冲区中是 \\(w\\$\\)，而 G 开始符号 _S_ 位于栈顶，它下面是 \\(\\$\\)。<br />
+输入：一个串 w，文法 G 的预测分析表 _M_<br>
+输出：如果 w 在 \\(\textit{L}(\textit{G})\\) 中，输出 w 的最左推导，否则输出错误提示<br>
+方法：最初输入缓冲区中是 \\(w\\$\\)，而 G 开始符号 _S_ 位于栈顶，它下面是 \\(\\$\\)。<br>
 
 </div>
 

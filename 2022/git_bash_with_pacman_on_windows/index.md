@@ -57,7 +57,8 @@ Git 的安装应该是都会的，但还是应该说以下，在 Windows 上安�
     {{< figure src="/images/wingit-default-behavior-of-pull.png" width="40%" >}}
 
     pull 的行为主要有 rebase、merge 和 fast-forward，主要由变量 `pull.rebase` 和
-    `pull.ff` 控制。`rebase` 的行为可以理解为每次都将自己的提交放在 remote 提交之后；`merge` 的行为是将生成一个新的节点；`fast-forward` 则会在一个提交树上类似于
+    `pull.ff` 控制。`rebase` 的行为可以理解为每次都将自己的提交放在 remote 提交之后；
+    `merge` 的行为是将生成一个新的节点；`fast-forward` 则会在一个提交树上类似于
     rebase，当出现分叉时行为类似于 merge，如果是 `ff-only` 时只会产生 rebase 行为，出现分叉则会导致命令失败。
 
     {{< figure src="https://git-scm.com/book/en/v2/images/basic-branching-5.png" width="55%" >}}

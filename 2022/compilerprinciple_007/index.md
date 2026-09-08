@@ -398,20 +398,20 @@ C.true=L\_{2};\\,\\}\\\\
 
 <div class="verse">
 
-**string** S(**label** next):<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**string** Scode, Ccode;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**label** L1, L2;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**if** curr_input is **while**:<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;read curr_input;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;check next punctuation is '(', and read it;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L1 = new();<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L2 = new();<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ccode = C(next, L2);<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;check next punctuation is ')', and read it;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scode = S(L1);<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**return** "label" || L1 || Ccode || "label" || L2 || Scode;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;**else**:<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pass<br />
+**string** S(**label** next):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**string** Scode, Ccode;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**label** L1, L2;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**if** curr_input is **while**:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;read curr_input;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;check next punctuation is '(', and read it;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L1 = new();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L2 = new();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ccode = C(next, L2);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;check next punctuation is ')', and read it;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scode = S(L1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**return** "label" || L1 || Ccode || "label" || L2 || Scode;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**else**:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pass<br>
 
 </div>
 
@@ -424,8 +424,8 @@ SDT 语义动作，逐步将各个代码片段加入到缓冲区或文件中。�
 1.  存在一个 (一个或多个非终结符的) 主属性
 2.  主属性是综合属性
 3.  对主属性求值规则保证：
-    a. 主属性是将相关产生式体中的非终结符的主属性值连接起来得到的
-    b. 各个非终结符的主属性值在连接运算中出现的顺序，和这些非终结符在产生式体中出现的顺序相同
+    1.  主属性是将相关产生式体中的非终结符的主属性值连接起来得到的
+    2.  各个非终结符的主属性值在连接运算中出现的顺序，和这些非终结符在产生式体中出现的顺序相同
 
 现在用 print 将各个元素打印出来，修改为边扫描边生成的函数
 
@@ -462,8 +462,8 @@ C.true=L\_{2};\ print("label", L\_{1});\\,\\}\\\\
 1.  按照 [L 属性定义的 SDT](#l-属性定义的-sdt) 方法构造的 SDT 为起点，在各个非终结符之前计算其继承属性，并在产生式后端动作中计算综合属性
 2.  对每个内嵌的语义动作，向这个文法中引入一个标记非终结符来替换它。每个这样的位置都有一个不同的标记，任意标记 M 都有一个产生式 \\(M\rightarrow{}\varepsilon\\)
 3.  如果标记非终结符在某个产生式 \\(A\rightarrow{}\alpha{}\\,\\{a\\}\\,\beta\\) 中替换了语义动作 \\(a\\)，对 \\(a\\) 进行修改得到 \\(a^{'}\\)，且将 \\(a^{'}\\) 关联到 \\(M\rightarrow{}\varepsilon\\) 上。这个动作 \\(a^{'}\\)
-    a. 将动作 a 需要的 A 或 \\(\alpha\\) 中符号的任何属性作为 M 的继承属性进行拷贝
-    b. 按照 a 中的方法计算各个属性，但计算得到的属性作为 M 的综合属性
+    1.  将动作 a 需要的 A 或 \\(\alpha\\) 中符号的任何属性作为 M 的继承属性进行拷贝
+    2.  按照 a 中的方法计算各个属性，但计算得到的属性作为 M 的综合属性
 
 简单地说，假设有产生式 \\(A\rightarrow{}BC\\)，继承属性 \\(B.i\\) 由 \\(A.i\\) 计算得到。则有
 SDT 片段 \\(A\rightarrow{}\\{\\,B.i=f(A.i);\\,\\}\ B\ C\\)。用上述规则修改 SDT，将其修改为

@@ -182,17 +182,17 @@ L\_{i}\ [Op\_{i}]\ [R\_{i}]\\)，算法按顺序考察每个运算。通常使�
 
 <div class="verse">
 
-for `expr` in BasicBlock do<br />
-&nbsp;&nbsp;&nbsp;&nbsp;get the value number \\(VN(L\_{i})\\) and \\(VN(R\_{i})\\)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;construct a hash key `h` from `expr` (using \\(Op\_{i}\\), \\(VN(L\_{i})\\) and \\(VN(R\_{i})\\))<br />
-&nbsp;&nbsp;&nbsp;&nbsp;if `h` is already present in the table then<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replace operation value into \\(T\_{i}\\)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;associate the value number with \\(T\_{i}\\)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;else<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;insert a new value number into table at the hash key location<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;record the new value for \\(T\_{i}\\)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-end<br />
+for `expr` in BasicBlock do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;get the value number \\(VN(L\_{i})\\) and \\(VN(R\_{i})\\)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;construct a hash key `h` from `expr` (using \\(Op\_{i}\\), \\(VN(L\_{i})\\) and \\(VN(R\_{i})\\))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if `h` is already present in the table then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replace operation value into \\(T\_{i}\\)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;associate the value number with \\(T\_{i}\\)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;insert a new value number into table at the hash key location<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;record the new value for \\(T\_{i}\\)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+end<br>
 
 </div>
 
@@ -207,19 +207,19 @@ LVN 还可以进行其他几种局部优化
 
 <div class="verse">
 
-for `expr` in BasicBlock, do<br />
-&nbsp;&nbsp;&nbsp;&nbsp;get the value number \\(VN(L\_{i})\\) and \\(VN(R\_{i})\\)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;if \\(L\_{i}\\) and \\(R\_{i}\\) are both constant then<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evaluate \\(L\_{i}\\) and \\(R\_{i}\\)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assign the result to \\(T\_{i}\\)适当的特定邮寄气得方法进行编码<br />
-&nbsp;&nbsp;&nbsp;&nbsp;if `h` is already present in the table, then<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replace operation value into \\(T\_{i}\\)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;associate the value number with \\(T\_{i}\\)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;else<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;insert a new value number into table at the hash key location<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;record the new value for \\(T\_{i}\\)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-end<br />
+for `expr` in BasicBlock, do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;get the value number \\(VN(L\_{i})\\) and \\(VN(R\_{i})\\)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if \\(L\_{i}\\) and \\(R\_{i}\\) are both constant then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evaluate \\(L\_{i}\\) and \\(R\_{i}\\)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assign the result to \\(T\_{i}\\)适当的特定邮寄气得方法进行编码<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if `h` is already present in the table, then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replace operation value into \\(T\_{i}\\)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;associate the value number with \\(T\_{i}\\)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;insert a new value number into table at the hash key location<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;record the new value for \\(T\_{i}\\)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+end<br>
 
 </div>
 
@@ -290,14 +290,14 @@ end<br />
 
 <div class="verse">
 
-roots = priority queue of names<br />
-for i in range(0, n - 1), rank(\\(T\_{i}\\)) = -1 do<br />
-&nbsp;&nbsp;&nbsp;&nbsp;if \\(Op\_{i}\\) is _commutative_ and _associative_ and<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(\\(\lvert{Uses(T\_{i})}\rvert\\) &gt; 1 or (\\(\lvert{Uses(T\_{i})}\rvert\\) = 1 and \\(Op\_{Uses(T\_{i})} \ne Op\_{i}\\))) then<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mark \\(T\_{i}\\) as a root<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enqueue(roots, \\(T\_{i}\\), precedence of \\(Op\_{i}\\))<br />
-&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-end<br />
+roots = priority queue of names<br>
+for i in range(0, n - 1), rank(\\(T\_{i}\\)) = -1 do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if \\(Op\_{i}\\) is _commutative_ and _associative_ and<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(\\(\lvert{Uses(T\_{i})}\rvert\\) &gt; 1 or (\\(\lvert{Uses(T\_{i})}\rvert\\) = 1 and \\(Op\_{Uses(T\_{i})} \ne Op\_{i}\\))) then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mark \\(T\_{i}\\) as a root<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enqueue(roots, \\(T\_{i}\\), precedence of \\(Op\_{i}\\))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+end<br>
 
 </div>
 
@@ -308,10 +308,10 @@ end<br />
 
 <div class="verse">
 
-while Roots is not empty do<br />
-&nbsp;&nbsp;&nbsp;&nbsp;var = Dequeue(Roots)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;Balance(var)<br />
-end<br />
+while Roots is not empty do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var = Dequeue(Roots)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Balance(var)<br>
+end<br>
 
 </div>
 
@@ -320,32 +320,32 @@ Flatten 递归遍历树，为每个操作数指派等级并将其添加到队列
 
 <div class="verse">
 
-Balance(root)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;if Rank(root) &gt;= 0 then<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br />
-&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-<br />
-&nbsp;&nbsp;&nbsp;&nbsp;q = new queue of names<br />
-&nbsp;&nbsp;&nbsp;&nbsp;Rank(root) = Flatten(\\(L\_{i}\\), q) + Flatten(\\(R\_{i}\\), q)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;Rebuild(q, \\(Op\_{i}\\))<br />
-end<br />
-<br />
-Flatten(var, q)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;if var is a constant then<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rank(var) = 0<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enqueue(q, var, Rank(var))<br />
-&nbsp;&nbsp;&nbsp;&nbsp;else if var \\(\in\\) UEVar(b) then<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rank(var) = 1<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enqueue(q, var, Rank(var))<br />
-&nbsp;&nbsp;&nbsp;&nbsp;else if var is a root then<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Balance(var)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enqueue(q, var, Rank(var))<br />
-&nbsp;&nbsp;&nbsp;&nbsp;else<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flatten(\\(L\_{j}\\), q)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flatten(\\(R\_{j}\\), q)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-&nbsp;&nbsp;&nbsp;&nbsp;return Rank(var)<br />
-end<br />
+Balance(root)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if Rank(root) &gt;= 0 then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;q = new queue of names<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Rank(root) = Flatten(\\(L\_{i}\\), q) + Flatten(\\(R\_{i}\\), q)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Rebuild(q, \\(Op\_{i}\\))<br>
+end<br>
+<br>
+Flatten(var, q)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if var is a constant then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rank(var) = 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enqueue(q, var, Rank(var))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;else if var \\(\in\\) UEVar(b) then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rank(var) = 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enqueue(q, var, Rank(var))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;else if var is a root then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Balance(var)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enqueue(q, var, Rank(var))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flatten(\\(L\_{j}\\), q)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flatten(\\(R\_{j}\\), q)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return Rank(var)<br>
+end<br>
 
 </div>
 
@@ -353,33 +353,33 @@ Rebuild 使用了一个简单的算法来构造新的代码序列，它重复从
 
 <div class="verse">
 
-Rebuild(q, op)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;while q is not empty do<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NL = Dequeue(q)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NR = Dequeue(q)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if NL and NR are both constants then<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NT = Fold(op, NL, NR)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if q is empty then<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# root = NT<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rank(root) = 0<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enqueue(q, NT, 0)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rank(NT) = 0<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if q is empty then<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NT = root<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NT = new name<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# NT = NL op NR<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rank(NT) = Rank(NL) + Rank(NR)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if q is not empty then<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enqueue(q, NT, Rank(NT))<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-end<br />
+Rebuild(q, op)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;while q is not empty do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NL = Dequeue(q)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NR = Dequeue(q)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if NL and NR are both constants then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NT = Fold(op, NL, NR)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if q is empty then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# root = NT<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rank(root) = 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enqueue(q, NT, 0)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rank(NT) = 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if q is empty then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NT = root<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NT = new name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# NT = NL op NR<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rank(NT) = Rank(NL) + Rank(NR)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if q is not empty then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enqueue(q, NT, Rank(NT))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+end<br>
 
 </div>
 
@@ -517,26 +517,26 @@ B\_{2}, B\_{4}\\}\\) 时，需要重用 \\(\\{B\_{0}, B\_{2}\\}\\) 结束时的�
 
 <div class="verse">
 
-WorkList = { entry block }<br />
-Empty = new table<br />
-<br />
-while WorkList is not empty do<br />
-&nbsp;&nbsp;&nbsp;&nbsp;remove b from WorkList<br />
-&nbsp;&nbsp;&nbsp;&nbsp;SVN(b, Empty)<br />
-end<br />
-<br />
-SVN(BB, Table)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;t = new table for BB<br />
-&nbsp;&nbsp;&nbsp;&nbsp;link Table as the surrounding scope for t<br />
-&nbsp;&nbsp;&nbsp;&nbsp;LVN(BB, t)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;for each successor s of BB do<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if s has only 1 predecessor then<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SVN(s, t)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if s has not been processed then<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add s to WorkList<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-end<br />
+WorkList = { entry block }<br>
+Empty = new table<br>
+<br>
+while WorkList is not empty do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;remove b from WorkList<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SVN(b, Empty)<br>
+end<br>
+<br>
+SVN(BB, Table)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t = new table for BB<br>
+&nbsp;&nbsp;&nbsp;&nbsp;link Table as the surrounding scope for t<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LVN(BB, t)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for each successor s of BB do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if s has only 1 predecessor then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SVN(s, t)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if s has not been processed then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add s to WorkList<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+end<br>
 
 </div>
 
@@ -597,7 +597,8 @@ CFG 中存在一条从 p 到使用 v 的某个位置之间的路径，且 v 在�
 \\[LiveOut(n) = \cup\_{m\in{}succ(n)} \left( UEVar(m) \cup \left( LiveOut(m) \cap
 \overline{VarKill(m)} \right) \right).\\]
 
-`UEVar(m)` 包含了 m 中向上展现的变量，即那些在 m 中重新定义之前就开始使用的变量。`VarKill(m)` 包含了 m 中定义的所有变量，\\(\overline{VarKill(m)}\\) 则是其补集，即未在 m 中定义的变量的集合。由于 `LiveOut(n)` 是利用 n 的后继结点来定义的，因此该方程描述了一个**反向数据流问题**。
+`UEVar(m)` 包含了 m 中向上展现的变量，即那些在 m 中重新定义之前就开始使用的变量。
+`VarKill(m)` 包含了 m 中定义的所有变量，\\(\overline{VarKill(m)}\\) 则是其补集，即未在 m 中定义的变量的集合。由于 `LiveOut(n)` 是利用 n 的后继结点来定义的，因此该方程描述了一个**反向数据流问题**。
 
 
 #### 解决这个数据流问题 {#解决这个数据流问题}
@@ -613,24 +614,24 @@ CFG 中存在一条从 p 到使用 v 的某个位置之间的路径，且 v 在�
 
     <div class="verse">
 
-    // x = y op z<br />
-    for each block b do<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;Init(b)<br />
-    end<br />
-    <br />
-    Init(b)<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;UEVar(b) = \\(\emptyset\\)<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;VarKill(b) = \\(\emptyset\\)<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;for i in range(1, k) do<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if y \\(\notin\\) VarKill(b) then<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add y to UEVar(b)<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if z \\(\notin\\) VarKill(b) then<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add z to UEVar(b)<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add x to VarKill(b)<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;end<br />
-    end<br />
+    // x = y op z<br>
+    for each block b do<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;Init(b)<br>
+    end<br>
+    <br>
+    Init(b)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;UEVar(b) = \\(\emptyset\\)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;VarKill(b) = \\(\emptyset\\)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;for i in range(1, k) do<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if y \\(\notin\\) VarKill(b) then<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add y to UEVar(b)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if z \\(\notin\\) VarKill(b) then<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add z to UEVar(b)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add x to VarKill(b)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;end<br>
+    end<br>
 
     </div>
 
@@ -640,18 +641,18 @@ CFG 中存在一条从 p 到使用 v 的某个位置之间的路径，且 v 在�
 
     <div class="verse">
 
-    for i in range(0, N - 1), LiveOut(i) = \\(\emptyset\\) do<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;changed = true<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;while changed do<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;changed = false<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for i in range(0, N - 1) do<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;recompute LiveOut(i)<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if LiveOut(i) changed then<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;changed = true<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;end<br />
-    end<br />
+    for i in range(0, N - 1), LiveOut(i) = \\(\emptyset\\) do<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;changed = true<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;while changed do<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;changed = false<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for i in range(0, N - 1) do<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;recompute LiveOut(i)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if LiveOut(i) changed then<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;changed = true<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;end<br>
+    end<br>
 
     </div>
 
@@ -737,19 +738,19 @@ b4:
 
     <div class="verse">
 
-    E = edges<br />
-    for each block b do<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;make a degenerate chain, d, for b<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;priority(d) = E<br />
-    end<br />
-    p = 0<br />
-    for each CFG edge &lt;x, y&gt;, x != y, in decreasing frequency order do<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;if x is the tail of chain a and y is the head of chain b then<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t = priority(a)<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;append b onto a<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;priority(a) = min(t, priority(b), p++)<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;end<br />
-    end<br />
+    E = edges<br>
+    for each block b do<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;make a degenerate chain, d, for b<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;priority(d) = E<br>
+    end<br>
+    p = 0<br>
+    for each CFG edge &lt;x, y&gt;, x != y, in decreasing frequency order do<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;if x is the tail of chain a and y is the head of chain b then<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t = priority(a)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;append b onto a<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;priority(a) = min(t, priority(b), p++)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;end<br>
+    end<br>
 
     </div>
 
@@ -762,22 +763,22 @@ b4:
 
     <div class="verse">
 
-    t = chain headed by the CFG entry node<br />
-    WorkList = {(t, priority(t))}<br />
-    while WorkList != \\(\emptyset\\) do<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;remove a chain c of lowest priority from WorkList<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;for each block x in c in chain order do<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;place x at the end of the executable code<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;end<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;for each block x in c do<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for each edge &lt;x, y&gt; where y is unplaced do<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t = chain containing &lt;x, y&gt;<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (t, priority(t)) \\(\notin\\) WorkList then<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WorkList = WorkList \\(\cup\\) { (t, priority(t)) }<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;end<br />
-    end<br />
+    t = chain headed by the CFG entry node<br>
+    WorkList = {(t, priority(t))}<br>
+    while WorkList != \\(\emptyset\\) do<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;remove a chain c of lowest priority from WorkList<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;for each block x in c in chain order do<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;place x at the end of the executable code<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;end<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;for each block x in c do<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for each edge &lt;x, y&gt; where y is unplaced do<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t = chain containing &lt;x, y&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (t, priority(t)) \\(\notin\\) WorkList then<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WorkList = WorkList \\(\cup\\) { (t, priority(t)) }<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;end<br>
+    end<br>
 
     </div>
 

@@ -58,7 +58,8 @@ libarchive 的 tar 实现。
 
 ### 有哪些功能 {#有哪些功能}
 
-libarchive 支持读取多种不同的格式，包括 **tar**、**pax**、**cpio**、**7zip**、**zip**、**xar**、**mtree**、**rar** 以及 ISO 映像等；可以写入 **tar**、**pax**、**cpio**、**7zip**、**zip**、**xar**、**mtree**、**ISO** 以及
+libarchive 支持读取多种不同的格式，包括 **tar**、**pax**、**cpio**、**7zip**、**zip**、**xar**、**mtree**、
+**rar** 以及 ISO 映像等；可以写入 **tar**、**pax**、**cpio**、**7zip**、**zip**、**xar**、**mtree**、**ISO** 以及
 **shar** 等格式。更多格式可以查看[文档](https://github.com/libarchive/libarchive/wiki/LibarchiveFormats)。
 
 在读取归档文件时，libarchive 有一个健壮的格式自动检测器用以识别归档文件的格式，也可以识别 gzip、bzip2、xz、lzip 以及多种流行的压缩算法，包括像 `tar.gz` 这样的归档、压缩组合。
@@ -338,7 +339,8 @@ archive_entry_free(entry);
 
 -   **ARCHIVE_OK** 在操作成功时被返回
 
--   **ARCHIVE_WARN** 在操作完成并有些问题时返回。你可以将这个问题报告给用户，`archive_error_string` 可以获取到对应的字符串信息，而 `archive_errno` 可以返回关联的系统 errno 值。（并非所有错误都有系统调用引起，因此 archive_errno 并不总是返回有效值）
+-   **ARCHIVE_WARN** 在操作完成并有些问题时返回。你可以将这个问题报告给用户，
+    `archive_error_string` 可以获取到对应的字符串信息，而 `archive_errno` 可以返回关联的系统 errno 值。（并非所有错误都有系统调用引起，因此 archive_errno 并不总是返回有效值）
 
 -   **ARCHIVE_FAILED** 在操作失败时返回。通常来说该状态意味着目前的词条无法再进行下一步操作。比如写不支持的归档格式。通常恢复的手段就是操作下一个词条。
 

@@ -124,13 +124,13 @@ UNP 上给出了不同系统与处理器的不同输出
 
 <div class="verse">
 
-i386-unknown-freebsd4.8: little-endian<br />
-powerpc-apple-darwin6.6: big-endian<br />
-sparc64-unkown-freebsd5.1: big-endian<br />
-powerpc-ibm-aix5.1.0.0: big-endian<br />
-hppa1.1-hp-hpux11.11: big-endian<br />
-x86_64-unknown-linux-gnu: little-endian<br />
-sparc-sun-solaris2.9: big-endian<br />
+i386-unknown-freebsd4.8: little-endian<br>
+powerpc-apple-darwin6.6: big-endian<br>
+sparc64-unkown-freebsd5.1: big-endian<br>
+powerpc-ibm-aix5.1.0.0: big-endian<br>
+hppa1.1-hp-hpux11.11: big-endian<br>
+x86_64-unknown-linux-gnu: little-endian<br>
+sparc-sun-solaris2.9: big-endian<br>
 
 </div>
 
