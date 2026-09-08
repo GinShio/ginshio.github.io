@@ -1,26 +1,26 @@
 {{- with .Site.Params.verification.google -}}
-    <meta name="google-site-verification" content="{{ . }}" />
+    <meta name="google-site-verification" content="{{ . }}" >
 {{- end -}}
 {{- with .Site.Params.verification.bing -}}
-    <meta name="msvalidate.01" content="{{ . }}" />
+    <meta name="msvalidate.01" content="{{ . }}" >
 {{- end -}}
 {{- with .Site.Params.verification.yandex -}}
-    <meta name="yandex-verification" content="{{ . }}" />
+    <meta name="yandex-verification" content="{{ . }}" >
 {{- end -}}
 {{- with .Site.Params.verification.pinterest -}}
-    <meta name="p:domain_verify" content="{{ . }}" />
+    <meta name="p:domain_verify" content="{{ . }}" >
 {{- end -}}
 {{- with .Site.Params.verification.baidu -}}
-    <meta name="baidu-site-verification" content="{{ . }}" />
+    <meta name="baidu-site-verification" content="{{ . }}" >
 {{- end -}}
 {{- with .Site.Params.verification.sogou -}}
-    <meta name="sogou_site_verification" content="{{ . }}" />
+    <meta name="sogou_site_verification" content="{{ . }}" >
 {{- end -}}
 {{- with .Site.Params.verification.so -}}
-    <meta name="360-site-verification" content="{{ . }}" />
+    <meta name="360-site-verification" content="{{ . }}" >
 {{- end -}}
 {{- with .Site.Params.verification.naver -}}
-    <meta name="naver-site-verification" content="{{ . }}" />
+    <meta name="naver-site-verification" content="{{ . }}" >
 {{- end -}}
 
 {{- define "blogPosting" -}}
@@ -32,7 +32,7 @@
         {{- end -}}
         "@type": "BlogPosting",
         "headline": {{ .Title | safeHTML }},
-        "inLanguage": "{{ .Site.LanguageCode }}",
+        "inLanguage": "{{ .Site.Language.Locale }}",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": {{ .Permalink }}
@@ -117,9 +117,10 @@
         {{- if .Params.authors -}}
         "author": [
         {{- $lang := ( $.Params.lang | default $.Lang ) -}}
+        {{- $authors := hugo.Data.authors -}}
         {{- range $i, $name := .Params.authors -}}
-            {{- if $.Site.Data.authors -}}
-                {{- with partial "function/author.html" (dict "name" $name "author" (index $.Site.Data.authors $name) "lang" $lang) -}}
+            {{- if $authors -}}
+                {{- with partial "function/author.html" (dict "name" $name "author" (index $authors $name) "lang" $lang) -}}
                     {{- if gt $i 0 }},{{ end -}}
                     {
                         "@type": "Person",
@@ -171,7 +172,7 @@
             {
                 "@type": "WebSite",
                 "url": {{ .Permalink }},
-                {{- with .Site.LanguageCode -}}
+                {{- with .Site.Language.Locale -}}
                     "inLanguage": "{{ . }}",
                 {{- end -}}
                 {{- with .Site.Params.Author.name -}}

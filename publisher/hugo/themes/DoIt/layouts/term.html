@@ -19,11 +19,12 @@
                 {{ partial "plugin/fontawesome.html" (dict "Style" "solid" "Icon" "tag") }}&nbsp;{{ .Title }}
             {{- else if eq $taxonomy "author" -}}
                 {{- .Scratch.Set "name" .Title -}}
-                {{- if $.Site.Data.authors -}}
-                    {{- with partial "function/author.html" (dict "name" .Title "author" (index $.Site.Data.authors .Title) "lang" ($.Params.lang | default $.Lang)) -}}
+                {{- $authors := hugo.Data.authors -}}
+                {{- if $authors -}}
+                    {{- with partial "function/author.html" (dict "name" .Title "author" (index $authors .Title) "lang" ($.Params.lang | default $.Lang)) -}}
                         {{- .name | safeHTML -}}
                         {{- if .avatar -}}
-                            <img src='{{ .avatar | absURL }}' alt='{{ .name }} avatar' class="tw-inline-block tw-max-h-8 tw-rounded-full tw-translate-y-[-2px] tw-ml-4"/>
+                            <img src='{{ .avatar | absURL }}' alt='{{ .name }} avatar' class="tw:inline-block tw:max-h-8 tw:rounded-full tw:translate-y-[-2px] tw:ml-4">
                         {{- end -}}
                         <br>
                         {{- if .absLink -}}
@@ -58,27 +59,27 @@
             {{- $taxonomy := .Data.Singular -}}
             {{- if eq $taxonomy "series" -}}
                 {{- range .Paginator.Pages -}}
-                    <article class="archive-item">
+                    <div class="archive-item">
                         <a href="{{ .RelPermalink }}" class="archive-item-link">
                             {{- .Title -}}
                         </a>
                         <span class="archive-item-date">
                             {{- $.Site.Params.dateFormat | default "2006-01-02" | .Date.Format -}}
                         </span>
-                    </article>
+                    </div>
                 {{- end -}}
             {{- else -}}
                 {{- range .Paginator.PageGroups -}}
                     <h3 class="group-title">{{ .Key }}</h3>
                     {{- range .Pages -}}
-                        <article class="archive-item">
+                        <div class="archive-item">
                             <a href="{{ .RelPermalink }}" class="archive-item-link">
                                 {{- .Title -}}
                             </a>
                             <span class="archive-item-date">
                                 {{- $.Site.Params.list.dateFormat | default "01-02" | .Date.Format -}}
                             </span>
-                        </article>
+                        </div>
                     {{- end -}}
                 {{- end -}}
             {{- end -}}

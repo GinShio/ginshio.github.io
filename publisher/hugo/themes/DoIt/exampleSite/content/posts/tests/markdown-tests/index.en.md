@@ -168,8 +168,19 @@ This is a footnote with "label"[^label]
 [^1]: This is a digital footnote
 [^label]: This is a footnote with "label"
 
+## Definition Lists
+
+OAuth 2.0
+: An authorization framework for delegated access.
+
+PKCE
+: Proof Key for Code Exchange.
+
+Mermaid
+: A text-based diagramming tool.
+
 ## Images
 
 ![Minion](https://octodex.github.com/images/minion.png)
 
-![Alt text](https://octodex.github.com/images/stormtroopocat.jpg "The Stormtroopocat")
+![Alt text](https://octodex.github.com/images/stormtroopocat.png "The Stormtroopocat")
